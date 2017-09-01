@@ -1,0 +1,24 @@
+<div>
+	   <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">View Workflow</h3>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in" >
+		<form name="workflowForm" class="css-form" novalidate>
+			
+			<div style="overflow:scroll">			
+			<img ng-src="{{workflowToPreview.runLink}}/engine-rest/process-definition/key/{{workflowToPreview.workflowKey}}/diagram">
+			</div>
+			<div  class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button class="btn btn-medium" type="button"
+				ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

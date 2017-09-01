@@ -1,0 +1,25 @@
+<div>
+	<div class="b2b-modal-header ng-scope in">
+		<h1><i class="icon-primary-alert"></i></h1>
+		<h2 id="myModalLabel" modal-title="">Confirm</h2>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in" tabindex="0"
+		role="region" aria-label="Modal header text content"
+		style="height: 55px;">
+		You are about to change the role {{msg.roleFun}} Do you want to continue?
+	</div>
+	<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button ng-if="!msg.selected" class="btn btn-alt btn-medium" type="button"
+				ng-click="confirmRoleFunRemove(msg.availableRole,msg.roleId);">Yes</button>
+			<button ng-if="msg.selected" class="btn btn-alt btn-medium" type="button"
+				ng-click="confirmRoleFunAdd(msg.availableRole,msg.roleId);">Yes</button>
+			<button class="btn btn-clear btn-medium" type="button"
+				ng-click="cancelRoleFunSwitch(msg)">Cancel</button>
+		</div>
+	</div>
+</div>

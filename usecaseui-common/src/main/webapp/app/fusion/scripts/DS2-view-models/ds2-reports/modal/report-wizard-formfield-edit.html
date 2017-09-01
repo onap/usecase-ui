@@ -1,0 +1,149 @@
+<style>
+#columnEditTable table tbody td {
+    border: none;
+}
+
+#columnEditTable table tbody tr {
+    border: none;
+}
+
+.colTableLeftColumn {
+	width: 45%;
+	text-align: right;
+	vertical-align:middle;
+}
+
+.colTableInput {
+	width:220px;
+}
+
+#columnEditTable .selectWrap{
+	width:220px;
+}
+</style>
+
+<div style="height: 700px;">
+    <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">Report Form Field - Edit</h2>
+			<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in"  style="margin-bottom: -50px;">
+		<form name="workflowForm" class="css-form" novalidate>
+			
+<!-- 			<div class="form-row input-emphasized-field">
+				<label class="span12 input-emphasized" for="textinputID-2a">The selected report will be removed. Do you want to continue</label>
+			</div> -->
+	<div id="columnEditTable">
+    <table class="striped">
+<!--         <caption><span>Table caption</span></caption> -->
+<!--         <thead>
+            <tr>
+                <th>Column ID:</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Edit</th>
+            </tr>
+        </thead> -->
+        <tbody>
+<!--             <tr>
+                <td class="colTableLeftColumn">Field ID:</td>
+                <td>{{formFieldEditData.fieldId}}</td>
+            </tr> -->
+
+            <tr>
+                <td class="colTableLeftColumn">Field Name:</td>
+                <td><input type="text" name="displayName" ng-model="fieldName.value" class="colTableInput"></td>
+            </tr>
+            
+            <tr>
+                <td class="colTableLeftColumn">Field Type: </td>
+				<td>
+					<select name="displayAlignment" b2b-dropdown ng-model="selectedFieldType.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in fieldTypeOptions" value="{{d.value}}">{{d.text}}</option>
+                    </select>
+				</td>
+            </tr>
+            
+            <tr>
+                <td class="colTableLeftColumn">Visible:</td>
+				<td>
+					<select name="displayHeaderAlignment" b2b-dropdown ng-model="selectedVisible.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in ynOptions" value="{{d.value}}">{{d.text}}</option>
+                    </select>
+				</td>
+            </tr>
+            
+            <tr>
+                <td class="colTableLeftColumn">SQL as Default Value:</td>
+				<td>
+	                <label for="checkbox1" class="checkbox">
+	                    <input id="checkbox1" type="checkbox" ng-model="sqlDefaultValueSelected.value" /><i class="skin"></i><span></span>
+	                </label>
+				</td>
+            </tr>
+                                    
+            <tr ng-hide="sqlDefaultValueSelected.value">	
+                <td class="colTableLeftColumn">Default Value:</td>
+                <td><input type="text" name="defaultValue" ng-model="defaultValue.value" class="colTableInput"></td>
+            </tr>
+
+
+            <tr ng-show="sqlDefaultValueSelected.value">
+                <td class="colTableLeftColumn">Default SQL:</td>
+                <td>
+                <textarea b2b-reset b2b-dragon-input b2b-reset-textarea ng-model="fieldDefaultSQL.value" style="height:80px">
+                </textarea>                
+                </td>
+                <td>
+                <p><button ng-click="formFieldVerifySQL(fieldDefaultSQL.value)" class="btn btn-alt btn-small">Verify</button></p>
+                </td>
+            </tr>
+            
+<!--             <tr>
+                <td class="colTableLeftColumn">Verify Field Value As: </td>
+				<td>
+					<select name="displayAlignment" b2b-dropdown ng-model="selectedVerifyFieldValue.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in verifyFieldValueOptions" value="{{d.value}}">{{d.text}}</option>
+                    </select>
+				</td>
+            </tr> -->
+            
+            <tr>
+                <td class="colTableLeftColumn">SQL Generating Custom List of Values:</td>
+                <td>
+                <textarea b2b-reset b2b-dragon-input b2b-reset-textarea ng-model="fieldSqlContent.value" style="height:80px">
+                </textarea>                
+                </td>
+                <td>
+                <p><button ng-click="formFieldVerifySQL(fieldSqlContent.value)" class="btn btn-alt btn-small">Verify</button></p>
+                </td>
+            </tr>
+
+<!--             <tr>
+                <td class="colTableLeftColumn">Drill-down Link:</td>
+				<td>
+					<select name="drillDown" b2b-dropdown ng-model="selectedDrillDownLink.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in drillDownOptions" value="{{d.value}}">{{d.text}}</option>
+                    </select>
+				</td>
+            </tr>                         -->
+
+
+        </tbody>
+      </table>
+      </div>				
+					<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+					<button class="btn btn-alt btn-small" type="button"  ng-click="save()">Save</button>
+			<button class="btn btn-alt btn-small" type="button"
+				ng-click="cancel()">Cancel</button>
+		</div>
+		
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

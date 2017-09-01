@@ -1,0 +1,76 @@
+
+<div id="page-content">
+	<div>
+	<div align="right">
+	<a href="JavaScript:void(0);" style= "color:#00547A" onClick="downloadScreenCaptureExtenstion()" id="install-button" >
+		Please download the extension for ScreenCapture and refresh page</a>
+	</div>
+		<div>
+			<h1 class="heading-page">User List</h1>
+		</div>
+		<div ng-show="showLoader" class="span loader-container">
+			<i class="icon-primary-spinner" role="img"	aria-label="Please wait while we load your content"></i>
+		</div>
+		<div>
+		
+			<table class="striped" table-data="tableCollbItems">
+
+			    <thead>
+					<tr>
+						<th  key="id">User ID</th>
+			            <th  key="lastName">Last Name</th>        
+			            <th  key="firstName">First Name</th>    
+			            <th  key="email">Email</th>
+			            <th  key="orgUserId">Organization User ID</th>        
+			            <th  key="online">Online/Offline</th>         
+			        </tr>
+
+			    </thead>
+			    <tbody  type="body" ng-repeat="rowData in tableCollbItems">
+			        <tr>
+		            	<td  ng-bind="rowData['id']">{{rowData.id}}</td>
+		            	<td  ng-bind="rowData['lastName']">{{rowData.lastName}}</td>
+		            	<td  ng-bind="rowData['firstName']">{{rowData.firstName}}</td>
+		            	<td ng-bind="rowData['email']">{{rowData.email}}</td>
+		            	<td  ng-bind="rowData['orgUserId']">{{rowData.loginId}}</td>
+		        		<td>
+		        		   <div ng-hide="rowData.online" ng-click="rowData.isActive=true;openCollaboration(rowData.chatId)"><span class="icon-misc-lightsoff" ></span>Offline</div>
+						   <div ng-show="rowData.online"ng-click="rowData.isActive=false;openCollaboration(rowData.chatId)"><span class="icon-misc-bulb" ></span>Online</div>				
+		        	   </td>
+			        </tr>     
+			    </tbody>	  
+			</table>
+		</div>
+	
+			<div class="well" style="padding-bottom: 35px;">
+				<div class="row">
+					<div b2b-pagination="" total-pages="totalPages1"
+						current-page="currentPage1" click-handler="customHandler1"
+						role="navigation" aria-label="Customer Data Pages"></div>
+				</div>
+				
+				<!-- 	<div class="row span10 offset1">
+					<div class="span6">
+						<div class="form-row">
+							<label for="totalPages1">Total Pages:</label>
+							<div class="field-group">
+								<input id="totalPages1" type="number" class="span12"
+									only-digits="" name="totalPages1" ng-model="totalPages1"
+									title="Total Pages {{totalPages1}}"style="pointer-events: none;">
+							</div>
+						</div>
+					</div>
+					<div class="span6 font-clearview">
+						<div class="form-row">
+							<label for="currentPage1">Current Page:</label>
+							<div class="field-group">
+								<input id="currentPage1" type="number" class="span12"
+									only-digits="" name="currentPage1" ng-model="currentPage1"
+									title="Current Page {{currentPage1}}">
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+	</div>
+<div id="peerBroadcastSection"></div>

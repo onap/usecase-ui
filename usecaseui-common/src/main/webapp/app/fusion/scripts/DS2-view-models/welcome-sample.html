@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- Single-page application for EPSDK-App welcome page using DS2 look and feel -->
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Welcome</title>
+
+	<!-- Common CSS -->
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/b2b-angular/b2b-angular.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/extras/ds2-accordion.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/extras/ds2-bootstrap-datepicker.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/extras/ds2-cc-input-field.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/extras/ds2-tooltip.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/extras/x-tabs-pills.css">
+		
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-accordion.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-bootstrap-datepicker.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-c2c.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-cc-input-field.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-filmstrip.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-filters.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-legacynav-fix.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-marquee.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-pagination.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-popover.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-progressbar.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/ds2-tooltip.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/global.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/digital-design-library.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/angular-gridster/dist/angular-gridster.min.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/angular-bootstrap/ui-bootstrap-csp.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-arrows.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-buildings.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-content.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-controls.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-datanetwork.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-devices.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-documents.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-healthcare.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-location.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-misc.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-numslets.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-people.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-retail.css">	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-securityalerts.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-social.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-speechbubbles.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-test.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-transportation.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/icon-weather.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/ds2/css/digital-ng-library/x-tabs-pills.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/styles/ecomp.css">
+	
+	<!-- Common scripts -->
+	
+	<script src="app/fusion/external/angular-1.4.8/angular.min.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-messages.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-touch.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-sanitize.js"></script>	
+	<script src="app/fusion/external/angular-1.4.8/angular-route.min.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-cookies.min.js"></script>
+		
+	<script src="app/fusion/external/ds2/js/b2b-angular/b2b-library.min.js"></script>
+	<script src="app/fusion/external/jquery/dist/jquery.min.js"></script>
+		
+	<script src="app/fusion/external/javascript-detect-element-resize/jquery.resize.js"></script>
+	<script src="app/fusion/external/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="app/fusion/external/angular-gridster/dist/angular-gridster.min.js"></script>
+	
+	<script src="app/fusion/scripts/DS2-services/ds2-modal/modalService.js"></script>
+	<script src="app/fusion/external/ds2/js/appDS2.js"></script>	
+		
+	<script src="app/fusion/scripts/DS2-services/userInfoServiceDS2.js"></script>	 
+	<script src="app/fusion/scripts/DS2-services/headerServiceDS2.js"></script>
+	<script src="app/fusion/scripts/DS2-services/leftMenuServiceDS2.js"></script>
+	<script src="app/fusion/scripts/DS2-services/manifestService.js"></script>
+	
+	<script src="app/fusion/scripts/DS2-directives/footer.js"></script>
+	<script src="app/fusion/scripts/DS2-directives/ds2Header.js"></script>
+	<script src="app/fusion/scripts/DS2-directives/ds2LeftMenu.js"></script>
+	<script src="app/fusion/scripts/DS2-directives/b2b-leftnav-ext.js"></script> 
+	<script src="app/fusion/external/ds2/js/digital-ng-library/digital-design-library.js"></script>	
+	
+	<!-- Page-specific items -->
+	
+	<script src="app/fusion/scripts/DS2-services/userInfoServiceDS2.js"></script>	
+	<script src="app/fusion/scripts/DS2-controllers/welcome-route.js"></script>	
+	<script src="app/fusion/scripts/DS2-controllers/welcome-controller.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="static/fusion/sample/css/scribble.css" />
+	<link rel="stylesheet" type="text/css" href="static/fusion/sample/css/flexslider.css" />
+	<link rel="stylesheet" type="text/css" href="static/fusion/sample/css/welcome.css" />
+
+	<script src="static/fusion/d3/js/d3.v3.min.js"></script>
+	<script src="static/fusion/d3/js/nv.d3.min.js"></script> 
+	<script src="static/fusion/d3/js/models/axis.min.js"></script> 	
+	
+</head>
+	<body class="appBody" ng-app="abs">
+		<!-- commented the header for now to avoid duplicate headers on portal -->
+		<div ds2-Header class="header-container" ></div>
+		<div ds2-menu id="menuContainer" class="menu-container" ></div>
+		<div ng-view id="rightContentProfile" class="content-container"></div>	
+		<div ds2-Footer class="footer-container"></div>
+	</body>
+</html>

@@ -1,0 +1,130 @@
+<div>
+	 <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">Workflow: {{workflowToSchedule.name}}</h2>
+			<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+		
+			</div>
+			<table style="width:60%; margin-bottom: -21px">			
+			<tr><td>Workflow Key:</td> <td>{{workflowToSchedule.workflowKey}}</td></tr>
+ 			<tr><td>Workflow Description:</td> <td>{{workflowToSchedule.description}}</td></tr>
+ 			</table>
+
+
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in" style="padding:0px;">
+		<form name="workflowForm" class="css-form" novalidate>
+		
+ <table>
+ <tr>
+	  <form name="myForm">
+	  <td>
+	    <label for="singleSelect"> Recurrence: </label>
+	    </td>
+	    <td style="padding-top: 0px;padding-bottom: 0px;">
+	    	<div class="span12">
+					<div class="form-row">
+						<select name="dropdown1" b2b-dropdown ng-model="selectRecurrenceOpt"> 
+							<option  b2b-dropdown-list  option-repeat="d in recurrenceOptions" value="{{d.value}}" init-value="{{selectRecurrenceOpt.title}}">{{d.title}}</option>
+						</select>  
+					</div>
+				</div>
+
+	    <br>
+	    </td>
+	    <td>              </td>
+	  </form>
+ </tr>
+<tr>
+<td>
+ 
+</td>
+<td>
+Pick a date:
+</td>
+<td>
+Hour:
+</td>
+<td>
+Minute:
+</td>
+</tr>
+ <tr>
+		<td>
+			<form name="FirstScheduleForm">
+	    		<label for="dateSelect"> First Schedule: </label>
+	  		</form>
+	    </td>
+	    <td >
+			<!--DATEPICKER POPUP-->
+			<input class="span12" id="datepicker1" type="text" style="overflow-y:scroll;" ng-model="dt" b2b-datepicker >
+	    </td>
+	    <td>
+	    <div class="span12">
+					<div class="form-row">
+						<select name="dropdown1" b2b-dropdown ng-model="selectFirstHour"> 
+							<option  b2b-dropdown-list  option-repeat="d in hours" value="{{d.value}}" init-value="{{selectFirstHour.title}}" placeholder="Select an Option">{{d.title}}</option>
+						</select>  
+					</div>
+				</div>
+	    </td>
+	    <td>
+	      <div class="span12">
+					<div class="form-row">
+						<select name="dropdown1" b2b-dropdown ng-model="selectFirstMinute"> 
+							<option  b2b-dropdown-list  option-repeat="d in minutes" value="{{d.value}}" init-value="{{selectFirstMinute.title}}" placeholder="Select an Option">{{d.title}}</option>
+						</select>  
+					</div>
+				</div>
+	    </td>
+</tr>		
+<tr >
+		<td>
+			<form name="LastScheduleForm">
+	    		<label for="dateSelect"> Last Schedule: </label>
+	  		</form>
+	    </td>
+	    <td>
+	     <div >
+			<input class="span12" id="datepicker2" type="text" ng-model="dt2" b2b-datepicker>
+			</div>
+	    </td>
+	    <td>
+	     <div class="span12">
+					<div class="form-row">
+						<select name="dropdown1" b2b-dropdown ng-model="selectLastHour"> 
+							<option  b2b-dropdown-list  option-repeat="d in hours" value="{{d.value}}" init-value="{{selectLastHour.title}}" placeholder="Select an Option">{{d.title}}</option>
+						</select>  
+					</div>
+				</div>
+	    </td>
+	    <td>
+	         <div class="span12">
+					<div class="form-row">
+						<select name="dropdown1" b2b-dropdown ng-model="selectLastMinute"> 
+							<option  b2b-dropdown-list  option-repeat="d in minutes" value="{{d.value}}" init-value="{{selectLastMinute.title}}" placeholder="Select an Option">{{d.title}}</option>
+						</select>  
+					</div>
+				</div>
+	    </td>
+	    :
+
+ </tr>
+<tr>
+
+</tr>
+
+</table>
+				<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+					<button class="btn btn-alt btn-small" type="button"  ng-click="ok()">OK</button>
+			<button class="btn btn-medium" type="button"
+				ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+			
+		</form>
+		<br />
+	</div>
+</div>

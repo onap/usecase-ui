@@ -1,0 +1,14 @@
+<div id="page-content">
+
+<h1 class="heading-page">Report Import</h1>
+
+ <h2 id="myModalLabel" modal-title="">Import XML</h2>
+
+<div style="margin-top:5px; color:red;" ng-if="errorMessage&&errorMessage.length>0">
+ <h2 id="myModalLabel" modal-title="" style="color:red;">{{errorMessage}}</h2>	
+</div>
+ <textarea b2b-reset b2b-dragon-input b2b-reset-textarea ng-model="xmlContent" class="span12" id="textareaXmlContent" style="height:480px;margin-top:5px;"></textarea>
+ 
+ <button style="margin-top:5px;" type="submit" class="btn btn-alt btn-small" ng-click="importXML();">Import</button>
+	
+</div>	

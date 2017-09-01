@@ -1,0 +1,32 @@
+<div id="page-content">
+	<h1 class="heading-page">Drools List</h1>
+	<div id="droolsTable" title="Drools List">
+		<table class="striped" table-data="tableData">
+			<thead>
+				<tr>
+					<th>Drools File Name</th>
+					<th>Class Name</th>
+					<th>Run Rule</th>
+				</tr>
+			</thead>
+			<tbody type="body" ng-repeat="rowData in tableData">
+				<tr>
+					<td ng-bind="rowData['droolsFile']"></td>
+					<td ng-bind="rowData['className']"></td>
+					<td>
+						<div>
+							<a href="samplePage#/drools/{{rowData.droolsFile}}" class="icon-controls-playalt"></a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			
+		</table>
+
+		<div ng-if="tableData==null || tableData.length==0" align="center">No records found</div>
+	</div>	
+	<a href="samplePage#/drools/0">Go to Drools Rule Engine import page</a>
+	
+</div>
+
+

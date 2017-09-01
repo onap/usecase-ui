@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+  <h3>Widget Options <small>{{widget.title}}</small></h3>
+</div>
+
+<div class="modal-body">
+    <form name="form" novalidate class="form-horizontal">
+<!--         <div class="form-group">
+            <label for="widgetTitle" class="col-sm-2 control-label">Title</label>
+            <div style="margin-left:120px" class="col-sm-10">
+                <input type="text" class="form-control" name="widgetTitle" ng-model="result.title">
+            </div>
+        </div> -->
+
+<!-- <div>{{showFormFieldIds}}</div>
+<div>{{formFieldSelectedValues}}</div>
+<div>{{JSON.strigify(widget.reportData.formFieldList)}}</div>
+ --> 	
+<form ng-show="true" class="row section-row" style="margin: 10px">        
+	    <form-builder ng-form-fields="reportData.formFieldList" ng-show-field-id="showFormFieldIds" ng-num-form-cols="reportData.numFormCols" ng-model="formFieldSelectedValues" ng-trigger-method="triggerOtherFormFields"></form-builder>
+</form>
+
+<!-- 	<div ng-repeat="formfield in widget.reportData.formFieldList">
+		<div class="form-group">
+            <label for="widgetTitle" class="col-sm-2 control-label">{{formfield.fieldDisplayName}}:</label>
+            <div style="margin-left:120px" class="col-sm-10">
+                <input type="text" class="form-control" name="widgetTitle" ng-model="formfield.title">
+            </div>
+        </div>			
+	</div> -->
+<!--  		<div ng-repeat="(formfield_key,formfield_value) in widget.reportData.formFieldList[0]" class="form-group">
+            <label for="widgetTitle" class="col-sm-2 control-label">{{formfield_key}}</label>
+            <div style="margin-left:120px" class="col-sm-10">
+                <input type="text" class="form-control" name="widgetTitle" ng-model="formfield_value">
+            </div>
+        </div> -->
+	
+
+        <div ng-if="widget.settingsModalOptions.partialTemplateUrl"
+             ng-include="widget.settingsModalOptions.partialTemplateUrl"></div>
+             
+<!--              
+   		<div ng-show="true" id="grid1" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns class="grid" style="height: {{gridHeight}}">
+		  	<div class="no-rows" ng-show="!gridOptions.data.length">
+	      		<div class="msg">
+	        		<span>{{widget.reportData.message}}</span>
+	      		</div>
+		    </div>
+	 	</div>
+ -->              
+    </form>
+    
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

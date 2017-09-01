@@ -1,0 +1,34 @@
+{
+	"step" : "2",
+	"content": {
+		"title": "Step 2 : Report SQL",
+		"sections": [
+			{
+				"title": "",
+				"elements": [
+					{
+						"input": "textarea",
+						"spanOverTwoColumns":"true",
+						"name": "sqlScript",
+						"displayName": "SQL script:",
+						"defaultValue":"SELECT ",
+						"style":"width: 600px; height: 400px"
+					}										
+				],
+			"buttons": [
+				{
+				"text":"Validate/Test Run SQL",
+				"value":"next",
+				"ngFunction":"testRunSql()"
+				}]	 		
+				
+			},
+			{
+				"title": "finalButton",
+				"submitAction" : "",
+				"next":"Microservice Config",
+				"previous":"none" 
+			}
+		]
+	}
+}

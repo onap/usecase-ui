@@ -1,0 +1,25 @@
+{
+	"step" : "4",
+	"content": {
+		"title": "",
+		"sections": [
+			{
+				"title": "",
+				"elements": [										
+				],
+				"buttons": [
+				{
+				"text":"Add",
+				"value":"add",
+				"ngFunction":"addNewFormField()"
+				}]
+			},
+			{
+				"title": "finalButton",
+				"submitAction" : "",
+				"next":"Microservice Config",
+				"previous":"none" 
+			}
+		]
+	}
+}

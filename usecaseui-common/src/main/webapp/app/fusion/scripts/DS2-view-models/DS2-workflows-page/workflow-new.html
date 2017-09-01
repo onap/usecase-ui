@@ -1,0 +1,110 @@
+<div>
+	<div class="b2b-modal-header ng-scope in">
+		<h2 id="myModalLabel" modal-title="">Create Workflows</h2>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+		</div>
+		<div class="b2b-modal-body ng-scope ng-isolate-scope in">
+		<form name="workflowForm" class="css-form" novalidate>	
+	<div class="form-row input-emphasized-field">
+				<label for="textinputID1">Name *: </label>
+
+				<div class="field-group">
+					<input type="text" id="textinputID-2a" ddh-reset ng-model="workflow.name" class="span12 input-emphasized"
+						name="workflowName" required="required" placeholder="Workflow Name" />
+
+					<div ng-show="workflowForm.$submitted || workflowForm.workflowName.$touched">
+						<span ng-show="workflowForm.workflowName.$error.required">Workflow Name is required !!!</span> 
+					</div>
+
+				</div>
+			</div>
+			
+			
+			<div class="form-row input-emphasized-field">
+				<label for="textinputID1">Key*: </label>
+				<div class="field-group">
+					<input type="text" id="textinputID-2a" ddh-reset ng-model="workflow.workflowKey" class="span12 input-emphasized"
+						name="workflowKey" required="required" placeholder="Workflow Key" />
+
+					<div ng-show="workflowForm.$submitted || workflowForm.workflowKey.$touched">
+						<span ng-show="workflowForm.workflowKey.$error.required">Workflow Key is required !!!</span> 
+					</div>
+
+				</div>
+			</div>
+			
+
+			<div class="form-row input-emphasized-field">
+				<label for="textinputID1">Description: </label>
+
+				<div class="field-group">
+					<input type="text" ng-model="workflow.description" id = "textinputID-2a" ddh-reset name="workflowDescription" class="span12 input-emphasized" placeholder="Brief Description"/>													
+				</div>
+			</div>
+
+			<div class="form-row input-emphasized-field">
+				<label for="textinputID1">Workflow Server URL*</label>
+				<div class="field-group">
+					<input type = "url" ng-model = "workflow.runLink" id = "workflowRunLink" ddh-reset name = "workflowRunLink" required = "required"	class="span12 input-emphasized"/>
+				</div>
+								
+				<div ng-show="workflowForm.$submitted || workflowForm.workflowRunLink.$touched">
+					<span ng-show="workflowForm.workflowRunLink.$error.required">Run Link is required !!!</span>
+					<span class="error" ng-show="workflowForm.workflowRunLink.$error.url">Not valid url!</span> 
+				</div>				
+				
+			</div>
+			
+			<!-- <div class="control-group">
+				<label class="fn-ebz-text large" for="workflowSuspendLink">Suspend Link*</label>
+				<div class="controls">
+					<input type = "url" ng-model = "workflow.suspendLink" id = "workflowSuspendLink" name = "workflowSuspendLink" required = "required" class="fn-ebz-text extra-large"/>
+				</div>
+				
+				<div ng-show="workflowForm.$submitted || workflowForm.workflowSuspendLink.$touched">
+					<span ng-show="workflowForm.workflowSuspendLink.$error.required">Suspend Link is required !!!</span>
+					<span class="error" ng-show="workflowForm.workflowSuspendLink.$error.url">Not valid url!</span> 
+				</div>
+			</div> -->
+			
+			<div class="form-row" role="radio">
+			 <fieldset role="radiogroup" radio-group-accessibility aria-labelledby="radiolabel1">
+				<label for="optionsRadios1111" class="radio">
+				<!-- <input type = "text" ng-model = "workflow.active" id="workflowActive" name="workflowActive"	class="fn-ebz-text extra-large"/> -->
+					<input type="radio" ng-model="workflow.active" id="optionsRadios1111"  name="optionsRadio11" value="true" required="">
+					<i class="skin"></i>
+                    <span>Active</span>
+                </label>
+            </div>
+                    <div class="form-row" role="radio">
+                <label for="optionsRadios2222" class="radio">
+                    <input type="radio" ng-model ="workflow.active" id="optionsRadios2222" name="optionsRadio11" value="false">
+                    <i class="skin"></i>
+                    <span>Inactive</span>
+                </label>
+           <!--  </div>
+					<input type="radio" ng-model="workflow.active" value="true">Active
+					<input type="radio" ng-model="workflow.active" value="false">Inactive
+					
+					
+				</div> -->
+				   </div>
+        </fieldset>
+			</div>
+			
+
+			
+					<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+					<button class="btn btn-alt btn-small"" type="button"  ng-click="ok()">OK</button>
+			<button class="btn btn-medium" type="button"
+				ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

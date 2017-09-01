@@ -1,0 +1,112 @@
+<style>
+#columnEditTable table tbody td {
+    border: none;
+}
+
+#columnEditTable table tbody tr {
+    border: none;
+}
+
+.colTableLeftColumn {
+	width: 45%;
+	vertical-align:center;
+}
+
+.colTableInput {
+	width:220px;
+}
+
+#columnEditTable .selectWrap{
+	width:220px;
+}
+
+</style>
+
+<div style="height: 700px;">
+    <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">Drill-down Parameters Configuration</h2>
+			<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in"  style="margin-bottom: -50px;">
+		<form name="workflowForm" class="css-form" novalidate>
+			
+	<div id="columnEditTable" ng-repeat="drillDownOption in drillDownOptionList">
+    <table class="striped">
+        <tbody>
+        <fieldset role="radiogroup" radio-group-accessibility>
+            <tr ng-show="childReportFF.length>0||childReportCol.length>0">	
+            	<td colspan="2">
+            		<h2>{{drillDownOption.name}}</h2>
+            	</td>       
+			</tr>            
+			
+            
+            <tr ng-show="childReportFF.length>0||childReportCol.length>0">	
+                <td>
+                	<div class="form-row" role="radio" style="margin-top:0px;">
+			            <label for="optionsRadios2{{$index}}" class="radio">
+			                <input type="radio" ng-model="drillDownOption.selectedvalueradioGroup.name" id="optionsRadios2{{$index}}" name="optionsRadio2{{$index}}" value="fixedValue">
+			                <i class="skin"></i>
+			                <span>Fixed Value</span>
+			            </label>
+			        </div>             
+                </td>
+                <td><input type="text" name="defaultValue" ng-model="drillDownOption.fixedValue.value" class="colTableInput"></td>                
+            </tr>
+            
+                                    
+            <tr ng-show="childReportCol.length>0">	
+                <td>
+                	<div class="form-row" role="radio" style="margin-top:0px;">
+			            <label for="optionsRadios3{{$index}}" class="radio">
+			                <input type="radio" ng-model="drillDownOption.selectedvalueradioGroup.name" id="optionsRadios3{{$index}}" name="optionsRadio3{{$index}}" value="reportCol">
+			                <i class="skin"></i>
+			                <span>Value of Column</span>
+			        </div>
+                </td>
+				<td>
+					<select name="childReportColumn" b2b-dropdown ng-model="drillDownOption.selectedChildReportColumn.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in childReportCol" value="{{d.id}}">{{d.name}}</option>
+                    </select>
+				</td>
+                
+            </tr>
+            
+            <tr ng-show="childReportFF.length>0">	
+                <td>
+                	<div class="form-row" role="radio" style="margin-top:0px;">
+                		<label for="optionsRadios4{{$index}}" class="radio">
+                			<input type="radio" ng-model="drillDownOption.selectedvalueradioGroup.name" id="optionsRadios4{{$index}}" name="optionsRadio4{{$index}}" value="reportFF">
+                			<i class="skin"></i>
+                		<span>Value of Form Field</span>
+        			</div>
+                </td>
+				<td>
+					<select name="childReportFormField" b2b-dropdown ng-model="drillDownOption.selectedChildReportFormField.value" placeholder-text="Select">
+						<option b2b-dropdown-list option-repeat="d in childReportFF" value="{{d.id}}">{{d.name}}</option>
+                    </select>
+				</td>
+            </tr> 
+
+
+                       
+             </fieldset>
+
+
+        </tbody>
+      </table>
+      </div>				
+					<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button class="btn btn-alt btn-small" type="button"
+				ng-click="complete()">Complete</button>
+		</div>
+		
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

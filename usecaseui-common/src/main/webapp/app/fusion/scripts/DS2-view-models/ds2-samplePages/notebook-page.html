@@ -1,0 +1,80 @@
+<div id="page-content" style="min-height: 500px">
+	<div>
+		<h1 class="heading-page">Notebook</h1>
+	</div>
+	<div class="form-row">
+		<label for="textinputID1">Notebook ID:</label><BR> <input
+			type="text" name="notebookid" b2b-reset maxlength=200 class="span12 "
+			ng-model="notebookvalue"
+			ng-init="notebookvalue='833c0a69ec1433fbb2f8752af733cf0e'"
+			style="width: 180px" />
+	</div>
+	<BR>
+
+	<!-- Use this for only 1 key value query parameter 
+	<div class="fn-ebz-container">
+					
+					<label class="fn-ebz-text-label">Key</label><BR>
+					<input type="text"  name="key"  maxlength=200  ng-model="qparamKey" style="width:180px"/> 
+	</div>
+	
+	<div class="fn-ebz-container">
+					<label class="fn-ebz-text-label">Value</label><BR>
+					<input type="text"  name="val"  maxlength=200  ng-model="qparamVal" style="width:180px"/>
+	</div> -->
+
+
+
+	<!-- Use this for multiple key value query parameters -->
+	<div
+		style="border: 2px; border-style: solid; border-color: #808080; margin-bottom: 9px; width: 55%; padding-bottom: 20px;">
+		<div ng-repeat="kv in keyValueList">
+			<div style="margin-left: 5px">
+				<div class=" row-nowrap">
+					<div class="form-row input-emphasized-field">
+
+						<label for="textinputID1">Key</label><BR> <input type="text"
+							id="textinputID-2a" b2b-reset name="key"
+							class="span12 input-emphasized" maxlength=100 ng-model="kv.qK"
+							style="width: 180px" />
+					</div>
+
+					<div class="form-row input-emphasized-field"
+						style="padding-left: 50px;">
+						<label for="textinputID1">Value</label><BR> <input
+							type="text" id="textinputID-2a" b2b-reset name="val"
+							class="span12 input-emphasized" maxlength=100 ng-model="kv.qV"
+							style="width: 180px" />
+					</div>
+
+					<div class="fn-ebz-container"
+						style="position: relative; top: 25px;">
+						<button href="javascript:void(0)" id="addbtn"
+							ng-show="{{$index==0}}"
+							style="float: right; margin-left: 150px; bottom: -17px;"
+							size="small" att-accessibility-click="13,32"
+							class="btn btn-alt btn-small" ng-click="addKeyValuePairs(kv);">Add</button>
+						<a href="javascript:void(0)" ng-show="{{$index>0}}"
+							style="float: right; margin-left: 150px; bottom: -17px;"
+							size="small" att-accessibility-click="13,32"
+							ng-click="removeKeyValuePairs($index);"
+							class="btn btn-alt btn-small"> Remove</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<BR>
+
+	<div class="fn-ebz-container">
+		<a class="btn btn-alt btn-small" btn-type="primary"
+			att-accessibility-click="13,32" ng-click="submitParameters();">Submit</a>
+	</div>
+
+	<!--  <div ng-show="iframevisibility"><iframe id='itestfr' width="1400" height="1400"></iframe></div>  -->
+</div>

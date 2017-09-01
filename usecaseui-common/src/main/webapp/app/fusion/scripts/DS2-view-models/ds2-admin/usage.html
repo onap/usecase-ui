@@ -1,0 +1,43 @@
+<div id="page-content">
+	<div>
+		<h1 class="heading-page" id="Usage">Current Usage</h1>
+	</div>
+    
+    <h3 class="heading-small">
+    	The following table shows all current user sessions. Click the icon to end a user's session.
+    </h3>
+
+	<!-- A simple table requires no b2b tags -->
+	<table style="width: auto;">
+	  	
+	 	<thead>
+	  		<tr>
+	  			<th key="0" sortable="false" width="10%" align="center">User Id</th>
+	  			<th key="1" sortable="true" width="10%" align="center">User Name</th>
+	  			<th key="2" sortable="false" width="10%" align="center">Email</th>
+	  			<th key="3" sortable="true" width="10%" align="center">Last Access Time (minutes)</th>
+	  			<th key="4" sortable="false" width="10%" align="center">Time Remaining (minutes)</th>
+	  			<th key="5" sortable="false" width="10%" align="center">Expire User Session?</th>
+	  		</tr>
+	  	</thead>
+	  	
+	  	<tbody ng-repeat="user in users" style="max-height: 980px;" >
+		  <tr>
+		    <td width="10%">{{user.id}}</td>
+		    <td width="10%">{{user.lastName}}</td>
+		    <td width="10%">{{user.email}}</td>
+		    <td width="10%">{{user.lastAccess}}</td>
+		    <td width="10%">{{user.remaining}}</td>
+		    <td width="10%"><div ng-hide="user.delete=='yes'">Current Session</div>
+		    	<div ng-click="removeSession(user.sessionId);" 
+		    		ng-hide="user.delete=='no'" 
+		    		style="font-size:20px;text-align:center">
+		    		<a href="javascript:void(0)" class="icon-misc-trash"></a>
+		    	</div>
+		    </td>
+		  </tr>
+		</tbody>
+		
+	</table>
+
+</div>

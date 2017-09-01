@@ -1,0 +1,63 @@
+ 
+
+<script>
+var loginSnippetCtrl =  function ($scope,$http, $log,UserInfoServiceDS2){
+	/*Define fields*/
+	$scope.userProfile={
+			firstName:'',
+			lastName:'',
+			fullName:'',
+			email:''
+	}
+	/*Put user info into fields*/
+	$scope.inputUserInfo = function(userInfo){
+		if (typeof(userInfo) != "undefined" && userInfo!=null && userInfo!=''){
+			if (typeof(userInfo.USER_FIRST_NAME) != "undefined" && userInfo.USER_FIRST_NAME!=null && userInfo.USER_FIRST_NAME!='')
+				$scope.userProfile.firstName = userInfo.USER_FIRST_NAME;
+			if (typeof(userInfo.USER_LAST_NAME) != "undefined" && userInfo.USER_LAST_NAME!=null && userInfo.USER_LAST_NAME!='')
+				$scope.userProfile.lastName = userInfo.USER_LAST_NAME;
+			if (typeof(userInfo.USER_EMAIL) != "undefined" && userInfo.USER_EMAIL!=null && userInfo.USER_EMAIL!='')  			
+				$scope.userProfile.email = userInfo.USER_EMAIL;		
+			if (typeof(userInfo.USER_ORG_USER_ID) != "undefined" && userInfo.USER_ORG_USER_ID!=null && userInfo.USER_ORG_USER_ID!='')  			
+				$scope.userProfile.orgUserId = userInfo.USER_ORG_USER_ID;				
+		}		
+	}
+	 /*getting user info from session*/
+	$scope.getUserNameFromSession = function(){
+		UserInfoService.getFunctionalMenuStaticDetailSession()
+	  	.then(function (response) {
+	  		var j = response;
+	  		// console.log(response);
+	  		$scope.userProfile.fullName = response.userName;
+	  		$scope.userProfile.orgUserId = response.orgUserId;
+	  		$scope.userProfile.email = response.email;
+	  	});
+    }
+	/*getting user info from shared context*/
+	$scope.getUserName=function() {
+		var promise = UserInfoService.getFunctionalMenuStaticDetailShareContext();
+		promise.then(
+			function(res) { 
+				if(res==null || res==''){
+					$log.info('loginSnippet: get user information from session');
+					$scope.getUserNameFromSession();
+				}else{
+					// $log.info('Received User information from shared context',res);
+					var resData = res;
+					/* $scope.inputUserInfo(resData);			 */		
+					$scope.userProfile.fullName = $scope.userProfile.firstName+ ' '+ $scope.userProfile.lastName;					
+				}
+			},
+			function(err) {
+				console.log('error');
+			}
+		);
+    };
+    /*call the get user info function*/
+    try{   	
+    	$scope.getUserName();
+    }catch(err){
+    	$log.info('Error while getting User information',err);
+    }
+}
+ </script>

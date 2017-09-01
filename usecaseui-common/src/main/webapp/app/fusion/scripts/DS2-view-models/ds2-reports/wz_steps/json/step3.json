@@ -1,0 +1,19 @@
+{
+	"step" : "3",
+	"content": {
+		"title": "",
+		"sections": [
+			{
+				"title": "",
+				"elements": [										
+				]				
+			},
+			{
+				"title": "finalButton",
+				"submitAction" : "",
+				"next":"Microservice Config",
+				"previous":"none" 
+			}
+		]
+	}
+}

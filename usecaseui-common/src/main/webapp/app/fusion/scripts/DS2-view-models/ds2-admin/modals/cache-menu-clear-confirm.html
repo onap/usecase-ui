@@ -1,0 +1,22 @@
+<div>
+	<div class="b2b-modal-header ng-scope">
+		<h2 id="myModalLabel" modal-title="">Clear All Cache Regions</h2>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in" tabindex="0"
+		role="region" aria-label="Modal header text content"
+		style="height: 145px;">
+		You are about to clear all cache regions. Please click 'OK' to continue.
+	</div>
+	<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button class="btn btn-alt btn-small" type="button"
+				ng-click="deleteFun(roleFun);">Ok</button>
+			<button class="btn btn-small" type="button"
+				ng-click="$dismiss('cancel')">Cancel</button>
+		</div>
+	</div>
+</div>

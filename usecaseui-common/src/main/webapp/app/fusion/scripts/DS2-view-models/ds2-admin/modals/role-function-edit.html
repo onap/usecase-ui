@@ -1,0 +1,22 @@
+<div>
+	<div class="b2b-modal-header">
+		<h2 id="myModalLabel" b2b-modal-title>Role Function Edit</h2>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"	ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body" tabindex="0" role="region" aria-label="Modal header text content" style="height: 145px;">
+		<div class="field-group">
+			Name <input id="textinputID-2a" ng-model="roleFun['name']" placeholder="Name" class="span12" type="text">
+		</div>
+		<div class="field-group">
+			Code <input id="textinputID-2a" ng-model="roleFun['code']" disabled placeholder="Code" class="span12" type="text">
+		</div>
+	</div>
+	<div class="b2b-modal-footer">
+		<div class="cta-button-group"> 
+			<button class="btn btn-alt btn-medium" type="button" ng-click="save(roleFun);">Save</button>
+			<button class="btn btn-medium" type="button" ng-click="$dismiss('cancel')">Cancel</button>
+		</div>
+	</div>
+</div>

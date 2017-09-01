@@ -1,0 +1,62 @@
+<style>
+.colTableLeftColumn {
+	width: 45%;
+	text-align: right;
+	vertical-align:middle;
+}
+
+.colTableInput {
+	width:220px;
+}
+
+#columnEditTable .selectWrap{
+	width:220px;
+}
+</style>
+
+<div style="height: 700px;">
+    <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">SQL Test Run - {{isError?'Failed':'Executed'}}</h2>
+			<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in"  style="margin-bottom: -50px;">
+		<form name="workflowForm" class="css-form" novalidate>
+<!-- 			<div class="form-row input-emphasized-field">
+				<label class="span12 input-emphasized" for="textinputID-2a">The selected report will be removed. Do you want to continue</label>
+			</div> -->
+	<div>
+	
+	<div ng-show="isError">
+	<h2>Error Message:</h2><br>
+	<p>{{errormessage}}</p>
+	<h2>Stack Trace:</h2><br>
+	<p>{{stacktrace}}</p>
+
+	</div>
+    <table class="striped">
+         <thead>
+            <tr>
+                <th ng-repeat="colName in queryData.reportDataColumns">{{colName}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="rowData in queryData.reportDataRows">
+                <td ng-repeat="keyName in queryData.reportDataColumns">{{rowData[keyName]}}</td>
+            </tr>
+
+        </tbody>
+      </table>
+      </div>				
+					<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button class="btn btn-alt btn-small" type="button"
+				ng-click="close()">Close</button>
+		</div>
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

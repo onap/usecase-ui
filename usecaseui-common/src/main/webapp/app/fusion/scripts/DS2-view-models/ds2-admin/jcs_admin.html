@@ -1,0 +1,73 @@
+<div id="page-content" style=" width: 100%">
+
+	<div>
+		<h1 class="heading-page" id="CacheRegions">Cache Regions</h1>
+	</div>
+
+  	<div style="margin-right:20px; text-align:justify; text-align-last:auto;">
+  	<p>
+  	These are the regions which are currently defined in the cache. 'Items'	and 'Bytes' refer to the elements currently in memory (not spooled).
+  	You can clear all items for a region by clicking on the Clear icon next	to the desired region below. You can also <a href="admin#/jcs_admin"  ng-click="clearAllFuncPopUp();">clear all regions</a> 
+  	which empties the entire cache.</p>
+  	</div>
+	
+	<!-- This implements an accordion table in place -->
+		<div style="border-top: 1px solid #c4c4c4; margin-top: 0px; margin-bottom:30px; margin-right: 20px; background-color: #fff; padding: 10px 0; color: #646464s">
+		<div class="row" style="margin: 0 20px 10px 0px; float: left; width: 97%;">
+			<div class="col-md-4" style=" width: 16.6666666667%;"><b>Cache Name</b></div>
+			<div class="col-md-2" style=" width: 8.3333333333%;"><b># of Items</b></div>
+			<div class="col-md-2" style=" width: 8.3333333333%;"><b>Bytes</b></div>
+			<div class="col-md-2" style=" width: 8.3333333333%;"><b>Status</b></div>
+			<div class="col-md-3" style=" width: 12.5%;"><b>Memory Hits</b></div>
+			<div class="col-md-3" style=" width: 12.5%;"><b>Aux Hits</b></div>
+			<div class="col-md-3" style=" width: 12.5%;"><b>Not Found Misses</b></div>
+			<div class="col-md-3" style=" width:12.5%;"><b>Expired Misses</b></div>
+			<div class="col-md-1" style=" width: 4.1666666667%;"><b>Clear?</b></div>
+			<div class="col-md-1" style=" width: 4.1666666667%;"><b>Items</b></div>
+		</div>
+		
+		<div  ng-repeat="region in regions">
+			<div class="row" style="margin: 0 20px 10px 0px; float: left; width: 97%;">
+			<div class="col-md-4" style=" width: 16.6666666667%;">
+				<a b2b-tooltip="Click to Show Region Details" ng-click="showRegionDetails(region.cacheName);" href="admin#/jcs_admin">{{region.cacheName}}</a></div>
+				<div class="col-md-2" style=" width: 8.3333333333%;">{{region.size}}</div>
+				<div class="col-md-2" style=" width: 8.3333333333%;">{{region.byteCount}}</div>
+				<div class="col-md-2" style=" width: 8.3333333333%;">{{region.status}}</div>
+				<div class="col-md-3" style=" width: 12.5%;">{{region.hitCountRam}}</div>
+				<div class="col-md-3" style=" width: 12.5%;">{{region.hitCountAux}}</div>
+				<div class="col-md-3" style=" width: 12.5%;">{{region.missCountNotFound}}</div>
+				<div class="col-md-3" style=" width: 12.5%;">{{region.missCountExpired}}</div>
+				<div class="col-md-1" style=" width: 4.1666666667%;">
+					<div ng-click="clearRegionFuncPopUp(region.cacheName);" style="font-size:20px;">
+					<a href="javascript:void(0)" class="icon-misc-trash"></a></div>
+				</div>
+				<div class="col-md-1"><i class="icon-primary-accordion-plus" ng-class="{true: 'icon-primary-accordion-plus', false: 'icon-primary-accordion-minus'}[ !bling$index]"  ng-click="bling$index = !bling$index" style="display: block;"></i></div>
+			</div>
+			<div class="row" style="margin: 0px 20px 0px 30px; float: left; width: 95%; border-top: 1px solid #e4e4e4; padding-top: 10px"
+				ng-show="bling$index">
+				<span style="height: 20px; width: 20px; display: inline-block; float: left"></span>
+				<div class="col-md-12" style=" width: 50%;"><b>Key</b></div>
+				<div class="col-md-2" style=" width: 8.3333333333%"><b>Eternal?</b></div>
+				<div class="col-md-4" style=" width: 16.6666666667%;"><b>Created</b></div>
+				<div class="col-md-2" style=" width: 8.3333333333%;"><b>Max Life</b></div>
+				<div class="col-md-2" style=" width: 8.3333333333%;"><b>Expires</b></div>
+				<div class="col-md-1" style=" width: 4.1666666667%;"><b>Clear?</b></div>
+			</div>
+			<div ng-repeat="item in region.items">
+				<div class="row" style="margin: 0px 20px 0px 30px; float: left; width: 95%;" ng-show="bling$index">
+					<span style="height: 20px; width: 20px; display: inline-block; float: left"></span>
+					<div class="col-md-12" style=" width: 50%;"><a href="#" tooltip="Click to Show Item Details" ng-click="showItemDetails(region.cacheName,item.key);">{{item.key}}</a></div>
+					<div class="col-md-2" style=" width: 8.3333333333%;">{{item.eternal}}</div>
+					<div class="col-md-4" style=" width: 16.6666666667%;">{{item.createTime}}</div>
+					<div class="col-md-2" style=" width: 8.3333333333%;">{{item.maxLifeSeconds}}</div>
+					<div class="col-md-2"  style=" width: 8.3333333333%;">{{item.expiresInSeconds}}</div>
+					<div class="col-md-1" style=" width: 4.1666666667%;">
+						<div ng-click="clearItemFuncPopUp(region.cacheName,item.key);" style="font-size:20px;"><a href="javascript:void(0)" class="icon-misc-trash"></a></div>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	
+	</div>
+</div>

@@ -1,0 +1,26 @@
+<div style="height:300px">
+    <div class="b2b-modal-header ng-scope in">
+        <h2 id="myModalLabel" modal-title="">Remove Report Role</h2>
+			<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in"  style="margin-bottom: -50px;">
+		<form name="workflowForm" class="css-form" novalidate>
+			
+			<div class="form-row input-emphasized-field">
+				<label class="span12 input-emphasized" for="textinputID-2a">{{securityRoleName}} will be removed. Would you want to continue?</label>
+			</div>
+						
+					<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+					<button class="btn btn-alt btn-small" type="button"  ng-click="ok()">OK</button>
+			<button class="btn btn-alt btn-small" type="button"
+				ng-click="cancel()">Cancel</button>
+		</div>
+	</div>
+		</form>
+		<br />
+	</div>
+</div>

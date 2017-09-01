@@ -1,0 +1,65 @@
+
+<div id="page-content" style=" width: 100%;" >
+	<br/>
+	<div >
+	<h1 class="heading-page">Workflow</h1>
+		<button type="submit" ng-click="createWorkflow('md')" class="btn btn-alt btn-small" >Create Workflow</button>
+	</div>
+		<div>
+			<form>
+			<div class="form-group" align="right">
+					<input type="text" ng-model="search" placeholder = "Search Workflows"/>
+				</div>
+			</form>
+		</div>
+	
+
+  	
+
+<div>
+<table class="striped" table-data="tableData" view-per-page="viewPerPage" current-page="currentPage" search-category="searchCategory" search-string="searchString" total-page="totalPage">
+    <thead >	
+		<tr class="info">
+			<th >Id</th>
+			<th>Name</th>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Workflow Server URL</th>
+			<!-- <th>Suspend Link</th> -->
+			<th>View</th>
+			<th>Active</th>
+			<th>Created </th>
+			<th>Created By</th>
+			<th>Action</th>
+			<th>Schedule</th>			
+			<th>Edit</th>
+			<th>Delete?</th>
+			
+			
+		</tr>
+	</thead>
+	  
+
+	<tbody type="body" ng-repeat="workflow in workflows | filter: search">
+		<tr>		
+			<td>{{workflow.id}}</td>
+			<td>{{workflow.name}}</td>
+			<td>{{workflow.workflowKey}}</td>
+			<td>{{workflow.description}}</td>
+			<td>{{workflow.runLink}}</td>
+			<td><div ng-click="previewWorkflow(workflow,'lg');" style="font-size:20px;"><a href="javascript:void(0)" class=" icon-people-preview"></a></div></td>			
+			<!-- <td>{{workflow.suspendLink}}</td> -->
+			<td >{{workflow.active}}</td>
+			<td>{{workflow.created}}</td>
+			<td>{{workflow.createdBy}}</td>
+			<td><div ng-show="workflow.active ==='false'" ng-click="activateWorkflow(workflow)" style="font-size:20px;"><a href="javascript:void(0)" class="icon-controls-playalt"></a></div>
+			<div ng-show="workflow.active ==='true'" ng-click="suspendWorkflow(workflow)" style="font-size:20px;"><a href="javascript:void(0)" class="icon-controls-pauseL"></a></div></td>
+			<td><div ng-click="scheduleWorkflow(workflow);" style="font-size:20px;"><a href="javascript:void(0)" class="icon-misc-time"></a></div></td>			
+			<td><div ng-click="updateWorkflow(workflow);" style="font-size:20px;"><a href="javascript:void(0)" class="icon-misc-pen"></a></div></td>
+			<td><div ng-click="removeWorkflow(workflow);" style="font-size:20px;"><a href="javascript:void(0)" class="icon-misc-trash"></a></div></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+  </div>

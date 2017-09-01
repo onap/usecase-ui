@@ -1,0 +1,29 @@
+<div class="demo-widget-raptor">
+    <div ng-show="true">
+<!--     <p>{{url}}</p> -->
+			<div style="display:block; border: none; height:50px; background-color:#f2f2f2;"></div>
+      		<iframe src= {{url}}
+	        width="100%" height="500"
+			 style="border: none; background-color: #f2f2f2; opacity: 1;"></iframe>
+    </div>
+
+<!--     <div ng-show="!showChart">
+	<p>{{showChart}}</p>
+	  <iframe id="chartiframe" ng-show="showChart" width="100%" height="450px" style="border: none" scrolling="no"></iframe>
+    </div> -->
+ 
+	<div>
+		<div>
+			<div  id="grid1" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-resize-columns class="grid" style="height: {{gridHeight}}">
+				<div class="no-rows" ng-show="!gridOptions.data.length">
+					<div class="msg">
+						<span>{{reportData.message}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    
+    
+</div>

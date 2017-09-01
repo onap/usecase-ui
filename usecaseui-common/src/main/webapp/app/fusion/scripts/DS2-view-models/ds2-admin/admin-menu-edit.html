@@ -1,0 +1,102 @@
+<div id="page-content">
+	<div>
+		<h1 class="heading-page" id="AdminMenuItems">Admin Menu Items</h1>
+	</div>
+	<div>
+		<button type="submit" ng-click="addNewFnMenuItemModalPopup();" class="btn btn-alt btn-small" style="position: initial;">Add Menu Item</button>
+	</div>
+    
+    <h3 class="heading-small">
+    	Existing menu items
+    </h3>
+
+	<div ng-show="showLoader" class="span loader-container">
+		<i class="icon-primary-spinner" role="img" aria-label="Please wait while we load your content"></i>
+	</div>
+
+	<div ng-hide="showLoader">
+			<table>
+				<thead>
+					<tr>
+					<th  sortable="true" key="id" default-sort="a">Menu ID</th>
+					<th  sortable="true" key="label">Label</th>
+					<th  sortable="true" key="ParentId">ParentId</th>
+					<th  sortable="true" key="sortOrder">Sort Order</th>
+					<th  sortable="true" key="action">Action</th>
+					<th  sortable="true" key="functionCd">Function</th>
+					<th  sortable="true" key="active">Active</th>
+					<th  sortable="true" key="servlet">Servlet</th>
+					<th  sortable="true" key="queryString">Query String</th>
+					<th  sortable="true" key="externalUrl">External	URL</th>
+					<th  sortable="true" key="target">Target</th>
+					<th  sortable="true" key="menuSetCode">Menu	Set Code</th>
+					<th  sortable="true" key="separator">Separator</th>
+					<th  sortable="true" key="imageSrc">Image Source</th>
+					<th  sortable="false" key="edit">Edit</th>
+					<th  sortable="false" key="delete">Delete</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="fnMenuItem in tableFnMenuItems" >
+				<tr>
+					<td  ng-bind="fnMenuItem.id"></td>
+					<td  ng-bind="fnMenuItem.label"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.parentId"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.sortOrder"></td>
+					<td  ng-bind="fnMenuItem.action"></td>
+					<td  ng-bind="fnMenuItem.functionCd"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.active ? 'Y' : 'N'"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.servlet"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.queryString"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.externalUrl"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.target"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.menuSetCode"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.separator ? 'Y' : 'N'"></td>
+					<td style="word-break: break-all;" ng-bind="fnMenuItem.imageSrc"></td>
+					<td >
+						<div ng-click="editMenuItemModalPopup(fnMenuItem);"
+							style="font-size: 20px;"><a href="javascript:void(0)" class="icon-misc-pen"></a>
+						</div>
+					</td>
+					<td>
+						<div ng-click="removeMenuItem(fnMenuItem);"><a href="javascript:void(0)" class="icon-misc-trash"></a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="well" style="padding-bottom: 35px;">
+				<div class="row ddh-page short">
+					<div b2b-pagination="" total-pages="totalPages1"
+						current-page="currentPage1" click-handler="customHandler1"
+						role="navigation" aria-label="Customer Data Pages"></div>
+				</div>
+				
+					<!-- <div class="row span10 offset1">
+					<div class="span6">
+						<div class="form-row">
+							<label for="totalPages1">Total Pages:</label>
+							<div class="field-group">
+								<input id="totalPages1" type="number" class="span12"
+									only-digits="" name="totalPages1" ng-model="totalPages1"
+									title="Total Pages {{totalPages1}}"style="pointer-events: none;">
+							</div>
+						</div>
+					</div>
+					<div class="span6 font-clearview">
+						<div class="form-row">
+							<label for="currentPage1">Current Page:</label>
+							<div class="field-group">
+								<input id="currentPage1" type="number" class="span12"
+									only-digits="" name="currentPage1" ng-model="currentPage1"
+									title="Current Page {{currentPage1}}">
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+
+</div>
+
+</div>

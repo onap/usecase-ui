@@ -1,0 +1,191 @@
+<div id="page-content" class="content" gridster="gridsterOpts">
+		
+	<!-- Gridster Item starts here -->
+	<div>
+	<ul>
+		<li gridster-item="item" ng-repeat="item in standardItems">
+			<div class="box">
+				<div class="box-header">
+				<table >
+				<tr>
+					<th table-body width="5%"  style="height:20px; float:left;height:100%;" class="icon-content-gridguide" ></th>
+					<th>
+						<h3 ng-if="item.max">{{item.headerText}}</h3>
+						<h3 ng-hide="item.max">{{item.headerText.length<36?item.headerText:item.headerText.substring(0,35)+' ...'}} </h3>
+					</th>
+					<th>
+					<div style="height:20px;" class="box-header-btns pull-right" >
+                            <div class="tileMinMaxBtn" ng-click="toggleMinMax($index,'')">
+								<span class="tileMinMaxIcon">
+									<i	class="icon-controls-up" style="color:gray"  ng-show="item.max"></i>
+									<i	class="icon-controls-down" style="color:gray"  ng-hide="item.max"></i>
+								</span>
+							</div>
+<!-- 						<a title="settings" ng-click="openSettings(widget)"><i class="glyphicon glyphicon-cog"></i></a>
+						<a title="Remove widget" ng-click="remove(widget)"><i class="glyphicon glyphicon-trash"></i></a> -->
+						<class="icon-up">
+					</div>
+					</th>
+				</tr>
+				</table>				
+				</div>
+				<div class="box-content">
+
+			                <div class="box-content-frame" align="center">
+			                	
+			               		<div align="left" ng-if="item.headerText=='Dashboard' && item.max" style="height: 360px;">
+			               			<label>&nbsp; Sample Charts</label><BR>
+					              	<iframe scrolling="yes" frameBorder="0" style="display:block; width: 460px; height:100%;" src="static/fusion/sample/html/wordcloud.html"></iframe>
+			               		</div>
+			               		<div ng-if="item.headerText=='Donut Chart' && item.max">
+					              	<iframe scrolling="no" frameBorder="0"  style="width: 310px; height: 210px;" src="static/fusion/sample/html/donut_d3.html"></iframe>
+			               		</div>
+			               		<div ng-if="item.headerText=='Area Chart' && item.max">
+				               		<div id="areaChart">
+				               			<div> <svg></svg> </div> 
+			               				<script src="static/fusion/sample/html/js/area_chart.min.js"></script>
+			               			</div>			               		
+					              	<!-- <iframe scrolling="no" frameBorder="0"  style="width: 310px; height: 210px;" src="static/fusion/sample/html/area_chart.html"></iframe> -->
+			               		</div>
+			               		<div ng-if="item.headerText=='Pie Chart' && item.max">
+					              	<iframe scrolling="no" frameBorder="0"  style="width: 310px; height: 210px;" src="static/fusion/sample/html/pie_chart.html"></iframe>
+			               		</div>
+			               		<div ng-if="item.headerText=='Line Chart' && item.max">
+				               		<div id="lineChart">
+				               			<div> <svg></svg> </div> 
+			               				<script src="static/fusion/sample/html/js/line_chart.min.js"></script>
+			               			</div>
+
+<!-- 			               			<iframe scrolling="no" frameBorder="0"  style="width: 310px; height: 210px;" src="static/fusion/sample/html/line_chart.html"></iframe> -->
+			               		</div>
+			               		<div ng-if="item.headerText=='Gauges' && item.max">
+					              	<iframe scrolling="no" frameBorder="0"  style="width: 310pxx; height: 210px;" src="static/fusion/sample/html/d3_gauges_demo.html"></iframe>
+			               		</div>
+			               		
+			               		<div align="left" ng-if="item.headerText=='Traffic distribution by day of week' && item.max">
+  					    			<div id = "selectedTrafficDay">
+ 					    				<ul>
+					    					<li ng-repeat="Daytab in selectedTrafficDay"
+					    					ng-class="{active1:isActiveTab1(Daytab.url)}" 
+					    					ng-click="onClickTab1(Daytab)">{{Daytab.title}}</li>
+					    				</ul> 
+					    				<div id = "SelectedTrafficeDayView">
+						    				<div ng-include="currentSelectedDayTab"></div>
+					    				</div>
+					    				<script type="text/ng-template" id="#Monday">
+											<div id="Monday"  align="centers"><img src="static/fusion/sample/images/tunnels/1_mon.png" width=100% height=100% alt="Monday"></div>
+										</script>
+										<script type="text/ng-template" id="#Tuesday">
+											<div id="Tuesday"  align="center"><img src="static/fusion/sample/images/tunnels/2_tue.png" width=100% height=100% alt="Tuesday"></div>
+										</script>
+										<script type="text/ng-template" id="#Wednesday">
+											<div id="Wednesday" align="center"><img src="static/fusion/sample/images/tunnels/3_wed.png" width=100% height=100% alt="Wednesday"></div>
+										</script>
+										<script type="text/ng-template" id="#Thursday">
+											<div id="Thursday" align="center"><img src="static/fusion/sample/images/tunnels/4_thu.png" width=100% height=100% alt="Thursday"></div>
+										</script>
+										<script type="text/ng-template" id="#Friday">
+											<div id="Friday"  align="center"><img src="static/fusion/sample/images/tunnels/5_fri.png" width=100% height=100% alt="Friday"></div>
+										</script>
+										<script type="text/ng-template" id="#Saturday">
+											<div id="Saturday"  align="center"><img src="static/fusion/sample/images/tunnels/6_sat.png" width=100% height=100% alt="Saturday"></div>
+										</script>
+										<script type="text/ng-template" id="#Sunday">
+											<div id="Sunday"  align="center"><img src="static/fusion/sample/images/tunnels/7_sun.png" width=100% height=100% alt="Sunday"></div>
+										</script>
+							        </div>
+			               		</div>
+
+			               		<div align="left" ng-if="item.headerText=='Busy hour traffic analysis by day of week' && item.max">
+ 					    			<div id = "BusyHourTraffic">
+					    				<ul>
+					    					<li ng-repeat="TrafficTab in BusyHourTraffic"
+					    					ng-class="{active2:isActiveTab2(TrafficTab.url)}" 
+					    					ng-click="onClickTab2(TrafficTab)">{{TrafficTab.title}}</li>
+					    				</ul>
+					    				<div id = "BusyHourTrafficView">
+						    				<div ng-include="currentSelectedBusyHourTraffic"></div>
+					    				</div>
+					    				<script type="text/ng-template" id="#Incoming">
+							        		<div id="Incoming" align="left"><img src="static/fusion/sample/images/tunnels/BH_DLSTX_IN.png" width=100% height=100%></div>
+							        	</script>
+										<script type="text/ng-template" id="#Outgoing">
+											<div id="Outgoing" align="center"><img src="static/fusion/sample/images/tunnels/BH_DLSTX_OUT.png" width=100% height=100%></div>
+										</script>
+										<script type="text/n	g-template" id="#Default">
+											<div id="Default" align="center"><img src="static/fusion/sample/images/tunnels/BH_Nat_Def.png" width=100% height=100%></div>
+										</script>
+										<script type="text/ng-template" id="#Priority">
+											<div id="Priority" align="center"><img src="static/fusion/sample/images/tunnels/BH_Nat_Priority.png" width=100% height=100%></div>
+										</script>
+										<script type="text/ng-template" id="#BHNational">
+											<div id="BHNational" align="center"><img src="static/fusion/sample/images/tunnels/BH_Nat.png" width=100% height=100%></div>
+										</script>
+									</div> 
+			               		</div>
+
+			               		<div align="left" ng-if="item.headerText=='Additional Samples' && item.max">
+					              	<label>&nbsp;Quick Links</label>				          		 
+							 		<table table
+										id="additional-samples-table"
+										search-string="searchStringIgnored"
+										view-per-page="viewPerPageIgnored"
+										current-page="currentPageIgnored"
+										total-page="totalPageIgnored">
+							    
+										  
+										  <tr>
+										    <td table-body width="90%" ><a href="http://jquery.com" target="_blank">JQuery</a></td>
+											<td table-body width="10%">
+										    	<a ng-click="removeRole();" class="icon-misc-trash"></a>
+										     </td>
+										  </tr>
+										  <tr>
+										    <td table-body width="90%" ><a href="app/sequence/views/details.html" target="_blank">Network Simulation</a></td>
+											<td table-body width="10%">
+										    	<a ng-click="removeRole();" class="icon-misc-trash"></a>
+										     </td>
+										  </tr>
+										<!--   <tr>
+										    <td table-body width="90%" ><a href="sample_heat_map.htm" target="">Heat Map</a></td>
+											<td table-body width="10%">
+										    	<a ng-click="removeRole();" ><img src="static/fusion/sample/images/deleteicon.gif"></a>
+										     </td>
+										  </tr> -->
+										  <tr>
+										  	<td table-body width="90%" ><a href="leafletMap.htm" target="">Animated Map</a></td>
+											<td table-body width="10%">
+										    	<a ng-click="removeRole();" class="icon-misc-trash"></a>
+										     </td>
+										  </tr>
+										  <tr>
+										  	<td table-body width="90%" ><a href="collaborate_list.htm">Chat Session</a></td>
+											<td table-body width="10%">
+										    	<a ng-click="removeRole();" class="icon-misc-trash"></a>
+										     </td>
+										  </tr>
+									</table>
+			               		</div>
+			               		<div ng-if="item.headerText=='Sticky Notes' && item.max">
+					              	<div style="width:100%; height:400px" id="scribble-pad"><pre id="scribble" contenteditable="true" onkeyup="storeUserScribble(this.id);"></pre></div>
+			               		</div>
+
+							<div ng-if="item.headerText=='Service Configuration' && item.max">
+<!-- 								<accordion close-others="true" css="accordion" > -->
+								          <accordion-group heading="Service Configuration" ng-if="group11.open"> 
+										        <iframe style="overflow:auto" frameBorder="0" align="center" width="100%" height="400px"  src="static/fusion/sample/org_chart/example.html" ></iframe> 	
+								          </accordion-group>
+								          <accordion-group heading="VSP Service Configuration" ng-if="group12.open">             	
+						              			<iframe style="overflow:auto" frameBorder="0" align="center" width="100%" height="400px" src="static/fusion/sample/org_chart/example_vsp.html" ></iframe>
+								          </accordion-group>
+<!-- 						          </accordion> 	 -->
+							</div>
+
+						</div>					
+				</div>
+			</div>
+		</li>
+	</ul>
+	</div>
+	<!-- Gridster Item ends here -->	
+</div>

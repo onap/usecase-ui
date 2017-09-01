@@ -1,0 +1,243 @@
+<!-- <link rel="stylesheet" type="text/css" href="static/fusion/raptor/css/raptor.css"> -->
+<style>
+#stepView table tbody td {
+    border: none;
+}
+
+#stepView table tbody tr {
+    border: none;
+}
+
+
+.noTableBorder table tbody td {
+    border: none;
+}
+.noTableBorder table tbody tr {
+    border: none;
+}
+.selectWrap {
+	width: 300px;
+}
+.tdLeftColumn {
+	text-align: right;
+	vertical-align:middle;
+}
+
+.tabs.tabs-justified > li.active, .tabs.promo-tabs > li.active {
+z-index:0;
+}
+</style>
+
+<div id="page-content">
+<h1 class="heading-page">Report Wizard</h1>
+
+
+<!-- <h1 id="tabs---promo">Tabs - Promo</h1>
+<button class="btn btn-secondary btn-small" ng-click="gTabs[3].disabled = !gTabs[3].disabled">{{gTabs[3].disabled?'Enable':'Disable'}}</button> - Toggle 4th (Features) Tab
+<br><br> -->
+ <b2b-tabset tab-id-selected="activeTabsId">
+     <b2b-tab ng-repeat="tab in gTabs" tab-item="tab" 
+              id="{{tab.uniqueId}}" aria-controls="{{tab.tabPanelId}}"
+              ng-disabled="tab.disabled">
+         {{tab.title}}
+     </b2b-tab>
+ </b2b-tabset>
+<br><br>
+<div ng-show="showLoader" class="span loader-container">
+	<i class="icon-primary-spinner" role="img"
+		aria-label="Please wait while we load your content"></i>
+</div>
+
+<div ng-hide="showLoader">
+
+<!-- <select ng-model="prj" 
+        ng-options="item.projectName for item in allProjects track by item.id" data-ng-init="getAllProjects()" 
+        ng-change="selectAction();">
+    <option value="">Select project</option>
+</select>
+
+<a ng-click="createAction()" class="pointer">Create Project</a> -->
+
+<input type="hidden" name="project_id" ng-model="project_id" value = ""/>
+
+<div id="stepViewColumn" ng-show = "isColumnStep">
+	<h1>Step 3 : Columns</h1>
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Column Name</th>
+                <th>ID</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat = "rowData in colTableRowData">
+                <td>{{$index+1}}</td>
+                <td>{{rowData.name}}</td>
+                <td>{{rowData.id}}</td>
+                <td><a ng-click="openColumnPopup(rowData)" class="icon-misc-pen"></a></td>
+            </tr>
+        </tbody>
+    </table>    
+</div>
+
+<div id="stepViewFormField" ng-show = "isFormFieldStep">
+	<h1>Step 4 : Form Fields</h1>
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Field Name</th>
+                <th>Edit</th>
+                <th>Delete</th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat = "rowData in formFieldData">
+                <td>{{$index+1}}</td>
+                <td>{{rowData.name}}[{{rowData.id}}]</td>
+                <td><a ng-click="openFormFieldPopup(rowData)" class="icon-misc-pen"></a></td>
+                <td><a ng-click="deleteFormField(rowData)" class="icon-misc-trash"></a></td>
+            </tr>
+        </tbody>
+    </table>    
+</div>
+
+<div id="stepViewSecurity" ng-show = "isSecurityStep">
+	<h1>Step 5 : Report Security</h1>
+	<div class="noTableBorder">
+	 <table class="striped">
+        <tbody>
+        	<tr>
+                <td>Created By:  {{reportSecurityInfo.createdUser}}</td>
+                <td>Created Date:	{{reportSecurityInfo.createdDate}}</td>
+            <tr/>
+            <tr>
+                <td>Last Updated By:  {{reportSecurityInfo.updateUser}}</td>
+                <td>Last Updated:	{{reportSecurityInfo.updatedDate}}</td>
+        	<tr/>
+            <tr>
+                <td>
+                	Report Owner:
+                	
+                	<select name="reportOwner" b2b-dropdown ng-model="reportOwnerId.id">
+						<option b2b-dropdown-list option-repeat="d in reportOwnerList" value="{{d.id}}">{{d.name}}</option>
+                    </select>
+                	
+                </td>
+                <td>
+                	Public? (All users can run the report):
+                	<select name="isPublic" b2b-dropdown ng-model="reportSecurityInfo.isPublic">
+						<option b2b-dropdown-list option-repeat="d in isPublicOptionList" value="{{d.value}}">{{d.text}}</option>
+                    </select>
+                </td>
+        	<tr/>        	        	
+        </tbody>
+    </table>    
+	</div>
+
+	 <div style="margin-top:20px;">
+     <h1 style="margin-bottom:5px;">Report Users</h1>	 	
+	 <table class="striped">
+        <thead>
+        	<tr>
+                <th width="10%">No</th>
+                <th width="45%">User Name</th>
+                <th width="15%">Run Access</th>
+                <th width="15%">Edit Access</th>
+                <th width="15%">Remove</th>
+            <tr/>
+        </thead>
+        <tbody>
+        	<tr ng-repeat = "reportUser in reportSecurityUsers">
+        		<td>{{$index+1}}</td>
+	            <td>{{reportUser.name}}</td>
+	            <td>
+			        <label for="switch{{$index+1}}runAccess" class="btn-switch-label">
+			            <input type="checkbox" role="switch" id="switch{{$index+1}}runAccess" b2b-switches ng-model=true ng-disabled=true aria-disabled=true aria-label="">
+			        </label>				            
+	            </td>
+	            <td>		            
+			        <label for="switch{{$index+1}}" class="btn-switch-label">
+			            <input type="checkbox" role="switch" id="switch{{$index+1}}" b2b-switches ng-model="reportUser.accessAllowed" ng-click="toggleUserEditAccessActive(reportUser)" ng-disabled=false aria-disabled=false aria-label="">
+			        </label>
+			    </td>
+	            <td>
+	            	<a class="icon-misc-trash" style="font-size: 22px;" ng-click="removeReportSecurityUser(reportUser)"> </a>
+	            </td>        	
+        	</tr>        	
+    		<tr>
+    			<td colspan="2">
+    				Grant Access To:
+	        	</td>
+	        	
+    			<td colspan="2">
+			        <select name="reportUser" b2b-dropdown ng-model="addReportUserId.id" placeholder-text="Select a User">
+			        	<option b2b-dropdown-list option-repeat="d in reportOwnerList" value="{{d.id}}">{{d.name}}</option>
+			        </select>
+	        	</td>
+	        	<td>
+					<button class="btn btn-alt btn-small" type="button"  ng-click="addReportSecurityUser(addReportUserId.id)">Add</button>	        	
+	        	</td>
+        	</tr>
+
+        </tbody>
+    </table>
+    </div> 
+    
+	<div style="margin-top:20px;">
+	 <h1>Report Roles</h1>	 
+	 <table class="striped">
+        <thead>
+        	<tr>
+                <th width="10%">No</th>
+                <th width="45%">Role Name</th>
+                <th width="15%">Run Access</th>
+                <th width="15%">Edit Access</th>
+                <th width="15%">Remove</th>
+            <tr/>
+        </thead>
+        <tbody>
+        	<tr ng-repeat = "reportRole in reportSecurityRoles">
+        		<td>{{$index+1}}</td>
+	            <td>{{reportRole.name}}</td>
+	            <td>
+			        <label for="switch{{$index+1}}RoleRunAccess" class="btn-switch-label">
+			            <input type="checkbox" role="switch" id="switch{{$index+1}}RoleRunAccess" b2b-switches ng-model=true ng-disabled=true aria-disabled=true aria-label="">
+			        </label>				            
+	            </td>
+	            <td>		            
+			        <label for="switch{{$index+1}}RoleEditAccess" class="btn-switch-label">
+			            <input type="checkbox" role="switch" id="switch{{$index+1}}RoleEditAccess" b2b-switches ng-model="reportRole.accessAllowed" ng-click="toggleRoleEditAccessActive(reportRole)" ng-disabled=false aria-disabled=false aria-label="">
+			        </label>
+			    </td>
+	            <td>
+	            	<a class="icon-misc-trash" ng-click="removeReportSecurityRole(reportRole)" style="font-size: 22px;"> </a>
+
+	            </td>        	
+        	</tr>        	
+    		<tr>
+    			<td colspan="2">
+    				Grant Access To:
+	        	</td>
+    			<td colspan="2">
+			        <select name="reportOwner" b2b-dropdown ng-model="addReportRoleId.id" placeholder-text="Select a Role">
+			        	<option b2b-dropdown-list option-repeat="d in reportRoleList" value="{{d.id}}">{{d.name}}</option>
+			        </select>
+	        	</td>
+	        	<td>
+					<button class="btn btn-alt btn-small" type="button"  ng-click="addReportSecurityRole(addReportRoleId.id)">Add</button>
+				</td>
+        	</tr>
+        </tbody>
+    </table>   
+    </div>
+
+</div>
+
+<div id="stepView">
+</div>
+</div>
+
+</div>

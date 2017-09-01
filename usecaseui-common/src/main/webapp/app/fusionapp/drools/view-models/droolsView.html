@@ -1,0 +1,42 @@
+<div ng-controller="droolsViewController" class="modal__informative font-showcase">
+
+<h1 class="heading1" style="margin-top:20px;">Drools Rule Engine</h1>
+      <br>
+  		Please enter below details:<br/>
+
+            <div class="fn-ebz-container">
+	          Drools File:<br/>
+	          <input class="fn-ebz-text" type="text"   ng-model="postDroolsBean.droolsFile" value="" size="25">
+            </div>
+            
+            <div class="fn-ebz-container">
+	          Class Name:<br/>
+	          <input class="fn-ebz-text" type="text" ng-model="postDroolsBean.className" value="" size="25">
+            </div>
+          
+            <div class="fn-ebz-container">
+	          Selected Rules:<br/>
+	          <input class="fn-ebz-text" type="text" ng-model="postDroolsBean.selectedRules" value="" size="25">
+            </div>
+         
+            
+		<div>
+		 	<input att-button btn-type="primary" size="small" class="button" type="submit" value="Execute Rules" ng-click="execute(postDroolsBean);" />
+		</div>
+		<br>
+		{{resultsString}}
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	<br>
+      	
+      
+      
+      
+</div>
+

@@ -1,0 +1,54 @@
+<div id="page-content" style="margin-right:-230px;">
+<style>
+.grid {
+  width: 100%;
+  height: 400px;
+}
+.grid .ui-grid-header-cell {
+  text-align:center;
+}
+.icon-add-widget:before {
+    content: "\e717";
+}
+.ui-grid-icon-angle-down {
+	margin-top: 5px;
+}
+body {
+	font-size:13px;
+}
+</style>
+<h1 class="heading-page">Report search</h1>
+<br>
+<div >
+<label style="float:left;margin-top:10px; margin-right: 5px;">Report Id:</label>
+
+<div class="form-row" style="float:left; width:160px;">
+	<select id="dropdown1" name="dropdown1" b2b-dropdown placeholder-text="Select" ng-model="operatorRepId.index">
+	    <option b2b-dropdown-list option-repeat="d in operatorsRepId" value="{{d.index}}">{{d.text}}</option>
+	</select>
+</div>
+
+<div class="form-field form-field__glued pull-left size-onefifth" style="float:left; width:160px;margin-right: 40px;">
+     <input ng-model="reportId" type="text" placeholder="Search value?" style="margin-top:5px;width:160px;">
+</div>
+
+<label class="pull-left" style="float:left;margin-top: 10px;margin-right: 5px;">Report Name:</label>
+
+<div class="form-row" style="float:left; width:160px;">
+    <select id="dropdown2" name="dropdown2" b2b-dropdown placeholder-text="Select" ng-model="operatorRepName.index">
+        <option b2b-dropdown-list option-repeat="e in operatorsRepName" value="{{e.index}}">{{e.text}}</option>
+    </select>
+</div>
+
+<div class="form-field form-field__glued pull-left size-onefifth" style="width:13% !important;">
+    <input ng-model="reportName" type="text" placeholder="Search value?" style="margin-top:5px;width:160px;">                       
+</div>
+
+<div>
+	 <button style="margin-left:50px;margin-top:4px;" type="submit" class="btn btn-alt btn-small" ng-click="runReport();">Submit</button>
+</div>
+</div> 
+<br>
+
+<div id="grid1" ui-grid="gridOptions" ui-grid-pagination class="grid">
+</div>

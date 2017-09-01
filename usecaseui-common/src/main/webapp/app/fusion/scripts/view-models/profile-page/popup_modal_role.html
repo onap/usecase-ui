@@ -1,0 +1,75 @@
+
+<script type="text/ng-template" id="role_functions_popup.html">
+          <div class="modal__informative font-showcase" style="width:700px;height:500px;overflow:scroll">
+            <div class="modal__header">
+                <h2 class="font-showcase-font-name" style="width: 500px;">Select Role Functions</h2>
+            </div>
+            <button align="right" class="button button--primary button--small" herf="javascript:void(0)" ng-click="close()">Close</button>
+            <div class="divider-container"><hr> </div>      
+            <div class="modal__content">           	 	
+				<table att-table
+					table-data="availableRoleFunctions" 
+				  	view-per-page="viewPerPageIgnore" 
+		  			current-page="currentPageIgnore" 
+				  	search-category="searchCategoryIgnore" 
+		  			search-string="searchStringIgnore" 
+				  	total-page="totalPageIgnore">			 
+				<thead att-table-row type="header">
+						<tr>
+							<th att-table-header sortable="false" width="10%"> </th>
+							<th att-table-header sortable="false" width="90%">Role Function</th>
+						</tr>
+					</thead>
+					<tbody att-table-row type="body" row-repeat="availableRoleFunction in availableRoleFunctions" style="max-height: 980px;" >
+					  <tr>
+					  
+						<td width="10%">
+							<div ng-click="toggleRoleFunction(availableRoleFunction.selected,availableRoleFunction);">
+							<input type="checkbox" ng-model="availableRoleFunction.selected" att-toggle-main>
+							</div>
+						</td>
+						<td width="90%">{{ availableRoleFunction.name }}</td>
+						
+					  </tr>
+					</tbody>
+				</table>	
+            </div>
+        </div>
+</script>
+
+
+<script type="text/ng-template" id="child_roles_popup.html">
+          <div class="modal__informative font-showcase" style="width:700px;height:500px;overflow:scroll">
+            <div class="modal__header">
+                <h2 class="font-showcase-font-name" style="width: 500px;">Select Child Roles</h2>
+            </div>
+            <button align="right" class="button button--primary button--small" herf="javascript:void(0)" ng-click="close()">Close</button>
+            <div class="divider-container"><hr> </div>      
+            <div class="modal__content">           	 	
+					<table att-table
+						table-data="availableRoles"
+				  		view-per-page="viewPerPageIgnore" 
+			  			current-page="currentPageIgnore" 
+				  		search-category="searchCategoryIgnore" 
+			  			search-string="searchStringIgnore" 
+				  		total-page="totalPageIgnore">			  
+						<thead att-table-row type="header">
+							<tr>
+								<th att-table-header sortable="false" width="10%"> </th>
+								<th att-table-header sortable="false" width="90%">Role</th>
+							</tr>
+						</thead>
+						<tbody att-table-row type="body" row-repeat="availableRole in availableRoles" style="max-height: 980px;" >
+							<tr>
+							<td att-table-body width="10%">
+								<div ng-click="toggleChildRole(availableRole.selected,availableRole);">
+								<input type="checkbox" ng-model="availableRole.selected" att-toggle-main>
+								</div>
+							</td>
+							<td att-table-body width="90%">{{ availableRole.name }}</td>
+							</tr>
+						</tbody>
+					</table>	
+            </div>
+        </div>
+</script>

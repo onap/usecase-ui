@@ -1,0 +1,22 @@
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title"> Add a Raptor Report</h3>			
+	</div>
+
+	<div >
+		<form name="addRaptorReportForm" class="css-form" novalidate>
+		<div style="width: 100%;">
+			<div style="margin-left: 50px;margin-top:28px; font-size: 15px;">RCloud Notebook URL: </div>
+<!-- 			<div style="margin-top:20px;" class="form-field" att-select="raptorReportList" ng-model="selectedRaptorReport" placeholder="Select a Raptor Report" no-filter="true"></div>  -->
+			<textarea style="margin-left: 50px; width:450px; height: 150px;" ng-model="rcloud_url" name="content">
+			</textarea>
+		</div>
+			<div class="modal-footer">
+				<a att-button btn-type="primary" ng-click="ok()">OK</a>
+				<a att-button btn-type="primary" ng-click="cancel()">Cancel</a>
+			</div>
+			
+		</form>
+		<br />
+	</div>
+</div>

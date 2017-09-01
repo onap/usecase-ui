@@ -1,0 +1,26 @@
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title"> Add a Raptor Report</h3>			
+	</div>
+
+	<div >
+		<form name="addRaptorReportForm" class="css-form" novalidate>
+		<div style="width: 100%;">
+			<div style="width: 20%; margin-left: 50px;margin-top:28px; float: left; font-size: 15px;">Report Name: </div>
+			<div style="margin-top:20px;" class="form-field" att-select="raptorReportList" ng-model="selectedRaptorReport" placeholder="Select a Raptor Report" no-filter="true"></div> 
+		
+		<form action="">
+		<input name="radio" type="radio" ng-model="radioValue" att-radio="chart" title="chart" aria-label="chart radio"> chart
+		<input name="radio" type="radio" ng-model="radioValue" att-radio="data" title="data" aria-label="data radio"> data
+		</form>
+		</div>
+		
+			<div class="modal-footer">
+				<a att-button btn-type="primary" ng-click="ok()">OK</a>
+				<a att-button btn-type="primary" ng-click="cancel()">Cancel</a>
+			</div>
+			
+		</form>
+		<br />
+	</div>
+</div>

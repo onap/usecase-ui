@@ -1,0 +1,55 @@
+
+<div id="page-content">
+	<div>
+		<h1 class="heading-page">Drools Rule Engine</h1>
+	</div>
+	<div>
+		<h2>Please enter below details:</h2>
+	</div>
+	<div ng-show="showLoader" class="span loader-container">
+		<i class="icon-primary-spinner" role="img"
+			aria-label="Please wait while we load your content"></i>
+	</div>
+	<div class="row-nowrap">
+		<div class="span12">
+			<div class="form-row">
+				<label for="textinputID-2a">*Drools File</label>
+				<div class="field-group">
+					<input id="textinputID-2a" ddh-reset="" 
+						class="span12" type="text" data-ng-model="postDroolsBean.droolsFile">
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="span12">
+			<div class="form-row">
+				<label for="textinputID-3a">*Class Name</label>
+				<div class="field-group">
+					<input id="textinputID-3a" ddh-reset="" 
+						class="span12" type="text"
+						data-ng-model="postDroolsBean.className">
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="span12">
+			<div class="form-row">
+				<label for="textinputID-3a">*Selected Rules </label>
+				<div class="field-group">
+					<input id="textinputID-3a" ddh-reset="" 
+						class="span12" type="text"
+						data-ng-model="postDroolsBean.selectedRules">
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<br>
+	<div>
+		<button class="btn btn-alt btn-small" type="button" ng-click="execute(postDroolsBean);">Execute Rules</button>
+		<a href="samplePage#/droolsList">Go to Drools list page</a>
+	</div>
+</div>
+
+
+

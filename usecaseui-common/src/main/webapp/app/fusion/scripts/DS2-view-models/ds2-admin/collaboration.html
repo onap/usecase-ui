@@ -1,0 +1,182 @@
+
+ <link rel="stylesheet" type="text/css" href="app/fusion/external/b2b/css/b2b-angular/b2b-angular.css">
+	<link rel="stylesheet" type="text/css" href="app/fusion/external/b2b/css/b2b-angular/font_icons.css">
+	
+	<link rel="stylesheet" type="text/css" href="app/fusion/styles/ecomp.css">
+
+		<style type="text/css">
+	/*
+	 *	NOTE: All CSS is purely cosmetic - it does not affect functionality
+	 *  http://layout.jquery-dev.com/demos.cfm
+	 */
+
+	/* customize borders to avoid double-borders around inner-layouts */
+	.ui-layout-pane {
+		border:			0; /* override layout-default-latest.css */
+		border-top:		1px solid #BBB;
+		border-bottom:	1px solid #BBB;
+	}
+	.ui-layout-pane-north ,
+	.ui-layout-pane-south {
+		border:			1px solid #BBB;
+		overflow:		auto;
+	}
+	.ui-layout-pane-west ,
+	.ui-layout-pane-east {
+	}
+	.ui-layout-pane-center	{
+		border-left:	0;
+		border-right:	0;
+		}
+		.inner-center {
+			border:		1px solid #BBB;
+		}
+
+	/* add shading to outer sidebar-panes */
+	.outer-west ,
+	.outer-east {
+		background-color: #EEE;
+	}
+	.middle-west ,
+	.middle-east {
+		background-color: #F8F8F8;
+	}
+
+	/* remove padding & scrolling from panes that are 'containers' for nested layouts */
+	.outer-center ,
+	.middle-center {
+		border:			0; /* cosmetic */
+		padding:		0;
+		overflow:		auto;
+	}
+
+	/*
+	 *	customize borders on panes/resizers to make pretty
+	 */
+	.ui-layout-pane-west		{ border-right:		0; }
+	.ui-layout-resizer-west		{ border-left:		1px solid #BBB; }
+	.ui-layout-pane-east		{ border-left:		0; }
+	.ui-layout-resizer-east		{ border-right:		1px solid #BBB; }
+	.ui-layout-pane-north		{ border-bottom:	0; }
+	.ui-layout-resizer-north	{ border-top:		1px solid #BBB; }
+	.ui-layout-pane-south		{ border-top:		0; }
+	.ui-layout-resizer-south	{ border-bottom: 	1px solid #BBB; }
+	/*
+	 *	add borders to resizers when pane is 'closed'
+	 *
+	 *.ui-layout-resizer-closed	{ border:			1px solid #BBB; }
+	 */
+	/*
+	 *	show both borders when the resizer is 'dragging'
+	 */
+	.ui-layout-resizer-west-dragging ,
+	.ui-layout-resizer-east-dragging {
+		border-left:		1px solid #BBB;
+		border-right:		1px solid #BBB;
+	}
+	.ui-layout-resizer-north-dragging ,
+	.ui-layout-resizer-south-dragging {
+		border-top:		1px solid #BBB;
+		border-bottom:	1px solid #BBB;
+	}
+	
+	
+	/*
+	layout toggler background image
+	*/
+	.ui-layout-toggler-west, .ui-layout-toggler-east {
+	border-width: 1px 0;
+	background-image: url("static/fusion/images/layout/panel-e-w-toggle.png");
+	background-size: 10px 10px;
+    background-repeat: no-repeat;
+    background-position: center; 
+	}
+	
+	.ui-layout-toggler-north, .ui-layout-toggler-south {
+	border-width: 0 1px;
+	background-image: url("static/fusion/images/layout/panel-n-s-toggle.png");
+	background-size: 10px 10px;
+	background-repeat: no-repeat;
+	 background-position: center; 
+	}
+	
+	body{background-color:#fff;font-size:14px;font-size:.875rem;margin:0;padding:0px 0 20px;position:relative}
+
+	</style>
+<!-- LAYOUT v 1.3.0 -->
+	<script type="text/javascript" src="app/fusion/scripts/layout/jquery-latest.js"></script>
+	<script type="text/javascript" src="app/fusion/scripts/layout/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="app/fusion/scripts/layout/jquery.layout-latest.js"></script>
+	<script type="text/javascript" src="app/fusion/scripts/webrtc/RTCMultiConnection.js"></script>
+    <script type="text/javascript" src="app/fusion/scripts/socket/peerBroadcast.js"></script>
+	<script type="text/javascript" src="app/fusion/scripts/layout/debug.js"></script>
+	
+		<script src="app/fusion/external/angular-1.4.8/angular.min.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-messages.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-touch.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-sanitize.js"></script>	
+	<script src="app/fusion/external/angular-1.4.8/angular-route.min.js"></script>
+	<script src="app/fusion/external/angular-1.4.8/angular-cookies.min.js"></script>
+	<script src="app/fusion/external/ds2/js/appDS2.js"></script>	
+ 
+	
+	<script src="app/fusion/scripts/DS2-services/ds2-modal/modalService.js"></script>
+	
+
+	<script type="text/javascript" src= "app/fusion/scripts/DS2-controllers/collaboration-controller.js"></script>	
+		
+<div class="outer-center" style="position: absolute; left: 12px; right: 0px; top: 0px;bottom: 0px;">
+	<div class="inner-center">
+	
+	<!-- 	<jsp:include page="/WEB-INF/fusion/zul/chatOne.zul" /> -->
+	
+	
+	
+	<table style="width: 100%;">
+				<tbody><tr>
+                    <td>
+                        <button type="button" id="share-screen"  class="btn btn-alt btn-small setup">Start Session</button>
+    				    <button id="stop-share-screen"  class="btn btn-alt btn-small setup">Stop Session</button>
+    					<button id="view-screen" class="btn btn-alt btn-small setup">View</button>       
+	
+                    </td>
+    
+                </tr>
+            </tbody>
+	
+                <tbody><tr>
+                    <td>
+                         <input type="text" id="chat-input" style="font-size: 1.2em;visibility:collapse;" placeholder="type here.."/>
+                         <div id="chat-output"></div>
+                    </td>
+                    <!-- 
+                    <td style="background: white;">
+                        <input type="file" id="file">
+                        <div id="file-progress"></div>
+                    </td>
+                     -->
+                </tr>
+            </tbody>
+    </table>
+	
+		
+	</div>
+	<div id="inner-south" class="ui-layout-south">
+		<div class="videoContainer1"></div>
+		<div class="videoContainer2"></div>
+ 		
+	</div>
+</div>
+
+<div class="outer-west">
+   <div class="screenContainer1"></div>
+   <div class="screenContainer2"></div>
+   <div ng-controller="collaborationControllerDS2">
+   </div>
+</div>
+
+
+
+
+
+

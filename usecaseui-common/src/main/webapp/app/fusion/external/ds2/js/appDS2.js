@@ -1,0 +1,1 @@
+var appDS2=angular.module("abs", ["ngRoute", 'ngMessages','modalServices', 'ngCookies', 'b2b.att','gridster','ui.bootstrap','ui.bootstrap.modal']);

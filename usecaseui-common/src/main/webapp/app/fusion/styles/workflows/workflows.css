@@ -1,0 +1,31 @@
+.scrolling-table{
+   width: 1200px;
+}
+.scrolling-table .scroll-viewport { 
+    height: 200px !important;
+    width: 99.5% !important;
+    background-color:white;
+}
+
+.scrolling-table .scroll-overview{
+    margin-top:-14px !important;
+}
+
+.scrolling-table .scroll-viewport:hover{
+    background-color:white;
+}
+
+.scrolling-table #att-scroll-table-content{
+    height:200px;
+    position: absolute !important;
+    width:700px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right:5px;
+}
+
+.workflow-popup-body{
+	position: relative;
+    padding: 30px;
+} 

@@ -1,0 +1,28 @@
+<div ng-controller="droolsListController">
+	<div>
+		<h1 class="heading1" style="margin-top:20px;">Drools List</h1>
+		<div style="margin-top:30px">
+			<table att-table table-data="tableData" view-per-page="viewPerPage" current-page="currentPage" search-category="searchCategory" search-string="searchString" total-page="totalPage">
+
+			    <thead  att-table-row type="header">
+					<tr>
+						<th att-table-header key="droolsFile">Drools File Name</th>
+			            <th att-table-header key="className">Class Name</th>     
+			            <th att-table-header key="selectedRules">Run Rule</th>   
+       
+			        </tr>
+			    </thead>
+			    <tbody att-table-row type="body" row-repeat="rowData in tableData">
+			        <tr>
+		            	<td att-table-body ng-bind="rowData['droolsFile']">{{rowData.droolsFile}}</td>
+		            	<td att-table-body ng-bind="rowData['className']">{{rowData.className}}</td>
+
+		        		<td att-table-body >
+		        			<div ng-click="openDialog(rowData.droolsFile)" style="font-size:20px;"><a href="javascript:void(0)" class="icon-play"></a></div>
+					    </td>
+			        </tr>     
+			    </tbody>	  
+			</table>
+		</div>
+	</div>	
+	<input ng-model="currentPage"></input>

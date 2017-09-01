@@ -1,0 +1,32 @@
+<div>
+	<div class="b2b-modal-header ng-scope in">
+		<h2 id="myModalLabel" modal-title="">Role Function Create</h2>
+		<div class="corner-button in">
+			<button type="button" class="close" aria-label="Close"
+				ng-click="$dismiss('cancel')"></button>
+		</div>
+	</div>
+	
+	<div class="b2b-modal-body ng-scope ng-isolate-scope in" tabindex="0"
+		role="region" aria-label="Modal header text content"
+		style="height: 145px;">
+
+		<div class="field-group">
+			Name <input id="textinputID-2a" ddh-reset ng-model="roleFun['name']"
+				placeholder="Name" class="span12" type="text">
+		</div>
+		<div class="field-group">
+			Code <input id="textinputID-2a" ddh-reset ng-model="roleFun['code']"
+				placeholder="Code" class="span12" type="text">
+
+		</div>
+	</div>
+	<div class="b2b-modal-footer ng-scope ng-isolate-scope in">
+		<div class="cta-button-group in">
+			<button class="btn btn-alt btn-medium" type="button"
+				ng-click="save(roleFun);">Create</button>
+			<button class="btn btn-medium" type="button"
+				ng-click="$dismiss('cancel')">Cancel</button>
+		</div>
+	</div>
+</div>
