@@ -19,32 +19,32 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.onap.usecaseui</groupId>
-        <artifactId>usecaseui</artifactId>
+        <groupId>org.onap.usecase-ui</groupId>
+        <artifactId>usecase-ui</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.onap.usecaseui</groupId>
-    <artifactId>usecaseui-common</artifactId>
+    <groupId>org.onap.usecase-ui</groupId>
+    <artifactId>usecase-ui-common</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>usecaseui/usecaseui-common</name>
+    <name>usecase-ui/usecase-ui-common</name>
 
     <properties>
         <encoding>UTF-8</encoding>
-        <packagename>usecaseui</packagename>
+        <packagename>usecase-ui</packagename>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.onap.usecaseui</groupId>
-            <artifactId>usecaseui-monitor</artifactId>
+            <groupId>org.onap.usecase-ui</groupId>
+            <artifactId>usecase-ui-monitor</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.onap.usecaseui</groupId>
-            <artifactId>usecaseui-lcm</artifactId>
+            <groupId>org.onap.usecase-ui</groupId>
+            <artifactId>usecase-ui-lcm</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <type>war</type>
         </dependency>
@@ -66,7 +66,7 @@
     </dependencies>
 
     <build>
-        <finalName>usecaseui</finalName>
+        <finalName>usecase-ui</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -75,12 +75,12 @@
                     <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
                     <overlays>
                         <overlay>
-                            <groupId>org.onap.usecaseui</groupId>
-                            <artifactId>usecaseui-monitor</artifactId>
+                            <groupId>org.onap.usecase-ui</groupId>
+                            <artifactId>usecase-ui-monitor</artifactId>
                         </overlay>
                         <overlay>
-                            <groupId>org.onap.usecaseui</groupId>
-                            <artifactId>usecaseui-lcm</artifactId>
+                            <groupId>org.onap.usecase-ui</groupId>
+                            <artifactId>usecase-ui-lcm</artifactId>
                         </overlay>
                     </overlays>
                 </configuration>
@@ -98,7 +98,7 @@
                         <configuration>
                             <tasks name="${project.artifactId}">
                                 <zip destfile="target/${packagename}-${project.version}.zip" update="true">
-                                    <zipfileset dir="target/usecaseui" includes="**"/>
+                                    <zipfileset dir="target/usecase-ui" includes="**"/>
                                 </zip>
                             </tasks>
                         </configuration>
