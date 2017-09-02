@@ -18,16 +18,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.onap.usecaseui</groupId>
-        <artifactId>usecaseui</artifactId>
+        <groupId>org.onap.usecase-ui</groupId>
+        <artifactId>usecase-ui</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.onap.usecaseui</groupId>
+    <groupId>org.onap.usecase-ui</groupId>
     <artifactId>usecaseui-monitor</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>usecaseui/usecaseui-monitor</name>
+    <name>usecase-ui/usecaseui-monitor</name>
 
     <properties>
         <encoding>UTF-8</encoding>
