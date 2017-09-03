@@ -23,15 +23,15 @@
       <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.onap.usecaseui</groupId>
-    <artifactId>usecaseui</artifactId>
+    <groupId>org.onap.usecase-ui</groupId>
+    <artifactId>usecase-ui</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ONAP USECASE UI</name>
 
     <modules>
-        <module>usecaseui-common</module>
-        <module>usecaseui-monitor</module>
-        <module>usecaseui-lcm</module>
+        <module>usecase-ui-common</module>
+        <module>usecase-ui-monitor</module>
+        <module>usecase-ui-lcm</module>
     </modules>
 </project>
