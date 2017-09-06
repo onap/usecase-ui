@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+  <title>UUI</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/templatemo_main.css">
+</head>
+<body>
+  <div id="main-wrapper">
+    <div class="navbar " role="navigation">
+      <div class="navbar-header">
+        <div class="logo"><h1>UUI</h1></div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+    </div>
+    <div class="template-page-wrapper">
+      <div class="navbar-collapse collapse templatemo-sidebar">
+        <ul class="templatemo-sidebar-menu">
+          <li>
+            <form class="navbar-form">
+              <input type="text" class="form-control" id="templatemo_search_box" placeholder="Search...">
+              <span class="btn btn-default">Go</span>
+            </form>
+          </li>
+
+          <li class="active"><a href="#"><i class="fa fa-cog"></i>Life Cycle Manager</a></li>
+          <li><a href="tables.html"><i class="fa fa-users"></i><span class="badge pull-right">NEW</span>Alarm</a></li>
+          <li><a href="preferences.html"><i class="fa fa-cog"></i>Preferences</a></li>
+          <li><a href="data-visualization.html"><i class="fa fa-cubes"></i>About Preferences froms</a></li>
+          <li><a href="javascript:;" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+
+      <div class="templatemo-content-wrapper">
+        <div class="templatemo-content">
+
+          <h1 style="margin-bottom:40px">Life Cycle Manager</h1>
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <button class="btn btn-primary">Create Service</button>
+              </div>
+              <div class="col-md-offset-6 col-md-2">
+                <button class="btn btn-primary">Onboard Vnf/NS Package</button>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary">Delete Vnf/NS Package</button>
+              </div>
+            </div>
+          </div>
+
+
+				<!--ul id="list">
+          <li><button class="btn btn-primary">Create Service</button></li>
+          <li><button class="btn btn-primary">Onboard Vnf/NS Package</button></li>
+          <li><button class="btn btn-primary">Delete Vnf/NS Package</button></li>
+        </ul-->
+
+
+                <table class="table table-striped table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Service Instance Id</th>
+                      <th>Service Name</th>
+                      <th>Service Type</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bb">
+                    <tr>
+                      <td>123</td>
+                      <td>VoLTE Use Case 1</td>
+                      <td>E2E Service</td>
+                      <td><a href="#" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                    <tr>
+                      <td>456</td>
+                      <td>VoLTE Use Case 2</td>
+                      <td>E2E Service</td>
+                      <td><a href="#" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                    <tr>
+                      <td>789</td>
+                      <td>VoLTE Use Case 3</td>
+                      <td>E2E Service</td>
+                      <td><a href="#" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+				  <ul class="pagination pull-right">
+                <li class="disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">3 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">4 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">5 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">&raquo;</a></li>
+              </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+          </div>
+          <div class="modal-footer">
+            <a href="sign-in.html" class="btn btn-primary">Yes</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/templatemo_script.js"></script>
+</body>
+</html>
