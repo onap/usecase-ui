@@ -24,7 +24,7 @@ import { ModalService } from '../correlation-modal/modal.service';
 
 @Injectable()
 export class AlarmRuleService {
-    private ruleUrl = "/api/correlation-mgt/v1/rule";
+    private ruleUrl = "/api/holmes-rule-mgmt/v1/rule";
     private headers = new Headers({ 'Content-Type': 'application/json' });
     constructor(private http: Http, private modalService: ModalService, private router: Router) { }
 
@@ -74,7 +74,7 @@ export class AlarmRuleService {
     }
 
     checkContent(ruleContent: string): Promise<any> {
-        const url = "/api/correlation-engine/v1/rule";
+        const url = "/api/holmes-engine-mgmt/v1/rule";
         let data = { content: ruleContent };
         return this.http
             .post(url, JSON.stringify(data), { headers: this.headers })
