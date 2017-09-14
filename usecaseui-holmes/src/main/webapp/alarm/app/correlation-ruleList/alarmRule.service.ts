@@ -24,7 +24,7 @@ import { ModalService } from '../correlation-modal/modal.service';
 
 @Injectable()
 export class AlarmRuleService {
-    private ruleUrl = "/api/correlation-mgt/v1/rule";
+    private ruleUrl = "/api/holmes-rule-mgmt/v1/rule";
     private headers = new Headers({ 'Content-Type': 'application/json' });
     constructor(private http: Http, private modalService: ModalService, private router: Router) { }
 
