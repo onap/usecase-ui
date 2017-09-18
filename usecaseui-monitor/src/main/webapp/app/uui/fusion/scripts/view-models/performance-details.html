@@ -1,0 +1,79 @@
+<style>
+        body {
+            overflow-y:scroll;
+        }
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        #CPUchart,#Memorychart,#Diskchart,#Networkchart svg {
+            height: 200px;
+            width:  400px;
+            min-width: 100px;
+            min-height: 100px;
+        }
+        tr.z-row-over > td.z-row-inner, tr.z-row-over > .z-cell { background-color: rgb(255, 255, 255); }
+        .nodatadiv {
+            display: table-cell;
+            width: 600px;
+            height:300px;
+            text-align:center;
+            vertical-align: middle;
+        }
+        .nodatainner {
+            padding: 10px;
+        }
+    </style>
+
+        <!--/.navbar-collapse -->
+
+        <div class="templatemo-content-wrapper">
+            <div class="templatemo-content">
+                <h1>Performance Details</h1>
+				   <div class="row" style="min-height: 500px" ng-controller="pertabCtrl">
+                    <div class="col-md-12 col-sm-12" ng-controller="pertabCtrl">
+                        <uib-tabset active="active" >
+                            <uib-tab index="$index + 1" ng-repeat="tab in tabes" heading="{{tab.title}}" disable="tab.disabled">
+                                <div class="templatemo-charts">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">CPU</div>
+                                                <div align="center"><H3></H3></div><div id="CPUchart"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Memory</div>
+                                                <div align="center"><H3></H3></div><div id="Memorychart"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Disk</div>
+                                                <div align="center"><H3></H3></div><div id="Diskchart"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Network</div>
+                                                <div align="center"><H3></H3></div><div id="Networkchart"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+               
+            </div>
+        </div>

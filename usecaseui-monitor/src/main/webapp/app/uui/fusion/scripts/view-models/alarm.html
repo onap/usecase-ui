@@ -1,0 +1,62 @@
+
+<div class="templatemo-content" ng-controller="alarmGridCtrl">
+    <h1>Alarm</h1>	  
+ <div class="btn-group" style="margin-top:10px;margin-bottom:10px;">
+        <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'open'" uncheckable>OPEN</label>
+        <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'close'" uncheckable>CLOSE</label>
+    </div>
+    <div class="row margin-bottom-10">
+        <div class="col-md-6">
+            <ul class="nav nav-pills">
+                <li ng-repeat="s in status"
+                    ng-click="selectStatus(s.id)"
+                    ng-class="{active:activeStatus(s.id)}" >
+                    <a href="">
+                        {{s.name}}
+                        <span class="badge">{{s.count}}</span>
+                    </a>
+                </li>
+                <input type="hidden" ng-model="selectedStatus" />
+            </ul>
+        </div>
+    </div>
+	<ul id="list">
+  <li>cpu <input type="text" /></li>
+  <li>state <input type="text" /></li>
+  <li>memory<input type="text" /></li>
+  <button>search</button>
+</ul>
+<ul id="list" ng-show='menuState.show'>
+  <li>disk <input type="text"/></li>
+   <li>Network <input type="text"/></li>
+</ul>
+ <div class="row">
+        <div class="col-md-5" style="border-top:1px dotted #ddd">       
+        </div>
+        <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center" ng-click="toggleMenu()">
+		<span class="caret"></span>
+        </div>
+        <div class="col-md-5" style="border-top:1px dotted #ddd">       
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
+        </div>
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-1">
+            <button ng-click="trashcan()" class="glyphicon glyphicon-trash btn btn-primary"></button>
+        </div>
+    </div>
+    <div>
+        <div ui-grid="gridOptions" style="width: 100%; height: 500px; text-align: center;" ui-grid-edit
+             ui-grid-pagination
+             ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize>
+        </div>
+
+
+    </div>
+	
+</div>
+
