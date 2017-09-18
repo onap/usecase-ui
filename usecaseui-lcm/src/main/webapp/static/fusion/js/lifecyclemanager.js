@@ -24,12 +24,28 @@ var lcmHandler = function() {
 };
 
 lcmHandler.prototype = {
+  showOnboardSelection: false,
+
     _addOwnEvents : function() {
         $('#createService').click(function() {
           console.log("create service...");
           $('#createServiceDialog').modal();
         });
         $('#startToCreateService').click(this.okAction);
+        // $('.show-onboard').click(function () {
+        //   this.showOnboard = !this.showOnboard;
+        //   if(this.showOnboard) {
+        //     document.getElementById("onboard").innerHTML = generateVnfNsOnboardDialog({});
+        //   }else {
+        //     document.getElementById("onboard").innerHTML = '';
+        //   }
+        //
+        // });
+        $('.onboard-button').click(function () {
+          console.log("show vnf ns vims...");
+          document.getElementById("vnf-ns-vim-table").innerHTML = generateVnfNsOnboardDialog({});
+          $("#vnf-ns-onboard-dialog").modal();
+        });
     },
     okAction : function() {
         if (!checkInputs('create', templateParameters.paramJsonObj)) {
@@ -60,6 +76,22 @@ function hideBasic() {
 function showBasic() {
   $("#basicInfoTab").show();
   $("#templateParameterTab").hide();
+}
+
+function hideService() {
+  console.log("hide service...");
+  $("#serviceTab").css({"margin-left":"1px","border-bottom-style":"solid", "border-color": "", "background-color":"#F2F2F2", "border-bottom-color": "#66B3FF"});
+  $("#service-table").hide();
+  $("#vnfNsTab").css({"border-bottom-style":"none","border-color": "#66B3FF","background-color":"#F2F2F2"});
+  $("#vnf-ns-onboard").show();
+}
+
+function showService() {
+  console.log("show service...");
+  $("#serviceTab").css({"margin-left":"1px","border-bottom-style":"none","border-color": "#66B3FF", "background-color":"#F2F2F2"});
+  $("#service-table").show();
+  $("#vnfNsTab").css({"border-bottom-style":"solid", "border-color": "", "background-color":"#F2F2F2", "border-bottom-color": "#66B3FF"});
+  $("#vnf-ns-onboard").hide();
 }
 
 function serviceTemplateChanged() {
@@ -636,4 +668,30 @@ function queryService(serviceId) {
         type : "GET",
         url : uri
     });
+}
+
+// function generateVnfNsOnboardDialog(onboardData) {
+//   var component =  '<div>'
+//    + '<table id="onbaordTable" class="table table-striped table-hover table-bordered">'
+//    + '<thead><tr><th>Name</th><th>Type</th><th>Action</th></tr></thead>'
+//    + '<tbody>'
+//    +'<tr><td>vBras</td><td>VNF</td><td><button class="btn btn-primary onboard-button">Onboard</button></td></tr>'
+//    +'<tr><td>network service</td><td>NS</td><td><button class="btn btn-primary onboard-button">Onboard</button></td></tr>'
+//    +'</tbody>'
+//    +'</table>'
+//    +'</div>';
+//    return component;
+// }
+
+function generateVnfNsOnboardDialog(onboardData) {
+  var component =  '<div>'
+   + '<table id="vnfVimNsSelection" class="table table-striped table-hover table-bordered">'
+   + '<thead><tr><th>VIM Name</th><th>Test Environment</th><th>Product Environment</th></tr></thead>'
+   + '<tbody>'
+   +'<tr><td>VIM1</td><td><input type="radio" name="test-env" /></td><td><input type="checkbox" /></td></tr>'
+   +'<tr><td>VIM2</td><td><input type="radio" name="test-env" /></td><td><input type="checkbox" /></td></tr>'
+   +'</tbody>'
+   +'</table>'
+   +'</div>';
+   return component;
 }

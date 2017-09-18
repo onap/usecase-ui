@@ -62,18 +62,46 @@
 
           <h1 style="margin-bottom:40px">Life Cycle Manager</h1>
 
-          <div class="container">
+          <!--div class="container" style="padding:0px">
             <div class="row">
               <div class="col-md-2">
                 <button id="createService" class="btn btn-primary">Create Service</button>
               </div>
               <div class="col-md-offset-6 col-md-2">
-                <button class="btn btn-primary">Onboard Vnf/NS Package</button>
-              </div>
-              <div class="col-md-2">
-                <button class="btn btn-primary">Delete Vnf/NS Package</button>
-              </div>
-            </div>
+                <button class="btn btn-primary show-onboard">Vnf/NS Package Onboarding</button>
+              </div-->
+              <!--div class="col-md-2">
+                <button class="btn btn-primary show-onboard">Delete Vnf/NS Package</button>
+              </div-->
+            <!--/div>
+          </div-->
+
+          <div id="onboard">
+          </div>
+
+          <!--ul class="nav nav-tabs nav-justified vmapp-margin"-->
+          <ul class="nav nav-tabs nav-justified vmapp-margin" style="border-bottom-color:#66B3FF">
+              <li class="active basic">
+                  <a href="#" style="margin-left:1px" onclick="showService();" id="serviceTab"
+                     data-toggle="tab">
+                      <span>Services</span>
+                  </a>
+              </li>
+              <li style="padding-right:2px;" class="para">
+                  <a href="#vnf-ns-onboard" onclick="hideService();" data-toggle="tab" id="vnfNsTab">
+                      <span>Vnf/NS Packages</span>
+                  </a>
+              </li>
+          </ul>
+
+          <div id="vnf-ns-onboard">
+           <table id="onbaordTable" class="table table-striped table-hover table-bordered">
+             <thead><tr><th>Name</th><th>Type</th><th>Action</th></tr></thead>
+           <tbody>
+             <tr><td>vBras</td><td>VNF</td><td><button class="btn btn-primary onboard-button">Onboard</button></td></tr>
+             <tr><td>network service</td><td>NS</td><td><button class="btn btn-primary onboard-button">Onboard</button></td></tr>
+           </tbody>
+           </table>
           </div>
 
 
@@ -82,7 +110,12 @@
           <li><button class="btn btn-primary">Onboard Vnf/NS Package</button></li>
           <li><button class="btn btn-primary">Delete Vnf/NS Package</button></li>
         </ul-->
-        <table class="table table-striped table-hover table-bordered">
+        <div id="service-table">
+          <!--button id="createService" style="margin-top: 20px" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button-->
+          <a id="createService" href="#" style="font-size:20px">
+            <span class="glyphicon glyphicon-plus" style="margin-top:20px;width:80px;margin-left:20px"></span>
+          </a>
+        <table class="table table-striped table-hover table-bordered" style="margin:2px">
           <thead>
             <tr>
               <th>Service Instance Id</th>
@@ -121,6 +154,9 @@
           <li><a href="#">5 <span class="sr-only">(current)</span></a></li>
           <li><a href="#">&raquo;</a></li>
         </ul>
+        </div>
+
+
       </div>
     </div>
   </div>
@@ -232,7 +268,41 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
+
+
+    <div id="vnf-ns-onboard-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="content">
+                  <div class="modal-header" style="margin-bottom: 15px;">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">
+                          <span>Select VIM Onboard Image</span>
+                      </h4>
+                  </div>
+                  <form class="form-horizontal" role="form" id="neForm">
+                      <div id="wizard">
+                          <div class="modal-body">
+                            <div id="vnf-ns-vim-table"></div>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" style="width:80px;" class="btn SDBtn" data-dismiss="modal"
+                                      aria-hidden="true" id="startToCreateService">
+                                  <span id="nfv-virtualApplication-iui-text-cancelBtn">OK</span>
+                              </button>
+                              <button type="button" style="width:80px;" class="btn button-previous SDBtn" data-dismiss="modal">
+                                  <span id="nfv-virtualApplication-iui-text-previousBtn">Cancel</span>
+                              </button>
+
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -241,6 +311,7 @@
   <script type="text/javascript">
         $(document).ready(function () {
           new lcmHandler();
+          showService();
         })
   </script>
 </body>
