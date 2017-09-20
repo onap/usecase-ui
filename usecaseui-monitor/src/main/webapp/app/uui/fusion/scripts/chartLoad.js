@@ -1,11 +1,25 @@
+/*
+ Copyright (C) 2017 CMCC, Inc. and others. All rights reserved.
 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 historicalBarChart = [
     { "type":"bar", "key": "memory", "yAxis": "1", "values": [{ "x":1388552400000 , "y":10},
         { "x":1391230800000 , "y":4}, { "x":1393650000000 , "y":4}, { "x":1396324800000 , "y":12},
         { "x":1398916800000 , "y":3.27}, { "x":1401595200000 , "y":6.07}, { "x":1404187200000 , "y":8.93},
         { "x":1406865600000 , "y":11.61}, { "x":1409544000000 , "y":18.66}, { "x":1412136000000 , "y":19.04},
-        { "x":1414814400000 , "y":17.5}, { "x":1417410000000 , "y":15.73}, { "x":1420088400000 , "y":9.62333333333333},
-        { "x":1422766800000 , "y":14.29}, { "x":1425186000000 , "y":16.1166666666667} ] } ];
+        { "x":1414814400000 , "y":17.5}, { "x":1417410000000 , "y":15.73}
+         ] } ];
 var chart1,chart2,chart3,chart4;
 nv.addGraph(function() {
     chart1 = nv.models.multiBarChart()
@@ -19,13 +33,16 @@ nv.addGraph(function() {
         .legendPos('top')
         .color(d3.scale.category10().range());
     chart1.xAxis
-        .tickValues([1388552400000,1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000,1420088400000,1422766800000])
+        .tickValues([1388552400000, 1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,
+            1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000])
         .staggerLabels(false)
         .showMaxMin(false)
         .rotateLabels(90)
-        .axisLabel('Timestamp')
+        //.axisLabel('Timestamp')
         .tickFormat(function(d) {
-            return d3.time.format('%b %y')(new Date(d)) });
+            return d3.time.format('%b %y')(new Date(d))
+        }
+    );
     chart1.yAxis
         .logScale(false)
         .axisLabel('')
@@ -77,7 +94,7 @@ nv.addGraph(function() {
         .stacked(false)
         .logScale(false)
         .legendPos('top')
-        .color(d3.scale.category20c().range());
+        .color(d3.scale.category50().range());
     chart3.xAxis
         .tickValues([1388552400000,1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000,1420088400000,1422766800000])
         .staggerLabels(false)
@@ -90,7 +107,7 @@ nv.addGraph(function() {
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
-    d3.select('#Diskchart svg')
+    d3.select('#Networkchart svg')
         .datum(historicalBarChart)
         .transition().duration(1000)
         .call(chart3);
@@ -127,6 +144,7 @@ nv.addGraph(function() {
     nv.utils.windowResize(chart4.update);
     return chart4;
 });
+
 function redraw() {
     d3.select('#CPUchart svg')
         .datum(historicalBarChart)
@@ -149,10 +167,10 @@ function redraw() {
 setInterval(function () {
     redraw();
 }, 1500);
-if(historicalBarChart.length <= 0 ) {
-    document.getElementById("CPUchart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
-    document.getElementById("CPUchart").className="nodatadiv";
-    document.getElementById("Memorychart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
-    document.getElementById("Memorychart").className="nodatadiv";
-    document.getElementById("nodata").className="nodatainner";
-}
+//if(historicalBarChart.length <= 0 ) {
+//    document.getElementById("CPUchart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
+//    document.getElementById("CPUchart").className="nodatadiv";
+//    document.getElementById("Memorychart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
+//    document.getElementById("Memorychart").className="nodatadiv";
+//    document.getElementById("nodata").className="nodatainner";
+//}

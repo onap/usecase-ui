@@ -1,3 +1,18 @@
+<!--
+    Copyright (C) 2017 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <style>
         body {
             overflow-y:scroll;
@@ -35,7 +50,8 @@
 				   <div class="row" style="min-height: 500px" ng-controller="pertabCtrl">
                     <div class="col-md-12 col-sm-12" ng-controller="pertabCtrl">
                         <uib-tabset active="active" >
-                            <uib-tab index="$index + 1" ng-repeat="tab in tabes" heading="{{tab.title}}" disable="tab.disabled">
+                            <!--<uib-tab index="$index + 1" ng-repeat="tab in tabes" heading="{{tab.title}}" disable="tab.disabled">-->
+                                <uib-tab heading="one hour">
                                 <div class="templatemo-charts">
                                     <div class="row">
                                         <div class="col-md-5 col-sm-6">
@@ -67,13 +83,110 @@
                                     </div>
                                 </div>
                             </uib-tab>
+                            <uib-tab heading="one day">
+                                <div class="templatemo-charts">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">CPU</div>
+                                                <div align="center"><H3></H3></div><div id="CPUchart1"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Memory</div>
+                                                <div align="center"><H3></H3></div><div id="Memorychart1"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Disk</div>
+                                                <div align="center"><H3></H3></div><div id="Diskchart1"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Network</div>
+                                                <div align="center"><H3></H3></div><div id="Networkchart1"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="one month">
+                                <div class="templatemo-charts">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">CPU</div>
+                                                <div align="center"><H3></H3></div><div id="CPUchart2"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Memory</div>
+                                                <div align="center"><H3></H3></div><div id="Memorychart2"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Disk</div>
+                                                <div align="center"><H3></H3></div><div id="Diskchart2"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Network</div>
+                                                <div align="center"><H3></H3></div><div id="Networkchart2"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="one year">
+                                <div class="templatemo-charts">
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">CPU</div>
+                                                <div align="center"><H3></H3></div><div id="CPUchart3"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Memory</div>
+                                                <div align="center"><H3></H3></div><div id="Memorychart3"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Disk</div>
+                                                <div align="center"><H3></H3></div><div id="Diskchart3"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-6">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Network</div>
+                                                <div align="center"><H3></H3></div><div id="Networkchart3"> <svg></svg> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
                         </uib-tabset>
+
                     </div>
                     <br />
                     <br />
                     <br />
                     <br />
                 </div>
-               
+
             </div>
         </div>
