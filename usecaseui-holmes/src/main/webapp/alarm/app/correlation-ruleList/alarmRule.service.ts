@@ -112,9 +112,8 @@ export class AlarmRuleService {
     }
 
     public delete(ruleid: string): Promise<void> {
-        let ru = { 'ruleid': ruleid };
-        const url = `${this.ruleUrl}`;
-        return this.http.delete(url, { body: JSON.stringify(ru), headers: this.headers })
+        const url = `${this.ruleUrl}` + '/' + ruleid;
+        return this.http.delete(url, { headers: this.headers })
             .toPromise()
             .then(res => {
                
