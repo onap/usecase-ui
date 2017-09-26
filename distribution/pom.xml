@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.onap.usecase-ui</groupId>
+        <artifactId>usecase-ui</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution</artifactId>
+    <packaging>pom</packaging>
+    <name>usecase-ui/distribution</name>
+
+    <properties>
+        <packagename>usecase-ui</packagename>
+        <version.logback>1.1.2</version.logback>
+        <version.slf4j>1.7.6</version.slf4j>
+        <linux64id>linux64</linux64id>
+        <win64id>win64</win64id>
+        <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
+        <win64outputdir>target/assembly/${win64id}</win64outputdir>
+        <version.output>target/version</version.output>
+    </properties>
+
+    <build>
+      <finalName>usecse-ui</finalName>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unpack-tomcat-to-temporary-dir</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat</artifactId>
+                    <type>zip</type>
+                    <outputDirectory>target/tomcat</outputDirectory>
+                  </artifactItem>
+                </artifactItems>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources-portal-linux</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${linux64outputdir}/tomcat/webapps/</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>../usecaseui-common/target/</directory>
+                    <filtering>false</filtering>
+                    <includes>
+                      <include>usecase-ui.war</include>
+                    </includes>
+                  </resource>
+                </resources>
+                <overwrite>true</overwrite>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-resources-${linux64id}</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${linux64outputdir}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/main/assembly/</directory>
+                    <filtering>false</filtering>
+                    <includes>
+                      <include>**/*</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/*.bat</exclude>
+                    </excludes>
+                  </resource>
+                </resources>
+                <overwrite>true</overwrite>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-tomcat-resources-${linux64id}</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${linux64outputdir}/tomcat</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
+                    <includes>
+                      <include>**/*</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/*.bat</exclude>
+                    </excludes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-resources-portal-win</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${win64outputdir}/tomcat/webapps/</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>../usecaseui-common/target/</directory>
+                    <filtering>false</filtering>
+                    <includes>
+                      <include>usecase-ui.war</include>
+                    </includes>
+                  </resource>
+                </resources>
+                <overwrite>true</overwrite>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-resources-${win64id}</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${win64outputdir}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/main/assembly/</directory>
+                    <filtering>false</filtering>
+                    <includes>
+                      <include>**/*</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/*.sh</exclude>
+                    </excludes>
+                  </resource>
+                </resources>
+                <overwrite>true</overwrite>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-tomcat-resources-${win64id}</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${win64outputdir}/tomcat</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
+                    <includes>
+                      <include>**/*</include>
+                    </includes>
+                    <excludes>
+                      <exclude>**/*.sh</exclude>
+                    </excludes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-dockerfile</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${version.output}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/main/assembly/</directory>
+                    <filtering>false</filtering>
+                    <includes>
+                      <include>Dockerfile</include>
+                    </includes>
+                  </resource>
+                </resources>
+                <overwrite>true</overwrite>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>distribution</id>
+              <phase>package</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              <configuration>
+                <target name="distribution">
+                  <tar destfile="${version.output}/${packagename}-${project.version}-linux64.tar.gz" longfile="posix" compression="gzip">
+                    <tarfileset dir="target/assembly/linux64" filemode="0644" dirmode="0755">
+                      <exclude name="**/*.sh"/>
+                    </tarfileset>
+                    <tarfileset dir="target/assembly/linux64" filemode="0755" dirmode="0755">
+                      <include name="**/*.sh"/>
+                    </tarfileset>
+                  </tar>
+                  <attachartifact file="${version.output}/${packagename}-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
+                  <zip destfile="${version.output}/${packagename}-${project.version}-win64.zip" update="true">
+                    <zipfileset dir="target/assembly/win64" includes="**"/>
+                  </zip>
+                  <attachartifact file="${version.output}/${packagename}-${project.version}-win64.zip" classifier="win64" type="zip"/>
+                </target>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+
+    <profiles>
+      <profile>
+        <id>docker</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>io.fabric8</groupId>
+              <artifactId>docker-maven-plugin</artifactId>
+              <version>0.16.5</version>
+              <inherited>false</inherited>
+              <configuration>
+                <images>
+                  <image>
+                    <name>onap/usecase-ui</name>
+                    <build>
+                      <cleanup>try</cleanup>
+                      <dockerFileDir>${basedir}/${version.output}</dockerFileDir>
+                      <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
+                      <tags>
+                        <tag>${project.version}-STAGING-latest</tag>
+                      </tags>
+                    </build>
+                  </image>
+                </images>
+              </configuration>
+              <executions>
+                <execution>
+                  <id>generate-images</id>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>build</goal>
+                  </goals>
+                </execution>
+                <execution>
+                  <id>push-images</id>
+                  <phase>deploy</phase>
+                  <goals>
+                    <goal>build</goal>
+                    <goal>push</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
+
+</project>
