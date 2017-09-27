@@ -1,0 +1,83 @@
+<!--
+
+    Copyright 2016-2017 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<div class="modal-header" style="margin-bottom: 15px;">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h4 class="modal-title" id="myModalLabel">
+    <span>Create</span>
+  </h4>
+</div>
+
+<div class="modal-body">
+  <ul class="nav nav-tabs nav-justified vmapp-margin">
+    <li class="active basic">
+      <a href="#basicTab" style="margin-left:1px;" onclick="showBasic();" id="basicTab" data-toggle="tab">
+        <span>Base</span>
+      </a>
+    </li>
+    <li style="padding-right:2px;" class="para">
+      <a href="#" onclick="hideBasic();" data-toggle="tab">
+        <span>Template Parameters</span>
+      </a>
+    </li>
+  </ul>
+
+  <div id="basicInfoTab">
+    <div class="mT15 form-group" style="margin-left:25px;" ms-class="has-error:vmAppDialog.name==''">
+      <label class="col-sm-3 control-label">
+        <span>Service Name</span>
+        <span class="required">*</span>
+      </label>
+      <div class="col-sm-7">
+        <input type="text" id="svcName" name="svcName" class="form-control" placeholder="Service Name" maxlength="256"/>
+      </div>
+    </div>
+    <div class="mT15 form-group" style="margin-left:25px;" ms-class="has-error:vmAppDialog.name==''">
+      <label class="col-sm-3 control-label">
+        <span>Service Description</span>
+        <span class="required">*</span>
+      </label>
+      <div class="col-sm-7">
+        <input type="text" id="svcDesc" name="" class="form-control" placeholder="Service Description" maxlength="256"/>
+      </div>
+    </div>
+    <div class="form-group" style="margin-left:25px;margin-bottom:15px;" ms-class="has-error:vmAppDialog.name==''">
+      <label class="col-sm-3 control-label">
+        <span>Service Template</span>
+        <span class="required">*</span>
+      </label>
+      <div class="col-sm-7">
+        <select class="form-control" style="padding-top: 0px;padding-bottom: 0px;" id="svcTempl" name="svcTempl" onchange="serviceTemplateChanged();">
+          <option value="select">--select--</option>
+          <option value="1.1">1.1</option>
+          <option value="1.2">1.2</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="templateParameterTab"></div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" style="width:80px;" class="btn SDBtn" ng-click="ok()" data-dismiss="modal" aria-hidden="true" id="startToCreateService">
+    <span id="nfv-virtualApplication-iui-text-cancelBtn">OK</span>
+  </button>
+  <button type="button" style="width:80px;" class="btn button-previous SDBtn" ng-click="cancel()" data-dismiss="modal">
+    <span id="nfv-virtualApplication-iui-text-previousBtn">Cancel</span>
+  </button>
+</div>
