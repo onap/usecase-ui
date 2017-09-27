@@ -18,6 +18,6 @@ ENV JRE_HOME ${JAVA_HOME}/jre
 RUN mkdir /home/uui
 WORKDIR /home/uui
 ADD usecase-ui-*-linux64.tar.gz /home/uui/
-RUN chmod 755 /home/esr/*.sh
+RUN chmod 755 /home/uui/*.sh
 
 ENTRYPOINT /home/uui/startup.sh
