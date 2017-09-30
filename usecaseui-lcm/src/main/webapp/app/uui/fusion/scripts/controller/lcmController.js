@@ -21,7 +21,8 @@ app.controller('lcmCtrl', ['$scope','$uibModal', '$log', '$http', '$timeout', '$
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
           templateUrl : 'app/uui/fusion/scripts/view-models/create-service-dialog.html',
-          controller : 'createServiceCtrl'
+          controller : 'createServiceCtrl',
+          controllerAs : 'ctrl'
         });
         modalInstance.result.then(
           function() {
@@ -33,18 +34,38 @@ app.controller('lcmCtrl', ['$scope','$uibModal', '$log', '$http', '$timeout', '$
           }
         );
       };
+
     }
   ]
 )
-.controller('createServiceCtrl',['ServiceTemplateService',
-    function($scope, $uibModalInstance, ServiceTemplateService) {
+.controller('createServiceCtrl',['$uibModalInstance', 'ServiceTemplateService',
+    function($uibModalInstance, ServiceTemplateService) {
+      var ctrl = this;
 
-      $scope.ok = function() {
+      ctrl.templates = [{name: "V1.1"}, {name: "V1.2"}, {name: "V1.3"}];
+
+      ctrl.hideBasic = function() {
+        console.log('hide basic clicked!');
+      };
+
+      ctrl.showBasic = function() {
+        console.log('show basic clicked!');
+      };
+
+      ctrl.serviceTemplateChanged = function (template) {
+        console.log('serviceTemplateChanged invoked... ' + template);
+      }
+
+      ctrl.ok = function() {
         console.log('ok button clicked!');
       };
+
+      console.log($uibModalInstance);
       // cancel click
-      $scope.cancel = function() {
+      ctrl.cancel = function() {
         $uibModalInstance.dismiss('cancel');
       }
+
+      console.log(ctrl.ok);
     }]
 );
