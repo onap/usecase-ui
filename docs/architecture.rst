@@ -2,17 +2,17 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 
-VF-C Architecture
+Usecase UI Architecture
 -----------------
-Following is the VF-C architecture.
+Following is the Usecase UI architecture.
 
 
 |image0|
 
-.. |image0| image:: vfc-arc.png
+.. |image0| image:: usecaseui-arc.png
    :width: 5.97047in
    :height: 5.63208in
    
-VF-C includes two components: NFVO and GVNFM
-
-VF-C has many dependencies with other projects,such as SO,Policy,A&AI,SDC,DCAE,Multi-cloud and so on.
+Usecase UI as the GUI of ONAP Use Case includes two parts UI and UI Server.
+UI provides Graphical User Interface (GUI) for operators and end-users to show service lifecycle information and system monitor information. And operators could implement service LCM via UI pages.
+UI Server analyze CSAR files which get from SDC catalog and implement service LCM (instantiation and termination) by calling SO interfaces.
