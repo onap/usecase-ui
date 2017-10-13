@@ -1,13 +1,6 @@
-VF-C Delivery
---------
-VF-C includs the following components in R1.
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
 
-|image0|
-
-.. |image0| image:: components.png
-   :width: 5.97047in
-   :height: 5.63208in
-   
-
-
-
+Usecase UI Delivery
+------------
+Usecase UI includs the following components in R1.
