@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-app.controller('lcmCtrl', ['$scope', '$state', '$uibModal', '$log', '$http', '$timeout', '$interval', 'ServiceTemplateService',
-    function ($scope, $state, $uibModal, $log, $http, $timeout, $interval, ServiceTemplateService) {
+app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '$interval', 'ServiceTemplateService',
+    function ($scope, $uibModal, $log, $http, $timeout, $interval, ServiceTemplateService) {
       var ctrl = this;
       ctrl.openCreateServiceDialog = function () {
         var modalInstance = $uibModal.open({
@@ -106,8 +106,8 @@ app.controller('lcmCtrl', ['$scope', '$state', '$uibModal', '$log', '$http', '$t
     }
   ]
 )
-.controller('createServiceCtrl',['$scope', '$state', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
-    function($scope, $state, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
+.controller('createServiceCtrl',['$scope', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
+    function($scope, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
       var ctrl = this;
 
       ctrl.templates = ServiceTemplateService.getAllServiceTemplates();
@@ -189,8 +189,8 @@ app.controller('lcmCtrl', ['$scope', '$state', '$uibModal', '$log', '$http', '$t
         ctrl.locations = vims;
       });
     }]
-).controller('packageOnboardCtrl',['$scope', '$state', '$uibModalInstance', 'ServiceTemplateService','onboardPackage',
-    function($scope, $state, $uibModalInstance, ServiceTemplateService, onboardPackage) {
+).controller('packageOnboardCtrl',['$scope', '$uibModalInstance', 'ServiceTemplateService','onboardPackage',
+    function($scope, $uibModalInstance, ServiceTemplateService, onboardPackage) {
       var ctrl = this;
 
       ServiceTemplateService.getAllVimInfo(function (vims) {
