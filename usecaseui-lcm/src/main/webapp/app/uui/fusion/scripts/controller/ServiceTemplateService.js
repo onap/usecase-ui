@@ -14,14 +14,18 @@
  * limitations under the License.
  */
  app.factory("ServiceTemplateService", function($http, $log) {
-   var url = '';
+   var url = '/api/usecaseui/server/v1/uui-lcm';
+   var uuiHeaders = JSON.stringify({
+     'Content-Type': 'application/json'
+    //  'Authorization':'Basic dXNlY2FzZTp1c2VjYXNl'
+   });
    return {
      getAllCustomers: function (processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/customers',
+         url: url+'/customers',
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var customers = response.data;
          var result = customers.map(function (customer) {
@@ -36,10 +40,10 @@
 
      getAllServiceTypes: function (customerId, processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/customers/' + customerId + '/service-subscriptions',
+         url: url+'/customers/' + customerId + '/service-subscriptions',
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var serviceSubscriptions = response.data;
          var result = serviceSubscriptions.map(function (serviceSubscription) {
@@ -54,10 +58,10 @@
 
      getServiceInstances: function (customerId, serviceType, processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/service-instances?customerId='+customerId+'&&serviceType='+serviceType,
+         url: url+'/service-instances?customerId='+customerId+'&&serviceType='+serviceType,
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var serviceInstances = response.data;
          var result = serviceInstances.map(function (serviceInstance) {
@@ -73,10 +77,10 @@
 
      getAllServiceTemplates: function (processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/service-templates',
+         url: url+'/service-templates',
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var templates = response.data;
          var result = templates.map(function (template) {
@@ -94,10 +98,10 @@
 
      getTemplateParameters: function (template, processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/service-templates/' + template.id,
+         url: url+'/service-templates/' + template.id,
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var inputRsp = response.data;
          processFun(inputRsp);
@@ -106,10 +110,10 @@
 
      getAllVimInfo: function (processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/locations/',
+         url: url+'/locations/',
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var vimInfos = response.data;
          var result = vimInfos.map(function (vim) {
@@ -174,10 +178,10 @@
        console.log(requestBody);
 
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/services',
+         url: url+'/services',
          method: 'POST',
          data: JSON.stringify(requestBody),
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          console.log('create response...');
          console.log(response.data);
@@ -186,10 +190,10 @@
 
      deleteService: function (serviceId) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/services/' + serviceId,
+         url: url+'/services/' + serviceId,
          method: 'DELETE',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          console.log('delete response...');
          console.log(response.data);
@@ -198,10 +202,10 @@
 
      getPackages: function (processFun) {
        return $http({
-         url: url+'/onapapi/uui-lcm/v1/vf-ns-packages',
+         url: url+'/vf-ns-packages',
          method: 'GET',
          data: null,
-         headers: {'Content-Type': 'application/json'}
+         headers: uuiHeaders
        }).then(function(response){
          var packageRsp = response.data;
          var packages = [];
@@ -234,20 +238,20 @@
        }
        if(onboardPackage.type === 'NS') {
          return $http({
-           url: url+'/onapapi/uui-lcm/v1/ns-packages',
+           url: url+'/ns-packages',
            method: 'POST',
            data: JSON.stringify(requestBody),
-           headers: {'Content-Type': 'application/json'}
+           headers: uuiHeaders
          }).then(function(response){
            console.log('onboard ns package response...');
            console.log(response.data);
          });
        } else {
          return $http({
-           url: url+'/onapapi/uui-lcm/v1/vf-packages',
+           url: url+'/vf-packages',
            method: 'POST',
            data: JSON.stringify(requestBody),
-           headers: {'Content-Type': 'application/json'}
+           headers: uuiHeaders
          }).then(function(response){
            console.log('onboard vf package response...');
            console.log(response.data);
