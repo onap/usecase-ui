@@ -25,5 +25,5 @@ if [ ! -d "$RUNHOME/tomcat/logs" ]; then
 fi
 export CATALINA_HOME=$RUNHOME/tomcat
 export CATALINA_BASE=$RUNHOME/tomcat
-$RUNHOME/tomcat/bin/startup.sh &
+$RUNHOME/tomcat/bin/startup.sh
 echo "### Starting usecase-ui end";
