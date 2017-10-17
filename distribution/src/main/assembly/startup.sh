@@ -26,4 +26,6 @@ fi
 export CATALINA_HOME=$RUNHOME/tomcat
 export CATALINA_BASE=$RUNHOME/tomcat
 $RUNHOME/tomcat/bin/startup.sh
+tail -f /home/uui/tomcat/logs/catalina.out
+
 echo "### Starting usecase-ui end";
