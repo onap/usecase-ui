@@ -110,7 +110,9 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
     function($scope, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
       var ctrl = this;
 
-      ctrl.templates = ServiceTemplateService.getAllServiceTemplates();
+      ctrl.templates = ServiceTemplateService.getAllServiceTemplates(function (t) {
+        ctrl.templates = t;
+      });
 
       ctrl.changeInput = function (serviceTemplate) {
         var paras = serviceTemplate.inputs.map(function (input) {
