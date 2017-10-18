@@ -58,7 +58,7 @@
 
      getServiceInstances: function (customerId, serviceType, processFun) {
        return $http({
-         url: url+'/service-instances?customerId='+customerId+'&&serviceType='+serviceType,
+         url: url+'/service-instances?customerId='+customerId+'&serviceType='+serviceType,
          method: 'GET',
          data: null,
          headers: uuiHeaders
@@ -98,7 +98,7 @@
 
      getTemplateParameters: function (template, processFun) {
        return $http({
-         url: url+'/service-templates/' + template.id,
+         url: url+'/service-templates/' + template.id+'?toscaModelPath='+ template.toscaModelURL,
          method: 'GET',
          data: null,
          headers: uuiHeaders
