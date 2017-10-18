@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  app.factory("ServiceTemplateService", function($http, $log) {
-   var url = '/api/usecaseui/server/v1/uui-lcm';
+   var url = '/api/usecaseui-server/v1/uui-lcm';
    var uuiHeaders = JSON.stringify({
      'Content-Type': 'application/json'
     //  'Authorization':'Basic dXNlY2FzZTp1c2VjYXNl'
