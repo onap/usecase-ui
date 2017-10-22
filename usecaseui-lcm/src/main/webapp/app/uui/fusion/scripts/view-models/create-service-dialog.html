@@ -60,42 +60,52 @@
     </uib-tab>
     <uib-tab heading="Template Parameters">
       <div id='templateParasTab' style="margin-top:20px;">
-        <div ng-if="ctrl.service !== undefined" class="form-group" style="margin-left:0px;margin-bottom:5px;">
-          <label class="col-sm-5 control-label">
-            <span>{{ctrl.service.location.name}}</span><span class="required">*</span>
-          </label>
-          <div class="col-sm-5">
-            <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="ctrl.service.location.value" ng-options="option.value for option in ctrl.locations">
-              <option value="">--select--</option>
-            </select>
-          </div>
-        </div>
         <div ng-repeat="parameter in ctrl.service.parameters" class="mT15 form-group" style="margin-left:0px;">
           <label class="col-sm-5 control-label">
             <span>{{parameter.name}}</span><span ng-if="parameter.isRequired" class="required">*</span>
           </label>
-          <div class="col-sm-5">
+          <div ng-if="parameter.type === 'string' || parameter.type === 'boolean' || parameter.type === 'integer'" class="col-sm-5">
             <input type="text"  name="{{parameter.description}}" class="form-control" ng-model="parameter.value" placeholder="{{parameter.name}}" value="{{parameter.defaultValue}}" ng-readonly="{{parameter.readonly}}"/>
+          </div>
+          <div ng-if="parameter.type === 'vf_location'" class="col-sm-5">
+            <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="parameter.value" ng-options="option.value for option in ctrl.locations">
+              <option value="">--select--</option>
+            </select>
+          </div>
+          <div ng-if="parameter.type === 'sdn_controller'" class="col-sm-5">
+            <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="parameter.value" ng-options="option.value for option in ctrl.sdnControllers">
+              <option value="">--select--</option>
+            </select>
           </div>
         </div>
         <fieldset ng-repeat="segment in ctrl.service.segments" style="margin-left:25px;">
           <legend>{{segment.nodeTemplateName}}</legend>
-          <div class="form-group" style="margin-left:0px;margin-bottom:5px;">
+          <!-- <div class="form-group" style="margin-left:0px;margin-bottom:5px;">
             <label class="col-sm-5 control-label">
               <span>{{segment.location.name}}</span><span class="required">*</span>
             </label>
             <div class="col-sm-5">
               <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="segment.location.value" ng-options="option.value for option in ctrl.locations">
-                <option value="">--select--</option>
+                <option value="">select</option>
               </select>
             </div>
-          </div>
+          </div> -->
           <div ng-repeat="segment_parameter in segment.parameters" class="mT15 form-group" style="margin-left:0px;">
             <label class="col-sm-5 control-label">
               <span>{{segment_parameter.name}}</span><span ng-if="segment_parameter.isRequired" class="required">*</span>
             </label>
-            <div class="col-sm-5">
+            <div ng-if="segment_parameter.type === 'string' || segment_parameter.type === 'boolean' || segment_parameter.type === 'integer'" class="col-sm-5">
               <input type="text"  name="{{segment_parameter.description}}" class="form-control" ng-model="segment_parameter.value" placeholder="{{segment_parameter.name}}" value="{{segment_parameter.defaultValue}}" ng-readonly="{{segment_parameter.readonly}}"/>
+            </div>
+            <div ng-if="segment_parameter.type === 'vf_location'" class="col-sm-5">
+              <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="segment_parameter.value" ng-options="option.value for option in ctrl.locations">
+                <option value="">--select--</option>
+              </select>
+            </div>
+            <div ng-if="segment_parameter.type === 'sdn_controller'" class="col-sm-5">
+              <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="segment_parameter.value" ng-options="option.value for option in ctrl.sdnControllers">
+                <option value="">--select--</option>
+              </select>
             </div>
           </div>
         </fieldset>

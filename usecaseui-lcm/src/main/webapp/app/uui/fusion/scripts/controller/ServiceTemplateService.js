@@ -126,44 +126,78 @@
        });
      },
 
+     getAllSdnControllers: function (processFun) {
+       return $http({
+         url: url+'/sdnc-controllers/',
+         method: 'GET',
+         data: null,
+         headers: uuiHeaders
+       }).then(function(response){
+         var sdnControllers = response.data;
+         var result = sdnControllers.map(function (sdn) {
+           return {
+             name: sdn['thirdparty-sdnc-id'],
+             value: sdn['thirdparty-sdnc-id']
+           };
+         });
+         processFun(result);
+       });
+     },
+
      createService: function (customer, serviceType, service, template) {
 
-        function translateInputs(t, customer,serviceType, c) {
+        function translateInputs(t, customer,serviceType, c, isE2E) {
               var reqParas = {
-                subscriptionServiceType: serviceType.value
+                subscriptionServiceType: serviceType.id
               };
+              var vfLocations = [];
               c[t.name].parameters.forEach(function (parameter) {
-                reqParas[parameter.name] = parameter.value;// todo
+                if(parameter.type === 'vf_location') {
+                  var loc = {};
+                  loc[parameter.name] = parameter.value.value;
+                  vfLocations.push(loc);
+                } else if(parameter.type === 'sdn_controller') {
+                  if(parameter.value === undefined || parameter.value === null) {
+                    reqParas[parameter.name] = '';
+                  } else {
+                    reqParas[parameter.name] = parameter.value.value;
+                  }
+                } else {
+                  reqParas[parameter.name] = parameter.value;
+                }
               });
+              if(t.type === 'VF') {
+                reqParas.vnfProfileId = vfLocations;
+              }
               var nestedSegments = t.nestedTemplates.map(function (nestedTemplate) {
-                return translateInputs(nestedTemplate,customer,serviceType, c);
+                return translateInputs(nestedTemplate,customer,serviceType, c, false);
               });
-              return {
-                domainHost: c[t.name].location.value,// ???
-                nodeTemplateName: t.name+':'+t.version,
-                nodeType: 'service',
-                'GLOBALSUBSCIBERID': customer.id,
-                'SUBSCIBERNAME': customer.name,
-                requestParameters: reqParas,
-                segments: nestedSegments
-              };
-            }
+              var request = {};
+              if(isE2E) {
+                request.domainHost = 'localhost';
+              }
+              request.nodeTemplateName = t.name+':'+t.version;
+              request.nodeType = 'service';
+              request['GLOBALSUBSCIBERID'] = customer.id;
+              request['SUBSCIBERNAME'] = customer.name;
+              request.requestParameters = reqParas;
+              request.segments = nestedSegments;
+              return request;
+       }
 
        var cache = {};
        cache[template.name] = {
-         location: service.location.value,
          parameters: service.parameters
        };
        service.segments.forEach(function (segment) {
          cache[segment.nodeTemplateName] = {
-           location: segment.location.value,
            parameters: segment.parameters
          }
        });
        console.log('cache ----');
        console.log(cache);
 
-       var reqPara = translateInputs(template,customer, serviceType, cache);
+       var reqPara = translateInputs(template,customer, serviceType, cache, true);
        var requestBody = {
          service: {
            name: service.serviceName,

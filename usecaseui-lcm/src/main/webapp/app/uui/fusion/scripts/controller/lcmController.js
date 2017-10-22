@@ -110,7 +110,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
     function($scope, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
       var ctrl = this;
 
-      ctrl.templates = ServiceTemplateService.getAllServiceTemplates(function (t) {
+      ServiceTemplateService.getAllServiceTemplates(function (t) {
         ctrl.templates = t;
       });
 
@@ -118,6 +118,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         var paras = serviceTemplate.inputs.map(function (input) {
           return {
             name: input.name,
+            type: input.type,
             description: input.description,
             defaultValue: input.defaultValue,
             isRequired: input.isRequired,
@@ -129,6 +130,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           var nestedParas = nestedTemplate.inputs.map(function (input) {
             return {
               name: input.name,
+              type: input.type,
               description: input.description,
               defaultValue: input.defaultValue,
               isRequired: input.isRequired,
@@ -137,9 +139,6 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           });
           return {
                nodeTemplateName: nestedTemplate.name,
-               location: {
-                 name: nestedTemplate.name + " location",// ???
-               },
                parameters: nestedParas
              };
         });
@@ -147,14 +146,19 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         var service = {
           serviceName: ctrl.service.serviceName,
           serviceDescription: ctrl.service.serviceDescription,
-          location: {
-            name: "local host" // ???
-          },
           parameters: paras,
           segments: segmentsPara
         };
         ctrl.service = service;
       };
+      ctrl.service = {
+        serviceName: '',
+        serviceDescription: '',
+        parameters: [],
+        segments: []
+      };
+      ctrl.sdnControllers = [];
+      ctrl.locations = [];
 
       ctrl.serviceTemplateChanged = function (template) {
         console.log('serviceTemplateChanged invoked... ' + template);
@@ -189,6 +193,10 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
 
       ServiceTemplateService.getAllVimInfo(function (vims) {
         ctrl.locations = vims;
+      });
+
+      ServiceTemplateService.getAllSdnControllers(function (sdnControllers) {
+        ctrl.sdnControllers = sdnControllers;
       });
     }]
 ).controller('packageOnboardCtrl',['$scope', '$uibModalInstance', 'ServiceTemplateService','onboardPackage',
