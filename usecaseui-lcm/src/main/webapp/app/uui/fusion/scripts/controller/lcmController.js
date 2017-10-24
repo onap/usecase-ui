@@ -73,7 +73,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           return;
         }
         ctrl.canCreateService = "false";
-        ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.type, function (instances) {
+        ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
           ctrl.serviceInstances = instances;
         });
       };
