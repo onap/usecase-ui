@@ -58,7 +58,7 @@
 
      getServiceInstances: function (customerId, serviceType, processFun) {
        return $http({
-         url: url+'/service-instances?customerId='+customerId+'&serviceType='+serviceType,
+         url: url+'/service-instances?customerId='+customerId+'&serviceType='+serviceType.value,
          method: 'GET',
          data: null,
          headers: uuiHeaders

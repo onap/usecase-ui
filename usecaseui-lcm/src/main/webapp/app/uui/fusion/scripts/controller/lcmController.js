@@ -78,6 +78,10 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         });
       };
 
+      ctrl.deleteService = function (serviceInstance) {
+        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId);
+      };
+
       ctrl.packageOnboard = function (onboardPackage) {
         var modalInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',

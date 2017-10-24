@@ -53,7 +53,7 @@
                 <td>{{serviceInstance.serviceInstanceId}}</td>
                 <td>{{serviceInstance.serviceInstanceName}}</td>
                 <td>{{serviceInstance.serviceType}}</td>
-                <td><a href="#" class="btn btn-primary">Delete</a></td>
+                <td><button class="btn btn-primary" ng-click="ctrl.deleteService(serviceInstance)">Delete</button></td>
               </tr>
             </tbody>
           </table>
