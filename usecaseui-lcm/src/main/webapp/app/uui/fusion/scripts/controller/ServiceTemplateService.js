@@ -145,66 +145,60 @@
      },
 
      createService: function (customer, serviceType, service, template) {
-
-        function translateInputs(t, customer,serviceType, c, isE2E) {
-              var reqParas = {
-                subscriptionServiceType: serviceType.id
-              };
-              var vfLocations = [];
-              c[t.name].parameters.forEach(function (parameter) {
-                if(parameter.type === 'vf_location') {
-                  var loc = {};
-                  loc[parameter.name] = parameter.value.value;
-                  vfLocations.push(loc);
-                } else if(parameter.type === 'sdn_controller') {
-                  if(parameter.value === undefined || parameter.value === null) {
-                    reqParas[parameter.name] = '';
-                  } else {
-                    reqParas[parameter.name] = parameter.value.value;
-                  }
-                } else {
-                  reqParas[parameter.name] = parameter.value;
-                }
-              });
-              if(t.type === 'VF') {
-                reqParas.vnfProfileId = vfLocations;
-              }
-              var nestedSegments = t.nestedTemplates.map(function (nestedTemplate) {
-                return translateInputs(nestedTemplate,customer,serviceType, c, false);
-              });
-              var request = {};
-              if(isE2E) {
-                request.domainHost = 'localhost';
-              }
-              request.nodeTemplateName = t.name+':'+t.version;
-              request.nodeType = 'service';
-              request['GLOBALSUBSCIBERID'] = customer.id;
-              request['SUBSCIBERNAME'] = customer.name;
-              request.requestParameters = reqParas;
-              request.segments = nestedSegments;
-              return request;
-       }
-
-       var cache = {};
-       cache[template.name] = {
-         parameters: service.parameters
-       };
+       var reqPara = [];
        service.segments.forEach(function (segment) {
-         cache[segment.nodeTemplateName] = {
-           parameters: segment.parameters
-         }
-       });
-       console.log('cache ----');
-       console.log(cache);
+         var reqParas = {};
+         var vfLocations = [];
+         segment.parameters.forEach(function (parameter) {
+           if(parameter.type === 'vf_location') {
+             // name is uuid for vf_location
+             var loc = {
+               vnfProfileId: parameter.name,
+               locationConstraints : {
+                 vimId: parameter.value.value
+               }
+             };
+             vfLocations.push(loc);
+           } else if(parameter.type === 'sdn_controller') {
+             if(parameter.value === undefined || parameter.value === null) {
+               reqParas[parameter.name] = '';
+             } else {
+               reqParas[parameter.name] = parameter.value.value;
+             }
+           } else {
+             reqParas[parameter.name] = parameter.value;
+           }
+         });
 
-       var reqPara = translateInputs(template,customer, serviceType, cache, true);
+         var para = {
+           resourceName: segment.nodeTemplateName,
+           resourceDefId: segment.invariantUUID,
+           resourceId: segment.uuid,
+           nsParameters: {
+             locationConstraints: vfLocations,
+             additionalParamForNs: reqParas
+           }
+         };
+         reqPara.push(para);
+       });
+
+       var templateName = template.name;
+       if( template.version !== undefined && template.version !== null && template.version !== '' ) {
+         templateName = templateName + ":" + template.version;
+       }
        var requestBody = {
          service: {
            name: service.serviceName,
            description: service.serviceDescription,
            serviceDefId: template.invariantUUID,
            templateId: template.uuid, // uuid ??
-           parameters: reqPara
+           parameters: {
+             globalSubscriberId: customer.id,
+             subscriberName: customer.name,
+             serviceType: serviceType,
+             templateName: templateName,
+             resources: reqPara
+           }
          }
        };
 
@@ -269,7 +263,7 @@
        console.log(vims);
        var requestBody = {
          csarId: onboardPackage.uuid
-       }
+       };
        if(onboardPackage.type === 'NS') {
          return $http({
            url: url+'/ns-packages',

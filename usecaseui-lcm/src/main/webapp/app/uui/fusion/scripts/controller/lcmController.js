@@ -139,6 +139,9 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           });
           return {
                nodeTemplateName: nestedTemplate.name,
+               invariantUUID: nestedTemplate.invariantUUID,
+               uuid: nestedTemplate.uuid,
+               type: nestedTemplate.type,
                parameters: nestedParas
              };
         });
