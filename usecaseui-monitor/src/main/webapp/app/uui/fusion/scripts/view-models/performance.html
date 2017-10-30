@@ -13,48 +13,47 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<div class="templatemo-content-wrapper">
-     <div class="templatemo-content">
-         <h1>Performance</h1>
-         <div class="row">
-             <div class="col-md-9" >
-                 <div class="table-responsive">
-                     <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
-                 </div>
-             </div>
-             <div class="col-md-3">
-                 <button ng-click="trashcan()" class="glyphicon glyphicon-trash btn btn-primary"></button>
-                 <button ng-click="" class=" btn btn-primary">remove</button>
-                 <button ng-click="" class="btn btn-primary">CSV</button>
-             </div>
-         </div>
-		
-         <div ng-controller="perGridCtrl">
-		 <ul id="list">
-  <li>cpu <input type="text" /></li>
-  <li>state <input type="text" /></li>
-  <li>memory<input type="text" /></li>
-  <button>search</button>
-</ul>
-<ul id="list" ng-show='menuState.show'>
-  <li>disk <input type="text"/></li>
-   <li>Network <input type="text"/></li>
-</ul>
- <div class="row">
-        <div class="col-md-5" style="border-top:1px dotted #ddd">       
-        </div>
-        <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center" ng-click="toggleMenu()">
-		<span class="caret"></span>
-        </div>
-        <div class="col-md-5" style="border-top:1px dotted #ddd">       
+<div class="templatemo-content-wrapper" ng-controller="perGridCtrl">
+    <div class="templatemo-content">
+        <h1>Performance</h1>
+        <div>
+            <ul class="list">
+                <li>cpu <input type="text" ng-model="seek1"/></li>
+                <li>state <input type="text" ng-model="seek2"/></li>
+                <li>memory <input type="text" ng-model="seek3"/></li>
+                <button ng-click="getSearch()">search</button>
+            </ul>
+            <ul class="list" ng-show='menuState.show'>
+                <li>disk <input type="text" ng-model="seek4"/></li>
+                <li>Network <input type="text" ng-model="seek5"/></li>
+            </ul>
+            <div class="row">
+                <div class="col-md-5" style="border-top:1px dotted #ddd">
+                </div>
+                <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center"
+                     ng-click="toggleMenu()">
+                    <span class="caret"></span>
+                </div>
+                <div class="col-md-5" style="border-top:1px dotted #ddd">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="table-responsive">
+                        <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>
+                </div>
+            </div>
+            <div ui-grid="gridOptions" style="width: 100%;margin-top:10px; text-align: center;" ui-grid-edit
+                 ui-grid-pagination
+                 ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize>
+            </div>
         </div>
     </div>
-             <div  ui-grid="gridOptions" style="width: 100%;margin-top:10px; min-height: 350px; text-align: center;" ui-grid-edit ui-grid-pagination
-                   ui-grid-selection  ui-grid-resize-columns ui-grid-auto-resize>
-             </div>
-         </div>
-     </div>
- </div>
+</div>
 
 
 

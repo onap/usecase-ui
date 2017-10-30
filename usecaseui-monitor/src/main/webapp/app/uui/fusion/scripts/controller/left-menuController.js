@@ -13,14 +13,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+var currentTab = 'app/uui/fusion/scripts/view-models/alarm.html';
+
 app.controller('cmCtrl',['$scope',function ($scope) {
   $scope.routeData = [
     {name : 'Services' , url : 'app/uui/fusion/scripts/view-models/lifecyclemanagement.html' , nclass : 'fa fa-users'},
     {name : 'Alarm' , url : 'app/uui/fusion/scripts/view-models/alarm.html' , nclass : 'fa fa-users'},
-    {name : 'Performance' , url : 'app/uui/fusion/scripts/view-models/performance.html', nclass : 'fa fa-cog'},
-    {name : 'About Performance Froms' , url : 'app/uui/fusion/scripts/view-models/performance-details.html', nclass : 'fa fa-cubes'},
+    {name : 'Performance' , url : 'app/uui/fusion/scripts/view-models/performance.html', nclass : 'fa fa-cog'}
   ];
-  $scope.currentTab = 'app/uui/fusion/scripts/view-models/alarm.html';
+  $scope.currentTab = currentTab;
+  $scope.$watch('currentTab',  function(newValue, oldValue) {
+    if (newValue === oldValue) { return; } // AKA first run
+    // $scope.onClickTab(newValue);
+  });
   $scope.onClickTab = function (url) {
     $scope.currentTab = url;
   };

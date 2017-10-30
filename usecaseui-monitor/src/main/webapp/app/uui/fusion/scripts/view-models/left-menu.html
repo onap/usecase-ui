@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<div ng-controller="cmCtrl">
+<div id="lm" ng-controller="cmCtrl">
     <div id="main-wrapper">
         <div id="navbar" role="navigation">
             <div class="navbar-header">
@@ -39,6 +39,6 @@
             </div>
         </div>
     </div>
-
+    <input type="hidden"  ng-model="currentTab" />
     <div ng-include="currentTab"></div>
 </div>

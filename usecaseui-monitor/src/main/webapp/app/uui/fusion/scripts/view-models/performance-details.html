@@ -41,138 +41,152 @@
             padding: 10px;
         }
     </style>
-
         <!--/.navbar-collapse -->
-
         <div class="templatemo-content-wrapper">
             <div class="templatemo-content">
                 <h1>Performance Details</h1>
 				   <div class="row" style="min-height: 500px" ng-controller="pertabCtrl">
-                    <div class="col-md-12 col-sm-12" ng-controller="pertabCtrl">
+                    <div class="col-md-12 col-sm-12">
                         <uib-tabset active="active" >
-                            <!--<uib-tab index="$index + 1" ng-repeat="tab in tabes" heading="{{tab.title}}" disable="tab.disabled">-->
-                                <uib-tab heading="one hour">
+                                <uib-tab heading="one hour" ng-click="oneHour()" >
                                 <div class="templatemo-charts">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">CPU</div>
+                                                <div class="panel-heading">CPU
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button>
+                                                </div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Memory</div>
+                                                <div class="panel-heading">Memory
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Disk</div>
+                                                <div class="panel-heading">Disk
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">Network</div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Network
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </uib-tab>
-                            <uib-tab heading="one day">
+                            <uib-tab heading="one day" ng-click="oneDay()">
                                 <div class="templatemo-charts">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">CPU</div>
+                                                <div class="panel-heading">CPU
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Memory</div>
+                                                <div class="panel-heading">Memory
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart1"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Disk</div>
+                                                <div class="panel-heading">Disk
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">Network</div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Network
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </uib-tab>
-                            <uib-tab heading="one month">
+                            <uib-tab heading="one month" ng-click="oneMonth()">
                                 <div class="templatemo-charts">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">CPU</div>
+                                                <div class="panel-heading">CPU
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Memory</div>
+                                                <div class="panel-heading">Memory
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart2"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Disk</div>
+                                                <div class="panel-heading">Disk
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">Network</div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Network
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </uib-tab>
-                            <uib-tab heading="one year">
+                            <uib-tab heading="one year" ng-click="oneYear()">
                                 <div class="templatemo-charts">
-                                    <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">CPU</div>
+                                                <div class="panel-heading">CPU
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Memory</div>
+                                                <div class="panel-heading">Memory
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart3"> <svg></svg> </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-6">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
-                                                <div class="panel-heading">Disk</div>
+                                                <div class="panel-heading">Disk
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5 col-sm-6">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">Network</div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">Network
+                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -180,13 +194,11 @@
                                 </div>
                             </uib-tab>
                         </uib-tabset>
-
                     </div>
                     <br />
                     <br />
                     <br />
                     <br />
                 </div>
-
             </div>
         </div>

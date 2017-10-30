@@ -18,12 +18,9 @@
     1. CSS Imports
     2. General Styles
     3. Sidebar
-    4. Charts
-    5. Preferences form
-    6. Sign in form
-    7. tables.html
-    8. Bootstrap overrides
-
+    4. Preferences form
+    5. alarm.html
+    6. Bootstrap overrides
 --------------------------------------- */
 
 /* 1. CSS Imports
@@ -56,7 +53,7 @@ h1 { font-size: 24px; }
 .templatemo-content {
     margin-left: 235px;
     margin-top: 0px;
-    min-height: 600px;
+    min-height: 800px;
     padding: 25px 20px 0 20px;
     background-color: #F2F2F2;
     overflow-x: hidden;
@@ -142,7 +139,6 @@ h1 { font-size: 24px; }
     width: 1.25em;
     text-align: center;
 }
-
 /* 4. Charts 
 --------------------------------------------*/
 .templatemo-chart-box {
@@ -150,7 +146,6 @@ h1 { font-size: 24px; }
     text-align: center;
     padding: 20px 30px 30px 0;
 }
-
 /* 5. Preferences Form
 ------------------------------------------*/
 #templatemo-preferences-form {
@@ -250,7 +245,6 @@ h1 { font-size: 24px; }
 }
 div .ui-grid-header-cell{
     background-color: #666666;
-
 }
 .ui-grid-header-cell-label{
     color:#ffffff;
@@ -260,14 +254,13 @@ div .ui-grid-header-cell{
 
 }
 
-
 /*input框
 ----------------------------------------------*/
-#list {
+.list {
       list-style: none;
     }
 	
-     #list>li {
+    .list>li {
       margin: 0;
       padding: 0;
       display: inline-block;
@@ -284,7 +277,6 @@ div .ui-grid-header-cell{
 	.table{
 		margin-top:20px;
 	}
-	
-.nav-tabs>li>a{
-	font-weight:2000;
+.panel-success{
+    height:300px;
 }

@@ -14,84 +14,71 @@
     limitations under the License.
 -->
 <div class="templatemo-content" ng-controller="alarmGridCtrl">
-    <h1>Alarm</h1>	  
- <!--<div class="btn-group" style="margin-top:10px;margin-bottom:10px;">-->
-        <!--<label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'open'" uncheckable>OPEN</label>-->
-        <!--<label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'close'" uncheckable>CLOSE</label>-->
-    <!--</div>-->
-
+    <h1>Alarm</h1>
     <div class="row margin-bottom-20">
-
     </div>
     <div class="row margin-bottom-10">
-        <div class="col-md-5">
+        <div class="col-md-8">
             <ul class="nav nav-pills">
-                <li ng-repeat="s in status"
+                <li style="background-color: #ddd"
+                    ng-repeat="s in status"
                     ng-click="selectStatus(s.id)"
-                    ng-class="{active:activeStatus(s.id)}" >
+                    ng-class="{active:activeStatus(s.id)}">
                     <a href="">
                         {{s.name}}
                         <span class="badge">{{s.count}}</span>
                     </a>
                 </li>
-                <input type="hidden" ng-model="selectedStatus" />
+                <input type="hidden" ng-model="selectedStatus"/>
             </ul>
         </div>
-
         <div class="col-md-4">
             <ul class="nav nav-pills">
-                <li ng-repeat="o in open"
-                    ng-click="selectOpen(s.id)"
-                    ng-class="{active:activeOpen(o.id)}" >
+                <li style="background-color: #ddd" ng-repeat="O in open"
+                    ng-click="selectOpen(O.id)"
+                    ng-class="{active:activeOpen(O.id)}">
                     <a href="">
-                        {{o.name}}
-                        <span class="badge">{{o.count}}</span>
+                        {{O.name}}
+                        <span class="badge">{{O.count}}</span>
                     </a>
                 </li>
-                <input type="hidden" ng-model="selectedOpen" />
+                <input type="hidden" ng-model="selectedOpen"/>
             </ul>
         </div>
-        <div class="col-md-3">
-            <button ng-click="trashcan()" class="glyphicon glyphicon-trash btn btn-primary"></button>
-            <button ng-click="" class=" btn btn-primary">remove</button>
-            <button ng-click="" class="btn btn-primary">CSV</button>
-        </div>
     </div>
-	<ul id="list">
-  <li>cpu <input type="text" /></li>
-  <li>state <input type="text" /></li>
-  <li>memory<input type="text" /></li>
-  <button>search</button>
-</ul>
-<ul id="list" ng-show='menuState.show'>
-  <li>disk <input type="text"/></li>
-   <li>Network <input type="text"/></li>
-</ul>
- <div class="row">
-        <div class="col-md-5" style="border-top:1px dotted #ddd">       
+    <ul class="list">
+        <li>cpu <input ng-model="condition1" type="text"/></li>
+        <li>state <input ng-model="condition2" type="text"/></li>
+        <li>memory <input ng-model="condition3" type="text"/></li>
+        <button ng-click="alarmSearch()">search</button>
+    </ul>
+    <ul class="list" ng-show='menuState.show'>
+        <li>disk <input ng-model="condition4" type="text"/></li>
+        <li>Network <input ng-model="condition5" type="text"/></li>
+    </ul>
+    <div class="row">
+        <div class="col-md-5" style="border-top:1px dotted #ddd">
         </div>
         <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center" ng-click="toggleMenu()">
-		<span class="caret"></span>
+            <span class="caret"></span>
         </div>
-        <div class="col-md-5" style="border-top:1px dotted #ddd">       
+        <div class="col-md-5" style="border-top:1px dotted #ddd" >
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-11">
             <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
         </div>
-        <div class="col-md-5">
-        </div>
+        <div class="col-md-1">
 
+            <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>
+        </div>
     </div>
     <div>
-        <div ui-grid="gridOptions" style="width: 100%; min-height: 320px; text-align: center;" ui-grid-edit
+        <div ui-grid="gridOptions" style="width: 100%;text-align: center;" ui-grid-edit
              ui-grid-pagination
              ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize>
         </div>
-
-
     </div>
-	
 </div>
 

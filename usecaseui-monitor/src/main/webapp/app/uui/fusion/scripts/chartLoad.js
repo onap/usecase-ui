@@ -13,42 +13,73 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-historicalBarChart = [
-    { "type":"bar", "key": "memory", "yAxis": "1", "values": [{ "x":1388552400000 , "y":10},
-        { "x":1391230800000 , "y":4}, { "x":1393650000000 , "y":4}, { "x":1396324800000 , "y":12},
-        { "x":1398916800000 , "y":3.27}, { "x":1401595200000 , "y":6.07}, { "x":1404187200000 , "y":8.93},
-        { "x":1406865600000 , "y":11.61}, { "x":1409544000000 , "y":18.66}, { "x":1412136000000 , "y":19.04},
-        { "x":1414814400000 , "y":17.5}, { "x":1417410000000 , "y":15.73}
-         ] } ];
+diskBarChart = [
+        { "type":"bar", "key": "disk", "yAxis": "1", "values": [
+            { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
+            { "x":'60min' , "y":3.27}
+        ] } ];
+memoryBarChart = [
+    { "type":"bar", "key": "memory", "yAxis": "1", "values": [
+        { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
+        { "x":'60min' , "y":3.27}
+    ] } ];
+cpuBarChart = [
+    { "type":"bar", "key": "cpu", "yAxis": "1", "values": [
+        { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
+        { "x":'60min' , "y":3.27}
+    ] } ];
+networkBarChart = [
+    { "type":"bar", "key": "network", "yAxis": "1", "values": [
+        { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
+        { "x":'60min' , "y":3.27}
+    ] } ];
+
+historicalBarChart1 = [
+    { "type":"bar", "key": "memory", "yAxis": "1", "values": [
+        { "x":'1h' , "y":4}, { "x":'2h' , "y":4}, { "x":'3h' , "y":12},
+        { "x":'4h' , "y":3.27}, { "x":'5h' , "y":34}, { "x":'6h' , "y":34}, { "x":'7h' , "y":34},
+        { "x":'8h' , "y":34}, { "x":'9h' , "y":34}, { "x":'10h' , "y":34}, { "x":'11h' , "y":34},
+        { "x":'12h' , "y":56}, { "x":'13h' , "y":34}, { "x":'14h' , "y":34}, { "x":'15h' , "y":34},
+        { "x":'16h' , "y":12}, { "x":'17h' , "y":34}, { "x":'18h' , "y":50}, { "x":'19h' , "y":34},
+        { "x":'20h' , "y":34}, { "x":'21h' , "y":54}, { "x":'22h' , "y":34}, { "x":'23h' , "y":34},
+        { "x":'24h' , "y":36}
+    ] } ];
+historicalBarChart2 = [
+    { "type":"bar", "key": "memory", "yAxis": "1", "values": [
+        { "x":'1d' , "y":4}, { "x":'2d' , "y":4}, { "x":'3d' , "y":12},
+        { "x":'4d' , "y":3.27}, { "x":'5d' , "y":34},{ "x":'6d' , "y":4}, { "x":'7d' , "y":4}, { "x":'8d' , "y":12},
+        { "x":'9d' , "y":3.27}, { "x":'10d' , "y":34}, { "x":'11d' , "y":34}, { "x":'12d' , "y":34},  { "x":'13d' , "y":4}, { "x":'14d' , "y":4}, { "x":'15' , "y":12},
+        { "x":'16d' , "y":3.27}, { "x":'17d' , "y":34},{ "x":'18d' , "y":4}, { "x":'19d' , "y":4}, { "x":'20d' , "y":12},
+        { "x":'21d' , "y":3.27}, { "x":'22d' , "y":34}, { "x":'23d' , "y":34}, { "x":'24d' , "y":34}, { "x":'25d' , "y":4}, { "x":'26d' , "y":12},
+        { "x":'27d' , "y":3.27}, { "x":'28d' , "y":34}, { "x":'29d' , "y":34}, { "x":'30d' , "y":34}, { "x":'31d' , "y":34}
+    ] } ];
+historicalBarChart3 = [
+    { "type":"bar", "key": "memory", "yAxis": "1", "values": [
+        { "x":'Jan' , "y":4}, { "x":'Feb' , "y":4}, { "x":'Mar' , "y":12},
+        { "x":'Apr' , "y":3.27}, { "x":'May' , "y":34},{ "x":'June' , "y":4}, { "x":'July' , "y":4}, { "x":'Aug' , "y":12},
+        { "x":'Sept' , "y":3.27}, { "x":'Oct' , "y":34}, { "x":'Nov' , "y":34}
+    ] } ];
 var chart1,chart2,chart3,chart4;
 nv.addGraph(function() {
     chart1 = nv.models.multiBarChart()
-        .margin({top: 30, right: 60, bottom: 50, left: 100})
-        .showLegend(true)
+        .transitionDuration(350)
+        .showLegend(false)
         .reduceXTicks(false)
-        .forceY([0, 34.0])
+        .forceY([0, 64.0])
         .showControls(false)
         .stacked(false)
         .logScale(false)
         .legendPos('top')
         .color(d3.scale.category10().range());
     chart1.xAxis
-        .tickValues([1388552400000, 1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,
-            1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000])
         .staggerLabels(false)
         .showMaxMin(false)
-        .rotateLabels(90)
-        //.axisLabel('Timestamp')
-        .tickFormat(function(d) {
-            return d3.time.format('%b %y')(new Date(d))
-        }
-    );
     chart1.yAxis
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
     d3.select('#CPUchart svg')
-        .datum(historicalBarChart)
+        .datum(cpuBarChart)
         .transition().duration(1000)
         .call(chart1);
     nv.utils.windowResize(chart1.update);
@@ -56,29 +87,23 @@ nv.addGraph(function() {
 });
 nv.addGraph(function() {
     chart2 = nv.models.multiBarChart()
-        .margin({top: 30, right: 60, bottom: 50, left: 100})
-        .showLegend(true)
+        .showLegend(false)
         .reduceXTicks(false)
-        .forceY([0, 34.0])
+        .forceY([0, 64.0])
         .showControls(false)
         .stacked(false)
         .logScale(false)
         .legendPos('top')
-        .color(d3.scale.category20b().range());
+        .color(d3.scale.category10().range());
     chart2.xAxis
-        .tickValues([1388552400000,1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000,1420088400000,1422766800000])
         .staggerLabels(false)
         .showMaxMin(false)
-        .rotateLabels(90)
-        .axisLabel('Timestamp')
-        .tickFormat(function(d) {
-            return d3.time.format('%b %y')(new Date(d)) });
     chart2.yAxis
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
     d3.select('#Memorychart svg')
-        .datum(historicalBarChart)
+        .datum(memoryBarChart)
         .transition().duration(1000)
         .call(chart2);
     nv.utils.windowResize(chart2.update);
@@ -86,29 +111,23 @@ nv.addGraph(function() {
 });
 nv.addGraph(function() {
     chart3 = nv.models.multiBarChart()
-        .margin({top: 30, right: 60, bottom: 50, left: 100})
-        .showLegend(true)
+        .showLegend(false)
         .reduceXTicks(false)
-        .forceY([0, 34.0])
+        .forceY([0, 64.0])
         .showControls(false)
         .stacked(false)
         .logScale(false)
         .legendPos('top')
-        .color(d3.scale.category50().range());
+        .color(d3.scale.category10().range());
     chart3.xAxis
-        .tickValues([1388552400000,1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000,1420088400000,1422766800000])
         .staggerLabels(false)
         .showMaxMin(false)
-        .rotateLabels(90)
-        .axisLabel('Timestamp')
-        .tickFormat(function(d) {
-            return d3.time.format('%b %y')(new Date(d)) });
     chart3.yAxis
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
-    d3.select('#Networkchart svg')
-        .datum(historicalBarChart)
+    d3.select('#Diskchart svg')
+        .datum(diskBarChart)
         .transition().duration(1000)
         .call(chart3);
     nv.utils.windowResize(chart3.update);
@@ -116,61 +135,63 @@ nv.addGraph(function() {
 });
 nv.addGraph(function() {
     chart4 = nv.models.multiBarChart()
-        .margin({top: 30, right: 60, bottom: 50, left: 100})
-        .showLegend(true)
+        .showLegend(false)
         .reduceXTicks(false)
-        .forceY([0, 34.0])
+        .forceY([0, 64.0])
         .showControls(false)
         .stacked(false)
         .logScale(false)
         .legendPos('top')
-        .color(d3.scale.category50().range());
+        .color(d3.scale.category10().range());
     chart4.xAxis
-        .tickValues([1388552400000,1391230800000,1393650000000,1396324800000,1398916800000,1401595200000,1404187200000,1406865600000,1409544000000,1412136000000,1414814400000,1417410000000,1420088400000,1422766800000])
         .staggerLabels(false)
         .showMaxMin(false)
-        .rotateLabels(90)
-        .axisLabel('Timestamp')
-        .tickFormat(function(d) {
-            return d3.time.format('%b %y')(new Date(d)) });
     chart4.yAxis
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
     d3.select('#Networkchart svg')
-        .datum(historicalBarChart)
+        .datum(networkBarChart)
         .transition().duration(1000)
         .call(chart4);
     nv.utils.windowResize(chart4.update);
     return chart4;
 });
 
-function redraw() {
-    d3.select('#CPUchart svg')
-        .datum(historicalBarChart)
+function changeValue(s){
+    chart1.xAxis.tickValues(s);
+    chart2.xAxis.tickValues(s);
+    chart3.xAxis.tickValues(s);
+    chart4.xAxis.tickValues(s);
+}
+
+function changerotate(v){
+    chart1.xAxis.rotateLabels(v);
+    chart2.xAxis.rotateLabels(v);
+    chart3.xAxis.rotateLabels(v);
+    chart4.xAxis.rotateLabels(v);
+}
+
+function redraw(c,s1) {
+    diskBarChart[0].values = s1[0];
+    memoryBarChart[0].values = s1[1];
+    cpuBarChart[0].values = s1[2];
+    networkBarChart[0].values = s1[3];
+
+    d3.select('#CPUchart'+c+' svg')
+        .datum(cpuBarChart)
         .transition().duration(500)
         .call(chart1);
-    d3.select('#Memorychart svg')
-        .datum(historicalBarChart)
+    d3.select('#Memorychart'+c+' svg')
+        .datum(memoryBarChart)
         .transition().duration(500)
         .call(chart2);
-    d3.select('#Diskchart svg')
-        .datum(historicalBarChart)
+    d3.select('#Diskchart'+c+' svg')
+        .datum(diskBarChart)
         .transition().duration(1000)
         .call(chart3);
-    d3.select('#Networkchart svg')
-        .datum(historicalBarChart)
+    d3.select('#Networkchart'+c+' svg')
+        .datum(networkBarChart)
         .transition().duration(1000)
         .call(chart4);
 }
-
-setInterval(function () {
-    redraw();
-}, 1500);
-//if(historicalBarChart.length <= 0 ) {
-//    document.getElementById("CPUchart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
-//    document.getElementById("CPUchart").className="nodatadiv";
-//    document.getElementById("Memorychart").innerHTML = "<div id='noData'><b>No Data Available</b></div>";
-//    document.getElementById("Memorychart").className="nodatadiv";
-//    document.getElementById("nodata").className="nodatainner";
-//}

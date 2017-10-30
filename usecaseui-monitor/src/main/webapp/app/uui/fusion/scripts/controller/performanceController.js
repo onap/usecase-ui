@@ -13,117 +13,178 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-app.controller('perCtrl',function ($scope) {
-
-});
-app.controller('perGridCtrl',  ['$scope', '$http', '$timeout', '$interval', 'uiGridConstants', 'uiGridGroupingConstants',
-    function ($scope, $http, $timeout, $interval) {
-
-        var mydefalutData = [
-		    { name: "Moroni", age: 50, birthday: "Oct 28, 1970", salary: "60,000" },
-            { name: "shebei1", Id: "22", State: 50, Cpu: "40%", Memory: "60,0", Disk: "60,000", Network: "60,000" },
-            { name: "shebei1", State: 50, Cpu: "40%", Memory: "60", Disk: "60,", Network: "60,000" },
-            { name: "shebei1", State: 50, Cpu: "40%", Memory: "60,000", Disk: "60,000", Network: "60,000" },
-            { name: "shebei1", State: 50, Cpu: "40%", Memory: "600", Disk: "60,000", Network: "60,000" },
-            { name: "shebei1", State: 50, Cpu: "40%", Memory: "60,000", Disk: "60,000", Network: "60,000" },
-            { name: "shebei1", State: 50, Cpu: "40%", Memory: "60,000", Disk: "60,000", Network: "60,000" }
-    ];
-		$scope.jump =  function (){
-			console.log(1);
-			$scope.currentTab = '#/pre-details';
-		};
+//
+var permanceId="";
+app.controller('perGridCtrl', ['$scope', '$http', '$timeout', '$interval', '$window', 'uiGridConstants', 'uiGridGroupingConstants',
+    function ($scope, $http, $timeout, $interval,$window) {
+        $scope.jump = function(value){
+            console.info(value);
+            permanceId=value;
+            var obj = $("#lm");
+            angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance-details.html";
+            //angular.element(obj).scope().$apply();
+        };
+        $scope.selectedRows = new Array();
+        $scope.seek1 = "";
+        $scope.seek2 = "";
+        $scope.seek3 = "";
+        $scope.seek4 = "";
+        $scope.seek5 = "";
+        $scope.getSearch = function (){
+            getPage(1, $scope.gridOptions.paginationPageSize, $scope.seek1===""?"null":$scope.seek1,
+                $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
+                $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5);
+        };
         $scope.gridOptions = {
-            data: 'myData',
-            columnDefs: [{ field: 'name',
+            columnDefs: [{
+                field: 'performanceHeader.eventName',
                 displayName: 'name',
                 width: '10%',
                 enableColumnMenu: false,
                 enableHiding: false,
                 suppressRemoveSort: true,
-                enableCellEdit: false ,
-				cellTemplate:'<a ng-click="jump()">shebei1</a>'
-            },
-                { field: "Id",},
-                { field: "State"},
-                { field: "Cpu"},	
-                { field: "Memory"},
-                { field: "Disk"},
-                { field: "Network"}
+                enableCellEdit: false
+            }, {
+                    field: "performanceHeader.eventId",
+                  enableCellEdit: false,
+                    displayName: 'Id',
+                    cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.performanceHeader.eventId)"; style="cursor:pointer" href="">{{row.entity.performanceHeader.eventId}}</a>',
+                },
+                {field: "performanceHeader.eventName", displayName: 'State',enableCellEdit: false},
+                {field: "performanceHeader.eventName", displayName: 'Cpu',enableCellEdit: false},
+                {field: "performanceHeader.eventName", displayName: 'Memory',enableCellEdit: false},
+                {field: "performanceHeader.eventName", displayName: 'Disk',enableCellEdit: false},
+                {field: "performanceHeader.eventName", displayName: 'Network',enableCellEdit: false}
             ],
-
             enableSorting: true,
             useExternalSorting: false,
             enableGridMenu: true,
             showGridFooter: true,
-            enableHorizontalScrollbar :  1,
-            enableVerticalScrollbar : 0,
+            enableHorizontalScrollbar: 1,
+            enableVerticalScrollbar: 0,
             enableFiltering: true,
             //
             enablePagination: true,
             enablePaginationControls: true,
             paginationPageSizes: [10, 15, 20],
-            paginationCurrentPage:1,
+            paginationCurrentPage: 1,
             paginationPageSize: 10,
             //paginationTemplate:"<div></div>",
-            totalItems : 0,
+            totalItems: 0,
             useExternalPagination: true,
-
-
-            //-
             enableFooterTotalSelected: true,
-            enableFullRowSelection : true,
-            enableRowHeaderSelection : true,
-            enableRowSelection : false,
-            enableSelectAll : true,
-            enableSelectionBatchEvent : true,
-            isRowSelectable: function(row){
-                if(row.entity.age > 45){
+            enableFullRowSelection: true,
+            enableRowHeaderSelection: true,
+            enableRowSelection: false,
+            enableSelectAll: true,
+            enableSelectionBatchEvent: true,
+            isRowSelectable: function (row) {
+                if (row.entity.age > 45) {
                     row.grid.api.selection.selectRow(row.entity);
                 }
             },
-            modifierKeysToMultiSelect: false ,
-            multiSelect: true ,
+            modifierKeysToMultiSelect: false,
+            multiSelect: true,
             noUnselect: false,
-            selectionRowHeaderWidth:30 ,
-
-
+            selectionRowHeaderWidth: 30,
 
             //---------------api---------------------
-            onRegisterApi: function(gridApi) {
+            onRegisterApi: function (gridApi) {
                 $scope.gridApi = gridApi;
 
-                gridApi.pagination.on.paginationChanged($scope,function(newPage, pageSize) {
-                    if(getPage) {
+                gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                    if (getPage) {
                         getPage(newPage, pageSize);
                     }
                 });
-
-                /*$scope.gridApi.selection.on.rowSelectionChanged($scope,function(row,event){
-                    if(row){
-                        $scope.testRow = row.entity;
+                $scope.gridApi.selection.on.rowSelectionChanged($scope, function (row, event) {
+                    if (row) {
+                        var num = $.inArray(row.entity.performanceHeader.eventId, $scope.selectedRows);
+                        if (num == -1) {
+                            $scope.selectedRows.push(row.entity.performanceHeader.eventId);
+                        }
+                        else {
+                            $scope.selectedRows.splice(num, 1);
+                        }
                     }
-                });*/
+                });
+                $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+            }   };
+
+        $scope.singleFilter = function (renderableRows) {
+            var matcher = new RegExp($scope.selectedStatus);
+            renderableRows.forEach(function (row) {
+                var match = true;
+                /*['State'].forEach(function (field) {
+                 if (row.entity[field].match(matcher)) {
+                 match = true;
+                 }
+                 });*/
+                if (!match) {
+                    row.visible = false;
+                }
+            });
+            return renderableRows;
+        };
+        $scope.menuState = {show: false}
+        $scope.toggleMenu = function () {
+            $scope.menuState.show = !$scope.menuState.show;
+        }
+        $scope.singleModel = 1;
+        $scope.radioModel = 'Middle';
+
+        $scope.checkModel = {
+            open: false,
+            close: true
+        };
+        $scope.checkResults = [];
+
+        $scope.$watchCollection('checkModel', function () {
+            $scope.checkResults = [];
+            angular.forEach($scope.checkModel, function (value, key) {
+                if (value) {
+                    $scope.checkResults.push(key);
+                }
+            });
+        });
+        var getPage = function (curPage, pageSize) {
+            var firstRow = (curPage - 1) * pageSize;
+            var url = global_url+'/performance/' + curPage + '/' + pageSize + '';
+            url += arguments[2] === ""  ? "/null" : "/" + arguments[2];
+            url += arguments[3] === "" ? "/null" : "/" + arguments[3];
+            url += arguments[4] === "" ? "/null" : "/" + arguments[4];
+            url += arguments[5] === "" ? "/null" : "/" + arguments[5];
+            url += arguments[6] === "" ? "/null" : "/" + arguments[6];
+            console.info(url);
+            $http.get(url, {
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic " + btoa("usecase" + ':' + "usecase")
+                }
+            })
+                .success(function (data) {
+                    $scope.gridOptions.totalItems = data.totalRecords;
+                    //console.info($scope.gridOptions.totalItems);
+                    $scope.gridOptions.data = data.performances;
+                });
+        };
+        getPage(1, $scope.gridOptions.paginationPageSize, $scope.seek1===""?"null":$scope.seek1,
+            $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
+            $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5);
+
+        $scope.generateCsv = function () {
+            if ($scope.selectedRows.length == 0){
+                alert("please select row!");
+            }else{
+                $window.location =global_url+"/performance/genCsv/"+$scope.selectedRows;
             }
         };
-
-		
-        var getPage = function(curPage, pageSize) {
-            var firstRow = (curPage - 1) * pageSize;
-            $scope.gridOptions.totalItems = mydefalutData.length;
-            $scope.gridOptions.data = mydefalutData.slice(firstRow, firstRow + pageSize);
-
-            //$scope.myData = mydefalutData.slice(firstRow, firstRow + pageSize);
-        };
-
-        getPage(1, $scope.gridOptions.paginationPageSize);
-		
-		//input
-$scope.menuState={show: false}
- $scope.toggleMenu=function()
- {
-	 $scope.menuState.show=!$scope.menuState.show;
- }
-		
+        //input
+        $scope.menuState = {show: false}
+        $scope.toggleMenu = function () {
+            $scope.menuState.show = !$scope.menuState.show;
+        }
     }]);
 	
 	
