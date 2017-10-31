@@ -195,7 +195,7 @@
            parameters: {
              globalSubscriberId: customer.id,
              subscriberName: customer.name,
-             serviceType: serviceType,
+             serviceType: serviceType.value,
              templateName: templateName,
              resources: reqPara
            }
