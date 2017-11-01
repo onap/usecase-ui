@@ -118,8 +118,8 @@
          var vimInfos = response.data;
          var result = vimInfos.map(function (vim) {
            return {
-             name: vim['cloud-owner'] + '-' + vim['cloud-region-id'],
-             value: vim['cloud-owner'] + '-' + vim['cloud-region-id']
+             name: vim['cloud-owner'] + '_' + vim['cloud-region-id'],
+             value: vim['cloud-owner'] + '_' + vim['cloud-region-id']
            };
          });
          processFun(result);
@@ -257,10 +257,9 @@
        });
      },
 
-     packageOnboard: function (onboardPackage, vims) {
+     packageOnboard: function (onboardPackage) {
        console.log('onboard...');
        console.log(onboardPackage);
-       console.log(vims);
        var requestBody = {
          csarId: onboardPackage.uuid
        };

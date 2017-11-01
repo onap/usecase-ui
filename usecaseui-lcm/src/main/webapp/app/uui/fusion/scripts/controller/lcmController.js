@@ -83,29 +83,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
-        var modalInstance = $uibModal.open({
-          ariaLabelledBy: 'modal-title',
-          ariaDescribedBy: 'modal-body',
-          templateUrl : 'app/uui/fusion/scripts/view-models/vnf-ns-onboard-dialog.html',
-          controller : 'packageOnboardCtrl',
-          controllerAs : 'ctrl',
-          resolve: {
-            onboardPackage: function () {
-              return onboardPackage;
-            }
-          }
-        });
-        modalInstance.result.then(
-          function(result) {
-            console.log('receive ok button clicked!');
-            console.log(result);
-          },
-          function(reason) {
-            console.log('receive cancel button clicked!');
-            console.log(reason);
-            $log.info('Modal dismissed at: ' + new Date());
-          }
-        );
+        ServiceTemplateService.packageOnboard(onboardPackage);
       };
     }
   ]
