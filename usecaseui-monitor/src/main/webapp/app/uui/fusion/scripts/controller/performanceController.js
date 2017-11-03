@@ -15,8 +15,8 @@
  */
 //
 var permanceId="";
-app.controller('perGridCtrl', ['$scope', '$http', '$timeout', '$interval', '$window', 'uiGridConstants', 'uiGridGroupingConstants',
-    function ($scope, $http, $timeout, $interval,$window) {
+app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGridConstants', 'uiGridGroupingConstants', '$window' ,
+    function ($scope, $http , $window, $interval ) {
         $scope.jump = function(value){
             console.info(value);
             permanceId=value;
@@ -155,7 +155,6 @@ app.controller('perGridCtrl', ['$scope', '$http', '$timeout', '$interval', '$win
             url += arguments[4] === "" ? "/null" : "/" + arguments[4];
             url += arguments[5] === "" ? "/null" : "/" + arguments[5];
             url += arguments[6] === "" ? "/null" : "/" + arguments[6];
-            console.info(url);
             $http.get(url, {
                 headers: {
                     'Access-Control-Allow-Origin': "*",
@@ -165,19 +164,22 @@ app.controller('perGridCtrl', ['$scope', '$http', '$timeout', '$interval', '$win
             })
                 .success(function (data) {
                     $scope.gridOptions.totalItems = data.totalRecords;
-                    //console.info($scope.gridOptions.totalItems);
                     $scope.gridOptions.data = data.performances;
                 });
         };
         getPage(1, $scope.gridOptions.paginationPageSize, $scope.seek1===""?"null":$scope.seek1,
             $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
             $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5);
-
+        $interval(function () {
+            getPage(1, $scope.gridOptions.paginationPageSize, $scope.seek1===""?"null":$scope.seek1,
+                $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
+                $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5);
+        },10000)
         $scope.generateCsv = function () {
             if ($scope.selectedRows.length == 0){
                 alert("please select row!");
             }else{
-                $window.location =global_url+"/performance/genCsv/"+$scope.selectedRows;
+                $window.location = global_url+"/performance/genCsv/"+$scope.selectedRows;
             }
         };
         //input

@@ -44,7 +44,6 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             url += arguments[6] === "" ? "/null" : "/" + arguments[6];
             url += arguments[7] === "" ? "/null" : "/" + arguments[7];
             url += arguments[8] === "" ? "/null" : "/" + arguments[8];
-            console.info(url);
             $http.get(url, {
                 headers: {
                     'Access-Control-Allow-Origin': "*",
@@ -54,7 +53,6 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             })
                 .success(function (data) {
                     $scope.gridOptions.totalItems = data.totalRecords;
-                    //console.info($scope.gridOptions.totalItems);
                     $scope.gridOptions.data = data.alarms;
                 });
         };
@@ -88,7 +86,6 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             paginationPageSizes: [10, 15, 20],
             paginationCurrentPage: 1,
             paginationPageSize: 10,
-            //paginationTemplate:"<div></div>",
             totalItems: 0,
             useExternalPagination: true,
             enableFooterTotalSelected: true,
@@ -133,6 +130,12 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
             $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
             $scope.alarmStatus, $scope.vfstatus);
+        $interval(function () {
+            getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
+                $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
+                $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
+                $scope.alarmStatus, $scope.vfstatus);
+        },10000)
 
         $scope.generateCsv = function () {
             if ($scope.selectedRows.length == 0){

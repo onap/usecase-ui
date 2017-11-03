@@ -54,7 +54,7 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">CPU
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button>
+                                                    <button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button>
                                                 </div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart"> <svg></svg> </div>
                                             </div>
@@ -62,7 +62,7 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Memory
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('memory');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -71,14 +71,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Disk
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('disk');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Network
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('network');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -91,14 +91,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">CPU
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Memory
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('memory');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart1"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -107,14 +107,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Disk
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('disk');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Network
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('network');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart1"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -127,14 +127,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">CPU
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Memory
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('memory');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart2"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -143,14 +143,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Disk
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('disk');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Network
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('network');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart2"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -163,14 +163,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">CPU
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="CPUchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Memory
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('memory');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Memorychart3"> <svg></svg> </div>
                                             </div>
                                         </div>
@@ -179,14 +179,14 @@
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Disk
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('disk');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Diskchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">Network
-                                                    <button ng-click="" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
+                                                    <button ng-click="generateCsv('network');" class="btn btn-primary" style="float: right;margin-top:-7px; ">CSV</button></div>
                                                 <div align="center"><H3></H3></div><div id="Networkchart3"> <svg></svg> </div>
                                             </div>
                                         </div>
