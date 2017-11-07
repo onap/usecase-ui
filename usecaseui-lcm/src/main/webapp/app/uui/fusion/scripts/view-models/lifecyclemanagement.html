@@ -17,7 +17,7 @@
 -->
 <div class="templatemo-content-wrapper" ng-controller="lcmCtrl as ctrl" ng-init="ctrl.init()">
   <div class="templatemo-content">
-    <div uib-alert ng-repeat="alert in ctrl.alerts" ng-class="'alert-' + (alert.type || 'warning')"  close="ctrl.closeAlert($index)" dismiss-on-timeout="10000">{{alert.msg}}</div>
+    <div style="float:right;width:30%" uib-alert ng-repeat="alert in ctrl.alerts" ng-class="'alert-' + (alert.type || 'warning')"  close="ctrl.closeAlert($index)" dismiss-on-timeout="10000">{{alert.msg}}</div>
     <h1 style="margin-bottom:40px">Life Cycle Manager</h1>
 
     <uib-tabset active="active">
