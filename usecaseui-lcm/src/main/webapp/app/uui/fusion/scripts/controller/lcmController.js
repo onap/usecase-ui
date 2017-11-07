@@ -16,6 +16,38 @@
 app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '$interval', 'ServiceTemplateService',
     function ($scope, $uibModal, $log, $http, $timeout, $interval, ServiceTemplateService) {
       var ctrl = this;
+      ctrl.alerts = [];
+      ctrl.closeAlert = function(index) {
+        ctrl.alerts.splice(index, 1);
+      };
+      var openServiceProgressDialog = function (serviceId, operationId, title, successFun, failFun) {
+        var serviceProgressInstance = $uibModal.open({
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+          controller : 'ServiceProgressCtrl',
+          controllerAs : 'ctrl',
+          resolve: {
+            serviceId: function () {
+              return serviceId;
+            },
+            operationId: function () {
+              return operationId;
+            },
+            operationTitle: function () {
+              return title;
+            }
+          }
+        });
+        serviceProgressInstance.result.then(
+          function (result) {
+            successFun(result);
+          },
+          function (reason) {
+            failFun(reason);
+          }
+        );
+      };
       ctrl.openCreateServiceDialog = function () {
         var modalInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',
@@ -36,6 +68,16 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           function(result) {
             console.log('receive ok button clicked!');
             console.log(result);
+            var successFun = function (result) {
+              ctrl.alerts.push({type: 'success', msg: result});
+              ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
+                ctrl.serviceInstances = instances;
+              });
+            }
+            var failFun = function (reason) {
+              ctrl.alerts.push({type: 'danger',msg: reason});
+            }
+            openServiceProgressDialog(result.serviceId, result.operationId, 'Create Service', successFun, failFun);
           },
           function(reason) {
             console.log('receive cancel button clicked!');
@@ -79,7 +121,19 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.deleteService = function (serviceInstance) {
-        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId);
+        var successFun = function (serviceId, operationId) {
+          var successFun = function (result) {
+            ctrl.alerts.push({type: 'success', msg: result});
+            ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
+              ctrl.serviceInstances = instances;
+            });
+          }
+          var failFun = function (reason) {
+            ctrl.alerts.push({type: 'danger',msg: reason});
+          }
+          openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
+        }
+        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, successFun);
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
@@ -88,8 +142,8 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
     }
   ]
 )
-.controller('createServiceCtrl',['$scope', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
-    function($scope, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
+.controller('createServiceCtrl',['$scope', '$uibModal','$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
+    function($scope,$uibModal, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
       var ctrl = this;
 
       ServiceTemplateService.getAllServiceTemplates(function (t) {
@@ -165,12 +219,19 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         console.log(customer);
         console.log(serviceType);
         console.log(ctrl.realTemplate);
-        ServiceTemplateService.createService(customer, serviceType, ctrl.service, ctrl.realTemplate);
-        var result = 'success.';
-        $uibModalInstance.close(result);
-      };
 
-      console.log($uibModalInstance);
+
+        var errorMessage = function () {
+
+        };
+        var successFun = function (serviceId, operationId) {
+          $uibModalInstance.close({
+            serviceId: serviceId,
+            operationId: operationId
+          });
+        }
+        ServiceTemplateService.createService(customer, serviceType, ctrl.service, ctrl.realTemplate, successFun, errorMessage);
+      };
       // cancel click
       ctrl.cancel = function() {
         $uibModalInstance.dismiss('cancel');
@@ -211,4 +272,43 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
     }]
+).controller('ServiceProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'serviceId', 'operationId', 'operationTitle', '$q', '$interval',
+function ($uibModalInstance, ServiceTemplateService, serviceId, operationId, operationTitle, $q, $interval) {
+  var ctrl = this;
+  ctrl.title = operationTitle;
+  ctrl.operation = '';
+  ctrl.max = 100;
+  ctrl.dynamic = 0;
+
+  var timerDeferred = $q.defer();
+  var timerPromise = timerDeferred.promise;
+
+  var progressFun = function (serviceProgress) {
+    if('finished' === serviceProgress.result || 'error' === serviceProgress.result) {
+      ctrl.dynamic = 100;
+      timerDeferred.resolve();
+      if('finished' === serviceProgress.result) {
+        $uibModalInstance.close(operationTitle + ' finished!');
+      } else if('error' === serviceProgress.result) {
+        $uibModalInstance.dismiss(operationTitle + ' failed! ' + serviceProgress.reason);
+      }
+      console.log('timer finished!');
+    } else if('processing' === serviceProgress.result) {
+      ctrl.dynamic = serviceProgress.progress;
+      ctrl.operation = serviceProgress.operationContent;
+      console.log('timer processing ......');
+    }
+  };
+
+  var timer = $interval(function () {
+    ServiceTemplateService.queryServiceProgress(serviceId, operationId, progressFun);
+  }, 1000);
+
+  timerPromise.then(function () {
+    $interval.cancel(timer);
+    console.log('timer cancel ---- ');
+  },function () {
+    $interval.cancel(timer);
+  });
+}]
 );

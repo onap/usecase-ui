@@ -144,7 +144,7 @@
        });
      },
 
-     createService: function (customer, serviceType, service, template) {
+     createService: function (customer, serviceType, service, template, successFun, failedFun) {
        var reqPara = [];
        service.segments.forEach(function (segment) {
          var reqParas = {};
@@ -203,7 +203,7 @@
        };
 
        console.log('request body: ');
-       console.log(requestBody);
+       console.log(JSON.stringify(requestBody));
 
        return $http({
          url: url+'/services',
@@ -213,10 +213,14 @@
        }).then(function(response){
          console.log('create response...');
          console.log(response.data);
+
+         var serviceId = response.data.service.serviceId;
+         var operationId = response.data.service.operationId;
+         successFun(serviceId, operatinId);
        });
      },
 
-     deleteService: function (serviceId) {
+     deleteService: function (serviceId, successFun) {
        return $http({
          url: url+'/services/' + serviceId,
          method: 'DELETE',
@@ -225,6 +229,26 @@
        }).then(function(response){
          console.log('delete response...');
          console.log(response.data);
+         successFun(serviceId, response.data.operationId);
+       });
+     },
+
+     queryServiceProgress: function (serviceId, operationId, progressFun) {
+       return $http({
+         url: url+'/services/' + serviceId + '/operations/' + operationId,
+         method: 'GET',
+         data: null,
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('get progress response...');
+         console.log(response.data);
+         var op = response.data.operation;
+         progressFun({
+           result: op.result,
+           progress : op.progress,
+           operationContent: op.operationContent,
+           reason: op.reason
+         });
        });
      },
 
