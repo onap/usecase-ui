@@ -67,6 +67,7 @@
               <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Version</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -74,8 +75,10 @@
               <tr ng-repeat="package in ctrl.packages">
                 <td>{{package.name}}</td>
                 <td>{{package.type}}</td>
+                <td>{{package.version}}</td>
                 <td>
                   <button class="btn btn-primary onboard-button" ng-click="ctrl.packageOnboard(package)">Onboard</button>
+                  <button class="btn btn-primary delete-button" ng-click="ctrl.packageDelete(package)">Delete</button>
                 </td>
               </tr>
             </tbody>

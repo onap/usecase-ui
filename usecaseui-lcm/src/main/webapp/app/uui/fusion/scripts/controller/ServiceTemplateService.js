@@ -266,6 +266,7 @@
              uuid: ns.uuid,
              invariantUUID: ns.invariantUUID,
              name: ns.name,
+             version: ns.version,
              type: 'NS'
            })
          });
@@ -274,6 +275,7 @@
              uuid: vnf.uuid,
              invariantUUID: vnf.invariantUUID,
              name: vnf.name,
+             version: vnf.version,,
              type: 'VF'
            })
          });
@@ -281,33 +283,83 @@
        });
      },
 
-     packageOnboard: function (onboardPackage) {
+     nsPackageOnboard: function (onboardPackage, processFun) {
        console.log('onboard...');
        console.log(onboardPackage);
        var requestBody = {
          csarId: onboardPackage.uuid
        };
-       if(onboardPackage.type === 'NS') {
-         return $http({
-           url: url+'/ns-packages',
-           method: 'POST',
-           data: JSON.stringify(requestBody),
-           headers: uuiHeaders
-         }).then(function(response){
-           console.log('onboard ns package response...');
-           console.log(response.data);
-         });
-       } else {
-         return $http({
-           url: url+'/vf-packages',
-           method: 'POST',
-           data: JSON.stringify(requestBody),
-           headers: uuiHeaders
-         }).then(function(response){
-           console.log('onboard vf package response...');
-           console.log(response.data);
-         });
-       }
+       return $http({
+         url: url+'/ns-packages',
+         method: 'POST',
+         data: JSON.stringify(requestBody),
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('onboard ns package response...');
+         console.log(response.data);
+         processFun(response.data);
+       });
+     },
+
+     vfPackageOnboard: function (onboardPackage, processFun) {
+       console.log('onboard...');
+       console.log(onboardPackage);
+       var requestBody = {
+         csarId: onboardPackage.uuid
+       };
+       return $http({
+         url: url+'/vf-packages',
+         method: 'POST',
+         data: JSON.stringify(requestBody),
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('onboard vf package response...');
+         console.log(response.data);
+         processFun(response.data);
+       });
+     },
+
+     queryVfOnboardProgress: function (jobId, progressFun) {
+       return $http({
+         url: url+'/jobs/' + jobId,
+         method: 'GET',
+         data: null,
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('get progress response...');
+         console.log(response.data);
+         progressFun(response.data.responseDescriptor);
+       });
+     },
+
+     nsPackageDelete: function (deletePackage, processFun) {
+       console.log('delete package...');
+       console.log(deletePackage);
+       return $http({
+         url: url+'/ns-packages/' + deletePackage.uuid,
+         method: 'DELETE',
+         data: null,
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('delete ns package response...');
+         console.log(response.data);
+         processFun(response.data);
+       });
+     },
+
+     vfPackageDelete: function (deletePackage, processFun) {
+       console.log('delete package...');
+       console.log(deletePackage);
+       return $http({
+         url: url+'/vf-packages/' + deletePackage.uuid,
+         method: 'DELETE',
+         data: null,
+         headers: uuiHeaders
+       }).then(function(response){
+         console.log('delete vf package response...');
+         console.log(response.data);
+         processFun(response.data);
+       });
      }
    };
  });

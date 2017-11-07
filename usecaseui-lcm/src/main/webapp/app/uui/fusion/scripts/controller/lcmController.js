@@ -137,7 +137,67 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
-        ServiceTemplateService.packageOnboard(onboardPackage);
+        if(onboardPackage.type === 'NS') {
+          var processFun = function (response) {
+            if('failed' === response.status) {
+              ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
+            } else {
+              ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+            }
+          };
+          ServiceTemplateService.nsPackageOnboard(onboardPackage, processFun);
+        } else {
+          var openOnboardProgressDialog = function (jobId, title, successFun, failFun) {
+            var onboardProgressInstance = $uibModal.open({
+              ariaLabelledBy: 'modal-title',
+              ariaDescribedBy: 'modal-body',
+              templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+              controller : 'VfOnboardProgressCtrl',
+              controllerAs : 'ctrl',
+              resolve: {
+                jobId: function () {
+                  return jobId;
+                },
+                operationTitle: function () {
+                  return title;
+                }
+              }
+            });
+            onboardProgressInstance.result.then(
+              function (result) {
+                successFun(result);
+              },
+              function (reason) {
+                failFun(reason);
+              }
+            );
+          };
+          var successFun = function (result) {
+            ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+          };
+          var failFun = function (reason) {
+            ctrl.alerts.push({type: 'danger',msg: 'Operation is failed! ' + reason});
+          };
+          var processFun = function (response) {
+            openOnboardProgressDialog(response.jobId, 'VF Onboarding', successFun, failFun);
+          };
+          ServiceTemplateService.vfPackageOnboard(onboardPackage, processFun);
+        }
+      };
+
+      ctrl.packageDelete = function (deletePackage) {
+        var processFun = function (response) {
+          if('failed' === response.status) {
+            ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
+          } else {
+            ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+          }
+        };
+        if(deletePackage.type === 'NS') {
+          ServiceTemplateService.nsPackageDelete(deletePackage, processFun);
+        } else {
+          ServiceTemplateService.vfPackageDelete(deletePackage, processFun);
+        }
       };
     }
   ]
@@ -302,6 +362,45 @@ function ($uibModalInstance, ServiceTemplateService, serviceId, operationId, ope
 
   var timer = $interval(function () {
     ServiceTemplateService.queryServiceProgress(serviceId, operationId, progressFun);
+  }, 1000);
+
+  timerPromise.then(function () {
+    $interval.cancel(timer);
+    console.log('timer cancel ---- ');
+  },function () {
+    $interval.cancel(timer);
+  });
+}]
+).controller('VfOnboardProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'jobId', 'operationTitle', '$q', '$interval',
+function ($uibModalInstance, ServiceTemplateService, jobId, operationTitle, $q, $interval) {
+  var ctrl = this;
+  ctrl.title = operationTitle;
+  ctrl.operation = '';
+  ctrl.max = 100;
+  ctrl.dynamic = 0;
+
+  var timerDeferred = $q.defer();
+  var timerPromise = timerDeferred.promise;
+
+  var progressFun = function (responseDescriptor) {
+    if('finished' === responseDescriptor.status || 'error' === responseDescriptor.status) {
+      ctrl.dynamic = 100;
+      timerDeferred.resolve();
+      if('finished' === responseDescriptor.status) {
+        $uibModalInstance.close('');
+      } else if('error' === responseDescriptor.status) {
+        $uibModalInstance.dismiss(responseDescriptor.statusDescription);
+      }
+      console.log('timer finished!');
+    } else if('processing' === responseDescriptor.status) {
+      ctrl.dynamic = responseDescriptor.progress;
+      ctrl.operation = responseDescriptor.statusDescription;
+      console.log('timer processing ......');
+    }
+  };
+
+  var timer = $interval(function () {
+    ServiceTemplateService.queryVfOnboardProgress(jobId, progressFun);
   }, 1000);
 
   timerPromise.then(function () {
