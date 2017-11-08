@@ -216,7 +216,7 @@
 
          var serviceId = response.data.service.serviceId;
          var operationId = response.data.service.operationId;
-         successFun(serviceId, operatinId);
+         successFun(serviceId, operationId);
        });
      },
 
@@ -242,7 +242,7 @@
        }).then(function(response){
          console.log('get progress response...');
          console.log(response.data);
-         var op = response.data.operation;
+         var op = response.data.operationStatus;
          progressFun({
            result: op.result,
            progress : op.progress,
@@ -275,7 +275,7 @@
              uuid: vnf.uuid,
              invariantUUID: vnf.invariantUUID,
              name: vnf.name,
-             version: vnf.version,,
+             version: vnf.version,
              type: 'VF'
            })
          });
