@@ -3,7 +3,8 @@
 Platform
 --------
 
-Holmes provides alarm correlation and analysis for Telecom cloud infrastructure and services, including hosts, vims, VNFs and NSs. Holmes aims to find the root reason which causes the failure or degradation of services by digging into the ocean of events collected from different levels of the Telecom cloud.
+Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. It provides self-service management GUI and monitor GUI for operators and end-users.
+This project targets identifying all GUI requirements which operators and end-users need ONAP to support, coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
 .. toctree::
    :maxdepth: 1

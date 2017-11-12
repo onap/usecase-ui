@@ -4,29 +4,26 @@
 Architecture
 ------------
 
-Holmes comprises three modules: the rule management module, the engine management module and the data source adapter.
+Usecase-Ui comprises two modules: the Usecase-UI UI module and the Usecase-UI Server module.
 
 - Holmes
-    - Rule Management Module
-    - Engine Management Module
-    - Data Source Adapter
-	
+    - Usecase-UI UI Module
+    - Usecase-UI Server Module
+
 ONAP-level Architecture
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Basically, Holmes itself is an independent component in ONAP, which means it could be deployed as an ONAP-level component. In the Amsterdam release, Holmes is more generally a DCAE analytic application. It is deployed by DCAE and run as an analytic application on top of it. Also, it could be considered as a filter of the Policy component because it reduces the number of the input messages of Policy.
+Usecase-UI itself is an independent component in ONAP, which means it could be deployed as an ONAP-level component.
 
 .. image:: images/overall-architecture-in-onap.png
 
-Holmes Architecture
+Usecase-UI Architecture
 ^^^^^^^^^^^^^^^^^^^
 
-Take a deep dive into Holmes, we could see it mainly consists of three modules, which are the rule management module, the engine management module and the data source adapter module respectively. 
+Take a deep dive into Usecase-UI, we could see it mainly consists of two modules, which are the UI module and Server module respectively. 
 
-The rule management module provides interfaces for the operations (e.g. creating, updating and deleting) on the rules.
+The UI module provides Graphical User Interface (GUI) for operators and end-users (e.g. LCM, Monitor).
 
-The data source adapter consists of subscribers and publishers, which are used to convert the data format into the one that could be digested by Holmes and vice versa. 
+The Server module is the logic part of Usecase-UI. This part analyzes NS files for LCM function and subscribes vnf alarm and performance data for monitor function.
 
-The engine management module is the core of Holmes. All the rules are deployed here. When alarms gets into Holmes, they will be pushed into the Drools engine and analyzed by the enabled rules one after another. When processing the alarms, a couple of attributes, such as the alarm name, the occurrence time of the alarm and so on, are utilized. Also, the topological information from A&AI is used in combination of the alarm attributes. After the root cause is identified, it will be converted into a control loop event and published to a specific DMaaP topic which is subscribed to by the Policy component.
-
-.. image:: images/holmes-architecture.png
+.. image:: images/usecaseui-architecture.png
