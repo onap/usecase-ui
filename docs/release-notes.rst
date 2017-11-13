@@ -2,34 +2,48 @@
 .. http://creativecommons.org/licenses/by/4.0
 
 
-Release Notes
-=============
+Usecase UI Release Notes
+========================
 
-.. note::
-	* This Release Notes must be updated each time the team decides to Release new artifacts.
-	* The scope of this Release Notes is for this particular component. In other words, each ONAP component has its Release Notes.
-	* This Release Notes is cumulative, the most recently Released artifact is made visible in the top of this Release Notes.
-	* Except the date and the version number, all the other sections are optional but there must be at least one section describing the purpose of this new release.
-	* This note must be removed after content has been added.
+Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. It provides self-service management GUI and monitor GUI for operators and end-users.  This project targets identifying all GUI requirements which operators and end-users need ONAP to support, coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
 
-Version: x.y.z
+Version: 1.0.0
 --------------
 
-
-:Release Date: yyyy-mm-dd
-
+:Release Date: 2017-11-16
 
 
 **New Features**
+In the Amsterdam release, Usecase UI is mainly intended to support the lifecycle management and monitor for the VoLTE scenario. To get us there, Usecase UI provides the following features:
 
-Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server.
-It provides self-service management GUI and monitor GUI for operators and
-end-users.  This project targets identifying all GUI requirements which
-operators and end-users need ONAP to support, coordinating GUI parts of
-each ONAP subsystem, filling the gaps for improving GUI functionalities
-for use cases.
+- Lifecycle Management: The feature provides GUI for the users to create, query, update and delete service instances.
 
+- Monitor: The feature is provides GUI for the users to monitor system alarms and VNFs performance.
+
+**Bug Fixes**
+
+This is the initial release.
+
+**Known Issues**
+
+N/A
+
+**Security Issues**
+
+N/A
+
+**Upgrade Notes**
+
+This is the inital release.
+
+**Deprecation Notes**
+
+N/A
+
+**Other**
+
+N/A
 
 ===========
 
