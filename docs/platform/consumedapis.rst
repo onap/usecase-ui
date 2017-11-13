@@ -4,56 +4,103 @@
 Consumed APIs
 -------------
 
-In the Amsterdam release, Holmes mainly depends on the APIs provided by DCAE, A&AI, DMaaP and MSB.
+In the Amsterdam release, Usecase-UI mainly depends on the APIs provided by VF-C, SDC, A&AI, SO, DMaaP and MSB.
 
-DCAE
+VF-C
 ^^^^
 
-Holmes uses DCAE APIs to fetch the information of the microservices that are registered to the DCAE Consul via the Config Binding Service provided by DCAE. The definition of the APIs could be found at `Config Binding Service APIs <https://wiki.onap.org/download/attachments/13599708/cb.html?version=1&modificationDate=1503378245000&api=v2>`_.
+#. Distribute Network Service package:
+
+   ``POST  /api/catalog/v1/nspackages``
+
+#. Distribute VF resource:
+
+   ``POST /api/catalog/v1/vnfpackages``
+
+#. Query operation progress for distributing network service/vf resource:
+
+   ``GET  /api/nslcm/v1/jobs/{jobId}``
+
+#. Delete Network Service package:
+
+   ``DELETE  /api/catalog/v1/nspackages/{csarId}``
+
+#. Delete VF resource:
+
+   ``DELETE /api/catalog/v1/vnfpackages/{csarId}``
+
+
+SDC
+^^^^
+
+#. Query all distributed End to End Service:
+
+   ``GET /sdc/v1/catalog/services``
+
+#. Query specified service:
+
+   ``GET  /sdc/v1/catalog/services/{uuid}/metadata``
+
+#. Query VF resource:
+
+   ``GET /sdc/v1/catalog/resources``
+
+#. Download csar file:
+
+   ``GET /sdc/v1/catalog/services/{uuid}/toscaModel``
+
 
 A&AI
 ^^^^
 
-In order to get the correlation between different alarms with the help of the topological information provided by A&AI. Holmes needs to call the A&AI APIs. Generally, we have to query the information of VNFs, VMs and the corresponding relation between resources from different layers. The following APIs are invoked by Holmes.
+#. Query all customers:
 
-#. Query a VNF by name:
+   ``/aai/v11/business/customers``
 
-   ``/aai/v11/network/generic-vnfs/generic-vnf?vnf-name={vnf-name}``
+#. Query all service types for the specified customer:
 
-#. Query a VNF by ID:
+   ``/aai/v11/business/customers/customer/{global-customer-id}/service-subscriptions``
 
-   ``/aai/v11/network/generic-vnfs/generic-vnf?vnf-id={vnf-id}``
+#. Query all service instances:
 
-#. Query a VM by name:
+   ``/aai/v11/business/customers/customer/{global-customer-id}/service-subscriptions/service-subscription/{service-type}/service-instances``
 
-   ``/aai/v11/search/nodes-query?search-node-type=vserver&filter=vserver-name:EQUALS:{vserver-name}``
+#. Query all cloud regions:
 
-#. Query a VM by ID:
+   ``/aai/v11/cloud-infrastructure/cloud-regions``
 
-   ``/aai/v11/search/nodes-query?search-node-type=vserver&filter=vserver-id:EQUALS:{vserver-id}`` 
+#. Query all sdnc controllers:
 
-More details could be found at `A&AI APIs <https://wiki.onap.org/pages/viewpage.action?pageId=13598793>`_.
- 
+   ``/aai/v11/external-system/esr-thirdparty-sdnc-list``
+
+
+SO
+^^^^
+
+#. Instantiate service instance:
+
+   ``POST /ecomp/mso/infra/e2eServiceInstances/v3``
+
+#. Query operation progress for service instantiation/termination:
+
+   ``GET /ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/operations/{operationId}``
+
+#. Terminate service instance:
+
+   ``DELETE /ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}``
+
+
 DMaaP
 ^^^^^
-
-Holmes fetches VES data from DMaaP and publishes the control loop event back to DMaaP. The related APIs are:
 
 #. Subscribing:
 
    ``/events/{topic}/{consumergroup}/{consumerid}``
 
-#. Publishing:
-
-   ``/events/{topic}``
-
-More details could be found at `DMaaP APIs <https://wiki.onap.org/display/DW/DMaaP+API>`_.
 
 MSB
 ^^^
 
-MSB is a key component that Holmes depends on. Almost all communications between Holmes and other components are performed using MSB as a proxy. In order to utilize the service registration and discovery functions provided by MSB, Holmes has to register itself to MSB in advance.
+#. Service Registration:
 
-Service Registration: ``/api/microservices/v1/services``
-
-More details could be found at `MSB APIs <https://wiki.onap.org/display/DW/Microservice+Bus+API+Documentation>`_.
+   ``/api/microservices/v1/services``

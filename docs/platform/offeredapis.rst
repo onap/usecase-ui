@@ -1,11 +1,7 @@
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+
+
 Offered APIs
-------------
+-------------
 
-The rule management module provides the following APIs.
-
-* Rule Creation
-* Rule Update
-* Rule Query
-* Rule Deletion
-
-.. swaggerv2doc:: ../../rulemgt/src/main/resources/swagger.json
+No offered APIs is provided in the Amsterdam release. Such functionalities will be provided in the future if necessary.
