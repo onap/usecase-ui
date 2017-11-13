@@ -14,24 +14,11 @@
     limitations under the License.
 -->
 <div class="templatemo-content" ng-controller="alarmGridCtrl">
-    <h1>Alarm</h1>
+    <h1>VNF Alarm</h1>
     <div class="row margin-bottom-20">
     </div>
     <div class="row margin-bottom-10">
-        <div class="col-md-8">
-            <ul class="nav nav-pills">
-                <li style="background-color: #ddd"
-                    ng-repeat="s in status"
-                    ng-click="selectStatus(s.id)"
-                    ng-class="{active:activeStatus(s.id)}">
-                    <a href="">
-                        {{s.name}}
-                        <span class="badge">{{s.count}}</span>
-                    </a>
-                </li>
-                <input type="hidden" ng-model="selectedStatus"/>
-            </ul>
-        </div>
+
         <div class="col-md-4">
             <ul class="nav nav-pills">
                 <li style="background-color: #ddd" ng-repeat="O in open"
@@ -47,14 +34,20 @@
         </div>
     </div>
     <ul class="list">
-        <li>cpu <input ng-model="condition1" type="text"/></li>
-        <li>state <input ng-model="condition2" type="text"/></li>
-        <li>memory <input ng-model="condition3" type="text"/></li>
+        <li>Source Id <input ng-model="condition1" type="text"/></li>
+        <li>Source Name <input ng-model="condition2" type="text"/></li>
+        <li>Priority <input ng-model="condition3" type="text"/></li>
         <button ng-click="alarmSearch()">search</button>
     </ul>
     <ul class="list" ng-show='menuState.show'>
-        <li>disk <input ng-model="condition4" type="text"/></li>
-        <li>Network <input ng-model="condition5" type="text"/></li>
+        <li>Start Time
+            <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="condition4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" />
+            <div style="display:block;float:left" uib-timepicker ng-model="condition4" hour-step minute-step show-meridian></div>
+        </li>
+        <li>
+            End Time <input type="text" class="form-control" ng-click="open2()" readonly uib-datepicker-popup ng-model="condition5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" />
+            <div style="display:block;float:left" uib-timepicker ng-model="condition5" hour-step minute-step show-meridian></div>
+        </li>
     </ul>
     <div class="row">
         <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -71,7 +64,8 @@
         </div>
         <div class="col-md-1">
 
-            <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>
+            <!--<button ng-click="generateCsv()" class="btn btn-primary">CSV</button>-->
+            <button ng-click="toChart()" class="btn btn-primary">Chart</button>
         </div>
     </div>
     <div>

@@ -18,7 +18,6 @@ var permanceId="";
 app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGridConstants', 'uiGridGroupingConstants', '$window' ,
     function ($scope, $http , $window, $interval ) {
         $scope.jump = function(value){
-            console.info(value);
             permanceId=value;
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance-details.html";
@@ -35,10 +34,14 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGrid
                 $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
                 $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5);
         };
+        $scope.toChart = function () {
+            var obj = $("#lm");
+            angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance-chart.html";
+        };
         $scope.gridOptions = {
             columnDefs: [{
                 field: 'performanceHeader.eventName',
-                displayName: 'name',
+                displayName: 'Event Name',
                 width: '10%',
                 enableColumnMenu: false,
                 enableHiding: false,
@@ -47,14 +50,17 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGrid
             }, {
                     field: "performanceHeader.eventId",
                   enableCellEdit: false,
-                    displayName: 'Id',
-                    cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.performanceHeader.eventId)"; style="cursor:pointer" href="">{{row.entity.performanceHeader.eventId}}</a>',
+                    displayName: 'Event Id',
+                    cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.performanceHeader.sourceId)"; style="cursor:pointer" href="">{{row.entity.performanceHeader.sourceId}}</a>',
                 },
-                {field: "performanceHeader.eventName", displayName: 'State',enableCellEdit: false},
-                {field: "performanceHeader.eventName", displayName: 'Cpu',enableCellEdit: false},
-                {field: "performanceHeader.eventName", displayName: 'Memory',enableCellEdit: false},
-                {field: "performanceHeader.eventName", displayName: 'Disk',enableCellEdit: false},
-                {field: "performanceHeader.eventName", displayName: 'Network',enableCellEdit: false}
+                {field: "performanceHeader.sourceId", displayName: 'Source Id',enableCellEdit: false},
+                {field: "performanceHeader.sourceName", displayName: 'Source Name',enableCellEdit: false},
+                {field: "performanceHeader.reportingEntityId", displayName: 'Reporting Entity Id',enableCellEdit: false},
+                {field: "performanceHeader.reportingEntityName", displayName: 'Reporting Entity Name',enableCellEdit: false},
+                {field: "performanceHeader.priority", displayName: 'Priority',enableCellEdit: false},
+                {field: "performanceHeader.createTime", displayName: 'Start Time',enableCellEdit: false},
+                {field: "option",displayName: 'option', enableCellEdit: false ,
+                    cellTemplate: '<button ng-click="grid.appScope.jump(row.entity.performanceHeader.sourceId)" class="btn btn-primary" >Details</button>'}
             ],
             enableSorting: true,
             useExternalSorting: false,
@@ -150,11 +156,11 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGrid
         var getPage = function (curPage, pageSize) {
             var firstRow = (curPage - 1) * pageSize;
             var url = global_url+'/performance/' + curPage + '/' + pageSize + '';
-            url += arguments[2] === ""  ? "/null" : "/" + arguments[2];
+            url += arguments[2] === "" ? "/null" : "/" + arguments[2];
             url += arguments[3] === "" ? "/null" : "/" + arguments[3];
             url += arguments[4] === "" ? "/null" : "/" + arguments[4];
-            url += arguments[5] === "" ? "/null" : "/" + arguments[5];
-            url += arguments[6] === "" ? "/null" : "/" + arguments[6];
+            url += arguments[5] === "null" ? "/null" : "/" + FormatDate(arguments[5]);
+            url += arguments[6] === "null" ? "/null" : "/" + FormatDate(arguments[6]);
             $http.get(url, {
                 headers: {
                     'Access-Control-Allow-Origin': "*",
@@ -187,6 +193,25 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', 'uiGrid
         $scope.toggleMenu = function () {
             $scope.menuState.show = !$scope.menuState.show;
         }
+        $scope.open1 = function () {
+            $scope.popup1.opened = true;
+        };
+
+        $scope.open2 = function () {
+            $scope.popup2.opened = true;
+        };
+
+        $scope.popup1 = {
+            opened: false
+        };
+
+        $scope.popup2 = {
+            opened: false
+        };
+        function FormatDate(strTime) {
+            var date = new Date(strTime);
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+        };
     }]);
 	
 	
