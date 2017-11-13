@@ -13,185 +13,27 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
-    function ($scope, $http, $routeParams, $window) {
-    $scope.tabes = [
-        {title: 'one hour'},
-        {title: 'one day'},
-        {title: 'one month'},
-        {title: 'one year'}
-    ];
-    $scope.valuess = [];
-    $scope.csvData = [];
-    $scope.barChart = function (unit) {
-        $http.get(global_url + '/performance/diagram/' + unit + '/' + permanceId, {
-            headers: {
-                'Access-Control-Allow-Origin': "*",
-                "Content-Type": "application/json"
-            }
-        })
-            .success(function (data) {
-                var v = 0;
-                var i = 0;
-                if (unit === "hour") {
-                    for(var h=0;h<4;h++){
-                        $scope.valuess[h] = [
-                            {"x": '15min', "y": 4}, {"x": '30min', "y": 4}, {"x": '45min', "y": 12},
-                            {"x": '60min', "y": 3.27}
-                        ];
-                    };
-                    angular.forEach(data, function (obj) {
-                        for (var j = 0; j < obj.length; j++, i++) {
-                            if (i >= 4) {
-                                v++;
-                                i = 0;
-                            }
-                            $scope.valuess[v][i].y = obj[j];
-                        }
-                    });
-                    for (var d = 0; d < 5; d++) {
-                        window.setTimeout(function () {
-                            redraw("", $scope.valuess);
-                        }, 1500);
-                    };
-                }
-                if (unit === "day") {
-                    for(var d=0;d<4;d++){
-                        $scope.valuess[d] = [
-                            { "x":'1h' , "y":4}, { "x":'2h' , "y":4}, { "x":'3h' , "y":12},
-                            { "x":'4h' , "y":3.27}, { "x":'5h' , "y":34}, { "x":'6h' , "y":34}, { "x":'7h' , "y":34},
-                            { "x":'8h' , "y":34}, { "x":'9h' , "y":34}, { "x":'10h' , "y":34}, { "x":'11h' , "y":34},
-                            { "x":'12h' , "y":56}, { "x":'13h' , "y":34}, { "x":'14h' , "y":34}, { "x":'15h' , "y":34},
-                            { "x":'16h' , "y":12}, { "x":'17h' , "y":34}, { "x":'18h' , "y":50}, { "x":'19h' , "y":34},
-                            { "x":'20h' , "y":34}, { "x":'21h' , "y":54}, { "x":'22h' , "y":34}, { "x":'23h' , "y":34},
-                            { "x":'24h' , "y":36}
-                        ];
-                    };
-                    angular.forEach(data, function (obj) {
-                        for (var j = 0; j < obj.length; j++, i++) {
-                            if (i >= 24) {
-                                v++;
-                                i = 0;
-                            }
-                            $scope.valuess[v][i].y = obj[j];
-                        }
-                    })
-                    for (var d = 0; d < 5; d++) {
-                        window.setTimeout(function () {
-                            redraw("1", $scope.valuess);
-                        }, 1500);
-                    };
-                }
-                if (unit === "month") {
-                    for(var m=0;m<4;m++){
-                        $scope.valuess[m] =  [
-                            { "x":'1d' , "y":4}, { "x":'2d' , "y":4}, { "x":'3d' , "y":12},
-                            { "x":'4d' , "y":3.27}, { "x":'5d' , "y":34},{ "x":'6d' , "y":4}, { "x":'7d' , "y":4}, { "x":'8d' , "y":12},
-                            { "x":'9d' , "y":3.27}, { "x":'10d' , "y":34}, { "x":'11d' , "y":34}, { "x":'12d' , "y":34},  { "x":'13d' , "y":4}, { "x":'14d' , "y":4}, { "x":'15' , "y":12},
-                            { "x":'16d' , "y":3.27}, { "x":'17d' , "y":34},{ "x":'18d' , "y":4}, { "x":'19d' , "y":4}, { "x":'20d' , "y":12},
-                            { "x":'21d' , "y":3.27}, { "x":'22d' , "y":34}, { "x":'23d' , "y":34}, { "x":'24d' , "y":34}, { "x":'25d' , "y":4}, { "x":'26d' , "y":12},
-                            { "x":'27d' , "y":3.27}, { "x":'28d' , "y":34}, { "x":'29d' , "y":34}, { "x":'30d' , "y":34}, { "x":'31d' , "y":34}
-                        ];
-                    };
-                    angular.forEach(data, function (obj) {
-                        for (var j = 0; j < obj.length; j++, i++) {
-                            if (i >= 31) {
-                                v++;
-                                i = 0;
-                            }
-                            $scope.valuess[v][i].y = obj[j];
-                        }
-                    });
-                    for (var d = 0; d < 5; d++) {
-                        window.setTimeout(function () {
-                            redraw("2", $scope.valuess);
-                        }, 1500);
-                    };
-                }
-                if (unit === "year") {
-                    for(var y=0;y<12;y++){
-                        $scope.valuess[y] = [
-                            {"x": 'Jan', "y": 4}, {"x": 'Feb', "y": 4}, {"x": 'Mar', "y": 12},
-                            {"x": 'Apr', "y": 3.27},  {"x": 'May', "y": 4}, {"x": 'June', "y": 4}, {"x": 'July', "y": 12},
-                            {"x": 'Aug', "y": 3.27},  {"x": 'Sept', "y": 4}, {"x": 'Oct', "y": 4}, {"x": 'Nov', "y": 12},
-                            {"x": 'Jan', "y": 3.27}
-                        ];
-                    };
-                    angular.forEach(data, function (obj) {
-                        for (var j = 0; j < obj.length; j++, i++) {
-                            if (i >= 12) {
-                                v++;
-                                i = 0;
-                            }
-                            $scope.valuess[v][i].y = obj[j];
-                        }
-                    });
-                    for (var d = 0; d < 5; d++) {
-                        window.setTimeout(function () {
-                            redraw("3", $scope.valuess);
-                        }, 1500);
-                    };
-                }
-            });
+app.controller("performanceDetailsController",function ($scope,$http,$window) {
+    $scope.back = function () {
+        var obj = $("#lm");
+        angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance.html";
     };
-    $scope.oneHour = function () {
-        changerotate(0);
-        $scope.barChart('hour');
+    $http({
+        method : "GET",
+        url : global_url + "/performance/1/1/"+permanceId+"/null/null/null/null"
+    }).then(function successCallback(resp) {
+        $scope.eventName = resp.data.performances[0].performanceHeader.eventName;
+        $scope.eventId = resp.data.performances[0].performanceHeader.eventId;
+        $scope.sourceId = resp.data.performances[0].performanceHeader.sourceId;
+        $scope.sourceName = resp.data.performances[0].performanceHeader.sourceName;
+        $scope.reportingEntityId = resp.data.performances[0].performanceHeader.reportingEntityId;
+        $scope.reportingEntityName = resp.data.performances[0].performanceHeader.reportingEntityName;
+        $scope.priority = resp.data.performances[0].performanceHeader.priority;
+        $scope.createTime = resp.data.performances[0].performanceHeader.createTime;
+        $scope.nfcNamingCode = resp.data.performances[0].performanceHeader.nfcNamingCode;
+        $scope.nfNamingCode = resp.data.performances[0].performanceHeader.nfNamingCode;
+        $scope.performanceInformation = resp.data.performances[0].performanceInformation;
+    },function errorCallback(resq) {
 
-    };
-    $scope.oneHour();
-    $scope.oneDay = function () {
-        changerotate(90);
-        $scope.barChart('day');
-    };
-    $scope.oneMonth = function () {
-        changerotate(80);
-        $scope.barChart('month');
-
-    };
-    $scope.oneYear = function () {
-        changerotate(0);
-        $scope.barChart('year');
-    };
-    $scope.generateCsv = function (name) {
-        if (name == "cpu"){
-            for (var i = 0;i < $scope.valuess[2].length;i++){
-                $scope.csvData[i] = {};
-                $scope.csvData[i]["eventId"] = permanceId;
-                $scope.csvData[i]["name"] = name;
-                $scope.csvData[i]["dateUnit"] = $scope.valuess[2][i].x;
-                $scope.csvData[i]["value"] = $scope.valuess[2][i].y;
-            }
-        }
-        if (name == "disk"){
-            for (var i = 0;i < $scope.valuess[0].length;i++){
-                $scope.csvData[i] = {};
-                $scope.csvData[i]["eventId"] = permanceId;
-                $scope.csvData[i]["name"] = name;
-                $scope.csvData[i]["dateUnit"] = $scope.valuess[0][i].x;
-                $scope.csvData[i]["value"] = $scope.valuess[0][i].y;
-            }
-        }
-        if (name == "memory"){
-            for (var i = 0;i < $scope.valuess[1].length;i++){
-                $scope.csvData[i] = {};
-                $scope.csvData[i]["eventId"] = permanceId;
-                $scope.csvData[i]["name"] = name;
-                $scope.csvData[i]["dateUnit"] = $scope.valuess[1][i].x;
-                $scope.csvData[i]["value"] = $scope.valuess[1][i].y;
-            }
-        }
-        if (name == "network"){
-            for (var i = 0;i < $scope.valuess[3].length;i++){
-                $scope.csvData[i] = {};
-                $scope.csvData[i]["eventId"] = permanceId;
-                $scope.csvData[i]["name"] = name;
-                $scope.csvData[i]["dateUnit"] = $scope.valuess[3][i].x;
-                $scope.csvData[i]["value"] = $scope.valuess[3][i].y;
-            }
-        }
-        if($scope.csvData != null ){
-            $window.location = global_url+"/performance/genDiaCsv/"+JSON.stringify($scope.csvData);
-        }
-    }
-}]);
+    });
+});

@@ -13,12 +13,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<div class="templatemo-content" ng-controller="performanceDetailsController">
-    <h1>VNF Performance Data Details</h1>
+<div class="templatemo-content" ng-controller="alarmDetailsController">
+    <h1>VNF Alarm Details</h1>
 
     
         
-        <button style="position:relative;left:75%;"  ng-click="back()" class="btn btn-primary">back</button>
+        <button style="position:relative;left:75%;" ng-click="back()" class="btn btn-primary">back</button>
     
     <div>
 		<span>Header Information</span>
@@ -45,13 +45,38 @@
                 <th style="background-color:lightblue;">Priority</th>
                 <td>{{priority}}</td>
                 <th style="background-color:lightblue;">Start Time</th>
-                <td>{{createTime}}</td>
+                <td>{{startTIme}}</td>
             </tr>
             <tr>
                 <th style="background-color:lightblue;">NFC Naming Code</th>
                 <td>{{nfcNamingCode}}</td>
                 <th style="background-color:lightblue;">NF Naming Code</th>
                 <td>{{nfNamingCode}}</td>
+            </tr>
+        </table>
+    </div>
+    <div style="padding-top:10px;">
+        <span>
+            Detail Information
+        </span>
+        <table width="80%" border="1" cellspacing="50%" cellpadding="10">
+            <tr>
+                <th style="background-color:lightblue;">Event Servrity</th>
+                <td>{{eventServrity}}</td>
+                <th style="background-color:lightblue;">Event Source Type</th>
+                <td>{{eventSourceType}}</td>
+            </tr>
+            <tr>
+                <th style="background-color:lightblue;">Event Category</th>
+                <td>{{eventCategory}}</td>
+                <th style="background-color:lightblue;">Alarm InterfaceA</th>
+                <td>{{alarmInterfaceA}}</td>
+            </tr>
+            <tr>
+                <th style="background-color:lightblue;">Alarm Condition</th>
+                <td>{{alarmCondition}}</td>
+                <th style="background-color:lightblue;">Specific Problem</th>
+                <td>{{specificProblem}}</td>
             </tr>
         </table>
     </div>
@@ -64,7 +89,7 @@
                 <th style="background-color:lightblue;">Item Name</th>
                 <th style="background-color:lightblue;">Item Value</th>
             </tr>
-            <tbody ng-repeat="info in performanceInformation">
+            <tbody ng-repeat="info in alarmInformation">
                 <td>{{info.name}}</td>
                 <td>{{info.value}}</td>
             </tbody>

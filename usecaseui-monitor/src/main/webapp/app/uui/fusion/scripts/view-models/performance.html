@@ -18,14 +18,16 @@
         <h1>Performance</h1>
         <div>
             <ul class="list">
-                <li>cpu <input type="text" ng-model="seek1"/></li>
-                <li>state <input type="text" ng-model="seek2"/></li>
-                <li>memory <input type="text" ng-model="seek3"/></li>
+                <li>Source Id <input type="text" ng-model="seek1"/></li>
+                <li>Source Name <input type="text" ng-model="seek2"/></li>
+                <li>Priority <input type="text" ng-model="seek3"/></li>
                 <button ng-click="getSearch()">search</button>
             </ul>
             <ul class="list" ng-show='menuState.show'>
-                <li>disk <input type="text" ng-model="seek4"/></li>
-                <li>Network <input type="text" ng-model="seek5"/></li>
+                <li>Start Time <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="seek4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" />
+                    <div style="display:block;float:left" uib-timepicker ng-model="seek4" hour-step minute-step show-meridian></div></li>
+                <li>End Time <input type="text" class="form-control" readonly ng-click="open2()" uib-datepicker-popup ng-model="seek5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" />
+                    <div style="display:block;float:left" uib-timepicker ng-model="seek5" hour-step minute-step show-meridian></div></li>
             </ul>
             <div class="row">
                 <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -44,7 +46,8 @@
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>
+                  <!--  <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>-->
+                    <button ng-click="toChart()" class="btn btn-primary">Chart</button>
                 </div>
             </div>
             <div ui-grid="gridOptions" style="width: 100%;margin-top:10px; text-align: center;" ui-grid-edit

@@ -13,15 +13,25 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+var alarmDetailId = "";
 app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interval' , '$window' ,'uiGridConstants', 'uiGridGroupingConstants',
     function ($scope, $log, $http, $timeout, $interval,$window) {
+        $scope.jump = function(value){
+            alarmDetailId=value;
+            var obj = $("#lm");
+            angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-details.html";
+            //angular.element(obj).scope().$apply();
+        };
+        $scope.toChart = function () {
+            var obj = $("#lm");
+            angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-chart.html";
+        };
         $scope.selectedRows = new Array();
         $scope.condition1 = "";
         $scope.condition2 = "";
         $scope.condition3 = "";
         $scope.condition4 = "";
         $scope.condition5 = "";
-        $scope.alarmStatus = "null";
         $scope.vfstatus = "null";
         $scope.toggled = function (open) {
             $log.log('Dropdown is now: ', open);
@@ -40,10 +50,9 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             url += arguments[2] === "" ? "/null" : "/" + arguments[2];
             url += arguments[3] === "" ? "/null" : "/" + arguments[3];
             url += arguments[4] === "" ? "/null" : "/" + arguments[4];
-            url += arguments[5] === "" ? "/null" : "/" + arguments[5];
-            url += arguments[6] === "" ? "/null" : "/" + arguments[6];
+            url += arguments[5] === "" ? "/null" : "/" + FormatDate(arguments[5]);
+            url += arguments[6] === "" ? "/null" : "/" + FormatDate(arguments[6]);
             url += arguments[7] === "" ? "/null" : "/" + arguments[7];
-            url += arguments[8] === "" ? "/null" : "/" + arguments[8];
             $http.get(url, {
                 headers: {
                     'Access-Control-Allow-Origin': "*",
@@ -58,21 +67,24 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
         };
         $scope.gridOptions = {
             columnDefs: [
-                {field: "alarmsHeader.eventId", displayName: 'Id', enableCellEdit: false},
                 {
                     field: 'alarmsHeader.eventName',
                     displayName: 'eventName',
-                    width: '8%',
-                    enableColumnMenu: false,
+                    cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.alarmsHeader.eventName)"; style="cursor:pointer" href="">{{row.entity.alarmsHeader.eventName}}</a>',
+                    width : 500,
                     enableHiding: false,
                     suppressRemoveSort: true,
                     enableCellEdit: false
                 },
-                {field: "alarmsHeader.vfStatus", displayName: 'IsOpen', enableCellEdit: false},
-                {field: "alarmsHeader.status", displayName: 'Status', cellFilter: 'mapGender', enableCellEdit: false},
-                {field: "alarmsInformation[0].name", displayName: 'Name', enableCellEdit: false},
-                {field: "alarmsInformation[0].value", displayName: 'Value', enableCellEdit: false},
-                {field: "alarmsHeader.createTime", displayName: 'CreateTime', enableCellEdit: false},
+                {field: "alarmsHeader.eventId", displayName: 'eventId', enableCellEdit: false},
+                {field: "alarmsHeader.sourceId", displayName: 'Source Id', enableCellEdit: false},
+                {field: "alarmsHeader.sourceName", displayName: 'Source Name',  enableCellEdit: false},
+                {field: "alarmsHeader.reportingEntityId", displayName: 'Reporting Entity Id', enableCellEdit: false},
+                {field: "alarmsHeader.reportingEntityName", displayName: 'Reporting Entity Name', enableCellEdit: false},
+                {field: "alarmsHeader.Priority", displayName: 'Priority', enableCellEdit: false},
+                {field: "alarmsHeader.createTime", displayName: 'Start Time', enableCellEdit: false},
+                {field: "alarmsHeader.status", displayName: 'Status', cellFilter: 'mapGender',enableCellEdit: false},
+                {field: "option",displayName: 'option', enableCellEdit: false ,cellTemplate: '<button ng-click="grid.appScope.jump(row.entity.alarmsHeader.eventName)" class="btn btn-primary" >Details</button>'},
             ],
             enableSorting: true,
             useExternalSorting: false,
@@ -129,12 +141,12 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
         getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
             $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
             $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
-            $scope.alarmStatus, $scope.vfstatus);
+            $scope.vfstatus);
         $interval(function () {
             getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
                 $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
                 $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
-                $scope.alarmStatus, $scope.vfstatus);
+                $scope.vfstatus);
         },10000)
 
         $scope.generateCsv = function () {
@@ -152,21 +164,10 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             {id: 5, name: 'NORMAL', count: 7},
             {id: undefined, name: 'All', count: 7}
         ];
-        $scope.selectStatus = function (v) {
-            $scope.alarmStatus = typeof(v) == "undefined" ? "" : v;
-            getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
-                $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
-                $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
-                $scope.alarmStatus, $scope.vfstatus);
-            $scope.selectedStatus = v;
 
-        };
-        $scope.activeStatus = function (status_id) {
-            return status_id == $scope.selectedStatus;
-        };
         $scope.open = [
-            {id: 1, name: 'open', count: 10},
-            {id: 2, name: 'close', count: 8},
+            {id: 1, name: 'Active', count: 10},
+            {id: 2, name: 'Closed', count: 8},
             {id: undefined, name: 'All', count: 7}
         ];
 
@@ -175,7 +176,7 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
                 $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
                 $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
-                $scope.alarmStatus, $scope.vfstatus);
+                $scope.vfstatus);
             $scope.selectedOpen = v;
         };
         $scope.activeOpen = function (open_id) {
@@ -216,15 +217,31 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             getPage(1, $scope.gridOptions.paginationPageSize, $scope.condition1===""?"":$scope.condition1,
                 $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
                 $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
-                $scope.alarmStatus, $scope.vfstatus);
+                $scope.vfstatus);
         };
+        $scope.open1 = function () {
+            $scope.popup1.opened = true;
+        };
+
+        $scope.open2 = function () {
+            $scope.popup2.opened = true;
+        };
+
+        $scope.popup1 = {
+            opened: false
+        };
+
+        $scope.popup2 = {
+            opened: false
+        };
+        function FormatDate(strTime) {
+            var date = new Date(strTime);
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+        }
     }]).filter('mapGender', function () {
     var genderHash = {
-        1: 'CRITICAL',
-        2: 'MAJOR',
-        3: 'MINOR',
-        4: 'WARNING',
-        5: 'NORMAL'
+        1: 'Active',
+        2: 'Closed'
     };
     return function (input) {
         if (!input) {

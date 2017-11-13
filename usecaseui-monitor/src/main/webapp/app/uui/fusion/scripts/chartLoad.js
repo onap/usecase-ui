@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-diskBarChart = [
+Chart = [
         { "type":"bar", "key": "disk", "yAxis": "1", "values": [
             { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
             { "x":'60min' , "y":3.27}
@@ -53,14 +53,13 @@ nv.addGraph(function() {
         .logScale(false)
         .axisLabel('')
         .tickFormat(d3.format(',.1f'));
-    d3.select('#CPUchart svg')
-        .datum(cpuBarChart)
+    d3.select('#chart svg')
+        .datum(Chart)
         .transition().duration(1000)
         .call(chart1);
-    nv.utils.windowResize(chart1.update);
     return chart1;
 });
-nv.addGraph(function() {
+/*nv.addGraph(function() {
     chart2 = nv.models.multiBarChart()
         .showLegend(false)
         .reduceXTicks(false)
@@ -131,7 +130,7 @@ nv.addGraph(function() {
         .call(chart4);
     nv.utils.windowResize(chart4.update);
     return chart4;
-});
+});*/
 
 function changeValue(s){
     chart1.xAxis.tickValues(s);
@@ -148,25 +147,9 @@ function changerotate(v){
 }
 
 function redraw(c,s1) {
-    diskBarChart[0].values = s1[0];
-    memoryBarChart[0].values = s1[1];
-    cpuBarChart[0].values = s1[2];
-    networkBarChart[0].values = s1[3];
-
-    d3.select('#CPUchart'+c+' svg')
-        .datum(cpuBarChart)
+    Chart[0].values = s1;
+    d3.select('#chart'+c+' svg')
+        .datum(Chart)
         .transition().duration(500)
         .call(chart1);
-    d3.select('#Memorychart'+c+' svg')
-        .datum(memoryBarChart)
-        .transition().duration(500)
-        .call(chart2);
-    d3.select('#Diskchart'+c+' svg')
-        .datum(diskBarChart)
-        .transition().duration(1000)
-        .call(chart3);
-    d3.select('#Networkchart'+c+' svg')
-        .datum(networkBarChart)
-        .transition().duration(1000)
-        .call(chart4);
 }
