@@ -382,6 +382,7 @@ function ($uibModalInstance, ServiceTemplateService, jobId, operationTitle, $q, 
   var timerDeferred = $q.defer();
   var timerPromise = timerDeferred.promise;
 
+  var responseId = '0';
   var progressFun = function (responseDescriptor) {
     if('finished' === responseDescriptor.status || 'error' === responseDescriptor.status) {
       ctrl.dynamic = 100;
@@ -396,11 +397,17 @@ function ($uibModalInstance, ServiceTemplateService, jobId, operationTitle, $q, 
       ctrl.dynamic = responseDescriptor.progress;
       ctrl.operation = responseDescriptor.statusDescription;
       console.log('timer processing ......');
+      responseId = responseDescriptor.responseId;
+      if(responseId === undefined) {
+          console.log('Cannot get responseId...');
+          $uibModalInstance.close('');
+          timerDeferred.resolve();
+      }
     }
   };
 
   var timer = $interval(function () {
-    ServiceTemplateService.queryVfOnboardProgress(jobId, progressFun);
+    ServiceTemplateService.queryVfOnboardProgress(jobId, responseId, progressFun);
   }, 1000);
 
   timerPromise.then(function () {

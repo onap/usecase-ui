@@ -319,9 +319,9 @@
        });
      },
 
-     queryVfOnboardProgress: function (jobId, progressFun) {
+     queryVfOnboardProgress: function (jobId, responseId, progressFun) {
        return $http({
-         url: url+'/jobs/' + jobId,
+         url: url+'/jobs/' + jobId + '?responseId=' + responseId,
          method: 'GET',
          data: null,
          headers: uuiHeaders
