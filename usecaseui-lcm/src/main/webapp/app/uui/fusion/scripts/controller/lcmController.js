@@ -186,16 +186,50 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.packageDelete = function (deletePackage) {
-        var processFun = function (response) {
-          if('failed' === response.status) {
-            ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
-          } else {
-            ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
-          }
-        };
         if(deletePackage.type === 'NS') {
+            var processFun = function (response) {
+              if('failed' === response.status) {
+                ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
+              } else {
+                ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+              }
+            };
           ServiceTemplateService.nsPackageDelete(deletePackage, processFun);
         } else {
+            var openOnboardProgressDialog = function (jobId, title, successFun, failFun) {
+              var onboardProgressInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+                controller : 'VfOnboardProgressCtrl',
+                controllerAs : 'ctrl',
+                resolve: {
+                  jobId: function () {
+                    return jobId;
+                  },
+                  operationTitle: function () {
+                    return title;
+                  }
+                }
+              });
+              onboardProgressInstance.result.then(
+                function (result) {
+                  successFun(result);
+                },
+                function (reason) {
+                  failFun(reason);
+                }
+              );
+            };
+            var successFun = function (result) {
+              ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+            };
+            var failFun = function (reason) {
+              ctrl.alerts.push({type: 'danger',msg: 'Operation is failed! ' + reason});
+            };
+            var processFun = function (response) {
+              openOnboardProgressDialog(response.jobId, 'Delete VF package', successFun, failFun);
+            };
           ServiceTemplateService.vfPackageDelete(deletePackage, processFun);
         }
       };
