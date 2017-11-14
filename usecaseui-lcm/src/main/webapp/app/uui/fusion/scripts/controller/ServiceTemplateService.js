@@ -220,11 +220,15 @@
        });
      },
 
-     deleteService: function (serviceId, successFun) {
+     deleteService: function (serviceId, customer, serviceType, successFun) {
+       var requestBody = {
+         globalSubscriberId: customer.id,
+         serviceType: serviceType.value
+       };
        return $http({
          url: url+'/services/' + serviceId,
          method: 'DELETE',
-         data: null,
+         data: JSON.stringify(requestBody),
          headers: uuiHeaders
        }).then(function(response){
          console.log('delete response...');

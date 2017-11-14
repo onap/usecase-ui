@@ -133,7 +133,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           }
           openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
         }
-        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, successFun);
+        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, ctrl.customer, ctrl.serviceType, successFun);
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
