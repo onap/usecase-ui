@@ -91,7 +91,10 @@
             </div>
           </div> -->
           <div ng-repeat="segment_parameter in segment.parameters" class="mT15 form-group" style="margin-left:0px;">
-            <label class="col-sm-5 control-label">
+            <label ng-if="segment_parameter.type === 'vf_location'" class="col-sm-5 control-label">
+              <span>{{segment_parameter.description}}</span><span ng-if="segment_parameter.isRequired" class="required">*</span>
+            </label>
+            <label ng-if="segment_parameter.type !== 'vf_location'" class="col-sm-5 control-label">
               <span>{{segment_parameter.name}}</span><span ng-if="segment_parameter.isRequired" class="required">*</span>
             </label>
             <div ng-if="segment_parameter.type === 'string' || segment_parameter.type === 'boolean' || segment_parameter.type === 'integer'" class="col-sm-5">
