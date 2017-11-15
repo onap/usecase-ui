@@ -14,7 +14,7 @@
     limitations under the License.
 -->
 <div class="templatemo-content" ng-controller="alarmGridCtrl">
-    <h1>VNF Alarm</h1>
+    <h3>VNF Alarm</h3>
     <div class="row margin-bottom-20">
     </div>
     <div class="row margin-bottom-10">
@@ -40,14 +40,16 @@
         <button ng-click="alarmSearch()">search</button>
     </ul>
     <ul class="list" ng-show='menuState.show'>
-        <li>Start Time
-            <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="condition4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" />
+        <li><p class="input-group" style="float:left">
+			<div style="float:left;line-height:100px;padding-right:4px;">Start Time</div>
+            <div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="condition4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" /></div>
             <div style="display:block;float:left" uib-timepicker ng-model="condition4" hour-step minute-step show-meridian></div>
-        </li>
-        <li>
-            End Time <input type="text" class="form-control" ng-click="open2()" readonly uib-datepicker-popup ng-model="condition5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" />
+        </p></li>
+        <li><p class="input-group" style="float:left">
+            <div style="float:left;line-height:100px;padding-right:4px;">End Time</div>
+			<div style="float:left;padding-top:33px"><input type="text" class="form-control" ng-click="open2()" readonly uib-datepicker-popup ng-model="condition5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" /></div>
             <div style="display:block;float:left" uib-timepicker ng-model="condition5" hour-step minute-step show-meridian></div>
-        </li>
+        </p></li>
     </ul>
     <div class="row">
         <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -60,7 +62,7 @@
     </div>
     <div class="row">
         <div class="col-md-11">
-            <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
+            <h4 class="margin-bottom-15">Query Result</h4>
         </div>
         <div class="col-md-1">
 
@@ -69,7 +71,7 @@
         </div>
     </div>
     <div>
-        <div ui-grid="gridOptions" style="width: 100%;text-align: center;" ui-grid-edit
+        <div ui-grid="gridOptions" style="width:100%;text-align:center;" ui-grid-edit
              ui-grid-pagination
              ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize>
         </div>

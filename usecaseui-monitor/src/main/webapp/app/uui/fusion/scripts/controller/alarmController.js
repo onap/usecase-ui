@@ -70,14 +70,13 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
                 {
                     field: 'alarmsHeader.eventName',
                     displayName: 'eventName',
-                    cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.alarmsHeader.eventName)"; style="cursor:pointer" href="">{{row.entity.alarmsHeader.eventName}}</a>',
-                    width : 500,
+                    width : '10%',
                     enableHiding: false,
                     suppressRemoveSort: true,
                     enableCellEdit: false
                 },
                 {field: "alarmsHeader.eventId", displayName: 'eventId', enableCellEdit: false},
-                {field: "alarmsHeader.sourceId", displayName: 'Source Id', enableCellEdit: false},
+                {field: "alarmsHeader.sourceId", displayName: 'Source Id', enableCellEdit: false,cellTemplate: '<a ng-click="grid.appScope.jump(row.entity.alarmsHeader.sourceId)"; style="cursor:pointer" href="">{{row.entity.alarmsHeader.sourceId}}</a>'},
                 {field: "alarmsHeader.sourceName", displayName: 'Source Name',  enableCellEdit: false},
                 {field: "alarmsHeader.reportingEntityId", displayName: 'Reporting Entity Id', enableCellEdit: false},
                 {field: "alarmsHeader.reportingEntityName", displayName: 'Reporting Entity Name', enableCellEdit: false},

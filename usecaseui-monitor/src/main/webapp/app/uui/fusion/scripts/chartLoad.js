@@ -14,7 +14,7 @@
  limitations under the License.
  */
 Chart = [
-        { "type":"bar", "key": "disk", "yAxis": "1", "values": [
+        { "type":"bar", "key": "value", "yAxis": "1", "values": [
             { "x":'15min' , "y":4}, { "x":'30min' , "y":4}, { "x":'45min' , "y":12},
             { "x":'60min' , "y":3.27}
         ] } ];

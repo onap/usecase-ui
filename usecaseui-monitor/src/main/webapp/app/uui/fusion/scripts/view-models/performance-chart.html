@@ -94,13 +94,13 @@
 										</div>
 									</div>
 									<div ng-show="goIsShow" style="float:left">
-										<button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">Go</button>
+										<button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit</button>
 									</div>
 								</p>
 							</div>
 						
 							<div class="col-md-12 col-sm-12" >
-								<div class="panel panel-success">
+								<div class="panel panel-success" ng-show="chartShow">
 									<div class="panel-heading">Chart
 										<button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px;display: none ">CSV</button>
 									</div>

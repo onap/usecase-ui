@@ -22,17 +22,21 @@ app.controller("performanceDetailsController",function ($scope,$http,$window) {
         method : "GET",
         url : global_url + "/performance/1/1/"+permanceId+"/null/null/null/null"
     }).then(function successCallback(resp) {
-        $scope.eventName = resp.data.performances[0].performanceHeader.eventName;
-        $scope.eventId = resp.data.performances[0].performanceHeader.eventId;
-        $scope.sourceId = resp.data.performances[0].performanceHeader.sourceId;
-        $scope.sourceName = resp.data.performances[0].performanceHeader.sourceName;
-        $scope.reportingEntityId = resp.data.performances[0].performanceHeader.reportingEntityId;
-        $scope.reportingEntityName = resp.data.performances[0].performanceHeader.reportingEntityName;
-        $scope.priority = resp.data.performances[0].performanceHeader.priority;
-        $scope.createTime = resp.data.performances[0].performanceHeader.createTime;
-        $scope.nfcNamingCode = resp.data.performances[0].performanceHeader.nfcNamingCode;
-        $scope.nfNamingCode = resp.data.performances[0].performanceHeader.nfNamingCode;
-        $scope.performanceInformation = resp.data.performances[0].performanceInformation;
+       if (resp.data.performances.length > 0){
+           $scope.eventName = resp.data.performances[0].performanceHeader.eventName;
+           $scope.eventId = resp.data.performances[0].performanceHeader.eventId;
+           $scope.sourceId = resp.data.performances[0].performanceHeader.sourceId;
+           $scope.sourceName = resp.data.performances[0].performanceHeader.sourceName;
+           $scope.reportingEntityId = resp.data.performances[0].performanceHeader.reportingEntityId;
+           $scope.reportingEntityName = resp.data.performances[0].performanceHeader.reportingEntityName;
+           $scope.priority = resp.data.performances[0].performanceHeader.priority;
+           $scope.createTime = resp.data.performances[0].performanceHeader.createTime;
+           $scope.nfcNamingCode = resp.data.performances[0].performanceHeader.nfcNamingCode;
+           $scope.nfNamingCode = resp.data.performances[0].performanceHeader.nfNamingCode;
+           $scope.performanceInformation = resp.data.performances[0].performanceInformation;
+       }else {
+           alert("No Data");
+       }
     },function errorCallback(resq) {
 
     });

@@ -16,6 +16,8 @@
 
 app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
     function ($scope, $http, $routeParams, $window) {
+		$scope.goIsShow = false;
+        $scope.chartShow = false;
         $scope.valuess = [];
         $scope.today = function () {
             $scope.startTime = new Date();
@@ -29,7 +31,7 @@ app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
                     "Authorization": "Basic " + btoa("usecase" + ':' + "usecase")
                 }
             }).then(function successCallback(resp) {
-                console.info(resp);
+                //console.info(resp);
                 $scope.sourceIds = resp.data;
             }, function errorCallback(resp) {
 
@@ -55,13 +57,16 @@ app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
                     return str.join("&");
                 }
             }).then(function successCallback(resp) {
-                //console.info(resp);
+                console.info(resp);
+                $scope.chartShow = true;
                 if (resp.data.length > 0)
                     for (var i = 0; i < resp.data.length; i++) {
                         $scope.valuess[i] = {};
                         $scope.valuess[i].x = resp.data[i].Time;
                         $scope.valuess[i].y = resp.data[i].Count;
                     }
+                else
+                    $scope.valuess = [];
                 for (var d = 0; d < 5; d++) {
                     window.setTimeout(function () {
                         redraw("_alarm", $scope.valuess);
@@ -72,17 +77,22 @@ app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
 
             });
         }
-
+		$scope.sourceIdChanged = function(){
+			if ($scope.sourceId != null)
+				$scope.goIsShow = true;
+			else
+				$scope.goIsShow = false;	
+		};
 
         $scope.startTimeChanged = function () {
             if ($scope.startTime > $scope.endTime)
                 $scope.endTime = "";
-            console.info($scope.startTime);
+           // console.info($scope.startTime);
         };
         $scope.endTimeChanged = function () {
             if ($scope.endTime < $scope.startTime)
                 $scope.startTime = "";
-            console.info($scope.endTime);
+           // console.info($scope.endTime);
         };
 
         $scope.open1 = function () {

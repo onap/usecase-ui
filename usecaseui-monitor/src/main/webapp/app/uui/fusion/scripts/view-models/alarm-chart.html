@@ -77,14 +77,14 @@
 										</select>
 										</div>
 									</div>
-									<div style="float:left">
+									<div style="float:left" ng-show="goIsShow">
 										<button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit</button>
 									</div>
 								</p>
 							</div>
 						
 							<div class="col-md-6 col-sm-12" style="width:100%">
-								<div class="panel panel-success">
+								<div class="panel panel-success" ng-show="chartShow">
 									<div class="panel-heading">Chart
 										<button ng-click="generateCsv('cpu');" class="btn btn-primary" style="float: right;margin-top:-7px;display: none ">CSV</button>
 									</div>

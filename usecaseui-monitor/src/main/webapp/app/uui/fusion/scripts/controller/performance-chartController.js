@@ -16,8 +16,7 @@
 
 app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
     function ($scope, $http, $routeParams, $window) {
-        $scope.sourceIds = ["112","119","101"];
-        $scope.namePs = [];
+		$scope.chartShow = false;
         $scope.valuess = [];
         $scope.namesPIsShow = false;
         $scope.namesCIsShow = false;
@@ -30,8 +29,7 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                 url : global_url+"/performance/resourceIds",
                 headers: {
                     'Access-Control-Allow-Origin': "*",
-                    "Content-Type": "application/json",
-                    "Authorization": "Basic " + btoa("usecase" + ':' + "usecase")
+                    "Content-Type": "application/json"
                 }
             }).then(function successCallback(resp) {
                 $scope.sourceIds = resp.data;
@@ -69,6 +67,7 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
 
                 }).then(function successCallback(resp) {
                     $scope.namePs = resp.data;
+                    $scope.nameP = null;
                 },function errorCallback(resq) {
 
                 });
@@ -96,14 +95,8 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                         return str.join("&");
                     }
                 }).then(function successCallback(resp) {
-                    if (resp.data.length <= 0){
-                        $scope.namesCIsShow = false;
-                        $scope.goIsShow = true;
-                    }else{
-                        $scope.namesCIsShow = true;
-                        $scope.goIsShow = false;
-                        $scope.nameCs = resp.data;
-                    }
+                    $scope.goIsShow = true;
+                    $scope.chartShow = true;
                 },function errorCallback(resq) {
 
                 });
@@ -135,6 +128,7 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                 }
             }).then(function successCallback(resp) {
                 console.info(resp.data);
+				chartShow = true;
                 if (resp.data.length > 0)
                     for (var i = 0 ; i<resp.data.length ; i++){
                         $scope.valuess[i] = {};
@@ -142,6 +136,8 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                         $scope.valuess[i].y = resp.data[i];
                         $scope.valuess[i].x.length = i;
                     }
+                else
+                    $scope.valuess = [];
                 for (var d = 0; d < 5; d++) {
                     window.setTimeout(function () {
                         redraw("_performance", $scope.valuess);

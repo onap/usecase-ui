@@ -15,7 +15,7 @@
 -->
 <div class="templatemo-content-wrapper" ng-controller="perGridCtrl">
     <div class="templatemo-content">
-        <h1>Performance</h1>
+        <h3>Performance</h3>
         <div>
             <ul class="list">
                 <li>Source Id <input type="text" ng-model="seek1"/></li>
@@ -24,10 +24,14 @@
                 <button ng-click="getSearch()">search</button>
             </ul>
             <ul class="list" ng-show='menuState.show'>
-                <li>Start Time <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="seek4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" />
-                    <div style="display:block;float:left" uib-timepicker ng-model="seek4" hour-step minute-step show-meridian></div></li>
-                <li>End Time <input type="text" class="form-control" readonly ng-click="open2()" uib-datepicker-popup ng-model="seek5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" />
-                    <div style="display:block;float:left" uib-timepicker ng-model="seek5" hour-step minute-step show-meridian></div></li>
+                <li> <p class="input-group" style="float:left">
+						<div style="float:left;line-height:100px;padding-right:4px;">StartTime</div><div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="seek4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" /></div>
+						<div style="display:block;float:left;" uib-timepicker ng-model="seek4" hour-step minute-step show-meridian></div>
+					</p></li>
+                <li><p class="input-group" style="float:left">
+					<div style="float:left;line-height:100px;padding-right:4px;">End Time</div><div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly ng-click="open2()" uib-datepicker-popup ng-model="seek5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" /></div>
+                    <div style="display:block;float:left" uib-timepicker ng-model="seek5" hour-step minute-step show-meridian></div>
+					</p></li>
             </ul>
             <div class="row">
                 <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -42,7 +46,7 @@
             <div class="row">
                 <div class="col-md-11">
                     <div class="table-responsive">
-                        <h4 class="margin-bottom-15">Another Table of Existing Users</h4>
+                        <h4 class="margin-bottom-15">Query Result</h4>
                     </div>
                 </div>
                 <div class="col-md-1">
