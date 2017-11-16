@@ -20,13 +20,13 @@
     <parent>
         <groupId>org.onap.usecase-ui</groupId>
         <artifactId>usecase-ui</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.onap.usecase-ui</groupId>
     <artifactId>usecaseui-common</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>usecase-ui/usecaseui-common</name>
 
@@ -94,19 +94,19 @@
         <dependency>
             <groupId>org.onap.usecase-ui</groupId>
             <artifactId>usecaseui-monitor</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.onap.usecase-ui</groupId>
             <artifactId>usecaseui-lcm</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
             <type>war</type>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.onap.usecase-ui</groupId>
             <artifactId>usecaseui-holmes</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
             <type>war</type>
         </dependency>
         <dependency>
