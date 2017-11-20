@@ -20,12 +20,12 @@
     <parent>
         <groupId>org.onap.usecase-ui</groupId>
         <artifactId>usecase-ui</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.onap.usecase-ui</groupId>
     <artifactId>usecaseui-lcm</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>usecase-ui/usecaseui-lcm</name>
 
