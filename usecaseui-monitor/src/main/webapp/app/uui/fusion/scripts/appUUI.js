@@ -17,7 +17,7 @@
 var app = angular.module('uui', ['ng', 'ngRoute','ui.bootstrap','ui.grid','ngTouch','ngAnimate',
   'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection',
   'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping','ui.grid.pagination'
-    ,'ui.grid.autoResize']);
+    ,'ui.grid.autoResize','nvd3','smart-table']);
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/alarm', {

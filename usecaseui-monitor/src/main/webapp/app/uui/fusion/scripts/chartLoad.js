@@ -51,9 +51,8 @@ nv.addGraph(function() {
         .showMaxMin(false)
     chart1.yAxis
         .logScale(false)
-        .axisLabel('')
-        .tickFormat(d3.format(',.1f'));
-    d3.select('#chart svg')
+        .axisLabel('');
+    d3.select('#chart_alarm svg')
         .datum(Chart)
         .transition().duration(1000)
         .call(chart1);

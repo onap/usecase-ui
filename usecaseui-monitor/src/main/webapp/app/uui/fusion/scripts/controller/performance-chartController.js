@@ -15,12 +15,13 @@
  */
 
 app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
-    function ($scope, $http, $routeParams, $window) {
+    function ($scope, $http,$routeParams,$window) {
 		$scope.chartShow = false;
+		$scope.ndaShow = false;
+		$scope.hdaShow = false;
         $scope.valuess = [];
         $scope.namesPIsShow = false;
-        $scope.namesCIsShow = false;
-        $scope.goIsShow = false;
+        $scope.goIsShow = true;
         $scope.today = function() {
             $scope.startTime = new Date();
             $scope.endTime = new Date();
@@ -73,9 +74,8 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                 });
             }
             else{
-                $scope.goIsShow = false;
+                $scope.goIsShow = true;
                 $scope.namesPIsShow = false;
-                $scope.namesCIsShow = false;
             }
 
         };
@@ -95,29 +95,86 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                         return str.join("&");
                     }
                 }).then(function successCallback(resp) {
-                    $scope.goIsShow = true;
-                    $scope.chartShow = true;
+                    $scope.goIsShow = false;
                 },function errorCallback(resq) {
 
                 });
             }
             else{
-                $scope.goIsShow = false;
+                $scope.goIsShow = true;
                 $scope.namesCIsShow = false;
             }
         };
 
-        $scope.nameCChanged = function () {
-          if ($scope.nameC != null){
-              $scope.goIsShow = true;
-          }
+        $scope.options = {
+            chart: {
+                type: 'historicalBarChart',
+                height: 300,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 65,
+                    left: 50
+                },
+                x: function(d){return d[0];},
+                y: function(d){return d[1];},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format(',.1f')(d);
+                },
+                duration: 100,
+                xAxis: {
+                    //axisLabel: 'X Axis',
+                    tickFormat: function(d) {
+                        return d3.time.format('%x %H:%M')(new Date(d))
+                    },
+                    rotateLabels: 30,
+                    showMaxMin: true
+                },
+                yAxis: {
+                    //axisLabel: 'Y Axis',
+                    axisLabelDistance: -10,
+                    tickFormat: function(d){
+                        return d3.format(',.1f')(d);
+                    }
+                },
+                tooltip: {
+                    keyFormatter: function(d) {
+                        return d3.time.format('%x %H:%M')(new Date(d));
+                    }
+                },
+                zoom: {
+                    enabled: false,
+                    scaleExtent: [1, 10],
+                    useFixedDomain: false,
+                    useNiceScale: false,
+                    horizontalOff: false,
+                    verticalOff: false,
+                    unzoomEventType: 'dblclick.zoom'
+                }
+            }
         };
 
+
+        $scope.data = [
+            {
+                "key" : "Quantity" ,
+                "bar": true,
+                "values" : []
+            }];
+
         $scope.genDiagram = function () {
+             $scope.chartShow = true;
             $http({
                 method : 'POST',
                 url : global_url + "/performance/diagram",
-                data : { "sourceId":$scope.sourceId,"startTime":FormatDate($scope.startTime),"endTime":FormatDate($scope.endTime),"nameParent":$scope.nameP,"nameChild":$scope.nameC!=null?$scope.nameC:"" },
+                data : {
+                    "sourceId":$scope.sourceId,
+                    "startTime":FormatDate($scope.startTime),
+                    "endTime":FormatDate($scope.endTime),
+                    "nameParent":$scope.nameP,
+                    "format":$scope.showModeId==undefined?"auto":$scope.showModeId
+                },
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 transformRequest: function(obj) {
                     var str = [];
@@ -127,26 +184,34 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
                     return str.join("&");
                 }
             }).then(function successCallback(resp) {
-                console.info(resp.data);
-				chartShow = true;
-                if (resp.data.length > 0)
-                    for (var i = 0 ; i<resp.data.length ; i++){
-                        $scope.valuess[i] = {};
-                        $scope.valuess[i].x = i+1;
-                        $scope.valuess[i].y = resp.data[i];
-                        $scope.valuess[i].x.length = i;
-                    }
-                else
-                    $scope.valuess = [];
-                for (var d = 0; d < 5; d++) {
-                    window.setTimeout(function () {
-                        redraw("_performance", $scope.valuess);
-                    }, 1500);
-                };
+                console.info(resp);
+                if (resp.data.length > 0){
+                    $scope.ndaShow = false;
+                    $scope.hdaShow = true;
+                    $scope.data = [
+                        {
+                            "key" : "Count" ,
+                            "bar": true,
+                            "values" : resp.data
+                        }];
+                    $scope.api.refresh();
+                }
+                else{
+                    $scope.ndaShow = true;
+                    $scope.hdaShow = false;
+                    $scope.data = [
+                        {
+                            "key" : "Count" ,
+                            "bar": true,
+                            "values" : []
+                        }];
+                    $scope.api.refresh();
+                }
+
             },function errorCallback(resp) {
 
             });
-        }
+        };
 
         $scope.open1 = function() {
             $scope.popup1.opened = true;
@@ -164,8 +229,14 @@ app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
             opened: false
         };
 
+        $scope.modeShow = false;
+
+        $scope.showModeIds = ["minute","hour","day","month","year"];
+
         function FormatDate (strTime) {
             var date = new Date(strTime);
             return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes();
         }
-}]);
+
+
+    }]);

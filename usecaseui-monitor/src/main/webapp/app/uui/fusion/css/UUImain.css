@@ -13,7 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
 /*
     1. CSS Imports
     2. General Styles
@@ -22,7 +21,6 @@
     5. alarm.html
     6. Bootstrap overrides
 --------------------------------------- */
-
 /* 1. CSS Imports
 --------------------------------------- */
 @import url(font-awesome.min.css);
@@ -30,27 +28,40 @@
 
 /* 2. General Styles
 --------------------------------------- */
-* { font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
-body { background-color: #F2F2F2; }
-h1 { font-size: 24px; }
+* {
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #F2F2F2;
+}
+
+h1 {
+    font-size: 24px;
+}
+
 .btn a {
     color: white;
     text-decoration: none;
 }
-.logo { display: inline-block; 
+
+.logo {
+    display: inline-block;
 
 }
+
 .logo h1 {
     font-size: 22px;
-	color:black;
+    color: black;
     margin: 10px 15px;
 }
 
 .templatemo-content-wrapper {
     float: left;
     width: 100%;
-	background-color:#fff;
+    background-color: #fff;
 }
+
 .templatemo-content {
     margin-left: 235px;
     margin-top: 0px;
@@ -59,6 +70,7 @@ h1 { font-size: 24px; }
     background-color: #F2F2F2;
     overflow-x: hidden;
 }
+
 .templatemo-footer {
     clear: both;
     font-size: 13px;
@@ -67,8 +79,14 @@ h1 { font-size: 24px; }
     color: #ccc;
     background-color: #333;
 }
-.margin-bottom-15 { margin-bottom: 15px; }
-.margin-bottom-30 { margin-bottom: 30px; }
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
 
 /* 3. Sidebar
 ------------------------------------------------------*/
@@ -76,27 +94,35 @@ h1 { font-size: 24px; }
     width: 200px;
     display: inline-block;
 }
+
 .navbar {
     margin-bottom: 0;
     border-radius: 0;
-	background-color:#8DC8FB;
+    background-color: #8DC8FB;
 }
-.navbar-header { color: rgb(127,127,127); }
+
+.navbar-header {
+    color: rgb(127, 127, 127);
+}
+
 .templatemo-sidebar {
     padding: 0;
     margin-top: 20px;
 }
+
 .templatemo-sidebar .templatemo-sidebar-menu {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 .templatemo-sidebar .templatemo-sidebar-menu > li {
     display: block;
     margin: 0;
     padding: 0;
     border: 0px;
 }
+
 .templatemo-sidebar .templatemo-sidebar-menu > li > a {
     display: block;
     position: relative;
@@ -105,31 +131,52 @@ h1 { font-size: 24px; }
     padding: 20px 17px;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 300;    
+    font-weight: 300;
 }
-.templatemo-sidebar-menu a { color: black; }
-.templatemo-sidebar-menu a:hover { text-decoration: none; }
-.templatemo-sidebar-menu li.sub .templatemo-submenu { display: none; }
-.templatemo-sidebar-menu li.sub.open .templatemo-submenu { display: block; }
-.templatemo-submenu { padding-left: 0; }
+
+.templatemo-sidebar-menu a {
+    color: black;
+}
+
+.templatemo-sidebar-menu a:hover {
+    text-decoration: none;
+}
+
+.templatemo-sidebar-menu li.sub .templatemo-submenu {
+    display: none;
+}
+
+.templatemo-sidebar-menu li.sub.open .templatemo-submenu {
+    display: block;
+}
+
+.templatemo-submenu {
+    padding-left: 0;
+}
+
 .templatemo-submenu li {
     list-style: none;
     background-color: #fff;
 }
+
 .templatemo-submenu li a {
     display: block;
     padding: 20px 15px;
     margin: 0;
 }
+
 .templatemo-sidebar-menu > li.sub.open > a {
-    background-color: rgba(145,145,145,0.3);
+    background-color: rgba(145, 145, 145, 0.3);
 }
-.templatemo-sidebar .templatemo-sidebar-menu >li.active, .templatemo-sidebar .templatemo-sidebar-menu>li>a:hover {
-    background-color:#F2F2F2;
+
+.templatemo-sidebar .templatemo-sidebar-menu > li.active, .templatemo-sidebar .templatemo-sidebar-menu > li > a:hover {
+    background-color: #F2F2F2;
 }
+
 .templatemo-submenu li > a:hover {
-    background-color: rgb(228,228,228);
+    background-color: rgb(228, 228, 228);
 }
+
 .templatemo-sidebar .templatemo-sidebar-menu > li > a > i {
     font-size: 16px;
     top: 2px;
@@ -140,13 +187,15 @@ h1 { font-size: 24px; }
     width: 1.25em;
     text-align: center;
 }
-/* 4. Charts 
+
+/* 4. Charts
 --------------------------------------------*/
 .templatemo-chart-box {
     display: inline-block;
     text-align: center;
     padding: 20px 30px 30px 0;
 }
+
 /* 5. Preferences Form
 ------------------------------------------*/
 #templatemo-preferences-form {
@@ -161,6 +210,7 @@ h1 { font-size: 24px; }
     max-width: 600px;
     margin: 0 auto;
 }
+
 .form-horizontal .form-group {
     margin-right: 0;
     margin-left: 0;
@@ -168,33 +218,42 @@ h1 { font-size: 24px; }
 
 /* 7. tables.html
 ------------------------------------------*/
-#templatemo_sort_btn { margin-bottom: 20px; }
+#templatemo_sort_btn {
+    margin-bottom: 20px;
+}
 
 /* 8. Bootstrap overrides
 ----------------------------------------------*/
-.nav-pills>li>a, .nav-tabs>li>a, .alert, .progress, .panel, .btn, .panel-group .panel, .form-control, .modal-content, .breadcrumb {
+.nav-pills > li > a, .nav-tabs > li > a, .alert, .progress, .panel, .btn, .panel-group .panel, .form-control, .modal-content, .breadcrumb {
     border-radius: 0;
 }
+
 .list-group-item:first-child, .panel-heading {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
 .list-group-item:last-child {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-.form-control-feedback { right: 15px; }
+
+.form-control-feedback {
+    right: 15px;
+}
 
 /* 9. Maps
 ------------------------------------------------------*/
-.col-md-3>.form-group{
-	position:relative
+.col-md-3 > .form-group {
+    position: relative
 }
-.col-md-3>.form-group>span{
-	position:absolute;
-	left:140px;	
-	top:0px;
+
+.col-md-3 > .form-group > span {
+    position: absolute;
+    left: 140px;
+    top: 0px;
 }
+
 /* 10. Media Queries
 ------------------------------------------------------*/
 @media screen and (min-width: 992px) {
@@ -205,20 +264,30 @@ h1 { font-size: 24px; }
         margin-right: -100%;
     }
 }
+
 @media screen and (max-width: 991px) {
     .navbar-form {
         padding: 0;
         margin-left: 0;
     }
-    .navbar-header { float: none; }
-    .navbar-toggle { display: block; }
+
+    .navbar-header {
+        float: none;
+    }
+
+    .navbar-toggle {
+        display: block;
+    }
+
     .templatemo-sidebar {
         border-top: 0 !important;
         margin: 20px;
     }
+
     .templatemo-sidebar.navbar-collapse.collapse {
         display: none !important;
     }
+
     .templatemo-sidebar.navbar-collapse.in {
         border-top: 0 !important;
         margin: 20px;
@@ -227,57 +296,78 @@ h1 { font-size: 24px; }
         overflow-y: auto !important;
         display: block !important;
     }
-    .templatemo-content-wrapper { float: none; }
-    .templatemo-content { margin: 0; }
+
+    .templatemo-content-wrapper {
+        float: none;
+    }
+
+    .templatemo-content {
+        margin: 0;
+    }
 }
+
 @media screen and (max-width: 767px) {
     .templatemo-chart-box {
         padding-right: 0;
     }
 }
-#navbar{
+
+#navbar {
     position: relative;
     min-height: 50px;
     border: 1px solid transparent;
     background-color: #CCCCCC;
 }
-.btn{
+
+.btn {
     border-radius: 10px;
 }
-div .ui-grid-header-cell{
+
+div .ui-grid-header-cell {
     background-color: #666666;
 }
-.ui-grid-header-cell-label{
-    color:#ffffff;
+
+.ui-grid-header-cell-label {
+    color: #ffffff;
 }
-.ui-grid-filter-container{
-    color:#000;
+
+.ui-grid-filter-container {
+    color: #000;
 
 }
 
 /*input
 ----------------------------------------------*/
 .list {
-      list-style: none;
-    }
-	
-    .list>li {
-      margin: 0;
-      padding: 0;
-      display: inline-block;
-      padding-right: 2%;
-	  padding-top:20px;
-    }
-	
-	.more{
-	text-align:center;
-	border:1px solid #ddd;
-	border-top:none;
-	
-	}
-	.table{
-		margin-top:20px;
-	}
-.panel-success{
-    height:300px;
+    list-style: none;
+}
+
+.list > li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    padding-right: 2%;
+    padding-top: 20px;
+}
+
+.more {
+    text-align: center;
+    border: 1px solid #ddd;
+    border-top: none;
+
+}
+
+.table {
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.table td{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.panel-success {
+    height: 300px;
 }
