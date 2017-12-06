@@ -80,41 +80,38 @@
             </div>
         </div>
 
-        <label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
-        <div style="float:left;width:130px;">
-            <input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPage" />
-        </div>
+        
         <div>
             <table class="table" st-pipe="amc.callServer" st-table="amc.displayed">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Event Id</th>
-                    <th>Event Name</th>
-                    <th>Source Id</th>
-                    <th>Source Name</th>
-                    <th>Reporting Entity Id</th>
-                    <th>Reporting Entity Name</th>
-                    <th>Priority</th>
-                    <th>Start Time</th>
-                    <th>Status</th>
+                    <th width="5%">Id</th>
+                <!--    <th>Event Id</th> -->
+                    <th width="25%">Event Name</th>
+                <!--    <th>Source Id</th> -->
+                    <th width="25%">Source Name</th>
+                <!--    <th>Reporting Entity Id</th> -->
+                <!--    <th>Reporting Entity Name</th> -->
+                    <th width="10%">Priority</th>
+                    <th width="15%">Start Time</th>
+                    <th width="10%">Status</th>
                     <th>Option</th>
                 </tr>
                 </thead>
                 <tbody ng-show="!amc.isLoading">
                 <tr ng-repeat="row in amc.displayed">
                     <td>{{row.alarmsHeader.id}}</td>
-                    <td>{{row.alarmsHeader.eventId}}</td>
+                <!--    <td>{{row.alarmsHeader.eventId}}</td> -->
                     <td>{{row.alarmsHeader.eventName}}</td>
-                    <td>{{row.alarmsHeader.sourceId}}</td>
+                <!--    <td>{{row.alarmsHeader.sourceId}}</td> -->
                     <td>{{row.alarmsHeader.sourceName}}</td>
-                    <td>{{row.alarmsHeader.reportingEntityId}}</td>
-                    <td>{{row.alarmsHeader.reportingEntityName}}</td>
+                <!--    <td>{{row.alarmsHeader.reportingEntityId}}</td> -->
+                <!--    <td>{{row.alarmsHeader.reportingEntityName}}</td> -->
                     <td>{{row.alarmsHeader.priority}}</td>
                     <td>{{row.alarmsHeader.createTime}}</td>
                     <td>{{row.alarmsHeader.status == 1?"Active":"Closed"}}</td>
                     <td>
-                        <button ng-click="jump(row.alarmsHeader.sourceId)" class="btn btn-primary">Details</button>
+                        <button ng-click="jump(row.alarmsHeader.sourceId)" class="btn btn-primary">Detail</button>
                     </td>
                 </tr>
                 </tbody>
@@ -127,8 +124,14 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td class="text-center" st-pagination="" st-items-by-page="itemsByPage"
-                        st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="9">
+					<td class="text-center" style="padding-top:30px" colspan="4">
+						<label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
+						<div style="float:left;width:130px;">
+						<input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPagea" />
+						</div>
+					</td>
+                    <td class="text-center" st-pagination="" st-items-by-page="itemsByPagea"
+                        st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="3">
                     </td>
                 </tr>
                 </tfoot>

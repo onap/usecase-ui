@@ -92,14 +92,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div style="float:left">
-                            <button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit
-                            </button>
-                        </div>
-                        </p>
-                    </div>
-                    <div style="float:left;padding-left:15px;">
-                        <label style="float:left;width:50px;line-height:30px;">mode:</label>
+						<div style="float:left;padding-right:30px;">
+                        <label style="float:left;width:120px;line-height:30px;">Display Interval:</label>
                         <div style="float:left;width:100px;">
                             <select class="form-control" ng-change="showModeIdChanged()" ng-model="showModeId"
                                     ng-options="sm for sm in showModeIds">
@@ -107,6 +101,13 @@
                             </select>
                         </div>
                     </div>
+                        <div style="float:left">
+                            <button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit
+                            </button>
+                        </div>
+                        </p>
+                    </div>
+                    
 
                     <div class="col-md-6 col-sm-12" style="width:100%">
                         <div class="panel panel-success" ng-show="chartShow">

@@ -32,7 +32,7 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             $scope.vfstatus = typeof(v) == "undefined" ? "null" : v;
             $scope.selectedOpen = v;
         };
-        $scope.itemsByPage = 15;
+        $scope.itemsByPagea = 10;
 
 
         $http({

@@ -24,7 +24,7 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', '$windo
             //angular.element(obj).scope().$apply();
         };
 
-        $scope.itemsByPage = 15;
+        $scope.itemsByPage = 10;
 
         $scope.toChart = function () {
             var obj = $("#lm");

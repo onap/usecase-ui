@@ -56,37 +56,34 @@
                     </div>
                 </div>
 
-                <label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
-                <div style="float:left;width:130px;">
-				<input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPage" />
-				</div>
+                
                 <table class="table" st-pipe="mc.callServer" st-table="mc.displayed">
                     <thead>
                     <tr>
-                        <th >Id</th>
-                        <th >Event Id</th>
-                        <th >Event Name</th>
-                        <th >Source Id</th>
-                        <th >Source Name</th>
-                        <th >Reporting Entity Id</th>
-                        <th >Reporting Entity Name</th>
-                        <th >Priority</th>
-                        <th >Start Time</th>
+                        <th width="10%" >Id</th>
+                    <!--    <th >Event Id</th> -->
+                        <th width="25%">Event Name</th>
+                    <!--    <th >Source Id</th> -->
+                        <th width="25%">Source Name</th>
+                    <!--    <th >Reporting Entity Id</th> -->
+                    <!--    <th >Reporting Entity Name</th> -->
+                        <th width="10%">Priority</th>
+                        <th width="20%">Start Time</th>
                         <th >Option</th>
                     </tr>
                     </thead>
                     <tbody ng-show="!mc.isLoading">
                     <tr ng-repeat="row in mc.displayed">
                         <td>{{row.performanceHeader.id}}</td>
-                        <td>{{row.performanceHeader.eventId}}</td>
+                    <!--    <td>{{row.performanceHeader.eventId}}</td> -->
                         <td>{{row.performanceHeader.eventName}}</td>
-                        <td>{{row.performanceHeader.sourceId}}</td>
+                    <!--    <td>{{row.performanceHeader.sourceId}}</td> -->
                         <td>{{row.performanceHeader.sourceName}}</td>
-                        <td>{{row.performanceHeader.reportingEntityId}}</td>
-                        <td>{{row.performanceHeader.reportingEntityName}}</td>
+                    <!--    <td>{{row.performanceHeader.reportingEntityId}}</td>  -->
+                    <!--    <td>{{row.performanceHeader.reportingEntityName}}</td> -->
                         <td>{{row.performanceHeader.priority}}</td>
                         <td>{{row.performanceHeader.createTime}}</td>
-                        <td><button ng-click="jump(row.performanceHeader.sourceId)" class="btn btn-primary" >Details</button></td>
+                        <td><button ng-click="jump(row.performanceHeader.sourceId)" class="btn btn-primary" >Detail</button></td>
                     </tr>
                     </tbody>
                     <tbody ng-show="mc.isLoading">
@@ -97,7 +94,13 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td class="text-center" st-pagination="" st-items-by-page="itemsByPage" st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="9">
+						<td class="text-center" style="padding-top:30px" colspan="3">
+						<label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
+						<div style="float:left;width:130px;">
+						<input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPage" />
+						</div>
+						</td>
+                        <td class="text-center" st-pagination="" st-items-by-page="itemsByPage" st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="3">
                         </td>
                     </tr>
                     </tfoot>

@@ -70,7 +70,7 @@
 							<div class="col-md-6" style="width:100%;padding-bottom:20px;">
 								<p>
 									<div style="float:left;padding-right:30px;">
-										<label style="float:left;width:80px;line-height:30px;">*sourceId:</label>
+										<label style="float:left;width:80px;line-height:30px;"><span style="float:left;color:red;">*</span>sourceId:</label>
 										<div style="float:left;width:130px;">
 										<select class="form-control" ng-change="sourceIdChanged()" ng-model="sourceId" ng-options="s for s in sourceIds" >
 											<option value="">--- chose ---</option>
@@ -78,7 +78,7 @@
 										</div>
 									</div>
 									<div style="float:left;padding-right:30px" ng-show="namesPIsShow">
-										<label style="float:left;width:50px;line-height:30px;">*name:</label>
+										<label style="float:left;width:50px;line-height:30px;"><span style="float:left;color:red;">*</span>name:</label>
 										<div style="float:left;width:130px;">
 										<select class="form-control" ng-change="namePChanged()" ng-model="nameP" ng-options="np for np in namePs" >
 											<option value="">--- chose ---</option>
@@ -93,13 +93,8 @@
 										</select>
 										</div>
 									</div>-->
-									<div style="float:left">
-										<button ng-disabled="goIsShow" style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit</button>
-									</div>
-								</p>
-							</div>
-                            <div style="float:left;padding-left:15px;">
-                                <label style="float:left;width:90px;line-height:30px;">show mode:</label>
+									<div style="float:left;padding-right:30px">
+                                <label style="float:left;width:120px;line-height:30px;">Display Interval:</label>
                                 <div style="float:left;width:100px;">
                                     <select class="form-control" ng-change="showModeIdChanged()" ng-model="showModeId"
                                             ng-options="sm for sm in showModeIds">
@@ -107,6 +102,12 @@
                                     </select>
                                 </div>
                             </div>
+									<div style="float:left">
+										<button ng-disabled="goIsShow" style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit</button>
+									</div>
+								</p>
+							</div>
+                            
 
 							<div class="col-md-12 col-sm-12" >
 								<div class="panel panel-success" ng-show="chartShow" >
