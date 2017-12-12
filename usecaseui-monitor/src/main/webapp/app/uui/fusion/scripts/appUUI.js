@@ -34,4 +34,4 @@ app.config(function ($routeProvider) {
       })
         .otherwise({redirectTo: '/common'})
 });
-var global_url = "/api/usecaseui-server/v1";
+var global_url = "/api/usecaseui/server/v1";
