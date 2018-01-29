@@ -368,10 +368,10 @@ div .ui-grid-header-cell {
     height: 300px;
 }
 
-.table th{
+.table thead th{
     border: 1px solid silver;
 }
 
-.table td{
+.table tbody td{
     border: 1px solid silver;
 }

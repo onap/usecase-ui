@@ -16,9 +16,9 @@
 
 app.controller('pertabCtrl', ['$scope', '$http', '$routeParams', '$window' ,
     function ($scope, $http,$routeParams,$window) {
-		$scope.chartShow = false;
-		$scope.ndaShow = false;
-		$scope.hdaShow = false;
+        $scope.chartShow = false;
+	$scope.ndaShow = false;
+	$scope.hdaShow = false;
         $scope.valuess = [];
         $scope.namesPIsShow = false;
         $scope.goIsShow = true;

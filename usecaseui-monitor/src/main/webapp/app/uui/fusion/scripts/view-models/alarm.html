@@ -21,50 +21,54 @@
         <div class="row margin-bottom-10">
             <div class="col-md-4">
                 <ul class="nav nav-pills">
-                    <li style="background-color: #ddd" ng-repeat="O in open"
-                        ng-click="selectOpen(O.id)"
-                        ng-class="{active:activeOpen(O.id)}">
+                    <li style="background-color: #ddd" ng-repeat="O in open" ng-click="selectOpen(O.id,amc.callServer)" ng-class="{active:activeOpen(O.id)}">
                         <a href="">
                             {{O.name}}
                             <span class="badge">{{O.count}}</span>
                         </a>
                     </li>
-                    <input type="hidden" ng-model="selectedOpen"/>
+                    <input type="hidden" ng-model="selectedOpen" />
                 </ul>
             </div>
         </div>
         <ul class="list" style="padding-left:0;">
-            <li>Source Id <input ng-model="condition1" type="text"/></li>
-            <li>Source Name <input ng-model="condition2" type="text"/></li>
-            <li>Priority <input ng-model="condition3" type="text"/></li>
+            <li>Source Id
+                <input ng-model="condition1" type="text" />
+            </li>
+            <li>Source Name
+                <input ng-model="condition2" type="text" />
+            </li>
+            <li>Priority
+                <input ng-model="condition3" type="text" />
+            </li>
             <button class="btn btn-primary" ng-click="amc.callServer(tableState)">search</button>
         </ul>
         <ul class="list" style="padding-left:0;" ng-show='menuState.show'>
-            <li><p class="input-group" style="float:left">
-                <div style="float:left;line-height:100px;padding-right:4px;">Start Time</div>
-                <div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly
-                                                                ng-click="open1()" uib-datepicker-popup
-                                                                ng-model="condition4" is-open="popup1.opened"
-                                                                datepicker-options ng-required="true"
-                                                                close-text="Close"/></div>
-                <div style="display:block;float:left" uib-timepicker ng-model="condition4" hour-step minute-step
-                     show-meridian></div>
-                </p></li>
-            <li><p class="input-group" style="float:left">
-                <div style="float:left;line-height:100px;padding-right:4px;">End Time</div>
-                <div style="float:left;padding-top:33px"><input type="text" class="form-control" ng-click="open2()"
-                                                                readonly uib-datepicker-popup ng-model="condition5"
-                                                                is-open="popup2.opened" datepicker-options
-                                                                ng-required="true" close-text="Close"/></div>
-                <div style="display:block;float:left" uib-timepicker ng-model="condition5" hour-step minute-step
-                     show-meridian></div>
-                </p></li>
+            <li>
+                <p class="input-group" style="float:left">
+                    <div style="float:left;line-height:100px;padding-right:4px;">Start Time</div>
+                    <div style="float:left;padding-top:33px">
+                        <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="condition4" is-open="popup1.opened"
+                            datepicker-options ng-required="true" close-text="Close" />
+                    </div>
+                    <div style="display:block;float:left" uib-timepicker ng-model="condition4" hour-step minute-step show-meridian></div>
+                </p>
+            </li>
+            <li>
+                <p class="input-group" style="float:left">
+                    <div style="float:left;line-height:100px;padding-right:4px;">End Time</div>
+                    <div style="float:left;padding-top:33px">
+                        <input type="text" class="form-control" ng-click="open2()" readonly uib-datepicker-popup ng-model="condition5" is-open="popup2.opened"
+                            datepicker-options ng-required="true" close-text="Close" />
+                    </div>
+                    <div style="display:block;float:left" uib-timepicker ng-model="condition5" hour-step minute-step show-meridian></div>
+                </p>
+            </li>
         </ul>
         <div class="row">
             <div class="col-md-5" style="border-top:1px dotted #ddd">
             </div>
-            <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center"
-                 ng-click="toggleMenu()">
+            <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center" ng-click="toggleMenu()">
                 <span class="caret"></span>
             </div>
             <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -75,69 +79,58 @@
                 <h4 class="margin-bottom-15">Query Result</h4>
             </div>
             <div class="col-md-1">
-                <!--<button ng-click="generateCsv()" class="btn btn-primary">CSV</button>-->
                 <button ng-click="toChart()" class="btn btn-primary">Chart</button>
             </div>
         </div>
 
-        
+
         <div>
             <table class="table" st-pipe="amc.callServer" st-table="amc.displayed">
                 <thead>
-                <tr>
-                    <th width="5%">Id</th>
-                <!--    <th>Event Id</th> -->
-                    <th width="25%">Event Name</th>
-                <!--    <th>Source Id</th> -->
-                    <th width="25%">Source Name</th>
-                <!--    <th>Reporting Entity Id</th> -->
-                <!--    <th>Reporting Entity Name</th> -->
-                    <th width="10%">Priority</th>
-                    <th width="15%">Start Time</th>
-                    <th width="10%">Status</th>
-                    <th>Option</th>
-                </tr>
+                    <tr>
+                        <th width="5%">Id</th>
+                        <th width="25%">Event Name</th>
+                        <th width="25%">Source Name</th>
+                        <th width="10%">Priority</th>
+                        <th width="15%">Start Time</th>
+                        <th width="10%">Status</th>
+                        <th>Option</th>
+                    </tr>
                 </thead>
                 <tbody ng-show="!amc.isLoading">
-                <tr ng-repeat="row in amc.displayed">
-                    <td>{{row.alarmsHeader.id}}</td>
-                <!--    <td>{{row.alarmsHeader.eventId}}</td> -->
-                    <td>{{row.alarmsHeader.eventName}}</td>
-                <!--    <td>{{row.alarmsHeader.sourceId}}</td> -->
-                    <td>{{row.alarmsHeader.sourceName}}</td>
-                <!--    <td>{{row.alarmsHeader.reportingEntityId}}</td> -->
-                <!--    <td>{{row.alarmsHeader.reportingEntityName}}</td> -->
-                    <td>{{row.alarmsHeader.priority}}</td>
-                    <td>{{row.alarmsHeader.createTime}}</td>
-                    <td>{{row.alarmsHeader.status == 1?"Active":"Closed"}}</td>
-                    <td>
-                        <button ng-click="jump(row.alarmsHeader.sourceId)" class="btn btn-primary">Detail</button>
-                    </td>
-                </tr>
+                    <tr ng-repeat="row in amc.displayed track by $index">
+                        <td>{{tableState.pagination.start+$index+1}}</td>
+                        <td>{{row.alarmsHeader.eventName}}</td>
+                        <td>{{row.alarmsHeader.sourceName}}</td>
+                        <td>{{row.alarmsHeader.priority}}</td>
+                        <td>{{row.alarmsHeader.createTime}}</td>
+                        <td>{{row.alarmsHeader.status == 1?"Active":"Closed"}}</td>
+                        <td>
+                            <button ng-click="jump(row.alarmsHeader.sourceId)" class="btn btn-primary">Detail</button>
+                        </td>
+                    </tr>
                 </tbody>
                 <tbody ng-show="amc.isLoading">
-                <tr>
-                    <td colspan="4" class="text-center">
-                        <div class="loading-indicator"></div>
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div class="loading-indicator"></div>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
-                <tr>
-					<td class="text-center" style="padding-top:30px" colspan="4">
-						<label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
-						<div style="float:left;width:130px;">
-						<input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPagea" />
-						</div>
-					</td>
-                    <td class="text-center" st-pagination="" st-items-by-page="itemsByPagea"
-                        st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="3">
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="text-center" style="padding-top:30px" colspan="4">
+                            <label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
+                            <div style="float:left;width:130px;">
+                                <input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPagea" />
+                            </div>
+                        </td>
+                        <td class="text-center" st-pagination="" st-items-by-page="itemsByPagea" st-template="app/uui/fusion/scripts/view-models/pagination.html"
+                            colspan="3">
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-
 </div>
-

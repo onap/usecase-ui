@@ -1,4 +1,3 @@
-
 /*
  Copyright (C) 2017 CMCC, Inc. and others. All rights reserved.
 
@@ -14,10 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-var app = angular.module('uui', ['ng', 'ngRoute','ui.bootstrap','ui.grid','ngTouch','ngAnimate',
-  'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection',
-  'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping','ui.grid.pagination'
-    ,'ui.grid.autoResize','nvd3','smart-table']);
+// 创建模块，同时添加依赖的服务
+var app = angular.module('uui', ['ng', 'ngRoute', 'ui.bootstrap', 'ngTouch', 'ngAnimate', 'nvd3', 'smart-table', 'ui.tree']);
+// 配置路由 ngRoute 也可以是第三方路由ui-router
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/alarm', {
@@ -29,9 +27,14 @@ app.config(function ($routeProvider) {
         .when('/pre-details', {
             templateUrl: 'app/uui/fusion/scripts/view-models/performance-details.html'
         })
-      .when('/common', {
-        templateUrl: 'app/uui/fusion/scripts/view-models/left-menu.html'
-      })
-        .otherwise({redirectTo: '/common'})
+        .when('/common', {
+            templateUrl: 'app/uui/fusion/scripts/view-models/left-menu.html'
+        })
+        .otherwise({
+            redirectTo: '/common'
+        })
 });
-var global_url = "/api/usecaseui-server/v1";
+
+// 请求数据地址
+// var global_url = "http://localhost:8082/api/usecaseui/server/v1";
+var global_url = "http://10.73.233.207:8082/api/usecaseui/server/v1";

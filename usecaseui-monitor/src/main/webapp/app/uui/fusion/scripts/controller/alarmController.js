@@ -14,30 +14,25 @@
  limitations under the License.
  */
 var alarmDetailId = "";
-app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interval' , '$window',
-    function ($scope, $log, $http, $timeout, $interval,$window) {
-        $scope.jump = function(value){
-            alarmDetailId=value;
+
+app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interval', '$window',
+    function ($scope, $log, $http, $timeout, $interval, $window) {
+        $scope.jump = function (value) {
+            alarmDetailId = value;
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-details.html";
-            //angular.element(obj).scope().$apply();
+            s
         };
         $scope.toChart = function () {
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-chart.html";
         };
-        $scope.vfstatus = "null";
 
-        $scope.selectOpen = function (v) {
-            $scope.vfstatus = typeof(v) == "undefined" ? "null" : v;
-            $scope.selectedOpen = v;
-        };
         $scope.itemsByPagea = 10;
 
-
         $http({
-            url : global_url + "/alarm/statusCount",
-            method : "GET"
+            url: global_url + "/alarm/statusCount",
+            method: "GET"
         }).then(function successCallback(resp) {
             $scope.open[0].count = resp.data[1];
             $scope.open[1].count = resp.data[2];
@@ -45,18 +40,27 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
 
         });
 
-        $scope.open = [
-            {id: 1, name: 'Active', count: 0},
-            {id: 2, name: 'Closed', count: 0},
-            {id: undefined, name: 'All', count: 0}
+        // li的数据
+        $scope.open = [{
+                id: 1,
+                name: 'Active',
+                count: 0
+            },
+            {
+                id: 2,
+                name: 'Closed',
+                count: 0
+            },
+            {
+                id: undefined,
+                name: 'All',
+                count: 0
+            }
         ];
 
-
-        $scope.activeOpen = function (open_id) {
-            return open_id == $scope.selectedOpen;
+        $scope.menuState = {
+            show: false
         };
-
-        $scope.menuState = {show: false};
 
         $scope.toggleMenu = function () {
             $scope.menuState.show = !$scope.menuState.show;
@@ -78,42 +82,62 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             opened: false
         };
 
-    }]);
-app.controller('pipeAlarmCtrl', ['$scope','ResourceAlarm', function ($scope,service) {
+    }
+]);
+app.controller('pipeAlarmCtrl', ['$scope', 'ResourceAlarm', '$interval', function ($scope, service, $interval) {
     $scope.condition1 = "";
     $scope.condition2 = "";
     $scope.condition3 = "";
     $scope.condition4 = "";
     $scope.condition5 = "";
+    $scope.vfstatus = "null";
 
+    $scope.selectOpen = function (v, func) {
+        $scope.vfstatus = typeof (v) == "undefined" ? "null" : v;
+        $scope.selectedOpen = v;
+        func($scope.tableState);
+    };
+
+
+    $scope.activeOpen = function (open_id) {
+        return open_id == $scope.selectedOpen;
+    };
 
     var ctrl = this;
 
-    this.displayed = [];
+    ctrl.displayed = [];
 
-    this.callServer = function callServer(tableState) {
+    ctrl.callServer = function callServer(tableState) {
         ctrl.isLoading = true;
         $scope.tableState = tableState;
         var pagination = tableState.pagination;
+        console.log(pagination);
 
-        var start = pagination.start/pagination.number+1 || 0;
+        var start = pagination.start / pagination.number + 1 || 0;
         var number = pagination.number || 10;
 
-        service.getPage(start, number,$scope.condition1===""?"":$scope.condition1,
-            $scope.condition2===""?"":$scope.condition2, $scope.condition3===""?"":$scope.condition3,
-            $scope.condition4===""?"":$scope.condition4, $scope.condition5===""?"":$scope.condition5,
+        service.getPage(start, number, $scope.condition1 === "" ? "" : $scope.condition1,
+            $scope.condition2 === "" ? "" : $scope.condition2, $scope.condition3 === "" ? "" : $scope.condition3,
+            $scope.condition4 === "" ? "" : $scope.condition4, $scope.condition5 === "" ? "" : $scope.condition5,
             $scope.vfstatus).then(function (result) {
             ctrl.displayed = result.data;
             tableState.pagination.numberOfPages = result.numberOfPages;
             ctrl.isLoading = false;
         });
+
+        // var timer = $interval(function () {
+        //     ctrl.callServer($scope.tableState);
+        // }, 5000)
+
+        // console.log($scope)
     };
 
-}]).factory('ResourceAlarm', ['$q', '$filter', '$timeout','$http', function ($q, $filter, $timeout,$http) {
+}]).factory('ResourceAlarm', ['$q', '$filter', '$timeout', '$http', function ($q, $filter, $timeout, $http) {
     var randomsItems = [];
     var totalCount = 0;
+
     function getPage(start, number) {
-        var url = global_url+'/alarm/' + start + '/' + number + '';
+        var url = global_url + '/alarm/' + start + '/' + number + '';
         url += arguments[2] === "" ? "/null" : "/" + arguments[2];
         url += arguments[3] === "" ? "/null" : "/" + arguments[3];
         url += arguments[4] === "" ? "/null" : "/" + arguments[4];
@@ -121,14 +145,13 @@ app.controller('pipeAlarmCtrl', ['$scope','ResourceAlarm', function ($scope,serv
         url += arguments[6] === "" ? "/null" : "/" + FormatDate(arguments[6]);
         url += arguments[7] === "" ? "/null" : "/" + arguments[7];
         $http({
-            url : url,
-            method : "GET"
+            url: url,
+            method: "GET"
         }).then(function SuccessCallback(resp) {
-            console.info(resp);
-            if (resp.data.alarms.length > 0){
+            if (resp.data.alarms.length > 0) {
                 randomsItems = resp.data.alarms;
                 totalCount = resp.data.totalRecords;
-            }else{
+            } else {
                 randomsItems = [];
                 totalCount = 0;
             }
@@ -154,6 +177,4 @@ app.controller('pipeAlarmCtrl', ['$scope','ResourceAlarm', function ($scope,serv
     return {
         getPage: getPage
     };
-
-
 }]);

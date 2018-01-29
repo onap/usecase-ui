@@ -14,14 +14,13 @@
  limitations under the License.
  */
 //
-var permanceId="";
-app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', '$window',
-    function ($scope, $http , $window, $interval) {
-        $scope.jump = function(value){
-            permanceId=value;
+var permanceId = "";
+app.controller('perGridCtrl', ['$scope', '$http', '$window', '$interval',
+    function ($scope, $http, $window, $interval) {
+        $scope.jump = function (value) {
+            permanceId = value;
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance-details.html";
-            //angular.element(obj).scope().$apply();
         };
 
         $scope.itemsByPage = 10;
@@ -31,7 +30,9 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', '$windo
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance-chart.html";
         };
 
-        $scope.menuState = {show: false}
+        $scope.menuState = {
+            show: false
+        }
         $scope.toggleMenu = function () {
             $scope.menuState.show = !$scope.menuState.show;
         }
@@ -39,10 +40,13 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', '$windo
         $scope.checkResults = [];
 
 
-        $scope.menuState = {show: false}
-        $scope.toggleMenu = function () {
-            $scope.menuState.show = !$scope.menuState.show;
-        }
+        // $scope.menuState = {
+        //     show: false
+        // }
+        // $scope.toggleMenu = function () {
+        //     $scope.menuState.show = !$scope.menuState.show;
+        // }
+
         $scope.open1 = function () {
             $scope.popup1.opened = true;
         };
@@ -59,55 +63,61 @@ app.controller('perGridCtrl', ['$scope','$http', '$window', '$interval', '$windo
             opened: false
         };
 
-    }]);
-app.controller('pipeCtrl', ['$scope','Resource', function ($scope,service) {
-    $scope.seek1 = "";
-    $scope.seek2 = "";
-    $scope.seek3 = "";
-    $scope.seek4 = "";
-    $scope.seek5 = "";
+    }
+]);
+app.controller('pipeCtrl', ['$scope', 'Resource', '$interval', function ($scope, service, $interval) {
+        $scope.seek1 = "";
+        $scope.seek2 = "";
+        $scope.seek3 = "";
+        $scope.seek4 = "";
+        $scope.seek5 = "";
 
+        var ctrl = this;
 
-    var ctrl = this;
+        ctrl.displayed = [];
 
-    this.displayed = [];
+        ctrl.callServer = function callServer(tableState) {
+            ctrl.isLoading = true;
+            $scope.tableState = tableState;
+            var pagination = tableState.pagination;
 
-    this.callServer = function callServer(tableState) {
-        ctrl.isLoading = true;
-        $scope.tableState = tableState;
-        var pagination = tableState.pagination;
+            var start = pagination.start / pagination.number + 1 || 0;
+            var number = pagination.number || 10;
 
-        var start = pagination.start/pagination.number+1 || 0;
-        var number = pagination.number || 10;
+            service.getPage(start, number, $scope.seek1 === "" ? "null" : $scope.seek1,
+                $scope.seek2 === "" ? "null" : $scope.seek2, $scope.seek3 === "" ? "null" : $scope.seek3,
+                $scope.seek4 === "" ? "null" : $scope.seek4, $scope.seek5 === "" ? "null" : $scope.seek5).then(function (result) {
+                ctrl.displayed = result.data;
+                tableState.pagination.numberOfPages = result.numberOfPages;
+                ctrl.isLoading = false;
+            });
 
-        service.getPage(start, number,$scope.seek1===""?"null":$scope.seek1,
-            $scope.seek2===""?"null":$scope.seek2, $scope.seek3===""?"null":$scope.seek3,
-            $scope.seek4===""?"null":$scope.seek4, $scope.seek5===""?"null":$scope.seek5).then(function (result) {
-            ctrl.displayed = result.data;
-            tableState.pagination.numberOfPages = result.numberOfPages;
-            ctrl.isLoading = false;
-        });
-    };
+            // $interval(function () {
+            //     ctrl.callServer($scope.tableState);
+            // }, 5000)
 
-}])
-    .factory('Resource', ['$q', '$filter', '$timeout','$http', function ($q, $filter, $timeout,$http) {
+        };
+
+    }])
+    .factory('Resource', ['$q', '$filter', '$timeout', '$http', function ($q, $filter, $timeout, $http) {
         var randomsItems = [];
         var totalCount = 0;
+
         function getPage(start, number) {
-            var url = global_url+'/performance/' + start + '/' + number + '';
+            var url = global_url + '/performance/' + start + '/' + number + '';
             url += arguments[2] === "" ? "/null" : "/" + arguments[2];
             url += arguments[3] === "" ? "/null" : "/" + arguments[3];
             url += arguments[4] === "" ? "/null" : "/" + arguments[4];
             url += arguments[5] === "null" ? "/null" : "/" + FormatDate(arguments[5]);
             url += arguments[6] === "null" ? "/null" : "/" + FormatDate(arguments[6]);
             $http({
-                url : url,
-                method : "GET"
+                url: url,
+                method: "GET"
             }).then(function SuccessCallback(resp) {
-                if (resp.data.performances.length > 0){
+                if (resp.data.performances.length > 0) {
                     randomsItems = resp.data.performances;
                     totalCount = resp.data.totalRecords;
-                }else{
+                } else {
                     randomsItems = [];
                     totalCount = 0;
                 }
@@ -136,24 +146,23 @@ app.controller('pipeCtrl', ['$scope','Resource', function ($scope,service) {
         };
 
 
-    }]).directive('stRatio',function(){
-    return {
-        link:function(scope, element, attr){
-            var ratio=+(attr.stRatio);
+    }]).directive('stRatio', function () {
+        return {
+            link: function (scope, element, attr) {
+                var ratio = +(attr.stRatio);
 
-            element.css('width',ratio+'%');
+                element.css('width', ratio + '%');
 
+            }
+        };
+    }).directive('pageSelect', function () {
+        return {
+            restrict: 'E',
+            template: '<input type="text" class="select-page" ng-model="inputPage" ng-change="selectPage(inputPage)">',
+            link: function (scope, element, attrs) {
+                scope.$watch('currentPage', function (c) {
+                    scope.inputPage = c;
+                });
+            }
         }
-    };
-}).directive('pageSelect', function() {
-    return {
-        restrict: 'E',
-        template: '<input type="text" class="select-page" ng-model="inputPage" ng-change="selectPage(inputPage)">',
-        link: function(scope, element, attrs) {
-            scope.$watch('currentPage', function(c) {
-                scope.inputPage = c;
-            });
-        }
-    }
-});
-
+    });

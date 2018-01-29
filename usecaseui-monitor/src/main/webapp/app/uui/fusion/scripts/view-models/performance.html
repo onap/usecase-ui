@@ -19,26 +19,43 @@
         <div>
             <div class="table-container" ng-controller="pipeCtrl as mc">
                 <ul class="list" style="padding-left:0;">
-                    <li>Source Id <input type="text" ng-model="seek1"/></li>
-                    <li>Source Name <input type="text" ng-model="seek2"/></li>
-                    <li>Priority <input type="text" ng-model="seek3"/></li>
+                    <li>Source Id
+                        <input type="text" ng-model="seek1" />
+                    </li>
+                    <li>Source Name
+                        <input type="text" ng-model="seek2" />
+                    </li>
+                    <li>Priority
+                        <input type="text" ng-model="seek3" />
+                    </li>
                     <button class="btn btn-primary" ng-click="mc.callServer(tableState)">search</button>
                 </ul>
                 <ul class="list" style="padding-left:0;" ng-show='menuState.show'>
-                    <li> <p class="input-group" style="float:left">
-                        <div style="float:left;line-height:100px;padding-right:4px;">StartTime</div><div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="seek4" is-open="popup1.opened" datepicker-options ng-required="true" close-text="Close" /></div>
-                        <div style="display:block;float:left;" uib-timepicker ng-model="seek4" hour-step minute-step show-meridian></div>
-                        </p></li>
-                    <li><p class="input-group" style="float:left">
-                        <div style="float:left;line-height:100px;padding-right:4px;">End Time</div><div style="float:left;padding-top:33px"><input type="text" class="form-control" readonly ng-click="open2()" uib-datepicker-popup ng-model="seek5" is-open="popup2.opened" datepicker-options ng-required="true" close-text="Close" /></div>
-                        <div style="display:block;float:left" uib-timepicker ng-model="seek5" hour-step minute-step show-meridian></div>
-                        </p></li>
+                    <li>
+                        <p class="input-group" style="float:left">
+                            <div style="float:left;line-height:100px;padding-right:4px;">StartTime</div>
+                            <div style="float:left;padding-top:33px">
+                                <input type="text" class="form-control" readonly ng-click="open1()" uib-datepicker-popup ng-model="seek4" is-open="popup1.opened"
+                                    datepicker-options ng-required="true" close-text="Close" />
+                            </div>
+                            <div style="display:block;float:left;" uib-timepicker ng-model="seek4" hour-step minute-step show-meridian></div>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="input-group" style="float:left">
+                            <div style="float:left;line-height:100px;padding-right:4px;">End Time</div>
+                            <div style="float:left;padding-top:33px">
+                                <input type="text" class="form-control" readonly ng-click="open2()" uib-datepicker-popup ng-model="seek5" is-open="popup2.opened"
+                                    datepicker-options ng-required="true" close-text="Close" />
+                            </div>
+                            <div style="display:block;float:left" uib-timepicker ng-model="seek5" hour-step minute-step show-meridian></div>
+                        </p>
+                    </li>
                 </ul>
                 <div class="row">
                     <div class="col-md-5" style="border-top:1px dotted #ddd">
                     </div>
-                    <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center"
-                         ng-click="toggleMenu()">
+                    <div class="col-md-2" style="border:1px dotted #ddd;border-top:none;text-align:center" ng-click="toggleMenu()">
                         <span class="caret"></span>
                     </div>
                     <div class="col-md-5" style="border-top:1px dotted #ddd">
@@ -51,66 +68,56 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <!--  <button ng-click="generateCsv()" class="btn btn-primary">CSV</button>-->
                         <button ng-click="toChart()" class="btn btn-primary">Chart</button>
                     </div>
                 </div>
 
-                
+
                 <table class="table" st-pipe="mc.callServer" st-table="mc.displayed">
                     <thead>
-                    <tr>
-                        <th width="10%" >Id</th>
-                    <!--    <th >Event Id</th> -->
-                        <th width="25%">Event Name</th>
-                    <!--    <th >Source Id</th> -->
-                        <th width="25%">Source Name</th>
-                    <!--    <th >Reporting Entity Id</th> -->
-                    <!--    <th >Reporting Entity Name</th> -->
-                        <th width="10%">Priority</th>
-                        <th width="20%">Start Time</th>
-                        <th >Option</th>
-                    </tr>
+                        <tr>
+                            <th width="10%">Id</th>
+                            <th width="25%">Event Name</th>
+                            <th width="25%">Source Name</th>
+                            <th width="10%">Priority</th>
+                            <th width="20%">Start Time</th>
+                            <th>Option</th>
+                        </tr>
                     </thead>
                     <tbody ng-show="!mc.isLoading">
-                    <tr ng-repeat="row in mc.displayed">
-                        <td>{{row.performanceHeader.id}}</td>
-                    <!--    <td>{{row.performanceHeader.eventId}}</td> -->
-                        <td>{{row.performanceHeader.eventName}}</td>
-                    <!--    <td>{{row.performanceHeader.sourceId}}</td> -->
-                        <td>{{row.performanceHeader.sourceName}}</td>
-                    <!--    <td>{{row.performanceHeader.reportingEntityId}}</td>  -->
-                    <!--    <td>{{row.performanceHeader.reportingEntityName}}</td> -->
-                        <td>{{row.performanceHeader.priority}}</td>
-                        <td>{{row.performanceHeader.createTime}}</td>
-                        <td><button ng-click="jump(row.performanceHeader.sourceId)" class="btn btn-primary" >Detail</button></td>
-                    </tr>
+                        <tr ng-repeat="row in mc.displayed track by $index">
+                            <td>{{tableState.pagination.start+$index+1}}</td>
+                            <td>{{row.performanceHeader.eventName}}</td>
+                            <td>{{row.performanceHeader.sourceName}}</td>
+                            <td>{{row.performanceHeader.priority}}</td>
+                            <td>{{row.performanceHeader.createTime}}</td>
+                            <td>
+                                <button ng-click="jump(row.performanceHeader.sourceId)" class="btn btn-primary">Detail</button>
+                            </td>
+                        </tr>
                     </tbody>
                     <tbody ng-show="mc.isLoading">
-                    <tr>
-                        <td colspan="4" class="text-center"><div class="loading-indicator"></div>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <div class="loading-indicator"></div>
+                            </td>
+                        </tr>
                     </tbody>
                     <tfoot>
-                    <tr>
-						<td class="text-center" style="padding-top:30px" colspan="3">
-						<label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
-						<div style="float:left;width:130px;">
-						<input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPage" />
-						</div>
-						</td>
-                        <td class="text-center" st-pagination="" st-items-by-page="itemsByPage" st-template="app/uui/fusion/scripts/view-models/pagination.html" colspan="3">
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="text-center" style="padding-top:30px" colspan="3">
+                                <label for="items" style="float:left;width:100px;line-height:30px;">items by page</label>
+                                <div style="float:left;width:130px;">
+                                    <input class="input-sm form-control" name="items" id="items" type="number" ng-model="itemsByPage" />
+                                </div>
+                            </td>
+                            <td class="text-center" st-pagination="" st-items-by-page="itemsByPage" st-template="app/uui/fusion/scripts/view-models/pagination.html"
+                                colspan="3">
+                            </td>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
-
         </div>
     </div>
 </div>
-
-
-
-
