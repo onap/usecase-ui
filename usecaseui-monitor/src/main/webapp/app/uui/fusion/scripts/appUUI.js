@@ -36,5 +36,4 @@ app.config(function ($routeProvider) {
 });
 
 // 请求数据地址
-// var global_url = "http://localhost:8082/api/usecaseui/server/v1";
-var global_url = "http://10.73.233.207:8082/api/usecaseui/server/v1";
+var global_url = "/api/usecaseui-server/v1";

@@ -21,7 +21,6 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             alarmDetailId = value;
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-details.html";
-            s
         };
         $scope.toChart = function () {
             var obj = $("#lm");
