@@ -21,6 +21,7 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
             alarmDetailId = value;
             var obj = $("#lm");
             angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/alarm-details.html";
+            s
         };
         $scope.toChart = function () {
             var obj = $("#lm");
@@ -41,12 +42,12 @@ app.controller('alarmGridCtrl', ['$scope', '$log', '$http', '$timeout', '$interv
 
         // li的数据
         $scope.open = [{
-                id: 1,
+                id: 'active',
                 name: 'Active',
                 count: 0
             },
             {
-                id: 2,
+                id: 'close',
                 name: 'Closed',
                 count: 0
             },
@@ -93,6 +94,7 @@ app.controller('pipeAlarmCtrl', ['$scope', 'ResourceAlarm', '$interval', functio
 
     $scope.selectOpen = function (v, func) {
         $scope.vfstatus = typeof (v) == "undefined" ? "null" : v;
+        $scope.tableState.pagination.start = 0;
         $scope.selectedOpen = v;
         func($scope.tableState);
     };

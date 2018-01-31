@@ -26,7 +26,7 @@ app.controller('devicetopologicalCtrl', ['$scope', '$http', function ($scope, $h
 
     function node(x, y, img, name, zIndex) {
       var node = new JTopo.Node(name);
-      node.setImage('/app/uui/fusion/images/' + img, true);
+      node.setImage('/iui/usecaseui/app/uui/fusion/images/' + img, true);
       node.setLocation(x, y);
       node.zIndex = zIndex;
       scene.add(node);
@@ -62,13 +62,13 @@ app.controller('devicetopologicalCtrl', ['$scope', '$http', function ($scope, $h
     container.borderRadius = 200;
     container.setBound(0, 0, 300, 300);
     container.dragble = false;
-    container.background = '/app/uui/fusion/images/cloud_r.png';
+    container.background = '/iui/usecaseui/app/uui/fusion/images/cloud_r.png';
 
     var container2 = new JTopo.Container()
     container2.borderRadius = 200;
     container2.setBound(0, 0, 300, 300);
     container2.dragble = false;
-    container2.background = '/app/uui/fusion/images/cloud_r.png';
+    container2.background = '/iui/usecaseui/app/uui/fusion/images/cloud_r.png';
 
     var routerX = width / 2 - 40;
     var routerY = height / 2;

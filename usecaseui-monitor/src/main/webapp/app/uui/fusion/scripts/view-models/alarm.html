@@ -82,8 +82,6 @@
                 <button ng-click="toChart()" class="btn btn-primary">Chart</button>
             </div>
         </div>
-
-
         <div>
             <table class="table" st-pipe="amc.callServer" st-table="amc.displayed">
                 <thead>
@@ -104,7 +102,7 @@
                         <td>{{row.alarmsHeader.sourceName}}</td>
                         <td>{{row.alarmsHeader.priority}}</td>
                         <td>{{row.alarmsHeader.createTime}}</td>
-                        <td>{{row.alarmsHeader.status == 1?"Active":"Closed"}}</td>
+                        <td>{{row.alarmsHeader.status}}</td>
                         <td>
                             <button ng-click="jump(row.alarmsHeader.sourceId)" class="btn btn-primary">Detail</button>
                         </td>
