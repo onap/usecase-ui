@@ -7,6 +7,5 @@
 	<!-- This is a stub web.xml in the common area -->
 	<display-name>ecomp-sdk-app-common</display-name>
 	<listener>
-		<listener-class>org.onap.portal.system.SystemListener</listener-class>
 	</listener>
 </web-app>
