@@ -35,6 +35,7 @@
         <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
         <win64outputdir>target/assembly/${win64id}</win64outputdir>
         <version.output>target/version</version.output>
+        <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
     </properties>
 
     <build>
@@ -268,7 +269,9 @@
                       <dockerFileDir>${basedir}/${version.output}</dockerFileDir>
                       <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                       <tags>
-                        <tag>${project.version}-STAGING-latest</tag>
+                        <tag>${project.version}</tag>
+                        <tag>${project.version}-${maven.build.timestamp}</tag>
+                        <tag>${project.docker.latesttag.version}</tag>
                       </tags>
                     </build>
                   </image>
