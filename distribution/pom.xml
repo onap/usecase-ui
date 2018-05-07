@@ -269,9 +269,9 @@
                       <dockerFileDir>${basedir}/${version.output}</dockerFileDir>
                       <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                       <tags>
-                        <tag>${project.version}</tag>
-                        <tag>${project.version}-${maven.build.timestamp}</tag>
-                        <tag>${project.docker.latesttag.version}</tag>
+                        <tag>${project.version}-latest</tag>
+                        <tag>${project.version}.split('-').[0]-STAGING-latest</tag>
+                        <tag>${project.version}.split('-').[0]-STAGING-${maven.build.timestamp}</tag>
                       </tags>
                     </build>
                   </image>
