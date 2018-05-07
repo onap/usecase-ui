@@ -35,6 +35,7 @@
         <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
         <win64outputdir>target/assembly/${win64id}</win64outputdir>
         <version.output>target/version</version.output>
+        <uui.gui.project.version>${project.version}</uui.gui.project.version>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
     </properties>
 
@@ -247,9 +248,28 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.groovy.maven</groupId>
+          <artifactId>gmaven-plugin</artifactId>
+          <executions>
+            <execution>
+              <phase>validate</phase>
+              <goals>
+                <goal>execute</goal>
+              </goals>
+              <configuration>
+                <source>
+                  def versionArray;
+                  versionArray = ${project.version}.split('-');
+                  project.properties['project.docker.staging.version']=versionArray[0] + "-STAGING";
+                  println 'Staging Tag for docker:' + project.properties['project.docker.staging.version'];
+                </source>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </build>
-
     <profiles>
       <profile>
         <id>docker</id>
@@ -269,9 +289,9 @@
                       <dockerFileDir>${basedir}/${version.output}</dockerFileDir>
                       <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                       <tags>
-                        <tag>${project.version}</tag>
-                        <tag>${project.version}-${maven.build.timestamp}</tag>
-                        <tag>${project.docker.latesttag.version}</tag>
+                        <tag>${project.version}-latest</tag>
+                        <tag>${project.docker.staging.version}-latest</tag>
+                        <tag>${project.docker.staging.version}-${maven.build.timestamp}</tag>
                       </tags>
                     </build>
                   </image>
