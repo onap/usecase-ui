@@ -271,8 +271,8 @@
                       <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
                       <tags>
                         <tag>${usecaseui.version}-SNAPSHOT-latest</tag>
-                        <tag>${usecaseui.version]-STAGING-latest</tag>
-                        <tag>${usecaseui.version]-STAGING-${maven.build.timestamp}</tag>
+                        <tag>${usecaseui.version}-STAGING-latest</tag>
+                        <tag>${usecaseui.version}-STAGING-${maven.build.timestamp}</tag>
                       </tags>
                     </build>
                   </image>
