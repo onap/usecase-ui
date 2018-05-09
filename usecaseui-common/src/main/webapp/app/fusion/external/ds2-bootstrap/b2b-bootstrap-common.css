@@ -1,0 +1,34 @@
+input[type=checkbox]{
+	-webkit-appearance: checkbox; 	
+	height:initial;
+}
+
+input[type=radio]{
+	-webkit-appearance: radio; 	
+	height:initial;
+}
+
+
+ .checkbox input {
+	-webkit-tap-highlight-color: initial;
+	height: initial;
+	margin: initial;
+	opacity: initial;
+	outline: initial;
+	position: initial;
+	left: initial;
+	top: initial;
+	width: initial;
+}
+
+.radio input {
+	-webkit-tap-highlight-color: initial;
+	height: initial;
+	margin: initial;
+	opacity: initial;
+	outline: initial;
+	position: initial;
+	left: initial;
+	top: initial;
+	width: initial;
+}
