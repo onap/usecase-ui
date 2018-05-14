@@ -14,19 +14,21 @@
  * limitations under the License.
  */
  app.factory("ServiceTemplateService", function($http, $log) {
-   var url = '/api/usecaseui-server/v1/uui-lcm';
+    var url = '/api/usecaseui-server/v1/uui-lcm';
    var uuiHeaders = JSON.stringify({
      'Content-Type': 'application/json'
     //  'Authorization':'Basic dXNlY2FzZTp1c2VjYXNl'
    });
    return {
      getAllCustomers: function (processFun) {
+       console.log("customers")
        return $http({
          url: url+'/customers',
          method: 'GET',
          data: null,
          headers: uuiHeaders
        }).then(function(response){
+         console.log(response)
          var customers = response.data;
          var result = customers.map(function (customer) {
            return {
@@ -64,6 +66,7 @@
          headers: uuiHeaders
        }).then(function(response){
          var serviceInstances = response.data;
+         console.log(serviceInstances);
          var result = serviceInstances.map(function (serviceInstance) {
            return {
              serviceInstanceId: serviceInstance['service-instance-id'],
@@ -72,7 +75,7 @@
            };
          });
          processFun(result);
-       });
+      });
      },
 
      getAllServiceTemplates: function (processFun) {
@@ -93,10 +96,11 @@
            };
          });
          processFun(result);
-       });
+       })
      },
 
      getTemplateParameters: function (template, processFun) {
+       console.log(url+'/service-templates/' + template.id+'?toscaModelPath='+ template.toscaModelURL);
        return $http({
          url: url+'/service-templates/' + template.id+'?toscaModelPath='+ template.toscaModelURL,
          method: 'GET',
@@ -116,9 +120,10 @@
          headers: uuiHeaders
        }).then(function(response){
          var vimInfos = response.data;
+         console.log(vimInfos);
          var result = vimInfos.map(function (vim) {
            return {
-             name: vim['cloud-owner'] + '_' + vim['cloud-region-id'],
+             name: vim['cloud-owner'], //complex-name
              value: vim['cloud-owner'] + '_' + vim['cloud-region-id']
            };
          });
@@ -146,6 +151,7 @@
 
      createService: function (customer, serviceType, service, template, successFun, failedFun) {
        var reqPara = [];
+       var newreqParas = {};
        service.segments.forEach(function (segment) {
          var reqParas = {};
          var vfLocations = [];
@@ -166,17 +172,20 @@
                reqParas[parameter.name] = parameter.value.value;
              }
            } else {
-             reqParas[parameter.name] = parameter.value;
+            newreqParas[parameter.name] = parameter.value;
            }
          });
 
          var para = {
            resourceName: segment.nodeTemplateName,
-           resourceDefId: segment.invariantUUID,
+           resourceInvariantUuid: segment.invariantUUID,//resourceDefId
            resourceId: segment.uuid,
-           nsParameters: {
+           resourceCustomizationUuid: segment.customizationUuid,
+           parameters: {  //nsParameters
              locationConstraints: vfLocations,
-             additionalParamForNs: reqParas
+            //  additionalParamForNs: reqParas,
+             resources:[],
+             requestInputs:reqParas
            }
          };
          reqPara.push(para);
@@ -186,25 +195,34 @@
        if( template.version !== undefined && template.version !== null && template.version !== '' ) {
          templateName = templateName + ":" + template.version;
        }
+       
+       service.parameters.forEach(function(item){
+          newreqParas[item.name] = item.value;
+       })
+     
        var requestBody = {
          service: {
            name: service.serviceName,
            description: service.serviceDescription,
-           serviceDefId: template.invariantUUID,
-           templateId: template.uuid, // uuid ??
+           serviceInvariantUuid: template.invariantUUID, //serviceDefId
+           serviceUuid: template.uuid, // uuid ?? templateId
+           globalSubscriberId: customer.id,
+           serviceType: serviceType.value,
            parameters: {
-             globalSubscriberId: customer.id,
-             subscriberName: customer.name,
-             serviceType: serviceType.value,
-             templateName: templateName,
-             resources: reqPara
+            //  globalSubscriberId: customer.id,
+            //  subscriberName: customer.name,
+            //  serviceType: serviceType.value,
+            //  templateName: templateName,
+             locationConstraints:[],
+             resources: reqPara,
+             requestInputs:newreqParas
            }
          }
        };
 
-       console.log('request body: ');
-       console.log(JSON.stringify(requestBody));
-
+      //  console.log(requestBody);
+      //  console.log(JSON.stringify(requestBody));
+       return false;
        return $http({
          url: url+'/services',
          method: 'POST',
@@ -219,6 +237,36 @@
          successFun(serviceId, operationId);
        });
      },
+
+     getScaleServiceDialog:function(customer,serviceType,serviceInstanceId,successFun){
+        return $http({
+          url:url+'/getServiceInstanceById?customerId=' + customer + '&serviceType=' + serviceType + '&serviceId=' + serviceInstanceId,
+          method:'GET'
+        }).then(function(response){
+          successFun(response);
+        })
+     },
+
+     scaleService: function (requestBody, successFun, failedFun) {
+      
+      // console.log('request body: ');
+      // console.log(JSON.stringify(requestBody));
+      
+
+      return $http({
+        url: url+'/services/scaleServices/'+requestBody.service.globalSubscriberId,
+        method: 'POST',
+        data: JSON.stringify(requestBody),
+        headers: uuiHeaders
+      }).then(function(response){
+        // console.log('create response...');
+        // console.log(response.data);
+
+        var serviceId = response.data.service.serviceId;
+        var operationId = response.data.service.operationId;
+        successFun( operationId);
+      });
+    },
 
      deleteService: function (serviceId, customer, serviceType, successFun) {
        var requestBody = {

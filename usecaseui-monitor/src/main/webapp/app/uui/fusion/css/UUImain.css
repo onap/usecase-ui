@@ -13,6 +13,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+
 /*
     1. CSS Imports
     2. General Styles
@@ -21,13 +23,17 @@
     5. alarm.html
     6. Bootstrap overrides
 --------------------------------------- */
+
+
 /* 1. CSS Imports
 --------------------------------------- */
+
 @import url(font-awesome.min.css);
 @import url(bootstrap.min.css);
 
 /* 2. General Styles
 --------------------------------------- */
+
 * {
     font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -47,7 +53,6 @@ h1 {
 
 .logo {
     display: inline-block;
-
 }
 
 .logo h1 {
@@ -66,7 +71,7 @@ h1 {
     margin-left: 235px;
     margin-top: 0px;
     min-height: 800px;
-    padding: 25px 20px 0 20px;
+    padding: 25px 38px 42px 20px;
     background-color: #F2F2F2;
     overflow-x: hidden;
 }
@@ -88,8 +93,10 @@ h1 {
     margin-bottom: 30px;
 }
 
+
 /* 3. Sidebar
 ------------------------------------------------------*/
+
 #templatemo_search_box {
     width: 200px;
     display: inline-block;
@@ -116,14 +123,14 @@ h1 {
     padding: 0;
 }
 
-.templatemo-sidebar .templatemo-sidebar-menu > li {
+.templatemo-sidebar .templatemo-sidebar-menu>li {
     display: block;
     margin: 0;
     padding: 0;
     border: 0px;
 }
 
-.templatemo-sidebar .templatemo-sidebar-menu > li > a {
+.templatemo-sidebar .templatemo-sidebar-menu>li>a {
     display: block;
     position: relative;
     margin: 0;
@@ -165,19 +172,20 @@ h1 {
     margin: 0;
 }
 
-.templatemo-sidebar-menu > li.sub.open > a {
+.templatemo-sidebar-menu>li.sub.open>a {
     background-color: rgba(145, 145, 145, 0.3);
 }
 
-.templatemo-sidebar .templatemo-sidebar-menu > li.active, .templatemo-sidebar .templatemo-sidebar-menu > li > a:hover {
+.templatemo-sidebar .templatemo-sidebar-menu>li.active,
+.templatemo-sidebar .templatemo-sidebar-menu>li>a:hover {
     background-color: #F2F2F2;
 }
 
-.templatemo-submenu li > a:hover {
+.templatemo-submenu li>a:hover {
     background-color: rgb(228, 228, 228);
 }
 
-.templatemo-sidebar .templatemo-sidebar-menu > li > a > i {
+.templatemo-sidebar .templatemo-sidebar-menu>li>a>i {
     font-size: 16px;
     top: 2px;
     margin-top: 1px;
@@ -188,23 +196,29 @@ h1 {
     text-align: center;
 }
 
+
 /* 4. Charts
 --------------------------------------------*/
+
 .templatemo-chart-box {
     display: inline-block;
     text-align: center;
     padding: 20px 30px 30px 0;
 }
 
+
 /* 5. Preferences Form
 ------------------------------------------*/
+
 #templatemo-preferences-form {
     max-width: 960px;
     margin-bottom: 30px;
 }
 
+
 /* 6. Sign in Form 
 --------------------------------------------*/
+
 .templatemo-signin-form {
     padding-top: 50px;
     max-width: 600px;
@@ -216,19 +230,33 @@ h1 {
     margin-left: 0;
 }
 
+
 /* 7. tables.html
 ------------------------------------------*/
+
 #templatemo_sort_btn {
     margin-bottom: 20px;
 }
 
+
 /* 8. Bootstrap overrides
 ----------------------------------------------*/
-.nav-pills > li > a, .nav-tabs > li > a, .alert, .progress, .panel, .btn, .panel-group .panel, .form-control, .modal-content, .breadcrumb {
+
+.nav-pills>li>a,
+.nav-tabs>li>a,
+.alert,
+.progress,
+.panel,
+.btn,
+.panel-group .panel,
+.form-control,
+.modal-content,
+.breadcrumb {
     border-radius: 0;
 }
 
-.list-group-item:first-child, .panel-heading {
+.list-group-item:first-child,
+.panel-heading {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -242,20 +270,24 @@ h1 {
     right: 15px;
 }
 
+
 /* 9. Maps
 ------------------------------------------------------*/
-.col-md-3 > .form-group {
+
+.col-md-3>.form-group {
     position: relative
 }
 
-.col-md-3 > .form-group > span {
+.col-md-3>.form-group>span {
     position: absolute;
     left: 140px;
     top: 0px;
 }
 
+
 /* 10. Media Queries
 ------------------------------------------------------*/
+
 @media screen and (min-width: 992px) {
     .templatemo-sidebar {
         width: 235px;
@@ -270,24 +302,19 @@ h1 {
         padding: 0;
         margin-left: 0;
     }
-
     .navbar-header {
         float: none;
     }
-
     .navbar-toggle {
         display: block;
     }
-
     .templatemo-sidebar {
         border-top: 0 !important;
         margin: 20px;
     }
-
     .templatemo-sidebar.navbar-collapse.collapse {
         display: none !important;
     }
-
     .templatemo-sidebar.navbar-collapse.in {
         border-top: 0 !important;
         margin: 20px;
@@ -296,11 +323,9 @@ h1 {
         overflow-y: auto !important;
         display: block !important;
     }
-
     .templatemo-content-wrapper {
         float: none;
     }
-
     .templatemo-content {
         margin: 0;
     }
@@ -333,16 +358,17 @@ div .ui-grid-header-cell {
 
 .ui-grid-filter-container {
     color: #000;
-
 }
+
 
 /*input
 ----------------------------------------------*/
+
 .list {
     list-style: none;
 }
 
-.list > li {
+.list>li {
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -354,7 +380,6 @@ div .ui-grid-header-cell {
     text-align: center;
     border: 1px solid #ddd;
     border-top: none;
-
 }
 
 .table {
@@ -363,15 +388,22 @@ div .ui-grid-header-cell {
     border: 1px solid silver;
 }
 
-
 .panel-success {
     height: 300px;
 }
 
-.table thead th{
+.table thead th {
     border: 1px solid silver;
 }
 
-.table tbody td{
+.table tbody td {
     border: 1px solid silver;
+}
+
+.table tbody td.serviceJump {
+    cursor: pointer;
+}
+.table tbody td.serviceJump:hover {
+    background-color: gainsboro;
+    text-decoration: underline ;
 }

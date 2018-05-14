@@ -31,16 +31,6 @@ app.controller('cmCtrl', ['$scope', function ($scope) {
       url: 'app/uui/fusion/scripts/view-models/performance.html',
       nclass: 'fa fa-cog'
     }
-    /*{
-      name: 'Topological diagram',
-      url: 'app/uui/fusion/scripts/view-models/topology.html',
-      nclass: 'fa fa-cog'
-    },
-    {
-      name: 'Device topological',
-      url: 'app/uui/fusion/scripts/view-models/device-topological.html',
-      nclass: 'fa fa-cog'
-    }*/
   ];
   $scope.currentTab = currentTab;
   $scope.$watch('currentTab', function (newValue, oldValue) {

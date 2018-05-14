@@ -17,16 +17,16 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
     function ($scope, $uibModal, $log, $http, $timeout, $interval, ServiceTemplateService) {
       var ctrl = this;
       ctrl.alerts = [];
-      ctrl.closeAlert = function(index) {
+      ctrl.closeAlert = function (index) {
         ctrl.alerts.splice(index, 1);
       };
       var openServiceProgressDialog = function (serviceId, operationId, title, successFun, failFun) {
         var serviceProgressInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
-          templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
-          controller : 'ServiceProgressCtrl',
-          controllerAs : 'ctrl',
+          templateUrl: 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+          controller: 'ServiceProgressCtrl',
+          controllerAs: 'ctrl',
           resolve: {
             serviceId: function () {
               return serviceId;
@@ -52,9 +52,9 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         var modalInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
-          templateUrl : 'app/uui/fusion/scripts/view-models/create-service-dialog.html',
-          controller : 'createServiceCtrl',
-          controllerAs : 'ctrl',
+          templateUrl: 'app/uui/fusion/scripts/view-models/create-service-dialog.html',
+          controller: 'createServiceCtrl',
+          controllerAs: 'ctrl',
           resolve: {
             customer: function () {
               return ctrl.customer;
@@ -65,21 +65,27 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           }
         });
         modalInstance.result.then(
-          function(result) {
+          function (result) {
             console.log('receive ok button clicked!');
             console.log(result);
             var successFun = function (result) {
-              ctrl.alerts.push({type: 'success', msg: result});
+              ctrl.alerts.push({
+                type: 'success',
+                msg: result
+              });
               ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
                 ctrl.serviceInstances = instances;
               });
             }
             var failFun = function (reason) {
-              ctrl.alerts.push({type: 'danger',msg: reason});
+              ctrl.alerts.push({
+                type: 'danger',
+                msg: reason
+              });
             }
             openServiceProgressDialog(result.serviceId, result.operationId, 'Create Service', successFun, failFun);
           },
-          function(reason) {
+          function (reason) {
             console.log('receive cancel button clicked!');
             console.log(reason);
             $log.info('Modal dismissed at: ' + new Date());
@@ -90,7 +96,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       ctrl.init = function () {
         ctrl.canCreateService = "true";
         ServiceTemplateService.getAllCustomers(function (customers) {
-          ctrl.customers = customers;
+          ctrl.customers = customers;      
         });
         ServiceTemplateService.getPackages(function (packages) {
           ctrl.packages = packages;
@@ -98,7 +104,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.customerChanged = function () {
-        if(ctrl.customer === undefined || ctrl.customer === null) {
+        if (ctrl.customer === undefined || ctrl.customer === null) {
           ctrl.serviceTypes = [];
         } else {
           ServiceTemplateService.getAllServiceTypes(ctrl.customer.id, function (serviceTypes) {
@@ -110,7 +116,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.serviceTypeChanged = function () {
-        if(ctrl.serviceType === undefined || ctrl.serviceType === null || ctrl.customer === undefined || ctrl.customer === null) {
+        if (ctrl.serviceType === undefined || ctrl.serviceType === null || ctrl.customer === undefined || ctrl.customer === null) {
           ctrl.canCreateService = "true";
           return;
         }
@@ -120,16 +126,72 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         });
       };
 
+      ctrl.scaleService = function (serviceInstance) {
+
+        var modalInstance = $uibModal.open({
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'app/uui/fusion/scripts/view-models/scale-service-dialog.html',
+          controller: 'scaleServiceCtrl',
+          controllerAs: 'ctrl',
+          resolve: {
+            customer: function () {
+              return ctrl.customer;
+            },
+            serviceType: function () {
+              return ctrl.serviceType;
+            },
+            serviceInstance: serviceInstance
+          }
+        });
+        modalInstance.result.then(
+          function (result) {
+            console.log(result);
+            console.log(serviceInstance);
+            var successFun = function (result) {
+              ctrl.alerts.push({
+                type: 'success',
+                msg: result
+              });
+              ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
+                ctrl.serviceInstances = instances;
+              });
+            }
+            var failFun = function (reason) {
+              console.log(reason)
+              ctrl.alerts.push({
+                type: 'danger',
+                msg: reason
+              });
+            }
+            openServiceProgressDialog(result.serviceId, result.operationId, 'Scale Service', successFun, failFun);
+          },
+          function (reason) {
+            console.log('receive cancel button clicked!');
+            console.log(reason);
+            $log.info('Modal dismissed at: ' + new Date());
+          }
+        );
+
+
+      };
+
       ctrl.deleteService = function (serviceInstance) {
         var successFun = function (serviceId, operationId) {
           var successFun = function (result) {
-            ctrl.alerts.push({type: 'success', msg: result});
+            ctrl.alerts.push({
+              type: 'success',
+              msg: result
+            });
             ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
               ctrl.serviceInstances = instances;
             });
           }
           var failFun = function (reason) {
-            ctrl.alerts.push({type: 'danger',msg: reason});
+            ctrl.alerts.push({
+              type: 'danger',
+              msg: reason
+            });
           }
           openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
         }
@@ -137,12 +199,18 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
-        if(onboardPackage.type === 'NS') {
+        if (onboardPackage.type === 'NS') {
           var processFun = function (response) {
-            if('failed' === response.status) {
-              ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
+            if ('failed' === response.status) {
+              ctrl.alerts.push({
+                type: 'danger',
+                msg: 'Operation failed! ' + response.statusDescription
+              });
             } else {
-              ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+              ctrl.alerts.push({
+                type: 'success',
+                msg: 'Operation is finished!'
+              });
             }
           };
           ServiceTemplateService.nsPackageOnboard(onboardPackage, processFun);
@@ -151,9 +219,9 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
             var onboardProgressInstance = $uibModal.open({
               ariaLabelledBy: 'modal-title',
               ariaDescribedBy: 'modal-body',
-              templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
-              controller : 'VfOnboardProgressCtrl',
-              controllerAs : 'ctrl',
+              templateUrl: 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+              controller: 'VfOnboardProgressCtrl',
+              controllerAs: 'ctrl',
               resolve: {
                 jobId: function () {
                   return jobId;
@@ -173,10 +241,16 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
             );
           };
           var successFun = function (result) {
-            ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
+            ctrl.alerts.push({
+              type: 'success',
+              msg: 'Operation is finished!'
+            });
           };
           var failFun = function (reason) {
-            ctrl.alerts.push({type: 'danger',msg: 'Operation is failed! ' + reason});
+            ctrl.alerts.push({
+              type: 'danger',
+              msg: 'Operation is failed! ' + reason
+            });
           };
           var processFun = function (response) {
             openOnboardProgressDialog(response.jobId, 'VF Onboarding', successFun, failFun);
@@ -186,58 +260,75 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.packageDelete = function (deletePackage) {
-        if(deletePackage.type === 'NS') {
-            var processFun = function (response) {
-              if('failed' === response.status) {
-                ctrl.alerts.push({type: 'danger',msg: 'Operation failed! ' + response.statusDescription});
-              } else {
-                ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
-              }
-            };
+        if (deletePackage.type === 'NS') {
+          var processFun = function (response) {
+            if ('failed' === response.status) {
+              ctrl.alerts.push({
+                type: 'danger',
+                msg: 'Operation failed! ' + response.statusDescription
+              });
+            } else {
+              ctrl.alerts.push({
+                type: 'success',
+                msg: 'Operation is finished!'
+              });
+            }
+          };
           ServiceTemplateService.nsPackageDelete(deletePackage, processFun);
         } else {
-            var openOnboardProgressDialog = function (jobId, title, successFun, failFun) {
-              var onboardProgressInstance = $uibModal.open({
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl : 'app/uui/fusion/scripts/view-models/progress-dialog.html',
-                controller : 'VfOnboardProgressCtrl',
-                controllerAs : 'ctrl',
-                resolve: {
-                  jobId: function () {
-                    return jobId;
-                  },
-                  operationTitle: function () {
-                    return title;
-                  }
-                }
-              });
-              onboardProgressInstance.result.then(
-                function (result) {
-                  successFun(result);
+          var openOnboardProgressDialog = function (jobId, title, successFun, failFun) {
+            var onboardProgressInstance = $uibModal.open({
+              ariaLabelledBy: 'modal-title',
+              ariaDescribedBy: 'modal-body',
+              templateUrl: 'app/uui/fusion/scripts/view-models/progress-dialog.html',
+              controller: 'VfOnboardProgressCtrl',
+              controllerAs: 'ctrl',
+              resolve: {
+                jobId: function () {
+                  return jobId;
                 },
-                function (reason) {
-                  failFun(reason);
+                operationTitle: function () {
+                  return title;
                 }
-              );
-            };
-            var successFun = function (result) {
-              ctrl.alerts.push({type: 'success',msg: 'Operation is finished!'});
-            };
-            var failFun = function (reason) {
-              ctrl.alerts.push({type: 'danger',msg: 'Operation is failed! ' + reason});
-            };
-            var processFun = function (response) {
-              openOnboardProgressDialog(response.jobId, 'Delete VF package', successFun, failFun);
-            };
+              }
+            });
+            onboardProgressInstance.result.then(
+              function (result) {
+                successFun(result);
+              },
+              function (reason) {
+                failFun(reason);
+              }
+            );
+          };
+          var successFun = function (result) {
+            ctrl.alerts.push({
+              type: 'success',
+              msg: 'Operation is finished!'
+            });
+          };
+          var failFun = function (reason) {
+            ctrl.alerts.push({
+              type: 'danger',
+              msg: 'Operation is failed! ' + reason
+            });
+          };
+          var processFun = function (response) {
+            openOnboardProgressDialog(response.jobId, 'Delete VF package', successFun, failFun);
+          };
           ServiceTemplateService.vfPackageDelete(deletePackage, processFun);
         }
       };
+
+      ctrl.jumpToUrl = function () {
+        var obj = $("#lm");
+        angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/device-topological.html";
+      }
+
     }
-  ]
-)
-.controller('createServiceCtrl',['$scope', '$uibModal','$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
-    function($scope,$uibModal, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
+  ])
+  .controller('createServiceCtrl', ['$scope', '$uibModal', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType',
+    function ($scope, $uibModal, $uibModalInstance, ServiceTemplateService, customer, serviceType) {
       var ctrl = this;
 
       ServiceTemplateService.getAllServiceTemplates(function (t) {
@@ -268,12 +359,12 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
             };
           });
           return {
-               nodeTemplateName: nestedTemplate.name,
-               invariantUUID: nestedTemplate.invariantUUID,
-               uuid: nestedTemplate.uuid,
-               type: nestedTemplate.type,
-               parameters: nestedParas
-             };
+            nodeTemplateName: nestedTemplate.name,
+            invariantUUID: nestedTemplate.invariantUUID,
+            uuid: nestedTemplate.uuid,
+            type: nestedTemplate.type,
+            parameters: nestedParas
+          };
         });
 
         var service = {
@@ -295,7 +386,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
 
       ctrl.serviceTemplateChanged = function (template) {
         console.log('serviceTemplateChanged invoked... ' + template);
-        if(template === undefined || template === null) {
+        if (template === undefined || template === null) {
           ctrl.service = undefined;
           ctrl.realTemplate = undefined;
         } else {
@@ -306,12 +397,12 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         }
       };
 
-      ctrl.ok = function() {
+      ctrl.ok = function () {
         console.log('ok button clicked!');
         console.log('service: ');
-        console.log(ctrl.service);
         console.log(customer);
         console.log(serviceType);
+        console.log(ctrl.service);
         console.log(ctrl.realTemplate);
 
 
@@ -327,7 +418,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         ServiceTemplateService.createService(customer, serviceType, ctrl.service, ctrl.realTemplate, successFun, errorMessage);
       };
       // cancel click
-      ctrl.cancel = function() {
+      ctrl.cancel = function () {
         $uibModalInstance.dismiss('cancel');
       };
 
@@ -338,19 +429,80 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       ServiceTemplateService.getAllSdnControllers(function (sdnControllers) {
         ctrl.sdnControllers = sdnControllers;
       });
-    }]
-).controller('packageOnboardCtrl',['$scope', '$uibModalInstance', 'ServiceTemplateService','onboardPackage',
-    function($scope, $uibModalInstance, ServiceTemplateService, onboardPackage) {
+    }
+  ])
+  .controller('scaleServiceCtrl', ['$scope', '$uibModal', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType','serviceInstance',
+    function ($scope, $uibModal, $uibModalInstance, ServiceTemplateService, customer, serviceType, serviceInstance) {
+      var ctrl = this;
+      console.log(ctrl);
+      console.log(customer);
+      console.log(serviceType);
+      console.log(serviceInstance);
+        
+      ServiceTemplateService.getScaleServiceDialog(customer.name,serviceType.name,serviceInstance.serviceInstanceId,function(data){
+        console.log(data.data);
+        ctrl.nsData = data.data;
+        // console.log(ctrl)
+      })
+      ctrl.scaleTypes = ["SCALE_NS","SCALE_VNF"];
+      ctrl.scaleType = "";
+      ctrl.scalingDirections = ["SCALE_IN","SCALE_OUT"];
+      ctrl.scalingDirection = "";
+      ctrl.aspectId = null;
+      ctrl.numberOfStep = null;
+
+      ctrl.ok = function () {
+        var requestBody = {
+          "service":{
+            "serviceInstanceName": serviceInstance.serviceInstanceName,
+            "serviceType": serviceType,
+            "globalSubscriberId": serviceInstance.serviceInstanceId,
+            "resources": [
+              {
+                "resourceInstanceId": "ns111",
+                "scaleType": ctrl.scaleType,
+                "scaleNsData": {
+                  "scaleNsByStepsData": {
+                    "aspectId": ctrl.aspectId,
+                    "numberOfSteps": ctrl.numberOfStep,
+                    "scalingDirection": ctrl.scalingDirection
+                  }
+                }
+              }
+            ]
+          } 
+        };
+        var errorMessage = function () {
+
+        };
+        var successFun = function ( operationId) {
+          $uibModalInstance.close({
+            operationId: operationId
+          });
+        }
+        ServiceTemplateService.scaleService(requestBody, successFun, errorMessage);
+        
+      };
+      // cancel click
+      ctrl.cancel = function () {
+        // $uibModalInstance.close("ok关闭效果");
+        $uibModalInstance.dismiss('cancel');
+      };
+
+    }
+  ])
+  .controller('packageOnboardCtrl', ['$scope', '$uibModalInstance', 'ServiceTemplateService', 'onboardPackage',
+    function ($scope, $uibModalInstance, ServiceTemplateService, onboardPackage) {
       var ctrl = this;
 
       ServiceTemplateService.getAllVimInfo(function (vims) {
         ctrl.packageLocations = vims;
       });
 
-      ctrl.ok = function() {
+      ctrl.ok = function () {
         var proVims = [];
         ctrl.packageLocations.forEach(function (location) {
-          if(location.productenv) {
+          if (location.productenv) {
             proVims.push(location.name);
           }
         });
@@ -361,94 +513,96 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         $uibModalInstance.close('successfully');
       };
       // cancel click
-      ctrl.cancel = function() {
+      ctrl.cancel = function () {
         $uibModalInstance.dismiss('cancel');
       };
 
-    }]
-).controller('ServiceProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'serviceId', 'operationId', 'operationTitle', '$q', '$interval',
-function ($uibModalInstance, ServiceTemplateService, serviceId, operationId, operationTitle, $q, $interval) {
-  var ctrl = this;
-  ctrl.title = operationTitle;
-  ctrl.operation = '';
-  ctrl.max = 100;
-  ctrl.dynamic = 0;
-
-  var timerDeferred = $q.defer();
-  var timerPromise = timerDeferred.promise;
-
-  var progressFun = function (serviceProgress) {
-    if('finished' === serviceProgress.result || 'error' === serviceProgress.result) {
-      ctrl.dynamic = 100;
-      timerDeferred.resolve();
-      if('finished' === serviceProgress.result) {
-        $uibModalInstance.close(operationTitle + ' finished!');
-      } else if('error' === serviceProgress.result) {
-        $uibModalInstance.dismiss(operationTitle + ' failed! ' + serviceProgress.reason);
-      }
-      console.log('timer finished!');
-    } else if('processing' === serviceProgress.result) {
-      ctrl.dynamic = serviceProgress.progress;
-      ctrl.operation = serviceProgress.operationContent;
-      console.log('timer processing ......');
     }
-  };
+  ])
+  .controller('ServiceProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'serviceId', 'operationId', 'operationTitle', '$q', '$interval',
+    function ($uibModalInstance, ServiceTemplateService, serviceId, operationId, operationTitle, $q, $interval) {
+      var ctrl = this;
+      ctrl.title = operationTitle;
+      ctrl.operation = '';
+      ctrl.max = 100;
+      ctrl.dynamic = 0;
 
-  var timer = $interval(function () {
-    ServiceTemplateService.queryServiceProgress(serviceId, operationId, progressFun);
-  }, 1000);
+      var timerDeferred = $q.defer();
+      var timerPromise = timerDeferred.promise;
 
-  timerPromise.then(function () {
-    $interval.cancel(timer);
-    console.log('timer cancel ---- ');
-  },function () {
-    $interval.cancel(timer);
-  });
-}]
-).controller('VfOnboardProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'jobId', 'operationTitle', '$q', '$interval',
-function ($uibModalInstance, ServiceTemplateService, jobId, operationTitle, $q, $interval) {
-  var ctrl = this;
-  ctrl.title = operationTitle;
-  ctrl.operation = '';
-  ctrl.max = 100;
-  ctrl.dynamic = 0;
-
-  var timerDeferred = $q.defer();
-  var timerPromise = timerDeferred.promise;
-
-  var responseId = '0';
-  var progressFun = function (responseDescriptor) {
-    if('finished' === responseDescriptor.status || 'error' === responseDescriptor.status) {
-      ctrl.dynamic = 100;
-      timerDeferred.resolve();
-      if('finished' === responseDescriptor.status) {
-        $uibModalInstance.close('');
-      } else if('error' === responseDescriptor.status) {
-        $uibModalInstance.dismiss(responseDescriptor.statusDescription);
-      }
-      console.log('timer finished!');
-    } else if('processing' === responseDescriptor.status) {
-      ctrl.dynamic = responseDescriptor.progress;
-      ctrl.operation = responseDescriptor.statusDescription;
-      console.log('timer processing ......');
-      responseId = responseDescriptor.responseId;
-      if(responseId === undefined) {
-          console.log('Cannot get responseId...');
-          $uibModalInstance.close('');
+      var progressFun = function (serviceProgress) {
+        if ('finished' === serviceProgress.result || 'error' === serviceProgress.result) {
+          ctrl.dynamic = 100;
           timerDeferred.resolve();
-      }
+          if ('finished' === serviceProgress.result) {
+            $uibModalInstance.close(operationTitle + ' finished!');
+          } else if ('error' === serviceProgress.result) {
+            $uibModalInstance.dismiss(operationTitle + ' failed! ' + serviceProgress.reason);
+          }
+          console.log('timer finished!');
+        } else if ('processing' === serviceProgress.result) {
+          ctrl.dynamic = serviceProgress.progress;
+          ctrl.operation = serviceProgress.operationContent;
+          console.log('timer processing ......');
+        }
+      };
+
+      var timer = $interval(function () {
+        ServiceTemplateService.queryServiceProgress(serviceId, operationId, progressFun);
+      }, 1000);
+
+      timerPromise.then(function () {
+        $interval.cancel(timer);
+        console.log('timer cancel ---- ');
+      }, function () {
+        $interval.cancel(timer);
+      });
     }
-  };
+  ])
+  .controller('VfOnboardProgressCtrl', ['$uibModalInstance', 'ServiceTemplateService', 'jobId', 'operationTitle', '$q', '$interval',
+    function ($uibModalInstance, ServiceTemplateService, jobId, operationTitle, $q, $interval) {
+      var ctrl = this;
+      ctrl.title = operationTitle;
+      ctrl.operation = '';
+      ctrl.max = 100;
+      ctrl.dynamic = 0;
 
-  var timer = $interval(function () {
-    ServiceTemplateService.queryVfOnboardProgress(jobId, responseId, progressFun);
-  }, 1000);
+      var timerDeferred = $q.defer();
+      var timerPromise = timerDeferred.promise;
 
-  timerPromise.then(function () {
-    $interval.cancel(timer);
-    console.log('timer cancel ---- ');
-  },function () {
-    $interval.cancel(timer);
-  });
-}]
-);
+      var responseId = '0';
+      var progressFun = function (responseDescriptor) {
+        if ('finished' === responseDescriptor.status || 'error' === responseDescriptor.status) {
+          ctrl.dynamic = 100;
+          timerDeferred.resolve();
+          if ('finished' === responseDescriptor.status) {
+            $uibModalInstance.close('');
+          } else if ('error' === responseDescriptor.status) {
+            $uibModalInstance.dismiss(responseDescriptor.statusDescription);
+          }
+          console.log('timer finished!');
+        } else if ('processing' === responseDescriptor.status) {
+          ctrl.dynamic = responseDescriptor.progress;
+          ctrl.operation = responseDescriptor.statusDescription;
+          console.log('timer processing ......');
+          responseId = responseDescriptor.responseId;
+          if (responseId === undefined) {
+            console.log('Cannot get responseId...');
+            $uibModalInstance.close('');
+            timerDeferred.resolve();
+          }
+        }
+      };
+
+      var timer = $interval(function () {
+        ServiceTemplateService.queryVfOnboardProgress(jobId, responseId, progressFun);
+      }, 1000);
+
+      timerPromise.then(function () {
+        $interval.cancel(timer);
+        console.log('timer cancel ---- ');
+      }, function () {
+        $interval.cancel(timer);
+      });
+    }
+  ]);

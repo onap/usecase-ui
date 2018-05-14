@@ -50,11 +50,14 @@
               </tr>
             </thead>
             <tbody id="bb">
-              <tr ng-repeat="serviceInstance in ctrl.serviceInstances">
+              <tr ng-repeat="serviceInstance in ctrl.serviceInstances">  
                 <td>{{serviceInstance.serviceInstanceId}}</td>
                 <td>{{serviceInstance.serviceInstanceName}}</td>
                 <td>{{serviceInstance.serviceType}}</td>
-                <td><button class="btn btn-primary" ng-click="ctrl.deleteService(serviceInstance)">Delete</button></td>
+                <td>
+                  <button class="btn btn-primary" ng-click="ctrl.scaleService(serviceInstance)">Scale</button>
+                  <button class="btn btn-primary" ng-click="ctrl.deleteService(serviceInstance)">Delete</button>
+                </td>
               </tr>
             </tbody>
           </table>
