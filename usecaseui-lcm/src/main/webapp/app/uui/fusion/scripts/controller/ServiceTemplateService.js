@@ -108,6 +108,7 @@
          headers: uuiHeaders
        }).then(function(response){
          var inputRsp = response.data;
+         console.log(inputRsp);
          processFun(inputRsp);
        });
      },
@@ -139,6 +140,7 @@
          headers: uuiHeaders
        }).then(function(response){
          var sdnControllers = response.data;
+         console.log(sdnControllers);
          var result = sdnControllers.map(function (sdn) {
            return {
              name: sdn['thirdparty-sdnc-id'],
@@ -172,7 +174,7 @@
                reqParas[parameter.name] = parameter.value.value;
              }
            } else {
-            newreqParas[parameter.name] = parameter.value;
+             reqParas[parameter.name] = parameter.value;
            }
          });
 
@@ -222,7 +224,7 @@
 
       //  console.log(requestBody);
       //  console.log(JSON.stringify(requestBody));
-       return false;
+      //  return false;
        return $http({
          url: url+'/services',
          method: 'POST',

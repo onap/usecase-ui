@@ -173,7 +173,6 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           }
         );
 
-
       };
 
       ctrl.deleteService = function (serviceInstance) {
@@ -196,6 +195,55 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
         }
         ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, ctrl.customer, ctrl.serviceType, successFun);
+      };
+
+      ctrl.upDateService = function (serviceInstance) {
+
+        var modalInstance = $uibModal.open({
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'app/uui/fusion/scripts/view-models/scale-service-dialog.html',
+          controller: 'scaleServiceCtrl',
+          controllerAs: 'ctrl',
+          resolve: {
+            customer: function () {
+              return ctrl.customer;
+            },
+            serviceType: function () {
+              return ctrl.serviceType;
+            },
+            serviceInstance: serviceInstance
+          }
+        });
+        modalInstance.result.then(
+          function (result) {
+            console.log(result);
+            console.log(serviceInstance);
+            var successFun = function (result) {
+              ctrl.alerts.push({
+                type: 'success',
+                msg: result
+              });
+              ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
+                ctrl.serviceInstances = instances;
+              });
+            }
+            var failFun = function (reason) {
+              console.log(reason)
+              ctrl.alerts.push({
+                type: 'danger',
+                msg: reason
+              });
+            }
+            openServiceProgressDialog(result.serviceId, result.operationId, 'Scale Service', successFun, failFun);
+          },
+          function (reason) {
+            console.log('receive cancel button clicked!');
+            console.log(reason);
+            $log.info('Modal dismissed at: ' + new Date());
+          }
+        );
+
       };
 
       ctrl.packageOnboard = function (onboardPackage) {
@@ -360,6 +408,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           });
           return {
             nodeTemplateName: nestedTemplate.name,
+            customizationUuid:nestedTemplate.customizationUuid,
             invariantUUID: nestedTemplate.invariantUUID,
             uuid: nestedTemplate.uuid,
             type: nestedTemplate.type,
@@ -374,6 +423,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           segments: segmentsPara
         };
         ctrl.service = service;
+        console.log(service);
       };
       ctrl.service = {
         serviceName: '',
