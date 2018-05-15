@@ -488,38 +488,36 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       console.log(customer);
       console.log(serviceType);
       console.log(serviceInstance);
-        
+  
       ServiceTemplateService.getScaleServiceDialog(customer.name,serviceType.name,serviceInstance.serviceInstanceId,function(data){
         console.log(data.data);
         ctrl.nsData = data.data;
         // console.log(ctrl)
       })
       ctrl.scaleTypes = ["SCALE_NS","SCALE_VNF"];
-      ctrl.scaleType = "";
       ctrl.scalingDirections = ["SCALE_IN","SCALE_OUT"];
-      ctrl.scalingDirection = "";
-      ctrl.aspectId = null;
-      ctrl.numberOfStep = null;
 
       ctrl.ok = function () {
+        let resources = [];
+        ctrl.nsData.forEach(function(item){
+          resources.push({
+            "resourceInstanceId": item.netWorkServiceId,
+            "scaleType": item.scaleType,
+            "scaleNsData": {
+              "scaleNsByStepsData": {
+                "aspectId": item.aspectId,
+                "numberOfSteps": item.numberOfStep,
+                "scalingDirection": item.scalingDirection
+              }
+            }            
+          })
+        })
         var requestBody = {
           "service":{
             "serviceInstanceName": serviceInstance.serviceInstanceName,
-            "serviceType": serviceType,
+            "serviceType": serviceType.value,
             "globalSubscriberId": serviceInstance.serviceInstanceId,
-            "resources": [
-              {
-                "resourceInstanceId": "ns111",
-                "scaleType": ctrl.scaleType,
-                "scaleNsData": {
-                  "scaleNsByStepsData": {
-                    "aspectId": ctrl.aspectId,
-                    "numberOfSteps": ctrl.numberOfStep,
-                    "scalingDirection": ctrl.scalingDirection
-                  }
-                }
-              }
-            ]
+            "resources": resources
           } 
         };
         var errorMessage = function () {
