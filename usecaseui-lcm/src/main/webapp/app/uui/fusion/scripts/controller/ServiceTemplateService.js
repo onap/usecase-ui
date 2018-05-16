@@ -181,7 +181,7 @@
          var para = {
            resourceName: segment.nodeTemplateName,
            resourceInvariantUuid: segment.invariantUUID,//resourceDefId
-           resourceId: segment.uuid,
+           resourceUuid: segment.uuid,
            resourceCustomizationUuid: segment.customizationUuid,
            parameters: {  //nsParameters
              locationConstraints: vfLocations,
