@@ -202,8 +202,8 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         var modalInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
-          templateUrl: 'app/uui/fusion/scripts/view-models/scale-service-dialog.html',
-          controller: 'scaleServiceCtrl',
+          templateUrl: 'app/uui/fusion/scripts/view-models/update-service-dialog.html',
+          controller: 'updateServiceCtrl',
           controllerAs: 'ctrl',
           resolve: {
             customer: function () {

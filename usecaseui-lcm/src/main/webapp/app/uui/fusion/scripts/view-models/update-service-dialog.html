@@ -1,0 +1,132 @@
+<!--
+
+    Copyright 2016-2017 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<div class="modal-header" style="margin-bottom: 15px;">
+  <h4 class="modal-title" id="myModalLabel">
+    <span>Create</span>
+  </h4>
+</div>
+
+<div class="modal-body">
+  <form class="form-horizontal" role="form" id="neForm">
+
+  <uib-tabset active="active">
+    <uib-tab heading="Base">
+      <div id="basicInfoTab" style="margin-top:20px;">
+        <div class="mT15 form-group" style="margin-left:25px;">
+          <label class="col-sm-3 control-label">
+            <span>Service Name</span>
+            <span class="required">*</span>
+          </label>
+          <div class="col-sm-7">
+            <input type="text" id="svcName" name="svcName" class="form-control" placeholder="Service Name" maxlength="256" ng-model="ctrl.service.serviceName"/>
+          </div>
+        </div>
+        <div class="mT15 form-group" style="margin-left:25px;">
+          <label class="col-sm-3 control-label">
+            <span>Service Description</span>
+            <span class="required">*</span>
+          </label>
+          <div class="col-sm-7">
+            <input type="text" id="svcDesc" name="" class="form-control" placeholder="Service Description" maxlength="256" ng-model="ctrl.service.serviceDescription"/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-left:25px;margin-bottom:15px;">
+          <label class="col-sm-3 control-label">
+            <span>Service Template</span>
+            <span class="required">*</span>
+          </label>
+          <div class="col-sm-7">
+            <select class="form-control" style="padding-top: 0px;padding-bottom: 0px;" id="svcTempl" name="svcTempl" ng-change="ctrl.serviceTemplateChanged(ctrl.selectedTemplate)" ng-model="ctrl.selectedTemplate" ng-options="template.name for template in ctrl.templates">
+              <option value="">--select--</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab heading="Template Parameters">
+      <div id='templateParasTab' style="margin-top:20px;">
+
+        <fieldset ng-repeat="segment in ctrl.service.segments" style="margin-left:25px;">
+          <legend>{{segment.nodeTemplateName}}</legend>
+          <!-- <div class="form-group" style="margin-left:0px;margin-bottom:5px;">
+            <label class="col-sm-5 control-label">
+              <span>{{segment.location.name}}</span><span class="required">*</span>
+            </label>
+            <div class="col-sm-5">
+              <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="segment.location.value" ng-options="option.value for option in ctrl.locations">
+                <option value="">select</option>
+              </select>
+            </div>
+          </div> -->
+          <div ng-repeat="segment_parameter in segment.parameters" class="mT15 form-group" style="margin-left:0px;">
+            <label ng-if="segment_parameter.type === 'vf_location'" class="col-sm-5 control-label">
+              <span>{{segment_parameter.description}}</span><span ng-if="segment_parameter.isRequired" class="required">*</span>
+            </label>
+            <label ng-if="segment_parameter.type !== 'vf_location'" class="col-sm-5 control-label">
+              <span>{{segment_parameter.name}}</span><span ng-if="segment_parameter.isRequired" class="required">*</span>
+            </label>
+            <div ng-if="segment_parameter.type === 'string' || segment_parameter.type === 'boolean' || segment_parameter.type === 'integer'" class="col-sm-5">
+              <input type="text"  name="{{segment_parameter.description}}" class="form-control" ng-model="segment_parameter.value" placeholder="{{segment_parameter.name}}" value="{{segment_parameter.defaultValue}}" ng-readonly="{{segment_parameter.readonly}}"/>
+            </div>
+            <div ng-if="segment_parameter.type === 'vf_location'" class="col-sm-5">
+              <select class="form-control" style ="padding-top: 1px;padding-bottom: 0px;" ng-model="segment_parameter.value" ng-options="option.name for option in ctrl.locations">
+                <option value="">--select--</option>
+              </select>
+            </div>
+            <div ng-if="segment_parameter.type === 'sdn_controller'" class="col-sm-5">
+              <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="segment_parameter.value" ng-options="option.value for option in ctrl.sdnControllers">
+                <option value="">--select--</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+          <legend>Service Inputs</legend>
+        <div ng-repeat="parameter in ctrl.service.parameters" class="mT15 form-group" style="margin-left:0px;">
+          <label class="col-sm-5 control-label">
+            <span>{{parameter.name}}</span><span ng-if="parameter.isRequired" class="required">*</span>
+          </label>
+          <div ng-if="parameter.type === 'string' || parameter.type === 'boolean' || parameter.type === 'integer'" class="col-sm-5">
+            <input type="text"  name="{{parameter.description}}" class="form-control" ng-model="parameter.value" placeholder="{{parameter.name}}" value="{{parameter.defaultValue}}" ng-readonly="{{parameter.readonly}}"/>
+          </div>
+          <div ng-if="parameter.type === 'vf_location'" class="col-sm-5">
+            <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="parameter.value" ng-options="option.name for option in ctrl.locations">
+              <option value="">--select--</option>
+            </select>
+          </div>
+          <div ng-if="parameter.type === 'sdn_controller'" class="col-sm-5">
+            <select class="form-control" style ="padding-top: 0px;padding-bottom: 0px;" ng-model="parameter.value" ng-options="option.value for option in ctrl.sdnControllers">
+              <option value="">--select--</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </uib-tab>
+  </uib-tabset>
+
+</form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" style="width:80px;" class="btn btn-primary" ng-click="ctrl.ok()" id="startToCreateService">
+    <span id="nfv-virtualApplication-iui-text-cancelBtn">OK</span>
+  </button>
+  <button type="button" style="width:80px;" class="btn btn-warning" ng-click="ctrl.cancel()">
+    <span id="nfv-virtualApplication-iui-text-previousBtn">Cancel</span>
+  </button>
+</div>

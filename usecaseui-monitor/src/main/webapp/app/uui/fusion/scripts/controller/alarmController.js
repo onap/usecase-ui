@@ -111,7 +111,7 @@ app.controller('pipeAlarmCtrl', ['$scope', 'ResourceAlarm', '$interval', functio
         ctrl.isLoading = true;
         $scope.tableState = tableState;
         var pagination = tableState.pagination;
-        console.log(pagination);
+        // console.log(pagination);
 
         var start = pagination.start / pagination.number + 1 || 0;
         var number = pagination.number || 10;

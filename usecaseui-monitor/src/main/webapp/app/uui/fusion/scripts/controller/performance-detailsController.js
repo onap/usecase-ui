@@ -18,22 +18,25 @@ app.controller("performanceDetailsController",function ($scope,$http,$window) {
         var obj = $("#lm");
         angular.element(obj).scope().currentTab = "app/uui/fusion/scripts/view-models/performance.html";
     };
+    console.log(permanceId);
     $http({
         method : "GET",
-        url : global_url + "/performance/1/1/"+permanceId+"/null/null/null/null"
+        // url : global_url + "/performance/1/1/"+permanceId+"/null/null/null/null"
+        url : global_url + "/performance/getPerformanceHeaderDetail/"+permanceId
     }).then(function successCallback(resp) {
-       if (resp.data.performances.length > 0){
-           $scope.eventName = resp.data.performances[0].performanceHeader.eventName;
-           $scope.eventId = resp.data.performances[0].performanceHeader.eventId;
-           $scope.sourceId = resp.data.performances[0].performanceHeader.sourceId;
-           $scope.sourceName = resp.data.performances[0].performanceHeader.sourceName;
-           $scope.reportingEntityId = resp.data.performances[0].performanceHeader.reportingEntityId;
-           $scope.reportingEntityName = resp.data.performances[0].performanceHeader.reportingEntityName;
-           $scope.priority = resp.data.performances[0].performanceHeader.priority;
-           $scope.createTime = resp.data.performances[0].performanceHeader.createTime;
-           $scope.nfcNamingCode = resp.data.performances[0].performanceHeader.nfcNamingCode;
-           $scope.nfNamingCode = resp.data.performances[0].performanceHeader.nfNamingCode;
-           $scope.performanceInformation = resp.data.performances[0].performanceInformation;
+        console.log(resp.data);
+       if (resp.data){
+           $scope.eventName = resp.data.performanceHeader.eventName;
+           $scope.eventId = resp.data.performanceHeader.eventId;
+           $scope.sourceId = resp.data.performanceHeader.sourceId;
+           $scope.sourceName = resp.data.performanceHeader.sourceName;
+           $scope.reportingEntityId = resp.data.performanceHeader.reportingEntityId;
+           $scope.reportingEntityName = resp.data.performanceHeader.reportingEntityName;
+           $scope.priority = resp.data.performanceHeader.priority;
+           $scope.createTime = resp.data.performanceHeader.createTime;
+           $scope.nfcNamingCode = resp.data.performanceHeader.nfcNamingCode;
+           $scope.nfNamingCode = resp.data.performanceHeader.nfNamingCode;
+           $scope.performanceInformation = resp.data.list;
        }else {
            alert("No Data");
        }

@@ -48,6 +48,18 @@
     .nodatainner {
         padding: 10px;
     }
+
+    #alarmChart {
+        width: 100%;
+        height: 260px;
+    }
+    /* .minutes {
+        display: none;
+    }
+
+    .uib-separator {
+        display: none;
+    } */
 </style>
 <!--/.navbar-collapse -->
 <div class="templatemo-content-wrapper">
@@ -59,28 +71,40 @@
                     <div class="col-md-6">
                         <p class="input-group" style="float:left">
                             <label style="float:left;width:80px;line-height:100px">startTime:</label>
-                        <div style="float:left;width:100px;padding-top:33px">
-                            <input type="text" class="form-control" readonly ng-change="startTimeChanged()"
-                                   uib-datepicker-popup ng-click="open1()" ng-model="startTime" is-open="popup1.opened"
-                                   datepicker-options ng-required="true" close-text="Close"/>
-                        </div>
-                        <div style="display:block;float:left" uib-timepicker ng-model="startTime"
-                             ng-change="startTimeChanged()" hour-step minute-step show-meridian></div>
+                            <div ng-show="dayshow" style="float:left;width:100px;padding-top:33px">
+                                <input type="text" class="form-control" readonly ng-change="startTimeChanged()"
+                                    uib-datepicker-popup ng-click="open1()" ng-model="startTime" is-open="popup1.opened"
+                                    datepicker-options ng-required="true" close-text="Close"/>
+                            </div>
+                            <div ng-show="!dayshow" style="float:left;width:140px;padding-top:33px">
+                                <input style="padding-right:0px" type="text" class="form-control" readonly ng-change="startTimeChanged()"
+                                    uib-datepicker-popup ng-click="open1()" ng-model="startTime" is-open="popup1.opened"
+                                    datepicker-options ng-required="true" close-text="Close"/>
+                            </div>                            
+
+                            <div ng-show='hourshow' style="display:block;float:left" uib-timepicker ng-model="startTime"
+                                ng-change="startTimeChanged()" hour-step minute-step='0' show-meridian></div>
                         </p>
                     </div>
 
                     <div class="col-md-6" style="float:left">
                         <p class="input-group" style="float:left">
                             <label style="float:left;width:80px;line-height:100px">endTime:</label>
-                        <div style="float:left;width:100px;padding-top:33px;">
-                            <input type="text" class="form-control" readonly ng-change="endTimeChanged()"
-                                   ng-click="open2()" uib-datepicker-popup ng-model="endTime" is-open="popup2.opened"
-                                   datepicker-options ng-required="true" close-text="Close"/>
-                        </div>
-                        <div style="display:block;float:left" uib-timepicker ng-model="endTime"
-                             ng-change="endTimeChanged()" hour-step minute-step show-meridian></div>
+                            <div ng-show="dayshow" style="float:left;width:100px;padding-top:33px;">
+                                <input type="text" class="form-control" readonly ng-change="endTimeChanged()"
+                                    ng-click="open2()" uib-datepicker-popup ng-model="endTime" is-open="popup2.opened"
+                                    datepicker-options ng-required="true" close-text="Close"/>
+                            </div>
+                            <div ng-show="!dayshow" style="float:left;width:140px;padding-top:33px;">
+                                <input style="padding-right:0px" type="month" class="form-control" readonly ng-change="endTimeChanged()"
+                                    ng-click="open2()" uib-datepicker-popup ng-model="endTime" is-open="popup2.opened"
+                                    datepicker-options ng-required="true" close-text="Close"/>
+                            </div>
+                            <div ng-show='hourshow' style="display:block;float:left" uib-timepicker ng-model="endTime"
+                                ng-change="endTimeChanged()" hour-step minute-step='0' show-meridian></div>
                         </p>
                     </div>
+                    
                     <div class="col-md-6" style="width:100%;padding-bottom:20px;">
                         <p>
                         <div style="float:left;padding-right:30px;">
@@ -93,14 +117,14 @@
                             </div>
                         </div>
 						<div style="float:left;padding-right:30px;">
-                        <label style="float:left;width:120px;line-height:30px;">Display Interval:</label>
-                        <div style="float:left;width:100px;">
-                            <select class="form-control" ng-change="showModeIdChanged()" ng-model="showModeId"
-                                    ng-options="sm for sm in showModeIds">
-                                <option value="">-- Auto --</option>
-                            </select>
+                            <label style="float:left;width:120px;line-height:30px;">Display Interval:</label>
+                            <div style="float:left;width:100px;">
+                                <select class="form-control" ng-change="showModeIdChanged()" ng-model="showModeId"
+                                        ng-options="sm for sm in showModeIds">
+                                    <!-- <option value="">- Auto -</option> -->
+                                </select>
+                            </div>
                         </div>
-                    </div>
                         <div style="float:left">
                             <button style="padding-top:6px;" class="btn btn-default" ng-click="genDiagram()">submit
                             </button>
@@ -110,14 +134,16 @@
                     
 
                     <div class="col-md-6 col-sm-12" style="width:100%">
-                        <div class="panel panel-success" ng-show="chartShow">
+                        <div class="panel panel-success" > 
+                            <!-- ng-show="chartShow" -->
                             <div class="panel-heading">Chart
                                 <button ng-click="generateCsv('cpu');" class="btn btn-primary"
                                         style="float: right;margin-top:-7px;display: none ">CSV
                                 </button>
                             </div>
                             <div ng-show="ndaShow" style="text-align: center"><h2>No Data Available</h2></div>
-                            <nvd3 ng-show="hdaShow" options="options" data="data" api="api" ></nvd3>
+                            <!-- <nvd3 ng-show="hdaShow" options="options" data="data" api="api" ></nvd3> -->
+                            <div ng-show="hdaShow"  id="alarmChart"></div>
                         </div>
                     </div>
                 </div>
