@@ -99,6 +99,19 @@
        })
      },
 
+     getupdateServiceTemplate:function(serviceInstanceId,processFun){
+      return $http({
+        url: url+'/xxxxxxx/'+ serviceInstanceId,
+        method: 'GET',
+        data: null,
+        headers: uuiHeaders
+      }).then(function(response){
+        var template = response.data;
+
+        processFun(template);
+      })
+     },
+
      getTemplateParameters: function (template, processFun) {
        console.log(url+'/service-templates/' + template.id+'?toscaModelPath='+ template.toscaModelURL);
        return $http({
@@ -111,6 +124,23 @@
          console.log(inputRsp);
          processFun(inputRsp);
        });
+     },
+
+     getComparedTemplateParameters: function (serviceInstanceId,template, processFun) {
+      var requestBody = {
+        "model-invariant-id-target": template.invariantUUID,
+        "model-version-id-target": template.id
+      }
+      return $http({
+        url: url+'/xxxxxxxxx/' + serviceInstanceId,
+        method: 'POST',
+        data: JSON.stringify(requestBody),
+        headers: uuiHeaders
+      }).then(function(response){
+        var inputRsp = response.data;
+        console.log(inputRsp);
+        processFun(inputRsp);
+      });
      },
 
      getAllVimInfo: function (processFun) {
@@ -222,7 +252,7 @@
          }
        };
 
-      //  console.log(requestBody);
+        console.log(requestBody);
       //  console.log(JSON.stringify(requestBody));
       //  return false;
        return $http({
@@ -240,6 +270,94 @@
        });
      },
 
+     updateService: function (customer, serviceType,serviceInstanceId, service, template, successFun, failedFun) {
+      var reqPara = [];
+      var newreqParas = {};
+      service.segments.forEach(function (segment) {
+        var reqParas = {};
+        var vfLocations = [];
+        segment.parameters.forEach(function (parameter) {
+          if(parameter.type === 'vf_location') {
+            // name is uuid for vf_location
+            var loc = {
+              vnfProfileId: parameter.name,
+              locationConstraints : {
+                vimId: parameter.value.value
+              }
+            };
+            vfLocations.push(loc);
+          } else if(parameter.type === 'sdn_controller') {
+            if(parameter.value === undefined || parameter.value === null) {
+              reqParas[parameter.name] = '';
+            } else {
+              reqParas[parameter.name] = parameter.value.value;
+            }
+          } else {
+            reqParas[parameter.name] = parameter.value;
+          }
+        });
+
+        var para = {
+          resourceName: segment.nodeTemplateName,
+          resourceInvariantUuid: segment.invariantUUID,//resourceDefId
+          resourceUuid: segment.uuid,
+          resourceCustomizationUuid: segment.customizationUuid,
+          parameters: {  //nsParameters
+            locationConstraints: vfLocations,
+           //  additionalParamForNs: reqParas,
+            resources:[],
+            requestInputs:reqParas
+          }
+        };
+        reqPara.push(para);
+      });
+
+      var templateName = template.name;
+      if( template.version !== undefined && template.version !== null && template.version !== '' ) {
+        templateName = templateName + ":" + template.version;
+      }
+      
+      service.parameters.forEach(function(item){
+         newreqParas[item.name] = item.value;
+      })
+    
+      var requestBody = {
+        service: {
+          name: service.serviceName,
+          description: service.serviceDescription,
+          serviceInvariantUuid: template.invariantUUID, //serviceDefId
+          serviceUuid: template.uuid, // uuid ?? templateId
+          globalSubscriberId: customer.id,
+          serviceType: serviceType.value,
+          parameters: {
+           //  globalSubscriberId: customer.id,
+           //  subscriberName: customer.name,
+           //  serviceType: serviceType.value,
+           //  templateName: templateName,
+            locationConstraints:[],
+            resources: reqPara,
+            requestInputs:newreqParas
+          }
+        }
+      };
+
+      console.log(requestBody);
+      //  console.log(JSON.stringify(requestBody));
+       return false;
+      return $http({
+        url: url+ '/services/updateService/' + serviceInstanceId,
+        method: 'POST',
+        data: JSON.stringify(requestBody),
+        headers: uuiHeaders
+      }).then(function(response){
+        console.log('update response...');
+        console.log(response.data);
+        // var serviceId = response.data.service.serviceId;
+        var operationId = response.data.service.operationId;
+        successFun(operationId);
+      });
+     },
+
      getScaleServiceDialog:function(customer,serviceType,serviceInstanceId,successFun){
         return $http({
           url:url+'/getServiceInstanceById?customerId=' + customer + '&serviceType=' + serviceType + '&serviceId=' + serviceInstanceId,
@@ -251,10 +369,9 @@
 
      scaleService: function (requestBody, successFun, failedFun) {
       
-      // console.log('request body: ');
-      // console.log(JSON.stringify(requestBody));
+     console.log(requestBody);
+     console.log(JSON.stringify(requestBody));
       
-
       return $http({
         url: url+'/services/scaleServices/'+requestBody.service.globalSubscriberId,
         method: 'POST',
@@ -262,10 +379,8 @@
         headers: uuiHeaders
       }).then(function(response){
         // console.log('create response...');
-        // console.log(response.data);
-
-        var serviceId = response.data.service.serviceId;
-        var operationId = response.data.service.operationId;
+        console.log(response);
+        var operationId = response.data.operationId;
         successFun( operationId);
       });
     },

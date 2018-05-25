@@ -159,7 +159,7 @@ app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
             var options = {
                   tooltip: {
                     trigger: 'axis',
-                    formatter: (params) => {
+                    formatter: function(params) {
                       var res = '<p>' + params[0].name + '</p>' + '<div>';
                     //   console.log(params);
                       for (var i = 0; i < params.length; i++) {
@@ -189,7 +189,7 @@ app.controller('alarmchartCtrl', ['$scope', '$http', '$routeParams', '$window',
                     boundaryGap: false,
                     data: data.dateList,
                     axisLabel:{
-                        formatter:(value)=>{
+                        formatter:function(value){
                             if($scope.showModeId == 'day'){
                                 return value.slice(5,10)
                             }else if($scope.showModeId == 'hour'){

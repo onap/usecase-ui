@@ -176,25 +176,69 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       };
 
       ctrl.deleteService = function (serviceInstance) {
-        var successFun = function (serviceId, operationId) {
-          var successFun = function (result) {
-            ctrl.alerts.push({
-              type: 'success',
-              msg: result
-            });
-            ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
-              ctrl.serviceInstances = instances;
-            });
+        console.log(serviceInstance);
+        var deleteServiceName = serviceInstance.serviceInstanceName;
+        var modalInstance = $uibModal.open({
+          ariaLabelledBy: 'modal-title',
+          ariaDescribedBy: 'modal-body',
+          template:(function(deleteServiceName){
+            var strtemplate = 
+            '<div class="modal-header" style="background-color:#eee;">'+
+              '<h4 class="modal-title" id="myModalLabel">'+
+                '<span>Delete Request</span>'+
+              '</h4>'+
+            '</div>'+
+            '<div class="modal-body">'+
+              '<h3 style="margin-top:10px;"> Are you sure you want to delete <span style="color:red">'+ deleteServiceName + '</span>? </h3>'+
+            '</div>'+
+            '<div class="modal-footer">'+
+              '<button type="button" style="width:80px;" class="btn btn-primary" ng-click="ctrl.ok()" id="startToCreateService">'+
+                '<span id="nfv-virtualApplication-iui-text-cancelBtn">YES</span>'+
+              '</button>'+
+              '<button type="button" style="width:80px;" class="btn btn-warning" ng-click="ctrl.cancel()">'+
+                '<span id="nfv-virtualApplication-iui-text-previousBtn">NO</span>'+
+              '</button>'+
+            '</div>';
+            return strtemplate;
+          })(deleteServiceName),
+          
+          controller: function($uibModalInstance){
+            this.ok = function(){
+              $uibModalInstance.close('delete implement');
+            };
+            this.cancel = function(){
+              $uibModalInstance.dismiss('delete cancel');
+            }
+          } ,
+          controllerAs: 'ctrl',
+        });
+        modalInstance.result.then(
+          function(res){
+            console.log(res);
+            var successFun = function (serviceId, operationId) {
+              var successFun = function (result) {
+                ctrl.alerts.push({
+                  type: 'success',
+                  msg: result
+                });
+                ServiceTemplateService.getServiceInstances(ctrl.customer.id, ctrl.serviceType.value, function (instances) {
+                  ctrl.serviceInstances = instances;
+                });
+              }
+              var failFun = function (reason) {
+                ctrl.alerts.push({
+                  type: 'danger',
+                  msg: reason
+                });
+              }
+              openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
+            }
+            ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, ctrl.customer, ctrl.serviceType, successFun);
+          },
+          function(reason){
+            console.log(reason);
           }
-          var failFun = function (reason) {
-            ctrl.alerts.push({
-              type: 'danger',
-              msg: reason
-            });
-          }
-          openServiceProgressDialog(serviceId, operationId, 'Delete Service', successFun, failFun);
-        }
-        ServiceTemplateService.deleteService(serviceInstance.serviceInstanceId, ctrl.customer, ctrl.serviceType, successFun);
+        )
       };
 
       ctrl.upDateService = function (serviceInstance) {
@@ -235,7 +279,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
                 msg: reason
               });
             }
-            openServiceProgressDialog(result.serviceId, result.operationId, 'Scale Service', successFun, failFun);
+            openServiceProgressDialog(result.serviceId, result.operationId, 'upDate Service', successFun, failFun);
           },
           function (reason) {
             console.log('receive cancel button clicked!');
@@ -435,7 +479,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       ctrl.locations = [];
 
       ctrl.serviceTemplateChanged = function (template) {
-        console.log('serviceTemplateChanged invoked... ' + template);
+        console.log(template);
         if (template === undefined || template === null) {
           ctrl.service = undefined;
           ctrl.realTemplate = undefined;
@@ -498,6 +542,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
       ctrl.scalingDirections = ["SCALE_IN","SCALE_OUT"];
 
       ctrl.ok = function () {
+  
         let resources = [];
         ctrl.nsData.forEach(function(item){
           resources.push({
@@ -525,11 +570,12 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         };
         var successFun = function ( operationId) {
           $uibModalInstance.close({
+            serviceId:serviceInstance.serviceInstanceId,
             operationId: operationId
           });
         }
         ServiceTemplateService.scaleService(requestBody, successFun, errorMessage);
-        
+
       };
       // cancel click
       ctrl.cancel = function () {
@@ -537,6 +583,124 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
         $uibModalInstance.dismiss('cancel');
       };
 
+    }
+  ])
+  .controller('updateServiceCtrl', ['$scope', '$uibModal', '$uibModalInstance', 'ServiceTemplateService', 'customer', 'serviceType','serviceInstance',
+    function ($scope, $uibModal, $uibModalInstance, ServiceTemplateService, customer, serviceType,serviceInstance) {
+      var ctrl = this;
+      console.log(serviceInstance)
+      var serviceInstanceId = serviceInstance.serviceInstanceId;
+      ServiceTemplateService.getupdateServiceTemplate(serviceInstanceId,function(template){
+        console.log(template);
+        ServiceTemplateService.getAllServiceTemplates(function (res) {
+          console.log(res)
+          var slectTemplates = [];
+          res.forEach(function(item){
+            if(item.id === template.model-version-id && itme.invariantUUID !== template.model-invariant-id){
+              slectTemplates.push(item);
+            }
+          })
+          ctrl.templates = slectTemplates;
+        });
+      })
+
+
+      ctrl.changeInput = function (serviceTemplate) {
+        var paras = serviceTemplate.inputs.map(function (input) {
+          return {
+            name: input.name,
+            type: input.type,
+            description: input.description,
+            defaultValue: input.defaultValue,
+            isRequired: input.isRequired,
+            readonly: ""
+          };
+        });
+
+        var segmentsPara = serviceTemplate.nestedTemplates.map(function (nestedTemplate) {
+          var nestedParas = nestedTemplate.inputs.map(function (input) {
+            return {
+              name: input.name,
+              type: input.type,
+              description: input.description,
+              defaultValue: input.defaultValue,
+              isRequired: input.isRequired,
+              readonly: ""
+            };
+          });
+          return {
+            nodeTemplateName: nestedTemplate.name,
+            customizationUuid:nestedTemplate.customizationUuid,
+            invariantUUID: nestedTemplate.invariantUUID,
+            uuid: nestedTemplate.uuid,
+            type: nestedTemplate.type,
+            parameters: nestedParas
+          };
+        });
+
+        var service = {
+          serviceName: ctrl.service.serviceName,
+          serviceDescription: ctrl.service.serviceDescription,
+          parameters: paras,
+          segments: segmentsPara
+        };
+        ctrl.service = service;
+        console.log(service);
+      };
+      ctrl.service = {
+        serviceName: '',
+        serviceDescription: '',
+        parameters: [],
+        segments: []
+      };
+      ctrl.sdnControllers = [];
+      ctrl.locations = [];
+
+      ctrl.serviceTemplateChanged = function (template) {
+        console.log('serviceTemplateChanged invoked... ' + template);
+        if (template === undefined || template === null) {
+          ctrl.service = undefined;
+          ctrl.realTemplate = undefined;
+        } else {
+          ServiceTemplateService.getComparedTemplateParameters(serviceInstanceId,template, function (templateRsp) {
+            ctrl.realTemplate = templateRsp;
+            ctrl.changeInput(ctrl.realTemplate);
+          });
+        }
+      };
+
+      ctrl.ok = function () {
+        console.log('ok button clicked!');
+        console.log('service: ');
+        console.log(customer);
+        console.log(serviceType);
+        console.log(ctrl.service);
+        console.log(ctrl.realTemplate);
+
+
+        var errorMessage = function () {
+
+        };
+        var successFun = function (operationId) {
+          $uibModalInstance.close({
+            serviceId: serviceInstanceId,
+            operationId: operationId
+          });
+        }
+        ServiceTemplateService.updateService(customer, serviceType,serviceInstanceId, ctrl.service, ctrl.realTemplate, successFun, errorMessage);
+      };
+      // cancel click
+      ctrl.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+      };
+
+      ServiceTemplateService.getAllVimInfo(function (vims) {
+        ctrl.locations = vims;
+      });
+
+      ServiceTemplateService.getAllSdnControllers(function (sdnControllers) {
+        ctrl.sdnControllers = sdnControllers;
+      });
     }
   ])
   .controller('packageOnboardCtrl', ['$scope', '$uibModalInstance', 'ServiceTemplateService', 'onboardPackage',
@@ -597,7 +761,7 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
 
       var timer = $interval(function () {
         ServiceTemplateService.queryServiceProgress(serviceId, operationId, progressFun);
-      }, 1000);
+      }, 5000);
 
       timerPromise.then(function () {
         $interval.cancel(timer);

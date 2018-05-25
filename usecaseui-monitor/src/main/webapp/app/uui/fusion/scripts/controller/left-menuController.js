@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-var currentTab = 'app/uui/fusion/scripts/view-models/performance.html';
+var currentTab = 'app/uui/fusion/scripts/view-models/lifecyclemanagement.html';
 
 app.controller('cmCtrl', ['$scope', function ($scope) {
   $scope.routeData = [{
