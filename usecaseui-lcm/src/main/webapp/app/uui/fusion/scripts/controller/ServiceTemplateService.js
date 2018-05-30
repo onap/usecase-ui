@@ -381,6 +381,10 @@
         // console.log('create response...');
         console.log(response);
         var operationId = response.data.operationId;
+        if(operationId == null){
+          console.log('error: operationId is null');
+          return false;
+        }
         successFun( operationId);
       });
     },

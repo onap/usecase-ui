@@ -753,7 +753,9 @@ app.controller('lcmCtrl', ['$scope', '$uibModal', '$log', '$http', '$timeout', '
           }
           console.log('timer finished!');
         } else if ('processing' === serviceProgress.result) {
-          ctrl.dynamic = serviceProgress.progress;
+          if(serviceProgress.progress > ctrl.dynamic){
+            ctrl.dynamic = serviceProgress.progress;
+          }
           ctrl.operation = serviceProgress.operationContent;
           console.log('timer processing ......');
         }
