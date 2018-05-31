@@ -87,11 +87,12 @@
                 <thead>
                     <tr>
                         <th width="5%">Id</th>
-                        <th width="25%">Event Name</th>
-                        <th width="25%">Source Name</th>
+                        <th width="20%">Event Name</th>
+                        <th width="20%">Source Name</th>
                         <th width="10%">Priority</th>
                         <th width="15%">Start Time</th>
-                        <th width="10%">Status</th>
+                        <th width="15%">Clear Time</th>
+                        <th width="8%">Status</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -101,7 +102,8 @@
                         <td>{{row.alarmsHeader.eventName}}</td>
                         <td>{{row.alarmsHeader.sourceName}}</td>
                         <td>{{row.alarmsHeader.priority}}</td>
-                        <td>{{row.alarmsHeader.createTime}}</td>
+                        <td>{{row.alarmsHeader.startEpochMicrosec || row.alarmsHeader.lastEpochMicroSec | dateformater}}</td>
+                        <td>{{row.alarmsHeader.startEpochMicrosecCleared || row.alarmsHeader.lastEpochMicrosecCleared | dateformater}}</td>
                         <td>{{row.alarmsHeader.status}}</td>
                         <td>
                             <button ng-click="jump(row.alarmsHeader.id)" class="btn btn-primary">Detail</button>

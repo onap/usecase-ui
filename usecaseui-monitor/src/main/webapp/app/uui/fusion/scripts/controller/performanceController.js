@@ -87,6 +87,7 @@ app.controller('pipeCtrl', ['$scope', 'Resource', '$interval', function ($scope,
             service.getPage(start, number, $scope.seek1 === "" ? "null" : $scope.seek1,
                 $scope.seek2 === "" ? "null" : $scope.seek2, $scope.seek3 === "" ? "null" : $scope.seek3,
                 $scope.seek4 === "" ? "null" : $scope.seek4, $scope.seek5 === "" ? "null" : $scope.seek5).then(function (result) {
+                    console.log(result)    
                 ctrl.displayed = result.data;
                 tableState.pagination.numberOfPages = result.numberOfPages;
                 ctrl.isLoading = false;
@@ -102,7 +103,6 @@ app.controller('pipeCtrl', ['$scope', 'Resource', '$interval', function ($scope,
     .factory('Resource', ['$q', '$filter', '$timeout', '$http', function ($q, $filter, $timeout, $http) {
         var randomsItems = [];
         var totalCount = 0;
-
         function getPage(start, number) {
             var url = global_url + '/performance/' + start + '/' + number + '';
             url += arguments[2] === "" ? "/null" : "/" + arguments[2];
@@ -164,5 +164,21 @@ app.controller('pipeCtrl', ['$scope', 'Resource', '$interval', function ($scope,
                     scope.inputPage = c;
                 });
             }
+        }
+    }).filter('dateformater',function(){
+        return function(vmstime){
+            if(!vmstime){
+                return ''
+            }
+            let mstime = Number((vmstime + '').slice(0,13));  
+            let time = new Date(mstime);
+            let year = time.getFullYear();
+            let month = time.getMonth() + 1;
+            let day = time.getDate();
+            let hours = time.getHours();
+            let minutes = time.getMinutes();
+            let seconds = time.getSeconds();
+            let formattime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+            return formattime;
         }
     });

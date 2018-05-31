@@ -90,7 +90,7 @@
                             <td>{{row.performanceHeader.eventName}}</td>
                             <td>{{row.performanceHeader.sourceName}}</td>
                             <td>{{row.performanceHeader.priority}}</td>
-                            <td>{{row.performanceHeader.createTime}}</td>
+                            <td>{{row.performanceHeader.startEpochMicrosec || row.performanceHeader.lastEpochMicrosec | dateformater}}</td>
                             <td>
                                 <button ng-click="jump(row.performanceHeader.id)" class="btn btn-primary">Detail</button>
                             </td>
