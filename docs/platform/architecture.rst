@@ -4,9 +4,8 @@
 Architecture
 ------------
 
-Usecase-Ui comprises two modules: the Usecase-UI UI module and the Usecase-UI Server module.
+Usecase-UI comprises two modules: the Usecase-UI UI module and the Usecase-UI Server module.
 
-- Holmes
     - Usecase-UI UI Module
     - Usecase-UI Server Module
 
