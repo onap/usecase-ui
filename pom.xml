@@ -30,7 +30,7 @@
     <name>usecase-ui</name>
 
     <modules>
-        <module>usecaseui-holmes</module>
+        <!--module>usecaseui-holmes</module-->
         <module>usecaseui-common</module>
         <module>usecaseui-monitor</module>
         <module>usecaseui-lcm</module>
