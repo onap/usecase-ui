@@ -15,8 +15,16 @@ Version: 1.1.0
 
 **New Features**
 
+- GUI of NS/VNF manual scaling supporting for VoLTE use case
+- S3P improvement
+ 
+Released components:
+- usecase-ui
+- usecase-ui-server
+
 **Bug Fixes**
 
+This is the initial release
 
 **Known Issues**
 	NA
@@ -29,6 +37,7 @@ Quick Links:
 - `UseCase UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
 - `Passing Badge information for UseCase UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
 - `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_
+
 **Upgrade Notes**
 	NA
 
@@ -45,6 +54,7 @@ Version: 1.0.0
 
 
 **New Features**
+
 In the Amsterdam release, Usecase UI is mainly intended to support the lifecycle management and monitor for the VoLTE scenario. To get us there, Usecase UI provides the following features:
 
 - Lifecycle Management: The feature provides GUI for the users to create, query, update and delete service instances.
@@ -52,6 +62,7 @@ In the Amsterdam release, Usecase UI is mainly intended to support the lifecycle
 - Monitor: The feature is provides GUI for the users to monitor system alarms and VNFs performance.
 
 **Bug Fixes**
+
 This is the initial release.
 
 **Known Issues**
@@ -61,6 +72,7 @@ This is the initial release.
 	NA
 
 **Upgrade Notes**
+
 This is the inital release.
 
 **Deprecation Notes**
