@@ -4,7 +4,7 @@
 Consumed APIs
 -------------
 
-In the Amsterdam release, Usecase-UI mainly depends on the APIs provided by VF-C, SDC, A&AI, SO, DMaaP and MSB.
+In the Beijing release, Usecase-UI mainly depends on the APIs provided by VF-C, SDC, A&AI, SO, DMaaP and MSB.
 
 VF-C
 ^^^^
@@ -28,6 +28,10 @@ VF-C
 #. Delete VF resource:
 
    ``DELETE /api/catalog/v1/vnfpackages/{csarId}``
+
+#. Scale service instance:
+
+   ``POST /ecomp/mso/infra/e2eServiceInstances/v3/{serviceId}/scale``
 
 
 SDC

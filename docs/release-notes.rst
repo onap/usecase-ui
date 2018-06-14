@@ -56,9 +56,9 @@ Version: 1.0.0
 
 **New Features**
 
-In the Amsterdam release, Usecase UI is mainly intended to support the lifecycle management and monitor for the VoLTE scenario. To get us there, Usecase UI provides the following features:
+In the Beijing release, Usecase UI is mainly intended to support the lifecycle management and monitor for the VoLTE scenario. To get us there, Usecase UI provides the following features:
 
-- Lifecycle Management: The feature provides GUI for the users to create, query, update and delete service instances.
+- Lifecycle Management: The feature provides GUI for the users to create, query, scale and delete service instances.
 
 - Monitor: The feature is provides GUI for the users to monitor system alarms and VNFs performance.
 

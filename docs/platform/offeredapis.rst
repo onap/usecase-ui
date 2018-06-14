@@ -4,4 +4,4 @@
 Offered APIs
 -------------
 
-No offered APIs is provided in the Amsterdam release. Such functionalities will be provided in the future if necessary.
+No offered APIs is provided in the Beijing release. Such functionalities will be provided in the future if necessary.

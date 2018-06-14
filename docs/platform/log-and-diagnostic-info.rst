@@ -4,7 +4,7 @@
 Logging & Diagnostic Information
 ---------------------------------
 
-In the Amsterdam release, the logs are kept inside the docekr containers, which means that you can get the log information only when the docker is still running. 
+In the Beijing release, the logs are kept inside the docekr containers, which means that you can get the log information only when the docker is still running. 
 
 Where to Access Information
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
