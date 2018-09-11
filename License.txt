@@ -353,4 +353,7 @@ to any of its public licenses or any other arrangements,
 understandings, or agreements concerning use of licensed material. For
 the avoidance of doubt, this paragraph does not form part of the
 public licenses.
-Creative Commons may be contacted at creativecommons.org.
+---------------------------------------------------------------------------------------
+For the file usecaseui-common/src/main/webapp/app/fusion/external/angular-1.4.8/angular-sanitize.js,
+to the extent that it contains code originating from Erik Arvidsson, that code is used under the Apache-2.0 license,
+as permitted by http://erik.eae.net/simplehtmlparser/simplehtmlparser.js.
