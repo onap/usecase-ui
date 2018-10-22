@@ -1,0 +1,79 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!-- <h3 class="title">
+    <span (click)="performanceShow()" style="cursor:pointer;">Performance VM</span> 
+    <span (click)="graphicShow()" *ngIf="graphicshow">> Graphic list </span> 
+    <span *ngIf="detailshow">> Details </span> 
+</h3>
+<hr>
+<div class="select" [@showHideAnimate]="state">
+    <span>Source Name: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <ul nz-menu>
+            <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+    &nbsp;&nbsp;
+    <span>ReportingEntityName: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{ReportingEntityNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <ul nz-menu>
+            <li nz-menu-item (click)="choseReportingEntityName(item)" *ngFor="let item of ReportingEntityNameList">
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+    <button class="submit" nz-button [nzType]="'primary'" (click)="submit()"><i class="anticon anticon-plus-circle-o"></i><span>Submit</span></button>
+</div>
+<div class="content" [@showHideAnimate]="state">
+    <nz-table #nzTable [nzData]="dataSet" [nzPageSize]="10" nzShowSizeChanger nzShowQuickJumper [nzPageSizeOptions]="[5,10,15,20]" nzSize="middle">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <tr>
+            <th nzWidth="5%">NO</th>
+            <th nzWidth="20%">Source Name</th>
+            <th nzWidth="20%">ReportingEntityName</th>
+            <th nzWidth="10%">Type</th>
+            <th nzWidth="15%">CPU</th>
+            <th nzWidth="10%">Memory</th>
+            <th nzWidth="10%">Disk</th>
+            <th nzWidth="10%">Action</th>
+            </tr>
+        </thead>
+        <tbody> -->
+            <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+            <!-- <tr *ngFor="let item of nzTable.data; let i = index; ">
+                <td>{{i+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.age}}</td>
+                <td><a (click)="graphicShow()">Delete</a></td>
+            </tr> -->
+            <!-- </ng-template> -->
+        <!-- </tbody>
+    </nz-table>
+</div>
+<div [@showHideAnimate]="state2">
+    <app-graphiclist  (detailData)="detailShow($event)"></app-graphiclist>
+</div>
+<div [@showHideAnimate]="state3">
+    <app-details [detailId]="detailId"></app-details>
+</div> -->

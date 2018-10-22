@@ -1,0 +1,68 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<div class="content">
+    <div class="header">
+        <h2>HEADER INFORMATION</h2>
+        <hr> <span class="tildeimg"></span>
+        <div class="headerlist">
+            <div class="leftlist">
+                <p> <span>Version :</span> </p>
+                <p> <span>Domain :</span> </p>
+                <p> <span>Event Name :</span> Fault_IMSSBC_Backup MPU is down </p>
+                <p> <span>Event Id :</span> 15105642034 </p>
+                <p> <span>EventType :</span> </p>
+                <p> <span>NfcNamingCode :</span> </p>
+                <p> <span>NfNamingCode :</span> </p>
+                <p> <span>SourceName :</span> </p>
+                <p> <span>SourceId :</span> </p>
+                <p> <span>ReportingEntityName :</span> </p>
+                <p> <span>ReportingEntityId :</span> </p>
+            </div>
+            <div class="rightlist">
+                <p> <span>Priority :</span> Normal </p>
+                <p> <span>ReportTime :</span> </p>
+                <p> <span>ClearTime :</span> </p>
+                <p> <span>FaultFieldsVersion :</span> </p>
+                <p> <span>Event Servrity :</span> </p>
+                <p> <span>EventSourceType :</span> </p>
+                <p> <span>EventCategory :</span> </p>
+                <p> <span>AlarmCondition :</span> </p>
+                <p> <span>SpecificProblem :</span> </p>
+                <p> <span>Status :</span> </p>
+                <p> <span>AlarmInterfaceA :</span> </p>
+            </div>
+        </div>
+    </div>
+    <hr> 
+    <button [ngClass]="{'buttonActive':moredetailShow}" (click)="slideUpDown()"></button>
+    <h2 class="detailtitle">DETAIL INFORMATION</h2>
+    <div class="detailInformatioin" [@slideUpDown]='state'>
+        <nz-table #detailTable [nzData]="detailData" [nzShowPagination]="false" nzSize="small" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th nzWidth="18%">Item Name</th>
+                    <th >Item Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of detailTable.data">
+                    <td>{{data.name}}</td>
+                    <td>{{data.value}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

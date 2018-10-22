@@ -1,0 +1,138 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+.title {
+  font: 700 18px/18px "思源黑体";
+  color: #4c5e70;
+  margin-bottom: 18px;
+}
+hr {
+  border: none;
+  height: 2px;
+  background-color: #dce1e7;
+  margin-bottom: 20px;
+}
+.select .query_criteria span {
+  display: inline-block;
+  font: 700 14px "Arial";
+  color: #4c5e70;
+}
+.select .query_criteria nz-dropdown {
+  vertical-align: middle;
+}
+.select .query_criteria nz-dropdown :hover {
+  border-color: #147dc2;
+}
+.select .query_criteria nz-dropdown button {
+  width: 165px;
+  height: 30px;
+  background-color: #eceff4;
+  text-align: left;
+  border-color: #9fa9ab;
+}
+.select .query_criteria nz-dropdown button span {
+  font-weight: 400;
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 2px;
+}
+.select .query_criteria nz-dropdown button i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.select .query_criteria .search {
+  margin-left: 20px;
+  height: 30px;
+  padding: 0 10px;
+}
+.select .query_criteria .search span {
+  color: #fff;
+  font-weight: 400;
+}
+::ng-deep .vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+::ng-deep .vertical-center-modal .ant-modal {
+  top: 0;
+}
+.content {
+  clear: both;
+  padding-top: 20px;
+}
+.content .title {
+  border-radius: 5px 5px 5px 5px;
+  background-color: #fff;
+  height: 106px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 20px;
+  clear: both;
+}
+.content .title ul {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 70%;
+  float: left;
+}
+.content .title ul li {
+  list-style: none;
+  padding-left: 32px;
+  width: 100%;
+  border-left: 1px solid #eceff4;
+}
+.content .title ul li h5 {
+  font: 500 14px "Arial";
+  color: #3d4d65;
+}
+.content .title ul li p {
+  font: 500 24px "Arial";
+  color: #3fa8eb;
+  margin-bottom: 0;
+}
+.content .title ul li:nth-child(1) {
+  border: none;
+}
+.content .title .thumbnail {
+  width: 25%;
+  height: 90px;
+  float: left;
+  margin-top: 8px;
+}
+.content .tablelist {
+  background-color: #fff;
+  padding: 24px 10px 0px;
+  border-radius: 0 0 5px 5px;
+}
+.content .tablelist .action {
+  padding: 10px 0 0 20px;
+}
+.content .tablelist .action .details {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url(../../assets/images/icon.png) center -113px;
+}
+.content .tablelist .action .details:hover {
+  background: url(../../assets/images/icon.png) no-repeat center -128px;
+}

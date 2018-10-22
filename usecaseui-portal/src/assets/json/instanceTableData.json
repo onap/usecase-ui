@@ -1,0 +1,505 @@
+{
+  "service-instance": [
+    {
+      "service-instance-id": "35e88f8e-473f-4d88-92f8-6739a42baa23",
+      "service-instance-name": "SDWANVPNInfra1",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "88dcb2f0-085b-4548-8b93-0882e37d25d8",
+      "model-version-id": "462f84e5-f0e5-44c5-ab95-38fb4bf77064",
+      "resource-version": "1535687551051",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SDWANVPNInfra\",\n        \"description\":\"SDWANVPNInfra\",\n        \"serviceInvariantUuid\":\"88dcb2f0-085b-4548-8b93-0882e37d25d8\",\n        \"serviceUuid\":\"462f84e5-f0e5-44c5-ab95-38fb4bf77064\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SDWANConnectivity 0\",\n                    \"resourceInvariantUuid\":\"f99a9a23-c88e-44ff-a4dc-22b88675d278\",\n                    \"resourceUuid\":\"7baa7742-3a13-4288-8330-868015adc340\",\n                    \"resourceCustomizationUuid\":\"94ec574b-2306-4cbd-8214-09662b040f73\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF 0\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"a7baba5d-6ac3-42b5-b47d-070841303ab1\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"sdwanconnectivity0_name\":\"CMCCVPN\",\n                \"sdwanconnectivity0_topology\":\"hub-spoke\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sdwan-vpn",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/sdwan-vpns/sdwan-vpn/4efe6dff-acfc-4d13-a3fd-1177d3c08e89",
+            "relationship-data": [
+              {
+                "relationship-key": "sdwan-vpn.sdwan-vpn-id",
+                "relationship-value": "4efe6dff-acfc-4d13-a3fd-1177d3c08e89"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sdwan-vpn.sdwan-vpn-name",
+                "property-value": "vdfvpn"
+              }
+            ]
+          },
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d00",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d00"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d00"
+              }
+            ]
+          },
+          {
+            "related-to": "allotted-resource",
+            "relationship-label": "org.onap.relationships.inventory.Uses",
+            "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/189b87a5-72fe-4197-a307-6929c3831f81/allotted-resources/allotted-resource/2214feec-1aef-4890-abba-f8f3a906935f",
+            "relationship-data": [
+              {
+                "relationship-key": "customer.global-customer-id",
+                "relationship-value": "Democcy"
+              },
+              {
+                "relationship-key": "service-subscription.service-type",
+                "relationship-value": "CCVPN"
+              },
+              {
+                "relationship-key": "service-instance.service-instance-id",
+                "relationship-value": "189b87a5-72fe-4197-a307-6929c3831f81"
+              },
+              {
+                "relationship-key": "allotted-resource.id",
+                "relationship-value": "2214feec-1aef-4890-abba-f8f3a906935f"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "allotted-resource.description",
+                "property-value": "2214feec-1aef-4890-abba-f8f3a906935f"
+              },
+              {
+                "property-key": "allotted-resource.allotted-resource-name",
+                "property-value": "sdwan ar"
+              }
+            ]
+          },
+          {
+            "related-to": "allotted-resource",
+            "relationship-label": "org.onap.relationships.inventory.Uses",
+            "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/089b87a5-72fe-4197-a307-6929c3831f80/allotted-resources/allotted-resource/1114feec-1aef-4890-abba-f8f3a906935f",
+            "relationship-data": [
+              {
+                "relationship-key": "customer.global-customer-id",
+                "relationship-value": "Democcy"
+              },
+              {
+                "relationship-key": "service-subscription.service-type",
+                "relationship-value": "CCVPN"
+              },
+              {
+                "relationship-key": "service-instance.service-instance-id",
+                "relationship-value": "089b87a5-72fe-4197-a307-6929c3831f80"
+              },
+              {
+                "relationship-key": "allotted-resource.id",
+                "relationship-value": "1114feec-1aef-4890-abba-f8f3a906935f"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "allotted-resource.description",
+                "property-value": "1114feec-1aef-4890-abba-f8f3a906935f"
+              },
+              {
+                "property-key": "allotted-resource.allotted-resource-name",
+                "property-value": "sdwan ar"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "15e88f8e-473f-4d88-92f8-6739a42baa2g",
+      "service-instance-name": "SDWANVPNInfra",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "88dcb2f0-085b-4548-8b93-0882e37d25d8",
+      "model-version-id": "462f84e5-f0e5-44c5-ab95-38fb4bf77064",
+      "resource-version": "1535687578298",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SDWANVPNInfra\",\n        \"description\":\"SDWANVPNInfra\",\n        \"serviceInvariantUuid\":\"88dcb2f0-085b-4548-8b93-0882e37d25d8\",\n        \"serviceUuid\":\"462f84e5-f0e5-44c5-ab95-38fb4bf77064\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SDWANConnectivity 0\",\n                    \"resourceInvariantUuid\":\"f99a9a23-c88e-44ff-a4dc-22b88675d278\",\n                    \"resourceUuid\":\"7baa7742-3a13-4288-8330-868015adc340\",\n                    \"resourceCustomizationUuid\":\"94ec574b-2306-4cbd-8214-09662b040f73\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF 0\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"a7baba5d-6ac3-42b5-b47d-070841303ab1\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"sdwanconnectivity0_name\":\"CMCCVPN\",\n                \"sdwanconnectivity0_topology\":\"hub-spoke\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sdwan-vpn",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/sdwan-vpns/sdwan-vpn/4efe6dff-acfc-4d13-a3fd-1177d3c08e86",
+            "relationship-data": [
+              {
+                "relationship-key": "sdwan-vpn.sdwan-vpn-id",
+                "relationship-value": "4efe6dff-acfc-4d13-a3fd-1177d3c08e86"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sdwan-vpn.sdwan-vpn-name",
+                "property-value": "cmccvpn"
+              }
+            ]
+          },
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d11",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d11"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d11"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "089b87a5-72fe-4197-a307-6929c3831f80",
+      "service-instance-name": "SiteBeijing",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "5c13f3fb-2744-4635-9f1f-c59c92dc8f70",
+      "model-version-id": "3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838",
+      "resource-version": "1535686434430",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SiteService\",\n        \"description\":\"SiteService\",\n        \"serviceInvariantUuid\":\"5c13f3fb-2744-4635-9f1f-c59c92dc8f70\",\n        \"serviceUuid\":\"3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SiteVF\",\n                    \"resourceInvariantUuid\":\"0c0e1cbe-6e01-4f9e-8c45-a9700ebc14df\",\n                    \"resourceUuid\":\"4ad2d390-5c51-45f5-9710-b467a4ec7a73\",\n                    \"resourceCustomizationUuid\":\"66590e07-0777-415c-af44-36347cf3ddd3\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"mpls\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"205456e7-3dc0-40c4-8cb0-28e6c1877042\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"deviceVF\",\n                    \"resourceInvariantUuid\":\"c726490a-0ce2-4bc7-abea-dade66bfb13d\",\n                    \"resourceUuid\":\"0e2de9d8-d76b-4134-b5f1-41e79056adbe\",\n                    \"resourceCustomizationUuid\":\"5bc1373e-9a36-4a00-8c62-784e0bc417ad\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sdwanvpnattachmentVF\",\n                    \"resourceInvariantUuid\":\"f714feec-1aef-4890-abba-f8f3a906935f\",\n                    \"resourceUuid\":\"709919b7-75fd-4e49-8398-67853323ff55\",\n                    \"resourceCustomizationUuid\":\"debd988f-fe04-4940-a5cb-37f61d84eab4\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"internet\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"64b8e8ba-62b9-4db6-b420-1ca7067d63e0\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sotnvpnattachmentvF\",\n                    \"resourceInvariantUuid\":\"97c4a3c6-2943-41af-8717-2f3183f944be\",\n                    \"resourceUuid\":\"44b777ee-9793-465d-8053-d8e86d2e2362\",\n                    \"resourceCustomizationUuid\":\"37aeb073-c75d-4cf6-a7fa-a1af862ef58a\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"cd0b4b9c-66c6-49c5-b346-7580e4b6c394\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"devicevf_device_class\":\"PNF\",\n                \"devicevf_device_esn\":\"2102351BTJ10HB000075\",\n                \"devicevf_device_name\":\"50.47\",\n                \"devicevf_device_systemIp\":\"192.168.1.47\",\n                \"devicevf_device_type\":\"AR161EW\",\n                \"devicevf_device_vendor\":\"huawei\",\n                \"devicevf_device_version\":\"1.0\",\n                \"internet_sitewanport_description\":\"internet\",\n                \"internet_sitewanport_deviceName\":\"50.47\",\n                \"internet_sitewanport_inputBandwidth\":\"100\",\n                \"internet_sitewanport_ipAddress\":\"100.2.30.9\",\n                \"internet_sitewanport_name\":\"internet\",\n                \"internet_sitewanport_outputBandwidth\":\"100\",\n                \"internet_sitewanport_portNumber\":\"0/0/2\",\n                \"internet_sitewanport_portType\":\"GE\",\n                \"internet_sitewanport_providerIpAddress\":\"100.2.30.10\",\n                \"internet_sitewanport_transportNetworkName\":\"internet\",\n                \"mpls_sitewanport_description\":\"mpls\",\n                \"mpls_sitewanport_deviceName\":\"50.47\",\n                \"mpls_sitewanport_inputBandwidth\":\"100\",\n                \"mpls_sitewanport_ipAddress\":\"10.2.30.7\",\n                \"mpls_sitewanport_name\":\"mpls\",\n                \"mpls_sitewanport_outputBandwidth\":\"100\",\n                \"mpls_sitewanport_portNumber\":\"0/0/1\",\n                \"mpls_sitewanport_portType\":\"GE\",\n                \"mpls_sitewanport_providerIpAddress\":\"10.2.30.8\",\n                \"mpls_sitewanport_transportNetworkName\":\"internet\",\n                \"sdwanvpnattachmentvf_sdwancondition_role\":\"spoke\",\n                \"sdwanvpnattachmentvf_sdwancondition_sdwanVpnName\":\"CMCCVPN\",\n                \"sitevf_site_address\":\"beijing beiqing road\",\n                \"sitevf_site_controlPoint\":\"CMCC_VCPE\",\n                \"sitevf_site_description\":\"CMCC_CPE\",\n                \"sitevf_site_emails\":\"\",\n                \"sitevf_site_latitude\":\"\",\n                \"sitevf_site_longitude\":\"\",\n                \"sitevf_site_name\":\"CMCC_CPE1\",\n                \"sitevf_site_postcode\":\"100095\",\n                \"sitevf_site_role\":\"sd-wan-edge\",\n                \"sitevf_site_type\":\"single-gateway\",\n                \"sotnvpnattachmentvf_sotncondition_clientSignal\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_cVLAN\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_sotnVpnName\":\"SOTN L2\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d22",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d22"
+              }
+            ]
+          },
+          {
+            "related-to": "device",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/devices/device/6e0d83f3-f4f5-4a24-9462-712b52ac6700",
+            "relationship-data": [
+              {
+                "relationship-key": "device.device-id",
+                "relationship-value": "6e0d83f3-f4f5-4a24-9462-712b52ac6700"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "device.device-name"
+              }
+            ]
+          },
+          {
+            "related-to": "wan-port-config",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/wan-port-configs/wan-port-config/aaa3e552-08c4-4697-aeeb-d8d3e09ce58e",
+            "relationship-data": [
+              {
+                "relationship-key": "wan-port-config.wan-port-config-id",
+                "relationship-value": "aaa3e552-08c4-4697-aeeb-d8d3e09ce58e"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "wan-port-config.wan-port-config-name",
+                "property-value": "mpls"
+              }
+            ]
+          },
+          {
+            "related-to": "site-resource",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/site-resources/site-resource/aa2de9d8-d76b-4134-b5f1-41e79056adbe",
+            "relationship-data": [
+              {
+                "relationship-key": "site-resource.site-resource-id",
+                "relationship-value": "aa2de9d8-d76b-4134-b5f1-41e79056adbe"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "site-resource.site-resource-name",
+                "property-value": "cmcc-spokesite"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "189b87a5-72fe-4197-a307-6929c3831f81",
+      "service-instance-name": "SiteBeijingDC",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "5c13f3fb-2744-4635-9f1f-c59c92dc8f70",
+      "model-version-id": "3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838",
+      "resource-version": "1535686458510",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SiteService\",\n        \"description\":\"SiteService\",\n        \"serviceInvariantUuid\":\"5c13f3fb-2744-4635-9f1f-c59c92dc8f70\",\n        \"serviceUuid\":\"3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SiteVF\",\n                    \"resourceInvariantUuid\":\"0c0e1cbe-6e01-4f9e-8c45-a9700ebc14df\",\n                    \"resourceUuid\":\"4ad2d390-5c51-45f5-9710-b467a4ec7a73\",\n                    \"resourceCustomizationUuid\":\"66590e07-0777-415c-af44-36347cf3ddd3\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"mpls\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"205456e7-3dc0-40c4-8cb0-28e6c1877042\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"deviceVF\",\n                    \"resourceInvariantUuid\":\"c726490a-0ce2-4bc7-abea-dade66bfb13d\",\n                    \"resourceUuid\":\"0e2de9d8-d76b-4134-b5f1-41e79056adbe\",\n                    \"resourceCustomizationUuid\":\"5bc1373e-9a36-4a00-8c62-784e0bc417ad\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sdwanvpnattachmentVF\",\n                    \"resourceInvariantUuid\":\"f714feec-1aef-4890-abba-f8f3a906935f\",\n                    \"resourceUuid\":\"709919b7-75fd-4e49-8398-67853323ff55\",\n                    \"resourceCustomizationUuid\":\"debd988f-fe04-4940-a5cb-37f61d84eab4\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"internet\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"64b8e8ba-62b9-4db6-b420-1ca7067d63e0\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sotnvpnattachmentvF\",\n                    \"resourceInvariantUuid\":\"97c4a3c6-2943-41af-8717-2f3183f944be\",\n                    \"resourceUuid\":\"44b777ee-9793-465d-8053-d8e86d2e2362\",\n                    \"resourceCustomizationUuid\":\"37aeb073-c75d-4cf6-a7fa-a1af862ef58a\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"cd0b4b9c-66c6-49c5-b346-7580e4b6c394\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"devicevf_device_class\":\"PNF\",\n                \"devicevf_device_esn\":\"2102351BTJ10HB000075\",\n                \"devicevf_device_name\":\"50.47\",\n                \"devicevf_device_systemIp\":\"192.168.1.47\",\n                \"devicevf_device_type\":\"AR161EW\",\n                \"devicevf_device_vendor\":\"huawei\",\n                \"devicevf_device_version\":\"1.0\",\n                \"internet_sitewanport_description\":\"internet\",\n                \"internet_sitewanport_deviceName\":\"50.47\",\n                \"internet_sitewanport_inputBandwidth\":\"100\",\n                \"internet_sitewanport_ipAddress\":\"100.2.30.9\",\n                \"internet_sitewanport_name\":\"internet\",\n                \"internet_sitewanport_outputBandwidth\":\"100\",\n                \"internet_sitewanport_portNumber\":\"0/0/2\",\n                \"internet_sitewanport_portType\":\"GE\",\n                \"internet_sitewanport_providerIpAddress\":\"100.2.30.10\",\n                \"internet_sitewanport_transportNetworkName\":\"internet\",\n                \"mpls_sitewanport_description\":\"mpls\",\n                \"mpls_sitewanport_deviceName\":\"50.47\",\n                \"mpls_sitewanport_inputBandwidth\":\"100\",\n                \"mpls_sitewanport_ipAddress\":\"10.2.30.7\",\n                \"mpls_sitewanport_name\":\"mpls\",\n                \"mpls_sitewanport_outputBandwidth\":\"100\",\n                \"mpls_sitewanport_portNumber\":\"0/0/1\",\n                \"mpls_sitewanport_portType\":\"GE\",\n                \"mpls_sitewanport_providerIpAddress\":\"10.2.30.8\",\n                \"mpls_sitewanport_transportNetworkName\":\"internet\",\n                \"sdwanvpnattachmentvf_sdwancondition_role\":\"spoke\",\n                \"sdwanvpnattachmentvf_sdwancondition_sdwanVpnName\":\"CMCCVPN\",\n                \"sitevf_site_address\":\"beijing beiqing road\",\n                \"sitevf_site_controlPoint\":\"CMCC_VCPE\",\n                \"sitevf_site_description\":\"CMCC_CPE\",\n                \"sitevf_site_emails\":\"\",\n                \"sitevf_site_latitude\":\"\",\n                \"sitevf_site_longitude\":\"\",\n                \"sitevf_site_name\":\"CMCC_CPE2\",\n                \"sitevf_site_postcode\":\"100095\",\n                \"sitevf_site_role\":\"sd-wan-edge\",\n                \"sitevf_site_type\":\"single-gateway\",\n                \"sotnvpnattachmentvf_sotncondition_clientSignal\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_cVLAN\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_sotnVpnName\":\"SOTN L2\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d33",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d33"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d33"
+              }
+            ]
+          },
+          {
+            "related-to": "site-resource",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/site-resources/site-resource/bb2de9d8-d76b-4134-b5f1-41e79056adbe",
+            "relationship-data": [
+              {
+                "relationship-key": "site-resource.site-resource-id",
+                "relationship-value": "bb2de9d8-d76b-4134-b5f1-41e79056adbe"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "site-resource.site-resource-name",
+                "property-value": "cmcc-hubsite"
+              }
+            ]
+          },
+          {
+            "related-to": "device",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/devices/device/6e0d83f3-f4f5-4a24-9462-712b52ac6711",
+            "relationship-data": [
+              {
+                "relationship-key": "device.device-id",
+                "relationship-value": "6e0d83f3-f4f5-4a24-9462-712b52ac6711"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "device.device-name",
+                "property-value": "cmcc_hub"
+              }
+            ]
+          },
+          {
+            "related-to": "wan-port-config",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/wan-port-configs/wan-port-config/bba3e552-08c4-4697-aeeb-d8d3e09ce58e",
+            "relationship-data": [
+              {
+                "relationship-key": "wan-port-config.wan-port-config-id",
+                "relationship-value": "bba3e552-08c4-4697-aeeb-d8d3e09ce58e"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "wan-port-config.wan-port-config-name",
+                "property-value": "mpls"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "289b87a5-72fe-4197-a307-6929c3831f82",
+      "service-instance-name": "SiteLondonDC",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "5c13f3fb-2744-4635-9f1f-c59c92dc8f70",
+      "model-version-id": "3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838",
+      "resource-version": "1535686481928",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SiteService\",\n        \"description\":\"SiteService\",\n        \"serviceInvariantUuid\":\"5c13f3fb-2744-4635-9f1f-c59c92dc8f70\",\n        \"serviceUuid\":\"3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SiteVF\",\n                    \"resourceInvariantUuid\":\"0c0e1cbe-6e01-4f9e-8c45-a9700ebc14df\",\n                    \"resourceUuid\":\"4ad2d390-5c51-45f5-9710-b467a4ec7a73\",\n                    \"resourceCustomizationUuid\":\"66590e07-0777-415c-af44-36347cf3ddd3\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"mpls\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"205456e7-3dc0-40c4-8cb0-28e6c1877042\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"deviceVF\",\n                    \"resourceInvariantUuid\":\"c726490a-0ce2-4bc7-abea-dade66bfb13d\",\n                    \"resourceUuid\":\"0e2de9d8-d76b-4134-b5f1-41e79056adbe\",\n                    \"resourceCustomizationUuid\":\"5bc1373e-9a36-4a00-8c62-784e0bc417ad\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sdwanvpnattachmentVF\",\n                    \"resourceInvariantUuid\":\"f714feec-1aef-4890-abba-f8f3a906935f\",\n                    \"resourceUuid\":\"709919b7-75fd-4e49-8398-67853323ff55\",\n                    \"resourceCustomizationUuid\":\"debd988f-fe04-4940-a5cb-37f61d84eab4\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"internet\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"64b8e8ba-62b9-4db6-b420-1ca7067d63e0\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sotnvpnattachmentvF\",\n                    \"resourceInvariantUuid\":\"97c4a3c6-2943-41af-8717-2f3183f944be\",\n                    \"resourceUuid\":\"44b777ee-9793-465d-8053-d8e86d2e2362\",\n                    \"resourceCustomizationUuid\":\"37aeb073-c75d-4cf6-a7fa-a1af862ef58a\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"cd0b4b9c-66c6-49c5-b346-7580e4b6c394\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"devicevf_device_class\":\"PNF\",\n                \"devicevf_device_esn\":\"2102351BTJ10HB000075\",\n                \"devicevf_device_name\":\"50.47\",\n                \"devicevf_device_systemIp\":\"192.168.1.47\",\n                \"devicevf_device_type\":\"AR161EW\",\n                \"devicevf_device_vendor\":\"huawei\",\n                \"devicevf_device_version\":\"1.0\",\n                \"internet_sitewanport_description\":\"internet\",\n                \"internet_sitewanport_deviceName\":\"50.47\",\n                \"internet_sitewanport_inputBandwidth\":\"100\",\n                \"internet_sitewanport_ipAddress\":\"100.2.30.9\",\n                \"internet_sitewanport_name\":\"internet\",\n                \"internet_sitewanport_outputBandwidth\":\"100\",\n                \"internet_sitewanport_portNumber\":\"0/0/2\",\n                \"internet_sitewanport_portType\":\"GE\",\n                \"internet_sitewanport_providerIpAddress\":\"100.2.30.10\",\n                \"internet_sitewanport_transportNetworkName\":\"internet\",\n                \"mpls_sitewanport_description\":\"mpls\",\n                \"mpls_sitewanport_deviceName\":\"50.47\",\n                \"mpls_sitewanport_inputBandwidth\":\"100\",\n                \"mpls_sitewanport_ipAddress\":\"10.2.30.7\",\n                \"mpls_sitewanport_name\":\"mpls\",\n                \"mpls_sitewanport_outputBandwidth\":\"100\",\n                \"mpls_sitewanport_portNumber\":\"0/0/1\",\n                \"mpls_sitewanport_portType\":\"GE\",\n                \"mpls_sitewanport_providerIpAddress\":\"10.2.30.8\",\n                \"mpls_sitewanport_transportNetworkName\":\"internet\",\n                \"sdwanvpnattachmentvf_sdwancondition_role\":\"spoke\",\n                \"sdwanvpnattachmentvf_sdwancondition_sdwanVpnName\":\"CMCCVPN\",\n                \"sitevf_site_address\":\"beijing beiqing road\",\n                \"sitevf_site_controlPoint\":\"CMCC_VCPE\",\n                \"sitevf_site_description\":\"CMCC_CPE\",\n                \"sitevf_site_emails\":\"\",\n                \"sitevf_site_latitude\":\"\",\n                \"sitevf_site_longitude\":\"\",\n                \"sitevf_site_name\":\"CMCC_CPE3\",\n                \"sitevf_site_postcode\":\"100095\",\n                \"sitevf_site_role\":\"sd-wan-edge\",\n                \"sitevf_site_type\":\"single-gateway\",\n                \"sotnvpnattachmentvf_sotncondition_clientSignal\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_cVLAN\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_sotnVpnName\":\"SOTN L2\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d44",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d44"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d44"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "389b87a5-72fe-4197-a307-6929c3831f83",
+      "service-instance-name": "SiteLondon",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "5c13f3fb-2744-4635-9f1f-c59c92dc8f70",
+      "model-version-id": "3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838",
+      "resource-version": "1535686521672",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SiteService\",\n        \"description\":\"SiteService\",\n        \"serviceInvariantUuid\":\"5c13f3fb-2744-4635-9f1f-c59c92dc8f70\",\n        \"serviceUuid\":\"3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SiteVF\",\n                    \"resourceInvariantUuid\":\"0c0e1cbe-6e01-4f9e-8c45-a9700ebc14df\",\n                    \"resourceUuid\":\"4ad2d390-5c51-45f5-9710-b467a4ec7a73\",\n                    \"resourceCustomizationUuid\":\"66590e07-0777-415c-af44-36347cf3ddd3\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"mpls\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"205456e7-3dc0-40c4-8cb0-28e6c1877042\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"deviceVF\",\n                    \"resourceInvariantUuid\":\"c726490a-0ce2-4bc7-abea-dade66bfb13d\",\n                    \"resourceUuid\":\"0e2de9d8-d76b-4134-b5f1-41e79056adbe\",\n                    \"resourceCustomizationUuid\":\"5bc1373e-9a36-4a00-8c62-784e0bc417ad\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sdwanvpnattachmentVF\",\n                    \"resourceInvariantUuid\":\"f714feec-1aef-4890-abba-f8f3a906935f\",\n                    \"resourceUuid\":\"709919b7-75fd-4e49-8398-67853323ff55\",\n                    \"resourceCustomizationUuid\":\"debd988f-fe04-4940-a5cb-37f61d84eab4\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"internet\",\n                    \"resourceInvariantUuid\":\"97a3e552-08c4-4697-aeeb-d8d3e09ce58e\",\n                    \"resourceUuid\":\"63d8e1af-32dc-4c71-891d-e3f7b6a976d2\",\n                    \"resourceCustomizationUuid\":\"64b8e8ba-62b9-4db6-b420-1ca7067d63e0\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"sotnvpnattachmentvF\",\n                    \"resourceInvariantUuid\":\"97c4a3c6-2943-41af-8717-2f3183f944be\",\n                    \"resourceUuid\":\"44b777ee-9793-465d-8053-d8e86d2e2362\",\n                    \"resourceCustomizationUuid\":\"37aeb073-c75d-4cf6-a7fa-a1af862ef58a\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"cd0b4b9c-66c6-49c5-b346-7580e4b6c394\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"devicevf_device_class\":\"PNF\",\n                \"devicevf_device_esn\":\"2102351BTJ10HB000075\",\n                \"devicevf_device_name\":\"50.47\",\n                \"devicevf_device_systemIp\":\"192.168.1.47\",\n                \"devicevf_device_type\":\"AR161EW\",\n                \"devicevf_device_vendor\":\"huawei\",\n                \"devicevf_device_version\":\"1.0\",\n                \"internet_sitewanport_description\":\"internet\",\n                \"internet_sitewanport_deviceName\":\"50.47\",\n                \"internet_sitewanport_inputBandwidth\":\"100\",\n                \"internet_sitewanport_ipAddress\":\"100.2.30.9\",\n                \"internet_sitewanport_name\":\"internet\",\n                \"internet_sitewanport_outputBandwidth\":\"100\",\n                \"internet_sitewanport_portNumber\":\"0/0/2\",\n                \"internet_sitewanport_portType\":\"GE\",\n                \"internet_sitewanport_providerIpAddress\":\"100.2.30.10\",\n                \"internet_sitewanport_transportNetworkName\":\"internet\",\n                \"mpls_sitewanport_description\":\"mpls\",\n                \"mpls_sitewanport_deviceName\":\"50.47\",\n                \"mpls_sitewanport_inputBandwidth\":\"100\",\n                \"mpls_sitewanport_ipAddress\":\"10.2.30.7\",\n                \"mpls_sitewanport_name\":\"mpls\",\n                \"mpls_sitewanport_outputBandwidth\":\"100\",\n                \"mpls_sitewanport_portNumber\":\"0/0/1\",\n                \"mpls_sitewanport_portType\":\"GE\",\n                \"mpls_sitewanport_providerIpAddress\":\"10.2.30.8\",\n                \"mpls_sitewanport_transportNetworkName\":\"internet\",\n                \"sdwanvpnattachmentvf_sdwancondition_role\":\"spoke\",\n                \"sdwanvpnattachmentvf_sdwancondition_sdwanVpnName\":\"CMCCVPN\",\n                \"sitevf_site_address\":\"beijing beiqing road\",\n                \"sitevf_site_controlPoint\":\"CMCC_VCPE\",\n                \"sitevf_site_description\":\"CMCC_CPE\",\n                \"sitevf_site_emails\":\"\",\n                \"sitevf_site_latitude\":\"\",\n                \"sitevf_site_longitude\":\"\",\n                \"sitevf_site_name\":\"CMCC_CPE4\",\n                \"sitevf_site_postcode\":\"100095\",\n                \"sitevf_site_role\":\"sd-wan-edge\",\n                \"sitevf_site_type\":\"single-gateway\",\n                \"sotnvpnattachmentvf_sotncondition_clientSignal\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_cVLAN\":\"\",\n                \"sotnvpnattachmentvf_sotncondition_sotnVpnName\":\"SOTN L2\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d55",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d55"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d55"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "service-instance-id": "32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0",
+      "service-instance-name": "SOTNVPNInfra",
+      "service-type": "E2E Service",
+      "service-role": "E2E Service",
+      "model-invariant-id": "21886a96-0664-47a3-beae-766952f2059f",
+      "model-version-id": "54836196-c411-4690-af98-900c1c3aadd7",
+      "resource-version": "1535685742159",
+      "input-parameters": "{\n    \"service\":{\n        \"name\":\"SOTNVPNInfra\",\n        \"description\":\"SOTNVPNInfra\",\n        \"serviceInvariantUuid\":\"21886a96-0664-47a3-beae-766952f2059f\",\n        \"serviceUuid\":\"54836196-c411-4690-af98-900c1c3aadd7\",\n        \"globalSubscriberId\":\"Demonstration\",\n        \"serviceType\":\"CCVPN\",\n        \"parameters\":{\n            \"locationConstraints\":[\n\n            ],\n            \"resources\":[\n                {\n                    \"resourceName\":\"SOTNConnectivity 0\",\n                    \"resourceInvariantUuid\":\"1b9c677d-fddf-4b70-938b-925a7fa57d43\",\n                    \"resourceUuid\":\"218df3c3-50dd-4c26-9e36-4771387bb771\",\n                    \"resourceCustomizationUuid\":\"b44071c8-04fd-4d6b-b6af-772cbfaa1129\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                },\n                {\n                    \"resourceName\":\"SPPartnerVF 0\",\n                    \"resourceInvariantUuid\":\"072f9238-15b0-4bc5-a5f5-f18548739470\",\n                    \"resourceUuid\":\"81b9430b-8abe-45d6-8bf9-f41a8f5c735f\",\n                    \"resourceCustomizationUuid\":\"c3612284-6c67-4d8c-8b41-b699cc90e76d\",\n                    \"parameters\":{\n                        \"locationConstraints\":[\n\n                        ],\n                        \"resources\":[\n\n                        ],\n                        \"requestInputs\":{\n\n                        }\n                    }\n                }\n            ],\n            \"requestInputs\":{\n                \"sotnconnectivity0_eir\":\"1000\",\n                \"sotnconnectivity0_cir\":\"1000\",\n                \"sotnconnectivity0_endTime\":\"2018-8-8 10:00\",\n                \"sotnconnectivity0_ebs\":\"1000\",\n                \"sotnconnectivity0_startTime\":\"2018-8-1 10:00\",\n                \"sotnconnectivity0_dualLink\":\"true\",\n                \"sotnconnectivity0_reroute\":\"false\",\n                \"sotnconnectivity0_cbs\":\"1000\",\n                \"sotnconnectivity0_name\":\"SOTN L2\",\n                \"sotnconnectivity0_SLS\":\"\",\n                \"sotnconnectivity0_description\":\"\",\n                \"sotnconnectivity0_couplingFlag\":\"\",\n                \"sotnconnectivity0_colorAware\":\"\",\n                \"sotnconnectivity0_COS\":\"standard\"\n            }\n        }\n    }\n}",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "sp-partner",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/sp-partners/sp-partner/1b9c677d-fddf-4b70-938b-925a7fa57d99",
+            "relationship-data": [
+              {
+                "relationship-key": "sp-partner.sp-partner-id",
+                "relationship-value": "1b9c677d-fddf-4b70-938b-925a7fa57d99"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "sp-partner.sp-partner-id",
+                "property-value": "1b9c677d-fddf-4b70-938b-925a7fa57d99"
+              }
+            ]
+          },
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/connectivities/connectivity/4efe6dff-acfc-4d13-a3fd-1177d3c08e84",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "4efe6dff-acfc-4d13-a3fd-1177d3c08e84"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "SOTNVPNInfra"
+              }
+            ]
+          },
+          {
+            "related-to": "allotted-resource",
+            "relationship-label": "org.onap.relationships.inventory.Uses",
+            "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/189b87a5-72fe-4197-a307-6929c3831f81/allotted-resources/allotted-resource/bb14feec-1aef-4890-abba-f8f3a906935f",
+            "relationship-data": [
+              {
+                "relationship-key": "customer.global-customer-id",
+                "relationship-value": "Democcy"
+              },
+              {
+                "relationship-key": "service-subscription.service-type",
+                "relationship-value": "CCVPN"
+              },
+              {
+                "relationship-key": "service-instance.service-instance-id",
+                "relationship-value": "189b87a5-72fe-4197-a307-6929c3831f81"
+              },
+              {
+                "relationship-key": "allotted-resource.id",
+                "relationship-value": "bb14feec-1aef-4890-abba-f8f3a906935f"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "allotted-resource.description",
+                "property-value": "bb14feec-1aef-4890-abba-f8f3a906935f"
+              },
+              {
+                "property-key": "allotted-resource.allotted-resource-name",
+                "property-value": "ston ar"
+              }
+            ]
+          },
+          {
+            "related-to": "allotted-resource",
+            "relationship-label": "org.onap.relationships.inventory.Uses",
+            "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/089b87a5-72fe-4197-a307-6929c3831f80/allotted-resources/allotted-resource/aa14feec-1aef-4890-abba-f8f3a906935f",
+            "relationship-data": [
+              {
+                "relationship-key": "customer.global-customer-id",
+                "relationship-value": "Democcy"
+              },
+              {
+                "relationship-key": "service-subscription.service-type",
+                "relationship-value": "CCVPN"
+              },
+              {
+                "relationship-key": "service-instance.service-instance-id",
+                "relationship-value": "089b87a5-72fe-4197-a307-6929c3831f80"
+              },
+              {
+                "relationship-key": "allotted-resource.id",
+                "relationship-value": "aa14feec-1aef-4890-abba-f8f3a906935f"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "allotted-resource.description",
+                "property-value": "aa14feec-1aef-4890-abba-f8f3a906935f"
+              },
+              {
+                "property-key": "allotted-resource.allotted-resource-name",
+                "property-value": "ston ar"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

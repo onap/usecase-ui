@@ -1,0 +1,29 @@
+{
+  "pnf-name": "pnf1000",
+  "pnf-id": "79.79.79.79",
+  "in-maint": true,
+  "resource-version": "1536028638695",
+  "admin-status": "up",
+  "operational-status": "up",
+  "relationship-list": {
+    "relationship": [
+      {
+        "related-to": "network-resource",
+        "relationship-label": "tosca.relationships.network.LinksTo",
+        "related-link": "/aai/v13/network/network-resources/network-resource/1000",
+        "relationship-data": [
+          {
+            "relationship-key": "network-resource.network-id",
+            "relationship-value": "1000"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "network-resource.network-id",
+            "property-value": "1000"
+          }
+        ]
+      }
+    ]
+  }
+}

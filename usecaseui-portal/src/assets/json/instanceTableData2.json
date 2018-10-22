@@ -1,0 +1,388 @@
+{
+    "results": [
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"sotn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "uuidxxx",
+                  "service-instance-name": "dddd1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"sotn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"sotn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "uuidaaaa",
+                  "service-instance-name": "dddd6",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"ccvpn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"ccvpn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },      
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"ccvpn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },      
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"ccvpn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      },
+      {
+        "service-subscription": {
+          "service-type": "{service-type}",
+          "temp-ub-sub-account-id": "some sub account",
+          "service-type-id":"ccvpn",
+          "service-instances": {
+              "service-instance": [
+                {
+                  "service-instance-id": "some id 1",
+                  "service-instance-name": "some name 1",
+                  "environment-context": "some context 1",
+                  "workload-context": "some workload 1",
+                  "input-parameters": "request parameters 1",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 2",
+                  "service-instance-name": "some name 2",
+                  "environment-context": "some context 2",
+                  "workload-context": "some workload 2",
+                  "input-parameters": "request parameters 2",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                },
+                {
+                  "service-instance-id": "some id 3",
+                  "service-instance-name": "some name 3",
+                  "environment-context": "some context 3",
+                  "workload-context": "some workload 3",
+                  "input-parameters": "request parameters 3",
+                  "relationship-list": {
+                      "relationship" : [
+                      ]
+                  }
+                }
+              ]
+          },
+          "relationship-list": {
+              "relationship" : [
+              ]
+          }
+        }
+      }
+    ]
+}

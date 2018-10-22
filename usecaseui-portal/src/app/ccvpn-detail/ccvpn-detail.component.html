@@ -1,0 +1,336 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<h3 class="title"> Services List </h3>
+<hr>
+<div class="model">
+  <!-- 详情数据 -->
+  <button class="back" nz-button (click)="goback()"><span><i class="anticon anticon-rollback"></i></span></button>
+  <div class="detaildata fl">
+      <h3 class="title">{{detailParams.sotnvpnSer['service-instance-name']}} Instance Detail</h3>
+      <div class="sotnvpn clearfix">
+        <h3>SOTN VPN Info</h3>
+        <ul>
+          <li><span>Name:</span> {{sotnVpnInfo.name}}</li>
+          <li><span>Description:</span> {{sotnVpnInfo.description}} </li>
+          <li><span>Start Time:</span> {{sotnVpnInfo.startTime}}</li>
+          <li><span>End Time:</span> {{sotnVpnInfo.endTime}} </li>
+          <li><span>COS:</span> {{sotnVpnInfo.COS}}</li>
+          <li><span>Reroute Enable:</span> {{sotnVpnInfo.reroute}} </li>
+          <li><span>Service Level Specification:</span> {{sotnVpnInfo.SLS}}</li>
+          <li><span>DualLink:</span> {{sotnVpnInfo.dualLink}} </li>
+          <li><span>CIR:</span> {{sotnVpnInfo.CIR}}</li>
+          <li><span>EIR:</span> {{sotnVpnInfo.EIR}} </li>
+          <li><span>CBS:</span> {{sotnVpnInfo.CBS}}</li>
+          <li><span>EBS:</span> {{sotnVpnInfo.EBS}} </li>
+          <li><span>Color Aware:</span> {{sotnVpnInfo.colorAware}}</li>
+          <li><span>Coupling Flag:</span> {{sotnVpnInfo.couplingFlag}} </li>
+        </ul>
+      </div>
+
+      <div class="site">
+        <h3>Site List</h3>
+        <nz-table #nzTable [nzData]="siteList"
+          [nzShowPagination]="false"
+          nzSize="small">
+          <thead>
+            <tr>
+              <th nzWidth="10%"> NO. </th>
+              <th nzWidth="15%"> Name </th>
+              <th nzWidth="20%"> Description </th>
+              <th nzWidth="15%"> Post Code </th>
+              <th nzWidth="15%"> Address </th>
+              <th nzWidth="15%"> VLAN </th>
+              <th nzWidth="10%"> Action </th>
+            </tr>
+          </thead>
+          <tbody>
+              <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+              <tr *ngFor="let item of nzTable.data; let i = index; ">
+                  <td>{{i+1}}</td>
+                  <td>{{item.baseNames.name}}</td>
+                  <td>{{item.baseNames.description}}</td>
+                  <td>{{item.baseNames.postcode}}</td>
+                  <td>{{item.baseNames.address}}</td>
+                  <td>{{item.baseNames.vlan}}</td>
+                  <td (click)="showSiteDetail(item)"> <a href="javascript:;">Detail</a> </td>
+              </tr>
+              <!-- </ng-template> -->
+          </tbody>
+        </nz-table>
+        <div class="siteDetail" *ngIf="siteDetail">
+          <h3>Site_Enterprise Service <span class="closeDetail fr" (click)="siteDetail=false">X</span></h3>
+          <ul>
+            <li><span>Name:</span> {{ siteDetailData.baseNames.name}}</li>
+            <li><span>Description:</span> {{ siteDetailData.baseNames.description }} </li>
+            <li *ngIf="detailParams.sotnvpnSer.Type == 'CCVPN'"><span>Type:</span> {{ siteDetailData.baseNames.type }} </li>
+            <li *ngIf="detailParams.sotnvpnSer.Type == 'CCVPN'"><span>Role:</span> {{ siteDetailData.baseNames.role }} </li>
+            <li><span>PostCode:</span> {{ siteDetailData.baseNames.postcode }} </li>
+            <li><span>VLAN:</span> {{ siteDetailData.baseNames.vlan }}</li>
+            <li><span>Address:</span> {{ siteDetailData.baseNames.address }}</li>
+            <li><span>ClientSignal:</span> {{ siteDetailData.baseNames.clientSignal }}</li>
+            <li><span>ControlPoint:</span> {{ siteDetailData.baseNames.controlPoint }}</li>
+            <li><span>Emails:</span> {{ siteDetailData.baseNames.emails }}</li>
+            <li><span>GroupName:</span> {{ siteDetailData.baseNames.groupName }}</li>
+            <li><span>GroupRole:</span> {{ siteDetailData.baseNames.groupRole }}</li>
+            <li><span>Latitude:</span> {{ siteDetailData.baseNames.latitude }}</li>
+            <li><span>Longitude:</span> {{ siteDetailData.baseNames.longitude }}</li>
+            <li><span>SotnVpnName:</span> {{ siteDetailData.baseNames.sotnVpnName }}</li>
+          </ul>
+          <div *ngIf="detailParams.sotnvpnSer.Type == 'CCVPN'">
+            <h3>CPE</h3>
+            <ul>
+              <li><span>Name:</span> {{siteDetailData.cpeNames.device_name}}</li>
+              <li><span>Version:</span> {{ siteDetailData.cpeNames.device_version }} </li>
+              <li><span>ESN:</span> {{ siteDetailData.cpeNames.device_esn }} </li>
+              <li><span>Class:</span> {{ siteDetailData.cpeNames.device_class }} </li>
+              <li><span>System IP:</span> {{ siteDetailData.cpeNames.device_systemIp }} </li>
+              <li><span>Vendor:</span> {{ siteDetailData.cpeNames.device_vendor }}</li>
+              <li><span>Type:</span> {{ siteDetailData.cpeNames.device_type }}</li>
+            </ul>
+            <h3>WAN Port</h3>
+            <nz-table #nzTable [nzData]="siteDetailData.wanportNames"
+              [nzShowPagination]="false"
+              nzSize="small">
+              <thead>
+                <tr>
+                  <th nzWidth="10%"> NO. </th>
+                  <th nzWidth="15%"> Name </th>
+                  <th nzWidth="20%"> Description </th>
+                  <th nzWidth="15%"> PortType </th>
+                  <th nzWidth="15%"> PortNumber </th>
+                  <th nzWidth="15%"> IPAddress </th>
+                  <th nzWidth="10%"> Action </th>
+                </tr>
+              </thead>
+              <tbody>
+                  <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+                  <tr *ngFor="let item of nzTable.data; let i = index; ">
+                      <td>{{i+1}}</td>
+                      <td>{{item.sitewanport_name}}</td>
+                      <td>{{item.sitewanport_description}}</td>
+                      <td>{{item.sitewanport_portType}}</td>
+                      <td>{{item.sitewanport_portNumber}}</td>
+                      <td>{{item.sitewanport_ipAddress}}</td>
+                      <td (click)="showWanportDetail(item)"> <a href="javascript:;">Detail</a> </td>
+                  </tr>
+                  <!-- </ng-template> -->
+              </tbody>
+            </nz-table>
+            <nz-modal [(nzVisible)]="wanPortModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+              <ng-template #modalTitle>
+                WAN Port Detail
+              </ng-template>
+
+              <ng-template #modalContent>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Name </span> {{wanPortDetail.sitewanport_name}}</p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Description: </span> {{wanPortDetail.sitewanport_description}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Type: </span> {{wanPortDetail.sitewanport_portType}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Number: </span> {{wanPortDetail.sitewanport_portNumber}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Ip Address: </span> {{wanPortDetail.sitewanport_ipAddress}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Provider IP Address: </span> {{wanPortDetail.sitewanport_providerIpAddress}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Transport Nerwork: </span> {{wanPortDetail.sitewanport_transportNetworkName}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Input Bandwidth: </span> {{wanPortDetail.sitewanport_inputBandwidth}} </p>
+                <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Output Bandwidth: </span> {{wanPortDetail.sitewanport_outputBandwidth}} </p>
+              </ng-template>
+
+              <ng-template #modalFooter>
+                <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button> -->
+              </ng-template>
+            </nz-modal>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="sitegroup" *ngIf="detailParams.sotnvpnSer.Type == 'CCVPN'">
+        <h3>Site_Group List</h3>
+        <nz-table #nzTable [nzData]="siteGroupList"
+          [nzLoading]="loading"
+          [nzShowPagination]="false"
+          nzSize="small">
+          <thead>
+            <tr>
+              <th nzWidth="10%"> NO. </th>
+              <th nzWidth="20%"> Group Name </th>
+              <th nzWidth="20%"> Topology </th>
+            </tr>
+          </thead>
+          <tbody>
+              <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+              <tr *ngFor="let item of nzTable.data; let i = index; ">
+                  <td>{{i+1}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.topology}}</td>
+              </tr>
+              <!-- </ng-template> -->
+          </tbody>
+        </nz-table>
+      </div>
+  </div>
+  <!-- 图 -->
+  <div class="chart fr">
+
+      <div id="detailChart">
+        <!-- <svg width="100%" height="100%">
+          <line *ngFor="let item of lines" [attr.x1]="item.x1" [attr.y1]="item.y1" [attr.x2]="item.x2" [attr.y2]="item.y2" style="stroke:#3fa8eb;stroke-width:2"/>
+          <image xlink:href="./assets/images/cloud-county.png"
+                 class="cloudcounty"
+                 (click)="toggleClick()"
+                 (mouseover)="hoverShowcould()"
+                 (mouseout)="hoverHidecould()"
+                 x="175" y="175" height="50px" width="50px"/>
+          <image *ngFor="let item of siteImage"
+                  xlink:href="./assets/images/cloud-city.png"
+                  [attr.x]="item.x" [attr.y]="item.y" height="50px" width="50px"/>
+        </svg>
+        <div class="couldDetail" *ngIf="hoverShow || clickShow">
+
+        </div> -->
+        <svg width="100%" height="100%" style="position: relative">
+          <!--背景大图-->
+          <image xlink:href="./assets/images/bigcloud.png"
+                 class="backgroundcloud"
+                 width="100%"
+                 style="position: absolute;z-index:-1">
+          </image>
+          <!--tp,site，domain之间的连线-->
+          <line *ngFor="let item of detailLines" [attr.x1]="item.x1" [attr.y1]="item.y1" [attr.x2]="item.x2" [attr.y2]="item.y2" style="stroke:#FFC000; stroke-width:2"></line>
+          <line *ngIf="detailSites" x1="45%" y1="30%" x2="75%" y2="20%" style="stroke:#FFC000; stroke-width:2"></line>
+          <!--本地domain-->
+          <g class="clouds">
+            <image xlink:href="./assets/images/domain.png"
+                   id="domain1"
+              width="20%"
+                   x="10%" y="10%"
+            ></image>
+            <text dx="12%" dy="16%" style="font-size: 14px; fill:#666;width: 20px;">
+             {{vpns[0].domain}}
+            </text>
+          </g>
+          <g *ngIf="vpns[1]" class="clouds">
+            <image xlink:href="./assets/images/domain.png"
+                   id="domain2"
+              width="20%"
+                   x="40%" y="13%"
+            ></image>
+            <text dx="43%" dy="19%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{vpns[1].domain}}
+            </text>
+          </g>
+          <!--domain1下连接的tp-->
+          <g class="clouds">
+            <image xlink:href="./assets/images/tp.png"
+                   class="tp"
+                   id="tp1"
+                   height="16" width="20"
+                   x="15%" y="25%"
+            ></image>
+            <text dx="18%" dy="27%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{vpns[0].sitetpname}}
+            </text>
+          </g>
+          <g class="clouds">
+            <image xlink:href="./assets/images/tp.png"
+                   class="tp"
+                   id="tp2"
+                   height="16" width="20"
+                   x="30%" y="10%"
+            ></image>
+            <text dx="30%" dy="6%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{vpns[0].othertpname}}
+            </text>
+          </g>
+          <!--domain2下连接的tp-->
+          <g *ngIf="vpns[1]" class="clouds">
+            <image xlink:href="./assets/images/tp.png"
+                   class="tp"
+                   id="tp3"
+                   height="16" width="20"
+                   x="40%" y="10%"
+            ></image>
+            <text dx="40%" dy="9%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{vpns[1].othertpname}}
+            </text>
+          </g>
+          <g *ngIf="vpns[1]" class="clouds">
+            <image xlink:href="./assets/images/tp.png"
+                   class="tp"
+                   id="tp4"
+                   height="16" width="20"
+                   x="43%" y="28%"
+            ></image>
+            <text dx="46%" dy="30%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{vpns[1].sitetpname}}
+            </text>
+          </g>
+          <!--外部云-->
+          <g class="clouds">
+            <image xlink:href="./assets/images/out-domain.png"
+                   id="extent-cloud"
+                   height="70.8" width="120"
+                   x="66%" y="12%"
+            ></image>
+            <text dx="68%" dy="18%" style="font-size: 14px; fill: #666;width: 20px;">
+              SP Partent Network
+            </text>
+          </g>
+          <!--本地的2个site-->
+          <g class="clouds">
+            <image xlink:href="./assets/images/site.png"
+                   id="site1"
+                   height="59" width="100"
+                   x="0%" y="48%"
+            ></image>
+            <text dx="2%" dy="53%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{localSite[0]["service-instance-name"]}}
+            </text>
+          </g>
+          <g *ngIf="!detailSites" class="clouds">
+            <image xlink:href="./assets/images/site.png"
+                   id="site2"
+                   height="59" width="100"
+                   x="25%" y="48%"
+            ></image>
+            <text dx="26%" dy="54%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{localSite[1]["service-instance-name"]}}
+            </text>
+          </g>
+          <!--外部的2个site-->
+          <g *ngIf="!detailSites" class="clouds">
+            <image xlink:href="./assets/images/site.png"
+                   id="site3"
+                   height="59" width="100"
+                   x="50%" y="48%"
+            ></image>
+            <text dx="52%" dy="54%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{outerSite[1]["service-instance-name"]}}
+            </text>
+          </g>
+          <g class="clouds">
+            <image xlink:href="./assets/images/site.png"
+                   id="site4"
+                   height="59" width="100"
+                   x="75%" y="48%"
+            ></image>
+            <text dx="80%" dy="54%" style="font-size: 14px; fill: #666;width: 20px;">
+              {{outerSite[0]["service-instance-name"]}}
+            </text>
+          </g>
+        </svg>
+      </div>
+  </div>
+
+</div>

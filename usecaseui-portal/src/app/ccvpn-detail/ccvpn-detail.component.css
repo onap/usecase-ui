@@ -1,0 +1,138 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+.title {
+    font: 700 18px/18px "思源黑体";
+    color: #4c5e70;
+    margin-bottom: 18px;
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #dce1e7;
+    margin-bottom: 10px;
+}
+.model {
+    background-color: #fff;
+    height: 90%;
+    overflow-y: auto;
+}
+.model .back {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.model .detaildata {
+    position: relative;
+    width: 60%;
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 5px;
+    padding: 15px;
+}
+.model .detaildata h3.title {
+    height: 20px;
+    font: 700 20px/20px "Arial";
+    color: #666;
+}
+.model .detaildata h3 {
+    height: 20px;
+    font: 700 16px/20px "Arial";
+    margin: 5px 0px;
+    color: #000;
+}
+/* SOTN VPN */
+.model .detaildata .sotnvpn ul li {
+    display: inline-block;
+    height: 35px;
+    width: 49.5%;
+}
+.model .detaildata .sotnvpn ul li span {
+    display: inline-block;
+    width: 110px;
+    font: 700 14px "Arial";
+    color: #3fa8eb;
+    vertical-align: middle;
+}
+/* site Detail */
+.model .detaildata .site .siteDetail {
+    position: fixed;
+    z-index: 10;
+    left: 260px;
+    top: 50px;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px #000;
+    width: 50%;
+    max-height: 85%;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+.model .detaildata .site h3 {
+    margin: 0;
+    height: 30px;
+    font: 700 16px/30px "Arial";
+    padding-left: 10px;
+    background-color: #ddd;
+}
+.model .detaildata .site h3 .closeDetail {
+    cursor: pointer;
+    padding: 2px 15px;
+    color: #3fa8eb;
+}
+.model .detaildata .site ul li {
+    padding-left: 5px;
+    display: inline-block;
+    height: 35px;
+    width: 32%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.model .detaildata .site ul li span {
+    display: inline-block;
+    width: 95px;
+    font: 700 14px "Arial";
+    color: #3fa8eb;
+    vertical-align: middle;
+}
+
+/* 图 */
+.model .chart {
+    width: 40%;
+    padding: 10px;
+    height: 100%;
+    border-left: 10px solid #f3f3f3;
+}
+.model .chart #detailChart {
+    position: relative;
+    width: 100%;
+    height: 80%;
+    margin-top: 20px;
+}
+.model .chart #detailChart .cloudcounty {
+    cursor: pointer;
+}
+
+.model .chart #detailChart .couldDetail {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 80%;
+    transform: translate(-50%,0);
+    height: 160px;
+    background-color: #aaa;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px #000;
+}

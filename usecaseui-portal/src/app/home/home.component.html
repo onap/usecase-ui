@@ -1,0 +1,63 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<h3 class="title"> {{"Overall trend" | translate}}</h3>
+<hr>
+<div class="content">
+  <div class="services">
+    <h4>{{"SERVICES" | translate}}</h4>
+    <h3>{{serviceNumber}} <span>{{"services" | translate}}</span> </h3>
+    <p>{{serviceNumber}} {{"services has been created" | translate}}</p>
+    <app-pie [initData]="serviceChartInit" [chartData]="serviceChartData"></app-pie>
+    <p class="tip">View the details</p>
+  </div>
+
+  <div class="rightcontent">
+    <div class="rt-content">
+      <div class="poerformance">
+        <h4>{{"PERFORMANCE" | translate}}</h4>
+        <div class="pfVnf">
+          <h3 class="pfVnfNum">126</h3>
+          <p>Performance VNF</p>
+          <img src="../../assets/images/VNF.png" alt="VNF">
+        </div>
+        <div class="pfVmPm">
+          <h3 class="pfVmPmNum">286</h3>
+          <p>Performance VM/PM</p>
+          <img src="../../assets/images/VM.png" alt="VM/PM">
+        </div>
+      </div>
+      <div class="alarm">
+        <h4>{{"Alarm" | translate}}</h4>
+        <app-pie [initData]="alarmChartInit" [chartData]="alarmChartData"></app-pie>
+      </div>
+    </div>
+
+    <div class="rb-content">
+      <h4>{{"VM Performance" | translate}}</h4>
+      <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+        <button nz-button nz-dropdown><span>{{vmPerformanceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <ul nz-menu>
+          <li nz-menu-item (click)="vmPerformanceNameSelect(item)" *ngFor="let item of vmPerformanceNames">
+            <a>{{item}}</a>
+          </li>
+        </ul>
+      </nz-dropdown>
+      <app-line [initData]="performanceChartInit" [chartData]="performanceChartData"></app-line>
+    </div>
+  </div>
+
+</div>
+

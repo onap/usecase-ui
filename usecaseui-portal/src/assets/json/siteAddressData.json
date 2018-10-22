@@ -1,0 +1,39 @@
+[
+    {
+        "location" : "Chuangxin Building,Tianningsi,Xicheng,Beijing",
+        "access-provider-id": "3333",
+        "access-client-id": "4444",
+        "access-topology-id": "11",
+        "access-node-id": "10.10.10.10",
+        "access-ltp-id": "1",
+        "host" : ""
+    },
+    {
+        "location" : "CMCC International Data Center,Hongkong",
+        "access-provider-id": "3333",
+        "access-client-id": "4444",
+        "access-topology-id": "11",
+        "access-node-id": "10.10.10.10",
+        "access-ltp-id": "2",
+        "host" : ""
+    },
+    {
+        "location" : "VDF International Data Center,Hongkong",
+        "access-provider-id": "pid000",
+        "access-client-id": "cid000",
+        "access-topology-id": "tid000",
+        "access-node-id": "11.11.11.11",
+        "access-ltp-id": "2",
+        "host" : "http://10.10.10.10"
+    },
+    {
+        "location" : "University College London,Gower Street,London",
+        "access-provider-id": "5555",
+        "access-client-id": "6666",
+        "access-topology-id": "22",
+        "access-node-id": "11.11.11.11",
+        "access-ltp-id": "2",
+        "host" : "http://10.10.10.10"
+    }
+]
+

@@ -1,0 +1,195 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+.title {
+    font: 700 18px/18px "思源黑体";
+    color: #4c5e70;
+    margin-bottom: 18px;
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #dce1e7;
+    margin-bottom: 10px;
+}
+.model {
+    background-color: #fff;
+    height: 90%;
+    overflow-y: auto;
+}
+.model .back {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.model .creation {
+    position: relative;
+    width: 60%;
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 5px;
+    padding: 15px;
+}
+.model .creation h3.title {
+    height: 20px;
+    font: 700 20px/20px "Arial";
+    color: #666;
+}
+.model .creation h3 {
+    height: 20px;
+    font: 700 16px/20px "Arial";
+    margin: 5px 0px;
+    color: #000;
+}
+.model .creation .submit {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+/* SOTN VPN */
+.model .creation .sotnvpn ul li {
+    display: inline-block;
+    height: 35px;
+    width: 49.5%;
+}
+.model .creation .sotnvpn ul li span {
+    display: inline-block;
+    width: 110px;
+    font: 700 14px "Arial";
+    color: #3fa8eb;
+    vertical-align: middle;
+}
+.model .creation .sotnvpn ul li input {
+    width: 165px;
+}
+/* Site List */
+/* addsite model */
+.model .sitemodel {
+    position: absolute;
+    z-index: 10;
+    left: 10px;
+    top: 60px;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px #000;
+    width: 60%;
+    max-height: 90%;
+    border-radius: 5px;
+    overflow-y: auto;
+}
+.model .sitemodel h3 {
+    height: 30px;
+    font: 700 16px/30px "Arial";
+    border-bottom: 1px solid #aaa;
+    padding-left: 10px;
+}
+.model .sitemodel h4 {
+    height: 30px;
+    font: 700 16px/30px "Arial";
+    padding-left: 10px;
+    background-color: #ddd;
+}
+.model .sitemodel .inputs {
+    padding: 10px 20px 0;
+}
+.model .sitemodel .inputs ul li {
+    display: inline-block;
+    height: 35px;
+    width: 49.5%;
+}
+.model .sitemodel .inputs ul li span {
+    display: inline-block;
+    width: 110px;
+    font: 700 14px "Arial";
+    color: #3fa8eb;
+    vertical-align: middle;
+}
+.model .sitemodel .inputs input {
+    width: 165px;
+}
+.model .sitemodel .action {
+    float: left;
+    padding: 10px;
+}
+
+.model nz-table tbody td i.anticon:hover {
+    color: #3fa8eb;
+    cursor: pointer;
+}
+
+/* site table */
+.model .site nz-table tbody td i.anticon:hover {
+    color: #3fa8eb;
+    cursor: pointer;
+}
+/* WAN Port */
+
+/* Site Group List */
+.model .sitegroup .sitegroupmodal {
+    position: absolute;
+    z-index: 10;
+    left: 200px;
+    top: 300px;
+    background-color: #fff;
+    box-shadow: 0px 0px 20px #000;
+    width: 330px;
+    border-radius: 5px;
+}
+.model .sitegroup .sitegroupmodal h3 {
+    height: 30px;
+    font: 700 16px/30px "Arial";
+    border-bottom: 1px solid #aaa;
+    padding-left: 10px;
+}
+.model .sitegroup .sitegroupmodal .inputs {
+    padding: 10px 20px 0;
+}
+.model .sitegroup .sitegroupmodal span {
+    display: inline-block;
+    width: 100px;
+    margin-bottom: 10px;
+}
+.model .sitegroup .sitegroupmodal .inputs input {
+    width: 165px;
+}
+.model .sitegroup .sitegroupmodal .action {
+    float: right;
+    padding: 10px;
+}
+
+
+/* 图 */
+.model .chart {
+    width: 40%;
+    padding: 10px;
+    height: 100%;
+    border-left: 10px solid #f3f3f3;
+}
+.model .chart #createChart {
+    width: 100%;
+    height: 80%;
+    margin-top: 20px;
+    position: relative;
+}
+.model .chart #createChart .siteNameP {
+    position: fixed;
+    border: 5px;
+    padding: 3px 5px;
+    color: #fff;
+    background: #999;
+    box-shadow: 0px 0px 20px #000;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
