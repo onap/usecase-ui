@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { MyhttpService } from '../myhttp.service';
 import * as addDays from 'date-fns/add_days';
@@ -41,18 +56,11 @@ export class AlarmComponent implements OnInit {
   }
 
   // 筛选框（下拉框）
-  // sourceNameList = ['aaaa','bbbb','cccc','dddddDDDDDDDDDDDDDDD'];
-  sourceNameList=[
-    {key:null,name:'请选择'},
-    {key:1,name:'aaaa'},
-    {key:2,name:'bbbb'},
-    {key:3,name:'cccc'},
-    {key:4,name:'dddddDDDDDDDDDDDDDDD'}
-  ]
-  sourceNameSelected = this.sourceNameList[0].name;
-  priorityList = ['aaaa','bbbb','cccc','ddddd'];
+  sourceNameList = ['---auto---','shentao-test-1001','vnf_a_1','cccc','dddddDDDDDDD'];
+  sourceNameSelected = this.sourceNameList[0];
+  priorityList = ['---auto---','Critical','Major','Minor','Warning'];
   prioritySelected = this.priorityList[0];
-  statusList = ['aaaa','bbbb','cccc','ddddd'];
+  statusList = ['---auto---','active','Close'];
   statusSelected = this.statusList[0];
   choseSourceName(item){
     console.log(item,'item1');
@@ -73,16 +81,11 @@ export class AlarmComponent implements OnInit {
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }
-  // search(){
-  //   this.myhttp.getAlarmFormData().subscribe
-
-  // }
   sort(e){
 
   }
   // 数量统计
   alarmList = {
-    all:22439,
     closed:37923,
     Action: 12342
   }
@@ -250,101 +253,6 @@ export class AlarmComponent implements OnInit {
       ]
     }
   };
-  //表格数据
-  dataSet = [
-    {
-      name       : 'John Brown',
-      age        : 32,
-      expand     : false,
-      address    : 'New York No. 1',
-      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.'
-    },
-    {
-      name       : 'Aim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Xim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'aoe Black',
-      age        : 32,
-      expand     : false,
-      address    : 'Sidney No. 1',
-      description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.'
-    }
-  ];
-
   //详情页标题显示
   detailshow = false;
   // 显示隐藏动画
@@ -371,9 +279,7 @@ export class AlarmComponent implements OnInit {
 };
   getAlarmFormData(){
     this.myhttp.getAlarmFormData(this.pageNumber,this.pageSize,this.name,this.Priority,this.Status,this.Report).subscribe((data)=>{
-      if(data.retCode ==200){
         this.list = data.list;
-      }
       console.log(data,'data');
     })
   }
