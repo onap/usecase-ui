@@ -1,0 +1,135 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<div class="model">
+  <!--图表-->
+  <div class="tips">
+    请根据以下操作，来配置您的网络
+  </div>
+  <button nz-button nzType="primary" style="margin-top: 2px;display: block" (click)="showForm()">Add Link</button>
+  <div id="tpContainer" style="overflow: hidden;"></div>
+  <!--弹出框-->
+  <div class="creation" id="d3_form" *ngIf="isVisible==true">
+    <span class="v_color"></span>
+    <h3 class="w_font4">Set Attribtes</h3>
+    <ul class="choose">
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Link Name </span>
+        <input nz-input [(ngModel)]="linkName" maxlength="20">
+      </li>
+    </ul>
+    <h4>Left Port</h4>
+    <ul class="choose">
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Network </span>
+        <nz-select [(ngModel)]="networkVal1" nzShowSearch nzAllowClear (ngModelChange)="network1Change($event)">
+          <nz-option *ngFor="let option of networkOption" [nzLabel]="option.network" [nzValue]="option.network"></nz-option>
+        </nz-select>
+      </li>
+      <li>
+       <span class="title-span"> <span class="red-span">*</span>Node </span>
+        <nz-select  [(ngModel)]="selectedNode1" nzShowSearch nzAllowClear (ngModelChange)="node1Change($event)">
+          <nz-option *ngFor="let node of nodeOption1[networkVal1]" [nzValue]="node" [nzLabel]="node"></nz-option>
+        </nz-select>
+      </li>
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Terminal Point </span>
+        <!-- <input  nz-input id="city-one" value=""> -->
+        <nz-select [(ngModel)]="selecteTpName1" nzShowSearch nzAllowClear>
+          <nz-option *ngFor="let tp of tpOption1" [nzValue]="tp" [nzLabel]="tp"></nz-option>
+        </nz-select>
+      </li>
+    </ul>
+    <h4>Right Port</h4>
+    <label nz-checkbox [(ngModel)]="inputshow">Partner Network</label>
+    <ul class="choose">
+      <li>
+        <span class="title-span"><span *ngIf="inputshow" class="red-span">*</span>Host Url</span>
+        <input nz-input [(ngModel)]="cloudUrl" [disabled]='!inputshow' [attr.disabled] ='!inputshow?true:undefined'>
+      </li>
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Network </span>
+        <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudNetwork">
+        <nz-select *ngIf="!inputshow" [(ngModel)]="networkVal2" nzShowSearch nzAllowClear (ngModelChange)="network2Change($event)">
+          <nz-option *ngFor="let option of networkOption" [nzLabel]="option.network" [nzValue]="option.network"> </nz-option>
+        </nz-select>
+      </li>
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Node </span>
+        <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudNode">
+        <nz-select *ngIf="!inputshow" [(ngModel)]="selectedNode2" nzShowSearch nzAllowClear (ngModelChange)="node2Change($event)">
+          <nz-option *ngFor="let node of nodeOption1[networkVal2]" [nzValue]="node" [nzLabel]="node"></nz-option>
+        </nz-select>
+      </li>
+      <li>
+        <span class="title-span"><span class="red-span">*</span>Terminal Point </span>
+        <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudTp">
+        <nz-select *ngIf="!inputshow" [(ngModel)]="selecteTpName2" nzShowSearch nzAllowClear>
+          <nz-option *ngFor="let tp of tpOption2" [nzValue]="tp" [nzLabel]="tp"></nz-option>
+        </nz-select>
+      </li>
+    </ul>
+    <button nz-button nzType="primary" nzSize="small" style="width: 60px;" (click)="submitForm()">OK</button>
+    <button nz-button nzType="default" nzSize="small" style="width: 60px;" (click)="hideForm()">Cancel</button>
+  </div>
+  <div class="creation" id="delbox" *ngIf="delBoxisVisible==true">
+    <span class="v_color"></span>
+    <h3 class="w_font4">Set Attribtes</h3>
+    <ul class="choose">
+      <li>
+        <span class="title-span">Link Name </span>
+        <input nz-input [(ngModel)]="delLinkname" disabled="disabled">
+      </li>
+    </ul>
+    <h4>Left Port</h4>
+    <ul class="choose">
+      <li>
+        <span class="title-span">Network </span>
+        <input nz-input [(ngModel)]="delNetwork1" disabled="disabled">
+      </li>
+      <li>
+        <span class="title-span">Node </span>
+        <input nz-input [(ngModel)]="delNode1" disabled="disabled">
+      </li>
+      <li>
+        <span class="title-span">Terminal Point </span>
+        <input nz-input [(ngModel)]="delTp1" disabled="disabled">
+      </li>
+    </ul>
+    <h4>Right Port</h4>
+    <ul class="choose">
+      <li *ngIf="delcloud">
+        <span class="title-span">Host Url</span>
+        <input nz-input [(ngModel)]="delcloudUrl" disabled="disabled">
+      </li>
+      <li>
+        <span class="title-span">Network </span>
+        <input nz-input [(ngModel)]="delNetwork2" disabled="disabled">
+      </li>
+      <li>
+      <span class="title-span">Node </span>
+      <input nz-input [(ngModel)]="delNode2" disabled="disabled">
+      </li>
+      <li>
+        <span class="title-span">Terminal Point </span>
+        <input nz-input [(ngModel)]="delTp2" disabled="disabled">
+      </li>
+    </ul>
+    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delLink()" *ngIf="!delcloud">delete Link</button>
+    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delCloudLink()" *ngIf="delcloud">delete Link</button>
+    <button nz-button nzType="default" nzSize="small" class="del-button" style="width: 60px;" (click)="hideForm()">Cancel</button>
+  </div>
+</div>
+

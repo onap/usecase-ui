@@ -1,0 +1,117 @@
+/* You can add global styles to this file, and also import other style files */
+// 下拉框背景hover状态颜色
+.ant-dropdown-menu {
+    .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover {
+        background-color: #3fa8eb;
+    }
+}
+// 表格每页条数选项单位置
+nz-table {
+    .ant-table-thead>tr>th {
+        color: #3fa8eb; //标题字体颜色
+    }
+    .ant-spin-container {
+        nz-pagination {
+            ul {
+                .ant-pagination-options {
+                    .ant-pagination-options-size-changer.ant-select{
+                        position: absolute;
+                        left: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 详情页迷你表格样式
+.detailInformatioin {
+    nz-table {
+        .ant-table-small {
+            border-color: #dfdfe0;
+            border-right: 0;
+            .ant-table-content {
+                border-color:  #dfdfe0;
+                .ant-table-body > table { 
+                    padding: 0;
+                    .ant-table-thead > tr > th {
+                        background-color: #f0f2f5;
+                        font-weight: 700;
+                        font-size: 14px;
+                        padding: 2px 15px;
+                        border-color: #dfdfe0;
+                    }
+                    .ant-table-tbody > tr > td {
+                        background-color: #f0f2f5;
+                        font-size: 14px;
+                        padding: 2px 15px;
+                        color: #323437;
+                        border-color: #dfdfe0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 日期选择插件背景颜色
+.ant-calendar-picker {
+    .ant-input {
+        background-color: #eceff4;
+        border-color: #9fa9ab;
+    }           
+}
+// 分页每页条数选项单位置
+nz-pagination {
+    ul {
+        .ant-pagination-options {
+            .ant-pagination-options-size-changer.ant-select{
+                position: absolute;
+                left: 0;
+            }
+        }
+    }
+}
+
+html,body,div,h1,h2,h3,h4,h5,h6,p,ul,li,a,span {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+body {
+    padding: 0 !important;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.clearfix:after{
+    content:"";
+    height:0;
+    line-height:0;
+    display:block;
+    visibility:hidden;
+    clear:both
+}
+.deleteModelContent {
+    color: red;
+}
+
+/* WAN Port */
+.wanPortModalList li {
+    height: 35px;
+    >span{
+        display: inline-block;
+        width: 165px;
+        font: 700 14px "Arial";
+        color: #3fa8eb;
+        vertical-align: middle;
+    }
+    input {
+        width: 165px;
+    }
+}

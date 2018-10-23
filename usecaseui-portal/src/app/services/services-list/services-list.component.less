@@ -1,0 +1,127 @@
+.title {
+    font: 700 18px/18px "思源黑体";
+    color: #4c5e70;
+    margin-bottom: 18px; 
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #dce1e7;
+    margin-bottom: 20px;
+}
+.action {
+    margin-bottom: 20px;
+    span {
+        display: inline-block;
+        font: 700 14px "Arial";
+        color: #4c5e70;
+    }
+    nz-dropdown {
+        vertical-align: middle;
+        :hover{
+            border-color: #147dc2;
+        }
+        button {
+            width: 165px;
+            height: 30px;
+            background-color: #eceff4;
+            text-align: left;
+            border-color: #9fa9ab;
+            span {
+                font-weight: 400;
+                display: inline-block;
+                width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-top: 2px;
+            }
+            i {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+        }
+        //下拉框中的样式在style.less中，下拉框是在body中额外临时生成的
+    }
+    .create {
+        float: right;
+        height: 30px;
+        padding: 0 10px;
+        span {
+            color: #fff;
+            font-weight: 400;
+        }
+    }
+}
+.list {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    nz-table {
+        tbody {
+            td {
+                span.active {
+                    font-size: 14px;
+                    color: #147dc2;
+                }
+                span.closed {
+                    font-size: 14px;
+                    color: red;
+                }
+                span.onboarding{
+                    font-size: 12px;
+                    color: #147dc2;
+                }
+                span.updating{
+                    font-size: 12px;
+                    color: blue;
+                }
+                span.deleting {
+                    font-size: 12px;
+                    color: red;
+                }
+                span.creating {
+                    font-size: 12px;
+                    color: green;
+                }
+                i.anticon {
+                    cursor: pointer;
+                    font-size: 18px;
+                    padding: 2px;
+                    &:hover{
+                        color: #147dc2;
+                    }
+                }
+            }
+            tr.childtr {
+                td {
+                    font-size: 12px;
+                    color: #147dc2;
+                }
+            }
+        }
+    }
+}
+
+.detailComponent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #f3f3f3;
+    overflow-y: auto;
+    padding: 20px 32px;
+    z-index: 3;
+}
+.createComponent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #f3f3f3;
+    overflow-y: auto;
+    padding: 20px 32px;
+    z-index: 3;
+}

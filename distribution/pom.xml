@@ -78,10 +78,10 @@
                 <outputDirectory>${linux64outputdir}/tomcat/webapps/</outputDirectory>
                 <resources>
                   <resource>
-                    <directory>../usecaseui-common/target/</directory>
+                    <directory>../usecaseui-portal/</directory>
                     <filtering>false</filtering>
                     <includes>
-                      <include>usecase-ui.war</include>
+                      <include>usecase-ui</include>
                     </includes>
                   </resource>
                 </resources>
@@ -142,10 +142,10 @@
                 <outputDirectory>${win64outputdir}/tomcat/webapps/</outputDirectory>
                 <resources>
                   <resource>
-                    <directory>../usecaseui-common/target/</directory>
+                    <directory>../usecaseui-portal/</directory>
                     <filtering>false</filtering>
                     <includes>
-                      <include>usecase-ui.war</include>
+                      <include>usecase-ui</include>
                     </includes>
                   </resource>
                 </resources>
