@@ -1,0 +1,22 @@
+{
+  "Language":"--:",
+    "zh":"Chinese",
+    "en":"English",
+
+  "app-component":"--:",
+    "Home":"Home",
+    "Services":"Services",
+    "Services List":"Services List",
+    "Alarm":"Alarm",
+    "Performance":"Performance",
+    "Monitor":"Monitor",
+    "Network":"Network",
+
+  "home-component":"--:",
+    "Overall trend":"Overall trend",
+    "SERVICES":"SERVICES",
+    "services":"services",
+    "services has been created":"services has been created",
+    "PERFORMANCE":"PERFORMANCE",
+    "VM Performance":"VM Performance"
+}

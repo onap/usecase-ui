@@ -1,0 +1,94 @@
+{
+    "connectivity": [
+        {
+            "connectivity-id": "4efe6dff-acfc-4d13-a3fd-1177d3c08e84",
+            "bandwidth-profile-name": "vpn1",
+            "vpn-type": "ethernet",
+            "color-aware": "c1",
+            "coupling-flag": "c2",
+            "etht-svc-name": "SOTNVPNInfra",
+            "access-provider-id": "10",
+            "access-client-id": "10",
+            "access-topology-id": "10",
+            "access-node-id": "10.10.10.10",
+            "access-ltp-id": "14",
+            "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/10/service-data/networks/network/3efe6dff-acfc-4d13-a3fd-1177d3c08e88/network-data/",
+            "operational-status": "Created",
+            "model-customization-id": "b44071c8-04fd-4d6b-b6af-772cbfaa1129",
+            "model-invariant-id": "1b9c677d-fddf-4b70-938b-925a7fa57d43",
+            "model-version-id": "218df3c3-50dd-4c26-9e36-4771387bb771",
+            "resource-version": "1535684533349",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "vpn-binding",
+                        "relationship-label": "org.onap.relationships.inventory.PartOf",
+                        "related-link": "/aai/v13/network/vpn-bindings/vpn-binding/pnf1000-vpn1",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "vpn-binding.vpn-id",
+                                "relationship-value": "pnf1000-vpn1"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "vpn-binding.vpn-name",
+                                "property-value": "pnf1000-vpn1"
+                            },
+                            {
+                                "property-key": "vpn-binding.vpn-type",
+                                "property-value": "ethernet"
+                            }
+                        ]
+                    },
+                    {
+                        "related-to": "service-instance",
+                        "relationship-label": "org.onap.relationships.inventory.PartOf",
+                        "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "customer.global-customer-id",
+                                "relationship-value": "Democcy"
+                            },
+                            {
+                                "relationship-key": "service-subscription.service-type",
+                                "relationship-value": "CCVPN"
+                            },
+                            {
+                                "relationship-key": "service-instance.service-instance-id",
+                                "relationship-value": "32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "service-instance.service-instance-name",
+                                "property-value": "SOTNVPNInfra"
+                            }
+                        ]
+                    },
+                    {
+                        "related-to": "vpn-binding",
+                        "relationship-label": "org.onap.relationships.inventory.PartOf",
+                        "related-link": "/aai/v13/network/vpn-bindings/vpn-binding/pnf2000-vpn1",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "vpn-binding.vpn-id",
+                                "relationship-value": "pnf2000-vpn1"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "vpn-binding.vpn-name",
+                                "property-value": "pnf2000-vpn1"
+                            },
+                            {
+                                "property-key": "vpn-binding.vpn-type",
+                                "property-value": "ethernet"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

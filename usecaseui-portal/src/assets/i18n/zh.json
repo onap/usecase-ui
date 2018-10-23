@@ -1,0 +1,22 @@
+{
+  "Language":"--:",
+    "zh":"中文",
+    "en":"英文",
+    
+  "app-component":"--:",
+    "Home":"首页",
+    "Services":"服务",
+    "Services List":"服务列表",
+    "Alarm":"告警",
+    "Monitor":"监控",
+    "Performance":"性能",
+    "Network":"网云",
+
+  "home-component":"--:",
+    "Overall trend":"总体趋势",
+    "SERVICES":"服务",
+    "services":"条服务",
+    "services has been created":"条已创建的服务",
+    "PERFORMANCE":"性能",
+    "VM Performance":"VM 性能"
+}

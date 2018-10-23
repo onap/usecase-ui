@@ -1,0 +1,80 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<nz-layout>
+  <nz-sider nzWidth='260' style="overflow: auto; height: 100vh; position: fixed; left: 0">
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 260px;">
+      <li nz-menu-item nzSelected> 
+        <a routerLink="home">
+          <span title>
+            <i class="anticon anticon-home"></i>
+            <span> {{"Home" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr>
+      <li nz-submenu>
+        <span title><i class="anticon anticon-home"></i> {{"Services" | translate}} </span>
+        <ul>
+          <li nz-menu-item><a routerLink='services/services-list'> {{"Services List" | translate}}</a></li>
+          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> Onboard VNF/VM </a></li>
+        </ul>
+      </li>
+      <!-- <hr>
+      <li nz-menu-item>
+        <a routerLink="alarm">
+          <span title>
+            <i class="anticon anticon-mail"></i>
+            <span> {{"Alarm" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr> -->
+      <li nz-submenu>
+        <span title><i class="anticon anticon-setting"></i> {{"Monitor" | translate}} </span>
+        <ul>
+          <li nz-menu-item><a routerLink='alarm'> {{"Alarm" | translate}} </a></li>
+          <li nz-menu-item><a routerLink='performance/performance-vnf'> {{"Performance" | translate}}</a></li>
+        </ul>
+      </li>
+      <hr>
+      <li nz-menu-item>
+        <a routerLink="network">
+          <span title>
+            <i class="anticon anticon-share-alt"></i>
+            <span> {{"Network" | translate}} </span>
+          </span>
+        </a>
+      </li>
+    </ul>
+    <button (click)="changeLanguage('zh')" >{{"zh" | translate}}</button>
+    <button (click)="changeLanguage('en')" >{{"en" | translate}}</button>
+    <select name="Language" id="" [(ngModel)]="selectLanguage" (change)="changeLanguage1()">
+      <option *ngFor="let item of Language"  value="{{item}}">{{item | translate}}</option>
+    </select>
+
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+      <button nz-button nz-dropdown><span>{{selectLanguage | translate}}</span> <i class="anticon anticon-down"></i></button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="changeLanguage2(item)" *ngFor="let item of Language">
+          <a>{{item | translate}}</a>
+        </li>
+      </ul>
+    </nz-dropdown>
+  </nz-sider>
+  <nz-layout style="margin-left: 260px; padding: 20px 32px; height:100vh; position:relative;">
+      <router-outlet></router-outlet>
+  </nz-layout>
+</nz-layout>

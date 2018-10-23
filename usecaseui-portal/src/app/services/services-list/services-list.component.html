@@ -1,0 +1,185 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<h3 class="title"> Services List </h3>
+<hr>
+<div class="action">
+  <span>Customer: </span>
+  <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+    <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i></button>
+    <ul nz-menu style="max-height: 200px; overflow: auto;">
+      <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
+        <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+      </li>
+    </ul>
+  </nz-dropdown>
+  
+  &nbsp;&nbsp;
+  <span>Service Type: </span>
+  <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+    <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i></button>
+    <ul nz-menu style="max-height: 200px; overflow: auto;">
+      <li nz-menu-item (click)="choseServiceType(item)" *ngFor="let item of serviceTypeList">
+        <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+      </li>
+    </ul>
+  </nz-dropdown>
+
+  <button class="create" nz-button [nzType]="'primary'" (click)="showModal()"><i class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="Create" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </nz-modal>
+  <button class="create" nz-button [nzType]="'primary'" (click)="showModal2()"><i class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
+  <nz-modal [(nzVisible)]="isVisible2" nzTitle="Create" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk2()">
+    <span style="display:inline-block;width:70px;">Service: </span>
+    <nz-select style="width: 165px;" [(ngModel)]="templateTypeSelected" nzAllowClear (ngModelChange)="choseTemplateType()">
+      <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
+      <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
+      <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
+    </nz-select>
+
+    <hr>
+    <span>SOTN VPN: </span>
+    <nz-select style="width: 165px;" [(ngModel)]="template1" nzAllowClear >
+      <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+    </nz-select>
+
+    <span> SITE: </span>
+    <nz-select style="width: 165px;" [(ngModel)]="template2" nzAllowClear >
+      <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+    </nz-select>
+    
+    <div *ngIf="templateTypeSelected == 'CCVPN'">
+      <br>
+      <span style="display:inline-block;width:70px;">SD-WAN: </span>
+      <nz-select style="width: 165px;" [(ngModel)]="template3" nzAllowClear >
+        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+      </nz-select>
+    </div>
+  </nz-modal>
+</div>
+<div class="list">
+    <nz-table *ngIf="1"
+      #nzTable [nzData]="tableData" 
+      nzShowSizeChanger 
+      [nzFrontPagination]="false" 
+      [nzShowQuickJumper]="true" 
+      [nzPageSizeOptions]="[5,10,15,20]" 
+      [nzTotal]= 'total'
+      [(nzPageSize)]="pageSize" 
+      [(nzPageIndex)]='pageIndex'
+      [nzLoading]="loading"
+      [nzSize]="'middle'"
+      [nzScroll]="{ y: '58vh' }"
+      (nzPageIndexChange)="searchData()"
+      (nzPageSizeChange)="searchData(true)">
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th nzWidth="5%">NO</th>
+          <th nzWidth="5%"></th>
+          <th nzWidth="20%" nzShowSort nzSortKey="name">Service Instance Id</th>
+          <th nzWidth="20%">Name</th>
+          <th nzWidth="15%">Type</th>
+          <th nzWidth="20%">Status</th>
+          <th nzWidth="15%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td [nzShowExpand]="data.children[0]" [(nzExpand)]="data.expand"></td>
+            <td>{{data.serviceId}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.type}}</td>
+            <td>
+              <span [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
+                    'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating'}">{{data.status}}</span>
+              <nz-progress *ngIf="data.status!='Active' && data.status!='Closed'" [nzPercent]="data.progress"></nz-progress>
+            </td>
+            <td>
+              <i class="anticon anticon-setting" (click)="scaleService()"></i>
+              <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i>
+              <i class="anticon anticon-delete" (click)="deleteService()"></i>
+            </td>
+          </tr>
+          <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.children">
+            <td></td>
+            <td></td>
+            <td>{{item.serviceId}}</td>
+            <td>{{item.name}}</td>
+            <td colspan="3">{{item.type}}</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+    <nz-table *ngIf="1"
+        #nzTable2 [nzData]="tableData2" 
+        nzShowSizeChanger
+        [nzFrontPagination]="true" 
+        [nzShowQuickJumper]="true" 
+        [nzPageSizeOptions]="[5,10,15,20]" 
+        [(nzPageSize)]="pageSize" 
+        [(nzPageIndex)]='pageIndex'
+        nzSize="middle"
+        [nzScroll]="{ y: '58vh' }">
+        <thead nzSingleSort>
+          <tr>
+            <th nzWidth="5%">NO.</th>
+            <th nzWidth="20%"> Instance ID </th>
+            <th nzWidth="20%">Instance Name</th>
+            <!-- <th nzWidth="10%">Type</th> -->
+            <th nzWidth="25%">Description</th>
+            <th nzWidth="15%">Status</th>
+            <th nzWidth="10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <!-- <ng-template ngFor let-data [ngForOf]="nzTable2.data" let-i="index"> -->
+            <tr *ngFor="let item of nzTable2.data; let i = index; ">
+                <td>{{pageSize*(pageIndex-1) + i+1}}</td>
+                <td>{{item.sotnvpnSer['service-instance-id']}}</td>
+                <td>{{item.sotnvpnSer['service-instance-name']}}</td>
+                <!-- <td>{{item.type}}</td> -->
+                <td>{{item.sotnvpnSer.description}}</td>
+                <td>
+                    <span *ngIf="item.sotnvpnSer.status!='creating' && item.sotnvpnSer.status!='deleting'">{{item.sotnvpnSer.status}}</span>
+                    <span *ngIf="item.sotnvpnSer.status=='creating' || item.sotnvpnSer.status=='deleting'" [ngClass]="{'deleting':item.sotnvpnSer.status=='deleting','creating':item.sotnvpnSer.status=='creating'}">{{item.sotnvpnSer.status}}</span>
+                    <nz-progress *ngIf="item.sotnvpnSer.status=='creating' || item.sotnvpnSer.status=='deleting'" [nzPercent]="item.sotnvpnSer.rate"></nz-progress>
+                </td>
+                <td>
+                    <span title="detail" class="action" [ngClass]="{'cannotclick':item.sotnvpnSer.status=='deleting'||item.sotnvpnSer.status=='creating'}" 
+                      (click)="showDetail(item)"> <i class="anticon anticon-ellipsis"></i> </span>
+                    <span title="delete" class="action" [ngClass]="{'cannotclick':item.sotnvpnSer.status=='deleting'||item.sotnvpnSer.status=='creating'}" 
+                      (click)="deleteInstace(item)"> <i class="anticon anticon-delete"></i> </span>
+                </td>
+            </tr>
+            <!-- </ng-template> -->
+        </tbody>
+    </nz-table>
+</div>
+
+<div class="detailComponent" *ngIf="detailshow">
+  <app-ccvpn-detail [namesTranslate]="namesTranslate" [detailParams]="detailData" (closeDetail)="detailshow = false;"></app-ccvpn-detail>
+</div>
+<div class="createComponent" *ngIf="createshow">
+  <app-ccvpn-creation 
+    [createParams]="createData" 
+    [namesTranslate]="namesTranslate" 
+    (closeCreate)="closeCreate($event)">
+  </app-ccvpn-creation>
+</div>

@@ -1,0 +1,122 @@
+{
+    "allotted-resource": [
+        {
+            "id": "1114feec-1aef-4890-abba-f8f3a906935f",
+            "description": "1114feec-1aef-4890-abba-f8f3a906935f",
+            "selflink": "",
+            "model-invariant-id": "f714feec-1aef-4890-abba-f8f3a906935f",
+            "model-version-id": "709919b7-75fd-4e49-8398-67853323ff55",
+            "resource-version": "1535708424249",
+            "orchestration-status": "",
+            "operational-status": "",
+            "type": "",
+            "role": "spoke",
+            "allotted-resource-name": "sdwan ar",
+            "access-provider-id": "",
+            "access-client-id": "",
+            "access-topology-id": "",
+            "access-node-id": "",
+            "access-ltp-id": "",
+            "cvlan": "",
+            "vpn-name": "SDWANVPNInfra",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "service-instance",
+                        "relationship-label": "org.onap.relationships.inventory.Uses",
+                        "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/35e88f8e-473f-4d88-92f8-6739a42baa23",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "customer.global-customer-id",
+                                "relationship-value": "Democcy"
+                            },
+                            {
+                                "relationship-key": "service-subscription.service-type",
+                                "relationship-value": "CCVPN"
+                            },
+                            {
+                                "relationship-key": "service-instance.service-instance-id",
+                                "relationship-value": "35e88f8e-473f-4d88-92f8-6739a42baa23"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "service-instance.service-instance-name",
+                                "property-value": "SDWANVPNInfra1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "aa14feec-1aef-4890-abba-f8f3a906935f",
+            "description": "aa14feec-1aef-4890-abba-f8f3a906935f",
+            "selflink": "",
+            "model-invariant-id": "97c4a3c6-2943-41af-8717-2f3183f944be",
+            "model-version-id": "44b777ee-9793-465d-8053-d8e86d2e2362",
+            "resource-version": "1536135116833",
+            "orchestration-status": "",
+            "operational-status": "",
+            "type": "",
+            "role": "",
+            "allotted-resource-name": "ston ar",
+            "access-provider-id": "1000",
+            "access-client-id": "3333",
+            "access-topology-id": "100",
+            "access-node-id": "10.10.10.10",
+            "access-ltp-id": "1",
+            "cvlan": "",
+            "vpn-name": "SOTNVPNInfra",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "service-instance",
+                        "relationship-label": "org.onap.relationships.inventory.Uses",
+                        "related-link": "/aai/v13/business/customers/customer/Democcy/service-subscriptions/service-subscription/CCVPN/service-instances/service-instance/32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "customer.global-customer-id",
+                                "relationship-value": "Democcy"
+                            },
+                            {
+                                "relationship-key": "service-subscription.service-type",
+                                "relationship-value": "CCVPN"
+                            },
+                            {
+                                "relationship-key": "service-instance.service-instance-id",
+                                "relationship-value": "32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "service-instance.service-instance-name",
+                                "property-value": "SOTNVPNInfra"
+                            }
+                        ]
+                    },
+                    {
+                        "related-to": "p-interface",
+                        "relationship-label": "org.onap.relationships.inventory.Uses",
+                        "related-link": "/aai/v13/network/pnfs/pnf/pnf1000/p-interfaces/p-interface/nodeId-79.79.79.79-ltpId-2",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "pnf.pnf-name",
+                                "relationship-value": "pnf1000"
+                            },
+                            {
+                                "relationship-key": "p-interface.interface-name",
+                                "relationship-value": "nodeId-79.79.79.79-ltpId-2"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "p-interface.prov-status"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

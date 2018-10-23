@@ -1,0 +1,145 @@
+.title {
+    font: 700 18px/18px "思源黑体";
+    color: #4c5e70;
+    margin-bottom: 18px; 
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #dce1e7;
+    margin-bottom: 20px;
+}
+.content {
+    .services {
+        float: left;
+        background-color: #fff;
+        width: 30%;
+        height: 628px;
+        border-radius: 5px;
+        padding: 28px 22px;
+        h4 {
+            font: 600 16px/16px "Arial";
+            color: #3d4d65;
+            margin-bottom: 58px;
+        }
+        h3 {
+            font: 400 48px/48px "Arial";
+            color: #3fa8eb;
+            text-align: center;
+            span {
+                font-size: 14px;
+            }
+        }
+        p {
+            font: 400 14px/14px "Arial";
+            color: #54657e;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .tip {
+            background-color: #eceff4;
+            color: #3d4d65;
+            font-size: 16px;
+            margin: 0 20px;
+            height: 35px;
+            line-height: 35px;
+            border-radius: 5px;
+        }
+    }
+    .rightcontent {
+        float: left;
+        padding-left: 15px;
+        width: 70%;
+        .rt-content {
+            height: 220px;
+            margin-bottom: 18px;
+            .poerformance {
+                float: left;              
+                background-color: #fff;
+                height: 100%;
+                width: 50%;
+                border-radius: 5px;
+                padding: 28px 26px;
+                h4 {
+                    font: 600 16px/16px "Arial";
+                    color: #3d4d65;
+                    margin-bottom: 34px;  
+                }
+                div {
+                    height: 57px;
+                    position: relative;
+                    margin-bottom: 10px;
+                    h3 {
+                        font: 600 25px/25px "Arial";
+                        color: #3d4d65;
+                        margin-bottom: 10px;
+                    }
+                    p {
+                        font: 400 12px/12px "Arial"; 
+                        color: #54657e
+                    }
+                    img {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+            }
+            .alarm {
+                float: left;
+                background-color: #fff;
+                height: 100%;
+                width: 48%;
+                margin-left: 2%;
+                border-radius: 5px;
+                position: relative;
+                padding: 28px 26px;
+                h4 {
+                    position: absolute;
+                    font: 600 16px/16px "Arial";
+                    color: #3d4d65; 
+                }
+            }
+        }
+        .rb-content {
+            height: 390px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 24px 30px;
+            position: relative;
+            h4 {
+                font: 600 16px/16px "Arial";
+                color: #3d4d65; 
+            }
+            nz-dropdown {
+                position: absolute;
+                top: 24px;
+                right: 30px;
+                button {
+                    width: 170px;
+                    height: 35px;
+                    background-color: #eceff4;
+                    text-align: left;
+                    border-color: #cad3df;
+                    span {
+                        display: inline-block;
+                        width: 120px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-size: 14px;
+                    }
+                    i {
+                        position: absolute;
+                        top: 12px;
+                        right: 12px;
+                    }
+                }
+                //下拉框中的样式在style.less中，下拉框是在body中额外临时生成的
+            }
+            #pfVmChartLine {
+                width: 100%;
+                height: 318px;
+            }
+        }
+    }
+}

@@ -1,0 +1,82 @@
+{
+  "vpn-binding": [
+    {
+      "vpn-id": "pnf1000-vpn1",
+      "vpn-name": "pnf1000-vpn1",
+      "vpn-type": "ethernet",
+      "access-provider-id": "5555",
+      "access-client-id": "6666",
+      "access-topology-id": "100",
+      "src-access-node-id": "10.10.10.10",
+      "src-access-ltp-id": "14",
+      "dst-access-node-id": "10.10.10.10",
+      "dst-access-ltp-id": "2",
+      "operational-status": "Created",
+      "model-customization-id": "",
+      "model-invariant-id": "",
+      "model-version-id": "",
+      "resource-version": "1536135677693",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/connectivities/connectivity/4efe6dff-acfc-4d13-a3fd-1177d3c08e84",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "4efe6dff-acfc-4d13-a3fd-1177d3c08e84"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "SOTNVPNInfra"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "org.onap.relationships.inventory.BindsTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf1000/p-interfaces/p-interface/nodeId-79.79.79.79-ltpId-2",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf1000"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "nodeId-79.79.79.79-ltpId-2"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "org.onap.relationships.inventory.BindsTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf1000/p-interfaces/p-interface/nodeId-79.79.79.79-ltpId-1",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf1000"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "nodeId-79.79.79.79-ltpId-1"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

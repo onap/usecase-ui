@@ -1,0 +1,23 @@
+{   
+    "services":{
+      "number":200,
+      "chartdata":[
+        {"value":125, "name":"user1"},
+        {"value":290, "name":"user2"},
+        {"value":220, "name":"user3"}
+      ]
+    },
+    "performance":{
+      "per_Vnf":154,
+      "per_VmPm":325
+    },
+    "alarm":{
+      "chartdata":[
+        {"value":325,"name":"Active"},
+        {"value":200,"name":"Closed"}
+      ]
+    },
+    "Vm_performance":{
+      "names":["aaaaa","bbbbb","ccccc","ddddd","eeeee"]
+    }
+}

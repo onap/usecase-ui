@@ -1,0 +1,113 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+/* You can add global styles to this file, and also import other style files */
+.ant-dropdown-menu .ant-dropdown-menu-item:hover,
+.ant-dropdown-menu .ant-dropdown-menu-submenu-title:hover {
+  background-color: #3fa8eb;
+}
+nz-table .ant-table-thead > tr > th {
+  color: #3fa8eb;
+}
+nz-table .ant-spin-container nz-pagination ul .ant-pagination-options .ant-pagination-options-size-changer.ant-select {
+  position: absolute;
+  left: 0;
+}
+.detailInformatioin nz-table .ant-table-small {
+  border-color: #dfdfe0;
+  border-right: 0;
+}
+.detailInformatioin nz-table .ant-table-small .ant-table-content {
+  border-color: #dfdfe0;
+}
+.detailInformatioin nz-table .ant-table-small .ant-table-content .ant-table-body > table {
+  padding: 0;
+}
+.detailInformatioin nz-table .ant-table-small .ant-table-content .ant-table-body > table .ant-table-thead > tr > th {
+  background-color: #f0f2f5;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 2px 15px;
+  border-color: #dfdfe0;
+}
+.detailInformatioin nz-table .ant-table-small .ant-table-content .ant-table-body > table .ant-table-tbody > tr > td {
+  background-color: #f0f2f5;
+  font-size: 14px;
+  padding: 2px 15px;
+  color: #323437;
+  border-color: #dfdfe0;
+}
+.ant-calendar-picker .ant-input {
+  background-color: #eceff4;
+  border-color: #9fa9ab;
+}
+nz-pagination ul .ant-pagination-options .ant-pagination-options-size-changer.ant-select {
+  position: absolute;
+  left: 0;
+}
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+a,
+span {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+body {
+  padding: 0 !important;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after {
+  content: "";
+  height: 0;
+  line-height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.deleteModelContent {
+  color: red;
+}
+/* WAN Port */
+.wanPortModalList li {
+  height: 35px;
+}
+.wanPortModalList li > span {
+  display: inline-block;
+  width: 165px;
+  font: 700 14px "Arial";
+  color: #3fa8eb;
+  vertical-align: middle;
+}
+.wanPortModalList li input {
+  width: 165px;
+}

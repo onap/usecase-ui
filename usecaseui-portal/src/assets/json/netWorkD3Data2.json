@@ -1,0 +1,246 @@
+[
+    {
+      "network-resource": {
+        "network-id": "成都市",
+        "pnfs": {
+          "pnf": [
+            {
+              "pnf-name": "双流区"
+            },
+            {
+              "pnf-name": "武侯区"
+            },
+            {
+              "pnf-name": "金牛区"
+            }
+          ]
+        },
+        "tp": [
+          {
+            "p-interface": {
+              "interface-name": "东升街",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "浆洗街",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "抚琴街",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "relationship-list": {
+          "relationship": [
+            {
+              "related-to": "vpn-binding",
+              "related-link": "url of vpn-binding",
+              "relationship-data": {
+                "relationship-key": "vpn-binding.vpn-id",
+                "relationship-value": "some id"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "network-resource": {
+        "network-id": "重庆市",
+        "pnfs": {
+          "pnf": [
+            {
+              "pnf-name": "沙坪坝区"
+            },
+            {
+              "pnf-name": "南岸区"
+            },
+            {
+              "pnf-name": "江北区"
+            }
+          ]
+        },
+        "tp": [
+          {
+            "p-interface": {
+              "interface-name": "万州",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "南川",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "武隆",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "江津",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "合川",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "p-interface": {
+              "interface-name": "巫山",
+              "network-ref": "some ref",
+              "transparent": "some value",
+              "speed-value": "some speed",
+              "relationship-list": {
+                "relationship": [
+                  {
+                    "related-to": "logical-link",
+                    "related-link": "url of logical-link",
+                    "relationship-data": {
+                      "relationship-key": "logical-link.link-name",
+                      "relationship-value": "some name"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "relationship-list": {
+          "relationship": [
+            {
+              "related-to": "vpn-binding",
+              "related-link": "url of vpn-binding",
+              "relationship-data": {
+                "relationship-key": "vpn-binding.vpn-id",
+                "relationship-value": "some id"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]

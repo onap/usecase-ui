@@ -1,0 +1,308 @@
+{
+    "invariantUUID": "5c13f3fb-2744-4635-9f1f-c59c92dc8f70",
+    "uuid": "3a76b1f5-fb0d-4b6b-82d5-0e8a4ebc3838",
+    "name": "SiteService",
+    "type": "Service",
+    "version": "null",
+    "description": "Site Service",
+    "category": "E2E Service",
+    "subcategory": "null",
+    "customizationUuid": "null",
+    "inputs": [
+        {
+            "name": "internet_sitewanport_deviceName",
+            "type": "string",
+            "description": "The device name in the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_description",
+            "type": "string",
+            "description": "The description of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_type",
+            "type": "string",
+            "description": "The gateway option is used for SDWAN connectivity",
+            "isRequired": "true",
+            "defaultValue": "Single Gateway"
+        },
+        {
+            "name": "sitevf_site_longitude",
+            "type": "string",
+            "description": "The longitude of the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_outputBandwidth",
+            "type": "string",
+            "description": "The output bandwidth of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_esn",
+            "type": "string",
+            "description": "Device serial number",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_role",
+            "type": "string",
+            "description": "This is used for SDWAN only",
+            "isRequired": "true",
+            "defaultValue": "dsvpn-hub"
+        },
+        {
+            "name": "internet_sitewanport_providerIpAddress",
+            "type": "string",
+            "description": "The provider IP address of the provider CE",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnvpnattachmentvf_sotncondition_cVLAN",
+            "type": "string",
+            "description": "The cvlan for the site used for ethernet type connectivity.",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_address",
+            "type": "string",
+            "description": "the address of this site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_portType",
+            "type": "string",
+            "description": "the port type of the device.1 GE, 2 FE, 3 XGE, 4 LTE, 5 xDSL(ATM), 6 xSDL(PTM)",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_transportNetworkName",
+            "type": "string",
+            "description": "The transport network of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_inputBandwidth",
+            "type": "string",
+            "description": "The input bandwidth of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_portNumber",
+            "type": "string",
+            "description": "the port number of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_description",
+            "type": "string",
+            "description": "The description of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_transportNetworkName",
+            "type": "string",
+            "description": "The transport network of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_latitude",
+            "type": "string",
+            "description": "The latitude of the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_controlPoint",
+            "type": "string",
+            "description": "The control point of the site,only for sd-wan-edge",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_outputBandwidth",
+            "type": "string",
+            "description": "The output bandwidth of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_name",
+            "type": "string",
+            "description": "the name of this site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_description",
+            "type": "string",
+            "description": "The description of the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnvpnattachmentvf_sotncondition_clientSignal",
+            "type": "string",
+            "description": "The client signal for the site used for client type connectivity.",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_portType",
+            "type": "string",
+            "description": "the port type of the device.1 GE, 2 FE, 3 XGE, 4 LTE, 5 xDSL(ATM), 6 xSDL(PTM)",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_name",
+            "type": "string",
+            "description": "The name of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_deviceName",
+            "type": "string",
+            "description": "The device name in the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_providerIpAddress",
+            "type": "string",
+            "description": "The provider IP address of the provider CE",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_inputBandwidth",
+            "type": "string",
+            "description": "The input bandwidth of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_emails",
+            "type": "string",
+            "description": "the emails of this site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_class",
+            "type": "string",
+            "description": "The class should be VNF/PNF",
+            "isRequired": "true",
+            "defaultValue": "PNF"
+        },
+        {
+            "name": "sdwanvpnattachmentvf_sdwancondition_role",
+            "type": "string",
+            "description": "the role of the site.hub/spoke.",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_ipAddress",
+            "type": "string",
+            "description": "The public IP of the WAN Port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_name",
+            "type": "string",
+            "description": "the name of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sdwanvpnattachmentvf_sdwancondition_sdwanVpnName",
+            "type": "string",
+            "description": "The device Id of the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_portNumber",
+            "type": "string",
+            "description": "the port number of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnvpnattachmentvf_sotncondition_sotnVpnName",
+            "type": "string",
+            "description": "References the SOTN VPN Infra service",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_type",
+            "type": "string",
+            "description": "The type of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sitevf_site_postcode",
+            "type": "string",
+            "description": "The postcode of the site",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_version",
+            "type": "string",
+            "description": "The version of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_vendor",
+            "type": "string",
+            "description": "The vendor of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "mpls_sitewanport_name",
+            "type": "string",
+            "description": "The name of the WAN port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "devicevf_device_systemIp",
+            "type": "string",
+            "description": "The system ip of the device",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "internet_sitewanport_ipAddress",
+            "type": "string",
+            "description": "The public IP of the WAN Port",
+            "isRequired": "true",
+            "defaultValue": "null"
+        }
+    ],
+    "nestedTemplates": []
+}

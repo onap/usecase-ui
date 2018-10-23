@@ -1,0 +1,64 @@
+<!--
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<h3 class="title">
+    <span (click)="performanceShow()" style="cursor:pointer;">Performance VNF</span> 
+    <span (click)="graphicShow()" *ngIf="graphicshow">> Graphic list </span> 
+    <span *ngIf="detailshow">> Details </span> 
+</h3>
+<hr>
+<div class="select" [@showHideAnimate]="state">
+    <span>Source Name: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <ul nz-menu>
+            <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+    &nbsp;&nbsp;
+    <span>ReportingEntityName: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{ReportingEntityNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <ul nz-menu>
+            <li nz-menu-item (click)="choseReportingEntityName(item)" *ngFor="let item of ReportingEntityNameList">
+                <a>{{item}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+    <button class="submit" nz-button [nzType]="'primary'" (click)="submit()"><i class="anticon anticon-plus-circle-o"></i><span>Submit</span></button>
+</div>
+<div class="content" [@showHideAnimate]="state">
+    <div class="vnfs">
+        <div class="vnf" *ngFor="let item of vnfsData" (click)="graphicShow()">
+            <img src="../../../assets/images/VNF3.png" alt="VNF3">
+            <h3>Mfvs_MMEManaxxdeafsfdf</h3>
+            <div class="intro">
+                Mfvs_MMEMa naxxdfdafa fafad a afeaf sfdff doafe oghaiod aaafeageageagfdavzvdagewag
+            </div>
+        </div>
+        <div class="empty" *ngFor="let empty of emptys"></div>   
+    </div>
+    <div class="pages">
+        <nz-pagination [(nzPageIndex)]="current" [nzTotal]="500" [nzSize]="'small'" [nzPageSize]="10" [nzPageSizeOptions]="[10,15,20,25,30]" nzShowSizeChanger nzShowQuickJumper></nz-pagination>
+    </div>
+</div>
+<div [@showHideAnimate]="state2">
+    <app-graphiclist  (detailData)="detailShow($event)"></app-graphiclist>
+</div>
+<div [@showHideAnimate]="state3">
+    <app-details [detailId]="detailId"></app-details>
+</div>

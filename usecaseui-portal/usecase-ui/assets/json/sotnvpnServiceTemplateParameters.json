@@ -1,0 +1,225 @@
+{
+    "invariantUUID": "21886a96-0664-47a3-beae-766952f2059f",
+    "uuid": "54836196-c411-4690-af98-900c1c3aadd7",
+    "name": "SOTNVPNInfraService",
+    "type": "Service",
+    "version": "null",
+    "description": "SOTN VPN Infra Service",
+    "category": "E2E Service",
+    "subcategory": "null",
+    "customizationUuid": "null",
+    "inputs": [
+        {
+            "name": "sotnconnectivity0_eir",
+            "type": "string",
+            "description": "The eir for SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_cir",
+            "type": "string",
+            "description": "The cir for SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_endTime",
+            "type": "string",
+            "description": "End Time",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_ebs",
+            "type": "string",
+            "description": "The ebs for SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_startTime",
+            "type": "string",
+            "description": "Start Time",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_dualLink",
+            "type": "boolean",
+            "description": "is Active/standby enabled",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_reroute",
+            "type": "boolean",
+            "description": "Whether to support automatic rerouting",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_cbs",
+            "type": "string",
+            "description": "The cbs for SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_name",
+            "type": "string",
+            "description": "the name of the SOTN connectivity",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_SLS",
+            "type": "string",
+            "description": "Business Service Level",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_description",
+            "type": "string",
+            "description": "The description of the SOTN connectivity",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_couplingFlag",
+            "type": "boolean",
+            "description": "The couplingFlag for SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_colorAware",
+            "type": "boolean",
+            "description": "The colorAware of the SOTN connectivity. Only for Ethernet type",
+            "isRequired": "true",
+            "defaultValue": "null"
+        },
+        {
+            "name": "sotnconnectivity0_COS",
+            "type": "string",
+            "description": "Business Class of Service of VPN",
+            "isRequired": "true",
+            "defaultValue": "standard"
+        }
+    ],
+    "nestedTemplates": [
+        {
+            "invariantUUID": "1b9c677d-fddf-4b70-938b-925a7fa57d43",
+            "uuid": "218df3c3-50dd-4c26-9e36-4771387bb771",
+            "name": "SOTNConnectivity",
+            "type": "VL",
+            "version": "1.0",
+            "description": "Represents a sotn Connectivity",
+            "category": "Generic",
+            "subcategory": "Infrastructure",
+            "customizationUuid": "b44071c8-04fd-4d6b-b6af-772cbfaa1129",
+            "inputs": [
+                {
+                    "name": "sotnconnectivity0_eir",
+                    "type": "string",
+                    "description": "The eir for SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_cir",
+                    "type": "string",
+                    "description": "The cir for SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_endTime",
+                    "type": "string",
+                    "description": "End Time",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_ebs",
+                    "type": "string",
+                    "description": "The ebs for SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_startTime",
+                    "type": "string",
+                    "description": "Start Time",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_dualLink",
+                    "type": "boolean",
+                    "description": "is Active/standby enabled",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_reroute",
+                    "type": "boolean",
+                    "description": "Whether to support automatic rerouting",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_cbs",
+                    "type": "string",
+                    "description": "The cbs for SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_name",
+                    "type": "string",
+                    "description": "the name of the SOTN connectivity",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_SLS",
+                    "type": "string",
+                    "description": "Business Service Level",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_description",
+                    "type": "string",
+                    "description": "The description of the SOTN connectivity",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_couplingFlag",
+                    "type": "boolean",
+                    "description": "The couplingFlag for SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_colorAware",
+                    "type": "boolean",
+                    "description": "The colorAware of the SOTN connectivity. Only for Ethernet type",
+                    "isRequired": "true",
+                    "defaultValue": "null"
+                },
+                {
+                    "name": "sotnconnectivity0_COS",
+                    "type": "string",
+                    "description": "Business Class of Service of VPN",
+                    "isRequired": "true",
+                    "defaultValue": "standard"
+                }
+            ],
+            "nestedTemplates": []
+        }
+    ]
+}
