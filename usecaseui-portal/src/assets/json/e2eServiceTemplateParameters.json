@@ -1,0 +1,71 @@
+{
+  "templateParameters": {
+    "inputs": [
+      {
+        "name": "11111",
+        "type": "string",
+        "description": "3333333",
+        "defaultValue": "44444444",
+        "isRequired": "",
+        "readonly": ""
+      },
+      {
+        "name": "22222",
+        "type": "boolean",
+        "description": "3333333",
+        "defaultValue": "44444444",
+        "isRequired": "",
+        "readonly": ""
+      },
+      {
+        "name": "33333",
+        "type": "integer",
+        "description": "3333333",
+        "defaultValue": "44444444",
+        "isRequired": "",
+        "readonly": ""
+      },
+      {
+        "name": "44444",
+        "type": "vf_location",
+        "description": "3333333",
+        "defaultValue": "44444444",
+        "isRequired": "",
+        "readonly": ""
+      },
+      {
+        "name": "55555",
+        "type": "sdn_controller",
+        "description": "3333333",
+        "defaultValue": "44444444",
+        "isRequired": "",
+        "readonly": ""
+      }
+    ],
+    "nestedTemplate": [
+      {
+        "name": "demo_vims_e2e_zte",
+        "invariantUUID": "1",
+        "uuid": "1",
+        "type": "",
+        "parameters": "",
+        "inputs": [
+          {
+            "type": "vf_location",
+            "description": "",
+            "name": "r1_spgw_zte*",
+            "isRequired": "",
+            "value": "1111"
+          },
+          {
+            "type": "sdn_controller",
+            "description": "",
+            "name": "sdncontroller*",
+            "isRequired": "",
+            "value": "22222"
+          }
+        ]
+      }
+    ]
+  }
+}
