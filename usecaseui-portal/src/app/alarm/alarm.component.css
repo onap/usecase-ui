@@ -24,6 +24,13 @@ hr {
   background-color: #dce1e7;
   margin-bottom: 20px;
 }
+.select {
+  clear: both;
+}
+.select .query_criteria {
+  width: 75%;
+  float: left;
+}
 .select .query_criteria span {
   display: inline-block;
   font: 700 14px "Arial";
@@ -64,6 +71,12 @@ hr {
   color: #fff;
   font-weight: 400;
 }
+.select .thumbnail {
+  width: 25%;
+  height: 90px;
+  float: left;
+  margin-top: 8px;
+}
 ::ng-deep .vertical-center-modal {
   display: flex;
   align-items: center;
@@ -72,19 +85,14 @@ hr {
 ::ng-deep .vertical-center-modal .ant-modal {
   top: 0;
 }
-.content {
-  clear: both;
-  padding-top: 20px;
-}
-.content .title {
+.titles {
   border-radius: 5px 5px 5px 5px;
   background-color: #fff;
   height: 106px;
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 20px;
-  clear: both;
 }
-.content .title ul {
+.titles ul {
   display: flex;
   display: -webkit-flex;
   justify-content: space-around;
@@ -95,29 +103,27 @@ hr {
   width: 70%;
   float: left;
 }
-.content .title ul li {
+.titles ul li {
   list-style: none;
   padding-left: 32px;
   width: 100%;
   border-left: 1px solid #eceff4;
 }
-.content .title ul li h5 {
+.titles ul li h5 {
   font: 500 14px "Arial";
   color: #3d4d65;
 }
-.content .title ul li p {
+.titles ul li p {
   font: 500 24px "Arial";
   color: #3fa8eb;
   margin-bottom: 0;
 }
-.content .title ul li:nth-child(1) {
+.titles ul li:nth-child(1) {
   border: none;
 }
-.content .title .thumbnail {
-  width: 25%;
-  height: 90px;
-  float: left;
-  margin-top: 8px;
+.content {
+  clear: both;
+  padding-top: 20px;
 }
 .content .tablelist {
   background-color: #fff;
