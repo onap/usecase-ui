@@ -14,48 +14,65 @@
     limitations under the License.
 -->
 <h3 class="title"> Onboard VNF </h3>
-<hr>
-<div class="list">
-    <nz-table #nzTable [nzData]="tableData" 
-        nzShowSizeChanger
-        [nzFrontPagination]="false" 
-        [nzShowQuickJumper]="true" 
-        [nzPageSizeOptions]="[5,10,15,20]" 
-        [nzTotal]= 'total'
-        [(nzPageSize)]="pageSize" 
-        [(nzPageIndex)]='pageIndex'
-        [nzLoading]="loading"
-        nzSize="middle"
-        (nzPageIndexChange)="searchData()"
-        (nzPageSizeChange)="searchData(true)">
-        <thead (nzSortChange)="sort($event)" nzSingleSort>
-            <tr>
-            <th nzWidth="5%">NO</th>
-            <th nzWidth="20%" nzShowSort nzSortKey="name"> Name </th>
-            <th nzWidth="20%">Type</th>
-            <th nzWidth="15%">Version</th>
-            <th nzWidth="20%">Status</th>
-            <th nzWidth="15%">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
-            <tr *ngFor="let item of nzTable.data; let i = index; ">
-                <td>{{i+1}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.type}}</td>
-                <td>{{item.version}}</td>
-                <td>
-                    <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                        'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
-                    <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
-                </td>
-                <td>
-                    <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i>
-                    <i class="anticon anticon-delete" (click)="deleteService()"></i>
-                </td>
-            </tr>
-            <!-- </ng-template> -->
-        </tbody>
-    </nz-table>
-</div>
+<nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+    <p class="ant-upload-drag-icon">
+      <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+    </p>
+    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+    <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+</nz-upload>
+<button nz-button [nzLoading]="uploading" (click)="handleUpload()" [disabled]="fileList.length == 0"
+    style="margin-top: 16px">
+    {{ uploading ? 'Uploading' : 'Start Upload' }}
+</button>
+<nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)">
+                <div class="list">
+                        <nz-table #nzTable [nzData]="tableData" 
+                            nzShowSizeChanger
+                            [nzFrontPagination]="false" 
+                            [nzShowQuickJumper]="true" 
+                            [nzPageSizeOptions]="[5,10,15,20]" 
+                            [nzTotal]= 'total'
+                            [(nzPageSize)]="pageSize" 
+                            [(nzPageIndex)]='pageIndex'
+                            [nzLoading]="loading"
+                            nzSize="middle"
+                            (nzPageIndexChange)="searchData()"
+                            (nzPageSizeChange)="searchData(true)">
+                            <thead (nzSortChange)="sort($event)" nzSingleSort>
+                                <tr>
+                                <th nzWidth="5%">NO</th>
+                                <th nzWidth="20%" nzShowSort nzSortKey="name"> Name </th>
+                                <th nzWidth="20%">Type</th>
+                                <th nzWidth="20%">Version</th>
+                                <th nzWidth="15%">Onboarding State</th>
+                                <th nzWidth="20%">Operational State</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+                                <tr *ngFor="let item of nzTable.data; let i = index; ">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.type}}</td>
+                                    <td>{{item.version}}</td>
+                                    <td>
+                                        <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
+                                            'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
+                                        <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
+                                    </td>
+                                    <td>
+                                        <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
+                                        <i class="anticon anticon-upload" #upload_icon id="upicon" (click)="updataService(upload_icon)"></i>
+                                        <i class="anticon anticon-download"></i>
+                                        <i class="anticon anticon-delete" (click)="deleteService(i)"></i>
+                                    </td>
+                                </tr>
+                                <!-- </ng-template> -->
+                            </tbody>
+                        </nz-table>
+                    </div>
+        </nz-tab>
+    </nz-tabset>
+
