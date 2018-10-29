@@ -16,19 +16,6 @@
 <h3 class="title"> <span (click)="detailHide()" style="cursor:pointer;">Alarm</span> <span *ngIf="detailshow">>
     Details</span> </h3>
 <hr>
-<div class="titles" [@showHideAnimate]="state">
-<ul>
-    <li>
-        <h5>Closed</h5>
-        <p>{{alarmList.closed }}</p>
-    </li>
-    <li>
-        <h5>Action</h5>
-        <p>{{alarmList.Action }}</p>
-    </li>
-</ul>
-
-</div>
 <div class="select" [@showHideAnimate]="state">
 <div class="query_criteria">
     <span>Source Name: </span>
@@ -66,15 +53,26 @@
 
     <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button>
 </div>
-<div class="thumbnail" (click)="showModalMiddle()">
-    <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
 </div>
-</div>
-<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="isVisibleMiddle" nzTitle="Alarm Chart" (nzOnCancel)="handleCancelMiddle()"
-(nzOnOk)="handleOkMiddle()">
-<app-line [initData]="alarmChartInitBig" [chartData]="alarmChartDataBig"></app-line>
-</nz-modal>
 <div class="content" [@showHideAnimate]="state">
+<div class="title">
+    <ul>
+        <li><h5>All</h5> <p>{{alarmList.all }}</p></li>
+        <li><h5>Closed</h5> <p>{{alarmList.closed }}</p></li>
+        <li><h5>Alarm</h5> <p>{{alarmList.alarm }}</p></li>
+    </ul>
+</div>
+<div class="chart">
+    <h3>Alarm Chart</h3>
+    <nz-radio-group [(ngModel)]="size">
+        <label nz-radio-button nzValue="day"> day </label>
+        <label nz-radio-button nzValue="month">month</label>
+      </nz-radio-group>
+    <div class="AlarmChart" [ngClass]="{'alarmChart-active':alarmShow}">
+        <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
+    </div>
+    <button class="open-close" [ngClass]="{'open-close-active':alarmShow}" (click)="alarmShow=!alarmShow"></button>
+</div>
 <div class="tablelist">
     <nz-table #nzTable [nzData]="list" [nzPageSize]="10" nzShowSizeChanger nzShowQuickJumper [nzPageSizeOptions]="[5,10,15,20]"
         nzSize="middle">
@@ -90,7 +88,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of list; let i = index;">
+            <tr *ngFor="let item of nzTable.data; let i = index;">
                 <td>{{i+1}}</td>
                 <td>{{item.sourceName}}</td>
                 <td>{{item.priority}}</td>

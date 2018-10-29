@@ -25,109 +25,128 @@ hr {
     margin-bottom: 20px;
 }
 .select {
-    clear: both;
-    .query_criteria {
-        width: 75%;
-        float: left;
-        span {
-            display: inline-block;
-            font: 700 14px "Arial";
-            color: #4c5e70;
-        }
-        nz-dropdown {
-            vertical-align: middle;
-            :hover{
-                border-color: #147dc2;
-            }
-            button {
-                width: 165px;
-                height: 30px;
-                background-color: #eceff4;
-                text-align: left;
-                border-color: #9fa9ab;
-                span {
-                    font-weight: 400;
-                    display: inline-block;
-                    width: 120px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    padding-top: 2px;
-                }
-                i {
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                }
-            }
-            //下拉框中的样式在style.less中，下拉框是在body中额外临时生成的
-        }
-        .search {
-            margin-left: 20px;       
-            height: 30px;
-            padding: 0 10px;
-            span {
-                color: #fff;
-                font-weight: 400;
-            }
-        }
-    }
-    .thumbnail {
-        width: 25%;
-        height: 90px;
-        float: left;
-        margin-top: 8px;
-    }
-}
-// model style
-::ng-deep .vertical-center-modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-::ng-deep .vertical-center-modal .ant-modal {
-    top: 0;
-}
-.titles {
-    border-radius: 5px 5px 5px 5px;
-    background-color: #fff;
-    height: 106px;
-    border-bottom: 1px solid #f0f0f0;
     margin-bottom: 20px;
-    // clear: both;
-    ul {
-        display: flex;
-        display: -webkit-flex; 
-        justify-content: space-around;
-        align-items: center;
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 70%;
-        float: left;
-        li {
-            list-style: none;
-            padding-left: 32px;
-            width: 100%;
-            border-left: 1px solid #eceff4;
-            h5 {
-                font: 500 14px "Arial";
-                color: #3d4d65;
-            }
-            p {
-                font: 500 24px "Arial";
-                color: #3fa8eb;
-                margin-bottom: 0;
-            }
+    span {
+        display: inline-block;
+        font: 700 14px "Arial";
+        color: #4c5e70;
+    }
+    nz-dropdown {
+        vertical-align: middle;
+        :hover{
+            border-color: #147dc2;
         }
-        li:nth-child(1){
-            border: none;
+        button {
+            width: 165px;
+            height: 30px;
+            background-color: #eceff4;
+            text-align: left;
+            border-color: #9fa9ab;
+            span {
+                font-weight: 400;
+                display: inline-block;
+                width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-top: 2px;
+            }
+            i {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
         }
     }
-  
+    .search {
+        margin-left: 20px;       
+        height: 30px;
+        padding: 0 10px;
+        span {
+            color: #fff;
+            font-weight: 400;
+        }
+    }
+    
 }
 .content {
-    clear: both;
-    padding-top: 20px;
+    .title {
+        border-radius: 5px 5px 0 0;
+        background-color: #fff;
+        height: 106px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 0;
+        ul {
+            display: flex;
+            display: -webkit-flex; 
+            justify-content: space-around;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            li {
+                list-style: none;
+                padding-left: 32px;
+                width: 100%;
+                border-left: 1px solid #eceff4;
+                h5 {
+                    font: 500 14px "Arial";
+                    color: #3d4d65;
+                }
+                p {
+                    font: 500 24px "Arial";
+                    color: #3fa8eb;
+                    margin-bottom: 0;
+                }
+            }
+            li:nth-child(1){
+                border: none;
+            }
+        }
+    }
+    .chart {
+        background-color: #fff;
+        position: relative;
+        padding-bottom: 24px;
+        h3 {
+            font: 700 18px/18px "思源黑体";
+            color: #4c5e70;
+            padding: 20px 15px;
+            margin: 0;
+            width: 12%;
+            display: inline-block;
+        }
+        .AlarmChart {
+            height: 0px;
+            overflow: hidden;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.3s linear;
+        }
+        .alarmChart-active {
+            height: 386px;
+        }
+        .open-close {
+            width: 50px;
+            height: 25px;
+            position: absolute;
+            left: 50%;
+            bottom: 0px;
+            transform: translate(-25px,0);
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #fff;
+            background: url(../../assets/images/open-close.png) no-repeat center -27px;
+            &:hover {
+                background: url(../../assets/images/open-close.png) no-repeat center -79px;
+            }
+        }
+        .open-close-active {
+            background: url(../../assets/images/open-close.png) center -1px;
+            &:hover {
+                background: url(../../assets/images/open-close.png) no-repeat center -53px;
+            }
+        }
+    }
     .tablelist {
         background-color: #fff;
         padding: 24px 10px 0px;
