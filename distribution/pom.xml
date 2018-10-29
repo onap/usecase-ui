@@ -81,7 +81,7 @@
                     <directory>../usecaseui-portal/</directory>
                     <filtering>false</filtering>
                     <includes>
-                      <include>usecase-ui</include>
+                      <include>usecase-ui.war</include>
                     </includes>
                   </resource>
                 </resources>
@@ -145,7 +145,7 @@
                     <directory>../usecaseui-portal/</directory>
                     <filtering>false</filtering>
                     <includes>
-                      <include>usecase-ui</include>
+                      <include>usecase-ui.war</include>
                     </includes>
                   </resource>
                 </resources>
