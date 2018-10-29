@@ -1,0 +1,46 @@
+
+<div class="content">
+  <div class="header">
+      <h2>HEADER INFORMATION</h2>
+      <hr> <span class="tildeimg"></span>
+      <div class="headerlist">
+          <div class="leftlist">
+              <p> <span>Version :</span>{{detailData.Header.version}}</p>
+              <p> <span>Domain :</span>{{detailData.Header.domain}}</p>
+              <p> <span>EventType :</span>{{detailData.Header.eventType}}</p>
+              <p> <span>Event Name :</span>{{detailData.Header.eventName}}</p>
+              <p> <span>Event Id :</span>{{detailData.Header.eventId}}</p>
+              <p> <span>NfcNamingCode :</span>{{detailData.Header.nfcNamingCode}}</p>
+
+              
+          </div>
+          <div class="rightlist">
+                <p> <span>NfNamingCode :</span>{{detailData.Header.nfNamingCode}}</p>
+                <p> <span>SourceName :</span>{{detailData.Header.sourceName}}</p>
+                <p> <span>SourceId :</span>{{detailData.Header.sourceId}}</p>
+                <p> <span>ReportingEntityName :</span>{{detailData.Header.reportingEntityName}}</p>
+                <p> <span>ReportingEntityId :</span>{{detailData.Header.reportingEntityId}}</p>
+                <p> <span>ReportTime :</span>{{detailData.Header.reportTime}}</p>
+          </div>
+      </div>
+  </div>
+  <hr> 
+  <button [ngClass]="{'buttonActive':moredetailShow}" (click)="slideUpDown()"></button>
+  <h2 class="detailtitle">DETAIL INFORMATION</h2>
+  <div class="detailInformatioin" [@slideUpDown]='state'>
+      <nz-table #detailTable [nzData]="detailData.additional" [nzShowPagination]="false" nzSize="small" [nzBordered]="true">
+          <thead>
+              <tr>
+                  <th nzWidth="18%">Item Name</th>
+                  <th >Item Value</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data of detailData.additional">
+                  <td>{{data.name}}</td>
+                  <td>{{data.value}}</td>
+              </tr>
+          </tbody>
+      </nz-table>
+  </div>
+</div>
