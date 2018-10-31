@@ -47,6 +47,7 @@ import {PathLocationStrategy, LocationStrategy, HashLocationStrategy} from '@ang
 import { MyhttpService } from './myhttp.service';
 import { onboardService } from './onboard.service';
 import { networkHttpservice } from './networkHttpservice.service';
+import { PerformanceDetailsComponent } from './components/performance-details/performance-details.component';
 
 @NgModule({
   providers   : [ 
@@ -78,6 +79,7 @@ import { networkHttpservice } from './networkHttpservice.service';
     CcvpnNetworkComponent,
     CcvpnDetailComponent,
     CcvpnCreationComponent,
+    PerformanceDetailsComponent,
   ],
   imports: [
     BrowserModule,
