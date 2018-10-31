@@ -136,3 +136,21 @@ hr {
     border-radius: 5px;
     box-shadow: 0px 0px 20px #000;
 }
+#togo{
+    width: 600px;
+    height:400px;
+    border:1px solid #ccc;
+    user-select: none;
+}
+#togo text{
+    font-size:10px;
+    fill:#1A2C3F;
+    text-anchor: middle;
+}
+
+#togo .link{
+    stroke:#FFC000;
+}
+#togo .node-title{
+    font-size: 14px;
+}
