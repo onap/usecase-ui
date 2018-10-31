@@ -24,6 +24,7 @@ export class LineComponent implements OnInit {
       tooltip : this.initData.option.tooltip,
       icon:'circle',
       legend: this.initData.option.legend,
+      dataZoom: this.initData.option.dataZoom,
       grid: {
           left: '1%',
           right: '3%',
