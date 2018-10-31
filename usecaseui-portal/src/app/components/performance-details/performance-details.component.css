@@ -1,0 +1,89 @@
+.content .header {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 30px 28px 0;
+  position: relative;
+  margin-bottom: 30px;
+  border: 1px solid #e4e4e4;
+}
+.content .header hr {
+  margin: 0;
+  border: none;
+  height: 1px;
+  background-color: #e4e4e4;
+}
+.content .header h2 {
+  font: 700 24px/18px 'Times New Roman';
+  color: #3fa8eb;
+  text-align: center;
+  margin-bottom: 27px;
+}
+.content .header span.tildeimg {
+  position: absolute;
+  left: 50%;
+  top: 71px;
+  width: 60px;
+  height: 10px;
+  transform: translate(-30px, 0);
+  background: url(../../../assets/images/tildeimg.png) no-repeat center center;
+  background-color: #fff;
+}
+.content .header .headerlist {
+  display: flex;
+}
+.content .header .headerlist div {
+  width: 100%;
+}
+.content .header .headerlist div p {
+  font: 400 14px 'Arial';
+  color: #323437;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 18px 0 15px;
+}
+.content .header .headerlist div p span {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+  font: 700 14px 'Arial';
+  color: #3fa8eb;
+}
+.content hr {
+  margin: 0;
+  border: none;
+  height: 1px;
+  background-color: #e4e4e4;
+}
+.content button {
+  width: 88px;
+  height: 22px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-44px, 0);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  background: url(../../../assets/images/open-close2.png) no-repeat center -22px;
+}
+.content button:hover {
+  background: url(../../../assets/images/open-close2.png) no-repeat center -66px;
+}
+.content .buttonActive {
+  transform: translate(-44px, -22px);
+  background: url(../../../assets/images/open-close2.png) no-repeat center 0px;
+}
+.content .buttonActive:hover {
+  background: url(../../../assets/images/open-close2.png) no-repeat center -44px;
+}
+.content h2.detailtitle {
+  font: 700 24px/18px 'Times New Roman';
+  color: #3fa8eb;
+  text-align: center;
+  margin-bottom: 15px;
+  padding-top: 25px;
+}
+.content .detailInformatioin {
+  overflow: hidden;
+}

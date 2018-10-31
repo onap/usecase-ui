@@ -1,0 +1,47 @@
+
+<div class="content">
+    <div class="header">
+        <h2>HEADER INFORMATION</h2>
+        <hr> <span class="tildeimg"></span>
+        <div class="headerlist">
+            <div class="leftlist">
+                <p> <span>Version :</span>{{datailheaderdata.version}}</p>
+                <p> <span>Domain :</span>{{datailheaderdata.domain}}</p>
+                <p> <span>EventType :</span>{{datailheaderdata.eventType}}</p>
+                <p> <span>Event Name :</span>{{datailheaderdata.eventName}}</p>
+                <p> <span>Event Id :</span>{{datailheaderdata.eventId}}</p>
+                <p> <span>NfcNamingCode :</span>{{datailheaderdata.nfcNamingCode}}</p>
+  
+                
+            </div>
+            <div class="rightlist">
+                  <p> <span>NfNamingCode :</span>{{datailheaderdata.nfNamingCode}}</p>
+                  <p> <span>SourceName :</span>{{datailheaderdata.sourceName}}</p>
+                  <p> <span>SourceId :</span>{{datailheaderdata.sourceId}}</p>
+                  <p> <span>ReportingEntityName :</span>{{datailheaderdata.reportingEntityName}}</p>
+                  <p> <span>ReportingEntityId :</span>{{datailheaderdata.reportingEntityId}}</p>
+                  <p> <span>ReportTime :</span>{{datailheaderdata.reportTime}}</p>
+            </div>
+        </div>
+    </div>
+    <hr> 
+    <button [ngClass]="{'buttonActive':moredetailShow}" (click)="slideUpDown()"></button>
+    <h2 class="detailtitle">DETAIL INFORMATION</h2>
+    <div class="detailInformatioin" [@slideUpDown]='state'>
+        <nz-table #detailTable [nzData]="dataillistdata" [nzShowPagination]="false" nzSize="small" [nzBordered]="true">
+            <thead>
+                <tr>
+                    <th nzWidth="18%">Item Name</th>
+                    <th >Item Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of dataillistdata">
+                    <td>{{data.name}}</td>
+                    <td>{{data.value}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+  </div>
+  
