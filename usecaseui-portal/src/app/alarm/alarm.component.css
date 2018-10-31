@@ -25,31 +25,27 @@ hr {
   margin-bottom: 20px;
 }
 .select {
-  clear: both;
+  margin-bottom: 20px;
 }
-.select .query_criteria {
-  width: 75%;
-  float: left;
-}
-.select .query_criteria span {
+.select span {
   display: inline-block;
   font: 700 14px "Arial";
   color: #4c5e70;
 }
-.select .query_criteria nz-dropdown {
+.select nz-dropdown {
   vertical-align: middle;
 }
-.select .query_criteria nz-dropdown :hover {
+.select nz-dropdown :hover {
   border-color: #147dc2;
 }
-.select .query_criteria nz-dropdown button {
+.select nz-dropdown button {
   width: 165px;
   height: 30px;
   background-color: #eceff4;
   text-align: left;
   border-color: #9fa9ab;
 }
-.select .query_criteria nz-dropdown button span {
+.select nz-dropdown button span {
   font-weight: 400;
   display: inline-block;
   width: 120px;
@@ -57,42 +53,28 @@ hr {
   text-overflow: ellipsis;
   padding-top: 2px;
 }
-.select .query_criteria nz-dropdown button i {
+.select nz-dropdown button i {
   position: absolute;
   top: 10px;
   right: 10px;
 }
-.select .query_criteria .search {
+.select .search {
   margin-left: 20px;
   height: 30px;
   padding: 0 10px;
 }
-.select .query_criteria .search span {
+.select .search span {
   color: #fff;
   font-weight: 400;
 }
-.select .thumbnail {
-  width: 25%;
-  height: 90px;
-  float: left;
-  margin-top: 8px;
-}
-::ng-deep .vertical-center-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-::ng-deep .vertical-center-modal .ant-modal {
-  top: 0;
-}
-.titles {
-  border-radius: 5px 5px 5px 5px;
+.content .title {
+  border-radius: 5px 5px 0 0;
   background-color: #fff;
   height: 106px;
   border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
-.titles ul {
+.content .title ul {
   display: flex;
   display: -webkit-flex;
   justify-content: space-around;
@@ -100,30 +82,68 @@ hr {
   padding: 0;
   margin: 0;
   height: 100%;
-  width: 70%;
-  float: left;
 }
-.titles ul li {
+.content .title ul li {
   list-style: none;
   padding-left: 32px;
   width: 100%;
   border-left: 1px solid #eceff4;
 }
-.titles ul li h5 {
+.content .title ul li h5 {
   font: 500 14px "Arial";
   color: #3d4d65;
 }
-.titles ul li p {
+.content .title ul li p {
   font: 500 24px "Arial";
   color: #3fa8eb;
   margin-bottom: 0;
 }
-.titles ul li:nth-child(1) {
+.content .title ul li:nth-child(1) {
   border: none;
 }
-.content {
-  clear: both;
-  padding-top: 20px;
+.content .chart {
+  background-color: #fff;
+  position: relative;
+  padding-bottom: 24px;
+}
+.content .chart h3 {
+  font: 700 18px/18px "思源黑体";
+  color: #4c5e70;
+  padding: 20px 15px;
+  margin: 0;
+  width: 12%;
+  display: inline-block;
+}
+.content .chart .AlarmChart {
+  height: 0px;
+  overflow: hidden;
+  border-bottom: 1px solid #f5f5f5;
+  transition: all 0.3s linear;
+}
+.content .chart .alarmChart-active {
+  height: 386px;
+}
+.content .chart .open-close {
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-25px, 0);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  background: url(../../assets/images/open-close.png) no-repeat center -27px;
+}
+.content .chart .open-close:hover {
+  background: url(../../assets/images/open-close.png) no-repeat center -79px;
+}
+.content .chart .open-close-active {
+  background: url(../../assets/images/open-close.png) center -1px;
+}
+.content .chart .open-close-active:hover {
+  background: url(../../assets/images/open-close.png) no-repeat center -53px;
 }
 .content .tablelist {
   background-color: #fff;
