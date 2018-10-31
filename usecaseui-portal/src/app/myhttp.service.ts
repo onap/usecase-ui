@@ -21,15 +21,19 @@ export class MyhttpService {
   //   customers:this.baseUrl + "/customers.json?",
   //   serviceType:this.baseUrl + "/serviceTypes.json?*_*",
   //   servicesCategory:this.baseUrl + "/configuration_files/servicesCategory.json?",
-  //   serviceInstanceList:this.baseUrl + "/instanceTableData4.json?",
+  //   serviceInstanceList:this.baseUrl + "/instanceTableData.json?",
   //   serviceTemplates:this.baseUrl + "/serviceTemplates2.json?",
-  //   templateCategory:this.baseUrl + "/configuration_files/templateCategory.json?",
   //   templateParameters:this.baseUrl + "/*_*" + "ServiceTemplateParameters.json?",
+  //   vimInfo:this.baseUrl + "/vimInfo.json?",
+  //   sdnControllers:this.baseUrl + "/sdnControllers.json?",
   //   addressData: this.baseUrl + "/siteAddressData.json?",
-  //   createService:this.baseUrl + "/createService.json?",
+  //   createService:this.baseUrl + "/createService.json",
+  //   ns_createService: this.baseUrl + "/createNsService.json?",
+  //   ns_createService2: this.baseUrl + "/createNsService2.json",
   //   inputNamesTransform: this.baseUrl + "/configuration_files/inputNamesTranslate.json?",
   //   deleteService: this.baseUrl + "/deleteService.json?",
   //   progress:this.baseUrl + "/progress.json?",
+  //   nsProgress:this.baseUrl + "nsProgress.json?",
 
   //   allottedResource:this.baseUrl + "/allotted-resources2.json?",
   //   pnfDetail:this.baseUrl + "/pnfdetail-domain.json?",
@@ -54,13 +58,18 @@ export class MyhttpService {
     servicesCategory: "./assets/json/configuration_files/servicesCategory.json",
     serviceInstanceList:this.baseUrl + '/uui-sotn/getServiceInstanceList',
     serviceTemplates:this.baseUrl + "/uui-lcm/service-templates",
-    templateCategory: "./assets/json/configuration_files/templateCategory.json",
     templateParameters:this.baseUrl + "/uui-lcm/service-templates/" + "*_*" +"?toscaModelPath=",
+    nstemplateParameters:this.baseUrl + "/uui-lcm/fetchNsTemplateData",
+    vimInfo:this.baseUrl + "/uui-lcm/locations/",
+    sdnControllers:this.baseUrl + "/uui-lcm/sdnc-controllers/",
     addressData: this.baseUrl + "/uui-sotn/getOssInvenory",
     createService:this.baseUrl + "/uui-lcm/services",
+    ns_createService: this.baseUrl + "/uui-lcm/createNetworkServiceInstance",
+    ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
     inputNamesTransform: "./assets/json/configuration_files/inputNamesTranslate.json?",
     deleteService: this.baseUrl + "/uui-lcm/services/",
     progress:this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
+    nsProgress:this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/"+ "*_*" + "?responseId=",
 
     allottedResource:this.baseUrl + "/uui-sotn/getAllottedResources",
     pnfDetail:this.baseUrl + "/uui-sotn/getPnfInfo/",
@@ -98,44 +107,11 @@ export class MyhttpService {
 
 
 
-
-
-  testObservable(){
-    let myObservable = new Observable((observer)=>{
-      observer.next(1);
-      observer.next((n)=>{
-        console.log(3+n);
-      })
-      setTimeout(()=>{
-        observer.next(66666)
-      },100)
-      observer.next(()=>{
-        setTimeout((n)=>{
-          console.log("9999---" + n);
-        },10)        
-      })
-      // observer.error(2);
-      // observer.complete();
-    });
-
-    myObservable.subscribe((e)=>{
-      if(typeof e == "function"){
-        e(5)
-      }
-      console.log(e);
-    },(err)=>{
-      console.log(err);
-    },()=>{
-      console.log(555);
-    })
-  }
-
   //---------------------------------------------------------------------------------
 
   // Get all customers
   getAllCustomers(){
     return this.http.get<any>(this.url.customers);
-    // return this.http.jsonp<Object[]>('http://127.0.0.1:5500/customers.json',"callback");// 
   }
 
   // Get relevant serviceType
@@ -144,9 +120,9 @@ export class MyhttpService {
     return this.http.get<any>(url);
   }
   // Get service classification information, local configuration file
-  getServicesCategory(){
-    return this.http.get<any>(this.url.servicesCategory);
-  }
+  // getServicesCategory(){
+  //   return this.http.get<any>(this.url.servicesCategory);
+  // }
   // list Tabular data
   getInstanceTableData(paramsObj){
     let params = new HttpParams({fromObject:paramsObj});
@@ -160,18 +136,27 @@ export class MyhttpService {
   // }
 
   // Get all template types
-  getAllServiceTemplates(){
+  getAllServiceTemplates(type){
+    if(type=="Network Service"){
+      let nsUrl = this.url.serviceTemplates.replace("service-templates","listNsTemplates").replace("serviceTemplates2","serviceTemplates-ns");
+      console.log(nsUrl);
+      return this.http.get<any>(nsUrl);
+    }
     return this.http.get<any>(this.url.serviceTemplates);
   }
 
-  // Get template classification information, local configuration file
-  getTemplateCategory(){
-    return this.http.get<any>(this.url.servicesCategory);
-  }
+
   //Get template input parameters
   getTemplateParameters(type,template){
-    let url = this.url.templateParameters.replace("*_*",type) + template.toscaModelURL;  //本地模拟
-    // let url = this.url.templateParameters.replace("*_*",template.uuid) + template.toscaModelURL;
+    // let url = this.url.templateParameters.replace("*_*",type) + template.toscaModelURL;  //Local simulation
+    if(type == "ns"){
+      let body = {
+        csarId:template.id,
+        inputs:""
+      } 
+      return this.http.post<any>(this.url.nstemplateParameters,body);
+    }
+    let url = this.url.templateParameters.replace("*_*",template.uuid) + template.toscaModelURL;
     return this.http.get<any>(url);
   }
   // siteAddress address
@@ -179,10 +164,25 @@ export class MyhttpService {
     return this.http.get<any>(this.url.addressData);
   }
 
+  getVimInfo() {
+    return this.http.get<any>(this.url.vimInfo);
+  };
+  getSdnControllers(){
+    return this.http.get<any>(this.url.sdnControllers);
+  }
+
   // Create interface
-  createInstance(requestBody){
-    return this.http.get<any>(this.url.createService);  //本地模拟
-    // return this.http.post<any>(this.url.createService,requestBody);
+  createInstance(requestBody,createParams){
+    // return this.http.get<any>(this.url.createService + createParams);  //Local simulation
+    return this.http.post<any>(this.url.createService,requestBody);
+  }
+  nsCreateInstance(requestBody){
+    // return this.http.get<any>(this.url.ns_createService);  //Local simulation
+    return this.http.post<any>(this.url.ns_createService,requestBody);
+  }
+  nsCreateInstance2(params,requestBody){
+    // return this.http.get<any>(this.url.ns_createService2 + params);  //Local simulation
+    return this.http.post<any>(this.url.ns_createService + params,requestBody);
   }
 
   // Input parameter name conversion
@@ -203,13 +203,17 @@ export class MyhttpService {
         'serviceType': obj.serviceType
       }
     };
-    return this.http.get<any>(this.url.deleteService);  //Local simulation
-    // return this.http.delete<any>(this.url.deleteService + obj.serviceInstanceId, httpOptions);
+    // return this.http.get<any>(this.url.deleteService);  //Local simulation
+    return this.http.delete<any>(this.url.deleteService + obj.serviceInstanceId, httpOptions);
   }
 
   // Query progress interface
   getProgress(obj){
     let url = this.url.progress.replace("*_*",obj.serviceId) + obj.operationId;
+    return this.http.get<any>(url);
+  }
+  getNsProgress(jobid,responseId){
+    let url = this.url.nsProgress.replace("*_*",jobid) + responseId;
     return this.http.get<any>(url);
   }
 

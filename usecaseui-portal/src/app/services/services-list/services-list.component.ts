@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { MyhttpService } from '../../myhttp.service';
 import { slideToRight } from '../../animates';
@@ -13,18 +28,18 @@ export class ServicesListComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
   constructor(private myhttp: MyhttpService, private modalService: NzModalService) { }
 
+ 
   ngOnInit() {
     this.getallCustomers();
-    this.getTemplateSubTypes();
     this.inputNamests();
   }
-  // 筛选框（下拉框）customer servicetype
+  // customer servicetype
   customerList = [];
   customerSelected = {name:null,id:null};
   serviceTypeList = [];
-  serviceTypeSelected = {name:null,id:null};
+  serviceTypeSelected = {name:null};
 
-  // 获取所有customer
+  // 
   getallCustomers(){
     this.myhttp.getAllCustomers()
       .subscribe((data)=>{
@@ -50,108 +65,71 @@ export class ServicesListComponent implements OnInit {
     this.getTableData();
   }
 
-  // 模态框（对话框） create
+
+  // Create modal box 2 (dialog box) create -------------------------------
   isVisible = false;
   showModal(): void {
     this.isVisible = true;
+    this.getAlltemplates();
   }
+  // 
+  templateTypeSelected = "SOTN";
+  choseTemplateType(){
+    this.getAlltemplates();
+  }
+  // 
+  templates = [];
+    template1={name:null};
+    template2={name:null};
+    template3={name:null};
+    template4={name:null};
+
+  getAlltemplates(){  //
+    this.myhttp.getAllServiceTemplates(this.templateTypeSelected)
+      .subscribe((data)=>{
+        console.log(data)
+        this.templates = data;
+        if(this.templateTypeSelected=="Network Service"){
+          this.templates = data.map((item)=>{return {name:item.packageInfo.csarName,id:item.csarId,packageInfo:item.packageInfo}});
+        }
+        this.template1 = this.templates[0];
+        this.template2 = this.templates[1];
+        this.template3 = this.templates[2];
+        this.template4 = this.templates[0];
+        
+      },(err)=>{
+
+      })
+  }
+
+
+
+  // 
+  createshow = false;
+  createshow2 = false;
+  createData:Object={};
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisible = false;
+
+    if(this.templateTypeSelected=="SOTN"||this.templateTypeSelected=="CCVPN"){
+      let data1 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"SOTN"},templates:{template1:this.template1,template2:this.template2}};
+      let data2 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"CCVPN"},templates:{template1:this.template1,template2:this.template2,template3:this.template3}};
+      this.createData = this.templateTypeSelected == "SOTN" ? data1 : data2;
+      this.createshow = true;
+    }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
+      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4};
+      this.createshow2 = true;
+    }
+    
   }
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
-    this.isVisible2 = false;
   }
 
-  // 创建模态框2（对话框） create -------------------------------
-  isVisible2 = false;
-  showModal2(): void {
-    this.isVisible2 = true;
-    this.templates1 = [];  //多次创建会push累积名字，从新置空
-    this.templates2 = [];
-    this.templates3 = [];
-    this.getAlltemplates();
-  }
-  // 服务
-  templateTypeSelected = "SOTN";
-  choseTemplateType(){
-    // this.filterTemplates();//分类
-  }
-  // 模板
-  templates = []; templates1;templates2;templates3;
-    template1={name:null};
-    template2={name:null};
-    template3={name:null};
-  // 模板分类数据,创建、获取实例分类共用
-  templateSubTypes = {};  //子类，sotnvpn、site、sdwan
-  getTemplateSubTypes(){
-    this.myhttp.getServicesCategory()
-      .subscribe((data)=>{
-        this.templateSubTypes = data;
-      },(err)=>{
-        console.log("getTemplateTypes err")
-      })
-  }
 
-  getAlltemplates(){  //获取所有模板类型
-    this.myhttp.getAllServiceTemplates()
-      .subscribe((data)=>{
-        console.log(data)
-        this.templates = data;
-        this.template1 = data[0];
-        this.template2 = data[1];
-        this.template3 = data[2];
-        // this.filterTemplates();//分类
-      },(err)=>{
-
-      })
-  }
-  // filterTemplates(){ //模板类型分类，本地配置文件
-  //     this.templates1 = [];
-  //     this.templates2 = [];
-  //     this.templates3 = [];
-  //     this.templates.forEach((item)=>{
-  //       this.templateSubTypes[this.templateTypeSelected].sotnvpn.find((d)=>{
-  //         return d["model-invariant-id"] == item.uuid && d["model-version-id"] == item.invariantUUID 
-  //       })?this.templates1.push(item):null;
-  //       this.templateSubTypes[this.templateTypeSelected].site.find((d)=>{
-  //         return d["model-invariant-id"] == item.uuid && d["model-version-id"] == item.invariantUUID 
-  //       })?this.templates2.push(item):null;
-  //       if(this.templateTypeSelected=="CCVPN"){
-  //         this.templateSubTypes[this.templateTypeSelected].sdwan.find((d)=>{
-  //           return d["model-invariant-id"] == item.uuid && d["model-version-id"] == item.invariantUUID 
-  //         })?this.templates3.push(item):null;
-  //       }
-  //     })
-  //     this.template1 = this.templates1[0];
-  //     this.template2 = this.templates2[0];
-  //     if(this.templates3[0]){
-  //       this.template3 = this.templates3[0];
-  //     } 
-  // }
-
-
-  // 确定、取消
-  createshow = false;
-  createData:Object={};
-  handleOk2(): void {
-    console.log('Button ok clicked!');
-    this.isVisible2 = false;
-    let data1 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"SOTN"},templates:{template1:this.template1,template2:this.template2}};
-    let data2 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"CCVPN"},templates:{template1:this.template1,template2:this.template2,template3:this.template3}};
-    
-    this.createData = this.templateTypeSelected == "SOTN" ? data1 : data2;
-    this.createshow = true;
-  }
-  // handleCancel(): void {
-  //   console.log('Button cancel clicked!');
-  //   this.isVisible2 = false;
-  // }
-
-
-  //表格数据
+  //tableData
   tableData = [];
   pageIndex = 1;
   pageSize = 10;
@@ -160,10 +138,10 @@ export class ServicesListComponent implements OnInit {
   sortName = null;
   sortValue = null;
   getTableData(){
-    // 查询参数: customer serviceType 当前页码，每页条数，排序方式
+    // params: customer serviceType pageIndex，pageSize，sortName
     let paramsObj = {
-      customer:this.customerSelected,
-      serviceType:this.serviceTypeSelected,
+      customer:this.customerSelected.id,
+      serviceType:this.serviceTypeSelected.name,
       pageIndex:this.pageIndex,
       pageSize:this.pageSize,
       serviceIdSort:this.sortValue
@@ -194,119 +172,54 @@ export class ServicesListComponent implements OnInit {
   updataService(){
     console.log("updataService!");
   }
-  deleteService(){
-    console.log("deleteService!");
+  stopService(data){
+
   }
+  restartService(data){
 
-  //表格数据
-  tableData2 = [];
-  getTableData2(){
-    let params = {
-      customerId:this.customerSelected.id,
-      serviceType:this.serviceTypeSelected
-    }
-    this.myhttp.getInstanceTableData(params)
-      .subscribe((data)=>{
-        this.pageIndex = 1;
-        this.tableData2 = [];
-        console.log(data)
-        // data.results.forEach((item)=>{ 
-        //   item["sotnvpnSer"] = item["service-subscription"]["service-instances"]["service-instance"].find((d)=>{ 
-        //     return this.templateSubTypes["SOTN"].sotnvpn.find((m)=>{ 
-        //       return d["model-invariant-id"]==m["model-invariant-id"] && d["model-version-id"]==m["model-version-id"]
-        //     })?item["Type"]="SOTN":null || this.templateSubTypes["CCVPN"].sotnvpn.find((m)=>{ 
-        //       return d["model-invariant-id"]==m["model-invariant-id"] && d["model-version-id"]==m["model-version-id"]
-        //     })?item["Type"]="CCVPN":null
-        //   })
-
-        //   if(item["sotnvpnSer"]){
-        //     this.tableData2.push(item);
-        //   }
-        // })
-
-        //---------数据结构有问题，模拟只有一组数据情况---------//
-        data["sotnvpnSer"] = data["service-instance"].find((d)=>{ 
-          return this.templateSubTypes["SOTN"].sotnvpn.find((m)=>{ 
-            return d["model-invariant-id"]==m["model-invariant-id"] && d["model-version-id"]==m["model-version-id"]
-          })?d["Type"]="SOTN":null || this.templateSubTypes["CCVPN"].sotnvpn.find((m)=>{ 
-            return d["model-invariant-id"]==m["model-invariant-id"] && d["model-version-id"]==m["model-version-id"]
-          })?d["Type"]="CCVPN":null
-        })
-        let inputParams = JSON.parse(data["sotnvpnSer"]["input-parameters"]).service.parameters.requestInputs;
-        let descriptionName = Object.keys(inputParams).find((item)=>{ return item.endsWith("_description")});
-        data["sotnvpnSer"]["description"] = inputParams[descriptionName];
-        data["sotnvpnSer"]["status"] = "Active";
-        this.tableData2.push(data);
-
-        console.log(this.tableData2)
-      },(err)=>{
-        console.log(err);
-      })
   }
-
-  // 显示详情
+  // 
   detailshow = false;
   detailData:Object;
-  showDetail(service){
+  serviceDetail(service){
     service["siteSer"]=[];
     service["sdwanSer"]=[];
     service["customer"]=this.customerSelected;
     service["serviceType"] = this.serviceTypeSelected;
-    // service["service-subscription"]["service-instances"]["service-instance"].forEach((item)=>{
-    //   this.templateSubTypes[service.Type].site.find((d)=>{
-    //     return d["model-invariant-id"] == item["model-invariant-id"] && d["model-version-id"] == item["model-version-id"] 
-    //   })?service["siteSer"].push(item):null;
-    //   if(service.Type=="CCVPN"){
-    //     this.templateSubTypes[service.Type].sdwan.find((d)=>{
-    //       return d["model-invariant-id"] == item["model-invariant-id"] && d["model-version-id"] == item["model-version-id"] 
-    //     })?service["sdwanSer"].push(item):null;
-    //   }
-    // })
-    service["service-instance"].forEach((item)=>{
-      this.templateSubTypes[service.sotnvpnSer.Type].site.find((d)=>{
-        return d["model-invariant-id"] == item["model-invariant-id"] && d["model-version-id"] == item["model-version-id"] 
-      })?service["siteSer"].push(item):null;
-      if(service.sotnvpnSer.Type=="CCVPN"){
-        this.templateSubTypes[service.sotnvpnSer.Type].sdwan.find((d)=>{
-          return d["model-invariant-id"] == item["model-invariant-id"] && d["model-version-id"] == item["model-version-id"] 
-        })?service["sdwanSer"].push(item):null;
+
+    service.childServiceInstances.forEach((item)=>{
+      if(item.serviceDomain=="SITE"){
+        service.siteSer.push(item);
+      }else if(item.serviceDomain=="SDWAN"){
+        service.sdwanSer.push(item);
       }
     })
     this.detailshow = true;
     this.detailData = service;
     console.log(service);
   }
-  // 删除 确认模态框
-  deleteInstace(service){
-    // 创建确认框
+  // deleteService(){
+  //   console.log("deleteService!");
+  // }
+
+  
+  // 
+  deleteService(service){
     this.modalService.confirm({
       nzTitle     : 'Are you sure delete this instance?',
-      nzContent   : `Instance ID: <b class="deleteModelContent"> ${service.sotnvpnSer["service-instance-id"]}</b>`,
+      nzContent   : `Instance ID: <b class="deleteModelContent"> ${service["service-instance-id"]}</b>`,
       nzOkText    : 'Yes',
       nzOkType    : 'danger',
       nzOnOk      : () => {
         console.log(service);
-        let allprogress = {};  //所有进度值，以operationId为键
-        let querypros = [];  //所有查询
-        service.sotnvpnSer.rate = 0;
-        service.sotnvpnSer.status = "deleting";
-        // let deletePros = service["service-subscription"]["service-instances"]["service-instance"].map((item)=>{
-        //   let id = item["service-instance-id"];
-        //   return new Promise((res,rej)=>{
-        //     this.myhttp.deleteInstance(id)
-        //     .subscribe((data)=>{
-        //       let obj = {serviceId:id,operationId:data.operationId}
-        //       let updata = (prodata)=>{
-        //         allprogress[prodata.operationId] = prodata.progress;
-        //         let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
-        //         service.sotnvpnSer["rate"]=average;
-        //       }
-        //       querypros.push(this.queryProgress(obj,updata));
-        //       res();
-        //     })
-        //   })  
-        // })
-        let deletePros = service["service-instance"].map((item)=>{
+        let allprogress = {};  //
+        let querypros = [];  //
+        service.rate = 0;
+        service.status = "Deleting";
+
+        service["childServiceInstances"].push({"service-instance-id":service["service-instance-id"]})
+
+        let deletePros = service["childServiceInstances"].map((item)=>{
           let params = {
             globalSubscriberId:this.customerSelected.id,
             serviceType:this.serviceTypeSelected,
@@ -319,7 +232,7 @@ export class ServicesListComponent implements OnInit {
               let updata = (prodata)=>{
                 allprogress[prodata.operationId] = prodata.progress;
                 let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
-                service.sotnvpnSer["rate"]=average;
+                service["rate"]=average;
               }
               querypros.push(this.queryProgress(obj,updata));
               res();
@@ -330,11 +243,16 @@ export class ServicesListComponent implements OnInit {
         Promise.all(deletePros).then(()=>{
           Promise.all(querypros).then((data)=>{
             console.log(data);
-            service.sotnvpnSer.rate = 100;
-            service.sotnvpnSer.status = "deleted";
-            setTimeout(()=>{
-              this.getTableData();
-            },1000)
+            service.rate = 100;
+            service.status = "completed";
+            let hasUndone = this.tableData.some((item)=>{
+              return item.rate < 100;
+            })
+            if(!hasUndone){
+              setTimeout(()=>{
+                this.getTableData();
+              },1000)
+            }
           })
         })
 
@@ -344,35 +262,34 @@ export class ServicesListComponent implements OnInit {
     });
   }
 
-
+  //ccvpn sotn createservice
+  parentServiceInstanceId="";
   closeCreate(obj){
     if(!obj){
-      this.createshow = false; //关闭创建窗口
+      this.createshow = false; //close
       return false;
     }
-    this.createshow = false; //关闭创建窗口
+    this.createshow = false; 
     console.log(obj);
-    let newData; //主表格中新创建的服务数据
-    let stageNum = 0; //不同阶段进度，用于后续服务进度相加；
-    // --------------------------------------------------------------------------
-        // obj.groupbody.map((group)=>{  //所有创建
-        //   return this.createService(group)
-        // })
-        // obj.sitebody.map((group)=>{  //所有创建
-        //   console.log(group)
-        //   return this.createService(group)
-        // })
-    // -----------------------------------------------------------------------------
-    this.createService(obj.vpnbody).then((data)=>{
+    let newData; //Newly created service data for the main table
+    let stageNum = 0; //Different stages of progress, used to add up subsequent service progress;
+
+    let   createParams = "?customerId="+this.customerSelected.id + 
+                        "&serviceType="+this.serviceTypeSelected.name + 
+                        "&serviceDomain="+this.templateTypeSelected +
+                        "&parentServiceInstanceId=";
+    this.createService(obj.vpnbody,createParams).then((data)=>{
       console.log(data)
-      newData = {  //主表格中新创建的服务数据
+      this.parentServiceInstanceId = data["serviceId"]; //------------updata parentServiceInstanceId
+      newData = {  //
         'service-instance-id':data["serviceId"],
         'service-instance-name':obj.vpnbody.service.name,
-        description:obj.vpnbody.service.description,
-        status:"creating",
+        serviceDomain:this.templateTypeSelected,
+        childServiceInstances:[],
+        status:"Creating",
         rate:0,
       }
-      this.tableData2 = [{sotnvpnSer:newData},...this.tableData2];
+      this.tableData = [newData,...this.tableData];
       let updata = (prodata)=>{
         newData.rate = Math.floor(prodata.progress/3);   
       }
@@ -380,11 +297,17 @@ export class ServicesListComponent implements OnInit {
       return this.queryProgress(queryParams,updata);
     }).then((data)=>{
       console.log(data);
-      stageNum = newData.rate; //阶段进度值更新；
-      let allprogress = {};  //所有进度值，以operationId为键
-      let querypros = [];  //所有查询
-      let createPros = obj.groupbody.map((group)=>{  //所有创建
-        return this.createService(group).then((data)=>{
+      stageNum = newData.rate; //Phase progress value update;
+      let allprogress = {};  //
+      let querypros = [];  //All the query
+      // Additional parameters
+      let   createParams = "?customerId="+this.customerSelected.id + 
+                          "&serviceType="+this.serviceTypeSelected.name + 
+                          "&serviceDomain="+"SDWAN" +
+                          "&parentServiceInstanceId="+this.parentServiceInstanceId;
+
+      let createPros = obj.groupbody.map((group)=>{  //
+        return this.createService(group,createParams).then((data)=>{
           console.log(data);
           let updata = (prodata)=>{
             allprogress[prodata.operationId] = prodata.progress;
@@ -397,7 +320,7 @@ export class ServicesListComponent implements OnInit {
       })
 
       return new Promise((res)=>{
-        Promise.all(createPros).then(()=>{  //所有创建好之后querypros中查询进度才全都添加完毕
+        Promise.all(createPros).then(()=>{  //All queries in querypros are added only once created
           Promise.all(querypros).then((data)=>{
             console.log(data);
             res("site--begin");
@@ -406,11 +329,16 @@ export class ServicesListComponent implements OnInit {
       })
     }).then((data)=>{
       console.log(data);
-      stageNum = newData.rate; //阶段进度值更新；
+      stageNum = newData.rate; //Phase progress value update;
       let allprogress = {};
-      let querypros = [];  //所有查询
-      let createPros = obj.sitebody.map((group)=>{  //所有创建
-        return this.createService(group).then((data)=>{
+      let querypros = [];  //All the query
+      // Additional parameters
+      let createParams = "?customerId="+this.customerSelected.id + 
+                        "&serviceType="+this.serviceTypeSelected.name + 
+                        "&serviceDomain="+"SITE" +
+                        "&parentServiceInstanceId="+this.parentServiceInstanceId;
+      let createPros = obj.sitebody.map((group)=>{  
+        return this.createService(group,createParams).then((data)=>{
           console.log(data);
           let updata = (prodata)=>{
             allprogress[prodata.operationId] = prodata.progress;
@@ -422,26 +350,137 @@ export class ServicesListComponent implements OnInit {
         })
       })
       console.log(createPros);
-      Promise.all(createPros).then(()=>{  //所有创建好之后querypros中查询进度才全都添加完毕
+      Promise.all(createPros).then(()=>{  //
         Promise.all(querypros).then((data)=>{
           console.log(data);
           newData.rate = 100;
           newData.status = "completed";
-          setTimeout(()=>{
-            this.getTableData();
-          },1000)
+          let hasUndone = this.tableData.some((item)=>{
+            return item.rate < 100;
+          })
+          if(!hasUndone){
+            setTimeout(()=>{
+              this.getTableData();
+            },1000)
+          }
         })
       }) 
     })
 
   }
 
-  createService(params){
+  e2eCloseCreate(obj){
+    if(!obj){
+      this.createshow2 = false; //
+      return false;
+    }
+    this.createshow2 = false; //
+    console.log(obj);
+    let newData; //
+    let   createParams = "?customerId="+this.customerSelected.id + 
+                        "&serviceType="+this.serviceTypeSelected.name + 
+                        "&serviceDomain="+this.templateTypeSelected +
+                        "&parentServiceInstanceId=";
+    this.createService(obj,createParams).then((data)=>{
+      console.log(data);
+      newData = {  //
+        'service-instance-id':data["serviceId"],
+        'service-instance-name':obj.name,
+        serviceDomain:this.templateTypeSelected,
+        childServiceInstances:[],
+        status:"Creating",
+        rate:0,
+      }
+
+      this.tableData = [newData,...this.tableData];
+      let updata = (prodata)=>{
+        newData.rate = prodata.progress;
+      }
+      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
+      return this.queryProgress(queryParams,updata);
+    }).then((data)=>{
+      console.log(data);
+      newData.rate = 100;
+      newData.status = "completed";
+      let hasUndone = this.tableData.some((item)=>{
+        return item.rate < 100;
+      })
+      if(!hasUndone){
+        setTimeout(()=>{
+          this.getTableData();
+        },1000)
+      }
+    })
+
+  }
+
+  nsCloseCreate(obj){
+    if(!obj){
+      this.createshow2 = false; //
+      return false;
+    }
+    this.createshow2 = false; //
+    console.log(obj);
+    let newData; //
+    // step1
+    this.myhttp.nsCreateInstance(obj.step1)
+    .subscribe((data)=>{
+      console.log(data);
+      newData = {  //
+        'service-instance-id':data.nsInstanceId,
+        'service-instance-name':obj.step1.nsName,
+        serviceDomain:this.templateTypeSelected,
+        childServiceInstances:[],
+        status:"Creating",
+        rate:0,
+      }
+      this.tableData = [newData,...this.tableData];
+      let createParams = "?ns_instance_id=" + data.nsInstanceId + 
+                        "&customerId="+this.customerSelected.id + 
+                        "&serviceType="+this.serviceTypeSelected.name + 
+                        "&serviceDomain="+"SITE" +
+                        "&parentServiceInstanceId="+this.parentServiceInstanceId;
+      // step2
+      this.createNsService(createParams,obj.step2).then((jobid)=>{
+
+        let updata = (prodata)=>{
+          newData.rate = prodata.responseDescriptor.progress;
+        }
+
+        return this.queryNsProgress(jobid,updata);
+      }).then((data)=>{
+        console.log(data);
+        newData.rate = 100;
+        newData.status = "completed";
+        let hasUndone = this.tableData.some((item)=>{
+          return item.rate < 100;
+        })
+        if(!hasUndone){
+          setTimeout(()=>{
+            this.getTableData();
+          },1000)
+        }
+      })
+
+
+    })
+  }
+
+  createService(requestBody,createParams){
     let mypromise = new Promise((res,rej)=>{
-      this.myhttp.createInstance(params)
+      this.myhttp.createInstance(requestBody,createParams)
         .subscribe((data)=>{
           
           res(data.service);
+        })
+    })
+    return mypromise;
+  }
+  createNsService(id,obj){
+    let mypromise = new Promise((res,rej)=>{
+      this.myhttp.nsCreateInstance2(id,obj)
+        .subscribe((data)=>{
+          res(data.jobId);
         })
     })
     return mypromise;
@@ -497,9 +536,65 @@ export class ServicesListComponent implements OnInit {
     })
     return mypromise;
   }
+  queryNsProgress(jobid,callback){
+    let mypromise = new Promise((res,rej)=>{
+      // let data = {
+      //   "jobId": "string",
+      //   "responseDescriptor": {
+      //     "status": "string",
+      //     "progress": 0,
+      //     "statusDescription": "string",
+      //     "errorCode": "string",
+      //     "responseId": "string",
+      //     "responseHistoryList": [
+      //       {
+      //         "status": "string",
+      //         "progress": "string",
+      //         "statusDescription": "string",
+      //         "errorCode": "string",
+      //         "responseId": "string"
+      //       }
+      //     ]
+      //   }
+      // }
+      let requery = (responseId)=>{
+        this.myhttp.getNsProgress(jobid,responseId)
+          .subscribe((data)=>{
+            if(data.responseDescriptor.progress==undefined){
+              console.log(data);
+              setTimeout(()=>{
+                requery(data.responseDescriptor.responseId);
+              },5000)
+              return false;
+            }
+            if(data.responseDescriptor.progress < 100){
+              callback(data);
+              setTimeout(()=>{
+                requery(data.responseDescriptor.responseId);
+              },5000)
+            }else {
+              res(data);
+            }     
+          })
+        // setTimeout(()=>{
+        //   console.log(data.responseDescriptor.progress)
+        //   data.responseDescriptor.progress++;        
+        //   if(data.responseDescriptor.progress<100){
+        //     callback(data);
+        //     requery(data.responseDescriptor.responseId)
+        //   }else{
+        //     callback(data);
+        //     res(data)
+        //   }
+        // },100)
+      }
+      requery(0);
+    })
+    return mypromise;
+  }
 
 
-  // 名字转换参数匹配 --> 传给子组件用
+  //  --> 
   namesTranslate:Object;
   inputNamests(){
     this.myhttp.inputNamesTransform()

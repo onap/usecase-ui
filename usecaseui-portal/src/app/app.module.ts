@@ -37,6 +37,7 @@ import { CcvpnCreationComponent } from './ccvpn-creation/ccvpn-creation.componen
 
 import { DetailsComponent } from './components/details/details.component';
 import { GraphiclistComponent } from './components/graphiclist/graphiclist.component';
+import { E2eCreationComponent } from './components/e2e-creation/e2e-creation.component';
 
 import { BarComponent } from './components/charts/bar/bar.component';
 import { LineComponent } from './components/charts/line/line.component';
@@ -72,6 +73,7 @@ import { networkHttpservice } from './networkHttpservice.service';
     LineComponent,
     BarComponent,
     GraphiclistComponent,
+    E2eCreationComponent,
 
     CcvpnNetworkComponent,
     CcvpnDetailComponent,

@@ -108,6 +108,31 @@ hr {
   font-size: 12px;
   color: #147dc2;
 }
+.list nz-table.table2 tr td {
+  padding: 10px 8px;
+}
+.list nz-table.table2 tr td span.action {
+  color: #3fa8eb;
+  cursor: pointer;
+  padding: 5px;
+}
+.list nz-table.table2 tr td span.cannotclick {
+  pointer-events: none;
+  color: #aaa;
+  opacity: 0.6;
+}
+.list nz-table.table2 tr td span.deleting {
+  color: red;
+  font-size: 12px;
+  display: block;
+  height: 12px;
+}
+.list nz-table.table2 tr td span.creating {
+  color: #3fa8eb;
+  font-size: 12px;
+  display: block;
+  height: 12px;
+}
 .detailComponent {
   position: absolute;
   left: 0;
