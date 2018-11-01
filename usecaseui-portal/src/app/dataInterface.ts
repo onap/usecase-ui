@@ -31,8 +31,23 @@ interface servicesTableData {
     tableList:string[]
 }
 
+interface creatensData {
+    total:number,
+    tableList:string[]
+}
+
 interface onboardTableData {
     total:number,
     tableList:string[]
 }
-export {homeData, homeVmLineData, servicesSelectData, servicesTableData, onboardTableData}
+
+interface onboardDataVNF {
+    total:number,
+    tableList:string[]
+}
+
+interface onboardDataPNF {
+    total:number,
+    tableList:string[]
+}
+export {homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF}

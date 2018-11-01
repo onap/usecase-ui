@@ -46,6 +46,7 @@ import { PieComponent } from './components/charts/pie/pie.component';
 import {PathLocationStrategy, LocationStrategy, HashLocationStrategy} from '@angular/common';
 // 自定义服务
 import { MyhttpService } from './myhttp.service';
+import { onboardService } from './onboard.service';
 import { networkHttpservice } from './networkHttpservice.service';
 import { PerformanceDetailsComponent } from './components/performance-details/performance-details.component';
 
@@ -54,6 +55,7 @@ import { PerformanceDetailsComponent } from './components/performance-details/pe
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: NZ_I18N, useValue: en_US },
     MyhttpService,
+    onboardService,
     networkHttpservice 
   ],
   declarations: [
