@@ -14,66 +14,44 @@
     limitations under the License.
 -->
 <div class="content">
-  <!-- <div class="title">
-    <ul>
-        <li><h5>CPU</h5> <p>{{alarmList.all }}</p></li>
-        <li><h5>Memory</h5> <p>{{alarmList.closed }}</p></li>
-        <li><h5>Disk</h5> <p>{{alarmList.alarm }}</p></li>
-    </ul>
-  </div> -->
-    <nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="isVisibleMiddle" nzTitle="Alarm Chart" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
-        <app-line [initData]="alarmChartInitBig" [chartData]="alarmChartDataBig"></app-line>
-    </nz-modal>
-  <div class="chart">
-    <div class="select">
-        <nz-dropdown [nzTrigger]="'click'">
-            <a nz-dropdown>
-                {{MeasurementSelected}} <i class="anticon anticon-down"></i>
-            </a>
-            <ul nz-menu>
-              <li nz-menu-item (click)="choseMeasurement(item)" *ngFor="let item of MeasurementList">{{item}}</li>
-            </ul>
-        </nz-dropdown>
-        <nz-dropdown [nzTrigger]="'click'">
-            <a nz-dropdown>
-                {{ReportTimeSelected}} <i class="anticon anticon-down"></i>
-            </a>
-            <ul nz-menu>
-              <li nz-menu-item (click)="choseReportTime(item)" *ngFor="let item of ReportTimeList">{{item}}</li>
-            </ul>
-        </nz-dropdown>
+      <!-- <nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="isVisibleMiddle" nzTitle="Alarm Chart" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
+          <app-line [initData]="alarmChartInitBig" [chartData]="alarmChartDataBig"></app-line>
+      </nz-modal> -->
+    <div class="chart">
+          <div class="select">
+              <span>Report Time: </span>
+              <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime></nz-range-picker>
+      
+              <button class="search" nz-button [nzType]="'primary'"><i class="anticon anticon-search"></i><span>Search</span></button>
+          </div>
     </div>
-    <div class="AlarmChart" (click)="showModalMiddle()">
-        <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
+    <div class="tablelist">
+      <nz-table #nzTable [nzData]="dataSet" [nzPageSize]="10" nzShowSizeChanger [nzPageSizeOptions]="[5,10,15,20]" nzSize="middle">
+          <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr>
+              <th nzWidth="5%">NO</th>
+              <th nzWidth="20%">Source Name</th>
+              <th nzWidth="10%">Priority</th>
+              <th nzWidth="20%">SpecificProblem</th>
+              <th nzWidth="20%">Report Time</th>
+              <th nzWidth="15%">Status</th>
+              <th nzWidth="10%">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
+              <tr *ngFor="let item of nzTable.data; let i = index; ">
+                  <td>{{i+1}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.age}}</td>
+                  <td>{{item.address}}</td>
+                  <td>{{item.address}}</td>
+                  <td>{{item.address}}</td>
+                  <td><a class="action" (click)="detailShow(i+1)"><i class="details"></i></a></td>
+              </tr>
+              <!-- </ng-template> -->
+          </tbody>
+      </nz-table>
     </div>
-    <!-- <button class="open-close" [ngClass]="{'open-close-active':alarmShow}" (click)="alarmShow=!alarmShow"></button> -->
   </div>
-  <div class="tablelist">
-    <nz-table #nzTable [nzData]="dataSet" [nzPageSize]="10" nzShowSizeChanger [nzPageSizeOptions]="[5,10,15,20]" nzSize="middle">
-        <thead (nzSortChange)="sort($event)" nzSingleSort>
-            <tr>
-            <th nzWidth="5%">NO</th>
-            <th nzWidth="20%">Source Name</th>
-            <th nzWidth="10%">Priority</th>
-            <th nzWidth="20%">SpecificProblem</th>
-            <th nzWidth="20%">Report Time</th>
-            <th nzWidth="15%">Status</th>
-            <th nzWidth="10%">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
-            <tr *ngFor="let item of nzTable.data; let i = index; ">
-                <td>{{i+1}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.age}}</td>
-                <td>{{item.address}}</td>
-                <td>{{item.address}}</td>
-                <td>{{item.address}}</td>
-                <td><a class="action" (click)="detailShow(i+1)"><i class="details"></i></a></td>
-            </tr>
-            <!-- </ng-template> -->
-        </tbody>
-    </nz-table>
-  </div>
-</div>
+  

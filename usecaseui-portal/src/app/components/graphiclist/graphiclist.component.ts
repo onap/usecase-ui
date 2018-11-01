@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import * as addDays from 'date-fns/add_days';
 
 @Component({
   selector: 'app-graphiclist',
@@ -8,18 +9,18 @@ import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@an
 export class GraphiclistComponent implements OnInit {
 
   constructor() { }
-  isVisibleMiddle = false;
+  // isVisibleMiddle = false;
 
-  showModalMiddle(): void {
-    this.isVisibleMiddle = true;
-  }
-  handleOkMiddle(): void {
-    console.log('click ok');
-    this.isVisibleMiddle = false;
-  }
-  handleCancelMiddle(): void {
-    this.isVisibleMiddle = false;
-  }
+  // showModalMiddle(): void {
+  //   this.isVisibleMiddle = true;
+  // }
+  // handleOkMiddle(): void {
+  //   console.log('click ok');
+  //   this.isVisibleMiddle = false;
+  // }
+  // handleCancelMiddle(): void {
+  //   this.isVisibleMiddle = false;
+  // }
 
   ngOnInit() {
   }
@@ -37,74 +38,15 @@ export class GraphiclistComponent implements OnInit {
     console.log(item);
     this.ReportTimeSelected = item;
   }
+ // Date screening
+ dateRange =  [ addDays(new Date(), -30), new Date() ];
 
+ onChange(result: Date): void {
+   console.log('onChange: ', result);
+ }
   sort(e){
 
   }
-  // 数量统计
-  alarmList = {
-    all:22439,
-    closed:37923,
-    alarm: 12342
-  }
-
-   //折线图
-   alarmChartData:Object;
-   alarmChartInit:Object = {
-    height:100,
-    width:290,
-     option:{
-      tooltip : {
-        show : false,
-      },
-      legend: {
-        show :false,
-      },
-       series: [
-         {
-             name: 'Memory',
-             type: 'bar',
-             legendHoverLink: true,
-             barWidth: "25%",
-             //timeframe_one
-             data: [40, 45, 38, 52, 64, 58, 69, 87, 76, 33, 64, 87, 45],
-             itemStyle: {
-               color: "#3fa8eb"
-             },
-         }
-       ]
-     }
-   };
-   //折线图
-   alarmChartDataBig:Object;
-   alarmChartInitBig:Object = {
-    height:240,
-    width:500,
-     option:{
-       tooltip : {
-          show : true,
-          trigger: 'axis',
-        },
-       legend: {
-         bottom: 'bottom',
-         data: ['Memory']
-       },
-       series: [
-         {
-             name: 'Memory',
-             type: 'bar',
-             legendHoverLink: true,
-             barWidth: "25%",
-             //timeframe_one
-             data: [40, 45, 38, 52, 64, 58, 69, 87, 76, 33, 64, 87, 45],
-             itemStyle: {
-               color: "#3fa8eb"
-             },
-         }
-       ]
-     }
-   };
-
   //表格数据
   dataSet = [
     {
