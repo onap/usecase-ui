@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MyhttpService } from '../myhttp.service';
 import * as d3 from 'd3';
@@ -178,7 +193,7 @@ export class CcvpnDetailComponent implements OnInit {
         dates:[],
         linkss:[]
     };
-    svg=d3.select("#togo");
+    svg;
     scale=1;
     width=600;
     height=600;
@@ -187,29 +202,31 @@ export class CcvpnDetailComponent implements OnInit {
     lineGroup;
 
     getSotnAresource(){
-        return new Promise((res,rej)=>{
-            let connectivityId = this.detailParams["relationship-list"]["relationship"]
-                .find((item)=>{return item["related-to"]=="connectivity"})["relationship-data"]
-                .find((item2)=>{return item2["relationship-key"]=="connectivity.connectivity-id"})["relationship-value"];
-            this.myhttp.getSotnConnectivity(connectivityId)
-                .subscribe((data)=>{
+        // return new Promise((res,rej)=>{
+        let connectivityId = this.detailParams["relationship-list"]["relationship"]
+            .find((item)=>{return item["related-to"]=="connectivity"})["relationship-data"]
+            .find((item2)=>{return item2["relationship-key"]=="connectivity.connectivity-id"})["relationship-value"];
+        this.myhttp.getSotnConnectivity(connectivityId)
+            .subscribe((data)=>{
 
-                    let vpns = data.connectivity[0]["relationship-list"]["relationship"]
-                        .filter((item)=>{ return item["related-to"]=="vpn-binding"})
-                        .map((item2)=>{return item2["relationship-data"].find((item3)=>{return item3["relationship-key"]=="vpn-binding.vpn-id"})["relationship-value"]});
-                    console.log(vpns);
-                    this.detailParams.vpns = vpns.map((item)=>{return {
-                        name:item,
-                        domain: "",
-                        tp1: "",
-                        tp2: "",
-                        tps:[],
-                        site: [],
-                        type: "domain",
-                        start:false,
-                        end:false
-                    }});
-                    this.detailParams.vpns.forEach((vpn,index)=>{
+                let vpns = data.connectivity[0]["relationship-list"]["relationship"]
+                    .filter((item)=>{ return item["related-to"]=="vpn-binding"})
+                    .map((item2)=>{return item2["relationship-data"].find((item3)=>{return item3["relationship-key"]=="vpn-binding.vpn-id"})["relationship-value"]});
+                console.log(vpns);
+                this.detailParams.vpns = vpns.map((item)=>{return {
+                    name:item,
+                    domain: "",
+                    tp1: "",
+                    tp2: "",
+                    tps:[],
+                    site: [],
+                    type: "domain",
+                    start:false,
+                    end:false
+                }});
+                console.log(this.detailParams.vpns)
+                let getDomain = this.detailParams.vpns.map((vpn,index)=>{
+                    return new Promise((res,rej)=>{
                         this.myhttp.getVpnBinding(vpn.name)
                             .subscribe((data2)=>{
 
@@ -273,59 +290,117 @@ export class CcvpnDetailComponent implements OnInit {
                                                         }
 
                                                     }
+                                                    console.log(this.detailParams.vpns)
                                                 }
 
                                             }
                                         }
-                                        for(let b=0;b<this.outerSite.length;b++){
-                                            this.cloudDomain.site.push(this.outerSite[b]["service-instance-name"]);
-                                        }
-                                        this.detailParams.vpns.push(this.cloudDomain);
-                                        console.log(this.detailParams.vpns);
                                         this.vpns = this.detailParams.vpns;
                                         console.log(this.vpns);
-                                        res(this.detailParams.vpns);
+                                        res(this.detailParams.vpns)
                                     })
-
+                                console.log(this.detailParams.vpns)
                             })
                     })
-                })
-        })
+
+                });
+                Promise.all(getDomain).then((data)=>{
+                    console.log(this.vpns);
+                    console.log(this.detailParams.vpns);
+                    for(let b=0;b<this.outerSite.length;b++){
+                        this.cloudDomain.site.push(this.outerSite[b]["service-instance-name"]);
+                    }
+                    this.detailParams.vpns.push(this.cloudDomain);
+                    this.vpns = this.detailParams.vpns;
+                    this.getD3Data(this.detailParams.vpns)
+                });
+                // res(this.detailParams.vpns)
+            });
+        // })
     }
 
     drawImages(){
         this.getSiteAResource().then((data)=>{
             console.log(data);
-            return this.getSotnAresource();
-        }).then((data)=>{
-            console.log(data);
-            this.detailParams.vpns.forEach((item)=>{
-                if(item.type == "domain" && item.site.length == 0){
+            this.getSotnAresource();
+        });
+    }
+
+    getD3Data(data){
+        console.log(data);
+        console.log("start d3data");
+        console.log(this.detailParams.vpns);
+        this.detailParams.vpns.forEach((item)=>{
+            if(item.type == "domain" && item.site.length == 0){
+                this.d3Data.dates.push(
+                    {
+                        name: item.domain,
+                        type: 'domain'
+                    },{
+                        name: item.tp1,
+                        type: 'tp'
+
+                    },{
+                        name: item.tp2,
+                        type: 'tp'
+                    });
+                this.d3Data.linkss.push({
+                    source: item.domain,
+                    target: item.domain
+                },{
+                    source: item.domain,
+                    target: item.tp1
+                },{
+                    source: item.domain,
+                    target: item.tp2
+                })
+            };
+            if (item.type == "domain" && item.site.length == 1) {
+                this.d3Data.dates.push({
+                    name: item.domain,
+                    type: 'domain'
+                }, {
+                    name: item.tp1,
+                    type: 'tp'
+                }, {
+                    name: item.tp2,
+                    type: 'tp'
+                });
+                this.d3Data.linkss.push({
+                    source: item.domain,
+                    target: item.domain
+                }, {
+                    source: item.domain,
+                    target: item.tp1
+                }, {
+                    source: item.domain,
+                    target: item.tp2
+                });
+                if (item.start == true && item.end == false) {
                     this.d3Data.dates.push(
                         {
-                            name: item.domain,
-                            type: 'domain'
-                        },{
-                            name: item.tp1,
-                            type: 'tp'
-
-                        },{
-                            name: item.tp2,
-                            type: 'tp'
+                            name: item.site[0],
+                            type: 'site'
                         });
                     this.d3Data.linkss.push({
-                        source: item.domain,
-                        target: item.domain
-                    },{
-                        source: item.domain,
-                        target: item.tp1
-                    },{
-                        source: item.domain,
-                        target: item.tp2
+                        source: item.tp1,
+                        target: item.site[0]
                     })
-                };
-                if (item.type == "domain" && item.site.length == 1) {
-                    this.d3Data.dates.push({
+                }
+                if (item.start == false && item.end == true) {
+                    this.d3Data.dates.push(
+                        {
+                            name: item.site[0],
+                            type: 'site'
+                        });
+                    this.d3Data.linkss.push({
+                        source: item.tp2,
+                        target: item.site[0]
+                    })
+                }
+
+            }else if (item.type == "domain" && item.site.length == 2) {
+                this.d3Data.dates.push({
                         name: item.domain,
                         type: 'domain'
                     }, {
@@ -334,178 +409,132 @@ export class CcvpnDetailComponent implements OnInit {
                     }, {
                         name: item.tp2,
                         type: 'tp'
+                    },
+                    {
+                        name: item.site[0],
+                        type: 'site'
+                    },
+                    {
+                        name: item.site[1],
+                        type: 'site'
                     });
-                    this.d3Data.linkss.push({
-                        source: item.domain,
-                        target: item.domain
-                    }, {
-                        source: item.domain,
-                        target: item.tp1
-                    }, {
-                        source: item.domain,
-                        target: item.tp2
-                    });
-                    if (item.start == true && item.end == false) {
-                        this.d3Data.dates.push(
-                            {
-                                name: item.site[0],
-                                type: 'site'
-                            });
-                        this.d3Data.linkss.push({
-                            source: item.tp1,
-                            target: item.site[0]
-                        })
-                    }
-                    if (item.start == false && item.end == true) {
-                        this.d3Data.dates.push(
-                            {
-                                name: item.site[0],
-                                type: 'site'
-                            });
-                        this.d3Data.linkss.push({
-                            source: item.tp2,
-                            target: item.site[0]
-                        })
-                    }
-
-                }else if (item.type == "domain" && item.site.length == 2) {
-                    this.d3Data.dates.push({
-                            name: item.domain,
-                            type: 'domain'
-                        }, {
-                            name: item.tp1,
-                            type: 'tp'
-                        }, {
-                            name: item.tp2,
-                            type: 'tp'
-                        },
-                        {
-                            name: item.site[0],
-                            type: 'site'
-                        },
-                        {
-                            name: item.site[1],
-                            type: 'site'
-                        });
-                    this.d3Data.linkss.push({
-                        source: item.domain,
-                        target: item.domain
-                    }, {
-                        source: item.domain,
-                        target: item.tp1
-                    }, {
-                        source: item.domain,
-                        target: item.tp2
-                    }, {
-                        source: item.tp1,
-                        target: item.site[0]
-                    }, {
-                        source: item.tp2,
-                        target: item.site[1]
-                    });
-                }else if (item.type == "cloud" && item.site.length == 1) {
-                    this.d3Data.dates.push({
-                            name: item.cloud,
-                            type: 'cloud'
-                        },
-                        {
-                            name: item.site[0],
-                            type: 'site'
-                        });
-                    this.d3Data.linkss.push({
-                        source: item.cloud,
-                        target: item.cloud
-                    }, {
-                        source: item.cloud,
-                        target: item.site[0]
-                    })
-                }
-                else if (item.type == "cloud" && item.site.length == 2) {
-                    this.d3Data.dates.push({
-                            name: item.cloud,
-                            type: 'cloud',
-                            source: item.cloud,
-                            target: item.cloud
-                        },
-                        {
-                            name: item.site[0],
-                            type: 'site',
-                            source: item.cloud,
-                            target: item.site[0]
-                        },
-                        {
-                            name: item.site[1],
-                            type: 'site',
-                            source: item.cloud,
-                            target: item.site[1]
-                        });
-                    this.d3Data.linkss.push({
-                        source: item.cloud,
-                        target: item.cloud
-                    }, {
-                        source: item.cloud,
-                        target: item.site[0]
-                    }, {
-                        source: item.cloud,
-                        target: item.site[1]
-                    })
-                }
-
-
-            });
-
-            var siteNum = 0;
-
-            for (var b = 0; b < this.d3Data.dates.length; b++) {
-                if (this.d3Data.dates[b].type == "site") {
-                    siteNum++;
-                }
-            }
-
-            if (this.detailParams.vpns.length == 2) {
-                var source = this.detailParams.vpns.find((item) => {return item["type"] == "domain"}).site[1];
-                var target = this.detailParams.vpns.find((item) => {return item["type"] == "cloud"}).site[0];
                 this.d3Data.linkss.push({
-                    source: source,
-                    target: target
+                    source: item.domain,
+                    target: item.domain
+                }, {
+                    source: item.domain,
+                    target: item.tp1
+                }, {
+                    source: item.domain,
+                    target: item.tp2
+                }, {
+                    source: item.tp1,
+                    target: item.site[0]
+                }, {
+                    source: item.tp2,
+                    target: item.site[1]
+                });
+            }else if (item.type == "cloud" && item.site.length == 1) {
+                this.d3Data.dates.push({
+                        name: item.cloud,
+                        type: 'cloud'
+                    },
+                    {
+                        name: item.site[0],
+                        type: 'site'
+                    });
+                this.d3Data.linkss.push({
+                    source: item.cloud,
+                    target: item.cloud
+                }, {
+                    source: item.cloud,
+                    target: item.site[0]
                 })
-            } else if (this.detailParams.vpns.length > 2) {
-                if (siteNum == 2) {
-                    for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
-                        if (c + 1 == this.detailParams.vpns.length - 1) {
-                            var sourcess = this.detailParams.vpns[c].tp2,
-                                targetss = this.detailParams.vpns.find((item)=> {return item["type"] == "cloud";}).cloud;
-                            this.d3Data.linkss.push({
-                                source: sourcess,
-                                target: targetss
-                            });
-                            break;
-                        }
-                        var sources = this.detailParams.vpns[c].tp2,
-                            targets = this.detailParams.vpns[c + 1].tp1;
+            }
+            else if (item.type == "cloud" && item.site.length == 2) {
+                this.d3Data.dates.push({
+                        name: item.cloud,
+                        type: 'cloud',
+                        source: item.cloud,
+                        target: item.cloud
+                    },
+                    {
+                        name: item.site[0],
+                        type: 'site',
+                        source: item.cloud,
+                        target: item.site[0]
+                    },
+                    {
+                        name: item.site[1],
+                        type: 'site',
+                        source: item.cloud,
+                        target: item.site[1]
+                    });
+                this.d3Data.linkss.push({
+                    source: item.cloud,
+                    target: item.cloud
+                }, {
+                    source: item.cloud,
+                    target: item.site[0]
+                }, {
+                    source: item.cloud,
+                    target: item.site[1]
+                })
+            }
+
+
+        });
+
+        var siteNum = 0;
+
+        for (var b = 0; b < this.d3Data.dates.length; b++) {
+            if (this.d3Data.dates[b].type == "site") {
+                siteNum++;
+            }
+        }
+
+        if (this.detailParams.vpns.length == 2) {
+            var source = this.detailParams.vpns.find((item) => {return item["type"] == "domain"}).site[1];
+            var target = this.detailParams.vpns.find((item) => {return item["type"] == "cloud"}).site[0];
+            this.d3Data.linkss.push({
+                source: source,
+                target: target
+            })
+        } else if (this.detailParams.vpns.length > 2) {
+            if (siteNum == 2) {
+                for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
+                    if (c + 1 == this.detailParams.vpns.length - 1) {
+                        var sourcess = this.detailParams.vpns[c].tp2,
+                            targetss = this.detailParams.vpns.find((item)=> {return item["type"] == "cloud";}).cloud;
                         this.d3Data.linkss.push({
-                            source: sources,
-                            target: targets
-                        })
+                            source: sourcess,
+                            target: targetss
+                        });
+                        break;
                     }
-                } else if (siteNum == 4) {
-                    for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
-                        if (c + 1 == this.detailParams.vpns.length - 1) {
-                            break;
-                        }
-                        var sources = this.detailParams.vpns[c].tp2,
-                            targets = this.detailParams.vpns[c + 1].tp1;
-                        this.d3Data.linkss.push({
-                            source: sources,
-                            target: targets
-                        })
+                    var sources = this.detailParams.vpns[c].tp2,
+                        targets = this.detailParams.vpns[c + 1].tp1;
+                    this.d3Data.linkss.push({
+                        source: sources,
+                        target: targets
+                    })
+                }
+            } else if (siteNum == 4) {
+                for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
+                    if (c + 1 == this.detailParams.vpns.length - 1) {
+                        break;
                     }
+                    var sources = this.detailParams.vpns[c].tp2,
+                        targets = this.detailParams.vpns[c + 1].tp1;
+                    this.d3Data.linkss.push({
+                        source: sources,
+                        target: targets
+                    })
                 }
             }
-            setTimeout(this.render(),0)
-        });
+        }
+        setTimeout(this.render(),0)
     }
-
 
 
     clickShow = false;
@@ -532,12 +561,12 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.d3Data);
         console.log(this.detailParams.vpns);
         this.scale = 1;
-
-        this.svg .attr('width', this.width)
+        var svgs=d3.select("#togo");
+        this.svg=svgs;
+        this.svg.attr('width', this.width)
             .attr('height', this.height);
         this.container = this.svg.append('g')
             .attr('transform', 'scale(' + this.scale + ')');
-
         this.initPosition();
         this.initLink();
         this.initNode();
@@ -791,6 +820,8 @@ export class CcvpnDetailComponent implements OnInit {
                 .enter()
                 .append('path')
                 .attr('class', 'link')
+                .style("stroke","#FFC000")
+                .style("stroke-width",1)
                 .attr('d',function (link) {
                     return genLinkPath(link)
                 })
