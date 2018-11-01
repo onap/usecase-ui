@@ -40,7 +40,8 @@ export class MyhttpService {
   //   connectivity:this.baseUrl + "/sotn-connectivity2.json?",
   //   vpnBinding:this.baseUrl + "/vpnbinding.json?",
   //   alarmFormData:this.baseUrl + "/alarmFormData.json?",
-  //   alarmFormDetailData:this.baseUrl + "/alarmFormDetailData.json?"
+  //   alarmFormDetailData:this.baseUrl + "/alarmFormDetailData.json?",
+  //   sourceName:this.baseUrl+ "/SorceName.json?"
   // }
 
   // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
@@ -256,27 +257,48 @@ export class MyhttpService {
   }
 
   // Alarm table data
-  getAlarmFormData(pageNumber:number,pageSaze:number,name?:string,Priority?:string,Status?:string,Report?:string){
-    return this.http.post<any>(this.url.alarmFormData,{
-      pageNumber:pageNumber,
-      pageSaze:pageSaze,
-      name:name,
-      Priority:Priority,
-      Status:Status,
-      Report:Report 
-    });
-  }
-
-  getSourceNames(){
-    return this.http.get<any>('/alarm/getSourceNames/');
-  }  
-  // getAlarmFormData(pageNumber:number,pageSaze:number,name?:string,Priority?:string,Status?:string,Report?:string){
-  //   return this.http.get<any>(this.url.alarmFormData+'?pageNumber='+pageNumber+'?pageSaze'+pageSaze+'?name'+name+'?Priority'+Priority+'?Status'+Status+'?Report'+Report);
+  // getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
+  //   return this.http.post<any>(this.url.alarmFormData,{
+  //     currentPage:currentPage,
+  //     pageSize:pageSize,
+  //     sourceName:sourceName,
+  //     priority:priority,
+  //     startTime:startTime,
+  //     endTime:endTime ,
+  //     vfStatus:vfStatus
+  //   });
   // }
 
+  getSourceNames(){
+    return this.http.get<any>('http://192.168.43.12:8082/alarm/getSourceNames/');
+  }  
+
+  getstatuscount(){
+    let httpurl = 'http://192.168.43.12:8082/alarm/statusCount';
+    return this.http.get<any>(httpurl);
+  }
+  // getSourceNames(){
+    // let httpurl = this.baseUrl +  "/SourceName.json?";
+    // console.log(httpurl);
+    // return this.http.get<any>(httpurl);
+  // }
+  
+  // getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
+  //   return this.http.get<any>(this.url.alarmFormData+'?currentPage='+currentPage+'?pageSize='+pageSize+'?sourceName='+sourceName+'?priority='+priority+'?startTime='+startTime+'?endTime='+endTime+'?vfStatus='+vfStatus);
+  // }
+
+    getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
+      return this.http.get<any>('http://192.168.43.12:8082/alarm/'+'/'+currentPage+'/'+pageSize+'/'+sourceName+'/'+priority+'/'+startTime+'/'+endTime+'/'+vfStatus);
+      }
+
   // Alarm Detail page data
+  // getAlarmDetailData(id){
+  //   let httpurl = this.baseUrl + "/alarmFormDetailData.json?id/" +id;
+  //   console.log(httpurl)
+  //   return this.http.get<any>(httpurl);
+  // }
   getAlarmDetailData(id){
-    let httpurl = this.baseUrl + "/alarmFormDetailData.json?id/" +id;
+    let httpurl = 'http://192.168.43.12:8082/alarm/getAlarmsHeaderDetail/'+id;
     console.log(httpurl)
     return this.http.get<any>(httpurl);
   }
