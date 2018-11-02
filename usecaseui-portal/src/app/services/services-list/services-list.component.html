@@ -37,7 +37,7 @@
     </ul>
   </nz-dropdown>
 
-  <button class="create" nz-button [nzType]="'primary'" (click)="showModal()"><i class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
+  <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
   <nz-modal [(nzVisible)]="isVisible" nzTitle="Create" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
     <span style="display:inline-block;width:70px;">Service: </span>
     <nz-select style="width: 165px;" [(ngModel)]="templateTypeSelected" nzAllowClear (ngModelChange)="choseTemplateType()">
@@ -93,11 +93,11 @@
       [nzScroll]="{ y: '58vh' }"
       (nzPageIndexChange)="searchData()"
       (nzPageSizeChange)="searchData(true)">
-      <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <thead>
         <tr>
           <th nzWidth="5%">NO</th>
           <th nzWidth="5%"></th>
-          <th nzWidth="20%" nzShowSort nzSortKey="name">Service Instance Id</th>
+          <th nzWidth="20%">Service Instance Id</th>
           <th nzWidth="20%">Name</th>
           <th nzWidth="15%">Type</th>
           <th nzWidth="20%">Status</th>
@@ -114,33 +114,48 @@
             <td>{{data.serviceDomain}}</td>
             <td>
               <span [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
-                    'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating'}">{{data.status || "Active"}}</span>
-              <nz-progress *ngIf="data.status == 'Creating' || data.status == 'Deleting' || data.status == 'Updating' " [nzPercent]="data.rate"></nz-progress>
-              <!-- <nz-progress *ngIf="item.sotnvpnSer.status=='creating' || item.sotnvpnSer.status=='deleting'" [nzPercent]="item.sotnvpnSer.rate"></nz-progress> -->
+                    'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating',
+                    'stopping':data.status=='Stopping','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
+              <nz-progress *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Stopping' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
             </td>
             <td>
               <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
               <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-              <i *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-pause" (click)="stopService(data)"></i>
               <i *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="restartService(data)"></i>
               <i *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
-              <i class="anticon anticon-delete" (click)="deleteService(data)"></i>
-              <!-- <span title="detail" class="action" [ngClass]="{'cannotclick':item.sotnvpnSer.status=='deleting'||item.sotnvpnSer.status=='creating'}" 
-              (click)="showDetail(item)"> <i class="anticon anticon-ellipsis"></i> </span>
-            <span title="delete" class="action" [ngClass]="{'cannotclick':item.sotnvpnSer.status=='deleting'||item.sotnvpnSer.status=='creating'}" 
-              (click)="deleteInstace(item)"> <i class="anticon anticon-delete"></i> </span> -->
+              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
             </td>
           </tr>
           <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
             <td></td>
             <td></td>
-            <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
-            <td>{{data["service-instance-name"] || data.nsName}}</td>
-            <td colspan="3">{{item.serviceDomain}}</td>
+            <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
+            <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
+            <td>{{item.serviceDomain}}</td>
+            <td>
+              <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Active"}}</span>
+              <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
+            </td>
+            <td>
+              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':item.status=='Healing'}"  class="anticon anticon-reload" (click)="restartService(item)"></i>
+            </td>
           </tr>
         </ng-template>
       </tbody>
     </nz-table>
+    <nz-modal [(nzVisible)]="deleteModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk()">
+      <h3><i class="anticon anticon-question-circle" style="color:red;"></i>Are you sure delete this instance?</h3>
+      Instance ID: <b class="deleteModelContent"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] }}</b>
+      <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+        <span style="display:inline-block;width:50%;">terminationType:</span>
+        <nz-select style="width: 165px;" [(ngModel)]="terminationType" >
+          <nz-option nzValue="graceful" nzLabel="graceful"></nz-option>
+          <nz-option nzValue="forceful" nzLabel="forceful"></nz-option>
+        </nz-select>
+        <span *ngIf="terminationType=='graceful'" style="display:inline-block;width:50%;">gracefulTerminationTimeout:</span>
+        <input *ngIf="terminationType=='graceful'" style="width: 165px;" nz-input [(ngModel)]="gracefulTerminationTimeout">
+      </div>
+    </nz-modal>
 </div>
 
 <div class="detailComponent" *ngIf="detailshow">

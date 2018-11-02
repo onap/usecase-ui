@@ -32,6 +32,9 @@ export class MyhttpService {
   //   ns_createService2: this.baseUrl + "/createNsService2.json",
   //   inputNamesTransform: this.baseUrl + "/configuration_files/inputNamesTranslate.json?",
   //   deleteService: this.baseUrl + "/deleteService.json?",
+  //   ns_deleteService: this.baseUrl + "/deleteNsService.json?",
+  //   ns_stopService: this.baseUrl + "/stopNsService.json?",
+  //   ns_healService: this.baseUrl + "/healNsService.json?",
   //   progress:this.baseUrl + "/progress.json?",
   //   nsProgress:this.baseUrl + "nsProgress.json?",
 
@@ -69,6 +72,9 @@ export class MyhttpService {
     ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
     inputNamesTransform: "./assets/json/configuration_files/inputNamesTranslate.json?",
     deleteService: this.baseUrl + "/uui-lcm/services/",
+    ns_deleteService: this.baseUrl + "/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=",
+    ns_stopService: this.baseUrl + "/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=",
+    ns_healService: this.baseUrl + "/uui-lcm/healNetworkServiceInstance?ns_instance_id=",
     progress:this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
     nsProgress:this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/"+ "*_*" + "?responseId=",
 
@@ -206,6 +212,18 @@ export class MyhttpService {
     };
     // return this.http.get<any>(this.url.deleteService);  //Local simulation
     return this.http.delete<any>(this.url.deleteService + obj.serviceInstanceId, httpOptions);
+  }
+  nsDeleteInstance(id){
+    // return this.http.get<any>(this.url.ns_deleteService);  //Local simulation
+    return this.http.delete<any>(this.url.ns_deleteService + id);
+  }
+  stopNsService(id,requestBody){  //You need to terminate before deleting
+    // return this.http.get<any>(this.url.ns_stopService);  //Local simulation
+    return this.http.post<any>(this.url.ns_stopService + id,requestBody);
+  }
+  healNsService(id,requestBody){
+    // return this.http.get<any>(this.url.ns_healService);  //Local simulation
+    return this.http.post<any>(this.url.ns_healService + id,requestBody);
   }
 
   // Query progress interface

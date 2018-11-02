@@ -96,6 +96,14 @@ hr {
   font-size: 12px;
   color: green;
 }
+.list nz-table tbody td span.stopping {
+  font-size: 12px;
+  color: purple;
+}
+.list nz-table tbody td span.healing {
+  font-size: 12px;
+  color: orangered;
+}
 .list nz-table tbody td i.anticon {
   cursor: pointer;
   font-size: 18px;
@@ -104,34 +112,14 @@ hr {
 .list nz-table tbody td i.anticon:hover {
   color: #147dc2;
 }
-.list nz-table tbody tr.childtr td {
-  font-size: 12px;
-  color: #147dc2;
-}
-.list nz-table.table2 tr td {
-  padding: 10px 8px;
-}
-.list nz-table.table2 tr td span.action {
-  color: #3fa8eb;
-  cursor: pointer;
-  padding: 5px;
-}
-.list nz-table.table2 tr td span.cannotclick {
+.list nz-table tbody td .cannotclick {
   pointer-events: none;
   color: #aaa;
   opacity: 0.6;
 }
-.list nz-table.table2 tr td span.deleting {
-  color: red;
+.list nz-table tbody tr.childtr td {
   font-size: 12px;
-  display: block;
-  height: 12px;
-}
-.list nz-table.table2 tr td span.creating {
-  color: #3fa8eb;
-  font-size: 12px;
-  display: block;
-  height: 12px;
+  color: #147dc2;
 }
 .detailComponent {
   position: absolute;

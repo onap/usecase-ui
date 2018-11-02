@@ -68,7 +68,7 @@ export class ServicesListComponent implements OnInit {
 
   // Create modal box 2 (dialog box) create -------------------------------
   isVisible = false;
-  showModal(): void {
+  createModal(): void {
     this.isVisible = true;
     this.getAlltemplates();
   }
@@ -103,13 +103,12 @@ export class ServicesListComponent implements OnInit {
   }
 
 
-
   // 
   createshow = false;
   createshow2 = false;
   createData:Object={};
   handleOk(): void {
-    console.log('Button ok clicked!');
+    // console.log('Button ok clicked!');
     this.isVisible = false;
 
     if(this.templateTypeSelected=="SOTN"||this.templateTypeSelected=="CCVPN"){
@@ -135,34 +134,35 @@ export class ServicesListComponent implements OnInit {
   pageSize = 10;
   total = 100;
   loading = false;
-  sortName = null;
-  sortValue = null;
+
   getTableData(){
     // params: customer serviceType pageIndex，pageSize，sortName
     let paramsObj = {
       customer:this.customerSelected.id,
       serviceType:this.serviceTypeSelected.name,
       pageIndex:this.pageIndex,
-      pageSize:this.pageSize,
-      serviceIdSort:this.sortValue
+      pageSize:this.pageSize
     }
     this.myhttp.getServicesTableData(paramsObj)
       .subscribe((data)=>{
         console.log(data);
         this.total = data.body.total;
-        this.tableData = data.body.tableList;
+        this.tableData = data.body.tableList.map((item)=>{
+          if(item["serviceDomain"]=="Network Service"){
+            item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
+              vnf["serviceDomain"] = "vnf";
+              return vnf;
+            });
+          }
+          return item;
+        })  
       },(err)=>{
         console.log(err);
       })
   }
-  sort(sort: { key: string, value: string }): void {
-    console.log(sort);
-    this.sortName = sort.key;
-    this.sortValue = sort.value;
-    this.getTableData();
-  }
+
   searchData(reset:boolean = false){
-    console.log(reset)
+    // console.log(reset)
     this.getTableData();
   }
 
@@ -198,68 +198,27 @@ export class ServicesListComponent implements OnInit {
     this.detailData = service;
     console.log(service);
   }
-  // deleteService(){
-  //   console.log("deleteService!");
-  // }
 
-  
-  // 
-  deleteService(service){
-    this.modalService.confirm({
-      nzTitle     : 'Are you sure delete this instance?',
-      nzContent   : `Instance ID: <b class="deleteModelContent"> ${service["service-instance-id"]}</b>`,
-      nzOkText    : 'Yes',
-      nzOkType    : 'danger',
-      nzOnOk      : () => {
-        console.log(service);
-        let allprogress = {};  //
-        let querypros = [];  //
-        service.rate = 0;
-        service.status = "Deleting";
+  thisService = {};
+  deleteModelVisible = false;
+  terminationType = "graceful";
+  gracefulTerminationTimeout = 120;
+  // delete Model show
+  deleteModel(service){
+    this.thisService = service;
+    this.deleteModelVisible = true;
+  }
+  deleteOk(){
+    this.deleteModelVisible = false;
+    if(this.thisService["serviceDomain"] == "Network Service"){
+      this.deleteNsService(this.thisService);
+    }else{
+      this.deleteService(this.thisService);
+    }
+  }
 
-        service["childServiceInstances"].push({"service-instance-id":service["service-instance-id"]})
-
-        let deletePros = service["childServiceInstances"].map((item)=>{
-          let params = {
-            globalSubscriberId:this.customerSelected.id,
-            serviceType:this.serviceTypeSelected,
-            serviceInstanceId:item["service-instance-id"]
-          }
-          return new Promise((res,rej)=>{
-            this.myhttp.deleteInstance(params)
-            .subscribe((data)=>{
-              let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
-              let updata = (prodata)=>{
-                allprogress[prodata.operationId] = prodata.progress;
-                let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
-                service["rate"]=average;
-              }
-              querypros.push(this.queryProgress(obj,updata));
-              res();
-            })
-          })  
-        })
-        console.log(deletePros)
-        Promise.all(deletePros).then(()=>{
-          Promise.all(querypros).then((data)=>{
-            console.log(data);
-            service.rate = 100;
-            service.status = "completed";
-            let hasUndone = this.tableData.some((item)=>{
-              return item.rate < 100;
-            })
-            if(!hasUndone){
-              setTimeout(()=>{
-                this.getTableData();
-              },1000)
-            }
-          })
-        })
-
-      },
-      nzCancelText: 'No',
-      nzOnCancel  : () => console.log('Cancel')
-    });
+  deleteCancel(){
+    this.deleteModelVisible = false;
   }
 
   //ccvpn sotn createservice
@@ -461,8 +420,6 @@ export class ServicesListComponent implements OnInit {
           },1000)
         }
       })
-
-
     })
   }
 
@@ -485,7 +442,91 @@ export class ServicesListComponent implements OnInit {
     })
     return mypromise;
   }
- 
+
+  deleteService(service){
+    let allprogress = {};  //
+    let querypros = [];  //
+    service.rate = 0;
+    service.status = "Deleting";
+
+    service["childServiceInstances"].push({"service-instance-id":service["service-instance-id"]});
+    let deletePros = service["childServiceInstances"].map((item)=>{
+      let params = {
+        globalSubscriberId:this.customerSelected.id,
+        serviceType:this.serviceTypeSelected,
+        serviceInstanceId:item["service-instance-id"]
+      }
+      return new Promise((res,rej)=>{
+        this.myhttp.deleteInstance(params)
+        .subscribe((data)=>{
+          let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
+          let updata = (prodata)=>{
+            allprogress[prodata.operationId] = prodata.progress;
+            let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
+            service["rate"]=average;
+          }
+          querypros.push(this.queryProgress(obj,updata));
+          res();
+        })
+      })  
+    })
+    // console.log(deletePros)
+    Promise.all(deletePros).then(()=>{
+      Promise.all(querypros).then((data)=>{
+        console.log(data);
+        service.rate = 100;
+        service.status = "completed";
+        let hasUndone = this.tableData.some((item)=>{
+          return item.rate < 100;
+        })
+        if(!hasUndone){
+          setTimeout(()=>{
+            this.getTableData();
+          },1000)
+        }
+      })
+    })
+  }
+  deleteNsService(service){
+    service.rate = 0;
+    service.status = "Deleting";
+    let id = service.nsInstanceId;
+    let requestBody = {
+      terminationType : this.terminationType,
+      gracefulTerminationTimeout : this.gracefulTerminationTimeout
+    }
+    this.stopNsService(id,requestBody).then((jobid)=>{
+      let updata = (prodata)=>{
+        service.rate = prodata.responseDescriptor.progress;
+      }
+      return this.queryNsProgress(jobid,updata);
+    }).then(()=>{
+      this.myhttp.nsDeleteInstance(id)
+        .subscribe((data)=>{
+          console.log(data);
+          service.rate = 100;
+          service.status = "completed";
+          let hasUndone = this.tableData.some((item)=>{
+            return item.rate < 100;
+          })
+          if(!hasUndone){
+            setTimeout(()=>{
+              this.getTableData();
+            },1000)
+          }
+        })
+    })
+  }
+
+  stopNsService(id,obj){
+    let mypromise = new Promise((res,rej)=>{
+      this.myhttp.stopNsService(id,obj)
+        .subscribe((data)=>{
+          res(data.jobId);
+        })
+    })
+    return mypromise;
+  }
   queryProgress(obj,callback){
     let mypromise = new Promise((res,rej)=>{
       // let data = {
