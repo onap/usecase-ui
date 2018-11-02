@@ -35,6 +35,7 @@ export class MyhttpService {
   //   ns_deleteService: this.baseUrl + "/deleteNsService.json?",
   //   ns_stopService: this.baseUrl + "/stopNsService.json?",
   //   ns_healService: this.baseUrl + "/healNsService.json?",
+  //   vnfInfo: this.baseUrl + "/vnfInfo.json?",
   //   progress:this.baseUrl + "/progress.json?",
   //   nsProgress:this.baseUrl + "nsProgress.json?",
 
@@ -75,6 +76,7 @@ export class MyhttpService {
     ns_deleteService: this.baseUrl + "/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=",
     ns_stopService: this.baseUrl + "/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=",
     ns_healService: this.baseUrl + "/uui-lcm/healNetworkServiceInstance?ns_instance_id=",
+    vnfInfo: this.baseUrl + "/uui-lcm/VnfInfo/",
     progress:this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
     nsProgress:this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/"+ "*_*" + "?responseId=",
 
@@ -220,6 +222,10 @@ export class MyhttpService {
   stopNsService(id,requestBody){  //You need to terminate before deleting
     // return this.http.get<any>(this.url.ns_stopService);  //Local simulation
     return this.http.post<any>(this.url.ns_stopService + id,requestBody);
+  }
+
+  getVnfInfo(id){
+    return this.http.get<any>(this.url.vnfInfo + id)
   }
   healNsService(id,requestBody){
     // return this.http.get<any>(this.url.ns_healService);  //Local simulation

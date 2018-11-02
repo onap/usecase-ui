@@ -119,9 +119,11 @@
               <nz-progress *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Stopping' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
             </td>
             <td>
-              <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
+              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
+                *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
               <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-              <i *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="restartService(data)"></i>
+              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
+                *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i>
               <i *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
               <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
             </td>
@@ -137,14 +139,14 @@
               <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
             </td>
             <td>
-              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':item.status=='Healing'}"  class="anticon anticon-reload" (click)="restartService(item)"></i>
+              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':item.status=='Healing'}"  class="anticon anticon-reload" (click)="healService(item)"></i>
             </td>
           </tr>
         </ng-template>
       </tbody>
     </nz-table>
     <nz-modal [(nzVisible)]="deleteModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk()">
-      <h3><i class="anticon anticon-question-circle" style="color:red;"></i>Are you sure delete this instance?</h3>
+      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure delete this instance?</h3>
       Instance ID: <b class="deleteModelContent"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] }}</b>
       <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
         <span style="display:inline-block;width:50%;">terminationType:</span>
@@ -154,6 +156,52 @@
         </nz-select>
         <span *ngIf="terminationType=='graceful'" style="display:inline-block;width:50%;">gracefulTerminationTimeout:</span>
         <input *ngIf="terminationType=='graceful'" style="width: 165px;" nz-input [(ngModel)]="gracefulTerminationTimeout">
+      </div>
+    </nz-modal>
+    <nz-modal [nzVisible]="healModelVisible" nzTitle="Heal" (nzOnCancel)="healCancel()" (nzOnOk)="healOk()">
+      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?</h3>
+      Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] || thisService["vnfInstanceId"]}}</b>
+      <!-- NS -->
+      <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+        <span style="display:inline-block;width:50%;">degreeHealing:</span>
+        <nz-select style="width: 165px;" [(ngModel)]="nsParams.degreeHealing" >
+          <nz-option nzValue="HEAL_RESTORE" nzLabel="HEAL_RESTORE"></nz-option>
+          <nz-option nzValue="HEAL_QOS" nzLabel="HEAL_QOS"></nz-option>
+          <nz-option nzValue="HEAL_RESET" nzLabel="HEAL_RESET"></nz-option>
+          <nz-option nzValue="PARTIAL_HEALING" nzLabel="PARTIAL_HEALING"></nz-option>
+        </nz-select> 
+        <div>
+          <span  style="display:inline-block;">actionsHealing:</span>
+          <button nz-button [nzType]="'default'" (click)="addActionsHealing()"><i class="anticon anticon-plus-circle-o"></i></button>
+          <br>
+          <div *ngFor="let item of healActions;let i = index;" style="display:inline-block;">
+              <input style="width: 165px;" nz-input [(ngModel)]="item.value"><button nz-button [nzType]="'dashed'" (click)="minusActionsHealing(i)"><i class="anticon anticon-minus-circle-o"></i></button>
+              &nbsp;
+          </div>
+        </div>
+        <span  style="display:inline-block;width:50%;">healScript:</span>
+        <input style="width: 165px;" nz-input [(ngModel)]="nsParams.healScript"> 
+        <div>
+          <span  style="display:inline-block;">additionalParamsforNs:</span>
+          <button nz-button [nzType]="'default'" (click)="addNsAdditional()"><i class="anticon anticon-plus-circle-o"></i></button>
+          <br>
+          <div *ngFor="let item of nsAdditional;let i = index;">
+              Key: <input style="width: 165px;" nz-input [(ngModel)]="item.key"> &nbsp;
+              Value: <input style="width: 165px;" nz-input [(ngModel)]="item.value">
+              <button nz-button [nzType]="'dashed'" (click)="minusNsAdditional(i)"><i class="anticon anticon-minus-circle-o"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- vnf -->
+      <div *ngIf="thisService['serviceDomain'] == 'vnf'">
+          <span style="display:inline-block;width:50%;">cause:</span>
+          <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.cause">
+          <span style="display:inline-block;width:50%;">action:</span>
+          <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.additionalParams.action">
+          <span style="display:inline-block;width:50%;">actionvminfo:</span>
+          <nz-select style="width: 165px;" [(ngModel)]="vmSelected" >
+            <nz-option *ngFor="let item of vnfVms" [nzValue]="item" [nzLabel]="item.vmName"></nz-option>
+          </nz-select>
       </div>
     </nz-modal>
 </div>

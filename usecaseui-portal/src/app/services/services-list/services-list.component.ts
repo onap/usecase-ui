@@ -166,19 +166,88 @@ export class ServicesListComponent implements OnInit {
     this.getTableData();
   }
 
+  thisService = {};  //The current service of the operation
   scaleService(){
     console.log("scaleService!");
   }
   updataService(){
     console.log("updataService!");
   }
-  stopService(data){
 
-  }
-  restartService(data){
+  //heal
+  healModelVisible = false;
+  healActions = [];
+  nsAdditional = [];
+  nsParams = {
+    degreeHealing:"HEAL_RESTORE",
+    actionsHealing: [
 
+    ],
+    healScript: "",
+    additionalParamsforNs: ""
   }
-  // 
+  vnfVms = [];
+  vmSelected = {};
+  vnfParams = {
+    vnfInstanceId: "",
+    cause: "",
+    additionalParams: {
+      action: "",
+      actionvminfo: {
+        vmid: "",
+        vduid: "",
+        vmname: ""
+      }
+    }
+  }
+  addActionsHealing(){
+    this.healActions.push({value:""})
+  }
+  minusActionsHealing(index){
+    this.healActions.splice(index,1);
+  }
+  addNsAdditional(){
+    this.nsAdditional.push({key:"",value:""})
+  }
+  minusNsAdditional(index){
+    this.nsAdditional.splice(index,1);
+  }
+  healService(service){
+    // console.log(service);
+    this.thisService = service;
+    this.healModelVisible = true;
+    if(service.serviceDomain == "vnf"){
+      this.vnfParams.vnfInstanceId = service.vnfInstanceId;
+      this.myhttp.getVnfInfo(service.vnfInstanceId)
+        .subscribe((data)=>{
+          // console.log(data);
+          this.vnfVms = data.vnfVms;
+          this.vmSelected = this.vnfVms[0];
+        })
+    }
+  }
+  healOk(){
+    this.healModelVisible = false;
+    // nsParams
+    this.nsParams.actionsHealing = this.healActions.map((item)=>{return item.value});
+    let additional = {};
+    this.nsAdditional.forEach((item)=>{
+      additional[item.key] = item.value;
+    });
+    this.nsParams.additionalParamsforNs = JSON.stringify(additional); 
+    // vnfParams
+    this.vnfParams.additionalParams.actionvminfo.vmid = this.vmSelected["vmId"];
+    this.vnfParams.additionalParams.actionvminfo.vmname = this.vmSelected["vmName"];
+
+    let requestBody = this.thisService["serviceDomain"] == "Network Service" ? {healNsData:this.nsParams} : {healVnfData:this.vnfParams};
+    console.log(requestBody);
+    this.healNsVnfService(this.thisService,requestBody);
+  }
+  healCancel(){
+    this.healModelVisible = false;
+  }
+
+  // show detail
   detailshow = false;
   detailData:Object;
   serviceDetail(service){
@@ -199,7 +268,6 @@ export class ServicesListComponent implements OnInit {
     console.log(service);
   }
 
-  thisService = {};
   deleteModelVisible = false;
   terminationType = "graceful";
   gracefulTerminationTimeout = 120;
@@ -441,6 +509,24 @@ export class ServicesListComponent implements OnInit {
         })
     })
     return mypromise;
+  }
+
+  healNsVnfService(service,requestBody){
+    console.log(service);
+    service.rate = 0;
+    service.status = "Healing";
+    this.myhttp.healNsService(service.nsInstanceId,requestBody)
+      .subscribe((data)=>{
+        let jobid = data.jobId;
+        let updata = (prodata)=>{
+          service.rate = prodata.responseDescriptor.progress;
+        }
+        this.queryNsProgress(jobid,updata).then((data1)=>{
+          console.log(data1);
+          service.rate = 100;
+          service.status = "Active";
+        });
+      })
   }
 
   deleteService(service){
