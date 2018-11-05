@@ -19,30 +19,30 @@
         <hr> <span class="tildeimg"></span>
         <div class="headerlist">
             <div class="leftlist">
-                <p> <span>Version :</span> </p>
-                <p> <span>Domain :</span> </p>
-                <p> <span>Event Name :</span> Fault_IMSSBC_Backup MPU is down </p>
-                <p> <span>Event Id :</span> 15105642034 </p>
-                <p> <span>EventType :</span> </p>
-                <p> <span>NfcNamingCode :</span> </p>
-                <p> <span>NfNamingCode :</span> </p>
-                <p> <span>SourceName :</span> </p>
-                <p> <span>SourceId :</span> </p>
-                <p> <span>ReportingEntityName :</span> </p>
-                <p> <span>ReportingEntityId :</span> </p>
+                <p> <span>Version :</span>{{datailheaderdata.version}}</p>
+                <p> <span>Domain :</span>{{datailheaderdata.domain}}</p>
+                <p> <span>Event Name :</span>{{datailheaderdata.eventName}}</p>
+                <p> <span>Event Id :</span>{{datailheaderdata.eventId}}</p>
+                <p> <span>EventType :</span>{{datailheaderdata.eventType}}</p>
+                <p> <span>NfcNamingCode :</span>{{datailheaderdata.nfcNamingCode}}</p>
+                <p> <span>NfNamingCode :</span>{{datailheaderdata.nfNamingCode}}</p>
+                <p> <span>SourceName :</span>{{datailheaderdata.sourceName}}</p>
+                <p> <span>SourceId :</span>{{datailheaderdata.sourceId}}</p>
+                <p> <span>ReportingEntityName :</span>{{datailheaderdata.reportingEntityName}}</p>
+                <p> <span>ReportingEntityId :</span>{{datailheaderdata.reportingEntityId}}</p>
             </div>
             <div class="rightlist">
-                <p> <span>Priority :</span> Normal </p>
-                <p> <span>ReportTime :</span> </p>
-                <p> <span>ClearTime :</span> </p>
-                <p> <span>FaultFieldsVersion :</span> </p>
-                <p> <span>Event Servrity :</span> </p>
-                <p> <span>EventSourceType :</span> </p>
-                <p> <span>EventCategory :</span> </p>
-                <p> <span>AlarmCondition :</span> </p>
-                <p> <span>SpecificProblem :</span> </p>
-                <p> <span>Status :</span> </p>
-                <p> <span>AlarmInterfaceA :</span> </p>
+                <p> <span>Priority :</span>{{datailheaderdata.priority}}</p>
+                <p> <span>ReportTime :</span>{{datailheaderdata.reportTime}}</p>
+                <p> <span>ClearTime :</span>{{datailheaderdata.clearTime}}</p>
+                <p> <span>FaultFieldsVersion :</span>{{datailheaderdata.faultFieldsVersion}}</p>
+                <p> <span>Event Servrity :</span>{{datailheaderdata.eventServrity}}</p>
+                <p> <span>EventSourceType :</span>{{datailheaderdata.eventSourceType}}</p>
+                <p> <span>EventCategory :</span>{{datailheaderdata.eventCategory}}</p>
+                <p> <span>AlarmCondition :</span>{{datailheaderdata.alarmCondition}}</p>
+                <p> <span>SpecificProblem :</span>{{datailheaderdata.specificProblem}}</p>
+                <p> <span>Status :</span> {{datailheaderdata.status}}</p>
+                <p> <span>AlarmInterfaceA :</span>{{datailheaderdata.alarmInterfaceA}}</p>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
     <button [ngClass]="{'buttonActive':moredetailShow}" (click)="slideUpDown()"></button>
     <h2 class="detailtitle">DETAIL INFORMATION</h2>
     <div class="detailInformatioin" [@slideUpDown]='state'>
-        <nz-table #detailTable [nzData]="detailData" [nzShowPagination]="false" nzSize="small" [nzBordered]="true">
+        <nz-table #detailTable [nzData]="dataillistdata" [nzShowPagination]="false" nzSize="small" [nzBordered]="true">
             <thead>
                 <tr>
                     <th nzWidth="18%">Item Name</th>
@@ -58,7 +58,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of detailTable.data">
+                <tr *ngFor="let data of dataillistdata">
                     <td>{{data.name}}</td>
                     <td>{{data.value}}</td>
                 </tr>

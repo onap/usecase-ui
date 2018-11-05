@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -84,9 +99,6 @@ export class MyhttpService {
     pnfDetail:this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity:this.baseUrl + "/uui-sotn/getConnectivityInfo/",
     vpnBinding:this.baseUrl + "/uui-sotn/getPinterfaceByVpnId/",
-    alarmFormData:this.baseUrl + "/alarm/{currentPage}/{pageSize}/{sourceName}/{priority}/{startTime}/{endTime}/{vfStatus}",
-    alarmFormDetailData:this.baseUrl + "/alarm/getAlarmsHeaderDetail/{id}",
-    alarmsourcename:'/alarm/getSourceNames/'
   }
 
   // home
@@ -280,49 +292,20 @@ export class MyhttpService {
     return formattime;
   }
 
-  // Alarm table data
-  // getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
-  //   return this.http.post<any>(this.url.alarmFormData,{
-  //     currentPage:currentPage,
-  //     pageSize:pageSize,
-  //     sourceName:sourceName,
-  //     priority:priority,
-  //     startTime:startTime,
-  //     endTime:endTime ,
-  //     vfStatus:vfStatus
-  //   });
-  // }
+ getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
+    return this.http.get<any>('/api/usecaseui-server/v1/alarm/'+'/'+currentPage+'/'+pageSize+'/'+sourceName+'/'+priority+'/'+startTime+'/'+endTime+'/'+vfStatus);
+    }
 
   getSourceNames(){
-    return this.http.get<any>('http://192.168.43.12:8082/alarm/getSourceNames/');
+    return this.http.get<any>('/api/usecaseui-server/v1/alarm/getSourceNames/');
   }  
 
   getstatuscount(){
-    let httpurl = 'http://192.168.43.12:8082/alarm/statusCount';
+    let httpurl = '/api/usecaseui-server/v1/alarm/statusCount';
     return this.http.get<any>(httpurl);
   }
-  // getSourceNames(){
-    // let httpurl = this.baseUrl +  "/SourceName.json?";
-    // console.log(httpurl);
-    // return this.http.get<any>(httpurl);
-  // }
-  
-  // getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
-  //   return this.http.get<any>(this.url.alarmFormData+'?currentPage='+currentPage+'?pageSize='+pageSize+'?sourceName='+sourceName+'?priority='+priority+'?startTime='+startTime+'?endTime='+endTime+'?vfStatus='+vfStatus);
-  // }
-
-    getAlarmFormData(currentPage:number,pageSize:number,sourceName?:string,priority?:string,startTime?:string,endTime?:string,vfStatus?:string){
-      return this.http.get<any>('http://192.168.43.12:8082/alarm/'+'/'+currentPage+'/'+pageSize+'/'+sourceName+'/'+priority+'/'+startTime+'/'+endTime+'/'+vfStatus);
-      }
-
-  // Alarm Detail page data
-  // getAlarmDetailData(id){
-  //   let httpurl = this.baseUrl + "/alarmFormDetailData.json?id/" +id;
-  //   console.log(httpurl)
-  //   return this.http.get<any>(httpurl);
-  // }
   getAlarmDetailData(id){
-    let httpurl = 'http://192.168.43.12:8082/alarm/getAlarmsHeaderDetail/'+id;
+    let httpurl = '/api/usecaseui-server/v1/alarm/getAlarmsHeaderDetail/'+id;
     console.log(httpurl)
     return this.http.get<any>(httpurl);
   }

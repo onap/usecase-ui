@@ -51,24 +51,32 @@
     <span>Report Time: </span>
     <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime></nz-range-picker>
 
-    <!-- <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button> -->
-    <button class="search" nz-button [nzType]="'primary'"><i class="anticon anticon-search"></i><span>Search</span></button>
+    <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button>
 </div>
 </div>
 <div class="content" [@showHideAnimate]="state">
 <div class="title">
     <ul>
-        <li><h5>All</h5> <p>{{alarmList.all }}</p></li>
-        <li><h5>Closed</h5> <p>{{alarmList.closed }}</p></li>
-        <li><h5>Active</h5> <p>{{alarmList.activeNum }}</p></li>
+        <li>
+            <h5>All</h5>
+            <p>{{alarmList.all }}</p>
+        </li>
+        <li>
+            <h5>Closed</h5>
+            <p>{{alarmList.closed }}</p>
+        </li>
+        <li>
+            <h5>Active</h5>
+            <p>{{alarmList.activeNum }}</p>
+        </li>
     </ul>
 </div>
 <div class="chart">
     <h3>Alarm Chart</h3>
     <nz-radio-group [(ngModel)]="size">
-        <label nz-radio-button nzValue="day"> day </label>
-        <label nz-radio-button nzValue="month">month</label>
-      </nz-radio-group>
+        <label nz-radio-button nzValue="day" (click)="day()"> day </label>
+        <label nz-radio-button nzValue="month" (click)="month()">month</label>
+    </nz-radio-group>
     <div class="AlarmChart" [ngClass]="{'alarmChart-active':alarmShow}">
         <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
     </div>
@@ -96,12 +104,12 @@
                 <td>{{item.specificProblem}}</td>
                 <td>{{item.sequence}}</td>
                 <td>{{item.status}}</td>
-                <td class="action"><a (click)="detailShow()"><i class="details"></i></a></td>
+                <td class="action"><a (click)="detailShow(item)"><i class="details"></i></a></td>
             </tr>
         </tbody>
     </nz-table>
 </div>
 </div>
 <div [@showHideAnimate]="state2">
-<app-details></app-details>
+<app-details [detailId]="detailId"></app-details>
 </div>
