@@ -167,9 +167,49 @@ export class ServicesListComponent implements OnInit {
   }
 
   thisService = {};  //The current service of the operation
-  scaleService(){
-    console.log("scaleService!");
+  e2e_nsData:Object[];
+  scaleModelVisible = false;
+  scaleService(service){
+    this.thisService = service;
+    this.scaleModelVisible = true;
+    let paramsObj = {
+      customerId:this.customerSelected.id,
+      serviceType:this.serviceTypeSelected.name,
+      serviceId:service["service-instance-id"]
+    }
+    this.myhttp.getE2e_nsData(paramsObj)
+      .subscribe((data)=>{
+        this.e2e_nsData = data;
+      })
   }
+  scaleOk(){
+    this.scaleModelVisible = false;
+    let requestBody = {
+      "service": {
+        "serviceInstanceName": this.thisService["service-instance-name"],
+        "serviceType": this.serviceTypeSelected.name,
+        "globalSubscriberId": this.customerSelected.id,
+        "resources": this.e2e_nsData.map((item)=>{
+          return {
+            "resourceInstanceId": item["netWorkServiceId"],
+            "scaleType": item["scaleType"],
+            "scaleNsData": {
+              "scaleNsByStepsData": {
+                "aspectId": item["aspectId"],
+                "numberOfSteps": item["numberOfSteps"],
+                "scalingDirection": item["scalingDirection"]
+              }
+            }
+          }
+        })
+      }
+    }
+    this.scaleE2eService(this.thisService,requestBody);
+  }
+  scaleCancel(){
+    this.scaleModelVisible = false;
+  }
+  
   updataService(){
     console.log("updataService!");
   }
@@ -509,6 +549,26 @@ export class ServicesListComponent implements OnInit {
         })
     })
     return mypromise;
+  }
+
+  scaleE2eService(service,requestBody){
+    let id = service["service-instance-id"];
+    service.rate = 0;
+    service.status = "Scaling";
+    this.myhttp.scaleE2eService(id,requestBody)
+      .subscribe((data)=>{
+        let obj = {
+          serviceId:id,
+          operationId:data.operationId
+        }
+        let updata = (prodata)=>{
+          service.rate = prodata.progress;
+        }
+        this.queryProgress(obj,updata).then(()=>{
+          service.rate = 100;
+          service.status = "Active";
+        })
+      })
   }
 
   healNsVnfService(service,requestBody){

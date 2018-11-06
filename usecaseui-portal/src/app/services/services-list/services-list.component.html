@@ -115,17 +115,17 @@
             <td>
               <span [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
                     'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating',
-                    'stopping':data.status=='Stopping','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
-              <nz-progress *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Stopping' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
+                    'scaling':data.status=='Scaling','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
+              <nz-progress *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
             </td>
             <td>
-              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
-                *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
+              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
+                *ngIf="data.serviceDomain=='E2E Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
               <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
               <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
                 *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i>
               <i *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
-              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
+              <i [ngClass]="{'cannotclick':data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'||data.status=='Scaling'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
             </td>
           </tr>
           <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
@@ -145,6 +145,28 @@
         </ng-template>
       </tbody>
     </nz-table>
+
+    <nz-modal [nzVisible]="scaleModelVisible" nzTitle="Scale" (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk()">
+      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?</h3>
+      Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] || thisService["vnfInstanceId"]}}</b>
+      <div *ngFor="let item of e2e_nsData">
+        <h3>{{ item.netWorkServiceName }}</h3><hr>
+        <span style="display:inline-block;width:50%;">Scale Type:</span>
+        <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
+          <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
+          <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
+        </nz-select>
+        <span style="display:inline-block;width:50%;">AspectId:</span>
+        <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
+        <span style="display:inline-block;width:50%;">Number Of Steps:</span>
+        <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100" nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
+        <span style="display:inline-block;width:50%;">Scaling Direction:</span>
+        <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
+          <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
+          <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
+        </nz-select>
+      </div>
+    </nz-modal>
     <nz-modal [(nzVisible)]="deleteModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk()">
       <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure delete this instance?</h3>
       Instance ID: <b class="deleteModelContent"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] }}</b>
