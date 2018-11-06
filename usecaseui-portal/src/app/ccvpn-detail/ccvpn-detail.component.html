@@ -19,89 +19,33 @@
 
   <button class="back" nz-button (click)="goback()"><span><i class="anticon anticon-rollback"></i></span></button>
   <div class="detaildata fl">
-    <h3 class="title">{{detailParams['service-instance-name']}} Instance Detail</h3>
-    <div class="sotnvpn clearfix">
-      <h3>SOTN VPN Info</h3>
-      <ul>
-        <li><span>Name:</span> {{sotnVpnInfo.name}}</li>
-        <li><span>Description:</span> {{sotnVpnInfo.description}} </li>
-        <li><span>Start Time:</span> {{sotnVpnInfo.startTime}}</li>
-        <li><span>End Time:</span> {{sotnVpnInfo.endTime}} </li>
-        <li><span>COS:</span> {{sotnVpnInfo.COS}}</li>
-        <li><span>Reroute Enable:</span> {{sotnVpnInfo.reroute}} </li>
-        <li><span>Service Level Specification:</span> {{sotnVpnInfo.SLS}}</li>
-        <li><span>DualLink:</span> {{sotnVpnInfo.dualLink}} </li>
-        <li><span>CIR:</span> {{sotnVpnInfo.CIR}}</li>
-        <li><span>EIR:</span> {{sotnVpnInfo.EIR}} </li>
-        <li><span>CBS:</span> {{sotnVpnInfo.CBS}}</li>
-        <li><span>EBS:</span> {{sotnVpnInfo.EBS}} </li>
-        <li><span>Color Aware:</span> {{sotnVpnInfo.colorAware}}</li>
-        <li><span>Coupling Flag:</span> {{sotnVpnInfo.couplingFlag}} </li>
-      </ul>
-    </div>
-
-    <div class="site">
-      <h3>Site List</h3>
-      <nz-table #nzTable [nzData]="siteList"
-                [nzShowPagination]="false"
-                nzSize="small">
-        <thead>
-        <tr>
-          <th nzWidth="10%"> NO. </th>
-          <th nzWidth="15%"> Name </th>
-          <th nzWidth="20%"> Description </th>
-          <th nzWidth="15%"> Post Code </th>
-          <th nzWidth="15%"> Address </th>
-          <th nzWidth="15%"> VLAN </th>
-          <th nzWidth="10%"> Action </th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr *ngFor="let item of nzTable.data; let i = index; ">
-          <td>{{i+1}}</td>
-          <td>{{item.baseNames.name}}</td>
-          <td>{{item.baseNames.description}}</td>
-          <td>{{item.baseNames.postcode}}</td>
-          <td>{{item.baseNames.address}}</td>
-          <td>{{item.baseNames.vlan}}</td>
-          <td (click)="showSiteDetail(item)"> <a href="javascript:;">Detail</a> </td>
-        </tr>
-
-        </tbody>
-      </nz-table>
-      <div class="siteDetail" *ngIf="siteDetail">
-        <h3>Site_Enterprise Service <span class="closeDetail fr" (click)="siteDetail=false">X</span></h3>
-        <ul>
-          <li><span>Name:</span> {{ siteDetailData.baseNames.name}}</li>
-          <li><span>Description:</span> {{ siteDetailData.baseNames.description }} </li>
-          <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Type:</span> {{ siteDetailData.baseNames.type }} </li>
-          <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Role:</span> {{ siteDetailData.baseNames.role }} </li>
-          <li><span>PostCode:</span> {{ siteDetailData.baseNames.postcode }} </li>
-          <li><span>VLAN:</span> {{ siteDetailData.baseNames.vlan }}</li>
-          <li><span>Address:</span> {{ siteDetailData.baseNames.address }}</li>
-          <li><span>ClientSignal:</span> {{ siteDetailData.baseNames.clientSignal }}</li>
-          <li><span>ControlPoint:</span> {{ siteDetailData.baseNames.controlPoint }}</li>
-          <li><span>Emails:</span> {{ siteDetailData.baseNames.emails }}</li>
-          <li><span>GroupName:</span> {{ siteDetailData.baseNames.groupName }}</li>
-          <li><span>GroupRole:</span> {{ siteDetailData.baseNames.groupRole }}</li>
-          <li><span>Latitude:</span> {{ siteDetailData.baseNames.latitude }}</li>
-          <li><span>Longitude:</span> {{ siteDetailData.baseNames.longitude }}</li>
-          <li><span>SotnVpnName:</span> {{ siteDetailData.baseNames.sotnVpnName }}</li>
-        </ul>
-        <div *ngIf="detailParams.serviceDomain == 'CCVPN'">
-          <h3>CPE</h3>
+    <h3 class="title" style="margin-bottom: 20px">{{detailParams['service-instance-name']}} Instance Detail</h3>
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+      <nz-tab [nzTitle]="'SOTN VPN Info'">
+        <div class="sotnvpn clearfix">
+          <!--<h3>SOTN VPN Info</h3>-->
           <ul>
-            <li><span>Name:</span> {{siteDetailData.cpeNames.device_name}}</li>
-            <li><span>Version:</span> {{ siteDetailData.cpeNames.device_version }} </li>
-            <li><span>ESN:</span> {{ siteDetailData.cpeNames.device_esn }} </li>
-            <li><span>Class:</span> {{ siteDetailData.cpeNames.device_class }} </li>
-            <li><span>System IP:</span> {{ siteDetailData.cpeNames.device_systemIp }} </li>
-            <li><span>Vendor:</span> {{ siteDetailData.cpeNames.device_vendor }}</li>
-            <li><span>Type:</span> {{ siteDetailData.cpeNames.device_type }}</li>
+            <li><span>Name:</span> {{sotnVpnInfo.name}}</li>
+            <li><span>Description:</span> {{sotnVpnInfo.description}} </li>
+            <li><span>Start Time:</span> {{sotnVpnInfo.startTime}}</li>
+            <li><span>End Time:</span> {{sotnVpnInfo.endTime}} </li>
+            <li><span>COS:</span> {{sotnVpnInfo.COS}}</li>
+            <li><span>Reroute Enable:</span> {{sotnVpnInfo.reroute}} </li>
+            <li><span>Service Level Specification:</span> {{sotnVpnInfo.SLS}}</li>
+            <li><span>DualLink:</span> {{sotnVpnInfo.dualLink}} </li>
+            <li><span>CIR:</span> {{sotnVpnInfo.CIR}}</li>
+            <li><span>EIR:</span> {{sotnVpnInfo.EIR}} </li>
+            <li><span>CBS:</span> {{sotnVpnInfo.CBS}}</li>
+            <li><span>EBS:</span> {{sotnVpnInfo.EBS}} </li>
+            <li><span>Color Aware:</span> {{sotnVpnInfo.colorAware}}</li>
+            <li><span>Coupling Flag:</span> {{sotnVpnInfo.couplingFlag}} </li>
           </ul>
-          <h3>WAN Port</h3>
-          <nz-table #nzTable [nzData]="siteDetailData.wanportNames"
+        </div>
+      </nz-tab>
+      <nz-tab [nzTitle]="'Site List'">
+        <div class="site">
+          <!--<h3>Site List</h3>-->
+          <nz-table #nzTable [nzData]="siteList"
                     [nzShowPagination]="false"
                     nzSize="small">
             <thead>
@@ -109,9 +53,9 @@
               <th nzWidth="10%"> NO. </th>
               <th nzWidth="15%"> Name </th>
               <th nzWidth="20%"> Description </th>
-              <th nzWidth="15%"> PortType </th>
-              <th nzWidth="15%"> PortNumber </th>
-              <th nzWidth="15%"> IPAddress </th>
+              <th nzWidth="15%"> Post Code </th>
+              <th nzWidth="15%"> Address </th>
+              <th nzWidth="15%"> VLAN </th>
               <th nzWidth="10%"> Action </th>
             </tr>
             </thead>
@@ -119,66 +63,128 @@
 
             <tr *ngFor="let item of nzTable.data; let i = index; ">
               <td>{{i+1}}</td>
-              <td>{{item.sitewanport_name}}</td>
-              <td>{{item.sitewanport_description}}</td>
-              <td>{{item.sitewanport_portType}}</td>
-              <td>{{item.sitewanport_portNumber}}</td>
-              <td>{{item.sitewanport_ipAddress}}</td>
-              <td (click)="showWanportDetail(item)"> <a href="javascript:;">Detail</a> </td>
+              <td>{{item.baseNames.name}}</td>
+              <td>{{item.baseNames.description}}</td>
+              <td>{{item.baseNames.postcode}}</td>
+              <td>{{item.baseNames.address}}</td>
+              <td>{{item.baseNames.vlan}}</td>
+              <td (click)="showSiteDetail(item)"> <a href="javascript:;">Detail</a> </td>
             </tr>
 
             </tbody>
           </nz-table>
-          <nz-modal [(nzVisible)]="wanPortModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-            <ng-template #modalTitle>
-              WAN Port Detail
-            </ng-template>
+          <div class="siteDetail" *ngIf="siteDetail">
+            <h3>Site_Enterprise Service <span class="closeDetail fr" (click)="siteDetail=false">X</span></h3>
+            <ul>
+              <li><span>Name:</span> {{ siteDetailData.baseNames.name}}</li>
+              <li><span>Description:</span> {{ siteDetailData.baseNames.description }} </li>
+              <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Type:</span> {{ siteDetailData.baseNames.type }} </li>
+              <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Role:</span> {{ siteDetailData.baseNames.role }} </li>
+              <li><span>PostCode:</span> {{ siteDetailData.baseNames.postcode }} </li>
+              <li><span>VLAN:</span> {{ siteDetailData.baseNames.vlan }}</li>
+              <li><span>Address:</span> {{ siteDetailData.baseNames.address }}</li>
+              <li><span>ClientSignal:</span> {{ siteDetailData.baseNames.clientSignal }}</li>
+              <li><span>ControlPoint:</span> {{ siteDetailData.baseNames.controlPoint }}</li>
+              <li><span>Emails:</span> {{ siteDetailData.baseNames.emails }}</li>
+              <li><span>GroupName:</span> {{ siteDetailData.baseNames.groupName }}</li>
+              <li><span>GroupRole:</span> {{ siteDetailData.baseNames.groupRole }}</li>
+              <li><span>Latitude:</span> {{ siteDetailData.baseNames.latitude }}</li>
+              <li><span>Longitude:</span> {{ siteDetailData.baseNames.longitude }}</li>
+              <li><span>SotnVpnName:</span> {{ siteDetailData.baseNames.sotnVpnName }}</li>
+            </ul>
+            <div *ngIf="detailParams.serviceDomain == 'CCVPN'">
+              <h3>CPE</h3>
+              <ul>
+                <li><span>Name:</span> {{siteDetailData.cpeNames.device_name}}</li>
+                <li><span>Version:</span> {{ siteDetailData.cpeNames.device_version }} </li>
+                <li><span>ESN:</span> {{ siteDetailData.cpeNames.device_esn }} </li>
+                <li><span>Class:</span> {{ siteDetailData.cpeNames.device_class }} </li>
+                <li><span>System IP:</span> {{ siteDetailData.cpeNames.device_systemIp }} </li>
+                <li><span>Vendor:</span> {{ siteDetailData.cpeNames.device_vendor }}</li>
+                <li><span>Type:</span> {{ siteDetailData.cpeNames.device_type }}</li>
+              </ul>
+              <h3>WAN Port</h3>
+              <nz-table #nzTable [nzData]="siteDetailData.wanportNames"
+                        [nzShowPagination]="false"
+                        nzSize="small">
+                <thead>
+                <tr>
+                  <th nzWidth="10%"> NO. </th>
+                  <th nzWidth="15%"> Name </th>
+                  <th nzWidth="20%"> Description </th>
+                  <th nzWidth="15%"> PortType </th>
+                  <th nzWidth="15%"> PortNumber </th>
+                  <th nzWidth="15%"> IPAddress </th>
+                  <th nzWidth="10%"> Action </th>
+                </tr>
+                </thead>
+                <tbody>
 
-            <ng-template #modalContent>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Name </span> {{wanPortDetail.sitewanport_name}}</p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Description: </span> {{wanPortDetail.sitewanport_description}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Type: </span> {{wanPortDetail.sitewanport_portType}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Number: </span> {{wanPortDetail.sitewanport_portNumber}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Ip Address: </span> {{wanPortDetail.sitewanport_ipAddress}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Provider IP Address: </span> {{wanPortDetail.sitewanport_providerIpAddress}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Transport Nerwork: </span> {{wanPortDetail.sitewanport_transportNetworkName}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Input Bandwidth: </span> {{wanPortDetail.sitewanport_inputBandwidth}} </p>
-              <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Output Bandwidth: </span> {{wanPortDetail.sitewanport_outputBandwidth}} </p>
-            </ng-template>
+                <tr *ngFor="let item of nzTable.data; let i = index; ">
+                  <td>{{i+1}}</td>
+                  <td>{{item.sitewanport_name}}</td>
+                  <td>{{item.sitewanport_description}}</td>
+                  <td>{{item.sitewanport_portType}}</td>
+                  <td>{{item.sitewanport_portNumber}}</td>
+                  <td>{{item.sitewanport_ipAddress}}</td>
+                  <td (click)="showWanportDetail(item)"> <a href="javascript:;">Detail</a> </td>
+                </tr>
 
-            <ng-template #modalFooter>
+                </tbody>
+              </nz-table>
+              <nz-modal [(nzVisible)]="wanPortModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
+                <ng-template #modalTitle>
+                  WAN Port Detail
+                </ng-template>
 
-            </ng-template>
-          </nz-modal>
+                <ng-template #modalContent>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Name </span> {{wanPortDetail.sitewanport_name}}</p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Description: </span> {{wanPortDetail.sitewanport_description}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Type: </span> {{wanPortDetail.sitewanport_portType}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Number: </span> {{wanPortDetail.sitewanport_portNumber}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Ip Address: </span> {{wanPortDetail.sitewanport_ipAddress}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Provider IP Address: </span> {{wanPortDetail.sitewanport_providerIpAddress}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Transport Nerwork: </span> {{wanPortDetail.sitewanport_transportNetworkName}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Input Bandwidth: </span> {{wanPortDetail.sitewanport_inputBandwidth}} </p>
+                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Output Bandwidth: </span> {{wanPortDetail.sitewanport_outputBandwidth}} </p>
+                </ng-template>
+
+                <ng-template #modalFooter>
+
+                </ng-template>
+              </nz-modal>
+            </div>
+
+          </div>
         </div>
+      </nz-tab>
+      <nz-tab [nzTitle]="'Site_Group List'" *ngIf="detailParams.serviceDomain == 'CCVPN'">
+        <div class="sitegroup" >
+          <h3>Site_Group List</h3>
+          <nz-table #nzTable [nzData]="siteGroupList"
+                    [nzLoading]="loading"
+                    [nzShowPagination]="false"
+                    nzSize="small">
+            <thead>
+            <tr>
+              <th nzWidth="10%"> NO. </th>
+              <th nzWidth="20%"> Group Name </th>
+              <th nzWidth="20%"> Topology </th>
+            </tr>
+            </thead>
+            <tbody>
 
-      </div>
-    </div>
+            <tr *ngFor="let item of nzTable.data; let i = index; ">
+              <td>{{i+1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.topology}}</td>
+            </tr>
 
-    <div class="sitegroup" *ngIf="detailParams.serviceDomain == 'CCVPN'">
-      <h3>Site_Group List</h3>
-      <nz-table #nzTable [nzData]="siteGroupList"
-                [nzLoading]="loading"
-                [nzShowPagination]="false"
-                nzSize="small">
-        <thead>
-        <tr>
-          <th nzWidth="10%"> NO. </th>
-          <th nzWidth="20%"> Group Name </th>
-          <th nzWidth="20%"> Topology </th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr *ngFor="let item of nzTable.data; let i = index; ">
-          <td>{{i+1}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.topology}}</td>
-        </tr>
-
-        </tbody>
-      </nz-table>
-    </div>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+    </nz-tabset>
   </div>
 
   <div class="chart fr">
