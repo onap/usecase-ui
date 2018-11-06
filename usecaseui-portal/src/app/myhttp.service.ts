@@ -27,16 +27,15 @@ export class MyhttpService {
   
   // baseUrl = "./assets/json";
   // url={
-  //   allhome:this.baseUrl + "/homeAllData.json",
-  //   homeLineData:this.baseUrl + "/homePerformanceChartData.json",
-  //   serviceSelectList:this.baseUrl + "/servicesList.json",   //customer、serviceType
-  //   servicesTableData:this.baseUrl + "/servicesTableData.json",
-  //   onboardTableData:this.baseUrl + "/onboardTableData.json",
+  //   home_serviceData:this.baseUrl + "/home_serviceData.json",
+  //   home_performanceData:this.baseUrl + "/home_performanceData.json",
+  //   home_alarmData:this.baseUrl + "/home_alarmData.json",
+  //   home_alarmChartData:this.baseUrl + "/home_alarmChartData.json",
+  //   sourceNames:this.baseUrl + "/SourceName.json",
 
   //   customers:this.baseUrl + "/customers.json?",
   //   serviceType:this.baseUrl + "/serviceTypes.json?*_*",
-  //   servicesCategory:this.baseUrl + "/configuration_files/servicesCategory.json?",
-  //   serviceInstanceList:this.baseUrl + "/instanceTableData.json?",
+  //   servicesTableData:this.baseUrl + "/servicesTableData.json",
   //   serviceTemplates:this.baseUrl + "/serviceTemplates2.json?",
   //   templateParameters:this.baseUrl + "/*_*" + "ServiceTemplateParameters.json?",
   //   vimInfo:this.baseUrl + "/vimInfo.json?",
@@ -59,24 +58,20 @@ export class MyhttpService {
   //   connectivity:this.baseUrl + "/sotn-connectivity2.json?",
   //   vpnBinding:this.baseUrl + "/vpnbinding.json?",
   //   alarmFormData:this.baseUrl + "/alarmFormData.json?",
-  //   alarmFormDetailData:this.baseUrl + "/alarmFormDetailData.json?",
-  //   sourceName:this.baseUrl+ "/SorceName.json?"
   // }
 
   // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
   baseUrl = '/api/usecaseui-server/v1';
   url={
-    allhome:this.baseUrl + "/alarm/getAlarmDataByStatus/0",
-    homeLineData:this.baseUrl + "/...........",
-    serviceSelectList:this.baseUrl + "/xxxxxxxxxxxxx",
-    servicesTableData:this.baseUrl + "/xxxxxxxx.json",
-    onboardTableData:this.baseUrl + "/xxxxxxx.json",
-
+    home_serviceData:this.baseUrl + "/uui-lcm/serviceNumByCustomer",
+    home_performanceData:this.baseUrl + "/performance/queryAllSourceNames",
+    home_alarmData:this.baseUrl + "/alarm/statusCount",
+    home_alarmChartData:this.baseUrl + "/alarm/diagram",
+    sourceNames:this.baseUrl + "/alarm/getSourceNames",
 
     customers:this.baseUrl + "/uui-lcm/customers",
     serviceType:this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
-    servicesCategory: "./assets/json/configuration_files/servicesCategory.json",
-    serviceInstanceList:this.baseUrl + '/uui-sotn/getServiceInstanceList',
+    servicesTableData:this.baseUrl + '/uui-sotn/getServiceInstanceList',
     serviceTemplates:this.baseUrl + "/uui-lcm/service-templates",
     templateParameters:this.baseUrl + "/uui-lcm/service-templates/" + "*_*" +"?toscaModelPath=",
     nstemplateParameters:this.baseUrl + "/uui-lcm/fetchNsTemplateData",
@@ -102,31 +97,25 @@ export class MyhttpService {
   }
 
   // home
-  getAllHomeData() {
-    return this.http.get<homeData>(this.url.allhome);
+  getHomeServiceData(){
+    return this.http.get<any>(this.url.home_serviceData);
   }
-  //home lin
-  getHomePerformanceChartData(paramsObj){
+  getHomePerformanceData(){
+    return this.http.get<String[]>(this.url.home_performanceData);
+  }
+  getHomeAlarmData(){
+    return this.http.get<any>(this.url.home_alarmData);
+  }
+  getHomeAlarmChartData(paramsObj){
     let params = new HttpParams({fromObject:paramsObj});
-    return this.http.get<homeVmLineData>(this.url.homeLineData,{params});
+    return this.http.get<any>(this.url.home_alarmChartData,{params});
   }
 
-  // servicesList data
-  // getServicesSelectData():Observable<HttpResponse<servicesSelectData>>{
-  //   return this.http.get<servicesSelectData>(this.url.serviceSelectList,{observe:'response'});
-  // }
+  // serviceTable list
   getServicesTableData(paramsObj):Observable<HttpResponse<servicesTableData>>{
     let params = new HttpParams({fromObject:paramsObj});
     return this.http.get<servicesTableData>(this.url.servicesTableData,{observe:'response',params});
   }
-
-  // onboard data
-  getOnboardTableData(paramsObj):Observable<HttpResponse<onboardTableData>>{
-    let params = new HttpParams({fromObject:paramsObj});
-    return this.http.get<onboardTableData>(this.url.onboardTableData,{observe:'response',params});
-  }
-
-
 
   //---------------------------------------------------------------------------------
 
@@ -140,21 +129,7 @@ export class MyhttpService {
     let url = this.url.serviceType.replace("*_*",customer.id);
     return this.http.get<any>(url);
   }
-  // Get service classification information, local configuration file
-  // getServicesCategory(){
-  //   return this.http.get<any>(this.url.servicesCategory);
-  // }
-  // list Tabular data
-  getInstanceTableData(paramsObj){
-    let params = new HttpParams({fromObject:paramsObj});
-    return this.http.get<any>(this.url.serviceInstanceList,{params});
-  }
 
-  // // Service details data
-  // getInstanceDetails(id){
-  //   let url = this.baseUrl + "/detailsData.json?id=" + id;
-  //   return this.http.get<instanceDetail>(url);
-  // }
 
   // Get all template types
   getAllServiceTemplates(type){

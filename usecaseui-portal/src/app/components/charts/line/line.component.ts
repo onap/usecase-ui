@@ -39,7 +39,7 @@ export class LineComponent implements OnInit {
         axisLine:{
           show: false
         },
-          data: ['01','02','04','06','08','10','12','14','16','18','20','22','24']
+          data: this.initData.option.xAxis.data
       },
       yAxis: {
         axisTick: {

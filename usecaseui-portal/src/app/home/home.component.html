@@ -29,14 +29,14 @@
       <div class="poerformance">
         <h4>{{"PERFORMANCE" | translate}}</h4>
         <div class="pfVnf">
-          <h3 class="pfVnfNum">126</h3>
+          <h3 class="pfVnfNum">{{performanceVnfNum}}</h3>
           <p>Performance VNF</p>
-          <img src="../../assets/images/VNF.png" alt="VNF">
+          <img src="./assets/images/VNF.png" alt="VNF">
         </div>
         <div class="pfVmPm">
-          <h3 class="pfVmPmNum">286</h3>
+          <h3 class="pfVmPmNum">{{performanceVmNum}}</h3>
           <p>Performance VM/PM</p>
-          <img src="../../assets/images/VM.png" alt="VM/PM">
+          <img src="./assets/images/VM.png" alt="VM/PM">
         </div>
       </div>
       <div class="alarm">
@@ -46,16 +46,16 @@
     </div>
 
     <div class="rb-content">
-      <h4>{{"VM Performance" | translate}}</h4>
+      <h4>{{"Alarm" | translate}}</h4>
       <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
-        <button nz-button nz-dropdown><span>{{vmPerformanceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+        <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
         <ul nz-menu>
-          <li nz-menu-item (click)="vmPerformanceNameSelect(item)" *ngFor="let item of vmPerformanceNames">
+          <li nz-menu-item (click)="sourceNameSelect(item)" *ngFor="let item of sourceNameList">
             <a>{{item}}</a>
           </li>
         </ul>
       </nz-dropdown>
-      <app-line [initData]="performanceChartInit" [chartData]="performanceChartData"></app-line>
+      <app-line [initData]="alarmLineChartInit" [chartData]="alarmLineChartData"></app-line>
     </div>
   </div>
 

@@ -132,13 +132,16 @@ export class AlarmComponent implements OnInit {
       startTime: this.startTime,
       endTime: this.endTime
     }
-    this.myhttp.getHomePerformanceChartData(paramsObj)
+    this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          series: [
-            { data: data.CPU },
-            { data: data.CPU },
-            { data: data.Memory }
+          xAxis:{
+            data:data.dataList
+          },
+          series:[
+            {data:data.allList},
+            {data:data.ActiveList},
+            {data:data.closedList}
           ]
         }
       }, (err) => {
@@ -151,13 +154,16 @@ export class AlarmComponent implements OnInit {
       alarmSourceName: this.sourceName,
       day:"day"
     }
-    this.myhttp.getHomePerformanceChartData(paramsObj)
+    this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          series: [
-            { data: data.CPU },
-            { data: data.CPU },
-            { data: data.Memory }
+          xAxis:{
+            data:data.dataList
+          },
+          series:[
+            {data:data.allList},
+            {data:data.ActiveList},
+            {data:data.closedList}
           ]
         }
       }, (err) => {
@@ -169,13 +175,16 @@ export class AlarmComponent implements OnInit {
       alarmSourceName: this.sourceName,
       day:"month"
     }
-    this.myhttp.getHomePerformanceChartData(paramsObj)
+    this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          series: [
-            { data: data.CPU },
-            { data: data.CPU },
-            { data: data.Memory }
+          xAxis:{
+            data:data.dataList
+          },
+          series:[
+            {data:data.allList},
+            {data:data.ActiveList},
+            {data:data.closedList}
           ]
         }
       }, (err) => {
