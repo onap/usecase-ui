@@ -52,6 +52,8 @@ export class MyhttpService {
   //   vnfInfo: this.baseUrl + "/vnfInfo.json?",
   //   progress:this.baseUrl + "/progress.json?",
   //   nsProgress:this.baseUrl + "nsProgress.json?",
+  //   e2eScale:this.baseUrl + "/e2eScale.json?",
+  //   e2e_nsdata:this.baseUrl + "/e2e_nsdata.json?",
 
   //   allottedResource:this.baseUrl + "/allotted-resources2.json?",
   //   pnfDetail:this.baseUrl + "/pnfdetail-domain.json?",
@@ -89,6 +91,8 @@ export class MyhttpService {
     vnfInfo: this.baseUrl + "/uui-lcm/VnfInfo/",
     progress:this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
     nsProgress:this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/"+ "*_*" + "?responseId=",
+    e2eScale: this.baseUrl + "/services/scaleServices/",
+    e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId/",
 
     allottedResource:this.baseUrl + "/uui-sotn/getAllottedResources",
     pnfDetail:this.baseUrl + "/uui-sotn/getPnfInfo/",
@@ -217,6 +221,16 @@ export class MyhttpService {
   healNsService(id,requestBody){
     // return this.http.get<any>(this.url.ns_healService);  //Local simulation
     return this.http.post<any>(this.url.ns_healService + id,requestBody);
+  }
+
+  // scale
+  scaleE2eService(id,requestBody){
+    // return this.http.get<any>(this.url.e2eScale + id);  
+    return this.http.post<any>(this.url.e2eScale + id,requestBody);
+  }
+  getE2e_nsData(paramsObj){
+    let params = new HttpParams({fromObject:paramsObj});
+    return this.http.get<any>(this.url.e2e_nsdata,{params});
   }
 
   // Query progress interface
