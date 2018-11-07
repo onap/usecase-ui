@@ -30,17 +30,15 @@ export class AlarmComponent implements OnInit {
   size = 'day';
   @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
   public currentPage: number = 1;
-  public pageSize: number = 5;
+  public pageSize: number = 10;
   public sourceName: string = '';
   public priority: string = '';
   public startTime: string = '';
   public endTime: string = '';
   public vfStatus: string = '';
-  public sourceNameList:Array<any> =['---auto---'];
+  public sourceNameList: Array<any> = ['---auto---'];
   list: any;
   sourcenames: any;
-
-
   constructor(
     private datePipe: DatePipe,
     private myhttp: MyhttpService) { }
@@ -61,33 +59,33 @@ export class AlarmComponent implements OnInit {
   statusSelected = this.statusList[0];
 
   choseSourceName(item) {
-    if(item == "---auto---"){
+    if (item == "---auto---") {
       this.sourceName = '';
-    }else{
+    } else {
       this.sourceName = item;
     }
     this.sourceNameSelected = item;
-    
+
   }
   chosePriority(item) {
     this.prioritySelected = item;
-    if(item == "---auto---"){
+    if (item == "---auto---") {
       this.priority = '';
-    }else{
+    } else {
       this.priority = item;
     }
   }
   choseStatus(item) {
     this.statusSelected = item;
-    if(item == "---auto---"){
+    if (item == "---auto---") {
       this.vfStatus = '';
-    }else{
+    } else {
       this.vfStatus = item;
     }
   }
   getSourceNames() {
     this.myhttp.getSourceNames().subscribe((data) => {
-      for(let i=0;i<data.length;i++){
+      for (let i = 0; i < data.length; i++) {
         this.sourceNameList.push(data[i]);
       }
       this.sourceNameSelected = this.sourceNameList[0];
@@ -112,15 +110,15 @@ export class AlarmComponent implements OnInit {
     activeNum: 0
   }
   // total data
-  getstatuscount(){
-    this.myhttp.getstatuscount().subscribe((data)=>{
-      this.alarmList.activeNum = data[0];
-      this.alarmList.closed = data[1];
+  // getstatuscount(){
+  //   this.myhttp.getstatuscount().subscribe((data)=>{
+  //     this.alarmList.activeNum = data[0];
+  //     this.alarmList.closed = data[1];
 
-    })
-  }
-  getAlarmFormData() { 
-     
+  //   })
+  // }
+  getAlarmFormData() {
+
     this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.sourceName, this.priority, this.startTime, this.endTime, this.vfStatus).subscribe((data) => {
       this.list = data.alarms;
     })
@@ -138,10 +136,10 @@ export class AlarmComponent implements OnInit {
           xAxis:{
             data:data.dataList
           },
-          series:[
-            {data:data.allList},
-            {data:data.ActiveList},
-            {data:data.closedList}
+          series: [
+            { data: data.allList },
+            { data: data.ActiveList },
+            { data: data.closedList }
           ]
         }
       }, (err) => {
@@ -152,7 +150,7 @@ export class AlarmComponent implements OnInit {
   day() {
     let paramsObj = {
       alarmSourceName: this.sourceName,
-      day:"day"
+      day: "day"
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
@@ -160,10 +158,10 @@ export class AlarmComponent implements OnInit {
           xAxis:{
             data:data.dataList
           },
-          series:[
-            {data:data.allList},
-            {data:data.ActiveList},
-            {data:data.closedList}
+          series: [
+            { data: data.allList },
+            { data: data.ActiveList },
+            { data: data.closedList }
           ]
         }
       }, (err) => {
@@ -173,7 +171,7 @@ export class AlarmComponent implements OnInit {
   month() {
     let paramsObj = {
       alarmSourceName: this.sourceName,
-      day:"month"
+      day: "month"
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
@@ -181,10 +179,10 @@ export class AlarmComponent implements OnInit {
           xAxis:{
             data:data.dataList
           },
-          series:[
-            {data:data.allList},
-            {data:data.ActiveList},
-            {data:data.closedList}
+          series: [
+            { data: data.allList },
+            { data: data.ActiveList },
+            { data: data.closedList }
           ]
         }
       }, (err) => {
@@ -208,12 +206,16 @@ export class AlarmComponent implements OnInit {
         {
           type: 'slider',
           show: true,
-          // xAxisIndex: [0],
           start: 1,
           height: 10,
           end: 40
         }
       ],
+      xAxis:{
+        data:["2018-09-10 ","2018-09-11","2018-09-12","2018-09-13","2018-09-14",
+        "2018-09-15","2018-09-16","2018-09-17","2018-09-18","2018-09-19",
+        "2018-09-20","2018-09-21","2018-09-22","2018-09-10 ","2018-09-11","2018-09-12","2018-09-13"]
+      },
       series: [
         {
           name: 'All',
@@ -236,7 +238,7 @@ export class AlarmComponent implements OnInit {
         {
           name: 'Active',
           type: 'line',
-          smooth: true,//将图变得平缓
+          smooth: true,//
           showSymbol: false,
           areaStyle: {
             opacity: 0.8
