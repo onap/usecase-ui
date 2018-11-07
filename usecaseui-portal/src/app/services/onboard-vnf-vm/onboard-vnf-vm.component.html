@@ -13,18 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> Onboard VNF </h3>
-<nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-    <p class="ant-upload-drag-icon">
-        <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
-    <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or
-        other band files</p>
-</nz-upload>
-<button nz-button [nzLoading]="uploading" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 16px">
-    {{ uploading ? 'Uploading' : 'Start Upload' }}
-</button>
+
 <!-- <button nz-button nzType="primary" (click)="showModal()">
     <i class="anticon anticon-plus-circle-o"></i><span> Create </span>
 </button>
@@ -45,12 +34,32 @@
 </nz-tabset> -->
 
 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab, url)">
+    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab,nsdInfoId,url)">
         <!-- nsList -->
         <div class="list" *ngIf="tab === 'NS'">
-            <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading" nzSize="middle" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+            <h3 class="title"> Onboard {{tabTitle}} </h3>
+            <nz-upload nzType="drag" [(nzFileList)]="fileListNS" [nzBeforeUpload]="beforeUploadNS">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+                </p>
+                <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+            </nz-upload>
+            <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
+                style="margin-top: 16px">
+                {{ uploading ? 'Uploading' : 'Start Upload' }}
+            </button>
+            <!-- tablist -->
+            <nz-table #nzTable [nzData]="tableData" 
+                nzShowSizeChanger [nzFrontPagination]="true" 
+                [nzShowQuickJumper]="true"
+                [nzPageSizeOptions]="[5,10,15,20]" 
+                [nzTotal]='total' [(nzPageSize)]="pageSize" 
+                [(nzPageIndex)]='pageIndex'
+                [nzLoading]="loading" 
+                nzSize="middle" 
+                (nzPageSizeChange)="searchNsData(true)">
+                <!-- (nzPageIndexChange)="searchNsData()"  -->
                 <thead (nzSortChange)="sort($event)" nzSingleSort>
                     <tr>
                         <th nzWidth="5%">NO</th>
@@ -60,7 +69,7 @@
                         <th nzWidth="15%">Onboarding State</th>
                         <th nzWidth="20%">Operational State</th>
                         <th nzWidth="20%">Usage State</th>
-                        <th nzWidth="15%"></th>
+                        <th nzWidth="15%">Operation button</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,61 +85,49 @@
                         <td *ngIf="item.version">{{ item.version }}</td>
                         <td>
                             <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                                            'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.nsdOnboardingState}}</span>
+                        'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.nsdOnboardingState}}</span>
                             <!-- <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress> -->
                         </td>
                         <td>{{item.nsdOperationalState}}</td>
                         <td>{{item.nsdUsageState}}</td>
                         <td>
                             <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
-                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.id)"></i>
-                            <i class="anticon anticon-download" (click)="downloadService(item.id)" *ngIf="item.id"></i>
-                            <i class="anticon anticon-delete" (click)="deleteService(i,item.id)" id="{{ item.id }}"></i>
+                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataNsService(item.uuid)" *ngIf="item.uuid"></i>
+                            <!-- <i class="anticon anticon-download" (click)="downloadNsService(item.id)"></i> -->
+                            <i class="anticon anticon-delete" (click)="deleteNsService(i,item.id)" *ngIf="item.id"></i>
+                            <!-- <i class="anticon anticon-delete" *ngIf="item.uuid" (click)="deleteNsSdcService(i,item.uuid)"></i> -->
                         </td>
                     </tr>
                 </tbody>
             </nz-table>
         </div>
         <!-- VNFList -->
-        <!-- <div class="list" *ngIf="tab === 'VNF'">
-            <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading" nzSize="middle" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
-                <thead (nzSortChange)="sort($event)" nzSingleSort>
-                    <tr>
-                        <th nzWidth="5%">NO</th>
-                        <th nzWidth="20%" nzShowSort nzSortKey="name"> Name </th>
-                        <th nzWidth="20%">Type</th>
-                        <th nzWidth="20%">Version</th>
-                        <th nzWidth="15%">Onboarding State</th>
-                        <th nzWidth="20%">Operational State</th>
-                    </tr>
-                </thead> -->
-        <!-- <tbody>
-                    <tr *ngFor="let item of nzTable.data; let i = index; ">
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.type}}</td>
-                        <td>{{item.version}}</td>
-                        <td>
-                            <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                                            'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
-                            <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
-                        </td>
-                        <td> -->
-        <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
-        <!-- <i class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.id)"></i>
-                            <i class="anticon anticon-download" (click)="downloadVnfService(item.id)" *ngIf="item.uuid"></i>
-                            <i class="anticon anticon-delete" (click)="deleteVnfService(i,item.id)" id="{{ item.id }}"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-        </div> -->
         <div class="list" *ngIf="tab === 'VNF'">
-            <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading" nzSize="middle" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+            <h3 class="title"> Onboard {{tabTitle}} </h3>
+            <nz-upload nzType="drag" [(nzFileList)]="fileListVNF" [nzBeforeUpload]="beforeUploadVNF">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+                </p>
+                <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+            </nz-upload>
+            <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListVNF.length == 0"
+                style="margin-top: 16px">
+                {{ uploading ? 'Uploading' : 'Start Upload' }}
+            </button>
+            <!-- tabList -->
+            <nz-table #nzTable [nzData]="tableData" 
+                nzShowSizeChanger
+                [nzFrontPagination]="true" 
+                [nzShowQuickJumper]="true" 
+                [nzPageSizeOptions]="[5,10,15,20]" 
+                [nzTotal]= 'total'
+                [(nzPageSize)]="pageSize" 
+                [(nzPageIndex)]='pageIndex'
+                [nzLoading]="loading"
+                nzSize="middle"
+                (nzPageSizeChange)="searchVnfData(true)">
+                 <!--(nzPageIndexChange)="searchVnfData()" -->
                 <thead (nzSortChange)="sort($event)" nzSingleSort>
                     <tr>
                         <th nzWidth="5%">NO</th>
@@ -146,23 +143,25 @@
                     <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
                     <tr *ngFor="let item of nzTable.data; let i = index; ">
                         <!-- <td>{{i+1}}</td> -->
-                        <td>{{item.id}}</td>
-                        <td>{{item.vnfProductName}}</td>
-                        <td>{{item.vnfdVersion}}</td>
+                        <td *ngIf="item.id">{{item.id}}</td>
+                        <td *ngIf="item.uuid">{{item.uuid}}</td>
+                        <td *ngIf="item.vnfProductName">{{item.vnfProductName}}</td>
+                        <td *ngIf="item.name">{{item.name}}</td>
+                        <td  *ngIf="item.vnfdVersion">{{item.vnfdVersion}}</td>
+                        <td  *ngIf="item.version">{{item.version}}</td>
                         <td>{{item.onboardingState}}</td>
                         <td>{{item.usageState}}</td>
                         <td>{{item.operationalState}}</td>
                         <!-- <td>
-                <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
-                <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
-                </td> -->
+                            <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
+                                'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.operationalState}}</span>
+                            <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
+                        </td> -->
                         <td>
                             <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
-                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.id)"
-                                *ngIf="item.uuid"></i>
-                            <i class="anticon anticon-download" (click)="downloadService(item.id)" *ngIf="item.id"></i>
-                            <i class="anticon anticon-delete" (click)="deleteService(i,item.id)" id="{{ item.id }}"></i>
+                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid)" *ngIf="item.uuid"></i>
+                            <!-- <i class="anticon anticon-download" (click)="downloadVnfService()"></i> -->
+                            <i class="anticon anticon-delete" (click)="deleteVnfService(i,item.id)" id="{{ item.id}}" *ngIf="item.id"></i>
                         </td>
                     </tr>
                     <!-- </ng-template> -->
@@ -170,44 +169,32 @@
             </nz-table>
         </div>
         <!-- PNFList -->
-        <!-- <div class="list" *ngIf="tab === 'PNF'">
-            <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading" nzSize="middle" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
-                <thead (nzSortChange)="sort($event)" nzSingleSort>
-                    <tr>
-                        <th nzWidth="5%">NO</th>
-                        <th nzWidth="20%" nzShowSort nzSortKey="name"> Name </th>
-                        <th nzWidth="20%">Type</th>
-                        <th nzWidth="20%">Version</th>
-                        <th nzWidth="15%">Onboarding State</th>
-                        <th nzWidth="20%">Operational State</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of nzTable.data; let i = index; ">
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.type}}</td>
-                        <td>{{item.version}}</td>
-                        <td>
-                            <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                                            'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
-                            <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
-                        </td>
-                        <td>
-                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataPnfService(item.id)"></i>
-                            <i class="anticon anticon-download" (click)="downloadPnfService(item.id)"  *ngIf="item.uuid"></i>
-                            <i class="anticon anticon-delete" (click)="deletePnfService(i,item.id)" id="{{ item.id }}"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-        </div> -->
         <div class="list" *ngIf="tab === 'PNF'">
-            <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading" nzSize="middle" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+            <h3 class="title"> Onboard {{tabTitle}} </h3>
+            <nz-upload nzType="drag" [(nzFileList)]="fileListPNF" [nzBeforeUpload]="beforeUploadPNF">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+                </p>
+                <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+            </nz-upload>
+            <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListPNF.length == 0"
+                style="margin-top: 16px">
+                {{ uploading ? 'Uploading' : 'Start Upload' }}
+            </button>
+            <!-- tabList -->
+            <nz-table #nzTable [nzData]="tableData" 
+                nzShowSizeChanger
+                [nzFrontPagination]="true" 
+                [nzShowQuickJumper]="true" 
+                [nzPageSizeOptions]="[5,10,15,20]" 
+                [nzTotal]= 'total'
+                [(nzPageSize)]="pageSize" 
+                [(nzPageIndex)]='pageIndex'
+                [nzLoading]="loading"
+                nzSize="middle"
+                (nzPageSizeChange)="searchPnfData(true)">
+                 <!-- (nzPageIndexChange)="searchPnfData()"  -->
                 <thead (nzSortChange)="sort($event)" nzSingleSort>
                     <tr>
                         <th nzWidth="5%">NO</th>
@@ -228,16 +215,15 @@
                         <td>{{item.pnfdOnboardingState}}</td>
                         <td>{{item.pnfdUsageState}}</td>
                         <!-- <td>
-        <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-        'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
-        <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
-        </td> -->
+                            <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
+                                'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.status}}</span>
+                            <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress>
+                        </td> -->
                         <td>
                             <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
-                            <i class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.id)"
-                                *ngIf="item.uuid"></i>
-                            <i class="anticon anticon-download" (click)="downloadService(item.id)"></i>
-                            <i class="anticon anticon-delete" (click)="deleteService(i,item.id)" id="{{ item.id }}"></i>
+                            <!-- <i class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.id)" *ngIf="item.id"></i> -->
+                            <!-- <i class="anticon anticon-download" (click)="downloadPnfService(item.id)"></i> -->
+                            <i class="anticon anticon-delete" (click)="deletePnfService(i,item.id)"></i>
                         </td>
                     </tr>
                     <!-- </ng-template> -->
@@ -246,3 +232,4 @@
         </div>
     </nz-tab>
 </nz-tabset>
+
