@@ -14,11 +14,11 @@ export class PerformanceDetailsComponent implements OnInit {
   constructor(private myhttp:MyhttpService) { }
 
   ngOnInit() {
-    this.getAlarmDetailData(7);
+    this.getAlarmDetailData(this.detailId);
   }
 
   ngOnChanges(changes){
-    console.log(changes);
+    // console.log(changes);
   }
   datailheaderdata: any = {};
   dataillistdata: any = [];

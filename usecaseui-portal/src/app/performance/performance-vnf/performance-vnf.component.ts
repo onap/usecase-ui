@@ -1,64 +1,85 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { slideToRight, showHideAnimate } from '../../animates';
+import { MyhttpService } from '../../myhttp.service';
 
 @Component({
   selector: 'app-performance-vnf',
   templateUrl: './performance-vnf.component.html',
   styleUrls: ['./performance-vnf.component.less'],
-  animations: [ slideToRight, showHideAnimate ]
+  animations: [slideToRight, showHideAnimate],
 })
 export class PerformanceVnfComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
-  constructor() { }
+  public sourceNameList: Array<any> = ['---auto---'];
+  public namecurrentPage: number = 1;
+  public namepageSize: number = 10;
+  public sourceName: string = '';
+  public vnfsdataTotal: number;
+
+  constructor(
+    private myhttp: MyhttpService) { }
 
   ngOnInit() {
-    let _this = this;
-    setTimeout(function(){
-      // 在路由切换时加载图片造成动画卡顿，先完成动画再加载图片
-      _this.vnfsData = [    
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"},
-        {name:"aaa",text:"oahgieango"}
-      ];
-      _this.emptys = new Array(15-_this.vnfsData.length);
-    },300)
+    this.getqueryAllSourceNames();
+    this.getperformanceSsourceNames()
   }
 
-  // 筛选框（下拉框）
-  sourceNameList = ['aaaa','bbbb','cccc','dddddDDDDDDDDDDDDDDD'];
+
   sourceNameSelected = this.sourceNameList[0];
-  ReportingEntityNameList = ['aaaa','bbbb','cccc','ddddd'];
-  ReportingEntityNameSelected = this.ReportingEntityNameList[0];  
-  choseSourceName(item){
+  getqueryAllSourceNames() {
+    this.myhttp.getqueryAllSourceNames().subscribe((data) => {
+      // console.log(data)
+      for (let i = 0; i < data.length; i++) {
+        this.sourceNameList.push(data[i]);
+      }
+      this.sourceNameSelected = this.sourceNameList[0];
+    })
+  }
+  choseSourceName(item) {
     console.log(item);
     this.sourceNameSelected = item;
-  }
-  choseReportingEntityName(item){
-    console.log(item);
-    this.ReportingEntityNameSelected = item;
+    if (item == "---auto---") {
+      this.sourceName = '';
+    } else {
+      this.sourceName = item;
+    }
   }
 
-  submit(){
-    
+  getperformanceSsourceNames() {
+    this.myhttp.getperformanceSsourceNames(this.namecurrentPage, this.namepageSize, this.sourceName).subscribe((data) => {
+      this.vnfsData = data.vnfdata;
+      this.vnfsdataTotal = data.total;
+      if (Number.isInteger(this.vnfsData.length / 5)) {
+        this.emptys = new Array(0);
+      } else {
+        this.emptys = new Array(5 - this.vnfsData.length % 5);
+      }
+      // console.log(this.emptys);
+    })
   }
-  // vnfs数据
+  // vnfs data
   vnfsData = [];
-  emptys = []; //补空盒子用
-  // 分页 
-  current = 1;  //当前页码
+  emptys = []; //Fill the box
 
-  //详情页标题显示
+  //Detail page title display
   graphicshow = false;
   detailshow = false;
-  // 显示隐藏动画
+  // Show hidden animation
   state = "show";
   state2 = "hide";
   state3 = "hide";
@@ -69,24 +90,33 @@ export class PerformanceVnfComponent implements OnInit {
     this.graphicshow = false;
     this.detailshow = false;
   }
-  graphicShow() {
+  // Selected name
+  
+  graphicShow(item) {
     this.state = 'hide';
     this.state2 = 'show';
     this.state3 = 'hide';
     this.graphicshow = true;
     this.detailshow = false;
   }
-  // 选中id
-  detailId:number;
-  detailShow(prems) {
+  vnfname: number;
+  graphicShow2(item){
+    this.state = 'hide';
+    this.state2 = 'show';
+    this.state3 = 'hide';
+    this.graphicshow = true;
+    this.detailshow = false;
+    this.vnfname = item.name;
+  }
+  // Selected id
+  detailId: number;
+  detailShow(item) {
     this.state = 'hide';
     this.state2 = 'hide';
     this.state3 = 'show';
     this.graphicshow = true;
     this.detailshow = true;
-    console.log(prems);
-    this.detailId = prems.id;
+    this.detailId = item.id;
   }
-
 
 }

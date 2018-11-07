@@ -1,147 +1,75 @@
+/*
+    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { MyhttpService } from '../../myhttp.service';
 import * as addDays from 'date-fns/add_days';
+import { DatePipe } from "@angular/common"
 
 @Component({
   selector: 'app-graphiclist',
   templateUrl: './graphiclist.component.html',
-  styleUrls: ['./graphiclist.component.less']
+  styleUrls: ['./graphiclist.component.less'],
+  providers: [DatePipe]
 })
 export class GraphiclistComponent implements OnInit {
+  public startTime: string = '';
+  public endTime: string = '';
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  list: any;
+  constructor( private datePipe: DatePipe,
+    private myhttp: MyhttpService) { }
+  isVisibleMiddle = false;
 
-  constructor() { }
-  // isVisibleMiddle = false;
-
-  // showModalMiddle(): void {
-  //   this.isVisibleMiddle = true;
-  // }
-  // handleOkMiddle(): void {
-  //   console.log('click ok');
-  //   this.isVisibleMiddle = false;
-  // }
-  // handleCancelMiddle(): void {
-  //   this.isVisibleMiddle = false;
-  // }
+  showModalMiddle(): void {
+    this.isVisibleMiddle = true;
+  }
+  handleOkMiddle(): void {
+    // console.log('click ok');
+    this.isVisibleMiddle = false;
+  }
+  handleCancelMiddle(): void {
+    this.isVisibleMiddle = false;
+  }
 
   ngOnInit() {
+    this.getPerformanceFormData();
   }
-
-  // 筛选框（下拉框）
-  MeasurementList = ['aaaa','bbbb','cccc','dddddDDDD'];
-  MeasurementSelected = "Measurement";
-  ReportTimeList = ['aaaa','bbbb','cccc','ddddd'];
-  ReportTimeSelected = "ReportTime";  
-  choseMeasurement(item){
-    console.log(item);
-    this.MeasurementSelected = item;
+  ngOnchanges(changes){
+    this.getPerformanceFormData();
+    console.log(this.vnfname)
+   
   }
-  choseReportTime(item){
-    console.log(item);
-    this.ReportTimeSelected = item;
+  getPerformanceFormData() {
+    this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.vnfname, this.startTime, this.endTime).subscribe((data) => {
+      console.log(data)
+      this.list = data.alarms;
+    })
   }
  // Date screening
  dateRange =  [ addDays(new Date(), -30), new Date() ];
 
  onChange(result: Date): void {
-   console.log('onChange: ', result);
- }
+  this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd-HH:mm:ss');
+  this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd-HH:mm:ss');
+}
   sort(e){
 
   }
-  //表格数据
-  dataSet = [
-    {
-      name       : 'John Brown',
-      age        : 32,
-      expand     : false,
-      address    : 'New York No. 1',
-      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.'
-    },
-    {
-      name       : 'Aim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Xim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-      name       : 'aoe Black',
-      age        : 32,
-      expand     : false,
-      address    : 'Sidney No. 1',
-      description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.'
-    }
-  ];
-
+  @Input () vnfname;
   @Output() detailData = new EventEmitter();
   detailShow(id){
     let prems = {
