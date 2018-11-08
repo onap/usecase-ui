@@ -507,6 +507,9 @@ export class CcvpnCreationComponent implements OnInit {
       let siteGroupInputs = {};
       this.siteGroupNames.forEach((name)=>{
         for(let key in item){
+          if(this.namesTranslate.siteGroupNameTranslate[key] == undefined){
+              continue;
+          }
           let nameParts = this.namesTranslate.siteGroupNameTranslate[key].split("_");
           if(name.startsWith(nameParts[0])&&name.endsWith(nameParts[1])){
             siteGroupInputs[name] = item[key];
