@@ -26,24 +26,26 @@ import { MyhttpService } from '../../myhttp.service';
 export class PerformanceVnfComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
   public sourceNameList: Array<any> = ['---auto---'];
-  public namecurrentPage: number = 1;
-  public namepageSize: number = 10;
   public sourceName: string = '';
   public vnfsdataTotal: number;
+  public startTime: string = '';
+  public endTime: string = '';
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  list: any;
 
   constructor(
     private myhttp: MyhttpService) { }
 
   ngOnInit() {
     this.getqueryAllSourceNames();
-    this.getperformanceSsourceNames()
+    this.getperformanceSsourceNames();
   }
 
 
   sourceNameSelected = this.sourceNameList[0];
   getqueryAllSourceNames() {
     this.myhttp.getqueryAllSourceNames().subscribe((data) => {
-      // console.log(data)
       for (let i = 0; i < data.length; i++) {
         this.sourceNameList.push(data[i]);
       }
@@ -51,7 +53,6 @@ export class PerformanceVnfComponent implements OnInit {
     })
   }
   choseSourceName(item) {
-    console.log(item);
     this.sourceNameSelected = item;
     if (item == "---auto---") {
       this.sourceName = '';
@@ -59,23 +60,22 @@ export class PerformanceVnfComponent implements OnInit {
       this.sourceName = item;
     }
   }
+  // vnfs data
+  totalRecords = [];
+  //Fill the box
+  emptys = []; 
 
   getperformanceSsourceNames() {
-    this.myhttp.getperformanceSsourceNames(this.namecurrentPage, this.namepageSize, this.sourceName).subscribe((data) => {
-      this.vnfsData = data.vnfdata;
-      this.vnfsdataTotal = data.total;
-      if (Number.isInteger(this.vnfsData.length / 5)) {
+    this.myhttp.getperformanceSourceNames(this.currentPage, this.pageSize, this.sourceName).subscribe((data) => {
+      this.totalRecords = data.totalRecords;
+      this.vnfsdataTotal = data.names;
+      if (Number.isInteger(this.totalRecords.length / 5)) {
         this.emptys = new Array(0);
       } else {
-        this.emptys = new Array(5 - this.vnfsData.length % 5);
+        this.emptys = new Array(5 - this.totalRecords.length % 5);
       }
-      // console.log(this.emptys);
     })
   }
-  // vnfs data
-  vnfsData = [];
-  emptys = []; //Fill the box
-
   //Detail page title display
   graphicshow = false;
   detailshow = false;
@@ -91,32 +91,31 @@ export class PerformanceVnfComponent implements OnInit {
     this.detailshow = false;
   }
   // Selected name
-  
-  graphicShow(item) {
+
+  graphicShow() {
     this.state = 'hide';
     this.state2 = 'show';
     this.state3 = 'hide';
     this.graphicshow = true;
     this.detailshow = false;
   }
-  vnfname: number;
-  graphicShow2(item){
+  vnfname: string;
+  graphicShow2(item) {
     this.state = 'hide';
     this.state2 = 'show';
     this.state3 = 'hide';
     this.graphicshow = true;
     this.detailshow = false;
-    this.vnfname = item.name;
+    this.vnfname = item;
   }
   // Selected id
-  detailId: number;
+  detailId: string;
   detailShow(item) {
     this.state = 'hide';
     this.state2 = 'hide';
     this.state3 = 'show';
     this.graphicshow = true;
     this.detailshow = true;
-    this.detailId = item.id;
+    this.detailId = item.id.id;
   }
-
 }

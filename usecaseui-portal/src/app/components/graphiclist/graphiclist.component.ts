@@ -25,7 +25,7 @@ import { DatePipe } from "@angular/common"
   providers: [DatePipe]
 })
 export class GraphiclistComponent implements OnInit {
-  public startTime: string = '';
+  public startTime: string ='';
   public endTime: string = '';
   public currentPage: number = 1;
   public pageSize: number = 10;
@@ -46,28 +46,23 @@ export class GraphiclistComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPerformanceFormData();
   }
-  ngOnchanges(changes){
+  ngOnChanges(changes){
     this.getPerformanceFormData();
-    console.log(this.vnfname)
-   
   }
   getPerformanceFormData() {
-    this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.vnfname, this.startTime, this.endTime).subscribe((data) => {
-      console.log(data)
-      this.list = data.alarms;
+    this.myhttp.getPerformanceFormData(this.currentPage, this.pageSize, this.vnfname, this.startTime, this.endTime).subscribe((data) => {
+      this.list = data.performances;
     })
   }
  // Date screening
  dateRange =  [ addDays(new Date(), -30), new Date() ];
 
  onChange(result: Date): void {
-  this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd-HH:mm:ss');
-  this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd-HH:mm:ss');
+  this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd HH:mm:ss');
+  this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd HH:mm:ss');
 }
   sort(e){
-
   }
   @Input () vnfname;
   @Output() detailData = new EventEmitter();

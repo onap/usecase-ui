@@ -33,11 +33,11 @@
 </div>
 <div class="content" [@showHideAnimate]="state">
     <div class="vnfs">
-        <div class="vnf" *ngFor="let item of vnfsData">
+        <div class="vnf" *ngFor="let item of totalRecords">
             <img src="../../../assets/images/VNF3.png" title="VF" (click)="graphicShow2(item)">
-            <h3>{{item.name}}</h3>
+            <h3>{{item}}</h3>
             <div class="intro"> 
-               {{item.text}}
+               {{item}}
             </div>
         </div>
         <div class="empty" *ngFor="let empty of emptys"></div>   

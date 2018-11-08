@@ -34,8 +34,8 @@
                     <th nzWidth="20%">Source Name</th>
                     <th nzWidth="20%">Event Name</th>
                     <th nzWidth="20%">ReportingEntityName</th>
-                    <!-- <th nzWidth="20%">Report Time</th> -->
-                    <th nzWidth="10%">Action</th>
+                    <th nzWidth="15%">Report Time</th>
+                    <th nzWidth="5%">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
                     <td>{{item.sourceName}}</td>
                     <td>{{item.eventName}}</td>
                     <td>{{item.reportingEntityName}}</td>
-                    <!-- <td>{{item.sequence}}</td> -->
+                    <td>{{item.startEpochMicrosec | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td><a class="action" (click)="detailShow(item)"><i class="details"></i></a></td>
                 </tr>
                 <!-- </ng-template> -->

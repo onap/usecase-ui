@@ -45,7 +45,7 @@ export class AlarmComponent implements OnInit {
   ngOnInit() {
     this.getAlarmFormData();
     this.getSourceNames();
-    // this.getstatuscount();
+    this.getstatuscount();
   }
 
   // Filter box
@@ -98,9 +98,7 @@ export class AlarmComponent implements OnInit {
     this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd HH:mm:ss');
     this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd HH:mm:ss');
   }
-  sort(e){
 
-  }
   // total
   alarmList = {
     all: 0,
