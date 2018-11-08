@@ -138,9 +138,9 @@ export class ServicesListComponent implements OnInit {
   getTableData(){
     // params: customer serviceType pageIndex，pageSize，sortName
     let paramsObj = {
-      customer:this.customerSelected.id,
+      customerId:this.customerSelected.id,
       serviceType:this.serviceTypeSelected.name,
-      pageIndex:this.pageIndex,
+      currentPage:this.pageIndex,
       pageSize:this.pageSize
     }
     this.myhttp.getServicesTableData(paramsObj)
