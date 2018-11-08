@@ -88,12 +88,12 @@
         <thead (nzSortChange)="sort($event)" nzSingleSort>
             <tr>
                 <th nzWidth="5%">NO</th>
-                <th nzWidth="20%">Source Name</th>
+                <th nzWidth="10%">Source Name</th>
                 <th nzWidth="10%">Priority</th>
-                <th nzWidth="20%">SpecificProblem</th>
-                <th nzWidth="20%">Report Time</th>
-                <th nzWidth="20%">Report Time</th>
-                <th nzWidth="15%">Status</th>
+                <th nzWidth="15%">SpecificProblem</th>
+                <th nzWidth="15%">Report Time</th>
+                <th nzWidth="15%">Clear Time</th>
+                <th nzWidth="10%">Status</th>
                 <th nzWidth="10%">Action</th>
             </tr>
         </thead>
@@ -103,8 +103,8 @@
                 <td>{{item.sourceName}}</td>
                 <td>{{item.priority}}</td>
                 <td>{{item.specificProblem}}</td>
-                <td>{{item.startEpochMicrosec}}</td>
-                <td>{{item.startEpochMicrosecCleared}}</td>
+                <td>{{item.startEpochMicrosec | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.startEpochMicrosecCleared | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td>{{item.status}}</td>
                 <td class="action"><a (click)="detailShow(item)"><i class="details"></i></a></td>
             </tr>
