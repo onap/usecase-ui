@@ -3,7 +3,7 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 // import { MyhttpService } from '../../myhttp.service';
 import { onboardService } from '../../onboard.service';
 import { slideToRight } from '../../animates';
-import { NzMessageService, UploadFile } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 
@@ -24,6 +24,8 @@ export class OnboardVnfVmComponent implements OnInit {
     vnf: 'https://jsonplaceholder.typicode.com/posts/',
     pnf: 'https://jsonplaceholder.typicode.com/posts/',
   };
+  // delete Modal
+  confirmModal: NzModalRef; 
   nsdInfoId = '';
   vnfPkgId ='';
   pnfdInfoId = '';
@@ -32,7 +34,7 @@ export class OnboardVnfVmComponent implements OnInit {
   fileListNS: UploadFile[] = [];
   fileListVNF: UploadFile[] = [];
   fileListPNF: UploadFile[] = [];
-  constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title) { }
+  constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService) { }
 
   //default 默认调用ns数据
   ngOnInit() {
@@ -53,7 +55,7 @@ export class OnboardVnfVmComponent implements OnInit {
   tabs = ['NS', 'VNF', 'PNF'];
   
   isVisible = false;
-  isOkLoading = false;
+  isOkLoading = false; 
   showModal(): void {
     this.isVisible = true;
   }
@@ -66,6 +68,7 @@ export class OnboardVnfVmComponent implements OnInit {
   handleTabChange(tab,nsdInfoId,url) {
     this.tabTitle = tab;
     console.log(tab);
+    console.log(nsdInfoId);
     console.log(this.url);
     switch (tab) {
       case 'NS':
@@ -113,7 +116,7 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   //vnf  beforeUpload
-  beforeUploadVNF = (file: UploadFile,tab): boolean => {
+  beforeUploadVNF = (file: UploadFile): boolean => {
     this.fileListVNF.push(file);
     console.log('beforeUpload');
       // this.myhttp.getCreatensData("createVnfData",requestBody)//线上
@@ -129,7 +132,7 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   // //pnf eforeUpload
-  beforeUploadPNF = (file: UploadFile,tab): boolean => {
+  beforeUploadPNF = (file: UploadFile): boolean => {
     this.fileListPNF.push(file);
     console.log('beforeUpload');
       // this.myhttp.getCreatensData("createPnfData",requestBody)  //线上
@@ -143,27 +146,25 @@ export class OnboardVnfVmComponent implements OnInit {
         })
     return false;
   }
-    
-
   //拖拽后点击上传按钮
   onClick (tab) {
     switch (tab) {
       case 'NS':
       console.log(this.nsdInfoId);
       // this.handleUpload('http://ip:port/api/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content');
-        this.handleUpload(this.url.ns,tab);
+        this.handleUpload(this.url.ns, tab);
         this.getTableData();
         break
       case 'VNF':
       console.log(this.vnfPkgId);
      // this.handleUpload('http://ip:port/api/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content'); 
-        this.handleUpload(this.url.vnf,tab); 
+        this.handleUpload(this.url.vnf, tab); 
         this.getTableVnfData()
         break
       case 'PNF':
       console.log(this.pnfdInfoId);
       // this.handleUpload('http://ip:port/api/nsd/v1/pnf_descriptors/{pnfdInfoId}/pnfd_content');
-        this.handleUpload(this.url.pnf,tab);  
+        this.handleUpload(this.url.pnf, tab);  
         this.getTablePnfData();  
         break
     }
@@ -174,26 +175,26 @@ export class OnboardVnfVmComponent implements OnInit {
     console.log('startUpload')
     const formData = new FormData();
     // tslint:disable-next-line:no-any
-    switch (tab) {
-      case 'NS':
-      this.fileListNS.forEach((file: any) => {
-        formData.append('files[]', file);
-      });
-    break
-    case 'VNF':
-      this.fileListVNF.forEach((file: any) => {
-        formData.append('files[]', file);
-      });
-    break
-    case 'PNF':
-      this.fileListPNF.forEach((file: any) => {
-        formData.append('files[]', file);
-      });
-    break
+    switch(tab) {
+      case "NS": 
+        this.fileListNS.forEach((file: any) => {
+          formData.append('files[]', file);
+        });
+      break
+      case "VNF": 
+        this.fileListVNF.forEach((file: any) => {
+          formData.append('files[]', file);
+        });
+      break
+      case "PNF": 
+        this.fileListPNF.forEach((file: any) => {
+          formData.append('files[]', file);
+        });
+      break
     }
     this.uploading = true;
     // You can use any AJAX library you like
-    const req = new HttpRequest('POST', url, formData, {
+    const req = new HttpRequest('PUT', url, formData, {
       reportProgress: true,
       withCredentials: true
     });
@@ -242,7 +243,8 @@ export class OnboardVnfVmComponent implements OnInit {
     .subscribe((data) => {
       console.log('NSlist-sdc-->',data)
       this.sdcData = data.body;
-      this.tableData = this.vfcData.concat(this.sdcData)
+      this.tableData = this.MergeArray(this.vfcData, this.sdcData)
+      // this.tableData = this.vfcData.concat(this.sdcData)
     }, (err) => {
      console.log(err);
     })
@@ -254,13 +256,13 @@ export class OnboardVnfVmComponent implements OnInit {
     let paramsObj = {
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      nameSort: this.sortValue
+      // nameSort: this.sortValue
     }
 
     this.myhttp.getOnboardTableVnfData(paramsObj)
       .subscribe((data) => {
         console.log("vnfList-->", data);
-        // this.total = data["body"].length; //body length
+        // this.total = data["body"]; //body length
         // console.log( this.total)
         this.vfcData = data.body;
         // this.tableData = data.body;
@@ -272,9 +274,10 @@ export class OnboardVnfVmComponent implements OnInit {
     // sdc
     this.myhttp.getSDC_VNFTableData()
       .subscribe((data) => {
-        console.log('vnfList-sdc-->',data)
+        console.log('vnfList-sdc-->', data)
         this.sdcData = data;
-        this.tableData = this.vfcData.concat(this.sdcData)
+        // this.tableData = this.vfcData.concat(this.sdcData)
+        this.tableData = this.MergeArray(this.vfcData, this.sdcData)
       }, (err) => {
         console.log(err);
       })
@@ -286,9 +289,9 @@ export class OnboardVnfVmComponent implements OnInit {
     let paramsObj = {
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      nameSort: this.sortValue
+      // nameSort: this.sortValue
     }
-
+    
     this.myhttp.getOnboardTablePnfData(paramsObj)
       .subscribe((data) => {
         console.log("pnfList-->", data);
@@ -299,16 +302,13 @@ export class OnboardVnfVmComponent implements OnInit {
       })
   }
 
-
-  sort(sort: { key: string, value: string }): void {
-    console.log(sort);
-    this.sortName = sort.key;
-    this.sortValue = sort.value;
-    this.getTableData();
-  }
+  // sort(sort: { key: string, value: string }): void {
+  //   console.log(sort);
+  //   this.sortName = sort.key;
+  //   this.sortValue = sort.value;
+  //   this.getTableData();
+  // }
   
-//-----------------------------------------------------------------------------------
-
   //选择条数
   // searchNsData(reset: boolean = false) {
   //   console.log('dddd',reset)
@@ -320,16 +320,17 @@ export class OnboardVnfVmComponent implements OnInit {
   // ns onboard
   updataNsService(id) {
     console.log(id);
+
     let requestBody = {
         "csarId": id
     }
     this.myhttp.getNsonboard(requestBody)
       .subscribe((data) => {
         console.log('onboard ns sdc', data);
+        this.getTableData();
       }, (err) => {
         console.log(err);
       })
-    
   }
 
   // searchVnfData(reset: boolean = false) {
@@ -342,10 +343,11 @@ export class OnboardVnfVmComponent implements OnInit {
     console.log(id)
     let requestBody = {
       "csarId": id
-  }
+    }
   this.myhttp.getVnfonboard(requestBody)
     .subscribe((data) => {
       console.log('onboard vnf sdc', data);
+      this.getTableVnfData();
     }, (err) => {
       console.log(err);
     })
@@ -364,6 +366,46 @@ export class OnboardVnfVmComponent implements OnInit {
 
   //--------------------------------------------------------------------------------
   /* delete  删除按钮 */
+  // ns
+  showConfirm(index, pkgid): void {
+    console.log(index)
+    console.log(pkgid)
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you Want to delete these items?',
+      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
+      nzOnOk: () =>  new Promise((resolve, reject) => {
+        this.deleteNsService(index,pkgid);
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'))
+    });
+  }
+
+  //vnf
+  showVnfConfirm(index, pkgid): void {
+    console.log(index)
+    console.log(pkgid)
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you Want to delete these items?',
+      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
+      nzOnOk: () =>  new Promise((resolve, reject) => {
+        this.deleteVnfService(index,pkgid);
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'))
+    });
+  }
+  //vnf
+  showPnfConfirm(index, pkgid): void {
+    console.log(index)
+    console.log(pkgid)
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you Want to delete these items?',
+      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
+      nzOnOk: () =>  new Promise((resolve, reject) => {
+        this.deletePnfService(index,pkgid);
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'))
+    });
+  }
   //delete nsItem
   deleteNsService(index,pkgid) {
     console.log(pkgid)
@@ -376,8 +418,8 @@ export class OnboardVnfVmComponent implements OnInit {
       })
       console.log(index)
     this.tableData.splice(index, 1)
-    console.log(this.tableData.length)
-	//  this.getTableData()
+    console.log('数组长度',this.tableData.length)
+	  this.getTableData()
    }
 
   //delete vnfItem
@@ -412,9 +454,7 @@ export class OnboardVnfVmComponent implements OnInit {
     this.getTablePnfData()
   }
 
-
-//--------------------------------------------------------------------------------------
-  //download 下载
+  //下载download
   // downloadNsService(id) {
   //   console.log('download')
   //   console.log(id)
@@ -436,5 +476,38 @@ export class OnboardVnfVmComponent implements OnInit {
   //   })
   // }
 
+  // downloadPnfService(id) {
+  //   console.log('downloadPnf')
+  //   console.log(id)
+  //   this.myhttp.downloadNsData(id)
+  //   .subscribe((data) => {
+  //     console.log(44, data);
+  //   }, (err) => {
+  //     console.log(err);
+  //   })
+  // }
 
+  //合并并去重
+  MergeArray(arr1, arr2) {
+    var _arr = new Array();
+    for (var i = 0; i < arr1.length; i++) {
+      if (arr1[i] != "") {
+        _arr.push(arr1[i]);
+      }
+    }
+    for (var i = 0; i < arr2.length; i++) {
+      var flag = true;
+      for (var j = 0; j < arr1.length; j++) {
+        // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
+        if (arr2[i].uuid == arr1[j].id) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag && arr2[i] != "") {
+        _arr.push(arr2[i]);
+      }
+    }
+    return _arr;
+  }
 }

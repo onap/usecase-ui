@@ -9,6 +9,38 @@ hr {
     background-color: #dce1e7;
     margin-bottom: 20px;
 }
+.switch_btn {
+    position: absolute;
+    right: 6%;
+    top: 18px;
+    border: 1px solid #3fa8eb;
+    width: 8%;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    span {
+        display: block;
+        float: left;
+        text-align: center;
+        width: 50%;
+        color: #3fa8eb;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    span:first-child {
+        border-radius: 10px 0 0 10px;
+    }
+    span:last-child {
+        border-radius: 0 10px 10px 0;
+    }
+    span.left_b {
+        border-left: 1px solid #3fa8eb;
+    }
+    span.active {
+        color: #fff;
+        background: #3fa8eb;
+    }
+}
+  
 .list {
     background-color: #fff;
     border-radius: 5px;
