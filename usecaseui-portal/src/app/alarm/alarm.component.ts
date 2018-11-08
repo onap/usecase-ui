@@ -33,8 +33,8 @@ export class AlarmComponent implements OnInit {
   public pageSize: number = 10;
   public sourceName: string = '';
   public priority: string = '';
-  public startTime: string = '';
-  public endTime: string = '';
+  public startTime: string = this.myhttp.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  public endTime: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
   public vfStatus: string = '';
   public sourceNameList: Array<any> = ['---auto---'];
   list: any;
@@ -94,31 +94,29 @@ export class AlarmComponent implements OnInit {
 
   // Date screening
   dateRange = [(new Date(), -30), new Date()];
-
   onChange(result: Date): void {
-    this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd-HH:mm:ss');
-    this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd-HH:mm:ss');
+    this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd HH:mm:ss');
+    this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd HH:mm:ss');
   }
-
-  sort(e) {
+  sort(e){
 
   }
   // total
   alarmList = {
-    all: 200,
+    all: 0,
     closed: 0,
     activeNum: 0
   }
   // total data
-  // getstatuscount(){
-  //   this.myhttp.getstatuscount().subscribe((data)=>{
-  //     this.alarmList.activeNum = data[0];
-  //     this.alarmList.closed = data[1];
+  getstatuscount() {
+    this.myhttp.getstatuscount().subscribe((data) => {
+      this.alarmList.activeNum = data[0];
+      this.alarmList.closed = data[1];
+      this.alarmList.all = (data[0] - 0) + (data[1] - 0);
 
-  //   })
-  // }
+    })
+  }
   getAlarmFormData() {
-
     this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.sourceName, this.priority, this.startTime, this.endTime, this.vfStatus).subscribe((data) => {
       this.list = data.alarms;
     })
@@ -126,15 +124,16 @@ export class AlarmComponent implements OnInit {
   }
   getAlarmChartData(event) {
     let paramsObj = {
-      alarmSourceName: this.sourceName,
+      sourceName: this.sourceName,
       startTime: this.startTime,
-      endTime: this.endTime
+      endTime: this.endTime,
+      format: 'day'
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          xAxis:{
-            data:data.dataList
+          xAxis: {
+            data: data.dateList
           },
           series: [
             { data: data.allList },
@@ -149,14 +148,16 @@ export class AlarmComponent implements OnInit {
   // day alarmchartdata
   day() {
     let paramsObj = {
-      alarmSourceName: this.sourceName,
-      day: "day"
+      sourceName: this.sourceName,
+      startTime: this.startTime,
+      endTime: this.endTime,
+      format: "day"
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          xAxis:{
-            data:data.dataList
+          xAxis: {
+            data: data.dateList
           },
           series: [
             { data: data.allList },
@@ -170,14 +171,16 @@ export class AlarmComponent implements OnInit {
   }
   month() {
     let paramsObj = {
-      alarmSourceName: this.sourceName,
-      day: "month"
+      sourceName: this.sourceName,
+      startTime: this.startTime,
+      endTime: this.endTime,
+      format: "month"
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
         this.alarmChartData = {
-          xAxis:{
-            data:data.dataList
+          xAxis: {
+            data: data.dateList
           },
           series: [
             { data: data.allList },
@@ -211,10 +214,8 @@ export class AlarmComponent implements OnInit {
           end: 40
         }
       ],
-      xAxis:{
-        data:["2018-09-10 ","2018-09-11","2018-09-12","2018-09-13","2018-09-14",
-        "2018-09-15","2018-09-16","2018-09-17","2018-09-18","2018-09-19",
-        "2018-09-20","2018-09-21","2018-09-22","2018-09-10 ","2018-09-11","2018-09-12","2018-09-13"]
+      xAxis: {
+        data: []
       },
       series: [
         {
@@ -226,7 +227,7 @@ export class AlarmComponent implements OnInit {
             opacity: 0.8
           },
           //timeframe_one
-          data: [40, 45, 38, 52, 64, 58, 69, 87, 76, 33, 64, 87, 45, 76, 88, 56, 33, 76, 45, 65, 38, 52, 64, 58, 69, 87, 76, 33, 64, 87, 40, 45, 38, 52, 64, 58, 69, 87, 76, 40, 45, 38, 52, 64, 58, 69, 87, 76],
+          data: [],
           itemStyle: {
             color: "#526b75"
           },
@@ -244,7 +245,7 @@ export class AlarmComponent implements OnInit {
             opacity: 0.8
           },
           //timeframe_two
-          data: [32, 43, 23, 45, 63, 24, 54, 22, 32, 42, 42, 22, 23, 43, 32, 34, 42, 33, 42, 12, 32, 43, 23, 45, 63, 24, 54, 22, 32, 42, 42, 22, 23, 43, 32, 34, 42, 33, 42, 12, 32, 43, 23, 45, 63, 24, 54, 22],
+          data: [],
           itemStyle: {
             color: "#fb6e6e"
           },
@@ -280,18 +281,16 @@ export class AlarmComponent implements OnInit {
   // Show hidden animation
   state = "show";
   state2 = "hide";
-  detailId: number;
+  detailId: string;
   detailShow(item) {
     this.state = 'hide';
     this.state2 = 'show';
     this.detailshow = true;
-    // console.log(item);
-    this.detailId = item.eventId;
+    this.detailId = item.id;
   }
   detailHide() {
     this.state = 'show';
     this.state2 = 'hide';
     this.detailshow = false;
   }
-
 }
