@@ -14,20 +14,23 @@ export class PerformanceDetailsComponent implements OnInit {
   constructor(private myhttp:MyhttpService) { }
 
   ngOnInit() {
-    this.getAlarmDetailData(this.detailId);
+    
   }
 
   ngOnChanges(changes){
-    // console.log(changes);
+    console.log(this.detailId)
+    this.getPerformanceHeaderDetail(this.detailId);
   }
   datailheaderdata: any = {};
   dataillistdata: any = [];
-  getAlarmDetailData(id){
-    this.myhttp.getAlarmDetailData(id).subscribe((data)=>{
-      console.log(data)
-      this.datailheaderdata = data.alarmsHeader;
-      this.dataillistdata = data.list;
-    })
+  getPerformanceHeaderDetail(id){
+    if(id){
+      this.myhttp.getPerformanceHeaderDetail(id).subscribe((data)=>{
+        console.log(data)
+        this.datailheaderdata = data.performanceHeader;
+        this.dataillistdata = data.list;
+      })
+    }
   }
   moredetailShow = false;
   @Input() detailId;

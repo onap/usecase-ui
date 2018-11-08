@@ -73,7 +73,7 @@ export class MyhttpService {
 
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
-    servicesTableData: this.baseUrl + '/uui-sotn/getServiceInstanceList',
+    servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
     templateParameters: this.baseUrl + "/uui-lcm/service-templates/" + "*_*" + "?toscaModelPath=",
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
@@ -282,9 +282,9 @@ export class MyhttpService {
   }
 
 
-// alarm data
+  // alarm data
   getAlarmFormData(currentPage: number, pageSize: number, sourceName?: string, priority?: string, startTime?: string, endTime?: string, vfStatus?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/alarm/' + '/' + currentPage + '/' + pageSize + '/' + sourceName + '/' + priority + '/' + startTime + '/' + endTime + '/' + vfStatus);
+    return this.http.get<any>('/api/usecaseui-server/v1/alarm/' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&priority=' + priority + '&startTime=' + startTime + '&endTime=' + endTime + '&vfStatus=' + vfStatus);
   }
 
   getSourceNames() {
@@ -300,16 +300,20 @@ export class MyhttpService {
     return this.http.get<any>(httpurl);
   }
 
-  // performancevnf data
+  // performance data
   getqueryAllSourceNames() {
     let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performance/queryAllSourceNames";
     return this.http.get<any>(httpurl);
   }
-  getperformanceSsourceNames(currentPage: number, pageSize: number, sourceName: string) {
-    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performanceSsourceNames" + "/" + currentPage + "/" + pageSize + "/" + sourceName;
+  getperformanceSourceNames(currentPage: number, pageSize: number, sourceName: string) {
+    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performanceSsourceNames" + "/" + currentPage + "/" + pageSize + "?sourceName=" + sourceName;
     return this.http.get<any>(httpurl);
   }
   getPerformanceFormData(currentPage: number, pageSize: number, sourceName?: string, startTime?: string, endTime?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/performance' + '/' + currentPage + '/' + pageSize + '/' + sourceName + '/' + startTime + '/' + endTime);
+    return this.http.get<any>('/api/usecaseui-server/v1/performance' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&startTime=' + startTime + '&endTime=' + endTime);
+  }
+  getPerformanceHeaderDetail(id) {
+    let httpurl = '/api/usecaseui-server/v1/performance/getPerformanceHeaderDetail/' + id;
+    return this.http.get<any>(httpurl);
   }
 }
