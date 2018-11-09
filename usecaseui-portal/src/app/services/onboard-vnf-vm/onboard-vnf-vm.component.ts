@@ -30,15 +30,18 @@ export class OnboardVnfVmComponent implements OnInit {
   vnfPkgId ='';
   pnfdInfoId = '';
   tabTitle = "NS";
-  uploading = false;
+  nsuploading = false;
+  vnfuploading = false;
+  pnfloading = false;
   fileListNS: UploadFile[] = [];
   fileListVNF: UploadFile[] = [];
   fileListPNF: UploadFile[] = [];
-  constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService) { }
+  // onboard initial value
+  status = "Onboard Available";
+  constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService, private modalService: NzModalService) { }
 
   //default 默认调用ns数据
   ngOnInit() {
-    console.log("11111111111111")
     this.getTableData();
   }
 
@@ -49,7 +52,7 @@ export class OnboardVnfVmComponent implements OnInit {
   pageIndex = 1;
   pageSize = 10;
   total;
-  loading = false;
+  nsloading = false;
   sortName = null;
   sortValue = null;
   tabs = ['NS', 'VNF', 'PNF'];
@@ -180,21 +183,25 @@ export class OnboardVnfVmComponent implements OnInit {
         this.fileListNS.forEach((file: any) => {
           formData.append('files[]', file);
         });
+        this.nsuploading = true;
       break
       case "VNF": 
         this.fileListVNF.forEach((file: any) => {
           formData.append('files[]', file);
         });
+        this.vnfuploading = true;
       break
       case "PNF": 
         this.fileListPNF.forEach((file: any) => {
           formData.append('files[]', file);
         });
+        this.pnfloading = true;
       break
     }
-    this.uploading = true;
+
+    // this.nsuploading = true;
     // You can use any AJAX library you like
-    const req = new HttpRequest('PUT', url, formData, {
+    const req = new HttpRequest('POST', url, formData, {
       reportProgress: true,
       withCredentials: true
     });
@@ -203,17 +210,30 @@ export class OnboardVnfVmComponent implements OnInit {
       .pipe(filter(e => e instanceof HttpResponse))
       .subscribe(
         (event: {}) => {
-          this.uploading = false;
+          this.changeUploadingSta(tab)  
           console.log('upload successfully')
           this.msg.success('upload successfully.');
         },
         err => {
-          this.uploading = false;
+          this.changeUploadingSta(tab)
           console.log('upload failed')
           this.msg.error('upload failed.');
         }
       );
   }
+//  控制uploading的状态
+changeUploadingSta(tab) {
+  switch(tab) {
+    case "NS":
+      this.nsuploading = false;
+      break
+    case "VNF": 
+      this.vnfuploading = false;
+      break
+    case "PNF": 
+      this.pnfloading = false;
+  }
+}
 
 //----------------------------------------------------------------------------------------------
 
@@ -314,19 +334,39 @@ export class OnboardVnfVmComponent implements OnInit {
   //   console.log('dddd',reset)
   //   this.getTableData();
   // }
-
-
+  
   /* onboard  上传按钮 */
   // ns onboard
+ 
+  success(): void {
+    const modal = this.modalService.success({
+      nzTitle: 'This is an success message',
+      nzContent: 'Package Onboard Completed.'
+    });
+
+    window.setTimeout(() => modal.destroy(), 2000);
+  }
+
+  error(): void {
+    this.modalService.error({
+      nzTitle: 'This is an error message',
+      nzContent: 'Package Onboard Failed!'
+    });
+  }
   updataNsService(id) {
     console.log(id);
-
     let requestBody = {
         "csarId": id
     }
     this.myhttp.getNsonboard(requestBody)
       .subscribe((data) => {
         console.log('onboard ns sdc', data);
+        if(data["status"] == 200) {
+          this.success();
+         
+        } else {
+          this.error();
+        }
         this.getTableData();
       }, (err) => {
         console.log(err);
@@ -340,6 +380,7 @@ export class OnboardVnfVmComponent implements OnInit {
 
   // vnf onboard
   updataVnfService(id) {
+    this.status = "Onboarding";
     console.log(id)
     let requestBody = {
       "csarId": id
@@ -347,7 +388,11 @@ export class OnboardVnfVmComponent implements OnInit {
   this.myhttp.getVnfonboard(requestBody)
     .subscribe((data) => {
       console.log('onboard vnf sdc', data);
-      this.getTableVnfData();
+     if(data["status"] == "200"){
+          this.success();
+        }else {
+          this.error();
+        }
     }, (err) => {
       console.log(err);
     })
@@ -367,45 +412,32 @@ export class OnboardVnfVmComponent implements OnInit {
   //--------------------------------------------------------------------------------
   /* delete  删除按钮 */
   // ns
-  showConfirm(index, pkgid): void {
-    console.log(index)
-    console.log(pkgid)
+  showConfirm(index,pkgid,tab): void {
     this.confirmModal = this.modal.confirm({
       nzTitle: 'Do you Want to delete these items?',
-      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
-      nzOnOk: () =>  new Promise((resolve, reject) => {
-        this.deleteNsService(index,pkgid);
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      nzContent: 'Do you Want to delete these items?',
+      nzOkText    : 'Yes',
+      nzCancelText: 'No',
+      nzOnOk: () => new Promise((resolve, reject) => {
+        switch (tab) {
+          case 'NS':
+          this.deleteNsService(index,pkgid);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          break
+        case 'VNF':
+          this.deleteVnfService(index,pkgid);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          break
+        case 'PNF':
+          this.deletePnfService(index,pkgid);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          break   
+        }
       }).catch(() => console.log('Oops errors!'))
     });
   }
 
-  //vnf
-  showVnfConfirm(index, pkgid): void {
-    console.log(index)
-    console.log(pkgid)
-    this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete these items?',
-      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
-      nzOnOk: () =>  new Promise((resolve, reject) => {
-        this.deleteVnfService(index,pkgid);
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-      }).catch(() => console.log('Oops errors!'))
-    });
-  }
-  //vnf
-  showPnfConfirm(index, pkgid): void {
-    console.log(index)
-    console.log(pkgid)
-    this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete these items?',
-      nzContent: 'When clicked the OK button, this dialog will be closed after 1 second',
-      nzOnOk: () =>  new Promise((resolve, reject) => {
-        this.deletePnfService(index,pkgid);
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-      }).catch(() => console.log('Oops errors!'))
-    });
-  }
+  /* delete  删除按钮 */
   //delete nsItem
   deleteNsService(index,pkgid) {
     console.log(pkgid)
