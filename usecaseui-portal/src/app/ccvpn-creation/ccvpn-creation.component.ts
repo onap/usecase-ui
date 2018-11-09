@@ -424,7 +424,7 @@ export class CcvpnCreationComponent implements OnInit {
   // 提交创建数据
   submit(){   
     let globalCustomerId = this.createParams.commonParams.customer.id;
-    let globalServiceType = this.createParams.commonParams.serviceType;
+    let globalServiceType = this.createParams.commonParams.serviceType.name;
     let sotnInputs = {}; 
     // 由于请求模板不一样，所以外层需要循环请求回来的真实名字，内层循环本地参数，将当前值赋给真实名字
     this.sotnNames.forEach((name)=>{

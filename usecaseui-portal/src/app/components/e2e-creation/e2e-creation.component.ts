@@ -169,7 +169,7 @@ export class E2eCreationComponent implements OnInit {
         this.service.parameters.resources.push(nsService);
       })
 
-      this.e2eCloseCreate.emit(this.service); 
+      this.e2eCloseCreate.emit({service:this.service}); 
 
     }else if(type == "ns"){
       //create ns instance
