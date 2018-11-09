@@ -45,9 +45,9 @@
                     <p class="ant-upload-text">Click or drag file to this area to upload</p>
                     <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
                 </nz-upload>
-                <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
+                <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
                     style="margin-top: 16px">
-                    {{ uploading ? 'Uploading' : 'Start Upload' }}
+                    {{ nsuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
@@ -77,17 +77,17 @@
                             <td *ngIf="item.nsdVersion">{{item.nsdVersion}}</td>
                             <td *ngIf="item.version">{{ item.version }}</td>
                             <td>
-                                <span [ngClass]="{'onboarding':item.status=='Onboarding','onboarded':item.status=='Onboarded',
-                                        'updating':item.status=='Updating','deleting':item.status=='Deleting','invalid':item.status=='Invalid'}">{{item.nsdOnboardingState}}</span>
+                                    <span *ngIf="item.nsdOnboardingState">{{item.nsdOnboardingState}}</span>
+                                <span *ngIf="item.uuid" data_id="i">{{status}}</span>
                                 <!-- <nz-progress *ngIf="item.status!='Onboarded' && item.status!='Invalid'" [nzPercent]="item.progress"></nz-progress> -->
                             </td>
-                            <td>{{item.nsdOperationalState}}</td>
+                            <td>{{item.nsdOperationalState}}</td> 
                             <td>{{item.nsdUsageState}}</td>
                             <td>
                                 <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
                                 <i class="anticon anticon-upload upicon" #upload_icon (click)="updataNsService(item.uuid)" *ngIf="item.uuid"></i>
                                 <!-- <i class="anticon anticon-download" (click)="downloadNsService(item.id)"></i> -->
-                                <i  nzType="info" (click)="showConfirm(i, item.id)" class="anticon anticon-delete" *ngIf="item.id" ></i>
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)" *ngIf="item.id"></i>
                                 <!-- (click)="deleteNsService(i,item.id)" -->
                                 <!-- <button nz-button nzType="info" (click)="showConfirm()">Confirm</button> -->
                                 <!-- <i class="anticon anticon-delete" *ngIf="item.uuid" (click)="deleteNsSdcService(i,item.uuid)"></i> -->
@@ -106,9 +106,9 @@
                     <p class="ant-upload-text">Click or drag file to this area to upload</p>
                     <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
                 </nz-upload>
-                <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListVNF.length == 0"
+                <button nz-button [nzLoading]="vnfuploading" (click)="onClick(tab)" [disabled]="fileListVNF.length == 0"
                     style="margin-top: 16px">
-                    {{ uploading ? 'Uploading' : 'Start Upload' }}
+                    {{ vnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
@@ -147,7 +147,7 @@
                                 <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
                                 <i class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid)" *ngIf="item.uuid"></i>
                                 <!-- <i class="anticon anticon-download" (click)="downloadVnfService()"></i> -->
-                                <i nzType="info" (click)="showVnfConfirm(i,item.id)" class="anticon anticon-delete" *ngIf="item.id"></i>
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)" id="{{ item.id}}" *ngIf="item.id"></i>
                                 <!-- <button nz-button nzType="info" (click)="showConfirm()">Confirm</button> -->
                             </td>
                         </tr>
@@ -165,9 +165,9 @@
                     <p class="ant-upload-text">Click or drag file to this area to upload</p>
                     <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
                 </nz-upload>
-                <button nz-button [nzLoading]="uploading" (click)="onClick(tab)" [disabled]="fileListPNF.length == 0"
+                <button nz-button [nzLoading]="pnfuploading" (click)="onClick(tab)" [disabled]="fileListPNF.length == 0"
                     style="margin-top: 16px">
-                    {{ uploading ? 'Uploading' : 'Start Upload' }}
+                    {{ pnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
@@ -201,8 +201,7 @@
                                 <!-- <i class="anticon anticon-cloud-upload-o" (click)="updataService()"></i> -->
                                 <!-- <i class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.id)" *ngIf="item.id"></i> -->
                                 <!-- <i class="anticon anticon-download" (click)="downloadPnfService(item.id)"></i> -->
-                                <i nzType="info" (click)="showPnfConfirm(i,item.id)" class="anticon anticon-delete"></i>
-                                <!-- <button nz-button nzType="info" (click)="showConfirm()">Confirm</button> -->
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"></i>
                             </td>
                         </tr>
                         <!-- </ng-template> -->
