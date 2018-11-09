@@ -7,7 +7,7 @@ export class networkHttpservice {
 
   constructor(private http:HttpClient) { }
 
-  // baseUrl = "./assets/json/";//本地环境
+  // baseUrl = "./assets/json/";//Local environment
   // url={
   //   "getNetworkD3Data":this.baseUrl + "netWorkD3Data.json",
   //   "getLogicalLinksData":this.baseUrl + "LogicalLinksData.json",
@@ -23,9 +23,9 @@ export class networkHttpservice {
   //   "createCloudUrl":this.baseUrl + "status.json",
   //   "deleteLink":this.baseUrl + "status.json",
   // };
-  // baseUrl = "http://10.73.242.244:8082/uui-sotn/";//线上环境
-  // baseUrl = "http://172.19.44.223/api/usecaseui-server/v1/uui-sotn/";//线上环境
-  baseUrl = "/api/usecaseui-server/v1/uui-sotn/";//线上环境
+  // baseUrl = "http://10.73.242.244:8082/uui-sotn/";//Online environment
+  // baseUrl = "http://172.19.44.223/api/usecaseui-server/v1/uui-sotn/";//Online environment
+  baseUrl = "/api/usecaseui-server/v1/uui-sotn/";//Online environment
   url={
     "getNetworkD3Data":this.baseUrl + "getNetWorkResources",
     "getLogicalLinksData":this.baseUrl + "getLogicalLinks",
@@ -40,58 +40,63 @@ export class networkHttpservice {
     "createCloudLink":this.baseUrl + "createLink/",
     "createCloudUrl":this.baseUrl + "createHostUrl/",
     "deleteLink":this.baseUrl + "deleteLink/",
+    "deleteCloud":this.baseUrl+"deleteExtNetWork"
   };
-  //d3数据
+  //d3data
   getNetworkD3Data(){
     return this.http.get<any>(this.url["getNetworkD3Data"]);
   }
-  //初始化连线 logical-links
+  //Initialize the connection logical-links
   getLogicalLinksData(){
     return this.http.get<any>(this.url["getLogicalLinksData"]);
   }
-  //查询指定的node对应的tp数据
+  //Query the tp data corresponding to the specified node
   getPInterfacesData1(paramsObj){
     return this.http.get<any>(this.url['getPInterfacesData1']+paramsObj["pnfName"]);
   }
   getPInterfacesData2(paramsObj){
     return this.http.get<any>(this.url["getPInterfacesData2"]+paramsObj["pnfName"]);
   }
-  //创建连线接口
+  //Create a connection interface
   createLink(paramsObj){
     return this.http.put<any>(this.url["createLink"]+paramsObj["link-name"],paramsObj);
   }
-  //查询指定的单个连接线 接口
+  //Query the specified single cable interface
   querySpecificLinkInfo(paramsObj){
     return this.http.get<any>(this.url["querySpecificLinkInfo"]+paramsObj["link-name"]);
   }
-  //查询 外部云host this.url地址 接口
+  //Query external cloud host this.url address interface
   queryCloudUrl(aaiId){
     return this.http.get<any>(this.url["queryCloudUrl"]+aaiId);
   }
-  //创建外部云newwork接口
+  //Create an external cloud newwork interface
   createNetwrok(paramsObj){
     return this.http.put<any>(this.url["createNetwrok"]+paramsObj["network-resource"][0]["network-id"],paramsObj);
   }
-  //创建外部云pnf接口
+  //Create an external cloud pnf interface
   createPnf(paramsObj){
     return this.http.put<any>(this.url["createPnf"]+paramsObj["pnf-name"],paramsObj);
   }
-  //创建外部云Tp接口
+  //Create an external cloud Tp interface
   createTp(paramsObj,cloudNodeName){
     let str=cloudNodeName+"/p-interfaces/p-interface/"+paramsObj["interface-name"]+"/createTerminationPoint";
     return this.http.put<any>(this.url["createTp"]+str,paramsObj);
   }
-  //创建外部云link接口
+  //Create an external cloud link interface
   createCloudLink(paramsObj){
     return this.http.put<any>(this.url["createCloudLink"]+paramsObj["link-name"],paramsObj);
   }
-  //创建外部云host url接口
+  //Create an external cloud host url interface
   createCloudUrl(paramsObj){
     return this.http.put<any>(this.url["createCloudUrl"]+paramsObj["aai-id"],paramsObj);
   }
-  //删除连线
+  //Delete connection
   deleteLink(paramsObj){
     let str=paramsObj["logical-link"]+"/"+paramsObj["resource-version"];
     return this.http.delete<any>((this.url["deleteLink"]+str));
+  }
+  deleteCloudLink(paramsObj){
+    let str="?extNetworkId="+paramsObj["aaiId"]+"&resourceVersion="+paramsObj["version"];
+    return this.http.delete<any>((this.url["deleteCloud"]+str));
   }
 }

@@ -33,7 +33,7 @@ export class CcvpnNetworkComponent implements OnInit {
     thisNg.getD3Data();
 
 
-    //本地云TP端口连线，点击右侧展开详情
+    //Local cloud TP port connection, click on the right to expand the details
     $('#tpContainer').on('click', '.line-port', function () {
       thisNg.isVisible = false;
       thisNg.delBoxisVisible = true;
@@ -49,7 +49,7 @@ export class CcvpnNetworkComponent implements OnInit {
       thisNg.delLinkIndex = $(this);
 
       let dataD3 = thisNg.d3Data;
-      for (let p = 0; p < dataD3.length; p++) {//判断两个tp端口分别属于哪个Domain network
+      for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
         if (dataD3[p]['name'] == thisNg.delTp1) {
           thisNg.network.push(dataD3[p]['source']['name']);
         }
@@ -61,7 +61,7 @@ export class CcvpnNetworkComponent implements OnInit {
       thisNg.delNetwork2 = thisNg.network[1];
     });
 
-    //外部云连线 ，点击右侧展开详情
+    //External cloud connection, click on the right to expand the details
     $('#tpContainer').on('click', '.cloudline', function () {
       thisNg.isVisible = false;
       thisNg.delBoxisVisible = true;
@@ -87,30 +87,30 @@ export class CcvpnNetworkComponent implements OnInit {
   inputshow = false;
   delBoxisVisible = false;
 
-  d3Data = [];//D3渲染需要的数据
-  logicalLinks = [];//logicalLinks接口返回的已有的连线数据
-  linkName = null;//连线的名字link-name
-  networkOption = [];//表单network下拉选框填充的数据
-  nodeOption1 = {};//node下拉选框填充的数据
-  tpOption1 = [];//node下拉选框填充的数据
-  tpOption2 = [];//node下拉选框填充的数据
-  networkVal1 = null;//network1下拉框默认数据
-  networkVal2 = null;//network2下拉框默认数据
-  selectedNode1 = null;//node1下拉框默认数据
-  selectedNode2 = null;//node2下拉框默认数据
-  selecteTpName1 = null;//TP1下拉框默认数据
-  selecteTpName2 = null;//TP2下拉框默认数据
-  cloudUrl = null;//外部云URL地址
-  cloudNetwork = null;//外部云network名称
-  cloudNode = null;//外部云Node名称
-  cloudTp = null;//外部云Tp名称
+  d3Data = [];//D3Render the required data
+  logicalLinks = [];//logicalLinks Existing connection data returned by the interface
+  linkName = null;//Linked name link-name
+  networkOption = [];//Form network drop-down box filled data
+  nodeOption1 = {};//Node drop-down box filled data
+  tpOption1 = [];//Node drop-down box filled data
+  tpOption2 = [];//Node drop-down box filled data
+  networkVal1 = null;//network1 Drop-down box default data
+  networkVal2 = null;//network2 Drop-down box default data
+  selectedNode1 = null;//node1 Drop-down box default data
+  selectedNode2 = null;//node2 Drop-down box default data
+  selecteTpName1 = null;//TP1 Drop-down box default data
+  selecteTpName2 = null;//TP2 Drop-down box default data
+  cloudUrl = null;//External cloud URL address
+  cloudNetwork = null;//External cloud network name
+  cloudNode = null;//External cloud Node name
+  cloudTp = null;//External cloud Tp name
 
-  dataCloud = [];//外部云的信息
+  dataCloud = [];//External cloud information
   dataCloudLink = [];
   aaiId = '';
 
 
-  //删除连线时 右侧框显示的数据
+  //When the connection is deleted, the data displayed in the right frame
   delLinkname = null;
   delNetwork1 = null;
   delNode1 = null;
@@ -151,19 +151,19 @@ export class CcvpnNetworkComponent implements OnInit {
     this.isVisible = false;
     this.delBoxisVisible = false;
     this.linkName = null;
-    this.networkVal1 = null;//初始化network1下拉框默认数据
-    this.networkVal2 = null;//初始化network2下拉框默认数据
-    this.selectedNode1 = null;//初始化node1下拉框默认数据
-    this.selectedNode2 = null;//初始化node2下拉框默认数据
-    this.selecteTpName1 = null;//初始化TP1下拉框默认数据
-    this.selecteTpName2 = null;//初始化TP2下拉框默认数据
-    this.cloudUrl = null;//外部云URL地址
-    this.cloudNetwork = null;//外部云network名称
-    this.cloudNode = null;//外部云Node名称
-    this.cloudTp = null;//外部云Tp名称
+    this.networkVal1 = null;//Initialize the default data of the network1 drop-down box
+    this.networkVal2 = null;//Initialize the network2 drop-down box default data
+    this.selectedNode1 = null;//Initialize the default data of the node1 drop-down box
+    this.selectedNode2 = null;//Initialize the default data of the node2 drop-down box
+    this.selecteTpName1 = null;//Initialize the default data of the TP1 drop-down box
+    this.selecteTpName2 = null;//Initialize the default data of the TP2 drop-down box
+    this.cloudUrl = null;//External cloud URL address
+    this.cloudNetwork = null;//External cloud network name
+    this.cloudNode = null;//External cloud Node name
+    this.cloudTp = null;//External cloud Tp name
   }
 
-  //获取云图数据
+  //Get cloud image data
   getD3Data() {
     this.myhttp.getNetworkD3Data()
       .subscribe((data) => {
@@ -171,7 +171,7 @@ export class CcvpnNetworkComponent implements OnInit {
           this.addLinkDisabled = false;
           return;
         }
-        for (let ii = 0; ii < data.length; ii++) {//判断数据里是否有外部云信息，有就踢出来
+        for (let ii = 0; ii < data.length; ii++) {//Determine if there is external cloud information in the data, and kick it out.
           if (data[ii]['aaiId'] != null) {
             this.dataCloud = data.splice(ii, 1);
           }
@@ -206,21 +206,21 @@ export class CcvpnNetworkComponent implements OnInit {
           this.d3Data[b]['target'] = b;
         }
         this.initPosition(this.d3Data);
-        // setTimeout(this.render(this.d3Data, this.imgmap, this.dataCloud, this.charge, data), 0);
+        setTimeout(this.render(this.d3Data, this.imgmap, this.dataCloud, this.charge, data), 0);
       }, (err) => {
         console.log(err);
       });
 
   }
 
-  //获取云图初始的连线状态 getlogicalLinksData
+  //Get the initial connection status of the cloud image getlogicalLinksData
   getLinksData() {
     this.myhttp.getLogicalLinksData()
       .subscribe((data) => {
         if (data["status"]=="FAILED") {
           return;
         }
-        for (let i = 0; i < data["logical-link"].length; i++) {//判断获取的连线里书否存在外部云连线，有就踢出来
+        for (let i = 0; i < data["logical-link"].length; i++) {//Determine whether there is an external cloud connection in the obtained connection, and kick it out.
           if (data['logical-link'][i]['relationship-list']['relationship'].length > 2) {
             this.dataCloudLink = data['logical-link'].splice(i, 1);
           }
@@ -247,7 +247,7 @@ export class CcvpnNetworkComponent implements OnInit {
       });
   }
 
-  //D3云图渲染
+  //D3Cloud rendering
   render(nodes, imgmap, dataCloud, charge, dataD3) {
     var thiss = this;
     var _this = this.tpoption,
@@ -394,7 +394,7 @@ export class CcvpnNetworkComponent implements OnInit {
       .style('font-weight', '500');
 
 
-    //线上添加自定义属性
+    //Add custom attributes online
     _g_lines.each(function (d, i) {
       var _this = d3.select(this);
       if (d.name) {
@@ -411,7 +411,7 @@ export class CcvpnNetworkComponent implements OnInit {
       .links(nodes)
       .start();
 
-    //添加拖拽行为
+    //Add drag and drop behavior
     // _g_nodes.call(this.getDragBehavior(force));
 
     force.on('tick', function () {
@@ -489,7 +489,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
   };
 
-  //拓扑图拖拽效果
+  //Topology drag and drop effect
   getDragBehavior(force) {
 
     return d3.behavior.drag()
@@ -517,7 +517,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
   }
 
-  //初始化节点位置
+  //Initialize node location
   initPosition(datas) {
     let origin = [this.tpoption.width / 2, this.tpoption.height / 2];
     let points = this.getVertices(origin, Math.min(this.tpoption.width / 2, this.tpoption.height / 2), datas.length);
@@ -527,7 +527,7 @@ export class CcvpnNetworkComponent implements OnInit {
     });
   }
 
-  //根据多边形获取定位点
+  //Get anchor points based on polygons
   getVertices(origin, r, n) {
     if (typeof n !== 'number') return;
     var ox = origin[0];
@@ -547,7 +547,7 @@ export class CcvpnNetworkComponent implements OnInit {
     return points;
   }
 
-  //渲染外部云
+  //Rendering an external cloud
   getoutCloud(dataCloud, imgmap) {
     var _this = this,
       width;
@@ -570,7 +570,7 @@ export class CcvpnNetworkComponent implements OnInit {
       .style('fill', '#666');
   }
 
-  //外部云连接
+  //External cloud connection
   getcloudLine(dataCloudLink) {
     let textval = [];
     textval[0] = dataCloudLink[0]['relationship-list']['relationship'][0]['relationship-data'][1]['relationship-value'];//tp1
@@ -583,7 +583,7 @@ export class CcvpnNetworkComponent implements OnInit {
     textval[7] = this.dataCloud[0]['networkId'];
     console.log(this.dataCloud);
     let dataD3 = this.d3Data;
-    for (let p = 0; p < dataD3.length; p++) {//判断两个tp端口分别属于哪个Domain network
+    for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
       if (dataD3[p]['name'] == textval[0]) {
         textval[8] = dataD3[p]['source']['name'];//network1
       }
@@ -599,7 +599,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
     for (let i = 0; i < $(".node").length; i++) {
       if ($('.node').eq(i).find('text').html() == textval[8]) {
-        //获取二级的x,y坐标
+        //Get the x, y coordinates of the second level
         var translates = $('.node').eq(i).css('transform');
         lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
         lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
@@ -641,7 +641,7 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
 
-  //查询外部云host url地址
+  //Query external cloud host url address
   getCloudUrl(aaiId, thisNg) {
     this.myhttp.queryCloudUrl(aaiId)
       .subscribe((data) => {
@@ -652,7 +652,7 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
 
-  //右侧表单下拉选框数据填充 三级联动
+  //The right form drop-down box data is filled with three levels of linkage
   //Left Port
   network1Change(value: string): void {
     this.selectedNode1 = this.nodeOption1[value][0];
@@ -663,7 +663,7 @@ export class CcvpnNetworkComponent implements OnInit {
     this.getPInterfaces1();
   }
 
-  //获取指定node下的TP数据
+  //Get the TP data under the specified node
   getPInterfaces1() {
     let params = {
       pnfName: this.selectedNode1,
@@ -691,7 +691,7 @@ export class CcvpnNetworkComponent implements OnInit {
     this.getPInterfaces2();
   }
 
-  //获取指定node下的TP数据
+  //Get the TP data under the specified node
   getPInterfaces2() {
     let params = {
       pnfName: this.selectedNode2,
@@ -709,16 +709,16 @@ export class CcvpnNetworkComponent implements OnInit {
       });
   }
 
-  //提交表单，连线
+  //Submit form, connect
   submitForm(): void {
-    //当页面ONAP未选中，即本地云端TP连线
+    //When the page ONAP is not selected, the local cloud TP connection
     var _thiss = this;
     if (this.inputshow == false) {
       if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.networkVal2 == null || this.selectedNode2 == null || this.selecteTpName2 == null) {
-        alert('服务端口不能为空，请选择端口信息');
+        alert('The service port cannot be empty. Please select the port information.');
         return;
       } else if (this.networkVal1 == this.networkVal2) {
-        alert('同一云服务下的TP端口不能相连！');
+        alert('The TP port under the same cloud service cannot be connected!');
         return;
       }
       let tp_links = [],
@@ -731,15 +731,15 @@ export class CcvpnNetworkComponent implements OnInit {
         tp_links.push(data_text2);
       }
       if (tp_links.indexOf(tp1) != -1 || tp_links.indexOf(tp2) != -1) {
-        alert('此端口号连线已存在！');
+        alert('This port number connection already exists!');
         return;
       }
       this.createTpLinks();
 
     } else {
-      //当页面ONAP选中，即创建外部云，连线
+      //When the page ONAP is selected, the external cloud is created, and the connection is made.
       if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.cloudUrl == null || this.cloudNetwork == null || this.cloudNode == null || this.cloudTp == null) {
-        alert('服务端口不能为空，请填写完整的端口信息');
+        alert('The service port cannot be empty. Please fill in the complete port information.');
         return;
       }
       let tp_links = [],
@@ -749,30 +749,16 @@ export class CcvpnNetworkComponent implements OnInit {
         tp_links.push(data_text1);
       }
       if (tp_links.indexOf(tp1) != -1) {
-        alert('此端口号连线已存在！');
+        alert('This port number connection already exists!');
         return;
       }
 
-      let time = this.cloudNetwork + new Date().getTime();//为外部云创建aaiid，此标识是唯一的，不可重复
+      let time = this.cloudNetwork + new Date().getTime();//Create aaiid for the external cloud, this identifier is unique and cannot be repeated
       this.createCloudUrls(time)
-      // Promise
-      //   .all([this.createCloudNetwork(time), this.createPnfs(time), this.createCloudTp(time), this.createCloudLinks(time), this.createCloudUrls(time)])
-      //   .then(function (results) {
-      //     console.log(results);
-      //     if (results.indexOf('FAILED') == -1) {
-      //       console.log(true);
-      //       _thiss.queryOutCloudLink();
-      //       // _thiss.outCloudShow = true;
-      //       // _thiss.outCloud(_thiss.imgmap);
-      //       // setTimeout(_thiss.cloudLine(_thiss.networkVal1, _thiss.selectedNode1, _thiss.selecteTpName1, _thiss.cloudUrl, _thiss.cloudNetwork, _thiss.cloudNode, _thiss.cloudTp, 121211,"up"), 0);
-      //     } else {
-      //       console.log(false);
-      //     }
-      //   });
     }
   }
 
-  //创建tp连线 调用接口createLink
+  //Create tp connection call interface createLink
   createTpLinks() {
     let params = {
       'link-name': this.linkName,
@@ -818,11 +804,11 @@ export class CcvpnNetworkComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
-        console.log('创建连线接口调用失败');
+        console.log('Create connection interface call failed');
       });
   }
 
-  //创建tp连接线后马上查询新增的连线
+  //Query the newly added connection immediately after creating the tp cable
   queryAddLink() {
     let linkName = this.linkName,
       selecteTpName1 = this.selecteTpName1,
@@ -846,7 +832,7 @@ export class CcvpnNetworkComponent implements OnInit {
       });
   }
 
-  //两个TP之间的连线 坐标获取
+  //Connection between two TP coordinates
   chose(textval) {
     var lines_json = {};
     lines_json['tp1'] = textval[0];
@@ -859,7 +845,7 @@ export class CcvpnNetworkComponent implements OnInit {
     for (let i = 0; i < $(".node").length; i++) {
       if ($('.node').eq(i).find('text').html() == textval[0]) {
         $('.node').eq(i).show();
-        //获取二级的x,y坐标
+        //Get the x, y coordinates of the second level
         var translates = $('.node').eq(i).css('transform');
         lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
         lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
@@ -875,7 +861,7 @@ export class CcvpnNetworkComponent implements OnInit {
     this.addLine(lines_json);
   }
 
-  //两个TP之间的连线 连线渲染
+  //Connection between two TPs
   addLine(lines) {
     let tp1 = lines.tp1;
     let tp2 = lines.tp2;
@@ -912,7 +898,7 @@ export class CcvpnNetworkComponent implements OnInit {
     svg.html(svg.html());
   }
 
-  //创建外部云连线后，马上查询连线
+  //After creating an external cloud connection, query the connection immediately
   queryOutCloudLink() {
     let networkVal1 = this.networkVal1,
       selectedNode1 = this.selectedNode1,
@@ -933,13 +919,13 @@ export class CcvpnNetworkComponent implements OnInit {
         this.outCloudShow = true;
         this.hideForm();
         this.outCloud(this.imgmap);
-        // setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name), 0);
+        setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name), 0);
       }, (err) => {
         console.log(err);
       });
   }
 
-  //新增外部云
+  //Add external cloud
   outCloud(imgmap) {
     var _this = this,
       width;
@@ -961,7 +947,7 @@ export class CcvpnNetworkComponent implements OnInit {
       .style('fill', '#fff');
   }
 
-  //新增 外部云连接
+  //Add external cloud connection
   cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name) {
     let lines_json = {};
     var _this = this,
@@ -973,7 +959,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
     for (let i = 0; i < $(".node").length; i++) {
       if ($('.node').eq(i).find('text').html() == networkVal1) {
-        //获取二级的x,y坐标
+        //Get the x, y coordinates of the second level
         var translates = $('.node').eq(i).css('transform');
         lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
         lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
@@ -1013,36 +999,26 @@ export class CcvpnNetworkComponent implements OnInit {
     svg.html(svg.html());
   }
 
-  //创建外部云，连线时调用以下5个接口:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
+  //Create an external cloud, call the following 5 interfaces when connecting:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
   createCloudNetwork(time) {
     let _thiss = this;
-    let params =
-      {
-        "network-resource": [
-          {
-            'network-id': this.cloudNetwork,
-            'provider-id': '',
-            'client-id': '',
-            'te-topo-id': '',
-            'relationship-list': {
-              'relationship': [
-                {
-                  'related-to': 'ext-aai-network',
-                  "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-                  'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
-                  'relationship-data': [
-                    {
-                      'relationship-key': 'ext-aai-network.aai-id',
-                      'relationship-value': time
-                    }
-                  ]
-                }
-              ]
+
+      let params= {
+        "network-resource": {
+          "network-id":this.cloudNetwork,
+          "provider-id": "",
+          "client-id": "",
+          "te-topo-id": "",
+          "relationship-list": {
+            "relationship": {
+              "related-to": "ext-aai-network",
+              "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/"+time
             }
           }
-        ]
-      };
-      //做一些异步操作
+        }
+      }
+      
+      //Do some asynchronous operations
       _thiss.myhttp.createNetwrok(params)
         .subscribe((data) => {
           if(data["status"]=="SUCCESS"){
@@ -1056,37 +1032,34 @@ export class CcvpnNetworkComponent implements OnInit {
 
   createPnfs(time) {
     let _thiss = this;
-    let params = {
-      'pnf-name': this.cloudNode,
-      'pnf-id': '79.79.79.79',
-      'in-maint': 'true',
-      'admin-status': 'up',
-      'operational-status': 'up',
-      'relationship-list': {
-        'relationship': [
-          {
-            'related-to': 'network-resource',
-            'relationship-label': 'tosca.relationships.network.LinksTo',
-            'related-link': '/aai/v13/network/network-resources/network-resource/' + this.cloudNetwork,
-            'relationship-data': [{
-              'relationship-key': 'network-resource.network-id',
-              'relationship-value': this.cloudNetwork
-            }]
-          },
-          {
-            'related-to': 'ext-aai-network',
-            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-            'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
-            'relationship-data': [{
-              'relationship-key': 'ext-aai-network.aai-id',
-              'relationship-value': time
-            }]
-          }
-        ]
+    let params= {
+      "pnf": {
+        "pnf-name": this.cloudNode,
+        "pnf-id": this.cloudNode,
+        "in-maint": "true",
+        "relationship-list": {
+          "relationship": [
+            {
+              "related-to": "ext-aai-network",
+              "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+              "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/"+ time,
+              "relationship-data": {
+                "relationship-key": "ext-aai-network.aai-id",
+                "relationship-value":time
+              }
+            },
+            {
+              "related-to": "network-resource",
+              "relationship-label": "tosca.relationships.network.LinksTo",
+              "related-link": "/aai/v13/network/network-resources/network-resource/"+this.cloudNetwork
+            }
+          ]
+        }
       }
-    };
+    }
+    
     // var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
+      //Do some asynchronous operations
       _thiss.myhttp.createPnf(params)
         .subscribe((data) => {
           if(data["status"]=="SUCCESS"){
@@ -1101,18 +1074,21 @@ export class CcvpnNetworkComponent implements OnInit {
 
   createCloudTp(time) {
     let _thiss = this;
-    let params = {
-      'interface-name': this.cloudTp,
-      'speed-value': '100000',
-      'in-maint': 'true',
-      'network-ref': '',
-      'transparent': '',
-      'operational-status': 'up',
-    };
+    let params= {
+      "p-interface": {
+        "interface-name": this.cloudTp,
+        "speed-value": "1000000",
+        "in-maint": "true",
+        "network-ref": "",
+        "transparent": "true",
+        "operational-status": "up"
+      }
+    }
+    
     let cloudNodeName = this.cloudNode;
 
     // var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
+      //Do some asynchronous operations
       _thiss.myhttp.createTp(params, cloudNodeName)
         .subscribe((data) => {
           if(data["status"]=="SUCCESS"){
@@ -1128,58 +1104,32 @@ export class CcvpnNetworkComponent implements OnInit {
 
   createCloudLinks(time) {
     let _thiss = this;
-    let params = {
-      'link-name': this.linkName,
-      'in-maint': '',
-      'link-type': '',
-      'speed-value': '',
-      'operational-status': 'up',
-      'relationship-list': {
-        'relationship': [
-          {
-            'related-to': 'p-interface',
-            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
-            'relationship-data': [
-              {
-                'relationship-key': 'pnf.pnf-id',
-                'relationship-value': this.selectedNode1
-              },
-              {
-                'relationship-key': 'p-interface.p-interface-id',
-                'relationship-value': this.selecteTpName1
-              }
-            ]
-          },
-          {
-            'related-to': 'p-interface',
-            'related-link': '/aai/v13/network/pnfs/pnf/' + this.cloudNode + '/p-interfaces/p-interface/' + this.cloudTp,
-            'relationship-data': [
-              {
-                'relationship-key': 'pnf.pnf-id',
-                'relationship-value': this.cloudNode
-              },
-              {
-                'relationship-key': 'p-interface.p-interface-id',
-                'relationship-value': this.cloudTp
-              }
-            ]
-          },
-          {
-            'related-to': 'ext-aai-network',
-            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-            'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
-            'relationship-data': [
-              {
-              'relationship-key': 'ext-aai-network.aai-id',
-              'relationship-value': time
+    let params={
+      "logical-link": {
+        "link-name": this.linkName,
+        "link-type": "cross-link",
+        "operational-status": "up",
+        "relationship-list": {
+          "relationship": [
+            {
+              "related-to": "p-interface",
+              "related-link": "/aai/v13/network/pnfs/pnf/"+ this.selectedNode1 +"/p-interfaces/p-interface/" + this.selecteTpName1,
+            },
+            {
+              "related-to": "p-interface",
+              "related-link": "/aai/v13/network/pnfs/pnf/" + this.cloudNode + "/p-interfaces/p-interface/"+ this.cloudTp,
+            },
+            {
+              "related-to": "ext-aai-network",
+              "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/"+ time,
             }
-            ]
-          }
-        ]
+          ]
+        }
       }
-    };
+    }
+    
     // var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
+      //Do some asynchronous operations
       _thiss.myhttp.createCloudLink(params)
         .subscribe((data) => {
           // resolve(data['status']);
@@ -1196,18 +1146,21 @@ export class CcvpnNetworkComponent implements OnInit {
 
   createCloudUrls(time) {
     let _thiss = this;
-    let params = {
-      'aai-id': this.cloudNetwork + time,
-      'esr-system-info': {
-        'esr-system-info-id': '',
-        'service-url': this.cloudUrl,
-        'user-name': '',
-        'password': '!',
-        'system-type': 'ONAP'
+    let params={
+      "ext-aai-network": {
+        "aai-id":this.cloudNetwork + time,
+        "esr-system-info": {
+          "esr-system-info-id": "example-esr-system-info-id-val-0",
+          "service-url": this.cloudUrl,
+          "user-name": "demo",
+          "password": "demo123456!",
+          "system-type": "ONAP"
+        }
       }
-    };
+    }
+    
     // var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
+      //Do some asynchronous operations
       _thiss.myhttp.createCloudUrl(params)
         .subscribe((data) => {
           if(data["status"]=="SUCCESS"){
@@ -1223,7 +1176,7 @@ export class CcvpnNetworkComponent implements OnInit {
     // return pro;
   }
 
-  //本地云TP端口 删除连线 调用接口deleteLink
+  //Local cloud TP port Delete connection Call interface deleteLink
   delLink(): void {
     let deltp1 = this.delTp1,
       deltp2 = this.delTp2,
@@ -1242,7 +1195,7 @@ export class CcvpnNetworkComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
-        console.log('删除连线接口调用失败');
+        console.log('Deleting a connection interface call failed');
       });
   }
 
@@ -1259,28 +1212,27 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
 
-  //外部云 删除连线 调用接口deleteCloudLink
+  //External cloud Delete connection Call interface deleteCloudLink
   delCloudLink(): void {
     let deltp1 = this.delTp1,
       deltp2 = this.delTp2,
-      dellinkname = this.delLinkname,
-      version = this.delVersion;
+      version = this.delVersion,
+      aaiId=this.aaiId;
     let params = {
-      'logical-link': dellinkname,
-      'resource-version': version,
+      "aaiId": aaiId,
+      "version": version,
     };
     this.myhttp.deleteLink(params)
       .subscribe((data) => {
         console.log(data);
-        console.log(typeof data);
         if (data['status'] == 'SUCCESS') {
-          console.log('删除成功');
+          console.log('delete');
           this.delLine(deltp1, deltp2);
           $('.cloudline').remove();
         }
       }, (err) => {
         console.log(err);
-        console.log('删除连线接口调用失败');
+        console.log('Deleting a connection interface call failed');
       });
   }
 
