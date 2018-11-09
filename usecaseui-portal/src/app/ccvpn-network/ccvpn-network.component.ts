@@ -33,8 +33,8 @@ export class CcvpnNetworkComponent implements OnInit {
     thisNg.getD3Data();
 
 
-    //本地云TP端口断开连线 ，直接点击线可删除连线
-    $('#tpContainer').on('click', '.line-local', function () {
+    //本地云TP端口连线，点击右侧展开详情
+    $('#tpContainer').on('click', '.line-port', function () {
       thisNg.isVisible = false;
       thisNg.delBoxisVisible = true;
       thisNg.delcloud = false;
@@ -45,8 +45,9 @@ export class CcvpnNetworkComponent implements OnInit {
       thisNg.delNode2 = $(this).attr('data-node2');
       thisNg.delVersion = $(this).attr('data-version');
       thisNg.delLinkname = $(this).attr('data-link');
-
+      thisNg.delcloudUrl = null;
       thisNg.delLinkIndex = $(this);
+
       let dataD3 = thisNg.d3Data;
       for (let p = 0; p < dataD3.length; p++) {//判断两个tp端口分别属于哪个Domain network
         if (dataD3[p]['name'] == thisNg.delTp1) {
@@ -60,7 +61,7 @@ export class CcvpnNetworkComponent implements OnInit {
       thisNg.delNetwork2 = thisNg.network[1];
     });
 
-    //外部云 断开连线 ，直接点击线可删除连线
+    //外部云连线 ，点击右侧展开详情
     $('#tpContainer').on('click', '.cloudline', function () {
       thisNg.isVisible = false;
       thisNg.delBoxisVisible = true;
@@ -72,11 +73,11 @@ export class CcvpnNetworkComponent implements OnInit {
       thisNg.delNode2 = $(this).attr('data-node2');
       thisNg.delVersion = $(this).attr('data-version');
       thisNg.delNetwork1 = $(this).attr('data-network');
-      thisNg.delNetwork2 =$(this).attr('data-cloudnetwork');
-      thisNg.delcloudUrl =$(this).attr('data-url');
+      thisNg.delNetwork2 = $(this).attr('data-cloudnetwork');
+      thisNg.delcloudUrl = $(this).attr('data-url');
       thisNg.delLinkname = $(this).attr('data-link');
-      thisNg.aaiId =$(this).attr('data-aaiid');
-      thisNg.getCloudUrl(thisNg.aaiId,thisNg);
+      thisNg.aaiId = $(this).attr('data-aaiid');
+      thisNg.getCloudUrl(thisNg.aaiId, thisNg);
     });
   }
 
@@ -88,7 +89,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
   d3Data = [];//D3渲染需要的数据
   logicalLinks = [];//logicalLinks接口返回的已有的连线数据
-  linkName=null;//连线的名字link-name
+  linkName = null;//连线的名字link-name
   networkOption = [];//表单network下拉选框填充的数据
   nodeOption1 = {};//node下拉选框填充的数据
   tpOption1 = [];//node下拉选框填充的数据
@@ -103,13 +104,14 @@ export class CcvpnNetworkComponent implements OnInit {
   cloudNetwork = null;//外部云network名称
   cloudNode = null;//外部云Node名称
   cloudTp = null;//外部云Tp名称
-  dataCloud=[];//外部云的信息
-  dataCloudLink=[];
-  aaiId="";
-  charge=-200;
+
+  dataCloud = [];//外部云的信息
+  dataCloudLink = [];
+  aaiId = '';
+
 
   //删除连线时 右侧框显示的数据
-  delLinkname=null;
+  delLinkname = null;
   delNetwork1 = null;
   delNode1 = null;
   delTp1 = null;
@@ -124,12 +126,12 @@ export class CcvpnNetworkComponent implements OnInit {
 
   winWidth = $('.content').width();
   winHeight = $('.content').height();
-
+  charge = -300;
 
   imgmap = {
-    '1': '../assets/images/cloud-county1.png',
-    '2': '../assets/images/cloud-city1.png',
-    '3': '../assets/images/cloud-out.png',
+    '1': './assets/images/cloud-county1.png',
+    '2': './assets/images/cloud-city1.png',
+    '3': './assets/images/cloud-out.png',
   };
   tpoption = {
     container: '#tpContainer',
@@ -148,53 +150,33 @@ export class CcvpnNetworkComponent implements OnInit {
   hideForm(): void {
     this.isVisible = false;
     this.delBoxisVisible = false;
-    this.linkName=null;
+    this.linkName = null;
     this.networkVal1 = null;//初始化network1下拉框默认数据
     this.networkVal2 = null;//初始化network2下拉框默认数据
     this.selectedNode1 = null;//初始化node1下拉框默认数据
     this.selectedNode2 = null;//初始化node2下拉框默认数据
     this.selecteTpName1 = null;//初始化TP1下拉框默认数据
     this.selecteTpName2 = null;//初始化TP2下拉框默认数据
-    // this.localUrl=null;//本地云URL地址
     this.cloudUrl = null;//外部云URL地址
     this.cloudNetwork = null;//外部云network名称
     this.cloudNode = null;//外部云Node名称
     this.cloudTp = null;//外部云Tp名称
   }
 
-
-  tpName=null;
-  tpNameStyle = {
-    'display':'none',
-    'left':'0',
-    'top':'0'
-  };
-  showtp($event,item){
-    console.log(111111111)
-    this.tpName = item;
-    this.tpNameStyle.display = 'block';
-  }
-  movetp($event,item){
-    this.tpNameStyle.left = $event.clientX  + "px";
-    this.tpNameStyle.top = $event.clientY - 35 + "px";
-  }
-  hidetp($event){
-    this.tpNameStyle.display = 'none';
-  }
-
   //获取云图数据
   getD3Data() {
     this.myhttp.getNetworkD3Data()
       .subscribe((data) => {
-        if(data.length==0){
+        if (data.length == 0) {
           this.addLinkDisabled = false;
           return;
-        };
-        for(let ii=0;ii<data.length;ii++){
-          if(data[ii]["aaiId"]!=""){
-            this.dataCloud=data.splice(ii,1)
+        }
+        for (let ii = 0; ii < data.length; ii++) {//判断数据里是否有外部云信息，有就踢出来
+          if (data[ii]['aaiId'] != null) {
+            this.dataCloud = data.splice(ii, 1);
           }
         }
+
         for (var i = 0; i < data.length; i++) {
           let name1 = {}, name2 = {};
           let nodess = [];
@@ -208,7 +190,7 @@ export class CcvpnNetworkComponent implements OnInit {
           }
           this.networkOption.push(name2);
         }
-        console.log(this.networkOption)
+        console.log(this.networkOption);
         for (var i = 0; i < data.length; i++) {
           let tp_length = data[i]['tps'].length;
           for (var h = 0; h < tp_length; h++) {
@@ -224,7 +206,7 @@ export class CcvpnNetworkComponent implements OnInit {
           this.d3Data[b]['target'] = b;
         }
         this.initPosition(this.d3Data);
-        setTimeout(this.render(this.d3Data, this.imgmap,this.dataCloud,this.charge,data),0)
+        // setTimeout(this.render(this.d3Data, this.imgmap, this.dataCloud, this.charge, data), 0);
       }, (err) => {
         console.log(err);
       });
@@ -235,16 +217,15 @@ export class CcvpnNetworkComponent implements OnInit {
   getLinksData() {
     this.myhttp.getLogicalLinksData()
       .subscribe((data) => {
-        console.log(data["status"])
         if (data["status"]=="FAILED") {
           return;
         }
-        for (let i = 0; i < data["logical-link"].length; i++) {
-            if(data["logical-link"][i]["relationship-list"]["relationship"].length>2){
-                this.dataCloudLink=data["logical-link"].splice(i,1);
-            }
+        for (let i = 0; i < data["logical-link"].length; i++) {//判断获取的连线里书否存在外部云连线，有就踢出来
+          if (data['logical-link'][i]['relationship-list']['relationship'].length > 2) {
+            this.dataCloudLink = data['logical-link'].splice(i, 1);
+          }
         }
-        console.log(this.dataCloudLink)
+
         for (let i = 0; i < data["logical-link"].length; i++) {
           let textval = [];
           textval[0] = data['logical-link'][i]['relationship-list']['relationship'][0]['relationship-data'][1]['relationship-value'];//tp1
@@ -257,8 +238,9 @@ export class CcvpnNetworkComponent implements OnInit {
           this.logicalLinks.push(textval);
           this.chose(textval);
         }
-        if(this.dataCloudLink.length>0){
-          this.getcloudLine(this.dataCloudLink)
+        console.log(this.logicalLinks);
+        if (this.dataCloudLink.length > 0) {
+          this.getcloudLine(this.dataCloudLink);
         }
       }, (err) => {
         console.log(err);
@@ -266,7 +248,7 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
   //D3云图渲染
-  render(nodes, imgmap,dataCloud,charge,dataD3) {
+  render(nodes, imgmap, dataCloud, charge, dataD3) {
     var thiss = this;
     var _this = this.tpoption,
       width = null,
@@ -276,21 +258,16 @@ export class CcvpnNetworkComponent implements OnInit {
     } else {
       width = 800;
     }
-
-    var str="";
-    for(var i=0;i<10;i++){
-      str+="<div>这是div"+i+"</div>"
+    if (dataD3.length <= 4) {
+      charge = -300;
+    } else if (dataD3.length > 4 && dataD3.length <= 6) {
+      charge = -160;
+    } else if (dataD3.length > 6 && dataD3.length <= 10) {
+      charge = -110;
+    } else {
+      charge = -100;
     }
-
-    if(dataD3.length<=4){
-      charge=-850;
-    }else if(dataD3.length>4 && dataD3.length<=6) {
-      charge=-700;
-    }else if(dataD3.length>6 && dataD3.length<=10) {
-      charge=-600;
-    }else {
-      charge=-150;
-    }
+    console.log(charge);
     var svg = d3.select(_this.container).append('svg')
         .attr('width', width)
         .attr('height', height)
@@ -424,36 +401,23 @@ export class CcvpnNetworkComponent implements OnInit {
         _this.attr('data-text', d.name);
       }
     });
+
     var force = d3.layout.force()
-      .size([1000,this.winHeight])
+      .size([1000, this.winHeight])
       .linkDistance(5)
-      // .theta(0)
+      // .theta(0.6)
       .charge(charge)
       .nodes(nodes)
       .links(nodes)
       .start();
-    // let distanceMax2=1;
-    // force.distanceMax = function(_) {
-    //   return arguments.length ? (distanceMax2 = _ * _, force) : Math.sqrt(distanceMax2);
-    // };
+
     //添加拖拽行为
     // _g_nodes.call(this.getDragBehavior(force));
 
-
-    force.on('tick', function (d) {
-      nodes.forEach(function(d,i){
-
-        d.x = d.x - 25 < 0     ? 25 : d.x ;
-        d.x = d.x + 25 > width ? width - 25 : d.x ;
-        d.y = d.y - 15 < 0      ? 15 : d.y ;
-        d.y = d.y + 15> height ? height - 15 : d.y ;
-      });
-      if(force.alpha()<=0.1){
-
+    force.on('tick', function () {
+      if (force.alpha() <= 0.04) {
 
         _g_nodes.style('display', function (d) {
-
-
           var display = 'block';
           switch (d.type) {
             case '1':
@@ -468,54 +432,56 @@ export class CcvpnNetworkComponent implements OnInit {
           return display;
         });
 
-      _g_lines.select('line')
-        .attr('x1', function (d) {
-          return d.source.x;
-        })
-        .attr('y1', function (d) {
-          return d.source.y;
-        })
-        .attr('x2', function (d) {
-          return d.target.x;
-        })
-        .attr('y2', function (d) {
-          return d.target.y;
+        nodes.forEach(function (d, i) {
+          d.x = d.x - 25 < 0 ? 25 : d.x;
+          d.x = d.x + 25 > width ? width - 25 : d.x;
+          d.y = d.y - 15 < 0 ? 15 : d.y;
+          d.y = d.y + 15 > height ? height - 15 : d.y;
         });
 
-      _g_nodes.attr('transform', function (d) {
-        // console.log(d)
-        // if(d["type"]==1){
-        //   d["x"]=400;
-        //   d["y"]=400;
-        // }else {
-        //   d["x"]=d["x"];
-        //   d["y"]=d["y"]
-        // }
-        var image = d3.select(this).select('image')[0][0],
-          halfWidth = parseFloat(image.attributes[0]['value']) / 2,
-          halfHeight = parseFloat(image.attributes[1]['value']) / 2;
+        _g_nodes.attr('transform', function (d) {
 
+          let image = d3.select(this).select('image')[0][0],
+            halfWidth = parseFloat(image.attributes[0]['value']) / 2,
+            halfHeight = parseFloat(image.attributes[1]['value']) / 2;
+          let xx = d.x - halfWidth,
+            yy = d.y - halfHeight;
+          // if (xx < 0) {
+          //   xx = -xx;
+          // }
+          // if (yy < 0) {
+          //   yy = -yy;
+          // }
+          return 'translate(' + xx + ',' + yy + ')';
+        });
 
-        return 'translate(' + (d.x - halfWidth) + ',' + (d.y - halfHeight) + ')';
-      });
+        _g_lines.select('line')
+          .attr('x1', function (d) {
+            return d.source.x;
+          })
+          .attr('y1', function (d) {
+            return d.source.y;
+          })
+          .attr('x2', function (d) {
+            return d.target.x;
+          })
+          .attr('y2', function (d) {
+            return d.target.y;
+          });
 
-      _g_nodes.select('text').attr('dy', function (d) {
-        var image = this.previousSibling,
-          height = parseFloat(image.attributes[1]['value']),
-          fontSize = 12;
-        return height + 1.5 * fontSize;
-      });
-
-
+        _g_nodes.select('text').attr('dy', function (d) {
+          var image = this.previousSibling,
+            height = parseFloat(image.attributes[1]['value']),
+            fontSize = 12;
+          return height + 1.5 * fontSize;
+        });
       }
-
     });
 
     force.on('end', function () {
-
       force.stop();
-      if(dataCloud.length>0){
-        thiss.getoutCloud(dataCloud,imgmap);
+      if (dataCloud.length > 0) {
+        thiss.getoutCloud(dataCloud, imgmap);
       }
       thiss.getLinksData();
       thiss.addLinkDisabled = false;
@@ -554,7 +520,7 @@ export class CcvpnNetworkComponent implements OnInit {
   //初始化节点位置
   initPosition(datas) {
     let origin = [this.tpoption.width / 2, this.tpoption.height / 2];
-    let points = this.getVertices(origin, Math.min(this.tpoption.width/2, this.tpoption.height/2), datas.length);
+    let points = this.getVertices(origin, Math.min(this.tpoption.width / 2, this.tpoption.height / 2), datas.length);
     datas.forEach((item, i) => {
       item.x = points[i].x;
       item.y = points[i].y;
@@ -582,10 +548,10 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
   //渲染外部云
-  getoutCloud(dataCloud,imgmap) {
+  getoutCloud(dataCloud, imgmap) {
     var _this = this,
       width;
-    let networkId=dataCloud[0]["networkId"];
+    let networkId = dataCloud[0]['networkId'];
     if (_this.tpoption.width > 800) {
       width = _this.tpoption.width;
     } else {
@@ -614,16 +580,15 @@ export class CcvpnNetworkComponent implements OnInit {
     textval[4] = dataCloudLink[0]['relationship-list']['relationship'][1]['relationship-data'][0]['relationship-value'];//node2
     textval[5] = dataCloudLink[0]['operational-status'];//status
     textval[6] = dataCloudLink[0]['relationship-list']['relationship'][2]['relationship-data'][0]['relationship-value'];//aaiId
-    textval[7] =this.dataCloud[0]["networkId"];
+    textval[7] = this.dataCloud[0]['networkId'];
     console.log(this.dataCloud);
-    let dataD3=this.d3Data;
+    let dataD3 = this.d3Data;
     for (let p = 0; p < dataD3.length; p++) {//判断两个tp端口分别属于哪个Domain network
-      if (dataD3[p]['name'] ==  textval[0]) {
-        textval[8] =dataD3[p]['source']['name'];//network1
+      if (dataD3[p]['name'] == textval[0]) {
+        textval[8] = dataD3[p]['source']['name'];//network1
       }
     }
-    textval[9] =dataCloudLink[0]["link-name"];
-
+    textval[9] = dataCloudLink[0]['link-name'];
     let lines_json = {};
     var _this = this,
       width;
@@ -633,9 +598,8 @@ export class CcvpnNetworkComponent implements OnInit {
       width = 800;
     }
     for (let i = 0; i < $(".node").length; i++) {
-      if ($('.node').eq(i).find('text').html() == textval[0]) {
+      if ($('.node').eq(i).find('text').html() == textval[8]) {
         //获取二级的x,y坐标
-        $('.node').eq(i).show();
         var translates = $('.node').eq(i).css('transform');
         lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
         lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
@@ -647,15 +611,15 @@ export class CcvpnNetworkComponent implements OnInit {
     var y1 = lines_json['y1'];
     var x2 = lines_json['x2'];
     var y2 = lines_json['y2'];
-    var color='#14bb58';
-    if(textval[5]=="up"){
-      color='#14bb58';
-    }else {
-      color='red';
+    var color = '#14bb58';
+    if (textval[5] == 'up') {
+      color = '#14bb58';
+    } else {
+      color = 'red';
     }
-    var line = "<line class='line cloudline ' stroke='"+color+"' stroke-width='2' style='cursor:pointer'></line>";
+    var line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
     var svg = d3.select('#graph');
-    $(".cloudline").remove();
+    $('.cloudline').remove();
     $('#graph').prepend(line);
     $('.cloudline').attr({
       x1: x1 + 100,
@@ -665,22 +629,23 @@ export class CcvpnNetworkComponent implements OnInit {
       'data-tp1': textval[0],
       'data-tp2': textval[1],
       'data-version': textval[2],
-      'data-node1':textval[3],
-      'data-node2':textval[4],
-      'data-network':textval[8],
-      'data-cloudnetwork':textval[7],
-      'data-url':"",
-      'data-aaiid':textval[6],
-      "data-link":textval[9]
+      'data-node1': textval[3],
+      'data-node2': textval[4],
+      'data-network': textval[8],
+      'data-cloudnetwork': textval[7],
+      'data-url': '',
+      'data-aaiid': textval[6],
+      'data-link': textval[9],
     });
     svg.html(svg.html());
   }
 
+
   //查询外部云host url地址
-  getCloudUrl(aaiId,thisNg){
+  getCloudUrl(aaiId, thisNg) {
     this.myhttp.queryCloudUrl(aaiId)
       .subscribe((data) => {
-        thisNg.delcloudUrl=data["service-url"];
+        thisNg.delcloudUrl = data['service-url'];
       }, (err) => {
         console.log(err);
       });
@@ -712,7 +677,7 @@ export class CcvpnNetworkComponent implements OnInit {
         }
         this.selecteTpName1 = this.tpOption1[0];
       }, (err) => {
-        // console.log(err);
+        console.log(err);
       });
   }
 
@@ -740,7 +705,7 @@ export class CcvpnNetworkComponent implements OnInit {
         }
         this.selecteTpName2 = this.tpOption2[0];
       }, (err) => {
-        // console.log(err);
+        console.log(err);
       });
   }
 
@@ -759,9 +724,9 @@ export class CcvpnNetworkComponent implements OnInit {
       let tp_links = [],
         tp1 = this.selecteTpName1,
         tp2 = this.selecteTpName2;
-      for (let i = 0; i < $(".line-local").length; i++) {
-        let data_text1 = $('.line-local').eq(i).attr('data-tp1');
-        let data_text2 = $('.line-local').eq(i).attr('data-tp2');
+      for (let i = 0; i < $(".line-port").length; i++) {
+        let data_text1 = $('.line-port').eq(i).attr('data-tp1');
+        let data_text2 = $('.line-port').eq(i).attr('data-tp2');
         tp_links.push(data_text1);
         tp_links.push(data_text2);
       }
@@ -774,34 +739,36 @@ export class CcvpnNetworkComponent implements OnInit {
     } else {
       //当页面ONAP选中，即创建外部云，连线
       if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.cloudUrl == null || this.cloudNetwork == null || this.cloudNode == null || this.cloudTp == null) {
-        alert('服务端口信息不能为空，请填写完整的端口信息');
+        alert('服务端口不能为空，请填写完整的端口信息');
         return;
       }
       let tp_links = [],
         tp1 = this.selecteTpName1;
-      for (let i = 0; i < $(".line-local").length; i++) {
-        let data_text1 = $('.line-local').eq(i).attr('data-tp1');
+      for (let i = 0; i < $(".line-port").length; i++) {
+        let data_text1 = $('.line-port').eq(i).attr('data-tp1');
         tp_links.push(data_text1);
       }
       if (tp_links.indexOf(tp1) != -1) {
         alert('此端口号连线已存在！');
         return;
       }
-      Promise
-        .all([this.createCloudNetwork(), this.createPnfs(), this.createCloudTp(), this.createCloudLinks()])
-        .then(function (results) {
-          console.log(results);
-          if (results.indexOf('FAIL') == -1) {
-            // _thiss.queryOutCloudLink();
-            _thiss.outCloudShow = true;
-            _thiss.outCloud(_thiss.imgmap);
-            setTimeout(_thiss.cloudLine(_thiss.networkVal1, _thiss.selectedNode1, _thiss.selecteTpName1, _thiss.cloudUrl, _thiss.cloudNetwork, _thiss.cloudNode, _thiss.cloudTp, 121211,"up",_thiss.linkName), 0);
-            _thiss.hideForm();
-          } else {
-            console.log('失败');
-          }
-        });
 
+      let time = this.cloudNetwork + new Date().getTime();//为外部云创建aaiid，此标识是唯一的，不可重复
+      this.createCloudUrls(time)
+      // Promise
+      //   .all([this.createCloudNetwork(time), this.createPnfs(time), this.createCloudTp(time), this.createCloudLinks(time), this.createCloudUrls(time)])
+      //   .then(function (results) {
+      //     console.log(results);
+      //     if (results.indexOf('FAILED') == -1) {
+      //       console.log(true);
+      //       _thiss.queryOutCloudLink();
+      //       // _thiss.outCloudShow = true;
+      //       // _thiss.outCloud(_thiss.imgmap);
+      //       // setTimeout(_thiss.cloudLine(_thiss.networkVal1, _thiss.selectedNode1, _thiss.selecteTpName1, _thiss.cloudUrl, _thiss.cloudNetwork, _thiss.cloudNode, _thiss.cloudTp, 121211,"up"), 0);
+      //     } else {
+      //       console.log(false);
+      //     }
+      //   });
     }
   }
 
@@ -809,54 +776,73 @@ export class CcvpnNetworkComponent implements OnInit {
   createTpLinks() {
     let params = {
       'link-name': this.linkName,
-      'in-maint': false,
       'link-type': 'cross-link',
-      'speed-value': '10000',
       'operational-status': 'up',
       'relationship-list': {
         'relationship': [
           {
-            'related-to': this.selecteTpName1,
-            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1
+            'related-to': 'p-interface',
+            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
+            'relationship-data': [
+              {
+                'relationship-key': 'pnf.pnf-id',
+                'relationship-value': this.selectedNode1
+              },
+              {
+                'relationship-key': 'p-interface.p-interface-id',
+                'relationship-value': this.selecteTpName1,
+              }
+            ]
           },
           {
-            'related-to': this.selecteTpName2,
-            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode2 + '/p-interfaces/p-interface/' + this.selecteTpName2
+            'related-to': 'p-interface',
+            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode2 + '/p-interfaces/p-interface/' + this.selecteTpName2,
+            'relationship-data': [
+              {
+                'relationship-key': 'pnf.pnf-id',
+                'relationship-value': this.selectedNode2
+              },
+              {
+                'relationship-key': 'p-interface.p-interface-id',
+                'relationship-value': this.selecteTpName2
+              }
+            ]
           }
         ]
       }
     };
     this.myhttp.createLink(params)
       .subscribe((data) => {
-        if (data["status"] == 'SUCCESS') {
+        if (data['status'] == 'SUCCESS') {
           this.queryAddLink();
         }
       }, (err) => {
-        // console.log(err);
-        alert('系统忙，连接失败！');
+        console.log(err);
+        console.log('创建连线接口调用失败');
       });
   }
 
   //创建tp连接线后马上查询新增的连线
   queryAddLink() {
-    let linkName=this.linkName,
+    let linkName = this.linkName,
       selecteTpName1 = this.selecteTpName1,
       selecteTpName2 = this.selecteTpName2,
       selectedNode1 = this.selectedNode1,
       selectedNode2 = this.selectedNode2;
     let params = {
-      'link-name': selecteTpName1 + '_' + selecteTpName2,
+      'link-name': linkName,
     };
     this.myhttp.querySpecificLinkInfo(params)
       .subscribe((data) => {
         let version = data['resource-version'],
-          operational_status = data['operational-status'];
-        let textval = [selecteTpName1, selecteTpName2, version, selectedNode1, selectedNode2, operational_status,linkName];
+          operational_status = data['operational-status'],
+          linkname = data['link-name'];
+        let textval = [selecteTpName1, selecteTpName2, version, selectedNode1, selectedNode2, operational_status, linkname];
+        console.log(textval);
         this.hideForm();
         this.chose(textval);
       }, (err) => {
-        // console.log(err);
-        alert('系统忙，连接失败！');
+        console.log(err);
       });
   }
 
@@ -885,7 +871,7 @@ export class CcvpnNetworkComponent implements OnInit {
         lines_json['y2'] = parseFloat(translates.substring(7).split(',')[5]);
       }
     }
-
+    console.log(lines_json);
     this.addLine(lines_json);
   }
 
@@ -899,16 +885,16 @@ export class CcvpnNetworkComponent implements OnInit {
     let status = lines.status;
     let linkname = lines.linkname;
     let x1 = lines.x1;
-    let y1 = lines.y1 + 5;
+    let y1 = lines.y1;
     let x2 = lines.x2;
-    let y2 = lines.y2 + 5;
+    let y2 = lines.y2;
     let color = '#14bb58';
     if (status == 'up') {
       color = '#14bb58';
     } else {
       color = 'red';
     }
-    let line = '<line class=\'line line-local \' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
+    let line = '<line class=\'line line-port line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
     let svg = d3.select('#graph');
     $('#graph').prepend(line);
     $('.line').first().attr({
@@ -921,7 +907,7 @@ export class CcvpnNetworkComponent implements OnInit {
       'data-version': version,
       'data-node1': node1,
       'data-node2': node2,
-      "data-link":linkname
+      'data-link': linkname
     });
     svg.html(svg.html());
   }
@@ -935,7 +921,7 @@ export class CcvpnNetworkComponent implements OnInit {
       cloudNetWork = this.cloudNetwork,
       cloudNode = this.cloudNode,
       cloudTp = this.cloudTp,
-      linkname=this.linkName;
+      linkname = this.linkName;
     let params = {
       'link-name': linkname,
     };
@@ -945,11 +931,11 @@ export class CcvpnNetworkComponent implements OnInit {
         let status = data['operational-status'];
         let link_name = data['link-name'];
         this.outCloudShow = true;
+        this.hideForm();
         this.outCloud(this.imgmap);
-        setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version,status,link_name), 0);
+        // setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name), 0);
       }, (err) => {
-        // console.log(err);
-        alert('系统忙，连接失败！');
+        console.log(err);
       });
   }
 
@@ -976,7 +962,7 @@ export class CcvpnNetworkComponent implements OnInit {
   }
 
   //新增 外部云连接
-  cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version,status,link_name) {
+  cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name) {
     let lines_json = {};
     var _this = this,
       width;
@@ -999,15 +985,15 @@ export class CcvpnNetworkComponent implements OnInit {
     var y1 = lines_json['y1'];
     var x2 = lines_json['x2'];
     var y2 = lines_json['y2'];
-    var color='#14bb58';
-    if(status=="up"){
-      color='#14bb58';
-    }else {
-      color='red';
+    var color = '#14bb58';
+    if (status == 'up') {
+      color = '#14bb58';
+    } else {
+      color = 'red';
     }
-    var line = "<line class='line cloudline ' stroke='"+color+"' stroke-width='2' style='cursor:pointer'></line>";
+    var line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
     var svg = d3.select('#graph');
-    $(".cloudline").remove();
+    $('.cloudline').remove();
     $('#graph').prepend(line);
     $('.cloudline').attr({
       x1: x1 + 100,
@@ -1017,124 +1003,224 @@ export class CcvpnNetworkComponent implements OnInit {
       'data-tp1': selecteTpName1,
       'data-tp2': cloudTp,
       'data-version': version,
-      'data-node1':selectedNode1,
-      'data-node2':cloudNode,
-      'data-network':networkVal1,
-      'data-cloudnetwork':cloudNetWork,
-      'data-url':cloudUrl,
-      "data-link":link_name
+      'data-node1': selectedNode1,
+      'data-node2': cloudNode,
+      'data-network': networkVal1,
+      'data-cloudnetwork': cloudNetWork,
+      'data-url': cloudUrl,
+      'data-link': link_name
     });
     svg.html(svg.html());
   }
 
-  //创建外部云，连线时调用以下4个接口:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks
-  createCloudNetwork() {
+  //创建外部云，连线时调用以下5个接口:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
+  createCloudNetwork(time) {
+    let _thiss = this;
+    let params =
+      {
+        "network-resource": [
+          {
+            'network-id': this.cloudNetwork,
+            'provider-id': '',
+            'client-id': '',
+            'te-topo-id': '',
+            'relationship-list': {
+              'relationship': [
+                {
+                  'related-to': 'ext-aai-network',
+                  "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+                  'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
+                  'relationship-data': [
+                    {
+                      'relationship-key': 'ext-aai-network.aai-id',
+                      'relationship-value': time
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      };
+      //做一些异步操作
+      _thiss.myhttp.createNetwrok(params)
+        .subscribe((data) => {
+          if(data["status"]=="SUCCESS"){
+            _thiss.createPnfs(time)
+          }
+        }, (err) => {
+          console.log(err);
+        });
+
+  }
+
+  createPnfs(time) {
     let _thiss = this;
     let params = {
-      'selflink': this.cloudUrl,
-      'network-id': this.cloudNetwork,
-      'provider-id': '',
-      'client-id': '',
-      'te-topo-id': ''
-    };
-    var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
-      _thiss.myhttp.createNetwrok(params)
-        .subscribe((data) => {
-          resolve(data["status"]);
-        }, (err) => {
-          console.log(err);
-        });
-    });
-    return pro;
-  }
-
-  createPnfs() {
-    let _thiss = this;
-    let params= {
-      "pnf-name": this.cloudNode,
-      "pnf-id": "",
-      "in-maint": "",
-      "admin-status": "up",
-      "operational-status": "up",
-      "relationship-list": {
-        "relationship": {
-          "related-to": "network-resource",
-          "relationship-label": "tosca.relationships.network.LinksTo",
-          "related-link": "/aai/v13/network/network-resources/network-resource/"+this.cloudNetwork,
-          "relationship-data": {
-            "relationship-key": "network-resource.network-id",
-            "relationship-value": this.cloudNetwork
-          }
-        }
-      }
-    };
-    var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
-      _thiss.myhttp.createNetwrok(params)
-        .subscribe((data) => {
-          resolve(data["status"]);
-        }, (err) => {
-          console.log(err);
-        });
-    });
-    return pro;
-  }
-
-  createCloudTp() {
-    let _thiss = this;
-    let params= {
-      "interface-name": this.cloudTp,
-      "speed-value": "100000",
-      "in-maint": "true",
-      "network-ref": "",
-      "transparent": "",
-      "operational-status": "up",
-    };
-    let cloudNodeName=this.cloudNode;
-
-    var pro = new Promise(function (resolve, reject) {
-      //做一些异步操作
-      _thiss.myhttp.createTp(params,cloudNodeName)
-        .subscribe((data) => {
-          resolve(data["status"]);
-        }, (err) => {
-          // console.log(err);
-        });
-    });
-    return pro;
-  }
-
-  createCloudLinks() {
-    let _thiss = this;
-    let params={
-      "link-name":  this.linkName,
-      "in-maint": "",
-      "link-type": "",
-      "speed-value": "",
-      "relationship-list": {
-        "relationship" : [
+      'pnf-name': this.cloudNode,
+      'pnf-id': '79.79.79.79',
+      'in-maint': 'true',
+      'admin-status': 'up',
+      'operational-status': 'up',
+      'relationship-list': {
+        'relationship': [
           {
-            "related-to": this.selecteTpName1,
-            "related-link": "/aai/v13/network/pnfs/pnf/"+this.selectedNode1+"/p-interfaces/p-interface/"+this.selecteTpName1
+            'related-to': 'network-resource',
+            'relationship-label': 'tosca.relationships.network.LinksTo',
+            'related-link': '/aai/v13/network/network-resources/network-resource/' + this.cloudNetwork,
+            'relationship-data': [{
+              'relationship-key': 'network-resource.network-id',
+              'relationship-value': this.cloudNetwork
+            }]
           },
           {
-            "related-to": this.cloudTp,
-            "related-link": "/aai/v13/network/pnfs/pnf/"+this.cloudNode+"/p-interfaces/p-interface/"+this.cloudTp
+            'related-to': 'ext-aai-network',
+            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+            'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
+            'relationship-data': [{
+              'relationship-key': 'ext-aai-network.aai-id',
+              'relationship-value': time
+            }]
           }
         ]
       }
     };
-    var pro = new Promise(function (resolve, reject) {
+    // var pro = new Promise(function (resolve, reject) {
+      //做一些异步操作
+      _thiss.myhttp.createPnf(params)
+        .subscribe((data) => {
+          if(data["status"]=="SUCCESS"){
+            _thiss.createCloudTp(time)
+          }
+        }, (err) => {
+          console.log(err);
+        });
+    // });
+    // return pro;
+  }
+
+  createCloudTp(time) {
+    let _thiss = this;
+    let params = {
+      'interface-name': this.cloudTp,
+      'speed-value': '100000',
+      'in-maint': 'true',
+      'network-ref': '',
+      'transparent': '',
+      'operational-status': 'up',
+    };
+    let cloudNodeName = this.cloudNode;
+
+    // var pro = new Promise(function (resolve, reject) {
+      //做一些异步操作
+      _thiss.myhttp.createTp(params, cloudNodeName)
+        .subscribe((data) => {
+          if(data["status"]=="SUCCESS"){
+            _thiss.createCloudLinks(time)
+          }
+        }, (err) => {
+          // reject(err);
+          console.log(err);
+        // });
+    });
+    // return pro;
+  }
+
+  createCloudLinks(time) {
+    let _thiss = this;
+    let params = {
+      'link-name': this.linkName,
+      'in-maint': '',
+      'link-type': '',
+      'speed-value': '',
+      'operational-status': 'up',
+      'relationship-list': {
+        'relationship': [
+          {
+            'related-to': 'p-interface',
+            'related-link': '/aai/v13/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
+            'relationship-data': [
+              {
+                'relationship-key': 'pnf.pnf-id',
+                'relationship-value': this.selectedNode1
+              },
+              {
+                'relationship-key': 'p-interface.p-interface-id',
+                'relationship-value': this.selecteTpName1
+              }
+            ]
+          },
+          {
+            'related-to': 'p-interface',
+            'related-link': '/aai/v13/network/pnfs/pnf/' + this.cloudNode + '/p-interfaces/p-interface/' + this.cloudTp,
+            'relationship-data': [
+              {
+                'relationship-key': 'pnf.pnf-id',
+                'relationship-value': this.cloudNode
+              },
+              {
+                'relationship-key': 'p-interface.p-interface-id',
+                'relationship-value': this.cloudTp
+              }
+            ]
+          },
+          {
+            'related-to': 'ext-aai-network',
+            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+            'related-link': '/aai/v13/network/ext-aai-networks/ext-aai-network/' + time,
+            'relationship-data': [
+              {
+              'relationship-key': 'ext-aai-network.aai-id',
+              'relationship-value': time
+            }
+            ]
+          }
+        ]
+      }
+    };
+    // var pro = new Promise(function (resolve, reject) {
       //做一些异步操作
       _thiss.myhttp.createCloudLink(params)
         .subscribe((data) => {
-          resolve(data["status"]);
+          // resolve(data['status']);
+          if(data["status"]=="SUCCESS"){
+            _thiss.queryOutCloudLink();
+          }
         }, (err) => {
-          // console.log(err);
+          // reject(err);
+          console.log(err);
         });
-    });
-    return pro;
+    // });
+    // return pro;
+  }
+
+  createCloudUrls(time) {
+    let _thiss = this;
+    let params = {
+      'aai-id': this.cloudNetwork + time,
+      'esr-system-info': {
+        'esr-system-info-id': '',
+        'service-url': this.cloudUrl,
+        'user-name': '',
+        'password': '!',
+        'system-type': 'ONAP'
+      }
+    };
+    // var pro = new Promise(function (resolve, reject) {
+      //做一些异步操作
+      _thiss.myhttp.createCloudUrl(params)
+        .subscribe((data) => {
+          if(data["status"]=="SUCCESS"){
+            console.log(true);
+            _thiss.createCloudNetwork(time);
+          }
+          // resolve(data['status']);
+        }, (err) => {
+          // reject(err);
+          console.log(err);
+        });
+    // });
+    // return pro;
   }
 
   //本地云TP端口 删除连线 调用接口deleteLink
@@ -1142,24 +1228,26 @@ export class CcvpnNetworkComponent implements OnInit {
     let deltp1 = this.delTp1,
       deltp2 = this.delTp2,
       version = this.delVersion,
+      dellinkname = this.delLinkname,
       delLinkIndex = this.delLinkIndex;
     let params = {
-      'logical-link': this.delLinkname,
+      'logical-link': dellinkname,
       'resource-version': version,
     };
     this.myhttp.deleteLink(params)
       .subscribe((data) => {
-        if (data["status"] == 'SUCCESS') {
+        if (data['status'] == 'SUCCESS') {
           this.delLine(deltp1, deltp2);
-          console.log(delLinkIndex)
           delLinkIndex.remove();
         }
       }, (err) => {
         console.log(err);
+        console.log('删除连线接口调用失败');
       });
   }
 
   delLine(val1, val2) {
+    this.delBoxisVisible = false;
     for (let i = 0; i < $(".node").length; i++) {
       if ($('.node').eq(i).find('text').html() == val1) {
         $('.node').eq(i).hide();
@@ -1168,27 +1256,31 @@ export class CcvpnNetworkComponent implements OnInit {
         $('.node').eq(i).hide();
       }
     }
-    this.delBoxisVisible = false;
   }
 
-  //外部云 删除连线 调用接口deleteCloudLine
-  delCloudLink() : void {
+
+  //外部云 删除连线 调用接口deleteCloudLink
+  delCloudLink(): void {
     let deltp1 = this.delTp1,
       deltp2 = this.delTp2,
+      dellinkname = this.delLinkname,
       version = this.delVersion;
     let params = {
-      'logical-link': this.delLinkname,
+      'logical-link': dellinkname,
       'resource-version': version,
     };
     this.myhttp.deleteLink(params)
       .subscribe((data) => {
-        console.log(data)
-        if (data["status"] == 'SUCCESS') {
+        console.log(data);
+        console.log(typeof data);
+        if (data['status'] == 'SUCCESS') {
+          console.log('删除成功');
           this.delLine(deltp1, deltp2);
           $('.cloudline').remove();
         }
       }, (err) => {
         console.log(err);
+        console.log('删除连线接口调用失败');
       });
   }
 
