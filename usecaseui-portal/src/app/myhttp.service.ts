@@ -174,7 +174,7 @@ export class MyhttpService {
   // Create interface
   createInstance(requestBody, createParams) {
     // return this.http.get<any>(this.url.createService + createParams);  //Local simulation
-    return this.http.post<any>(this.url.createService, requestBody);
+    return this.http.post<any>(this.url.createService + createParams, requestBody);
   }
   nsCreateInstance(requestBody) {
     // return this.http.get<any>(this.url.ns_createService);  //Local simulation

@@ -44,6 +44,10 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.getAllCustomers()
       .subscribe((data)=>{
         this.customerList = data.map((item)=>{return {name:item["subscriber-name"],id:item["global-customer-id"]}});
+        if(this.customerList.length==0){
+          console.log("customerList.length == 0",this.customerList);
+          return false;
+        }
         this.customerSelected = this.customerList[0];
         this.choseCustomer(this.customerSelected);
         // console.log(this.customers)
@@ -55,6 +59,10 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.getServiceTypes(this.customerSelected)
       .subscribe((data)=>{
         this.serviceTypeList = data.map((item)=>{return {name:item["service-type"]}});
+        if(this.serviceTypeList.length==0){
+          console.log("serviceTypeList.length == 0",this.serviceTypeList);
+          return false;
+        }
         this.serviceTypeSelected = this.serviceTypeList[0];
         this.choseServiceType(this.serviceTypeSelected);
         // console.log(this.listServiceTypes);
