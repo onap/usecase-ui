@@ -156,6 +156,12 @@ export class ServicesListComponent implements OnInit {
         console.log(data);
         this.total = data.body.total;
         this.tableData = data.body.tableList.map((item)=>{
+          if(typeof item == "string"){
+            item = JSON.parse(item);
+          }
+          if(typeof item["childServiceInstances"] == "string"){
+            item["childServiceInstances"] = JSON.parse(item["childServiceInstances"]);
+          }
           if(item["serviceDomain"]=="Network Service"){
             item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
               vnf["serviceDomain"] = "vnf";
