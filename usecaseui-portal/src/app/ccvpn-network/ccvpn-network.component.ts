@@ -1150,7 +1150,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
         let params={
             "ext-aai-network": {
-                "aai-id":this.cloudNetwork + time,
+                "aai-id":time,
                 "esr-system-info": {
                     "esr-system-info-id": "example-esr-system-info-id-val-0",
                     "service-url": this.cloudUrl,
