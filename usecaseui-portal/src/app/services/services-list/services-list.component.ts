@@ -162,6 +162,13 @@ export class ServicesListComponent implements OnInit {
           if(typeof item["childServiceInstances"] == "string"){
             item["childServiceInstances"] = JSON.parse(item["childServiceInstances"]);
           }
+          item["childServiceInstances"] = item["childServiceInstances"].map((child)=>{
+            if(typeof child == "string"){
+              return JSON.parse(child);
+            }else{
+              return child;
+            }
+          })
           if(item["serviceDomain"]=="Network Service"){
             item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
               vnf["serviceDomain"] = "vnf";
