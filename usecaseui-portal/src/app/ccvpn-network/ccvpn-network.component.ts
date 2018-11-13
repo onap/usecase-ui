@@ -1007,6 +1007,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
         let params= {
             "network-resource": {
+                "-xmlns": "http://org.onap.aai.inventory/v13",
                 "network-id":this.cloudNetwork,
                 "provider-id": "",
                 "client-id": "",
@@ -1018,7 +1019,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     }
                 }
             }
-        }
+        };
 
         //Do some asynchronous operations
         _thiss.myhttp.createNetwrok(params)
@@ -1036,6 +1037,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
         let params= {
             "pnf": {
+                "-xmlns": "http://org.onap.aai.inventory/v13",
                 "pnf-name": this.cloudNode,
                 "pnf-id": this.cloudNode,
                 "in-maint": "true",
@@ -1078,6 +1080,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
         let params= {
             "p-interface": {
+                "-xmlns": "http://org.onap.aai.inventory/v13",
                 "interface-name": this.cloudTp,
                 "speed-value": "1000000",
                 "in-maint": "true",
@@ -1108,6 +1111,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
         let params={
             "logical-link": {
+                "-xmlns": "http://org.onap.aai.inventory/v13",
                 "link-name": this.linkName,
                 "link-type": "cross-link",
                 "operational-status": "up",
@@ -1148,8 +1152,10 @@ export class CcvpnNetworkComponent implements OnInit {
 
     createCloudUrls(time) {
         let _thiss = this;
+        console.log(this.cloudNetwork);
         let params={
             "ext-aai-network": {
+                "-xmlns": "http://org.onap.aai.inventory/v13",
                 "aai-id":time,
                 "esr-system-info": {
                     "esr-system-info-id": "example-esr-system-info-id-val-0",
@@ -1160,7 +1166,8 @@ export class CcvpnNetworkComponent implements OnInit {
                 }
             }
         };
-
+      console.log(time);
+      console.log(params["ext-aai-network"]["aai-id"]);
         // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createCloudUrl(params)
