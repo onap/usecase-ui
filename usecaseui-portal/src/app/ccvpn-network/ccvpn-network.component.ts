@@ -1013,10 +1013,10 @@ export class CcvpnNetworkComponent implements OnInit {
                 "client-id": "",
                 "te-topo-id": "",
                 "relationship-list": {
-                    "relationship": {
+                    "relationship": [{
                         "related-to": "ext-aai-network",
                         "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/"+time
-                    }
+                    }]
                 }
             }
         };
