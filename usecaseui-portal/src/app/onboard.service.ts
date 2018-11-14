@@ -50,6 +50,7 @@ export class onboardService {
   //---------------------------------------------------------------------------------------
   /* line up 线上*/
   baseUrl = "/api/usecaseui-server/v1/uui-lcm/";
+  // baseUrlUp = "/api/usecaseui/server/v1/";
   url = {
     // 数据列表Data
     onboardTableData: this.baseUrl + "ns-packages",
@@ -74,7 +75,6 @@ export class onboardService {
   deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",  
   // Delete Pnf package
   deletePnfPack: this.baseUrl + "deletePnfPackage?pnfPkgId=",
-  
     // // download ns package
     // downloadNsData: this.baseUrl + "downLoadNsPackage?nsdInfoId=XXXXX",
     // //download vnf package 
@@ -82,30 +82,30 @@ export class onboardService {
 
   }
 
-  //-----------------------------------Function-local-start------------------------------------------------------
-  /* Query data list */
+  //-----------------------------------Function-start------------------------------------------------------
+  /* 查询数据列表 */
   // NS Data
   getOnboardTableData() {
-  return this.http.get<any>(this.url.onboardTableData);
-  // return this.http.get<any>(this.url["onboardTableData"]);
+    // return this.http.get<any>(this.url.onboardTableData);
+    return this.http.get<any>(this.url["onboardTableData"]);
   }
   // NS SDC Data
   getSDC_NSTableData(){
-  return this.http.get<any>(this.url.sdc_nsListData);
-  // return this.http.get<any>(this.url["onboardTableData"]);
+    // return this.http.get<any>(this.url.sdc_nsListData);
+    return this.http.get<any>(this.url["sdc_nsListData"]);
   }
   // VNF Data
   getOnboardTableVnfData() {
-  return this.http.get<any>(this.url.onboardDataVNF);
+    return this.http.get<any>(this.url.onboardDataVNF);
   }
   // onboard VNF sdc Data
   getSDC_VNFTableData() {
-  return this.http.get<any>(this.url["sdc_vnfListData"]);
+    return this.http.get<any>(this.url["sdc_vnfListData"]);
   }
-  
+
   // PNF Data
   getOnboardTablePnfData() {
-  return this.http.get<any>(this.url.onboardDataPNF);
+    return this.http.get<any>(this.url.onboardDataPNF);
   }
   //-------------------------------------------------------------------------------------
 
@@ -131,86 +131,27 @@ export class onboardService {
 
   //--------------------------------------------------------------------------
   // Delete ns vfc package
-  deleteNsIdData(paramsObj): Observable<HttpResponse<any>> {
+  deleteNsIdData(paramsObj) {
     // local test 
-    let params = new HttpParams({ fromObject: paramsObj });
-    console.log(11111, params)
-    return this.http.get<any>(this.url.deleteNspack, { observe: 'response', params });
-
+    // return this.http.get<any>(this.url.deleteNspack);
     // Online test
-    // return this.http.delete<any>(this.url["deleteNspack"] + paramsObj);
+    return this.http.delete<any>(this.url["deleteNspack"] + paramsObj);
   }
-  // delete ns sdc package
-  // deleteNssdcData(){
-  //   return this.http.get<any>(this.url.deleteNssdcData);  //Local simulation
-  //   // return this.http.delete<any>(this.url.deleteNssdcData + id);
-  // }
 
   // Delete Vnf vfc package
-  deleteVnfIdData(paramsObj): Observable<HttpResponse<any>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    console.log(11111, params)
-    return this.http.get<any>(this.url.deleteVnfPack, { observe: 'response', params });
+  deleteVnfIdData(paramsObj) {
+    // return this.http.get<any>(this.url.deleteVnfPack);
     //online test
-    // return this.http.delete<any>(this.url["deleteVnfpack"] + paramsObj);
+    return this.http.delete<any>(this.url["deleteVnfpack"] + paramsObj);
   }
-
-  // Delete Vnf sdc package
-  // deleteVnfsdcData(){
-  //   return this.http.get<any>(this.url.deleteVnfsdcData);
-  // }
 
   // Delete Pnf package
-  deletePnfIdData(paramsObj): Observable<HttpResponse<any>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    console.log(11111, params)
-    return this.http.get<any>(this.url.deletePnfPack, { observe: 'response', params });
+  deletePnfIdData(paramsObj){
+    //Local test
+    // return this.http.get<any>(this.url.deletePnfPack); 
     //online test
-    // return this.http.delete<any>(this.url["deletePnfpack"] + paramsObj);
+    return this.http.delete<any>(this.url["deletePnfpack"] + paramsObj);
   }
-  //-----------------------------------------Function-local-end-------------------------------------
-
-
-  // download  nspak
-  // downloadNsData(paramsObj): Observable<HttpResponse<any>> {
-  //   console.log(66,paramsObj)
-  //   let params = new HttpParams({ fromObject: paramsObj });
-  //   return this.http.get<any>(this.url.downloadNsData, { observe: 'response', params });
-  // }
-  //  // download  Vnfpak
-  // downloadVnfData(){
-  //   return this.http.get<any>(this.url.downloadVnfData)
-  // }
-
-  // testObservable() {
-  //   let myObservable = new Observable((observer) => {
-  //     observer.next(1);
-  //     observer.next((n) => {
-  //       console.log(3 + n);
-  //     })
-  //     setTimeout(() => {
-  //       observer.next(66666)
-  //     }, 100)
-  //     observer.next(() => {
-  //       setTimeout((n) => {
-  //         console.log("9999---" + n);
-  //       }, 10)
-  //     })
-  //     // observer.error(2);
-  //     // observer.complete();
-  //   });
-
-  //   myObservable.subscribe((e) => {
-  //     if (typeof e == "function") {
-  //       e(5)
-  //     }
-  //     console.log(e);
-  //   }, (err) => {
-  //     console.log(err);
-  //   }, () => {
-  //     console.log(555);
-  //   })
-  // }
 
   //---------------------------------Function-end-------------------------------------------  
 
