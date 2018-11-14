@@ -59,16 +59,11 @@
         </a>
       </li>
     </ul>
-    <button (click)="changeLanguage('zh')" >{{"zh" | translate}}</button>
-    <button (click)="changeLanguage('en')" >{{"en" | translate}}</button>
-    <select name="Language" id="" [(ngModel)]="selectLanguage" (change)="changeLanguage1()">
-      <option *ngFor="let item of Language"  value="{{item}}">{{item | translate}}</option>
-    </select>
 
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
       <button nz-button nz-dropdown><span>{{selectLanguage | translate}}</span> <i class="anticon anticon-down"></i></button>
       <ul nz-menu>
-        <li nz-menu-item (click)="changeLanguage2(item)" *ngFor="let item of Language">
+        <li nz-menu-item (click)="changeLanguage(item)" *ngFor="let item of Language">
           <a>{{item | translate}}</a>
         </li>
       </ul>

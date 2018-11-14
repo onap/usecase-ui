@@ -61,15 +61,19 @@ export class E2eCreationComponent implements OnInit {
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
     this.myhttp.getTemplateParameters(type,this.createParams.template)
     .subscribe((data)=>{
-      console.log(this.createParams);
-      console.log(data);
+      // console.log(this.createParams);
+      // console.log(data);
       if(type == "e2e"){
         this.templateParameters = data;
         this.templateParameters.nestedTemplates.forEach((item)=>{
           item.inputs = item.inputs.filter((input)=>{return input.type !== "sdn_controller"});
         })
       }else if(type == "ns"){
-        this.nsTemplateParameters = data;
+        if(typeof data["model"]=='string'){
+          this.nsTemplateParameters = JSON.parse(data["model"]);
+        }else{
+          this.nsTemplateParameters = data;
+        }
         this.nsTemplateParameters["inputs2"] = [];
         let inputs = this.nsTemplateParameters.inputs;
         for(let key in inputs){
@@ -139,8 +143,8 @@ export class E2eCreationComponent implements OnInit {
       this.service.globalSubscriberId = this.createParams.commonParams.customer.id;
       this.service.serviceType = this.createParams.commonParams.serviceType.name;
   
-      this.templateParameters.inputs.forEach((item)=>{
-        this.service.parameters.requestInputs[item.name] = item.value == undefined ? item.defaultValue : item.value; 
+      this.templateParameters.inputs.forEach((ipnut)=>{
+        this.service.parameters.requestInputs[ipnut.name] = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value; 
       })
   
       this.templateParameters.nestedTemplates.forEach((item)=>{
@@ -164,6 +168,8 @@ export class E2eCreationComponent implements OnInit {
               }
             }
             nsService.parameters.locationConstraints.push(location);
+          }else{
+            nsService.parameters.requestInputs[input.name] = input.value == undefined ? input.defaultValue : input.value;
           }
         })
         this.service.parameters.resources.push(nsService);
