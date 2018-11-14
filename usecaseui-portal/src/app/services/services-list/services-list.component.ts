@@ -95,11 +95,17 @@ export class ServicesListComponent implements OnInit {
   getAlltemplates(){  //
     this.myhttp.getAllServiceTemplates(this.templateTypeSelected)
       .subscribe((data)=>{
-        console.log(data)
+        // console.log(data)
         this.templates = data;
         if(this.templateTypeSelected=="Network Service"){
-          this.templates = data.map((item)=>{return {name:item.packageInfo.csarName,id:item.csarId,packageInfo:item.packageInfo}});
+          this.templates = data.filter((d)=>{
+            return typeof d.packageInfo.csarName== "string";
+          }).map((item)=>{
+              let cName = item.packageInfo.csarName.split("/").reverse()[0];
+              return {name:cName,id:item.csarId,packageInfo:item.packageInfo}
+          });
         }
+        console.log(this.templates);
         this.template1 = this.templates[0];
         this.template2 = this.templates[1];
         this.template3 = this.templates[2];

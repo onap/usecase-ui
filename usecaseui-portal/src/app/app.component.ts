@@ -13,22 +13,13 @@ export class AppComponent {
     translate.setDefaultLang('en');
     // translate.use('en');
   }
-  changeLanguage(Language): void {
-    switch(Language){
-      case 'en':
-        this.translate.use('en');
-        break;
-      case 'zh':
-        this.translate.use('zh');
-    }
-  }
+
   // 多语言
   Language:String[] = ["zh","en"];
   selectLanguage = "en";
-  changeLanguage1(){
-    this.translate.use(this.selectLanguage);
-  }
-  changeLanguage2(item){
+
+  changeLanguage(item){
+    this.selectLanguage = item;
     this.translate.use(item);
   }
 }
