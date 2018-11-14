@@ -188,15 +188,9 @@ export class E2eCreationComponent implements OnInit {
       })
       this.nsTemplateParameters.vnfs.forEach((vnf)=>{
         let vnfparams = {
-          vnfProfileId: vnf.vnf_id,
+          vnfProfileId: vnf.properties.id,
           locationConstraints: {
             vimid: vnf.value.id,
-            accessinfo: {
-              tenant: ""
-            },
-            accessInfo: {
-              tenant: ""
-            }
           }
         }
         this.ns_service2.locationConstraints.push(vnfparams);
