@@ -532,8 +532,8 @@ export class ServicesListComponent implements OnInit {
       let createParams = "?ns_instance_id=" + data.nsInstanceId + 
                         "&customerId="+this.customerSelected.id + 
                         "&serviceType="+this.serviceTypeSelected.name + 
-                        "&serviceDomain="+"SITE" +
-                        "&parentServiceInstanceId="+this.parentServiceInstanceId;
+                        "&serviceDomain="+ this.templateTypeSelected +
+                        "&parentServiceInstanceId=";
       // step2
       this.createNsService(createParams,obj.step2).then((jobid)=>{
 
@@ -572,6 +572,10 @@ export class ServicesListComponent implements OnInit {
     let mypromise = new Promise((res,rej)=>{
       this.myhttp.nsCreateInstance2(id,obj)
         .subscribe((data)=>{
+          if(data.status == "FAILED"){
+            console.log("instantiate ns service data :" + JSON.stringify(data));
+            return false;
+          }
           res(data.jobId);
         })
     })
