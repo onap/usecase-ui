@@ -93,25 +93,25 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
 
-  //before put 创建--上传之前将文件拖拽到页面时
-    // requestBody = {
-    //        "userDefinedData": {
-    //             "additionalProp1": "string",
-    //             "additionalProp2": "string",
-    //             "additionalProp3": "string"
-    //        }
-    //   }
+  //before put create--Drag and drop files to the page before uploading
+      requestBody = {
+           "userDefinedData": {
+                "additionalProp1": "string",
+                "additionalProp2": "string",
+                "additionalProp3": "string"
+           }
+      }
     //  requestBody = {};
    // ns  beforeUpload
   beforeUploadNS = (file: UploadFile): boolean => {
     this.fileListNS.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createNetworkServiceData",requestBody)//线上
-      this.myhttp.getCreatensData("creatensDataNS")  //本地
+      this.myhttp.getCreatensData("createNetworkServiceData",this.requestBody)//on-line
+      // this.myhttp.getCreatensData("creatensDataNS")  //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据NS-->", data);
+          console.log("Data returned after dragging a file NS-->", data);
           this.nsdInfoId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.nsdInfoId);
+          console.log("Data returned after dragging a fileid-->",this.nsdInfoId);
         }, (err) => {
           console.log(err);
         })
@@ -122,12 +122,12 @@ export class OnboardVnfVmComponent implements OnInit {
   beforeUploadVNF = (file: UploadFile): boolean => {
     this.fileListVNF.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createVnfData",requestBody)//线上
-      this.myhttp.getCreatensData("creatensDataVNF") //本地
+      this.myhttp.getCreatensData("createVnfData",this.requestBody)//on-line
+      // this.myhttp.getCreatensData("creatensDataVNF") //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据VNF-->", data);
+          console.log("Data returned after dragging a fileVNF-->", data);
           this.vnfPkgId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.vnfPkgId);
+          console.log("Data returned after dragging a file id-->",this.vnfPkgId);
         }, (err) => {
           console.log(err);
         })
@@ -138,12 +138,12 @@ export class OnboardVnfVmComponent implements OnInit {
   beforeUploadPNF = (file: UploadFile): boolean => {
     this.fileListPNF.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createPnfData",requestBody)  //线上
-      this.myhttp.getCreatensData("creatensDataPNF")  //本地
+      this.myhttp.getCreatensData("createPnfData",this.requestBody)  //on-line
+      // this.myhttp.getCreatensData("creatensDataPNF")  //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据PNF-->", data);
+          console.log("Data returned after dragging a file PNF-->", data);
           this.pnfdInfoId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.pnfdInfoId);
+          console.log("Data returned after dragging a file id-->",this.pnfdInfoId);
         }, (err) => {
           console.log(err);
         })
@@ -239,30 +239,24 @@ changeUploadingSta(tab) {
 
   // 获取NS列表
   getTableData() {
-    // 查询参数: 当前页码，每页条数，排序方式
-    let paramsObj = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-      nameSort: this.sortValue
-    }
     //vfc
-    this.myhttp.getOnboardTableData(paramsObj)
+    this.myhttp.getOnboardTableData()
     .subscribe((data) => {
       console.log(data)
-      this.total = data["body"].length; //body length
+      // this.total = data["body"].length; //body length
       console.log( this.total)
       // this.sdData = data.body.tableList;
-      this.vfcData = data.body;
+      this.vfcData = data;
       console.log(typeof this.vfcData)
-      console.log("NSlist-vfc-->",data.body)
+      console.log("NSlist-vfc-->",data)
     }, (err) => {
       console.log(err);
     })
     // sdc
-    this.myhttp.getSDC_NSTableData(paramsObj)
+    this.myhttp.getSDC_NSTableData()
     .subscribe((data) => {
       console.log('NSlist-sdc-->',data)
-      this.sdcData = data.body;
+      this.sdcData = data;
       this.tableData = this.MergeArray(this.vfcData, this.sdcData)
       // this.tableData = this.vfcData.concat(this.sdcData)
     }, (err) => {
@@ -272,21 +266,14 @@ changeUploadingSta(tab) {
 
   // 获取vnf列表
   getTableVnfData() {
-    // 查询参数: 当前页码，每页条数，排序方式
-    let paramsObj = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-      // nameSort: this.sortValue
-    }
 
-    this.myhttp.getOnboardTableVnfData(paramsObj)
+    this.myhttp.getOnboardTableVnfData()
       .subscribe((data) => {
         console.log("vnfList-->", data);
         // this.total = data["body"]; //body length
         // console.log( this.total)
-        this.vfcData = data.body;
-        // this.tableData = data.body;
-        console.log("vnfList-vfc-->",data.body)
+        this.vfcData = data;
+        console.log("vnfList-vfc-->",data)
       }, (err) => {
         console.log(err);
       })
@@ -305,36 +292,16 @@ changeUploadingSta(tab) {
 
   // 获取pnf列表
   getTablePnfData() {
-    // 查询参数: 当前页码，每页条数，排序方式
-    let paramsObj = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-      // nameSort: this.sortValue
-    }
     
-    this.myhttp.getOnboardTablePnfData(paramsObj)
+    this.myhttp.getOnboardTablePnfData()
       .subscribe((data) => {
         console.log("pnfList-->", data);
-        this.total = data["body"]; //body length
-        this.tableData = data.body;
+        this.total = data["body"];
+        this.tableData = data;
       }, (err) => {
         console.log(err);
       })
   }
-
-  // sort(sort: { key: string, value: string }): void {
-  //   console.log(sort);
-  //   this.sortName = sort.key;
-  //   this.sortValue = sort.value;
-  //   this.getTableData();
-  // }
-  
-  //选择条数
-  // searchNsData(reset: boolean = false) {
-  //   console.log('dddd',reset)
-  //   this.getTableData();
-  // }
-  
   /* onboard  上传按钮 */
   // ns onboard
  
@@ -353,6 +320,7 @@ changeUploadingSta(tab) {
       nzContent: 'Package Onboard Failed!'
     });
   }
+
   updataNsService(id) {
     console.log(id);
     let requestBody = {
@@ -372,11 +340,6 @@ changeUploadingSta(tab) {
         console.log(err);
       })
   }
-
-  // searchVnfData(reset: boolean = false) {
-  //   console.log('vvvv',reset)
-  //   this.getTableVnfData();
-  // }
 
   // vnf onboard
   updataVnfService(id) {
@@ -398,10 +361,6 @@ changeUploadingSta(tab) {
     })
   }
 
-  // searchPnfData(reset: boolean = false) {
-  //   console.log('pppp',reset)
-  //   this.getTablePnfData();
-  // }
 
   // pnf onboard ?
   updataPnfService(id) {

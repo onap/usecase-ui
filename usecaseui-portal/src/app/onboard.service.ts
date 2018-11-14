@@ -49,8 +49,7 @@ export class onboardService {
 
   //---------------------------------------------------------------------------------------
   /* line up 线上*/
-  baseUrl = "/api/usecaseui/server/v1/uui-lcm/";
-  baseUrlUp = "/api/usecaseui/server/v1/";
+  baseUrl = "/api/usecaseui-server/v1/uui-lcm/";
   url = {
     // 数据列表Data
     onboardTableData: this.baseUrl + "ns-packages",
@@ -75,6 +74,7 @@ export class onboardService {
   deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",  
   // Delete Pnf package
   deletePnfPack: this.baseUrl + "deletePnfPackage?pnfPkgId=",
+  
     // // download ns package
     // downloadNsData: this.baseUrl + "downLoadNsPackage?nsdInfoId=XXXXX",
     // //download vnf package 
@@ -82,48 +82,42 @@ export class onboardService {
 
   }
 
-  //-----------------------------------Function-start------------------------------------------------------
-  /* 查询数据列表 */
+  //-----------------------------------Function-local-start------------------------------------------------------
+  /* Query data list */
   // NS Data
-  getOnboardTableData(paramsObj): Observable<HttpResponse<any>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    return this.http.get<any>(this.url.onboardTableData, { observe: 'response', params });
-    // return this.http.get<any>(this.url["onboardTableData"]);
+  getOnboardTableData() {
+  return this.http.get<any>(this.url.onboardTableData);
+  // return this.http.get<any>(this.url["onboardTableData"]);
   }
-
   // NS SDC Data
-  getSDC_NSTableData(paramsObj): Observable<HttpResponse<onboardTableData>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    return this.http.get<onboardTableData>(this.url.sdc_nsListData, { observe: 'response', params });
-    // return this.http.get<any>(this.url["onboardTableData"]);
+  getSDC_NSTableData(){
+  return this.http.get<any>(this.url.sdc_nsListData);
+  // return this.http.get<any>(this.url["onboardTableData"]);
   }
-
   // VNF Data
-  getOnboardTableVnfData(paramsObj): Observable<HttpResponse<onboardDataVNF>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    return this.http.get<any>(this.url.onboardDataVNF, { observe: 'response', params });
+  getOnboardTableVnfData() {
+  return this.http.get<any>(this.url.onboardDataVNF);
   }
   // onboard VNF sdc Data
   getSDC_VNFTableData() {
-    return this.http.get<any>(this.url["sdc_vnfListData"]);
+  return this.http.get<any>(this.url["sdc_vnfListData"]);
   }
-
+  
   // PNF Data
-  getOnboardTablePnfData(paramsObj): Observable<HttpResponse<onboardDataPNF>> {
-    let params = new HttpParams({ fromObject: paramsObj });
-    return this.http.get<any>(this.url.onboardDataPNF, { observe: 'response', params });
+  getOnboardTablePnfData() {
+  return this.http.get<any>(this.url.onboardDataPNF);
   }
   //-------------------------------------------------------------------------------------
 
-  //创建--上传前拖拽文件后，获取到id  //线上接口 post
-  // getCreatensData(url_upId,requestBody) {
-  //   return this.http.post<any>(this.url.creatensData.replace("_jsonData",url_upId),requestBody);  //线上
-  // }
-
-  //创建--上传前拖拽文件后，获取到id //本地json get
-  getCreatensData(url_upId) {
-    return this.http.get<any>(this.url.creatensData.replace("_jsonData", url_upId));
+  //create--Get the id after dragging the file before uploading   //on-line post
+  getCreatensData(url_upId,requestBody) {
+    return this.http.post<any>(this.url.creatensData.replace("_jsonData",url_upId),requestBody);  //线上
   }
+
+  //create--Get the id after dragging the file before uploading  //local json get
+  // getCreatensData(url_upId) {
+  //   return this.http.get<any>(this.url.creatensData.replace("_jsonData", url_upId));
+  // }
 
   //------------------------------------------------------------------------------
   //onboard sdc ns 
@@ -174,7 +168,9 @@ export class onboardService {
     //online test
     // return this.http.delete<any>(this.url["deletePnfpack"] + paramsObj);
   }
-  //------------------------------------------------------------------------------
+  //-----------------------------------------Function-local-end-------------------------------------
+
+
   // download  nspak
   // downloadNsData(paramsObj): Observable<HttpResponse<any>> {
   //   console.log(66,paramsObj)
