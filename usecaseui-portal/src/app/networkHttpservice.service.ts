@@ -90,24 +90,24 @@ export class networkHttpservice {
     }
     //Create an external cloud newwork interface
     createNetwrok(paramsObj){
-        return this.http.put<any>(this.url["createNetwrok"]+paramsObj["network-resource"]["network-id"],paramsObj);
+        return this.http.put<any>(this.url["createNetwrok"]+paramsObj["network-id"],paramsObj);
     }
     //Create an external cloud pnf interface
     createPnf(paramsObj){
-        return this.http.put<any>(this.url["createPnf"]+paramsObj["pnf"]["pnf-name"],paramsObj);
+        return this.http.put<any>(this.url["createPnf"]+paramsObj["pnf-name"],paramsObj);
     }
     //Create an external cloud Tp interface
     createTp(paramsObj,cloudNodeName){
-        let str=cloudNodeName+"/p-interfaces/p-interface/"+paramsObj["p-interface"]["interface-name"]+"/createTerminationPoint";
+        let str=cloudNodeName+"/p-interfaces/p-interface/"+paramsObj["interface-name"]+"/createTerminationPoint";
         return this.http.put<any>(this.url["createTp"]+str,paramsObj);
     }
     //Create an external cloud link interface
     createCloudLink(paramsObj){
-        return this.http.put<any>(this.url["createCloudLink"]+paramsObj["logical-link"]["link-name"],paramsObj);
+        return this.http.put<any>(this.url["createCloudLink"]+paramsObj["link-name"],paramsObj);
     }
     //Create an external cloud host url interface
     createCloudUrl(paramsObj){
-        return this.http.put<any>(this.url["createCloudUrl"]+paramsObj["ext-aai-network"]["aai-id"],paramsObj);
+        return this.http.put<any>(this.url["createCloudUrl"]+paramsObj["aai-id"],paramsObj);
     }
     //Delete connection
     deleteLink(paramsObj){
