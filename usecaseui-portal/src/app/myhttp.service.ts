@@ -182,7 +182,7 @@ export class MyhttpService {
   }
   nsCreateInstance2(params, requestBody) {
     // return this.http.get<any>(this.url.ns_createService2 + params);  //Local simulation
-    return this.http.post<any>(this.url.ns_createService + params, requestBody);
+    return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
   }
 
   // Input parameter name conversion

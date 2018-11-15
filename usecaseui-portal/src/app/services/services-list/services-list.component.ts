@@ -519,7 +519,11 @@ export class ServicesListComponent implements OnInit {
     // step1
     this.myhttp.nsCreateInstance(obj.step1)
     .subscribe((data)=>{
-      console.log(data);
+      // console.log(data);
+      if(data.status == "FAILED"){
+        console.log("create ns service failed :" + JSON.stringify(data));
+        return false;
+      }
       newData = {  //
         'service-instance-id':data.nsInstanceId,
         'service-instance-name':obj.step1.nsName,
@@ -562,7 +566,10 @@ export class ServicesListComponent implements OnInit {
     let mypromise = new Promise((res,rej)=>{
       this.myhttp.createInstance(requestBody,createParams)
         .subscribe((data)=>{
-          
+          if(data.status == "FAILED"){
+            console.log("create e2e service failed :" + JSON.stringify(data));
+            return false;
+          }
           res(data.service);
         })
     })
@@ -573,7 +580,7 @@ export class ServicesListComponent implements OnInit {
       this.myhttp.nsCreateInstance2(id,obj)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
-            console.log("instantiate ns service data :" + JSON.stringify(data));
+            console.log("instantiate ns service failed :" + JSON.stringify(data));
             return false;
           }
           res(data.jobId);
@@ -588,6 +595,10 @@ export class ServicesListComponent implements OnInit {
     service.status = "Scaling";
     this.myhttp.scaleE2eService(id,requestBody)
       .subscribe((data)=>{
+        if(data.status == "FAILED"){
+          console.log("scale E2e service failed :" + JSON.stringify(data));
+          return false;
+        }
         let obj = {
           serviceId:id,
           operationId:data.operationId
@@ -608,6 +619,10 @@ export class ServicesListComponent implements OnInit {
     service.status = "Healing";
     this.myhttp.healNsService(service.nsInstanceId,requestBody)
       .subscribe((data)=>{
+        if(data.status == "FAILED"){
+          console.log("heal nsvnf service failed :" + JSON.stringify(data));
+          return false;
+        }
         let jobid = data.jobId;
         let updata = (prodata)=>{
           service.rate = prodata.responseDescriptor.progress;
@@ -636,6 +651,10 @@ export class ServicesListComponent implements OnInit {
       return new Promise((res,rej)=>{
         this.myhttp.deleteInstance(params)
         .subscribe((data)=>{
+          if(data.status == "FAILED"){
+            console.log("delete service failed :" + JSON.stringify(data));
+            return false;
+          }
           let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
           let updata = (prodata)=>{
             allprogress[prodata.operationId] = prodata.progress;
@@ -680,7 +699,11 @@ export class ServicesListComponent implements OnInit {
     }).then(()=>{
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
-          console.log(data);
+          // console.log(data);
+          if(data.status == "FAILED"){
+            console.log("delete ns service failed :" + JSON.stringify(data));
+            return false;
+          }
           service.rate = 100;
           service.status = "completed";
           let hasUndone = this.tableData.some((item)=>{
@@ -699,6 +722,10 @@ export class ServicesListComponent implements OnInit {
     let mypromise = new Promise((res,rej)=>{
       this.myhttp.stopNsService(id,obj)
         .subscribe((data)=>{
+          if(data.status == "FAILED"){
+            console.log("stop ns service failed :" + JSON.stringify(data));
+            return false;
+          }
           res(data.jobId);
         })
     })
