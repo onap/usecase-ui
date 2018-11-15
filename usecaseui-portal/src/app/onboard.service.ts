@@ -50,31 +50,31 @@ export class onboardService {
   //---------------------------------------------------------------------------------------
   /* line up 线上*/
   baseUrl = "/api/usecaseui-server/v1/uui-lcm/";
-  // baseUrlUp = "/api/usecaseui/server/v1/";
   url = {
     // 数据列表Data
     onboardTableData: this.baseUrl + "ns-packages",
     onboardDataVNF: this.baseUrl + "vnf-packages",
     onboardDataPNF: this.baseUrl + "pnf-packages",
-  //ns sdc
+    //ns sdc
     sdc_nsListData: this.baseUrl + "sdc-ns-packages", // GET
-   // vnf sdc
+    // vnf sdc
     sdc_vnfListData: this.baseUrl + "sdc-vf-packages", // GET
 
-  // createnspackages ? TODO
-  creatensData: this.baseUrl + "createNetworkServiceData",  //POST
+    // createnspackages ? TODO
+    creatensData: this.baseUrl + "_jsonData", //POST
 
-  // onboard ns sdc data 
-  onboardNs: this.baseUrl + "ns-packages", //POST
-  //onboard VNF sdc data 
-  onboardVNF: this.baseUrl + "vf-packages", //POST
+    // onboard ns sdc data 
+    onboardNs: this.baseUrl + "ns-packages", //POST
+    //onboard VNF sdc data 
+    onboardVNF: this.baseUrl + "vf-packages", //POST
 
-  //Delete ns package
-  deleteNspack: this.baseUrl + "deleteNsdPackage?nsdInfoId=",  
-  // Delete Vnf vfc package 
-  deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",  
-  // Delete Pnf package
-  deletePnfPack: this.baseUrl + "deletePnfPackage?pnfPkgId=",
+    //Delete ns package
+    deleteNspack: this.baseUrl + "deleteNsdPackage?nsdInfoId=",  
+    // Delete Vnf vfc package 
+    deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",  
+    // Delete Pnf package
+    deletePnfPack: this.baseUrl + "deletePnfPackage?pnfPkgId=",
+  
     // // download ns package
     // downloadNsData: this.baseUrl + "downLoadNsPackage?nsdInfoId=XXXXX",
     // //download vnf package 
@@ -82,8 +82,8 @@ export class onboardService {
 
   }
 
-  //-----------------------------------Function-start------------------------------------------------------
-  /* 查询数据列表 */
+  //-----------------------------------Function-local-start------------------------------------------------------
+  /* Query data list */
   // NS Data
   getOnboardTableData() {
     // return this.http.get<any>(this.url.onboardTableData);
@@ -102,7 +102,7 @@ export class onboardService {
   getSDC_VNFTableData() {
     return this.http.get<any>(this.url["sdc_vnfListData"]);
   }
-
+  
   // PNF Data
   getOnboardTablePnfData() {
     return this.http.get<any>(this.url.onboardDataPNF);
@@ -111,7 +111,7 @@ export class onboardService {
 
   //create--Get the id after dragging the file before uploading   //on-line post
   getCreatensData(url_upId,requestBody) {
-    return this.http.post<any>(this.url.creatensData.replace("_jsonData",url_upId),requestBody);  //线上
+    return this.http.post<any>(this.url.creatensData.replace("_jsonData",url_upId),requestBody);  //on-line
   }
 
   //create--Get the id after dragging the file before uploading  //local json get
@@ -135,14 +135,14 @@ export class onboardService {
     // local test 
     // return this.http.get<any>(this.url.deleteNspack);
     // Online test
-    return this.http.delete<any>(this.url["deleteNspack"] + paramsObj);
+    return this.http.delete<any>(this.url.deleteNspack + paramsObj);
   }
 
   // Delete Vnf vfc package
   deleteVnfIdData(paramsObj) {
     // return this.http.get<any>(this.url.deleteVnfPack);
     //online test
-    return this.http.delete<any>(this.url["deleteVnfpack"] + paramsObj);
+    return this.http.delete<any>(this.url.deleteVnfPack + paramsObj);
   }
 
   // Delete Pnf package

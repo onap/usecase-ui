@@ -14,7 +14,7 @@
     limitations under the License.
 -->
 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab, id, url)">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)">
             <!-- nsList -->
             <div class="list" *ngIf="tab === 'NS'">
                 <h3 class="title"> Onboard {{tabTitle}} </h3>
@@ -30,7 +30,7 @@
                     {{ nsuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="nspageSize" [(nzPageIndex)]='nspageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>
@@ -45,16 +45,18 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
-                            <td *ngIf="item.nsdId">{{item.nsdId}}</td>
+                            <td *ngIf="item.id">{{item.id}}</td>
                             <td *ngIf="item.uuid">{{item.uuid}}</td>
             
                             <td *ngIf="item.nsdName">{{item.nsdName}}</td>
-                            <td *ngIf="item.nsdName===''">无</td>
+                            <td *ngIf="item.nsdName === null">无</td>
                             <td *ngIf="item.name">{{item.name}}</td>
                             <td *ngIf="item.nsdVersion">{{item.nsdVersion}}</td>
+                            <td *ngIf="item.nsdVersion === null">无</td>
                             <td *ngIf="item.version">{{ item.version }}</td>
                             <td>
                                 <span *ngIf="item.nsdOnboardingState">{{item.nsdOnboardingState}}</span>
+                                <span *ngIf="item.nsdOnboardingState === null">无</span>
                                 <span *ngIf="item.uuid" data_id="i">{{status}}</span>
                             </td>
                             <td>{{item.nsdOperationalState}}</td> 
@@ -82,7 +84,7 @@
                     {{ vnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="vnfpageSize" [(nzPageIndex)]='vnfpageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>
@@ -100,15 +102,17 @@
                             <td *ngIf="item.id">{{item.id}}</td>
                             <td *ngIf="item.uuid">{{item.uuid}}</td>
                             <td *ngIf="item.vnfProductName">{{item.vnfProductName}}</td>
+                            <td *ngIf="item.vnfProductName === null">无</td>
                             <td *ngIf="item.name">{{item.name}}</td>
                             <td *ngIf="item.vnfdVersion">{{item.vnfdVersion}}</td>
+                            <td *ngIf="item.vnfdVersion === null">无</td>
                             <td *ngIf="item.version">{{item.version}}</td>
                             <td>{{item.onboardingState}}</td>
                             <td>{{item.usageState}}</td>
                             <td>{{item.operationalState}}</td>
                             <td>
                                 <i class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid)" *ngIf="item.uuid"></i>
-                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)" id="{{ item.id}}" *ngIf="item.id"></i>
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)" *ngIf="item.id"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -129,7 +133,7 @@
                     {{ pnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
                 <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
-                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+                    [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pnfpageSize" [(nzPageIndex)]='pnfpageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>

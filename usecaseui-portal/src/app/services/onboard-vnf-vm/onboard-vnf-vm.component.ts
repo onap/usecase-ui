@@ -34,9 +34,9 @@ export class OnboardVnfVmComponent implements OnInit {
   //url
   url = {
     // line up
-    ns: 'http://172.30.3.100:30280/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',
-    vnf: 'http://172.30.3.100:30280/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
-    pnf: 'http://172.30.3.100:30280/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
+    ns: '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',
+    vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
+    pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
     // 本地
     // ns: 'https://jsonplaceholder.typicode.com/posts/',
     // vnf: 'https://jsonplaceholder.typicode.com/posts/',
@@ -53,8 +53,12 @@ export class OnboardVnfVmComponent implements OnInit {
   tableData:any;
   sdcData:any;
   vfcData:any;
-  pageIndex = 1;
-  pageSize = 10;
+  nspageIndex = 1;
+  nspageSize = 10;
+  vnfpageIndex = 1;
+  vnfpageSize = 10;
+  pnfpageIndex = 1;
+  pnfpageSize = 10;
   total;
   nsloading = false;
   sortName = null;
@@ -72,10 +76,12 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   // 处理tab切换 请求数据
-  handleTabChange(tab,nsdInfoId,url) {
+  handleTabChange(tab) {
     this.tabTitle = tab;
     console.log(tab);
-    console.log(nsdInfoId);
+    console.log('nsdInfoId--->'+ this.nsdInfoId);
+    console.log('vnfPkgId--->'+ this.vnfPkgId);
+    console.log('pnfdInfoId--->'+ this.pnfdInfoId);
     console.log(this.url);
     switch (tab) {
       case 'NS':
@@ -91,12 +97,12 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
 
-  //before put 创建--上传之前将文件拖拽到页面时
+  //before put create--Drag and drop files to the page before uploading
     requestBody = {
            "userDefinedData": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
+                "additionalProp1": "",
+                "additionalProp2": "",
+                "additionalProp3": ""
            }
       }
     //  requestBody = {};
@@ -104,12 +110,14 @@ export class OnboardVnfVmComponent implements OnInit {
   beforeUploadNS = (file: UploadFile): boolean => {
     this.fileListNS.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createNetworkServiceData",requestBody)//线上
-      this.myhttp.getCreatensData("creatensDataNS",this.requestBody)  //本地
+    console.log('fileListNS' + this.fileListNS);
+    console.log('fileListNS' + JSON.stringify(this.fileListNS));
+      this.myhttp.getCreatensData("createNetworkServiceData",this.requestBody)//on-line
+      // this.myhttp.getCreatensData("creatensDataNS")  //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据NS-->", data);
+          console.log("Data returned after dragging a file NS-->", data);
           this.nsdInfoId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.nsdInfoId);
+          console.log("Data returned after dragging a file id-->",this.nsdInfoId);
         }, (err) => {
           console.log(err);
         })
@@ -120,12 +128,14 @@ export class OnboardVnfVmComponent implements OnInit {
   beforeUploadVNF = (file: UploadFile): boolean => {
     this.fileListVNF.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createVnfData",requestBody)//线上
-      this.myhttp.getCreatensData("creatensDataVNF",this.requestBody) //本地
+    console.log('fileListVNF--->' + this.fileListVNF);
+    console.log('fileListVNF--->' + JSON.stringify(this.fileListVNF));
+      this.myhttp.getCreatensData("createVnfData",this.requestBody)//on-line
+      // this.myhttp.getCreatensData("creatensDataVNF") //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据VNF-->", data);
+          console.log("Data returned after dragging a file VNF-->", data);
           this.vnfPkgId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.vnfPkgId);
+          console.log("Data returned after dragging a file id-->",this.vnfPkgId);
         }, (err) => {
           console.log(err);
         })
@@ -136,12 +146,13 @@ export class OnboardVnfVmComponent implements OnInit {
   beforeUploadPNF = (file: UploadFile): boolean => {
     this.fileListPNF.push(file);
     console.log('beforeUpload');
-      // this.myhttp.getCreatensData("createPnfData",requestBody)  //线上
-      this.myhttp.getCreatensData("creatensDataPNF",this.requestBody)  //本地
+    console.log('fileListPNF--->' + this.fileListPNF);
+      this.myhttp.getCreatensData("createPnfData",this.requestBody)  //on-line
+      // this.myhttp.getCreatensData("creatensDataPNF")  //local
         .subscribe((data) => {
-          console.log("拖拽文件后返回的数据PNF-->", data);
+          console.log("Data returned after dragging a file PNF-->", data);
           this.pnfdInfoId = data["id"];
-          console.log("拖拽文件后返回的数据的id-->",this.pnfdInfoId);
+          console.log("Data returned after dragging a file id-->",this.pnfdInfoId);
         }, (err) => {
           console.log(err);
         })
@@ -152,20 +163,20 @@ export class OnboardVnfVmComponent implements OnInit {
     switch (tab) {
       case 'NS':
       console.log(this.nsdInfoId);
-      // this.handleUpload('http://ip:port/api/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content');
-        this.handleUpload(this.url.ns, tab);
+      this.handleUpload('/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',tab);
+        // this.handleUpload(this.url.ns, tab);
         this.getTableData();
         break
       case 'VNF':
       console.log(this.vnfPkgId);
-     // this.handleUpload('http://ip:port/api/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content'); 
-        this.handleUpload(this.url.vnf, tab); 
+     this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
+        // this.handleUpload(this.url.vnf, tab); 
         this.getTableVnfData()
         break
       case 'PNF':
       console.log(this.pnfdInfoId);
-      // this.handleUpload('http://ip:port/api/nsd/v1/pnf_descriptors/{pnfdInfoId}/pnfd_content');
-        this.handleUpload(this.url.pnf, tab);  
+      this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
+        // this.handleUpload(this.url.pnf, tab);  
         this.getTablePnfData();  
         break
     }
@@ -208,6 +219,8 @@ export class OnboardVnfVmComponent implements OnInit {
       reportProgress: true,
       withCredentials: true
     });
+    console.log('req--->'+ JSON.stringify(req));
+    console.log('formData--->'+ JSON.stringify(formData));
     this.http
       .request(req)
       .pipe(filter(e => e instanceof HttpResponse))
@@ -286,7 +299,7 @@ changeUploadingSta(tab) {
   }
 
   // 获取pnf列表
-  getTablePnfData() {
+  getTablePnfData() {   
     this.myhttp.getOnboardTablePnfData()
       .subscribe((data) => {
         console.log("pnfList-->", data);
@@ -396,13 +409,13 @@ changeUploadingSta(tab) {
     console.log("deleteService!");
     this.myhttp.deleteNsIdData(pkgid)
       .subscribe((data) => {
-        console.log(44, data);
+        console.log("nsdel--->", data);
       }, (err) => {
         console.log(err);
       })
       console.log(index)
     this.tableData.splice(index, 1)
-    console.log('数组长度',this.tableData.length)
+    console.log('tableData.length NS--->',this.tableData.length)
 	  this.getTableData()
    }
 
@@ -412,13 +425,13 @@ changeUploadingSta(tab) {
     console.log("deleteVnfService!");
     this.myhttp.deleteVnfIdData(pkgid)
       .subscribe((data) => {
-        console.log(44, data);
+        console.log('vnfdel--->', data);
       }, (err) => {
         console.log(err);
       })
       console.log(index)
     this.tableData.splice(index, 1)
-    console.log(this.tableData.length)
+    console.log('tableData.length VNF--->'+ this.tableData.length)
     this.getTableVnfData()
   }
 
@@ -428,13 +441,13 @@ changeUploadingSta(tab) {
     console.log("deletePnfService!");
     this.myhttp.deletePnfIdData(pkgid)
       .subscribe((data) => {
-        console.log(44, data);
+        console.log('pnfdel--->', data);
       }, (err) => {
         console.log(err);
       })
       console.log(index)
     this.tableData.splice(index, 1)
-    console.log(this.tableData.length)
+    console.log('tableData.length PNF--->'+this.tableData.length)
     this.getTablePnfData()
   }
 
