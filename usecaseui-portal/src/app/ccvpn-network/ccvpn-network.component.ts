@@ -71,13 +71,13 @@ export class CcvpnNetworkComponent implements OnInit {
             thisNg.delTp2 = $(this).attr('data-tp2');
             thisNg.delNode1 = $(this).attr('data-node1');
             thisNg.delNode2 = $(this).attr('data-node2');
-            thisNg.delVersion = $(this).attr('data-version');
             thisNg.delNetwork1 = $(this).attr('data-network');
             thisNg.delNetwork2 = $(this).attr('data-cloudnetwork');
             thisNg.delcloudUrl = $(this).attr('data-url');
             thisNg.delLinkname = $(this).attr('data-link');
             thisNg.aaiId = $(this).attr('data-aaiid');
             thisNg.getCloudUrl(thisNg.aaiId, thisNg);
+            thisNg.getExtAAIIdVersion(thisNg.aaiId, thisNg);
         });
     }
 
@@ -239,6 +239,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     this.chose(textval);
                 }
                 console.log(this.logicalLinks);
+                console.log(this.dataCloudLink);
                 if (this.dataCloudLink.length > 0) {
                     this.getcloudLine(this.dataCloudLink);
                 }
@@ -584,6 +585,7 @@ export class CcvpnNetworkComponent implements OnInit {
         textval[6] = dataCloudLink[0]['relationship-list']['relationship'][2]['relationship-data'][0]['relationship-value'];//aaiId
         textval[7] = this.dataCloud[0]['networkId'];
         console.log(this.dataCloud);
+        console.log(textval);
         let dataD3 = this.d3Data;
         for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
             if (dataD3[p]['name'] == textval[0]) {
@@ -603,12 +605,14 @@ export class CcvpnNetworkComponent implements OnInit {
             if ($('.node').eq(i).find('text').html() == textval[8]) {
                 //Get the x, y coordinates of the second level
                 var translates = $('.node').eq(i).css('transform');
+                console.log("shuchu:translates"+translates);
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
                 lines_json['y2'] = 100;
             }
         }
+        console.log("shuchu:x1,y1"+lines_json["x1"],lines_json["y1"]);
         var x1 = lines_json['x1'];
         var y1 = lines_json['y1'];
         var x2 = lines_json['x2'];
@@ -651,6 +655,16 @@ export class CcvpnNetworkComponent implements OnInit {
             }, (err) => {
                 console.log(err);
             });
+    }
+
+  //Query external cloud ext-aai-id resource-version
+    getExtAAIIdVersion(aaiId, thisNg){
+        this.myhttp.queryExtAAIIdVersion(aaiId)
+          .subscribe((data) => {
+            thisNg.delVersion = data["resource-version"];
+          }, (err) => {
+            console.log(err);
+          });
     }
 
 
@@ -1006,7 +1020,6 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
 
         let params= {
-            "network-resource": {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "network-id":this.cloudNetwork,
                 "provider-id": "",
@@ -1018,7 +1031,6 @@ export class CcvpnNetworkComponent implements OnInit {
                         "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/"+time
                     }]
                 }
-            }
         };
 
         //Do some asynchronous operations
@@ -1036,7 +1048,6 @@ export class CcvpnNetworkComponent implements OnInit {
     createPnfs(time) {
         let _thiss = this;
         let params= {
-            "pnf": {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "pnf-name": this.cloudNode,
                 "pnf-id": this.cloudNode,
@@ -1059,7 +1070,6 @@ export class CcvpnNetworkComponent implements OnInit {
                         }
                     ]
                 }
-            }
         }
 
         // var pro = new Promise(function (resolve, reject) {
@@ -1079,7 +1089,6 @@ export class CcvpnNetworkComponent implements OnInit {
     createCloudTp(time) {
         let _thiss = this;
         let params= {
-            "p-interface": {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "interface-name": this.cloudTp,
                 "speed-value": "1000000",
@@ -1087,7 +1096,6 @@ export class CcvpnNetworkComponent implements OnInit {
                 "network-ref": "",
                 "transparent": "true",
                 "operational-status": "up"
-            }
         };
 
         let cloudNodeName = this.cloudNode;
@@ -1110,7 +1118,6 @@ export class CcvpnNetworkComponent implements OnInit {
     createCloudLinks(time) {
         let _thiss = this;
         let params={
-            "logical-link": {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "link-name": this.linkName,
                 "link-type": "cross-link",
@@ -1131,7 +1138,6 @@ export class CcvpnNetworkComponent implements OnInit {
                         }
                     ]
                 }
-            }
         }
 
         // var pro = new Promise(function (resolve, reject) {
@@ -1154,7 +1160,6 @@ export class CcvpnNetworkComponent implements OnInit {
         let _thiss = this;
         console.log(this.cloudNetwork);
         let params={
-            "ext-aai-network": {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "aai-id":time,
                 "esr-system-info": {
@@ -1164,7 +1169,6 @@ export class CcvpnNetworkComponent implements OnInit {
                     "password": "demo123456!",
                     "system-type": "ONAP"
                 }
-            }
         };
       console.log(time);
       console.log(params["ext-aai-network"]["aai-id"]);

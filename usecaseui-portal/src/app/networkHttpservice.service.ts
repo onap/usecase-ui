@@ -49,6 +49,7 @@ export class networkHttpservice {
         "createLink":this.baseUrl + "createLink/",
         "querySpecificLinkInfo":this.baseUrl + "getSpecificLogicalLink/",
         "queryCloudUrl":this.baseUrl + "getHostUrl/",
+        "queryExtAAIIdVersion":this.baseUrl + "getExtAaiId/",
         "createNetwrok":this.baseUrl + "createTopoNetwork/",
         "createPnf":this.baseUrl + "createPnf/",
         "createTp":this.baseUrl + "pnf/",
@@ -83,6 +84,9 @@ export class networkHttpservice {
     //Query external cloud host this.url address interface
     queryCloudUrl(aaiId){
         return this.http.get<any>(this.url["queryCloudUrl"]+aaiId);
+    }
+    queryExtAAIIdVersion(aaiId){
+      return this.http.get<any>(this.url["queryExtAAIIdVersion"]+aaiId);
     }
     //Create an external cloud newwork interface
     createNetwrok(paramsObj){
