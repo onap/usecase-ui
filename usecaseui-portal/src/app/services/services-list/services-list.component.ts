@@ -175,7 +175,7 @@ export class ServicesListComponent implements OnInit {
               return child;
             }
           })
-          if(item["serviceDomain"]=="Network Service"){
+          if(item["serviceDomain"]=="Network Service" && item["vnfInfo"]){
             item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
               vnf["serviceDomain"] = "vnf";
               return vnf;
@@ -617,7 +617,8 @@ export class ServicesListComponent implements OnInit {
     console.log(service);
     service.rate = 0;
     service.status = "Healing";
-    this.myhttp.healNsService(service.nsInstanceId,requestBody)
+    let id = service.nsInstanceId || service["service-instance-id"];
+    this.myhttp.healNsService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
           console.log("heal nsvnf service failed :" + JSON.stringify(data));
@@ -686,7 +687,7 @@ export class ServicesListComponent implements OnInit {
   deleteNsService(service){
     service.rate = 0;
     service.status = "Deleting";
-    let id = service.nsInstanceId;
+    let id = service.nsInstanceId || service["service-instance-id"];
     let requestBody = {
       terminationType : this.terminationType,
       gracefulTerminationTimeout : this.gracefulTerminationTimeout
@@ -700,12 +701,13 @@ export class ServicesListComponent implements OnInit {
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
           // console.log(data);
-          if(data.status == "FAILED"){
-            console.log("delete ns service failed :" + JSON.stringify(data));
-            return false;
-          }
           service.rate = 100;
           service.status = "completed";
+          if(data.status == "FAILED"){
+            console.log("delete ns service failed :" + JSON.stringify(data));
+            service.status = "Delete failed";
+            return false;
+          }
           let hasUndone = this.tableData.some((item)=>{
             return item.rate < 100;
           })
@@ -746,14 +748,20 @@ export class ServicesListComponent implements OnInit {
       //     "finishedAt": "" 
       //   }
       // }
+      let errorNums = 30;
       let requery = ()=>{
         this.myhttp.getProgress(obj)
           .subscribe((data)=>{
-            if(data.operationStatus.progress==undefined){
-              console.log(data);
+            if(data.operationStatus == null || data.operationStatus.progress==undefined){
+              // console.log(data);
+              errorNums--;
+              if(errorNums == 0){
+                console.log("request over time");
+                return false;
+              }
               setTimeout(()=>{
                 requery();
-              },5000)
+              },10000)
               return false;
             }
             if(data.operationStatus.progress < 100){
@@ -802,14 +810,20 @@ export class ServicesListComponent implements OnInit {
       //     ]
       //   }
       // }
+      let errorNums = 30;
       let requery = (responseId)=>{
         this.myhttp.getNsProgress(jobid,responseId)
           .subscribe((data)=>{
-            if(data.responseDescriptor.progress==undefined){
-              console.log(data);
+            if(data.responseDescriptor == null || data.responseDescriptor.progress==undefined){
+              // console.log(data);
+              errorNums--;
+              if(errorNums == 0){
+                console.log("request over time");
+                return false;
+              }
               setTimeout(()=>{
-                requery(data.responseDescriptor.responseId);
-              },5000)
+                requery(responseId);
+              },10000)
               return false;
             }
             if(data.responseDescriptor.progress < 100){
