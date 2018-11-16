@@ -51,14 +51,21 @@
                             <td *ngIf="item.nsdName">{{item.nsdName}}</td>
                             <td *ngIf="item.nsdName === null">无</td>
                             <td *ngIf="item.name">{{item.name}}</td>
+
                             <td *ngIf="item.nsdVersion">{{item.nsdVersion}}</td>
                             <td *ngIf="item.nsdVersion === null">无</td>
                             <td *ngIf="item.version">{{ item.version }}</td>
                             <td>
                                 <span *ngIf="item.nsdOnboardingState">{{item.nsdOnboardingState}}</span>
                                 <span *ngIf="item.nsdOnboardingState === null">无</span>
-                                <span *ngIf="item.uuid" data_id="i">{{status}}</span>
+                                <span *ngIf="item.uuid">{{status}}</span>
+                                
+                                <!-- <span *ngIf="item.uuid" [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
+                                'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating',
+                                'scaling':data.status=='Scaling','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
+                                <nz-progress  *ngIf="item.uuid"  *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress> -->
                             </td>
+
                             <td>{{item.nsdOperationalState}}</td> 
                             <td>{{item.nsdUsageState}}</td>
                             <td>
@@ -77,7 +84,7 @@
                         <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
                     </p>
                     <p class="ant-upload-text">Click or drag file to this area to upload</p>
-                    <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                    <p class="ant-upload-hint"></p>
                 </nz-upload>
                 <button nz-button [nzLoading]="vnfuploading" (click)="onClick(tab)" [disabled]="fileListVNF.length == 0"
                     style="margin-top: 16px">
@@ -126,7 +133,7 @@
                         <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
                     </p>
                     <p class="ant-upload-text">Click or drag file to this area to upload</p>
-                    <p class="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
+                    <p class="ant-upload-hint"></p>
                 </nz-upload>
                 <button nz-button [nzLoading]="pnfuploading" (click)="onClick(tab)" [disabled]="fileListPNF.length == 0"
                     style="margin-top: 16px">
