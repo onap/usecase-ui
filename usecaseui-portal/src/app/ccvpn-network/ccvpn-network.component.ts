@@ -71,13 +71,12 @@ export class CcvpnNetworkComponent implements OnInit {
             thisNg.delTp2 = $(this).attr('data-tp2');
             thisNg.delNode1 = $(this).attr('data-node1');
             thisNg.delNode2 = $(this).attr('data-node2');
+            thisNg.delVersion = $(this).attr('data-version');
             thisNg.delNetwork1 = $(this).attr('data-network');
             thisNg.delNetwork2 = $(this).attr('data-cloudnetwork');
             thisNg.delcloudUrl = $(this).attr('data-url');
             thisNg.delLinkname = $(this).attr('data-link');
             thisNg.aaiId = $(this).attr('data-aaiid');
-            thisNg.getCloudUrl(thisNg.aaiId, thisNg);
-            thisNg.getExtAAIIdVersion(thisNg.aaiId, thisNg);
         });
     }
 
@@ -239,7 +238,6 @@ export class CcvpnNetworkComponent implements OnInit {
                     this.chose(textval);
                 }
                 console.log(this.logicalLinks);
-                console.log(this.dataCloudLink);
                 if (this.dataCloudLink.length > 0) {
                     this.getcloudLine(this.dataCloudLink);
                 }
@@ -585,12 +583,17 @@ export class CcvpnNetworkComponent implements OnInit {
         textval[6] = dataCloudLink[0]['relationship-list']['relationship'][2]['relationship-data'][0]['relationship-value'];//aaiId
         textval[7] = this.dataCloud[0]['networkId'];
         console.log(this.dataCloud);
-        console.log(textval);
         let dataD3 = this.d3Data;
+        let arr=[
+          textval[0],
+          textval[1]
+        ];
         for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
-            if (dataD3[p]['name'] == textval[0]) {
-                textval[8] = dataD3[p]['source']['name'];//network1
+          for (let pp= 0; pp < arr.length; pp++) {//Determine which Domain network the two tp ports belong to
+            if (dataD3[p]['name'] == arr[pp]) {
+              textval[8] = dataD3[p]['source']['name'];//network1
             }
+          }
         }
         textval[9] = dataCloudLink[0]['link-name'];
         let lines_json = {};
@@ -601,18 +604,18 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             width = 800;
         }
+        console.log("shuchu01dataCloudLink"+dataCloudLink[0]);
+        console.log("shuchutextval"+textval);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == textval[8]) {
                 //Get the x, y coordinates of the second level
                 var translates = $('.node').eq(i).css('transform');
-                console.log("shuchu:translates"+translates);
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
                 lines_json['y2'] = 100;
             }
         }
-        console.log("shuchu:x1,y1"+lines_json["x1"],lines_json["y1"]);
         var x1 = lines_json['x1'];
         var y1 = lines_json['y1'];
         var x2 = lines_json['x2'];
@@ -644,24 +647,32 @@ export class CcvpnNetworkComponent implements OnInit {
             'data-link': textval[9],
         });
         svg.html(svg.html());
+      this.getCloudUrl(textval[6]);
+      this.getExtAAIIdVersion(textval[6]);
     }
 
 
     //Query external cloud host url address
-    getCloudUrl(aaiId, thisNg) {
+    getCloudUrl(aaiId) {
         this.myhttp.queryCloudUrl(aaiId)
             .subscribe((data) => {
-                thisNg.delcloudUrl = data['service-url'];
+                this.delcloudUrl = data['service-url'];
+              $('.cloudline').attr({
+                'data-url': data['service-url']
+              });
             }, (err) => {
                 console.log(err);
             });
     }
 
   //Query external cloud ext-aai-id resource-version
-    getExtAAIIdVersion(aaiId, thisNg){
+    getExtAAIIdVersion(aaiId){
         this.myhttp.queryExtAAIIdVersion(aaiId)
           .subscribe((data) => {
-            thisNg.delVersion = data["resource-version"];
+            this.delVersion = data["resource-version"];
+            $('.cloudline').attr({
+              'data-version':data["resource-version"],
+            });
           }, (err) => {
             console.log(err);
           });
@@ -915,7 +926,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     //After creating an external cloud connection, query the connection immediately
-    queryOutCloudLink() {
+    queryOutCloudLink(time) {
         let networkVal1 = this.networkVal1,
             selectedNode1 = this.selectedNode1,
             selecteTpName1 = this.selecteTpName1,
@@ -929,13 +940,12 @@ export class CcvpnNetworkComponent implements OnInit {
         };
         this.myhttp.querySpecificLinkInfo(params)
             .subscribe((data) => {
-                let version = data['resource-version'];
                 let status = data['operational-status'];
                 let link_name = data['link-name'];
                 this.outCloudShow = true;
                 this.hideForm();
                 this.outCloud(this.imgmap);
-                setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name), 0);
+                setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name,time), 0);
             }, (err) => {
                 console.log(err);
             });
@@ -964,7 +974,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     //Add external cloud connection
-    cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, version, status, link_name) {
+    cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name,time) {
         let lines_json = {};
         var _this = this,
             width;
@@ -973,10 +983,12 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             width = 800;
         }
+        console.log("shuchuNetworkVal1:"+networkVal1);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == networkVal1) {
                 //Get the x, y coordinates of the second level
                 var translates = $('.node').eq(i).css('transform');
+                console.log("shuchuTranslates:"+translates);
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
@@ -1004,21 +1016,22 @@ export class CcvpnNetworkComponent implements OnInit {
             y2: y2,
             'data-tp1': selecteTpName1,
             'data-tp2': cloudTp,
-            'data-version': version,
             'data-node1': selectedNode1,
             'data-node2': cloudNode,
             'data-network': networkVal1,
             'data-cloudnetwork': cloudNetWork,
             'data-url': cloudUrl,
+            'data-aaiid':time,
             'data-link': link_name
         });
         svg.html(svg.html());
+        this.getExtAAIIdVersion(time);
     }
 
     //Create an external cloud, call the following 5 interfaces when connecting:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
     createCloudNetwork(time) {
         let _thiss = this;
-
+        console.log("shuchuCloudNetwork:"+time);
         let params= {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "network-id":this.cloudNetwork,
@@ -1046,6 +1059,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     createPnfs(time) {
+        console.log("shuchupnf:"+time);
         let _thiss = this;
         let params= {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
@@ -1087,6 +1101,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     createCloudTp(time) {
+        console.log("shuchuTp:"+time);
         let _thiss = this;
         let params= {
                 "-xmlns": "http://org.onap.aai.inventory/v13",
@@ -1117,6 +1132,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
     createCloudLinks(time) {
         let _thiss = this;
+        console.log("shuchuCloudLinks:"+time);
         let params={
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "link-name": this.linkName,
@@ -1146,7 +1162,7 @@ export class CcvpnNetworkComponent implements OnInit {
             .subscribe((data) => {
                 // resolve(data['status']);
                 if(data["status"]=="SUCCESS"){
-                    _thiss.queryOutCloudLink();
+                    _thiss.queryOutCloudLink(time);
                 }
             }, (err) => {
                 // reject(err);
@@ -1159,6 +1175,7 @@ export class CcvpnNetworkComponent implements OnInit {
     createCloudUrls(time) {
         let _thiss = this;
         console.log(this.cloudNetwork);
+        console.log("shuchuUrls:"+time);
         let params={
                 "-xmlns": "http://org.onap.aai.inventory/v13",
                 "aai-id":time,
@@ -1171,7 +1188,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 }
         };
       console.log(time);
-      console.log(params["ext-aai-network"]["aai-id"]);
+      console.log(params["aai-id"]);
         // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createCloudUrl(params)
@@ -1235,13 +1252,14 @@ export class CcvpnNetworkComponent implements OnInit {
             "aaiId": aaiId,
             "version": version,
         };
-        this.myhttp.deleteLink(params)
+        this.myhttp.deleteCloudLink(params)
             .subscribe((data) => {
                 console.log(data);
                 if (data['status'] == 'SUCCESS') {
                     console.log('delete');
                     this.delLine(deltp1, deltp2);
                     $('.cloudline').remove();
+                    $('#out').remove();
                 }
             }, (err) => {
                 console.log(err);
