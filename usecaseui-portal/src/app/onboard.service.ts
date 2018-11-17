@@ -74,7 +74,11 @@ export class onboardService {
     deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",  
     // Delete Pnf package
     deletePnfPack: this.baseUrl + "deletePnfPackage?pnfPkgId=",
-  
+
+    //进度接口
+    progress: this.baseUrl + "jobs/" + "_jobId" + "?responseId="
+
+
     // // download ns package
     // downloadNsData: this.baseUrl + "downLoadNsPackage?nsdInfoId=XXXXX",
     // //download vnf package 
@@ -122,13 +126,18 @@ export class onboardService {
   //------------------------------------------------------------------------------
   //onboard sdc ns 
   getNsonboard(requestBody) {
-    return this.http.get<any>(this.url["onboardNs"], requestBody);
+    return this.http.post<any>(this.url["onboardNs"], requestBody);
   }
   //onboard sdc vnf
   getVnfonboard(requestBody) {
-    return this.http.get<any>(this.url["onboardVNF"], requestBody);
+    return this.http.post<any>(this.url["onboardVNF"], requestBody);
   }
 
+  //onboard progress
+  getProgress(jobid, responseId) {
+    let url = this.url.progress.replace("_jobId", jobid) + responseId;
+    return this.http.get<any>(url);
+  }
   //--------------------------------------------------------------------------
   // Delete ns vfc package
   deleteNsIdData(paramsObj) {

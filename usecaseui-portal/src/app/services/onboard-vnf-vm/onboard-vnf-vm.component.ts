@@ -30,11 +30,11 @@ export class OnboardVnfVmComponent implements OnInit {
   fileListPNF: UploadFile[] = [];
   // onboard initial value
   status = "Onboard Available";
-
+  jobid = '';
   //url
   url = {
     // line up
-    ns: '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',
+    ns: '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
     vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
     pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
     // 本地
@@ -86,6 +86,7 @@ export class OnboardVnfVmComponent implements OnInit {
     switch (tab) {
       case 'NS':
           this.getTableData();
+
         break
       case 'VNF':
           this.getTableVnfData()
@@ -190,19 +191,19 @@ export class OnboardVnfVmComponent implements OnInit {
     switch(tab) {
       case "NS": 
         this.fileListNS.forEach((file: any) => {
-          formData.append('files[]', file);
+          formData.append('file', file);
         });
         this.nsuploading = true;
       break
       case "VNF": 
         this.fileListVNF.forEach((file: any) => {
-          formData.append('files[]', file);
+          formData.append('file', file);
         });
         this.vnfuploading = true;
       break
       case "PNF": 
         this.fileListPNF.forEach((file: any) => {
-          formData.append('files[]', file);
+          formData.append('file', file);
         });
         this.pnfloading = true;
       break
@@ -258,31 +259,41 @@ changeUploadingSta(tab) {
     //vfc
     this.myhttp.getOnboardTableData()
     .subscribe((data) => {
-      console.log(data)
+      console.log("NSlist-vfc-->",data);
+      console.log("NSlist-length-vfc-->",data.length);
       this.vfcData = data;
-      console.log(typeof this.vfcData)
-      console.log("NSlist-vfc-->",data)
+      this.tableData = this.vfcData;
     }, (err) => {
       console.log(err);
     })
     // sdc
     this.myhttp.getSDC_NSTableData()
     .subscribe((data) => {
-      console.log('NSlist-sdc-->',data)
+      console.log('NSlist-sdc-->',data);
+      console.log("NSlist-length-vfc-->",data.length);
       this.sdcData = data;
-      this.tableData = this.MergeArray(this.vfcData, this.sdcData)
+      if (this.vfcData.length != 0 && this.sdcData.length != 0){
+        this.tableData = this.MergeArray(this.vfcData, this.sdcData) //Array deduplication
+      }else if(this.vfcData.length === 0 && this.sdcData.length != 0){
+        this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+      }else if(this.vfcData.length != 0 && this.sdcData.length === 0){
+        this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+      }
     }, (err) => {
      console.log(err);
     })
+    
+    
   }
 
   // 获取vnf列表
   getTableVnfData() {
     this.myhttp.getOnboardTableVnfData()
       .subscribe((data) => {
-        console.log("vnfList-->", data);
+        console.log("vnfList--vnf>", data);
+        console.log("vnfList--vnf>", data.length);
         this.vfcData = data;
-        console.log("vnfList-vfc-->",data)
+        this.tableData = this.vfcData;
       }, (err) => {
         console.log(err);
       })
@@ -291,8 +302,15 @@ changeUploadingSta(tab) {
     this.myhttp.getSDC_VNFTableData()
       .subscribe((data) => {
         console.log('vnfList-sdc-->', data)
+        console.log('vnfList-sdc-->', data.length)
         this.sdcData = data;
-        this.tableData = this.MergeArray(this.vfcData, this.sdcData)
+        if (this.vfcData.length != 0 && this.sdcData.length != 0){
+          this.tableData = this.MergeArray(this.vfcData, this.sdcData) //Array deduplication
+        }else if(this.vfcData.length === 0 && this.sdcData.length != 0){
+          this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+        }else if(this.vfcData.length != 0 && this.sdcData.length === 0){
+          this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+        }
       }, (err) => {
         console.log(err);
       })
@@ -303,31 +321,57 @@ changeUploadingSta(tab) {
     this.myhttp.getOnboardTablePnfData()
       .subscribe((data) => {
         console.log("pnfList-->", data);
-        this.total = data["body"];
+        console.log("pnfList-->", data.length);
         this.tableData = data;
       }, (err) => {
         console.log(err);
       })
   }
 
-  /* onboard  上传按钮 */
-  // ns onboard
- 
+  //合并并去重
+  MergeArray(arr1, arr2) {
+    var _arr = new Array();
+    for (var i = 0; i < arr1.length; i++) {
+      if (arr1[i] != "") {
+        _arr.push(arr1[i]);
+      }
+    }
+    for (var i = 0; i < arr2.length; i++) {
+      var flag = true;
+      for (var j = 0; j < arr1.length; j++) {
+        // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
+        if (arr2[i].uuid == arr1[j].id) {
+          flag = false;
+          break;
+        }
+      }
+      if (flag && arr2[i] != "") {
+        _arr.push(arr2[i]);
+      }
+    }
+    return _arr;
+  }
+
+//-----------------------------------------------------------------------------------
+  /* onboard */
+  //成功弹框
   success(): void {
     const modal = this.modalService.success({
       nzTitle: 'This is an success message',
       nzContent: 'Package Onboard Completed.'
     });
-
     window.setTimeout(() => modal.destroy(), 2000);
   }
 
+  //失败弹框
   error(): void {
     this.modalService.error({
       nzTitle: 'This is an error message',
       nzContent: 'Package Onboard Failed!'
     });
   }
+
+  // ns onboard 上传按钮
   updataNsService(id) {
     console.log(id);
     let requestBody = {
@@ -335,43 +379,84 @@ changeUploadingSta(tab) {
     }
     this.myhttp.getNsonboard(requestBody)
       .subscribe((data) => {
-        console.log('onboard ns sdc', data);
-        if(data["status"] == 200) {
-          this.success();
-         
-        } else {
-          this.error();
-        }
-        this.getTableData();
+        console.log('onboard ns sdc-->', data);
+        this.jobid =  data.jobid;
+        this.queryProgress(this.jobid,0);
       }, (err) => {
         console.log(err);
       })
   }
 
-  // vnf onboard
+  // vnf onboard 上传按钮
   updataVnfService(id) {
-    this.status = "Onboarding";
+    // this.status = "Onboarding";
     console.log(id)
     let requestBody = {
       "csarId": id
     }
   this.myhttp.getVnfonboard(requestBody)
     .subscribe((data) => {
-      console.log('onboard vnf sdc', data);
-     if(data["status"] == "200"){
-          this.success();
-        }else {
-          this.error();
-        }
+      console.log('onboard vnf sdc-->', data);
+      this.jobid =  data.jobid;
+      this.queryProgress(this.jobid,0);
     }, (err) => {
       console.log(err);
     })
   }
 
-  // pnf onboard ?
-  updataPnfService(id) {
-    console.log('pnf',id);
+  // pnf onboard 
+  // updataPnfService(id) {
+  //   console.log('pnf',id);
+  // }
+ queryProgress(jobid,responseId){
+    let mypromise = new Promise((res,rej)=>{
+        this.myhttp.getProgress(jobid,responseId)
+          .subscribe((data)=>{
+            console.log("progressData-->");
+            console.log(data);
+            if(data.responseDescriptor == null || data.responseDescriptor.progress==undefined){
+              this.error();
+            };
+            if(data.responseDescriptor.progress < 100){
+              this.error();
+            }else if(data.responseDescriptor.progress == 100){
+              res(data);
+              console.log(data);
+              this.success();
+            }     
+          })
+    })
+    return mypromise;
   }
+
+
+  // queryProgress(jobid,callback){
+  //   let mypromise = new Promise((res,rej)=>{
+  //     let requery = (responseId)=>{
+
+  //         this.myhttp.getProgress(jobid,responseId)
+  //           .subscribe((data)=>{
+  //             if(data.responseDescriptor.progress==undefined){
+  //               console.log(data);
+  //               setTimeout(()=>{
+  //                 requery(data.responseDescriptor.responseId);
+  //               },5000)
+  //               return false;
+  //             }
+  //             if(data.responseDescriptor.progress < 100){
+  //               callback(data);
+  //               setTimeout(()=>{
+  //                 requery(data.responseDescriptor.responseId);
+  //               },5000)
+  //             }else {
+  //               res(data);
+  //             }     
+  //           })
+  //     }
+  //     requery(0);
+  //   })
+  //   return mypromise;
+  // }
 
 
   //--------------------------------------------------------------------------------
@@ -387,15 +472,15 @@ changeUploadingSta(tab) {
         switch (tab) {
           case 'NS':
           this.deleteNsService(index,pkgid);
-          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break
         case 'VNF':
           this.deleteVnfService(index,pkgid);
-          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break
         case 'PNF':
           this.deletePnfService(index,pkgid);
-          setTimeout(Math.random() > 0.5 ? resolve : reject,1000);
+          setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break   
         }
       }).catch(() => console.log('Oops errors!'))
@@ -410,13 +495,11 @@ changeUploadingSta(tab) {
     this.myhttp.deleteNsIdData(pkgid)
       .subscribe((data) => {
         console.log("nsdel--->", data);
+        //refresh list after successful deletion
+        this.getTableData();
       }, (err) => {
         console.log(err);
       })
-      console.log(index)
-    this.tableData.splice(index, 1)
-    console.log('tableData.length NS--->',this.tableData.length)
-	  this.getTableData()
    }
 
   //delete vnfItem
@@ -426,13 +509,11 @@ changeUploadingSta(tab) {
     this.myhttp.deleteVnfIdData(pkgid)
       .subscribe((data) => {
         console.log('vnfdel--->', data);
+        //refresh list after successful deletion
+        this.getTableVnfData()
       }, (err) => {
         console.log(err);
       })
-      console.log(index)
-    this.tableData.splice(index, 1)
-    console.log('tableData.length VNF--->'+ this.tableData.length)
-    this.getTableVnfData()
   }
 
   //delete PnfItem
@@ -442,15 +523,14 @@ changeUploadingSta(tab) {
     this.myhttp.deletePnfIdData(pkgid)
       .subscribe((data) => {
         console.log('pnfdel--->', data);
+        //refresh list after successful deletion
+        this.getTablePnfData()
       }, (err) => {
         console.log(err);
       })
-      console.log(index)
-    this.tableData.splice(index, 1)
-    console.log('tableData.length PNF--->'+this.tableData.length)
-    this.getTablePnfData()
   }
 
+//------------------------------------------------------------------------------------
   //下载download
   // downloadNsService(id) {
   //   console.log('download')
@@ -484,27 +564,4 @@ changeUploadingSta(tab) {
   //   })
   // }
 
-  //合并并去重
-  MergeArray(arr1, arr2) {
-    var _arr = new Array();
-    for (var i = 0; i < arr1.length; i++) {
-      if (arr1[i] != "") {
-        _arr.push(arr1[i]);
-      }
-    }
-    for (var i = 0; i < arr2.length; i++) {
-      var flag = true;
-      for (var j = 0; j < arr1.length; j++) {
-        // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
-        if (arr2[i].uuid == arr1[j].id) {
-          flag = false;
-          break;
-        }
-      }
-      if (flag && arr2[i] != "") {
-        _arr.push(arr2[i]);
-      }
-    }
-    return _arr;
-  }
 }
