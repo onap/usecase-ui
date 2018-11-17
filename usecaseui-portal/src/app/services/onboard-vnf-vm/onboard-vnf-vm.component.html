@@ -14,7 +14,7 @@
     limitations under the License.
 -->
 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab, id, url)">
             <!-- nsList -->
             <div class="list" *ngIf="tab === 'NS'">
                 <h3 class="title"> Onboard {{tabTitle}} </h3>
@@ -29,7 +29,7 @@
                     style="margin-top: 16px">
                     {{ nsuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
-                <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
+                <nz-table #nzTable [nzData]="nstableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="nspageSize" [(nzPageIndex)]='nspageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
@@ -49,11 +49,11 @@
                             <td *ngIf="item.uuid">{{item.uuid}}</td>
             
                             <td *ngIf="item.nsdName">{{item.nsdName}}</td>
-                            <td *ngIf="item.nsdName === null">无</td>
+                            <td *ngIf="item.nsdName===null">无</td>
                             <td *ngIf="item.name">{{item.name}}</td>
-
+                            <td *ngIf="item.name===null">无</td>
                             <td *ngIf="item.nsdVersion">{{item.nsdVersion}}</td>
-                            <td *ngIf="item.nsdVersion === null">无</td>
+                            <td *ngIf="item.nsdVersion===null">无</td>
                             <td *ngIf="item.version">{{ item.version }}</td>
                             <td>
                                 <span *ngIf="item.nsdOnboardingState">{{item.nsdOnboardingState}}</span>
@@ -65,7 +65,6 @@
                                 'scaling':data.status=='Scaling','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
                                 <nz-progress  *ngIf="item.uuid"  *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress> -->
                             </td>
-
                             <td>{{item.nsdOperationalState}}</td> 
                             <td>{{item.nsdUsageState}}</td>
                             <td>
@@ -90,7 +89,7 @@
                     style="margin-top: 16px">
                     {{ vnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
-                <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
+                <nz-table #nzTable [nzData]="vnftableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="vnfpageSize" [(nzPageIndex)]='vnfpageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
@@ -139,7 +138,7 @@
                     style="margin-top: 16px">
                     {{ pnfuploading ? 'Uploading' : 'Start Upload' }}
                 </button>
-                <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
+                <nz-table #nzTable [nzData]="pnftableData" nzShowSizeChanger [nzFrontPagination]="true" [nzShowQuickJumper]="true"
                     [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pnfpageSize" [(nzPageIndex)]='pnfpageIndex'
                     [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>

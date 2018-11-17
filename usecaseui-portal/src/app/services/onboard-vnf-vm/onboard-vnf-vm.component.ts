@@ -50,9 +50,14 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   //表格数据
-  tableData:any;
-  sdcData:any;
-  vfcData:any;
+  nstableData:any;
+  vnftableData:any;
+  pnftableData:any;
+  nssdcData:any;
+  nsvfcData:any;
+
+  vnfsdcData:any;
+  vnfvfcData:any;
   nspageIndex = 1;
   nspageSize = 10;
   vnfpageIndex = 1;
@@ -85,13 +90,15 @@ export class OnboardVnfVmComponent implements OnInit {
     console.log(this.url);
     switch (tab) {
       case 'NS':
+          this.nstableData = [];
           this.getTableData();
-
         break
       case 'VNF':
+          this.vnftableData = [];
           this.getTableVnfData()
         break
       case 'PNF':
+          this.pnftableData = [];
           this.getTablePnfData()
         break
     }
@@ -261,8 +268,8 @@ changeUploadingSta(tab) {
     .subscribe((data) => {
       console.log("NSlist-vfc-->",data);
       console.log("NSlist-length-vfc-->",data.length);
-      this.vfcData = data;
-      this.tableData = this.vfcData;
+      this.nsvfcData = data;
+      this.nstableData = this.nsvfcData
     }, (err) => {
       console.log(err);
     })
@@ -271,13 +278,13 @@ changeUploadingSta(tab) {
     .subscribe((data) => {
       console.log('NSlist-sdc-->',data);
       console.log("NSlist-length-vfc-->",data.length);
-      this.sdcData = data;
-      if (this.vfcData.length != 0 && this.sdcData.length != 0){
-        this.tableData = this.MergeArray(this.vfcData, this.sdcData) //Array deduplication
-      }else if(this.vfcData.length === 0 && this.sdcData.length != 0){
-        this.tableData = this.vfcData.concat(this.sdcData); //Array concat
-      }else if(this.vfcData.length != 0 && this.sdcData.length === 0){
-        this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+      this.nssdcData = data;
+      if (this.nsvfcData.length != 0 && this.nssdcData.length != 0){
+        this.nstableData = this.MergeArray(this.nsvfcData, this.nssdcData) //Array deduplication
+        }else if(this.nsvfcData.length === 0 && this.nssdcData.length != 0){
+        this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
+        }else if(this.nsvfcData.length != 0 && this.nssdcData.length === 0){
+        this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
       }
     }, (err) => {
      console.log(err);
@@ -292,8 +299,8 @@ changeUploadingSta(tab) {
       .subscribe((data) => {
         console.log("vnfList--vnf>", data);
         console.log("vnfList--vnf>", data.length);
-        this.vfcData = data;
-        this.tableData = this.vfcData;
+        this.vnfvfcData = data;
+        this.vnftableData = this.vnfvfcData
       }, (err) => {
         console.log(err);
       })
@@ -303,13 +310,14 @@ changeUploadingSta(tab) {
       .subscribe((data) => {
         console.log('vnfList-sdc-->', data)
         console.log('vnfList-sdc-->', data.length)
-        this.sdcData = data;
-        if (this.vfcData.length != 0 && this.sdcData.length != 0){
-          this.tableData = this.MergeArray(this.vfcData, this.sdcData) //Array deduplication
-        }else if(this.vfcData.length === 0 && this.sdcData.length != 0){
-          this.tableData = this.vfcData.concat(this.sdcData); //Array concat
-        }else if(this.vfcData.length != 0 && this.sdcData.length === 0){
-          this.tableData = this.vfcData.concat(this.sdcData); //Array concat
+        this.vnfsdcData = data;
+        if (this.vnfvfcData.length != 0 && this.vnfsdcData.length != 0){
+          this.vnftableData = this.MergeArray(this.vnfvfcData, this.vnfsdcData) //Array deduplication
+          }else if(this.vnfvfcData.length === 0 && this.vnfsdcData.length != 0){
+          this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
+          }else if(this.vnfvfcData.length != 0 && this.vnfsdcData.length === 0){
+          this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
+          console.log(this.vnftableData)
         }
       }, (err) => {
         console.log(err);
@@ -322,7 +330,7 @@ changeUploadingSta(tab) {
       .subscribe((data) => {
         console.log("pnfList-->", data);
         console.log("pnfList-->", data.length);
-        this.tableData = data;
+        this.pnftableData = data;
       }, (err) => {
         console.log(err);
       })
