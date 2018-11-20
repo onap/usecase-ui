@@ -69,7 +69,7 @@ export class OnboardVnfVmComponent implements OnInit {
   sortName = null;
   sortValue = null;
   tabs = ['NS', 'VNF', 'PNF'];
-  
+  isSpinning = false;
   isVisible = false;
   isOkLoading = false; 
   showModal(): void {
@@ -263,12 +263,14 @@ changeUploadingSta(tab) {
 
   // 获取NS列表
   getTableData() {
+    this.isSpinning = true;
     //vfc
     this.myhttp.getOnboardTableData()
     .subscribe((data) => {
       console.log("NSlist-vfc-->",data);
       console.log("NSlist-length-vfc-->",data.length);
       this.nsvfcData = data;
+      //loading
       this.nstableData = this.nsvfcData
     }, (err) => {
       console.log(err);
@@ -286,6 +288,7 @@ changeUploadingSta(tab) {
         }else if(this.nsvfcData.length != 0 && this.nssdcData.length === 0){
         this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
       }
+      this.isSpinning = false;
     }, (err) => {
      console.log(err);
     })
@@ -295,6 +298,7 @@ changeUploadingSta(tab) {
 
   // 获取vnf列表
   getTableVnfData() {
+    this.isSpinning = true;
     this.myhttp.getOnboardTableVnfData()
       .subscribe((data) => {
         console.log("vnfList--vnf>", data);
@@ -319,18 +323,21 @@ changeUploadingSta(tab) {
           this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
           console.log(this.vnftableData)
         }
+        this.isSpinning = false;
       }, (err) => {
         console.log(err);
       })
   }
 
   // 获取pnf列表
-  getTablePnfData() {   
+  getTablePnfData() { 
+    this.isSpinning = true;  
     this.myhttp.getOnboardTablePnfData()
       .subscribe((data) => {
         console.log("pnfList-->", data);
         console.log("pnfList-->", data.length);
         this.pnftableData = data;
+        this.isSpinning = false;
       }, (err) => {
         console.log(err);
       })
@@ -363,11 +370,21 @@ changeUploadingSta(tab) {
 //-----------------------------------------------------------------------------------
   /* onboard */
   //成功弹框
-  success(): void {
+  success(tab): void {
     const modal = this.modalService.success({
       nzTitle: 'This is an success message',
       nzContent: 'Package Onboard Completed.'
     });
+    switch(tab) {
+      case "NS":
+          console.log("NS成功弹框")
+          this.getTableData();
+        break
+      case "VNF": 
+        console.log("VNF成功弹框")
+        this.getTableVnfData();
+        break
+    }
     window.setTimeout(() => modal.destroy(), 2000);
   }
 
