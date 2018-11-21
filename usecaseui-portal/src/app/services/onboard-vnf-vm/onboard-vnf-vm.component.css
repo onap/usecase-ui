@@ -57,4 +57,8 @@ hr {
 .list nz-table tbody td i.anticon:hover {
   color: #147dc2;
 }
-
+.list nz-table tbody td .cannotclick {
+  pointer-events: none;
+  color: #aaa;
+  opacity: 0.6;
+}
