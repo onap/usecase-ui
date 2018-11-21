@@ -168,6 +168,7 @@ export class ServicesListComponent implements OnInit {
           if(typeof item["childServiceInstances"] == "string"){
             item["childServiceInstances"] = JSON.parse(item["childServiceInstances"]);
           }
+
           item["childServiceInstances"] = item["childServiceInstances"].map((child)=>{
             if(typeof child == "string"){
               return JSON.parse(child);
@@ -175,13 +176,26 @@ export class ServicesListComponent implements OnInit {
               return child;
             }
           })
-          if(item["serviceDomain"]=="Network Service" && item["vnfInfo"]){
-            item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
-              vnf["serviceDomain"] = "vnf";
-              return vnf;
-            });
+
+          if(item["serviceDomain"]=="Network Service"){
+            if(item["vnfInfo"]){
+              item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
+                vnf["serviceDomain"] = "vnf";
+                return vnf;
+              });
+            }else if(item["relationship-list"] && item["relationship-list"]["relationship"]){
+              item["childServiceInstances"] = item["relationship-list"]["relationship"].filter((relate)=>{
+                return relate["related-to"]=="generic-vnf";
+              }).map((vnf)=>{
+                let vnfInfo = {vnfNsInstanceId:"",vnfInstanceId:"",vnfInstanceName:"",serviceDomain:"vnf"};
+                vnfInfo.vnfNsInstanceId = item["nsInstanceId"] || item["service-instance-id"];
+                vnfInfo.vnfInstanceId = vnf["relationship-data"].find((vnfid)=>{ return vnfid["relationship-key"]=="generic-vnf.vnf-id"})["relationship-value"];
+                vnfInfo.vnfInstanceName = vnf["related-to-property"].find((vnfname)=>{ return vnfname["property-key"]=="generic-vnf.vnf-name"})["property-value"];
+                return vnfInfo;
+              })
+            }
           }
-          //when processing，continue
+
           if(item["serviceStatus"]=="finished"){
             item["status"] = "Active";
           }else if(item["serviceStatus"]=="processing"){
@@ -195,7 +209,8 @@ export class ServicesListComponent implements OnInit {
                 }
               }
               let id = item["nsInstanceId"] || item["service-instance-id"];
-              this.queryNsProgress(item["jobId"],id,updata).then(()=>{
+              let jobid = item["jobId"] || item["operationId"];
+              this.queryNsProgress(jobid,id,updata).then(()=>{
                 item["rate"] = 100;
                 item["status"] = "completed";
               })
@@ -493,14 +508,14 @@ export class ServicesListComponent implements OnInit {
           console.log(data);
           newData.rate = 100;
           newData.status = "completed";
-          // let hasUndone = this.tableData.some((item)=>{
-          //   return item.rate < 100;
-          // })
-          // if(!hasUndone){
-          //   setTimeout(()=>{
-          //     this.getTableData();
-          //   },1000)
-          // }
+          let hasUndone = this.tableData.some((item)=>{
+            return item.rate < 100;
+          })
+          if(!hasUndone){
+            setTimeout(()=>{
+              this.getTableData();
+            },1000)
+          }
         })
       }) 
     })
@@ -543,14 +558,14 @@ export class ServicesListComponent implements OnInit {
       console.log(data);
       newData.rate = 100;
       newData.status = "completed";
-      // let hasUndone = this.tableData.some((item)=>{
-      //   return item.rate < 100;
-      // })
-      // if(!hasUndone){
-      //   setTimeout(()=>{
-      //     this.getTableData();
-      //   },1000)
-      // }
+      let hasUndone = this.tableData.some((item)=>{
+        return item.rate < 100;
+      })
+      if(!hasUndone){
+        setTimeout(()=>{
+          this.getTableData();
+        },1000)
+      }
     })
 
   }
@@ -567,10 +582,6 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.nsCreateInstance(obj.step1)
     .subscribe((data)=>{
       // console.log(data);
-      if(data.status == "FAILED"){
-        console.log("create ns service failed :" + JSON.stringify(data));
-        return false;
-      }
       newData = {  //
         'service-instance-id':data.nsInstanceId,
         'service-instance-name':obj.step1.nsName,
@@ -580,6 +591,11 @@ export class ServicesListComponent implements OnInit {
         rate:0,
       }
       this.tableData = [newData,...this.tableData];
+      if(data.status == "FAILED"){
+        console.log("create ns service failed :" + JSON.stringify(data));
+        newData.status = "failed";
+        return false;
+      }
       let createParams = "?ns_instance_id=" + data.nsInstanceId + 
                         "&customerId="+this.customerSelected.id + 
                         "&serviceType="+this.serviceTypeSelected.name + 
@@ -587,7 +603,10 @@ export class ServicesListComponent implements OnInit {
                         "&parentServiceInstanceId=";
       // step2
       this.createNsService(createParams,obj.step2).then((jobid)=>{
-
+        if(jobid == "failed"){
+          newData.status = "failed";
+          return false;
+        }
         let updata = (prodata)=>{
           newData.rate = prodata.progress;
           if(newData["rate"] > 100){
@@ -600,14 +619,14 @@ export class ServicesListComponent implements OnInit {
         console.log(data);
         newData.rate = 100;
         newData.status = "completed";
-        // let hasUndone = this.tableData.some((item)=>{
-        //   return item.rate < 100;
-        // })
-        // if(!hasUndone){
-        //   setTimeout(()=>{
-        //     this.getTableData();
-        //   },1000)
-        // }
+        let hasUndone = this.tableData.some((item)=>{
+          return item.rate < 100;
+        })
+        if(!hasUndone){
+          setTimeout(()=>{
+            this.getTableData();
+          },1000)
+        }
       })
     })
   }
@@ -631,6 +650,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("instantiate ns service failed :" + JSON.stringify(data));
+            res("failed");
             return false;
           }
           res(data.jobId);
@@ -647,6 +667,7 @@ export class ServicesListComponent implements OnInit {
       .subscribe((data)=>{
         if(data.status == "FAILED"){
           console.log("scale E2e service failed :" + JSON.stringify(data));
+          service.status = "failed";
           return false;
         }
         let obj = {
@@ -670,11 +691,12 @@ export class ServicesListComponent implements OnInit {
     console.log(service);
     service.rate = 0;
     service.status = "Healing";
-    let id = service.nsInstanceId || service["service-instance-id"];
+    let id = service.nsInstanceId || service["service-instance-id"] || service["vnfNsInstanceId"];
     this.myhttp.healNsService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
           console.log("heal nsvnf service failed :" + JSON.stringify(data));
+          service.status = "failed";
           return false;
         }
         let jobid = data.jobId;
@@ -684,7 +706,7 @@ export class ServicesListComponent implements OnInit {
             service["status"]=prodata.status;
           }  
         }
-        this.queryNsProgress(jobid,id,updata).then((data1)=>{
+        this.queryNsProgress(jobid,null,updata).then((data1)=>{
           console.log(data1);
           service.rate = 100;
           service.status = "completed";
@@ -710,6 +732,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("delete service failed :" + JSON.stringify(data));
+            service.status = "failed";
             return false;
           }
           let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
@@ -732,14 +755,14 @@ export class ServicesListComponent implements OnInit {
         console.log(data);
         service.rate = 100;
         service.status = "completed";
-        // let hasUndone = this.tableData.some((item)=>{
-        //   return item.rate < 100;
-        // })
-        // if(!hasUndone){
-        //   setTimeout(()=>{
-        //     this.getTableData();
-        //   },1000)
-        // }
+        let hasUndone = this.tableData.some((item)=>{
+          return item.rate < 100;
+        })
+        if(!hasUndone){
+          setTimeout(()=>{
+            this.getTableData();
+          },1000)
+        }
       })
     })
   }
@@ -752,13 +775,17 @@ export class ServicesListComponent implements OnInit {
       gracefulTerminationTimeout : this.gracefulTerminationTimeout
     }
     this.stopNsService(id,requestBody).then((jobid)=>{
+      if(jobid == "failed"){
+        service.status = "failed";
+        return false;
+      }
       let updata = (prodata)=>{
         service.rate = prodata.progress;
         if(service["rate"] > 100){
           service["status"]=prodata.status;
         }  
       }
-      return this.queryNsProgress(jobid,id,updata);
+      return this.queryNsProgress(jobid,null,updata);
     }).then(()=>{
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
@@ -770,14 +797,14 @@ export class ServicesListComponent implements OnInit {
             service.status = "failed";
             return false;
           }
-          // let hasUndone = this.tableData.some((item)=>{
-          //   return item.rate < 100;
-          // })
-          // if(!hasUndone){
-          //   setTimeout(()=>{
-          //     this.getTableData();
-          //   },1000)
-          // }
+          let hasUndone = this.tableData.some((item)=>{
+            return item.rate < 100;
+          })
+          if(!hasUndone){
+            setTimeout(()=>{
+              this.getTableData();
+            },1000)
+          }
         })
     })
   }
@@ -788,6 +815,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("stop ns service failed :" + JSON.stringify(data));
+            res("failed");
             return false;
           }
           res(data.jobId);
