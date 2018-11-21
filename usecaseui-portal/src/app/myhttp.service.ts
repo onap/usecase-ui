@@ -216,7 +216,7 @@ export class MyhttpService {
   }
 
   getVnfInfo(id) {
-    return this.http.get<any>(this.url.vnfInfo + id)
+    return this.http.get<any>(this.url.vnfInfo + id);
   }
   healNsService(id, requestBody) {
     // return this.http.get<any>(this.url.ns_healService);  //Local simulation
