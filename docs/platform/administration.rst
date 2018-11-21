@@ -4,7 +4,7 @@
 Administration
 --------------
 
-It is not hard to manage Usecase-UI becasue it's been dockerized and split into two dockers. One is for UI and the other for Server.
+It is not hard to manage Usecase-UI because it's been dockerized and split into two dockers. One is for UI and the other for Server.
 
 Processes / Dockers
 ^^^^^^^^^^^^^^^^^^^

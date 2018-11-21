@@ -3,7 +3,7 @@
 Usecase-UI
 ---------------------------------
 
-This document is aimed to give the users some brief introductions on Usecase-UI from different aspects. The users could find useful information, e.g. the architecuture, the APIs and the installation steps, etc. as well as the release notes of Usecase-UI in this document.
+This document is aimed to give the users some brief introductions on Usecase-UI from different aspects. The users could find useful information, e.g. the architecture, the APIs and the installation steps, etc. as well as the release notes of Usecase-UI in this document.
 
 
 .. toctree::
