@@ -538,7 +538,7 @@ export class ServicesListComponent implements OnInit {
       console.log(data);
       newData = {  //
         'service-instance-id':data["serviceId"],
-        'service-instance-name':obj.name,
+        'service-instance-name':obj.service.name,
         serviceDomain:this.templateTypeSelected,
         childServiceInstances:[],
         status:"Creating",
