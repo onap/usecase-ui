@@ -198,6 +198,8 @@ export class ServicesListComponent implements OnInit {
 
           if(item["serviceStatus"]=="finished"){
             item["status"] = "Active";
+          }else if(item["serviceStatus"]=="error"){
+            item["status"] = "error";
           }else if(item["serviceStatus"]=="processing"){
             item["status"] = "processing";
             if(item["serviceDomain"]=="Network Service"){

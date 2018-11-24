@@ -119,12 +119,12 @@
               <nz-progress *ngIf="data.status == 'processing' || data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
             </td>
             <td>
-              <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
+              <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
                 *ngIf="data.serviceDomain=='E2E Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
               <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-              <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
+              <!-- <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
                 *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
-              <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
+              <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
                 *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
               <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'||data.status=='Scaling'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
             </td>
