@@ -202,9 +202,10 @@ export class ServicesListComponent implements OnInit {
             item["status"] = "error";
           }else if(item["serviceStatus"]=="processing"){
             item["status"] = "processing";
+            item["rate"] = 0;
             if(item["serviceDomain"]=="Network Service"){
               let updata = (prodata)=>{
-                item["rate"] = prodata.progress;
+                item["rate"] = prodata.progress || item["rate"];
                 // >100 err
                 if(item["rate"] > 100){
                   item["status"]=prodata.status;
@@ -218,7 +219,7 @@ export class ServicesListComponent implements OnInit {
               })
             }else{
               let updata = (prodata)=>{
-                item["rate"] = prodata.progress;
+                item["rate"] = prodata.progress || item["rate"];
                 if(item["rate"] > 100){
                   item["status"]=prodata.status;
                 }
