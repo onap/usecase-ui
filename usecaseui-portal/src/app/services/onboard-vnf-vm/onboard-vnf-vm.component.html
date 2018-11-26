@@ -51,15 +51,16 @@
 	                            <td *ngIf="item.uuid">{{item.uuid}}</td>
             
 	                            <td *ngIf="item.nsdName">{{item.nsdName}}</td>
-	                            <td *ngIf="item.nsdName === null">无</td>
+	                            <td *ngIf="item.nsdName === null || item.nsdName === ''">&nbsp;</td>
 	                            <td *ngIf="item.name">{{item.name}}</td>
-	                            <td *ngIf="item.name===null">无</td>
+	                            <td *ngIf="item.name===null || item.name=== ''">&nbsp;</td>
 	                            <td *ngIf="item.nsdVersion">{{item.nsdVersion}}</td>
-	                            <td *ngIf="item.nsdVersion === null">无</td>
-	                            <td *ngIf="item.version">{{ item.version }}</td>
+	                            <td *ngIf="item.nsdVersion === null || item.nsdVersion === ''">&nbsp;</td>
+                                <td *ngIf="item.version">{{item.version}}</td>
+                                <td *ngIf="item.version === null || item.version === ''">&nbsp;</td>
 	                            <td>
 	                                <span *ngIf="item.nsdOnboardingState">{{item.nsdOnboardingState}}</span>
-	                                <span *ngIf="item.nsdOnboardingState === null">无</span>
+	                                <span *ngIf="item.nsdOnboardingState === null || item.nsdOnboardingState === ''">&nbsp;</span>
 	                                <span *ngIf="item.uuid">{{status}}</span>
                                 
 	                                <!-- <span *ngIf="item.uuid" [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
@@ -119,10 +120,10 @@
                                 <td *ngIf="item.id">{{item.id}}</td>
                                 <td *ngIf="item.uuid">{{item.uuid}}</td>
                                 <td *ngIf="item.vnfProductName">{{item.vnfProductName}}</td>
-                                <td *ngIf="item.vnfProductName === null">无</td>
+                                <td *ngIf="item.vnfProductName === null || item.vnfProductName === ''">&nbsp;</td>
                                 <td *ngIf="item.name">{{item.name}}</td>
                                 <td *ngIf="item.vnfdVersion">{{item.vnfdVersion}}</td>
-                                <td *ngIf="item.vnfdVersion === null">无</td>
+                                <td *ngIf="item.vnfdVersion === null || item.vnfdVersion === ''">&nbsp;</td>
                                 <td *ngIf="item.version">{{item.version}}</td>
                                 <td>{{item.onboardingState}}</td>
                                 <td>{{item.usageState}}</td>
