@@ -76,7 +76,22 @@ hr {
                         color: #147dc2;
                     }
                 }
+                .cannotclick {
+                    pointer-events: none;
+                    color: #aaa;
+                    opacity: 0.6;
+                }
             }
         }
     }
+}
+.mask {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    background: black;
+    z-index: 1049;
 }

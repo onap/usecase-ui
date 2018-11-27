@@ -164,7 +164,7 @@ export class E2eCreationComponent implements OnInit {
             let location = {
               vnfProfileId: input.name,
               locationConstraints:{
-                vimId:input.value.id
+                vimId: input.value.name + "_" + input.value.id,
               }
             }
             nsService.parameters.locationConstraints.push(location);

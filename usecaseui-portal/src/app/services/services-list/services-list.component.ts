@@ -137,7 +137,7 @@ export class ServicesListComponent implements OnInit {
     
   }
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+    // console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
@@ -168,6 +168,7 @@ export class ServicesListComponent implements OnInit {
           if(typeof item["childServiceInstances"] == "string"){
             item["childServiceInstances"] = JSON.parse(item["childServiceInstances"]);
           }
+
           item["childServiceInstances"] = item["childServiceInstances"].map((child)=>{
             if(typeof child == "string"){
               return JSON.parse(child);
@@ -175,11 +176,63 @@ export class ServicesListComponent implements OnInit {
               return child;
             }
           })
+
           if(item["serviceDomain"]=="Network Service"){
-            item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
-              vnf["serviceDomain"] = "vnf";
-              return vnf;
-            });
+            if(item["vnfInfo"]){
+              item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
+                vnf["serviceDomain"] = "vnf";
+                return vnf;
+              });
+            }else if(item["relationship-list"] && item["relationship-list"]["relationship"]){
+              item["childServiceInstances"] = item["relationship-list"]["relationship"].filter((relate)=>{
+                return relate["related-to"]=="generic-vnf";
+              }).map((vnf)=>{
+                let vnfInfo = {vnfNsInstanceId:"",vnfInstanceId:"",vnfInstanceName:"",serviceDomain:"vnf"};
+                vnfInfo.vnfNsInstanceId = item["nsInstanceId"] || item["service-instance-id"];
+                vnfInfo.vnfInstanceId = vnf["relationship-data"].find((vnfid)=>{ return vnfid["relationship-key"]=="generic-vnf.vnf-id"})["relationship-value"];
+                vnfInfo.vnfInstanceName = vnf["related-to-property"].find((vnfname)=>{ return vnfname["property-key"]=="generic-vnf.vnf-name"})["property-value"];
+                return vnfInfo;
+              })
+            }
+          }
+
+          if(item["serviceStatus"]=="finished"){
+            item["status"] = "Active";
+          }else if(item["serviceStatus"]=="error"){
+            item["status"] = "error";
+          }else if(item["serviceStatus"]=="processing"){
+            item["status"] = "processing";
+            item["rate"] = 0;
+            if(item["serviceDomain"]=="Network Service"){
+              let updata = (prodata)=>{
+                item["rate"] = prodata.progress || item["rate"];
+                // >100 err
+                if(item["rate"] > 100){
+                  item["status"]=prodata.status;
+                }
+              }
+              let id = item["nsInstanceId"] || item["service-instance-id"];
+              let jobid = item["jobId"] || item["operationId"];
+              this.queryNsProgress(jobid,id,updata).then(()=>{
+                item["rate"] = 100;
+                item["status"] = "completed";
+              })
+            }else{
+              let updata = (prodata)=>{
+                item["rate"] = prodata.progress || item["rate"];
+                if(item["rate"] > 100){
+                  item["status"]=prodata.status;
+                }
+              }
+              let obj = {
+                serviceId:item["service-instance-id"],
+                operationId:item["operationId"]
+              }
+              this.queryProgress(obj,updata).then(()=>{
+                item["rate"] = 100;
+                item["status"] = "completed";
+              })
+            }
           }
           return item;
         })  
@@ -385,7 +438,10 @@ export class ServicesListComponent implements OnInit {
       }
       this.tableData = [newData,...this.tableData];
       let updata = (prodata)=>{
-        newData.rate = Math.floor(prodata.progress/3);   
+        newData.rate = Math.floor(prodata.progress/3);
+        if(newData["rate"] > 100){
+          newData["status"]=prodata.status;
+        }   
       }
       let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
       return this.queryProgress(queryParams,updata);
@@ -407,6 +463,9 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress)) 
             newData.rate = Math.floor(average/3) + stageNum;
+            if(newData["rate"] > 100){
+              newData["status"]=prodata.status;
+            }  
           }
           let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
           querypros.push(this.queryProgress(queryParams,updata))
@@ -438,6 +497,9 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average =((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress)) 
             newData.rate = Math.floor(average/3) + stageNum;
+            if(newData["rate"] > 100){
+              newData["status"]=prodata.status;
+            }  
           }
           let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
           querypros.push(this.queryProgress(queryParams,updata))
@@ -479,7 +541,7 @@ export class ServicesListComponent implements OnInit {
       console.log(data);
       newData = {  //
         'service-instance-id':data["serviceId"],
-        'service-instance-name':obj.name,
+        'service-instance-name':obj.service.name,
         serviceDomain:this.templateTypeSelected,
         childServiceInstances:[],
         status:"Creating",
@@ -489,6 +551,9 @@ export class ServicesListComponent implements OnInit {
       this.tableData = [newData,...this.tableData];
       let updata = (prodata)=>{
         newData.rate = prodata.progress;
+        if(newData["rate"] > 100){
+          newData["status"]=prodata.status;
+        }  
       }
       let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
       return this.queryProgress(queryParams,updata);
@@ -520,10 +585,6 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.nsCreateInstance(obj.step1)
     .subscribe((data)=>{
       // console.log(data);
-      if(data.status == "FAILED"){
-        console.log("create ns service failed :" + JSON.stringify(data));
-        return false;
-      }
       newData = {  //
         'service-instance-id':data.nsInstanceId,
         'service-instance-name':obj.step1.nsName,
@@ -533,6 +594,11 @@ export class ServicesListComponent implements OnInit {
         rate:0,
       }
       this.tableData = [newData,...this.tableData];
+      if(data.status == "FAILED"){
+        console.log("create ns service failed :" + JSON.stringify(data));
+        newData.status = "failed";
+        return false;
+      }
       let createParams = "?ns_instance_id=" + data.nsInstanceId + 
                         "&customerId="+this.customerSelected.id + 
                         "&serviceType="+this.serviceTypeSelected.name + 
@@ -540,12 +606,18 @@ export class ServicesListComponent implements OnInit {
                         "&parentServiceInstanceId=";
       // step2
       this.createNsService(createParams,obj.step2).then((jobid)=>{
-
+        if(jobid == "failed"){
+          newData.status = "failed";
+          return false;
+        }
         let updata = (prodata)=>{
-          newData.rate = prodata.responseDescriptor.progress;
+          newData.rate = prodata.progress;
+          if(newData["rate"] > 100){
+            newData["status"]=prodata.status;
+          }  
         }
 
-        return this.queryNsProgress(jobid,updata);
+        return this.queryNsProgress(jobid,newData["service-instance-id"],updata);
       }).then((data)=>{
         console.log(data);
         newData.rate = 100;
@@ -581,6 +653,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("instantiate ns service failed :" + JSON.stringify(data));
+            res("failed");
             return false;
           }
           res(data.jobId);
@@ -597,6 +670,7 @@ export class ServicesListComponent implements OnInit {
       .subscribe((data)=>{
         if(data.status == "FAILED"){
           console.log("scale E2e service failed :" + JSON.stringify(data));
+          service.status = "failed";
           return false;
         }
         let obj = {
@@ -605,10 +679,13 @@ export class ServicesListComponent implements OnInit {
         }
         let updata = (prodata)=>{
           service.rate = prodata.progress;
+          if(service["rate"] > 100){
+            service["status"]=prodata.status;
+          }  
         }
         this.queryProgress(obj,updata).then(()=>{
           service.rate = 100;
-          service.status = "Active";
+          service.status = "completed";
         })
       })
   }
@@ -617,20 +694,25 @@ export class ServicesListComponent implements OnInit {
     console.log(service);
     service.rate = 0;
     service.status = "Healing";
-    this.myhttp.healNsService(service.nsInstanceId,requestBody)
+    let id = service.nsInstanceId || service["service-instance-id"] || service["vnfNsInstanceId"];
+    this.myhttp.healNsService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
           console.log("heal nsvnf service failed :" + JSON.stringify(data));
+          service.status = "failed";
           return false;
         }
         let jobid = data.jobId;
         let updata = (prodata)=>{
-          service.rate = prodata.responseDescriptor.progress;
+          service.rate = prodata.progress;
+          if(service["rate"] > 100){
+            service["status"]=prodata.status;
+          }  
         }
-        this.queryNsProgress(jobid,updata).then((data1)=>{
+        this.queryNsProgress(jobid,null,updata).then((data1)=>{
           console.log(data1);
           service.rate = 100;
-          service.status = "Active";
+          service.status = "completed";
         });
       })
   }
@@ -653,6 +735,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("delete service failed :" + JSON.stringify(data));
+            service.status = "failed";
             return false;
           }
           let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
@@ -660,6 +743,9 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
             service["rate"]=average;
+            if(service["rate"] > 100){
+              service["status"]=prodata.status;
+            }  
           }
           querypros.push(this.queryProgress(obj,updata));
           res();
@@ -686,26 +772,34 @@ export class ServicesListComponent implements OnInit {
   deleteNsService(service){
     service.rate = 0;
     service.status = "Deleting";
-    let id = service.nsInstanceId;
+    let id = service.nsInstanceId || service["service-instance-id"];
     let requestBody = {
       terminationType : this.terminationType,
       gracefulTerminationTimeout : this.gracefulTerminationTimeout
     }
     this.stopNsService(id,requestBody).then((jobid)=>{
-      let updata = (prodata)=>{
-        service.rate = prodata.responseDescriptor.progress;
+      if(jobid == "failed"){
+        service.status = "failed";
+        return false;
       }
-      return this.queryNsProgress(jobid,updata);
+      let updata = (prodata)=>{
+        service.rate = prodata.progress;
+        if(service["rate"] > 100){
+          service["status"]=prodata.status;
+        }  
+      }
+      return this.queryNsProgress(jobid,null,updata);
     }).then(()=>{
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
           // console.log(data);
-          if(data.status == "FAILED"){
-            console.log("delete ns service failed :" + JSON.stringify(data));
-            return false;
-          }
           service.rate = 100;
           service.status = "completed";
+          if(data.status == "FAILED"){
+            console.log("delete ns service failed :" + JSON.stringify(data));
+            service.status = "failed";
+            return false;
+          }
           let hasUndone = this.tableData.some((item)=>{
             return item.rate < 100;
           })
@@ -724,6 +818,7 @@ export class ServicesListComponent implements OnInit {
         .subscribe((data)=>{
           if(data.status == "FAILED"){
             console.log("stop ns service failed :" + JSON.stringify(data));
+            res("failed");
             return false;
           }
           res(data.jobId);
@@ -746,14 +841,28 @@ export class ServicesListComponent implements OnInit {
       //     "finishedAt": "" 
       //   }
       // }
+      let errorNums = 180;
       let requery = ()=>{
         this.myhttp.getProgress(obj)
           .subscribe((data)=>{
-            if(data.operationStatus.progress==undefined){
-              console.log(data);
+            if(data.status == "FAILED"){
+              callback({progress:255,status:"failed"});
+              return false;
+            }
+            if(data.operationStatus == null || data.operationStatus.progress==undefined){
+              // console.log(data);
+              errorNums--;
+              if(errorNums==0){
+                 callback({progress:255,status:"time over"});
+                 return false;
+              }
               setTimeout(()=>{
                 requery();
-              },5000)
+              },10000)
+              return false;
+            }
+            if(data.operationStatus.progress > 100){
+              callback({progress:255,status:"time over"});
               return false;
             }
             if(data.operationStatus.progress < 100){
@@ -781,7 +890,7 @@ export class ServicesListComponent implements OnInit {
     })
     return mypromise;
   }
-  queryNsProgress(jobid,callback){
+  queryNsProgress(jobid,id,callback){
     let mypromise = new Promise((res,rej)=>{
       // let data = {
       //   "jobId": "string",
@@ -802,20 +911,34 @@ export class ServicesListComponent implements OnInit {
       //     ]
       //   }
       // }
-      let requery = (responseId)=>{
-        this.myhttp.getNsProgress(jobid,responseId)
+      let errorNums = 180;
+      let requery = ()=>{
+        this.myhttp.getNsProgress(jobid,id)
           .subscribe((data)=>{
-            if(data.responseDescriptor.progress==undefined){
-              console.log(data);
+            if(data.status == "FAILED"){
+              callback({progress:255,status:"failed"});
+              return false;
+            }
+            if(data.responseDescriptor == null || data.responseDescriptor.progress==undefined){
+              // console.log(data);
+              errorNums--;
+              if(errorNums==0){
+                callback({progress:255,status:"time over"});
+                return false;
+              }
               setTimeout(()=>{
-                requery(data.responseDescriptor.responseId);
-              },5000)
+                requery();
+              },10000)
+              return false;
+            }
+            if(data.responseDescriptor.progress > 100){
+              callback({progress:255,status:"time over"});
               return false;
             }
             if(data.responseDescriptor.progress < 100){
-              callback(data);
+              callback(data.responseDescriptor);
               setTimeout(()=>{
-                requery(data.responseDescriptor.responseId);
+                requery();
               },5000)
             }else {
               res(data);
@@ -825,15 +948,15 @@ export class ServicesListComponent implements OnInit {
         //   console.log(data.responseDescriptor.progress)
         //   data.responseDescriptor.progress++;        
         //   if(data.responseDescriptor.progress<100){
-        //     callback(data);
-        //     requery(data.responseDescriptor.responseId)
+        //     callback(data.responseDescriptor);
+        //     requery()
         //   }else{
         //     callback(data);
         //     res(data)
         //   }
         // },100)
       }
-      requery(0);
+      requery();
     })
     return mypromise;
   }

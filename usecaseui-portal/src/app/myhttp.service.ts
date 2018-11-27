@@ -90,7 +90,7 @@ export class MyhttpService {
     ns_healService: this.baseUrl + "/uui-lcm/healNetworkServiceInstance?ns_instance_id=",
     vnfInfo: this.baseUrl + "/uui-lcm/VnfInfo/",
     progress: this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
-    nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/" + "*_*" + "?responseId=",
+    nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/" + "*_*" + "?responseId=0&serviceInstanceId=",
     e2eScale: this.baseUrl + "/services/scaleServices/",
     e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId/",
 
@@ -216,7 +216,7 @@ export class MyhttpService {
   }
 
   getVnfInfo(id) {
-    return this.http.get<any>(this.url.vnfInfo + id)
+    return this.http.get<any>(this.url.vnfInfo + id);
   }
   healNsService(id, requestBody) {
     // return this.http.get<any>(this.url.ns_healService);  //Local simulation
@@ -238,8 +238,8 @@ export class MyhttpService {
     let url = this.url.progress.replace("*_*", obj.serviceId) + obj.operationId;
     return this.http.get<any>(url);
   }
-  getNsProgress(jobid, responseId) {
-    let url = this.url.nsProgress.replace("*_*", jobid) + responseId;
+  getNsProgress(jobid,serviceId){
+    let url = this.url.nsProgress.replace("*_*",jobid) + serviceId;
     return this.http.get<any>(url);
   }
 
