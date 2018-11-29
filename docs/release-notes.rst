@@ -7,6 +7,50 @@ Usecase UI Release Notes
 
 Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. It provides self-service management GUI and monitor GUI for operators and end-users.  This project targets identifying all GUI requirements which operators and end-users need ONAP to support, coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+
+Version: 1.2.0
+--------------
+
+:Release Date: 2018-11-30
+
+
+**New Features**
+
+- GUI of Lifecycle Management for vCPE use case
+- GUI of Lifecycle Management for CCVPN use case
+- GUI of Network Management for OTN Domain
+- S3P improvement
+ 
+Released components:
+- usecase-ui
+- usecase-ui-server
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+UseCase UI code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The UseCase UI open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_.
+
+Quick Links:
+
+- `UseCase UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+- `Passing Badge information for UseCase UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+- `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
 Version: 1.1.0
 --------------
 
@@ -47,6 +91,7 @@ Quick Links:
 
 **Other**
 	NA
+
 
 Version: 1.0.0
 --------------
