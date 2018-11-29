@@ -33,13 +33,13 @@ Released components:
 
 **Security Notes**
 
-UseCase UI code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The UseCase UI open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_.
+UseCase UI code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The UseCase UI open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45300868>`_.
 
 Quick Links:
 
 - `UseCase UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
 - `Passing Badge information for UseCase UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
-- `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_
+- `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=45300868>`_
 
 **Upgrade Notes**
 	NA
