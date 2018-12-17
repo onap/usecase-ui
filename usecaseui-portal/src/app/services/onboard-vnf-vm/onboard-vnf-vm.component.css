@@ -62,3 +62,6 @@ hr {
   color: #aaa;
   opacity: 0.6;
 }
+.list nz-table tbody td .fileIcon{
+  display: none;
+}

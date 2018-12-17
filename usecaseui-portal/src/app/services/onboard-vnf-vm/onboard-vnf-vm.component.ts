@@ -27,6 +27,7 @@ export class OnboardVnfVmComponent implements OnInit {
   nsuploading = false;
   vnfuploading = false;
   pnfloading = false;
+  fileList: UploadFile[] = [];
   fileListNS: UploadFile[] = [];
   fileListVNF: UploadFile[] = [];
   fileListPNF: UploadFile[] = [];
@@ -36,13 +37,13 @@ export class OnboardVnfVmComponent implements OnInit {
   //url
   url = {
     // line up
-    ns:  '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
-    vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
-    pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
+    //ns:  '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
+    //vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
+    //pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
     // 本地
-    // ns: 'https://jsonplaceholder.typicode.com/posts/',
-    // vnf: 'https://jsonplaceholder.typicode.com/posts/',
-    // pnf: 'https://jsonplaceholder.typicode.com/posts/',
+    ns: 'https://jsonplaceholder.typicode.com/posts/',
+    vnf: 'https://jsonplaceholder.typicode.com/posts/',
+    pnf: 'https://jsonplaceholder.typicode.com/posts/',
   };
   constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService, private modalService: NzModalService) { }
 
@@ -72,15 +73,6 @@ export class OnboardVnfVmComponent implements OnInit {
   sortValue = null;
   tabs = ['NS', 'VNF', 'PNF'];
   isSpinning = false;
-  isVisible = false;
-  isOkLoading = false; 
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-  }
 
   // 处理tab切换 请求数据
   handleTabChange(tab) {
@@ -94,14 +86,17 @@ export class OnboardVnfVmComponent implements OnInit {
       case 'NS':
           this.nstableData = [];
           this.getTableData();
+          this.fileList = []; //切换时清空上传的文件
         break
       case 'VNF':
           this.vnftableData = [];
           this.getTableVnfData()
+          this.fileList = [];
         break
       case 'PNF':
           this.pnftableData = [];
           this.getTablePnfData()
+          this.fileList = [];
         break
     }
   }
@@ -115,7 +110,14 @@ export class OnboardVnfVmComponent implements OnInit {
                 "additionalProp3": ""
            }
       }
-    //  requestBody = {};
+
+  //NS/VNF列表添加文件
+  beforeUpload = (file: UploadFile): boolean => {
+    this.fileList.push(file);
+    console.log('fileList' + this.fileList)
+    return false;
+  }
+
    // ns  beforeUpload
   beforeUploadNS = (file: UploadFile): boolean => {
     this.fileListNS.push(file);
@@ -168,25 +170,44 @@ export class OnboardVnfVmComponent implements OnInit {
         })
     return false;
   }
+
+  //获取列表单条id
+  onClickId(id,tab){
+    switch (tab) {
+      case 'NS':
+      this.nsdInfoId = id;
+      console.log(this.nsdInfoId);
+      break
+      case 'VNF':
+      this.vnfPkgId = id;
+      console.log(this.vnfPkgId);
+      break
+      case 'PNF':
+      this.pnfdInfoId = id;
+      console.log(this.pnfdInfoId);
+      break
+    }
+  }
+  
   //拖拽后点击上传按钮
   onClick (tab) {
     switch (tab) {
       case 'NS':
-      console.log(this.nsdInfoId);
-      this.handleUpload('/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',tab);
-        // this.handleUpload(this.url.ns, tab);
+        console.log(this.nsdInfoId);
+     // this.handleUpload('/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',tab);
+         this.handleUpload(this.url.ns, tab);
         this.getTableData();
         break
       case 'VNF':
       console.log(this.vnfPkgId);
-     this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
-        // this.handleUpload(this.url.vnf, tab); 
+     // this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
+        this.handleUpload(this.url.vnf, tab); 
         this.getTableVnfData()
         break
       case 'PNF':
       console.log(this.pnfdInfoId);
-      this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
-        // this.handleUpload(this.url.pnf, tab);  
+      // this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
+        this.handleUpload(this.url.pnf, tab);  
         this.getTablePnfData();  
         break
     }
@@ -231,12 +252,17 @@ export class OnboardVnfVmComponent implements OnInit {
     });
     console.log('req--->'+ JSON.stringify(req));
     console.log('formData--->'+ JSON.stringify(formData));
+    //上传前置空数组
+    this.fileList = [];
+    this.fileListNS = [];
+    this.fileListVNF = [];
+    this.fileListPNF = [];
     this.http
       .request(req)
       .pipe(filter(e => e instanceof HttpResponse))
       .subscribe(
         (event: {}) => {
-          this.changeUploadingSta(tab)  
+          this.changeUploadingSta(tab)
           console.log('upload successfully')
           this.msg.success('upload successfully.');
         },
@@ -247,6 +273,7 @@ export class OnboardVnfVmComponent implements OnInit {
         }
       );
   }
+  
 //  控制uploading的状态
 changeUploadingSta(tab) {
   switch(tab) {
@@ -273,6 +300,8 @@ changeUploadingSta(tab) {
       console.log("NSlist-length-vfc-->",data.length);
       this.nsvfcData = data;
       this.nstableData = this.nsvfcData;
+
+
       //ns sdc list
       this.myhttp.getSDC_NSTableData()
         .subscribe((data) => {
@@ -280,13 +309,20 @@ changeUploadingSta(tab) {
           console.log('NSlist-sdc-->',data);
           console.log("NSlist-length-vfc-->",data.length);
           this.nssdcData = data;
-          if (this.nsvfcData.length != 0 && this.nssdcData.length != 0){
-            this.nstableData = this.MergeArray(this.nsvfcData, this.nssdcData) //Array deduplication
-            }else if(this.nsvfcData.length === 0 && this.nssdcData.length != 0){
-            this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
-            }else if(this.nsvfcData.length != 0 && this.nssdcData.length === 0){
-            this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
-          }
+
+          this.nsvfcData.map((nsvfc)=>{ nsvfc.sameid = this.nssdcData.find((nssdc)=>{ return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc;});
+          console.log(this.nsvfcData);
+          let sameData = this.nssdcData.filter((nssdc)=>{ return !this.nsvfcData.find((nsvfc)=>{ return nsvfc.id == nssdc.uuid})});
+          this.nstableData = this.nstableData.concat(sameData);
+
+         
+          // if (this.nsvfcData.length != 0 && this.nssdcData.length != 0){
+          //   this.nstableData = this.MergeArray(this.nsvfcData, this.nssdcData) //Array deduplication
+          //   }else if(this.nsvfcData.length === 0 && this.nssdcData.length != 0){
+          //   this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
+          //   }else if(this.nsvfcData.length != 0 && this.nssdcData.length === 0){
+          //   this.nstableData = this.nsvfcData.concat(this.nssdcData); //Array concat
+          // }
       }, (err) => {
       console.log(err);
       })
@@ -314,14 +350,20 @@ changeUploadingSta(tab) {
           console.log('vnfList-sdc-->', data)
           console.log('vnfList-sdc-->', data.length)
           this.vnfsdcData = data;
-          if (this.vnfvfcData.length != 0 && this.vnfsdcData.length != 0){
-            this.vnftableData = this.MergeArray(this.vnfvfcData, this.vnfsdcData) //Array deduplication
-            }else if(this.vnfvfcData.length === 0 && this.vnfsdcData.length != 0){
-            this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
-            }else if(this.vnfvfcData.length != 0 && this.vnfsdcData.length === 0){
-            this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
-            console.log(this.vnftableData);
-          }
+
+          this.vnfvfcData.map((vnfvfc)=>{ vnfvfc.sameid = this.vnfsdcData.find((nssdc)=>{ return vnfvfc.id == nssdc.uuid }) && vnfvfc.id; return vnfvfc;});
+          console.log(this.nsvfcData);
+          let sameData = this.vnfsdcData.filter((vnfsdc)=>{ return !this.vnfvfcData.find((vnfvfc)=>{ return vnfvfc.id == vnfsdc.uuid})});
+          this.vnftableData = this.vnftableData.concat(sameData);
+
+          // if (this.vnfvfcData.length != 0 && this.vnfsdcData.length != 0){
+          //   this.vnftableData = this.MergeArray(this.vnfvfcData, this.vnfsdcData) //Array deduplication
+          //   }else if(this.vnfvfcData.length === 0 && this.vnfsdcData.length != 0){
+          //   this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
+          //   }else if(this.vnfvfcData.length != 0 && this.vnfsdcData.length === 0){
+          //   this.vnftableData = this.vnfvfcData.concat(this.vnfsdcData); //Array concat
+          //   console.log(this.vnftableData);
+          // }
         }, (err) => {
           console.log(err);
         })
@@ -346,28 +388,28 @@ changeUploadingSta(tab) {
   }
 
   //合并并去重
-  MergeArray(arr1, arr2) {
-    var _arr = new Array();
-    for (var i = 0; i < arr1.length; i++) {
-      if (arr1[i] != "") {
-        _arr.push(arr1[i]);
-      }
-    }
-    for (var i = 0; i < arr2.length; i++) {
-      var flag = true;
-      for (var j = 0; j < arr1.length; j++) {
-        // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
-        if (arr2[i].uuid == arr1[j].id) {
-          flag = false;
-          break;
-        }
-      }
-      if (flag && arr2[i] != "") {
-        _arr.push(arr2[i]);
-      }
-    }
-    return _arr;
-  }
+  // MergeArray(arr1, arr2) {
+  //   var _arr = new Array();
+  //   for (var i = 0; i < arr1.length; i++) {
+  //     if (arr1[i] != "") {
+  //       _arr.push(arr1[i]);
+  //     }
+  //   }
+  //   for (var i = 0; i < arr2.length; i++) {
+  //     var flag = true;
+  //     for (var j = 0; j < arr1.length; j++) {
+  //       // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
+  //       if (arr2[i].uuid == arr1[j].id) {
+  //         flag = false;
+  //         break;
+  //       }
+  //     }
+  //     if (flag && arr2[i] != "") {
+  //       _arr.push(arr2[i]);
+  //     }
+  //   }
+  //   return _arr;
+  // }
 
 //-----------------------------------------------------------------------------------
   /* onboard */
@@ -404,11 +446,10 @@ changeUploadingSta(tab) {
     progress: 0,
   }
   currentIndex = 0;
-
   // ns onboard 上传按钮
   updataNsService(id,index) {
     this.currentIndex = index;
-    this.onboardData.status = "onboarding";
+    this.onboardData.status = "onboarding"; //置灰
     this.onboardData.progress = 0;
     console.log("NS-onboard-id-->" + id);
     let requestBody = {
