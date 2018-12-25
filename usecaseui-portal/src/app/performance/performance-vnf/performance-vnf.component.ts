@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { slideToRight, showHideAnimate } from '../../animates';
-import { MyhttpService } from '../../myhttp.service';
+import { HomesService } from '../../homes.service';
 
 @Component({
   selector: 'app-performance-vnf',
@@ -35,7 +35,7 @@ export class PerformanceVnfComponent implements OnInit {
   list: any;
 
   constructor(
-    private myhttp: MyhttpService) { }
+    private myhttp: HomesService) { }
 
   ngOnInit() {
     this.getqueryAllSourceNames();

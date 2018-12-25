@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { MyhttpService } from '../../myhttp.service';
+import { HomesService } from '../../homes.service';
 import * as addDays from 'date-fns/add_days';
 import { DatePipe } from "@angular/common"
 
@@ -31,7 +31,7 @@ export class GraphiclistComponent implements OnInit {
   public pageSize: number = 10;
   list: any;
   constructor( private datePipe: DatePipe,
-    private myhttp: MyhttpService) { }
+    private myhttp: HomesService) { }
   isVisibleMiddle = false;
 
   showModalMiddle(): void {

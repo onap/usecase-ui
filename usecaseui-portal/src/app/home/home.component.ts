@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { MyhttpService } from '../myhttp.service';
+import { HomesService } from '../homes.service';
 import { slideToRight } from '../animates';
 
 @Component({
@@ -11,7 +11,7 @@ import { slideToRight } from '../animates';
 export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
 
-  constructor(private myhttp: MyhttpService) { }
+  constructor(private myhttp: HomesService) { }
 
   ngOnInit() {
     this.getSourceNames();

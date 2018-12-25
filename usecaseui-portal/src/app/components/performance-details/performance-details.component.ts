@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { slideUpDown } from '../../animates';
-import { MyhttpService } from '../../myhttp.service';
+import { HomesService } from '../../homes.service';
 
 @Component({
   selector: 'app-performance-details',
@@ -11,7 +11,7 @@ import { MyhttpService } from '../../myhttp.service';
 export class PerformanceDetailsComponent implements OnInit {
 
  
-  constructor(private myhttp:MyhttpService) { }
+  constructor(private myhttp:HomesService) { }
 
   ngOnInit() {
     

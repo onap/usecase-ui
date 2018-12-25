@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Pipe, PipeTransform } from '@angular/core';
-import { MyhttpService } from '../myhttp.service';
+import { HomesService } from '../homes.service';
 import { showHideAnimate, slideToRight } from '../animates';
 import { DatePipe } from "@angular/common"
 @Component({
@@ -41,7 +41,7 @@ export class AlarmComponent implements OnInit {
   sourcenames: any;
   constructor(
     private datePipe: DatePipe,
-    private myhttp: MyhttpService) { }
+    private myhttp: HomesService) { }
   ngOnInit() {
     this.getAlarmFormData();
     this.getSourceNames();

@@ -24,53 +24,9 @@ import { homeData, homeVmLineData, servicesSelectData, servicesTableData, create
 export class MyhttpService {
 
   constructor(private http: HttpClient) { }
-
-  // baseUrl = "./assets/json";
-  // url={
-  //   home_serviceData:this.baseUrl + "/home_serviceData.json",
-  //   home_performanceData:this.baseUrl + "/home_performanceData.json",
-  //   home_alarmData:this.baseUrl + "/home_alarmData.json",
-  //   home_alarmChartData:this.baseUrl + "/home_alarmChartData.json",
-  //   sourceNames:this.baseUrl + "/SourceName.json",
-
-  //   customers:this.baseUrl + "/customers.json?",
-  //   serviceType:this.baseUrl + "/serviceTypes.json?*_*",
-  //   servicesTableData:this.baseUrl + "/servicesTableData.json",
-  //   serviceTemplates:this.baseUrl + "/serviceTemplates2.json?",
-  //   templateParameters:this.baseUrl + "/*_*" + "ServiceTemplateParameters.json?",
-  //   vimInfo:this.baseUrl + "/vimInfo.json?",
-  //   sdnControllers:this.baseUrl + "/sdnControllers.json?",
-  //   addressData: this.baseUrl + "/siteAddressData.json?",
-  //   createService:this.baseUrl + "/createService.json",
-  //   ns_createService: this.baseUrl + "/createNsService.json?",
-  //   ns_createService2: this.baseUrl + "/createNsService2.json",
-  //   inputNamesTransform: this.baseUrl + "/configuration_files/inputNamesTranslate.json?",
-  //   deleteService: this.baseUrl + "/deleteService.json?",
-  //   ns_deleteService: this.baseUrl + "/deleteNsService.json?",
-  //   ns_stopService: this.baseUrl + "/stopNsService.json?",
-  //   ns_healService: this.baseUrl + "/healNsService.json?",
-  //   vnfInfo: this.baseUrl + "/vnfInfo.json?",
-  //   progress:this.baseUrl + "/progress.json?",
-  //   nsProgress:this.baseUrl + "nsProgress.json?",
-  //   e2eScale:this.baseUrl + "/e2eScale.json?",
-  //   e2e_nsdata:this.baseUrl + "/e2e_nsdata.json?",
-
-  //   allottedResource:this.baseUrl + "/allotted-resources2.json?",
-  //   pnfDetail:this.baseUrl + "/pnfdetail-domain.json?",
-  //   connectivity:this.baseUrl + "/sotn-connectivity2.json?",
-  //   vpnBinding:this.baseUrl + "/vpnbinding.json?",
-  //   alarmFormData:this.baseUrl + "/alarmFormData.json?",
-  // }
-
   // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
   baseUrl = '/api/usecaseui-server/v1';
   url = {
-    home_serviceData: this.baseUrl + "/uui-lcm/serviceNumByCustomer",
-    home_performanceData: this.baseUrl + "/performance/queryAllSourceNames",
-    home_alarmData: this.baseUrl + "/alarm/statusCount",
-    home_alarmChartData: this.baseUrl + "/alarm/diagram",
-    sourceNames: this.baseUrl + "/alarm/getSourceNames",
-
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
@@ -98,21 +54,6 @@ export class MyhttpService {
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity: this.baseUrl + "/uui-sotn/getConnectivityInfo/",
     vpnBinding: this.baseUrl + "/uui-sotn/getPinterfaceByVpnId/",
-  }
-
-  // home
-  getHomeServiceData() {
-    return this.http.get<any>(this.url.home_serviceData);
-  }
-  getHomePerformanceData() {
-    return this.http.get<String[]>(this.url.home_performanceData);
-  }
-  getHomeAlarmData() {
-    return this.http.get<any>(this.url.home_alarmData);
-  }
-  getHomeAlarmChartData(paramsObj) {
-    let params = new HttpParams({ fromObject: paramsObj });
-    return this.http.get<any>(this.url.home_alarmChartData, { params });
   }
 
   // serviceTable list
@@ -279,41 +220,5 @@ export class MyhttpService {
     let seconds = time.getSeconds();
     let formattime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     return formattime;
-  }
-
-
-  // alarm data
-  getAlarmFormData(currentPage: number, pageSize: number, sourceName?: string, priority?: string, startTime?: string, endTime?: string, vfStatus?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/alarm/' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&priority=' + priority + '&startTime=' + startTime + '&endTime=' + endTime + '&vfStatus=' + vfStatus);
-  }
-
-  getSourceNames() {
-    return this.http.get<any>('/api/usecaseui-server/v1/alarm/getSourceNames/');
-  }
-
-  getstatuscount() {
-    let httpurl = '/api/usecaseui-server/v1/alarm/statusCount';
-    return this.http.get<any>(httpurl);
-  }
-  getAlarmDetailData(id) {
-    let httpurl = '/api/usecaseui-server/v1/alarm/getAlarmsHeaderDetail/' + id;
-    return this.http.get<any>(httpurl);
-  }
-
-  // performance data
-  getqueryAllSourceNames() {
-    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performance/queryAllSourceNames";
-    return this.http.get<any>(httpurl);
-  }
-  getperformanceSourceNames(currentPage: number, pageSize: number, sourceName: string) {
-    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performanceSsourceNames" + "/" + currentPage + "/" + pageSize + "?sourceName=" + sourceName;
-    return this.http.get<any>(httpurl);
-  }
-  getPerformanceFormData(currentPage: number, pageSize: number, sourceName?: string, startTime?: string, endTime?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/performance' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&startTime=' + startTime + '&endTime=' + endTime);
-  }
-  getPerformanceHeaderDetail(id) {
-    let httpurl = '/api/usecaseui-server/v1/performance/getPerformanceHeaderDetail/' + id;
-    return this.http.get<any>(httpurl);
   }
 }
