@@ -149,8 +149,25 @@ export class ServicesListComponent implements OnInit {
   total = 100;
   loading = false;
 
-  getTableData(){
-    // params: customer serviceType pageIndex，pageSize，sortName
+  //operationType、operationResult
+    accordingState={
+      "operationType":{
+          "1001":"Creating",
+          "1002":"Deleting",
+          "1003":"Scaling",
+          "1004":"Healing"
+      },
+      "operationResult":{
+          "2001":"Successful",
+          "2002":"Failed",
+          "2003":"In Progress"
+      }
+
+    };
+
+
+    getTableData(){
+    // 查询参数: customer serviceType 当前页码，每页条数
     let paramsObj = {
       customerId:this.customerSelected.id,
       serviceType:this.serviceTypeSelected.name,
@@ -196,32 +213,51 @@ export class ServicesListComponent implements OnInit {
             }
           }
 
-          if(item["serviceStatus"]=="finished"){
-            item["status"] = "Active";
-          }else if(item["serviceStatus"]=="error"){
-            item["status"] = "error";
-          }else if(item["serviceStatus"]=="processing"){
-            item["status"] = "processing";
-            item["rate"] = 0;
+          //
+          if(item["operationResult"]=="2001"){ //operationResult==2001 
+            item["status"] = "Available";
+            item["tips"] = "Available";
+            item["statusClass"] = item["operationResult"];
+          }
+  // 2018.12.13日 
+          else if(item["operationResult"]=="2002"){ //operationResult==2002 
+            if(item["operationType"]=="1001"||item["operationType"]=="1002"){
+                item["status"] = this.accordingState["operationResult"][item["operationResult"]];
+                item["tips"] = "Unavailable";
+                item["statusClass"] = item["operationType"];
+            }else if(item["operationType"]!="1001" && item["operationType"]!="1002"){
+                item["status"] = this.accordingState["operationResult"][item["operationResult"]];
+                item["tips"] = "Available";
+                item["statusClass"] = item["operationType"];
+            }
+
+          }
+          else if(item["operationResult"]=="2003"){ //operationResult==2003 
+              item["status"] = this.accordingState["operationResult"][item["operationResult"]];
+              item["statusClass"] = item["operationType"];
             if(item["serviceDomain"]=="Network Service"){
               let updata = (prodata)=>{
-                item["rate"] = prodata.progress || item["rate"];
-                // >100 err
+                item["rate"] = prodata.progress;
+                item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+prodata.progress+"%";
                 if(item["rate"] > 100){
                   item["status"]=prodata.status;
+                  item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+item["status"];
                 }
               }
               let id = item["nsInstanceId"] || item["service-instance-id"];
               let jobid = item["jobId"] || item["operationId"];
               this.queryNsProgress(jobid,id,updata).then(()=>{
                 item["rate"] = 100;
-                item["status"] = "completed";
+                item["status"] = "Successful";
+                item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+item["status"];
               })
             }else{
               let updata = (prodata)=>{
                 item["rate"] = prodata.progress || item["rate"];
+                  item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+prodata.progress+"%";
                 if(item["rate"] > 100){
                   item["status"]=prodata.status;
+                  item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+item["status"];
                 }
               }
               let obj = {
@@ -230,12 +266,14 @@ export class ServicesListComponent implements OnInit {
               }
               this.queryProgress(obj,updata).then(()=>{
                 item["rate"] = 100;
-                item["status"] = "completed";
+                item["status"] = "Successful";
+                item["tips"] = this.accordingState["operationType"][item["statusClass"]]+'\xa0\xa0\xa0'+item["status"];
               })
             }
           }
           return item;
         })  
+        console.log(this.tableData)  
       },(err)=>{
         console.log(err);
       })
@@ -433,14 +471,18 @@ export class ServicesListComponent implements OnInit {
         'service-instance-name':obj.vpnbody.service.name,
         serviceDomain:this.templateTypeSelected,
         childServiceInstances:[],
-        status:"Creating",
+        status:"In Progress",
         rate:0,
-      }
+        statusClass:1001,
+        tips:""
+      };
       this.tableData = [newData,...this.tableData];
       let updata = (prodata)=>{
         newData.rate = Math.floor(prodata.progress/3);
+        newData.tips = this.accordingState["operationType"][newData["statusClass"]]+newData.rate;
         if(newData["rate"] > 100){
           newData["status"]=prodata.status;
+          newData.tips =this.accordingState["operationType"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
         }   
       }
       let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
@@ -463,8 +505,10 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress)) 
             newData.rate = Math.floor(average/3) + stageNum;
+            newData.tips = newData["status"]+newData.rate;
             if(newData["rate"] > 100){
               newData["status"]=prodata.status;
+              newData.tips =this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
             }  
           }
           let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
@@ -497,8 +541,10 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average =((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress)) 
             newData.rate = Math.floor(average/3) + stageNum;
+            newData.tips = newData["status"]+newData.rate;
             if(newData["rate"] > 100){
               newData["status"]=prodata.status;
+              newData.tips =this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
             }  
           }
           let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
@@ -510,7 +556,8 @@ export class ServicesListComponent implements OnInit {
         Promise.all(querypros).then((data)=>{
           console.log(data);
           newData.rate = 100;
-          newData.status = "completed";
+          newData.status = "Successful";
+          newData.tips =this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
           let hasUndone = this.tableData.some((item)=>{
             return item.rate < 100;
           })
@@ -546,13 +593,16 @@ export class ServicesListComponent implements OnInit {
         childServiceInstances:[],
         status:"Creating",
         rate:0,
+        tips:""
       }
 
       this.tableData = [newData,...this.tableData];
       let updata = (prodata)=>{
         newData.rate = prodata.progress;
-        if(newData["rate"] > 100){
-          newData["status"]=prodata.status;
+        newData.tips = newData["status"]+newData.rate;
+          if(newData["rate"] > 100){
+          newData["status"]= prodata.status;
+          newData.tips = this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
         }  
       }
       let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
@@ -560,7 +610,8 @@ export class ServicesListComponent implements OnInit {
     }).then((data)=>{
       console.log(data);
       newData.rate = 100;
-      newData.status = "completed";
+      newData.status = "Successful";
+      newData.tips =this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
       let hasUndone = this.tableData.some((item)=>{
         return item.rate < 100;
       })
@@ -592,6 +643,7 @@ export class ServicesListComponent implements OnInit {
         childServiceInstances:[],
         status:"Creating",
         rate:0,
+        tips:""
       }
       this.tableData = [newData,...this.tableData];
       if(data.status == "FAILED"){
@@ -612,8 +664,10 @@ export class ServicesListComponent implements OnInit {
         }
         let updata = (prodata)=>{
           newData.rate = prodata.progress;
+          newData.tips = newData["status"]+newData.rate;
           if(newData["rate"] > 100){
             newData["status"]=prodata.status;
+            newData.tips = this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
           }  
         }
 
@@ -621,7 +675,8 @@ export class ServicesListComponent implements OnInit {
       }).then((data)=>{
         console.log(data);
         newData.rate = 100;
-        newData.status = "completed";
+        newData.status = "Successful";
+        newData.tips =this.accordingState["operationResult"][newData["statusClass"]]+'\xa0\xa0\xa0'+newData["status"];
         let hasUndone = this.tableData.some((item)=>{
           return item.rate < 100;
         })
@@ -665,7 +720,9 @@ export class ServicesListComponent implements OnInit {
   scaleE2eService(service,requestBody){
     let id = service["service-instance-id"];
     service.rate = 0;
-    service.status = "Scaling";
+    service.status = "In Progress";
+    service.statusClass = "1003";
+    service.tips= "Scaling";
     this.myhttp.scaleE2eService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
@@ -681,11 +738,13 @@ export class ServicesListComponent implements OnInit {
           service.rate = prodata.progress;
           if(service["rate"] > 100){
             service["status"]=prodata.status;
+            service.tips = "Scaling" + service["status"];
           }  
         }
         this.queryProgress(obj,updata).then(()=>{
           service.rate = 100;
-          service.status = "completed";
+          service.status = "Successful";
+          service.tips = "Scaling" + service["status"];
         })
       })
   }
@@ -693,7 +752,9 @@ export class ServicesListComponent implements OnInit {
   healNsVnfService(service,requestBody){
     console.log(service);
     service.rate = 0;
-    service.status = "Healing";
+    service.status = "In Progress";
+    service.tips = "Healing";
+    service.statusClass = "1004";
     let id = service.nsInstanceId || service["service-instance-id"] || service["vnfNsInstanceId"];
     this.myhttp.healNsService(id,requestBody)
       .subscribe((data)=>{
@@ -707,12 +768,14 @@ export class ServicesListComponent implements OnInit {
           service.rate = prodata.progress;
           if(service["rate"] > 100){
             service["status"]=prodata.status;
+            service.tips = "Healing" + service["status"];
           }  
         }
         this.queryNsProgress(jobid,null,updata).then((data1)=>{
           console.log(data1);
           service.rate = 100;
-          service.status = "completed";
+          service.status = "Successful";
+          service.tips = "Healing" + service["status"];
         });
       })
   }
@@ -721,8 +784,9 @@ export class ServicesListComponent implements OnInit {
     let allprogress = {};  //
     let querypros = [];  //
     service.rate = 0;
-    service.status = "Deleting";
-
+    service.status = "In Progress";
+    service.tips = "Deleting";
+    service.statusClass = "1002";
     service["childServiceInstances"].push({"service-instance-id":service["service-instance-id"]});
     let deletePros = service["childServiceInstances"].map((item)=>{
       let params = {
@@ -736,6 +800,7 @@ export class ServicesListComponent implements OnInit {
           if(data.status == "FAILED"){
             console.log("delete service failed :" + JSON.stringify(data));
             service.status = "failed";
+            service.tips = "Deleting" + service["status"];
             return false;
           }
           let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
@@ -745,6 +810,7 @@ export class ServicesListComponent implements OnInit {
             service["rate"]=average;
             if(service["rate"] > 100){
               service["status"]=prodata.status;
+              service.tips = "Deleting" + service["status"];
             }  
           }
           querypros.push(this.queryProgress(obj,updata));
@@ -757,7 +823,8 @@ export class ServicesListComponent implements OnInit {
       Promise.all(querypros).then((data)=>{
         console.log(data);
         service.rate = 100;
-        service.status = "completed";
+        service.status = "Successful";
+        service.tips = "Deleting" + service.status;
         let hasUndone = this.tableData.some((item)=>{
           return item.rate < 100;
         })
@@ -771,7 +838,9 @@ export class ServicesListComponent implements OnInit {
   }
   deleteNsService(service){
     service.rate = 0;
-    service.status = "Deleting";
+    service.status = "In Progress";
+    service.tips = "Deleting";
+    service.statusClass = "1002";
     let id = service.nsInstanceId || service["service-instance-id"];
     let requestBody = {
       terminationType : this.terminationType,
@@ -780,24 +849,28 @@ export class ServicesListComponent implements OnInit {
     this.stopNsService(id,requestBody).then((jobid)=>{
       if(jobid == "failed"){
         service.status = "failed";
+        service.tips = "Deleting" +  service["status"];
         return false;
       }
       let updata = (prodata)=>{
         service.rate = prodata.progress;
         if(service["rate"] > 100){
           service["status"]=prodata.status;
+          service.tips = "Deleting" +  service["status"];
         }  
       }
       return this.queryNsProgress(jobid,null,updata);
     }).then(()=>{
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
-          // console.log(data);
+          console.log(data);
           service.rate = 100;
-          service.status = "completed";
+          service.status = "Successful";
+          service.tips = "Deleting" +  service["status"];
           if(data.status == "FAILED"){
             console.log("delete ns service failed :" + JSON.stringify(data));
             service.status = "failed";
+            service.tips = "Deleting" +  service["status"];
             return false;
           }
           let hasUndone = this.tableData.some((item)=>{

@@ -113,20 +113,20 @@
             <td>{{data["service-instance-name"] || data.nsName}}</td>
             <td>{{data.serviceDomain}}</td>
             <td>
-              <span [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
-                    'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating',
-                    'scaling':data.status=='Scaling','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
-              <nz-progress *ngIf="data.status == 'processing' || data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress>
+              <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
+                    'updating':data.statusClass=='Updating','deleting':data.statusClass=='1002','creating':data.statusClass=='1001',
+                    'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}">{{data.tips}}</span>
+              <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate"></nz-progress>
             </td>
             <td>
-              <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
+              <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
                 *ngIf="data.serviceDomain=='E2E Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
               <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-              <!-- <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
+              <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
                 *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
-              <i [ngClass]="{'cannotclick':data.status == 'error'||data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Scaling'}"
+              <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
                 *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
-              <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'||data.status=='Scaling'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
+              <i [ngClass]="{'cannotclick':data.status == 'In Progress'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
             </td>
           </tr>
           <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
@@ -136,11 +136,11 @@
             <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
             <td>{{item.serviceDomain}}</td>
             <td>
-              <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Active"}}</span>
+              <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Available"}}</span>
               <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
             </td>
             <td>
-              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':item.status=='Healing'}"  class="anticon anticon-reload" (click)="healService(item)"></i>
+              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"  class="anticon anticon-reload" (click)="healService(item)"></i>
             </td>
           </tr>
         </ng-template>
