@@ -25,8 +25,10 @@ export class MyhttpService {
 
   constructor(private http: HttpClient) { }
   // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
+  // baseUrl = 'http://10.73.191.100:8082';
   baseUrl = '/api/usecaseui-server/v1';
   url = {
+    listSortMasters:this.baseUrl+"/listSortMasters",
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
@@ -166,7 +168,7 @@ export class MyhttpService {
 
   // scale
   scaleE2eService(id, requestBody) {
-    // return this.http.get<any>(this.url.e2eScale + id);  
+    // return this.http.get<any>(this.url.e2eScale + id);
     return this.http.post<any>(this.url.e2eScale + id, requestBody);
   }
   getE2e_nsData(paramsObj) {

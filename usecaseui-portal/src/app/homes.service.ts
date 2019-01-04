@@ -30,6 +30,8 @@ export class HomesService {
     home_alarmData: this.baseUrl + "/alarm/statusCount",
     home_alarmChartData: this.baseUrl + "/alarm/diagram",
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
+    listSortMasters:this.baseUrl+"/listSortMasters",
+
   }
 
    // Time formatting milliseconds to normal
@@ -100,4 +102,8 @@ export class HomesService {
     return this.http.get<any>(httpurl);
   }
 
+    //2019.1.2 add listSortMasters
+    getListSortMasters(){
+        return this.http.get<any>(this.url.listSortMasters);
+    }
 }

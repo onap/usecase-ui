@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private myhttp: HomesService) { }
 
   ngOnInit() {
+    this.getListSortMasters();
     this.getSourceNames();
     this.getHomeServiceData();
     this.getHomePerformanceData();
@@ -163,6 +164,19 @@ export class HomeComponent implements OnInit {
   // sourceName筛选框
   sourceNameList = ['performanceNameOne'];
   sourceNameSelected = null;
+
+  //2019.1.2 add listSortMasters
+  listSortMasters=null;
+
+  getListSortMasters(){
+      this.myhttp.getListSortMasters()
+          .subscribe((data)=>{
+              this.listSortMasters = JSON.stringify(data);
+              console.log(this.listSortMasters);
+              sessionStorage.setItem('listSortMasters',this.listSortMasters)
+          })
+  }
+
   getSourceNames(){
     this.myhttp.getSourceNames()
       .subscribe((data)=>{
