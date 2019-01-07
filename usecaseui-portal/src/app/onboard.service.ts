@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { onboardTableData, onboardDataVNF, onboardDataPNF,baseUrl } from './dataInterface';
+import { onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from './dataInterface';
 
 @Injectable()
 export class onboardService {

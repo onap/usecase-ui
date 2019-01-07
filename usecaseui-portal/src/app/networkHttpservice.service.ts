@@ -15,7 +15,7 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import { baseUrl} from './dataInterface';
+import { baseUrl } from './dataInterface';
 
 
 @Injectable()
