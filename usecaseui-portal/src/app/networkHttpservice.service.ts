@@ -14,33 +14,14 @@
     limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse ,baseUrl } from '@angular/common/http';
 
 
 @Injectable()
 export class networkHttpservice {
 
     constructor(private http:HttpClient) { }
-
-    // baseUrl = "./assets/json/";//Local environment
-    // url={
-    //   "getNetworkD3Data":this.baseUrl + "netWorkD3Data.json",
-    //   "getLogicalLinksData":this.baseUrl + "LogicalLinksData.json",
-    //   "getPInterfacesData1":this.baseUrl + "netWorkD3Data.json",
-    //   "getPInterfacesData2":this.baseUrl + "p_interfaces1.json",
-    //   "createLink":this.baseUrl + "status.json",
-    //   "querySpecificLinkInfo":this.baseUrl + "specific_link _nfo.json",
-    //   "queryCloudUrl":this.baseUrl + "url.json",
-    //   "createNetwrok":this.baseUrl + "status.json",
-    //   "createPnf":this.baseUrl + "status.json",
-    //   "createTp":this.baseUrl + "status.json",
-    //   "createCloudLink":this.baseUrl + "status.json",
-    //   "createCloudUrl":this.baseUrl + "status.json",
-    //   "deleteLink":this.baseUrl + "status.json",
-    // };
-    // baseUrl = "http://10.73.242.244:8082/uui-sotn/";//Online environment
-    // baseUrl = "http://172.19.44.223/api/usecaseui-server/v1/uui-sotn/";//Online environment
-    baseUrl = "/api/usecaseui-server/v1/uui-sotn/";//Online environment
+    baseUrl = baseUrl.baseUrl
     url={
         "getNetworkD3Data":this.baseUrl + "getNetWorkResources",
         "getLogicalLinksData":this.baseUrl + "getLogicalLinks",

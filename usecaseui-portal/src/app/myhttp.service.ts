@@ -16,7 +16,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF } from './dataInterface';
+import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from './dataInterface';
 
 
 
@@ -24,9 +24,7 @@ import { homeData, homeVmLineData, servicesSelectData, servicesTableData, create
 export class MyhttpService {
 
   constructor(private http: HttpClient) { }
-  // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
-  // baseUrl = 'http://10.73.191.100:8082';
-  baseUrl = '/api/usecaseui-server/v1';
+  baseUrl = baseUrl.baseUrl;
   url = {
     listSortMasters:this.baseUrl+"/listSortMasters",
     customers: this.baseUrl + "/uui-lcm/customers",
