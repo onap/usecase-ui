@@ -1,3 +1,8 @@
+export enum baseUrl{
+    baseUrl = '/api/usecaseui-server/v1'  //online
+    // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1'     //local one
+    // baseUrl = 'http://10.73.191.100:8082'    //local two
+}
 
 interface homeData {
     services:{
@@ -50,4 +55,4 @@ interface onboardDataPNF {
     total:number,
     tableList:string[]
 }
-export {homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF}
+export {homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF,baseUrl}

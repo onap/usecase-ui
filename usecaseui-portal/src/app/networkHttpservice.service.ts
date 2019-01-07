@@ -14,7 +14,8 @@
     limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import { baseUrl} from './dataInterface';
 
 
 @Injectable()
@@ -40,7 +41,7 @@ export class networkHttpservice {
     // };
     // baseUrl = "http://10.73.242.244:8082/uui-sotn/";//Online environment
     // baseUrl = "http://172.19.44.223/api/usecaseui-server/v1/uui-sotn/";//Online environment
-    baseUrl = "/api/usecaseui-server/v1/uui-sotn/";//Online environment
+    baseUrl = baseUrl.baseUrl+"/uui-sotn/"; //Online environment
     url={
         "getNetworkD3Data":this.baseUrl + "getNetWorkResources",
         "getLogicalLinksData":this.baseUrl + "getLogicalLinks",
