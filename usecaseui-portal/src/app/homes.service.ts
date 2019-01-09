@@ -16,14 +16,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF } from './dataInterface';
+import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF , baseUrl} from './dataInterface';
 
 @Injectable()
 export class HomesService {
 
   constructor(private http: HttpClient) { }
-  // baseUrl = 'http://172.19.44.223/api/usecaseui-server/v1';
-  baseUrl = '/api/usecaseui-server/v1';
+  baseUrl = baseUrl.baseUrl
   url = {
     home_serviceData: this.baseUrl + "/uui-lcm/serviceNumByCustomer",
     home_performanceData: this.baseUrl + "/performance/queryAllSourceNames",
@@ -69,36 +68,36 @@ export class HomesService {
 
    // alarm data
    getAlarmFormData(currentPage: number, pageSize: number, sourceName?: string, priority?: string, startTime?: string, endTime?: string, vfStatus?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/alarm/' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&priority=' + priority + '&startTime=' + startTime + '&endTime=' + endTime + '&vfStatus=' + vfStatus);
+    return this.http.get<any>(this.baseUrl + '/alarm/' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&priority=' + priority + '&startTime=' + startTime + '&endTime=' + endTime + '&vfStatus=' + vfStatus);
   }
 
   getSourceNames() {
-    return this.http.get<any>('/api/usecaseui-server/v1/alarm/getSourceNames/');
+    return this.http.get<any>(this.baseUrl + '/alarm/getSourceNames/');
   }
 
   getstatuscount() {
-    let httpurl = '/api/usecaseui-server/v1/alarm/statusCount';
+    let httpurl = this.baseUrl + '/alarm/statusCount';
     return this.http.get<any>(httpurl);
   }
   getAlarmDetailData(id) {
-    let httpurl = '/api/usecaseui-server/v1/alarm/getAlarmsHeaderDetail/' + id;
+    let httpurl = this.baseUrl + '/alarm/getAlarmsHeaderDetail/' + id;
     return this.http.get<any>(httpurl);
   }
 
   // performance data
   getqueryAllSourceNames() {
-    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performance/queryAllSourceNames";
+    let httpurl = this.baseUrl + "/performance/queryAllSourceNames";
     return this.http.get<any>(httpurl);
   }
   getperformanceSourceNames(currentPage: number, pageSize: number, sourceName: string) {
-    let httpurl = this.baseUrl + "/api/usecaseui-server/v1/performanceSsourceNames" + "/" + currentPage + "/" + pageSize + "?sourceName=" + sourceName;
+    let httpurl = this.baseUrl + "/performanceSsourceNames" + "/" + currentPage + "/" + pageSize + "?sourceName=" + sourceName;
     return this.http.get<any>(httpurl);
   }
   getPerformanceFormData(currentPage: number, pageSize: number, sourceName?: string, startTime?: string, endTime?: string) {
-    return this.http.get<any>('/api/usecaseui-server/v1/performance' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&startTime=' + startTime + '&endTime=' + endTime);
+    return this.http.get<any>(this.baseUrl + '/performance' + '/' + currentPage + '/' + pageSize + '?sourceName=' + sourceName + '&startTime=' + startTime + '&endTime=' + endTime);
   }
   getPerformanceHeaderDetail(id) {
-    let httpurl = '/api/usecaseui-server/v1/performance/getPerformanceHeaderDetail/' + id;
+    let httpurl = this.baseUrl + '/performance/getPerformanceHeaderDetail/' + id;
     return this.http.get<any>(httpurl);
   }
 

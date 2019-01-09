@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { onboardTableData, onboardDataVNF, onboardDataPNF } from './dataInterface';
+import { onboardTableData, onboardDataVNF, onboardDataPNF , baseUrl} from './dataInterface';
 
 @Injectable()
 export class onboardService {
@@ -49,7 +49,7 @@ export class onboardService {
 
   //---------------------------------------------------------------------------------------
   /* line up 线上*/
-  baseUrl = "/api/usecaseui-server/v1/uui-lcm/";
+  baseUrl = baseUrl.baseUrl + "/uui-lcm/";
   url = {
     // 数据列表Data
     onboardTableData: this.baseUrl + "ns-packages",
