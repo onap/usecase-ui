@@ -20,6 +20,7 @@ export class PieComponent implements OnInit {
       height: this.initData.height
     };
     this.pieOption = {
+      backgroundColor:this.initData.option.backgroundColor,
       legend: this.initData.option.legend,
       color:this.initData.option.color,
       series : [
@@ -29,19 +30,13 @@ export class PieComponent implements OnInit {
               radius : this.initData.option.series[0].radius,
               center: ['50%', '45%'],
               legendHoverLink: false,
-              hoverOffset: 5,
+              hoverOffset: 3,
               avoidLabelOverlap: false,
               label: this.initData.option.series[0].label,
               data:[
                   {value:1, name:'11'}
               ],
-              itemStyle: {
-                  emphasis: {
-                      shadowBlur: 5,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }
-              }
+              itemStyle: this.initData.option.series[0].itemStyle
           }
       ]
     }

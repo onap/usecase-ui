@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
     this.getHomePerformanceData();
     this.getHomeAlarmData();
     this.getHomeAlarmChartData();
+    this.getHomeServiceBarData();
   }
   
 
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   serviceNumber:number = 0;
   serviceChartData:Object;
   serviceChartInit:Object = {
+  backgroundColor: '#fff',
     height: 300,
     option:{
       legend: {
@@ -35,21 +37,22 @@ export class HomeComponent implements OnInit {
         bottom: '0px',
         data: ['Active','Closed']
       },
-      color:["#3fa8eb","#1abb9b","#a4ead7"],
-      series:[{
-        name:"服务信息",
-        radius : ['45%','65%'],
-        avoidLabelOverlap: false,
-        label:{
-          normal:{
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            show: true,
-            formatter:'{b}\n{c}',
-            textStyle: {
-                fontSize: '20',
+      color: ["#7AC0EF", "#6A86D8", "#748CDC", "#7277D4", "#7067CE", "#B9B0F7", "#7DCFF5"],
+      series: [
+        {
+          name: "服务信息",
+          radius: ['50%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            normal: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              show: true,
+              formatter: '{b}\n{c}',
+              textStyle: {
+                fontSize: '18',
                 fontWeight: 'bold'
             }
           }
@@ -57,9 +60,19 @@ export class HomeComponent implements OnInit {
         labelLine: {
           normal: {
               show: false
-          }
-        },        
-      }]
+            }
+          },
+          itemStyle: {
+            normal: {
+              borderWidth: 4,
+              borderColor: "#fff"
+            },
+            emphasis: {
+              borderWidth: 0
+            }
+          },
+        }
+      ]
     }
   };
   // gethomeServiceData
@@ -93,25 +106,56 @@ export class HomeComponent implements OnInit {
   // alarm饼图
   alarmChartData:Object;
   alarmChartInit:Object = {
-    height: 164,
+    height: 180,
     option:{
       legend: {
         orient: 'vertical',
         left: '0px',
         bottom: '0px',
-        data: ['Active','Closed']
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: {
+          color: "#3C4F8C"
+        },
+        data: ['Active', 'Fixed']
       },
-      color:["#fb6e6e","#526b75"],
-      series:[{
-        name:"告警信息",
-        radius : '55%',
-        label:{
-          normal:{
+      color: [
+        {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: '#FB93C2' // 0% 处的颜色
+          }, {
+            offset: 1, color: '#FB7788' // 100% 处的颜色
+          }],
+          globalCoord: false // 缺省为 false
+        }, {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: '#A6BFE4' // 0% 处的颜色
+          }, {
+            offset: 1, color: '#7A8BAE' // 100% 处的颜色
+          }],
+          globalCoord: false // 缺省为 false
+        }],
+      series: [{
+        name: "告警信息",
+        radius: '55%',
+        label: {
+          normal: {
             show: false,
           },
           emphasis: {
             show: true,
-            formatter:'{b}\n{c},{d}%',
+            formatter: '{b}\n{c},{d}%',
+            color: "#3C4F8C"
           }
         }
       }]
@@ -122,7 +166,7 @@ export class HomeComponent implements OnInit {
       .subscribe((data)=>{
         this.alarmChartData ={
           series:[{
-            data:[{name:"Active",value:data[0]},{name:"Closed",value:data[1]}]
+            data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
           }]
         };
       })
@@ -135,7 +179,7 @@ export class HomeComponent implements OnInit {
     option:{
       legend: {
         bottom: '0px',
-        data: ['All','Active','Closed']
+        data: ['CPU', 'Memory', 'Disk']
       },
       xAxis:{
         data:["2018-09-10 ","2018-09-11","2018-09-12","2018-09-13","2018-09-14",
@@ -144,23 +188,119 @@ export class HomeComponent implements OnInit {
       },
       series : [
         {
-            name: 'All',
-            type: 'line',
-            data:[30,45,34,35,43,56,36,53,42,45,44,35,32]
-        },
-        {
-            name: 'Active',
-            type: 'line',
-            data:[10,23,24,22,14,15,32,12,12,32,14,23,23]
-        },
-        {
-          name: 'Closed',
+          name: 'CPU',
           type: 'line',
-          data:[20,23,14,12,34,25,22,42,52,35,34,13,13]
+          itemStyle: {
+            color: "#70ACEC"
+          },
+          data: [30, 45, 34, 35, 43, 56, 36, 53, 42, 45, 44, 35, 32]
+        },
+        {
+          name: 'Memory',
+          type: 'line',
+          itemStyle: {
+            color: "#3BCD79"
+          },
+          data: [10, 23, 24, 22, 14, 15, 32, 12, 12, 32, 14, 23, 23]
+        },
+        {
+          name: 'Disk',
+          type: 'line',
+          itemStyle: {
+            color: "#FDC288"
+          },
+          data: [20, 23, 14, 12, 34, 25, 22, 42, 52, 35, 34, 13, 13]
         }
       ]
     }
   };
+  
+   // services进度条
+  servicesBarChartData: Object;
+  serviceBarChartInit: Object = {
+    option: {
+      xAxis: {
+        // data: [],
+        type: 'value',
+        show: false,
+        min: 0,
+        max: 80,
+        axisTick: {
+          show: false
+        },
+      },
+      series: [{
+        type: 'bar',
+        name: 'a',
+        silent: true,
+        animation: false,
+        data: [80],
+        stack: 'income',
+        barWidth: 12,
+        itemStyle: {
+          normal: {
+            color: '#7AC0EF',
+            barBorderRadius: [10, 10, 10, 10]
+          }
+        },
+      }, {
+        type: 'bar',
+        name: '',
+        animation: false,
+        silent: true,
+        data: [60],
+        tooltip: {
+          show: false
+        },
+        stack: 'income',
+        barWidth: 12,
+        itemStyle: {
+          normal: {
+            color: '#fff',
+            barBorderRadius: [10, 10, 10, 10]
+          }
+        },
+        label: {
+          normal: {
+            show: false,
+          }
+        },
+      }
+      ]
+    }
+  }
+  userdata;
+  getHomeServiceBarData() {
+    this.myhttp.getHomeServiceBarData()
+      .subscribe((data) => {
+        this.userdata = data.customerServiceList;
+        let Val1;
+        let Val2;
+        let MIN: number = 0;
+        let MAX: number = Val1;
+        Val1 = data.customerServiceList[1].value1;
+        Val2 = data.customerServiceList[1].value2;
+        if (Val1 > Val2) {
+          MIN = 0;
+          MAX = Val1;
+        } else {
+          MIN = Val1 - Val2;
+          MAX = Val2;
+        }
+        this.servicesBarChartData = {
+          xAxis: {
+            min: MIN,
+            max: MAX,
+          },
+          series: [
+            { data: [Val1] },
+            { data: [Val1 - Val2] },
+          ]
+        }
+      }, (err) => {
+        console.log(err);
+      })
+  }
   // sourceName筛选框
   sourceNameList = ['performanceNameOne'];
   sourceNameSelected = null;

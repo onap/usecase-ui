@@ -1,14 +1,14 @@
-.title {
-    font: 700 18px/18px "思源黑体";
-    color: #4c5e70;
-    margin-bottom: 18px; 
-}
-hr {
-    border: none;
-    height: 2px;
-    background-color: #dce1e7;
-    margin-bottom: 20px;
-}
+// .title {
+//     font: 700 18px/18px "思源黑体";
+//     color: #4c5e70;
+//     margin-bottom: 18px; 
+// }
+// hr {
+//     border: none;
+//     height: 2px;
+//     background-color: #dce1e7;
+//     margin-bottom: 20px;
+// }
 .content {
     .services {
         float: left;
@@ -18,9 +18,9 @@ hr {
         border-radius: 5px;
         padding: 28px 22px;
         h4 {
-            font: 600 16px/16px "Arial";
-            color: #3d4d65;
-            margin-bottom: 58px;
+            font: 600 16px/16px "Arial Bold";
+            color: #3F9CFF;
+            margin-bottom: 20px;
         }
         h3 {
             font: 400 48px/48px "Arial";
@@ -30,18 +30,67 @@ hr {
                 font-size: 14px;
             }
         }
+        h5 {
+            font: 500 16px/16px "ArialMT";
+            color:#3F9CFF;
+            margin: -2em 0 1em 0 ;
+            span {
+                font-size: 12px;
+                font-family: "Arial";
+                color:rgba(60,79,140,1);
+            }
+            span:first-child {
+                padding: 0  4PX  0 4px;
+            }
+            span:last-child {
+                padding-left: 4px;
+            }
+           
+        }
         p {
             font: 400 14px/14px "Arial";
             color: #54657e;
             text-align: center;
             margin-bottom: 48px;
         }
+        .details {
+            li {
+                border-bottom:0.5px solid rgba(237,237,237,1);
+                border-radius:4px;
+                line-height: 45px;
+                font-size: 14px;
+                color: #3C4F8C;
+                font-family:"ArialMT";
+                .detailstoplin {
+                    width: 100%;
+                    height: 50px;
+                    border-top: 0.5px solid #ededed;
+                    border-radius: 4px;
+                    div:first-child{
+                        width: 20%;
+                        float: left;
+                    }
+                    div:nth-child(2){
+                        width: 65%;
+                        float: left;
+                    }
+                    div:last-child {
+                        width: 13%;
+                        float: right;
+                        font-size:12px;
+                        font-weight: 500;
+                        color:rgba(60,79,140,0.5);
+                    }
+                }
+            } 
+        }
         .tip {
+            width: 110px;
             background-color: #eceff4;
-            color: #3d4d65;
+            color: #3C4F8C;
             font-size: 16px;
-            margin: 0 20px;
-            height: 35px;
+            float: right;
+            margin-top: 53px;
             line-height: 35px;
             border-radius: 5px;
         }
@@ -54,34 +103,44 @@ hr {
             height: 220px;
             margin-bottom: 18px;
             .poerformance {
-                float: left;              
+                float: left;  
+                margin-left: 2%;            
                 background-color: #fff;
                 height: 100%;
                 width: 50%;
                 border-radius: 5px;
                 padding: 28px 26px;
+                .pfVmPm {
+                    h3 {
+                        color:#BD57E5;
+                    }
+                }
                 h4 {
-                    font: 600 16px/16px "Arial";
-                    color: #3d4d65;
+                    font: 600 16px/16px "Arial Bold";
+                    color: #3F9CFF;
                     margin-bottom: 34px;  
                 }
+                
                 div {
                     height: 57px;
                     position: relative;
                     margin-bottom: 10px;
                     h3 {
                         font: 600 25px/25px "Arial";
-                        color: #3d4d65;
+                        color: #2F6AEF;
                         margin-bottom: 10px;
+                        padding-left: 50%;
                     }
                     p {
                         font: 400 12px/12px "Arial"; 
-                        color: #54657e
+                        color:rgba(60,79,140,0.5);
+                        padding-left: 50%;
+                        
                     }
                     img {
                         position: absolute;
                         top: 0;
-                        right: 0;
+                        left: 0;
                     }
                 }
             }
@@ -90,14 +149,14 @@ hr {
                 background-color: #fff;
                 height: 100%;
                 width: 48%;
-                margin-left: 2%;
+                
                 border-radius: 5px;
                 position: relative;
                 padding: 28px 26px;
                 h4 {
                     position: absolute;
-                    font: 600 16px/16px "Arial";
-                    color: #3d4d65; 
+                    font: 600 16px/16px "Arial Bold";
+                    color: #3F9CFF;
                 }
             }
         }
@@ -108,8 +167,8 @@ hr {
             padding: 24px 30px;
             position: relative;
             h4 {
-                font: 600 16px/16px "Arial";
-                color: #3d4d65; 
+                font: 600 16px/16px "Arial Bold";
+                color: #3F9CFF;
             }
             nz-dropdown {
                 position: absolute;

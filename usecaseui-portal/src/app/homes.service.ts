@@ -28,6 +28,7 @@ export class HomesService {
     home_performanceData: this.baseUrl + "/performance/queryAllSourceNames",
     home_alarmData: this.baseUrl + "/alarm/statusCount",
     home_alarmChartData: this.baseUrl + "/alarm/diagram",
+    home_servicebarData:this.baseUrl + "",	
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters:this.baseUrl+"/listSortMasters",
 
@@ -64,6 +65,10 @@ export class HomesService {
   getHomeAlarmChartData(paramsObj) {
     let params = new HttpParams({ fromObject: paramsObj });
     return this.http.get<any>(this.url.home_alarmChartData, { params });
+  }
+  
+   getHomeServiceBarData(){
+    return this.http.get<any>(this.url.home_servicebarData);
   }
 
    // alarm data

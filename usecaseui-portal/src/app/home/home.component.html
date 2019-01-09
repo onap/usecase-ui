@@ -13,21 +13,31 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> {{"Overall trend" | translate}}</h3>
-<hr>
+
+<!--<h3 class="title"> {{"Overall trend" | translate}}</h3>
+<hr> -->
 <div class="content">
   <div class="services">
     <h4>{{"SERVICES" | translate}}</h4>
-    <h3>{{serviceNumber}} <span>{{"services" | translate}}</span> </h3>
-    <p>{{serviceNumber}} {{"services has been created" | translate}}</p>
+    <!-- <h3>{{serviceNumber}} <span>{{"services" | translate}}</span> </h3>
+    <p>{{serviceNumber}} {{"services has been created" | translate}}</p> -->
     <app-pie [initData]="serviceChartInit" [chartData]="serviceChartData"></app-pie>
-    <p class="tip">View the details</p>
+    <div>
+      <h5> {{serviceNumber}} <span>cutomers and</span> {{serviceNumber}} <span>service intance</span></h5>
+    </div>
+    <div class="details">
+      <li> <div class="detailstoplin" *ngFor="let item of userdata"> <div>{{item.name}}</div> <div> <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData"></app-bar></div> <div>{{item.value1}}/{{item.value2}}</div></div> </li>
+    </div>
+    <p class="tip">View Details</p>
   </div>
-
   <div class="rightcontent">
     <div class="rt-content">
+      <div class="alarm">
+        <h4>{{"ALARM" | translate}}</h4>
+        <app-pie [initData]="alarmChartInit" [chartData]="alarmChartData"></app-pie>
+      </div>
       <div class="poerformance">
-        <h4>{{"PERFORMANCE" | translate}}</h4>
+        <h4>{{"DEVICES" | translate}}</h4>
         <div class="pfVnf">
           <h3 class="pfVnfNum">{{performanceVnfNum}}</h3>
           <p>Performance VNF</p>
@@ -39,14 +49,9 @@
           <img src="./assets/images/VM.png" alt="VM/PM">
         </div>
       </div>
-      <div class="alarm">
-        <h4>{{"Alarm" | translate}}</h4>
-        <app-pie [initData]="alarmChartInit" [chartData]="alarmChartData"></app-pie>
-      </div>
     </div>
-
     <div class="rb-content">
-      <h4>{{"Alarm" | translate}}</h4>
+      <h4>{{"VM PERFORMANCE" | translate}}</h4>
       <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
         <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
         <ul nz-menu>
@@ -58,6 +63,4 @@
       <app-line [initData]="alarmLineChartInit" [chartData]="alarmLineChartData"></app-line>
     </div>
   </div>
-
 </div>
-

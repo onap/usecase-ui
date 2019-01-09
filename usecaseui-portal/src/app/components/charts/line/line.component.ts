@@ -39,7 +39,10 @@ export class LineComponent implements OnInit {
         axisLine:{
           show: false
         },
-          data: this.initData.option.xAxis.data
+        axisLabel:{
+          color:"#3C4F8C"
+        },
+        data: this.initData.option.xAxis.data
       },
       yAxis: {
         axisTick: {
@@ -47,6 +50,14 @@ export class LineComponent implements OnInit {
         },
         axisLine:{
           show: false
+        },
+        axisLabel:{
+          color:"#3C4F8C"
+        },
+        splitLine:{
+          lineStyle:{
+            type:"dashed",
+          }
         }
       },
       series : this.initData.option.series
