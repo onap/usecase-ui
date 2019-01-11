@@ -235,7 +235,8 @@ export class ServicesListComponent implements OnInit {
               }
               let id = item["nsInstanceId"] || item["service-instance-id"];
               let jobid = item["jobId"] || item["operationId"];
-              this.queryNsProgress(jobid,id,updata).then(()=>{
+              let operationType = item["operationType"];
+              this.queryNsProgress(jobid,id,updata,operationType).then(()=>{
                 item["rate"] = 100;
                 item["status"] = "Successful";
                 item["tips"] = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==item["operationType"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+item["status"];
@@ -251,7 +252,8 @@ export class ServicesListComponent implements OnInit {
               }
               let obj = {
                 serviceId:item["service-instance-id"],
-                operationId:item["operationId"]
+                operationId:item["operationId"],
+                operationType:item["operationType"]
               }
               this.queryProgress(obj,updata).then(()=>{
                 item["rate"] = 100;
@@ -474,7 +476,7 @@ export class ServicesListComponent implements OnInit {
           newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
         }
       }
-      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
+      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"],operationType:"1001"};
       return this.queryProgress(queryParams,updata);
     }).then((data)=>{
       console.log(data);
@@ -500,7 +502,7 @@ export class ServicesListComponent implements OnInit {
               newData.tips =this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
             }
           }
-          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
+          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"],operationType:"1001"};
           querypros.push(this.queryProgress(queryParams,updata))
         })
       })
@@ -536,7 +538,7 @@ export class ServicesListComponent implements OnInit {
               newData.tips =this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
             }
           }
-          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
+          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"], operationType:"1001"};
           querypros.push(this.queryProgress(queryParams,updata))
         })
       })
@@ -572,7 +574,9 @@ export class ServicesListComponent implements OnInit {
     let   createParams = "?customerId="+this.customerSelected.id +
                         "&serviceType="+this.serviceTypeSelected.name +
                         "&serviceDomain="+this.templateTypeSelected +
-                        "&parentServiceInstanceId=";
+                        "&parentServiceInstanceId="+
+                        "&uuid="+obj.service.serviceUuid+
+                        "&invariantUuuid="+obj.service.serviceInvariantUuid;
     this.createService(obj,createParams).then((data)=>{
       console.log(data);
       newData = {  //
@@ -594,7 +598,7 @@ export class ServicesListComponent implements OnInit {
           newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
         }
       }
-      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"]};
+      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"],operationType:"1001"};
       return this.queryProgress(queryParams,updata);
     }).then((data)=>{
       console.log(data);
@@ -651,6 +655,7 @@ export class ServicesListComponent implements OnInit {
           newData.status = "failed";
           return false;
         }
+        let operationType="1001";
         let updata = (prodata)=>{
           newData.rate = prodata.progress;
           newData.tips = newData["status"]+newData.rate+"%";
@@ -660,7 +665,7 @@ export class ServicesListComponent implements OnInit {
           }
         }
 
-        return this.queryNsProgress(jobid,newData["service-instance-id"],updata);
+        return this.queryNsProgress(jobid,newData["service-instance-id"],updata,operationType);
       }).then((data)=>{
         console.log(data);
         newData.rate = 100;
@@ -721,7 +726,8 @@ export class ServicesListComponent implements OnInit {
         }
         let obj = {
           serviceId:id,
-          operationId:data.operationId
+          operationId:data.operationId,
+          operationType:"1003"
         }
         let updata = (prodata)=>{
           service.rate = prodata.progress;
@@ -753,6 +759,7 @@ export class ServicesListComponent implements OnInit {
           return false;
         }
         let jobid = data.jobId;
+        let operationType = "1004";
         let updata = (prodata)=>{
           service.rate = prodata.progress;
           if(service["rate"] > 100){
@@ -760,7 +767,7 @@ export class ServicesListComponent implements OnInit {
             service.tips = "Healing" + service["status"];
           }
         }
-        this.queryNsProgress(jobid,null,updata).then((data1)=>{
+        this.queryNsProgress(jobid,null,updata,operationType).then((data1)=>{
           console.log(data1);
           service.rate = 100;
           service.status = "Successful";
@@ -792,7 +799,7 @@ export class ServicesListComponent implements OnInit {
             service.tips = "Deleting" + service["status"];
             return false;
           }
-          let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId}
+          let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId,operationType:"1002"}
           let updata = (prodata)=>{
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
@@ -831,6 +838,7 @@ export class ServicesListComponent implements OnInit {
     service.tips = "Deleting";
     service.statusClass = "1002";
     let id = service.nsInstanceId || service["service-instance-id"];
+    let operationType ="1002";
     let requestBody = {
       terminationType : this.terminationType,
       gracefulTerminationTimeout : this.gracefulTerminationTimeout
@@ -848,7 +856,7 @@ export class ServicesListComponent implements OnInit {
           service.tips = "Deleting" +  service["status"];
         }
       }
-      return this.queryNsProgress(jobid,null,updata);
+      return this.queryNsProgress(jobid,null,updata,operationType);
     }).then(()=>{
       this.myhttp.nsDeleteInstance(id)
         .subscribe((data)=>{
@@ -952,7 +960,7 @@ export class ServicesListComponent implements OnInit {
     })
     return mypromise;
   }
-  queryNsProgress(jobid,id,callback){
+  queryNsProgress(jobid,id,callback,operationType){
     let mypromise = new Promise((res,rej)=>{
       // let data = {
       //   "jobId": "string",
@@ -975,7 +983,7 @@ export class ServicesListComponent implements OnInit {
       // }
       let errorNums = 180;
       let requery = ()=>{
-        this.myhttp.getNsProgress(jobid,id)
+        this.myhttp.getNsProgress(jobid,id,operationType)
           .subscribe((data)=>{
             if(data.status == "FAILED"){
               callback({progress:255,status:"failed"});

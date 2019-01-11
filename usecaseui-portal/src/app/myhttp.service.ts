@@ -174,11 +174,11 @@ export class MyhttpService {
 
   // Query progress interface
   getProgress(obj) {
-    let url = this.url.progress.replace("*_*", obj.serviceId) + obj.operationId;
+    let url = this.url.progress.replace("*_*", obj.serviceId) + obj.operationId + "?operationType="+obj.operationType;
     return this.http.get<any>(url);
   }
-  getNsProgress(jobid,serviceId){
-    let url = this.url.nsProgress.replace("*_*",jobid) + serviceId;
+  getNsProgress(jobid,serviceId,operationType){
+    let url = this.url.nsProgress.replace("*_*",jobid) + serviceId + "&operationType="+operationType;
     return this.http.get<any>(url);
   }
 
