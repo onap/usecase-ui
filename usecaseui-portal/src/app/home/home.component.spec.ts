@@ -1,14 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateLoader, TranslateService, TranslateFakeLoader} from '@ngx-translate/core';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeComponent } from './home.component';
+import { PieComponent } from '../components/charts/pie/pie.component'; 
+import { BarComponent } from '../components/charts/bar/bar.component'; 
+import { LineComponent } from '../components/charts/line/line.component';
+import { HomesService } from '../homes.service';
 
-describe('HomeComponent', () => {
+fdescribe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ HomeComponent, PieComponent, BarComponent, LineComponent ],
+      imports: [TranslateModule.forRoot({loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }}),        
+              NgZorroAntdModule, 
+              NgxEchartsModule, 
+              HttpClientModule,
+              BrowserAnimationsModule],
+      providers: [HomesService, TranslateService]
     })
     .compileComponents();
   }));
