@@ -13,105 +13,121 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> <span (click)="detailHide()" style="cursor:pointer;">Alarm</span> <span *ngIf="detailshow">>
-    Details</span> </h3>
-<hr>
-<div class="select" [@showHideAnimate]="state">
-<div class="query_criteria">
-    <span>Source Name: </span>
-    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-        <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
-        <ul nz-menu>
-            <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
-                <a>{{item}}</a>
-            </li>
-        </ul>
-    </nz-dropdown>
-    &nbsp;&nbsp;
-    <span>Priority: </span>
-    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-        <button nz-button nz-dropdown><span>{{prioritySelected}}</span> <i class="anticon anticon-down"></i></button>
-        <ul nz-menu>
-            <li nz-menu-item (click)="chosePriority(item)" *ngFor="let item of priorityList">
-                <a>{{item}}</a>
-            </li>
-        </ul>
-    </nz-dropdown>
-    &nbsp;&nbsp;
-    <span>Status: </span>
-    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-        <button nz-button nz-dropdown><span>{{statusSelected}}</span> <i class="anticon anticon-down"></i></button>
-        <ul nz-menu>
-            <li nz-menu-item (click)="choseStatus(item)" *ngFor="let item of statusList">
-                <a>{{item}}</a>
-            </li>
-        </ul>
-    </nz-dropdown>
-    <br> <br>
-    <span>Report Time: </span>
-    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime></nz-range-picker>
-
-    <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button>
-</div>
-</div>
-<div class="content" [@showHideAnimate]="state">
-<div class="title">
-    <ul>
-        <li>
-            <h5>All</h5>
-            <p>{{alarmList.all }}</p>
-        </li>
-        <li>
-            <h5>Closed</h5>
-            <p>{{alarmList.closed }}</p>
-        </li>
-        <li>
-            <h5>Active</h5>
-            <p>{{alarmList.activeNum }}</p>
-        </li>
-    </ul>
-</div>
-<div class="chart">
-    <h3>Alarm Chart</h3>
-    <nz-radio-group [(ngModel)]="size">
-        <label nz-radio-button nzValue="day" (click)="day()"> day </label>
-        <label nz-radio-button nzValue="month" (click)="month()">month</label>
-    </nz-radio-group>
-    <div class="AlarmChart" [ngClass]="{'alarmChart-active':alarmShow}">
-        <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
+<h3 class="title"> <span (click)="detailHide()" style="cursor:pointer;" *ngIf="detailshow">Alarm</span> <span *ngIf="detailshow">>
+        Details</span> </h3>
+<div style="padding:0px 20px 20px 20px;">
+    <div class="charts" [@showHideAnimate]="state">
+        <div class="chartsleft">
+            <div class="active sctive_closed">
+                <div>Active</div>
+                <div>13,980</div>
+                <div><nz-progress [nzPercent]="90" [nzShowInfo]="false"></nz-progress></div>
+                <div>There are 13980 faults waiting to be solved</div>
+            </div>
+            <div class="closed sctive_closed">
+                <div>Closed</div>
+                <div>23,980</div>
+                <div><nz-progress [nzPercent]="30" [nzShowInfo]="false"></nz-progress></div>
+                <div>23,980 faults have been fixed</div>
+            </div>
+        </div>
+        <div class="chartsright">
+            <span>Daily Total</span>
+            <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
+        </div>
     </div>
-    <button class="open-close" [ngClass]="{'open-close-active':alarmShow}" (click)="alarmShow=!alarmShow"></button>
-</div>
-<div class="tablelist">
-    <nz-table #nzTable [nzData]="list" [(nzPageSize)]="pageSize" nzShowSizeChanger nzShowQuickJumper [nzPageSizeOptions]="[5,10,15,20]"
-        nzSize="middle">
-        <thead (nzSortChange)="sort($event)" nzSingleSort>
-            <tr>
-                <th nzWidth="5%">NO</th>
-                <th nzWidth="10%">Source Name</th>
-                <th nzWidth="10%">Priority</th>
-                <th nzWidth="15%">SpecificProblem</th>
-                <th nzWidth="15%">Report Time</th>
-                <th nzWidth="15%">Clear Time</th>
-                <th nzWidth="10%">Status</th>
-                <th nzWidth="10%">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of nzTable.data; let i = index;">
-                <td>{{i+1}}</td>
-                <td>{{item.sourceName}}</td>
-                <td>{{item.priority}}</td>
-                <td>{{item.specificProblem}}</td>
-                <td>{{item.startEpochMicrosec | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td>{{item.startEpochMicrosecCleared | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td>{{item.status}}</td>
-                <td class="action"><a (click)="detailShow(item)"><i class="details"></i></a></td>
-            </tr>
-        </tbody>
-    </nz-table>
-</div>
-</div>
-<div [@showHideAnimate]="state2">
-<app-details [detailId]="detailId"></app-details>
+    <div class="select" [@showHideAnimate]="state">
+        <div class="query_criteria">
+            <span>Source Name: </span>
+            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+                <ul nz-menu>
+                    <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
+                        <a>{{item}}</a>
+                    </li>
+                </ul>
+            </nz-dropdown>
+            &nbsp;&nbsp;
+            <span>Priority: </span>
+            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                <button nz-button nz-dropdown><span>{{prioritySelected}}</span> <i class="anticon anticon-down"></i></button>
+                <ul nz-menu>
+                    <li nz-menu-item (click)="chosePriority(item)" *ngFor="let item of priorityList">
+                        <a>{{item}}</a>
+                    </li>
+                </ul>
+            </nz-dropdown>
+            &nbsp;&nbsp;
+            <span>Status: </span>
+            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                <button nz-button nz-dropdown><span>{{statusSelected}}</span> <i class="anticon anticon-down"></i></button>
+                <ul nz-menu>
+                    <li nz-menu-item (click)="choseStatus(item)" *ngFor="let item of statusList">
+                        <a>{{item}}</a>
+                    </li>
+                </ul>
+            </nz-dropdown>
+            &nbsp;&nbsp;
+            <span>Report Time: </span>
+            <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime></nz-range-picker>
+
+            <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button>
+        </div>
+    </div>
+    <div class="content" [@showHideAnimate]="state">
+        <!-- <div class="title">
+                    <ul>
+                        <li>
+                            <h5>All</h5>
+                            <p>{{alarmList.all }}</p>
+                        </li>
+                        <li>
+                            <h5>Closed</h5>
+                            <p>{{alarmList.closed }}</p>
+                        </li>
+                        <li>
+                            <h5>Active</h5>
+                            <p>{{alarmList.activeNum }}</p>
+                        </li>
+                    </ul>
+                </div> -->
+        <!-- <div class="chart">
+            <h3>Alarm Chart</h3>
+            <div class="AlarmChart" [ngClass]="{'alarmChart-active':alarmShow}">
+                <app-line [initData]="alarmChartInit" [chartData]="alarmChartData"></app-line>
+            </div>
+        </div> -->
+        <div class="tablelist">
+            <nz-table #nzTable [nzData]="list" [(nzPageSize)]="pageSize" nzShowSizeChanger nzShowQuickJumper
+                [nzPageSizeOptions]="[5,10,15,20]" nzSize="middle">
+                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzWidth="5%" style="padding-left:20px;">NO</th>
+                        <th nzWidth="12%">Source Name</th>
+                        <th nzWidth="7%">Priority</th>
+                        <th nzWidth="18%">SpecificProblem</th>
+                        <th nzWidth="15%">Report Time</th>
+                        <th nzWidth="15%">Clear Time</th>
+                        <th nzWidth="8%">Status</th>
+                        <th nzWidth="10%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of nzTable.data; let i = index;">
+                        <td style="padding-left: 20px;">{{i+1}}</td>
+                        <td>{{item.sourceName}}</td>
+                        <td>{{item.priority}}</td>
+                        <td>{{item.specificProblem}}</td>
+                        <td>{{item.startEpochMicrosec | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.startEpochMicrosecCleared | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.status}}</td>
+                        <td class="action"><a (click)="detailShow(item)"><i class="details"></i></a></td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <div [@showHideAnimate]="state2">
+        <app-details [detailId]="detailId"></app-details>
+    </div>
 </div>

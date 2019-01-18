@@ -16,7 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Pipe, PipeTransform } from '@angular/core';
 import { HomesService } from '../homes.service';
 import { showHideAnimate, slideToRight } from '../animates';
-import { DatePipe } from "@angular/common"
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-alarm',
   templateUrl: './alarm.component.html',
@@ -45,7 +45,7 @@ export class AlarmComponent implements OnInit {
   ngOnInit() {
     this.getAlarmFormData();
     this.getSourceNames();
-    this.getstatuscount();
+    // this.getstatuscount();
   }
 
   // Filter box
@@ -106,14 +106,14 @@ export class AlarmComponent implements OnInit {
     activeNum: 0
   }
   // total data
-  getstatuscount() {
-    this.myhttp.getstatuscount().subscribe((data) => {
-      this.alarmList.activeNum = data[0];
-      this.alarmList.closed = data[1];
-      this.alarmList.all = (data[0] - 0) + (data[1] - 0);
+  // getstatuscount() {
+  //   this.myhttp.getstatuscount().subscribe((data) => {
+  //     this.alarmList.activeNum = data[0];
+  //     this.alarmList.closed = data[1];
+  //     this.alarmList.all = (data[0] - 0) + (data[1] - 0);
 
-    })
-  }
+  //   })
+  // }
   getAlarmFormData() {
     this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.sourceName, this.priority, this.startTime, this.endTime, this.vfStatus).subscribe((data) => {
       this.list = data.alarms;
@@ -122,10 +122,10 @@ export class AlarmComponent implements OnInit {
   }
   getAlarmChartData(event) {
     let paramsObj = {
-      sourceName: this.sourceName,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      format: 'day'
+      // sourceName: this.sourceName,
+      // startTime: this.startTime,
+      // endTime: this.endTime,
+      // format: 'day'
     }
     this.myhttp.getHomeAlarmChartData(paramsObj)
       .subscribe((data) => {
@@ -136,7 +136,6 @@ export class AlarmComponent implements OnInit {
           series: [
             { data: data.allList },
             { data: data.ActiveList },
-            { data: data.closedList }
           ]
         }
       }, (err) => {
@@ -144,61 +143,61 @@ export class AlarmComponent implements OnInit {
       })
   }
   // day alarmchartdata
-  day() {
-    let paramsObj = {
-      sourceName: this.sourceName,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      format: "day"
-    }
-    this.myhttp.getHomeAlarmChartData(paramsObj)
-      .subscribe((data) => {
-        this.alarmChartData = {
-          xAxis: {
-            data: data.dateList
-          },
-          series: [
-            { data: data.allList },
-            { data: data.ActiveList },
-            { data: data.closedList }
-          ]
-        }
-      }, (err) => {
-        console.log(err);
-      })
-  }
-  month() {
-    let paramsObj = {
-      sourceName: this.sourceName,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      format: "month"
-    }
-    this.myhttp.getHomeAlarmChartData(paramsObj)
-      .subscribe((data) => {
-        this.alarmChartData = {
-          xAxis: {
-            data: data.dateList
-          },
-          series: [
-            { data: data.allList },
-            { data: data.ActiveList },
-            { data: data.closedList }
-          ]
-        }
-      }, (err) => {
-        console.log(err);
-      })
-  }
+  // day() {
+  //   let paramsObj = {
+  //     sourceName: this.sourceName,
+  //     startTime: this.startTime,
+  //     endTime: this.endTime,
+  //     format: "day"
+  //   }
+  //   this.myhttp.getHomeAlarmChartData(paramsObj)
+  //     .subscribe((data) => {
+  //       this.alarmChartData = {
+  //         xAxis: {
+  //           data: data.dateList
+  //         },
+  //         series: [
+  //           { data: data.allList },
+  //           { data: data.ActiveList },
+  //           { data: data.closedList }
+  //         ]
+  //       }
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  // }
+  // month() {
+  //   let paramsObj = {
+  //     sourceName: this.sourceName,
+  //     startTime: this.startTime,
+  //     endTime: this.endTime,
+  //     format: "month"
+  //   }
+  //   this.myhttp.getHomeAlarmChartData(paramsObj)
+  //     .subscribe((data) => {
+  //       this.alarmChartData = {
+  //         xAxis: {
+  //           data: data.dateList
+  //         },
+  //         series: [
+  //           { data: data.allList },
+  //           { data: data.ActiveList },
+  //           { data: data.closedList }
+  //         ]
+  //       }
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  // }
   //Line chart
   alarmShow = false;
   alarmChartData: Object;
   alarmChartInit: Object = {
-    height: 380,
+    height:  240,
     option: {
       legend: {
         bottom: '0px',
-        data: ['All', 'Active', 'Closed']
+        data: ['Active', 'Fixed']
       },
       tooltip: {
         trigger: 'axis',
@@ -217,59 +216,55 @@ export class AlarmComponent implements OnInit {
       },
       series: [
         {
-          name: 'All',
-          type: 'line',
-          smooth: true,
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8
-          },
-          //timeframe_one
-          data: [],
-          itemStyle: {
-            color: "#526b75"
-          },
-          lineStyle: {
-            width: 1,
-            opacity: 0.5
-          }
-        },
-        {
           name: 'Active',
-          type: 'line',
-          smooth: true,//
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8
-          },
-          //timeframe_two
+          type: 'bar',
           data: [],
+          barWidth: 10,
+          barGap: 1,
           itemStyle: {
-            color: "#fb6e6e"
-          },
-          lineStyle: {
-            width: 1,
-            opacity: 0.5
+            normal: {
+              barBorderRadius: [5],
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [{
+                  offset: 0, color: '#FB7788' // 0% 处的颜色
+                }, {
+                  offset: 1, color: '#FB93C2' // 100% 处的颜色
+                }],
+              },
+              opacity: 1,
+            }
           }
         },
         {
-          name: 'Closed',
-          type: 'line',
-          smooth: true,//
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8
-          },
-          //timeframe_two
-          data: [12, 23, 13, 25, 33, 14, 34, 12, 12, 22, 12, 12, 13, 23, 12, 24, 22, 13, 22, 5, 12, 23, 13, 25, 33, 14, 34, 12, 12, 22, 12, 12, 13, 23, 12, 24, 22, 13, 22, 5, 12, 23, 13, 25, 33, 14, 34, 12, 125],
+          name: 'Fixed',
+          type: 'bar',
+          data: [],
+          barWidth: 10,
+          barGap: 1,
           itemStyle: {
-            color: "#3fa8eb"
-          },
-          lineStyle: {
-            width: 1,
-            opacity: 0.5
+            normal: {
+              barBorderRadius: [5],
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [{
+                  offset: 0, color: '#7A8BAE' // 0% 处的颜色
+                }, {
+                  offset: 1, color: '#A6BFE4' // 100% 处的颜色
+                }],
+              },
+              opacity: 1,
+            }
           }
-        }
+        },
       ]
     }
   };

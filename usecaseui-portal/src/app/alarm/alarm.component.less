@@ -25,7 +25,7 @@ hr {
     margin-bottom: 20px;
 }
 .select {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     span {
         display: inline-block;
         font: 700 14px "Arial";
@@ -67,6 +67,54 @@ hr {
         }
     }
     
+}
+.charts{
+    width: 100%;
+    height: 250px;
+    margin-bottom: 25px;
+    .chartsleft {
+        width: 30%;
+        height: 100%;
+        float: left;
+        margin-right: 2%;
+        color: #fff;
+        font-family:"ArialMT";
+        .sctive_closed {
+            height: 48.75%;
+            padding: 12px;
+            width: 100%;                  
+            :first-child{
+                font-size: 14px;
+            }
+            :nth-child(2) {
+                font-size: 18px;
+            }
+            :nth-child(3) {
+                font-size: 12px;
+            }
+        }
+        .active {
+            margin-bottom: 5px;
+            background: -webkit-linear-gradient(left, #FB7788 , #FB93C2); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #FB7788, #FB93C2); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #FB7788, #FB93C2); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #FB7788 , #FB93C2); /* 标准的语法（必须放在最后） */
+        }
+        .closed {
+            margin-top: 2px;
+            background: -webkit-linear-gradient(left, #7A8BAE , #A6BFE4); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #7A8BAE , #A6BFE4); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right,  #7A8BAE , #A6BFE4); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right,  #7A8BAE , #A6BFE4); /* 标准的语法（必须放在最后） */
+        }
+        
+    }
+    .chartsright {
+        background-color: #fff;
+        width: 68%;
+        float: left;
+        height: 100%;
+    }
 }
 .content {
     .title {
@@ -148,8 +196,8 @@ hr {
         }
     }
     .tablelist {
-        background-color: #fff;
-        padding: 24px 10px 0px;
+        // background-color: #fff;
+        // padding: 24px 10px 0px;
         border-radius: 0 0 5px 5px;
         .action{
             padding: 10px 0 0 20px;
@@ -165,3 +213,24 @@ hr {
         }
     }
 }
+// select 框更改
+.select[_ngcontent-c3] nz-dropdown[_ngcontent-c3] button[_ngcontent-c3] {
+    width: 120px;
+    height: 30px;
+    background-color: #fff;
+    text-align: left;
+    border-color: #EEEEEE;
+    border-radius: 2px;
+}
+.select[_ngcontent-c3] nz-dropdown[_ngcontent-c3] [_ngcontent-c3]:hover {
+    border-color: #58B7F9;
+}
+.ant-progress-inner{
+    background:rgba(229,238,252,0.8) !important;
+}
+.ant-progress-bg {
+    background-color: linear-gradient(270deg,rgba(255,255,255,1) 0%,rgba(223,233,243,1) 100%) !important;
+}
+
+
+

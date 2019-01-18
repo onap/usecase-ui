@@ -8,7 +8,13 @@
 // 表格每页条数选项单位置
 nz-table {
     .ant-table-thead>tr>th {
-        color: #3fa8eb; //标题字体颜色
+        color:rgba(60,79,140,0.5); //标题字体颜色
+        background-color: #F7F8FC;
+        border-bottom: 0px solid #e8e8e8;
+    }
+    .ant-table-tbody>tr>td{
+        background-color:#fff;
+        border-bottom: 8px solid #F7F8FC;
     }
     .ant-spin-container {
         nz-pagination {
@@ -114,4 +120,63 @@ body {
     input {
         width: 165px;
     }
+}
+
+// D版本更改背景颜色修改
+nz-layout {
+    .ant-layout {
+        background:#F7F8FC;
+    }
+    .list[_ngcontent-c3]{
+        background-color: #F7F8FC;
+        padding: 0px !important; 
+    }
+}
+// onboard-vnf-vm页面调整
+// 頭部導航
+.ant-tabs-bar {
+    box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+    border-bottom:none !important;
+    background-color: #fff;
+}
+.ant-tabs-nav {
+    padding-left: 15px !important;
+    padding-top: 14px !important; 
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    background-color: #fff !important;
+    border: 1px solid #fff !important;
+    border-radius: 2px !important;
+    margin-right: 0px !important;
+    padding: 0 35px !important;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+    background: #fff !important;
+    border-color: #7BC7F3 !important;
+    color: #7BC7F3 !important;
+}
+.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content {
+    padding: 20px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container {
+    height: 55px !important;
+}
+.ant-upload.ant-upload-drag {
+    border: 2px dashed #d9d9d9 !important;
+}
+.ant-upload.ant-upload-drag p.ant-upload-text {
+    color:#42548F !important;
+    font-family:"ArialMT" !important;
+    font-size: 13px !important;
+}
+// 時間框
+.ant-calendar-picker .ant-input {
+    background-color: #fff;
+    border-color: #EEEEEE;
+}
+.ant-calendar-picker:hover {
+    border-color: #58B7F9;
+}
+.ant-calendar-picker {
+    width: 234px !important;
 }

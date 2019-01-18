@@ -42,9 +42,58 @@ hr {
 }
   
 .list {
-    background-color: #fff;
+    // background-color: #fff;
     border-radius: 5px;
-    padding: 10px;
+    // padding: 10px;
+    .listupload {
+        width: 22%;
+        float: left;
+        margin-left: 13%;
+    }
+    .listlin {
+        float: left;
+        width: 1%;
+        margin-left: 10%;
+        height: 177px;
+        margin-bottom: 30px;
+        border-right: 2px solid #EEEEEE;
+    }
+    .listfile {
+        float: left;
+        width: 44%;
+        margin-left: 10%;
+        .listfilebgc { 
+        background-color: #fff;
+        border-bottom: 8px solid #F7F8FC;
+        }
+        .listfilebgc {
+            background-color: #fff;
+            height: 30px;
+            border-radius: 2px;
+            line-height: 2;
+            color: #42548F;
+            border-bottom: 4px solid #F7F8FC;
+            >div {
+                float: left;
+            }
+           :first-child {
+               width: 6%;
+           }
+           :nth-child(2){
+                width:20%;
+           }
+           :nth-child(3){
+               width: 60%;
+               text-align: center;
+           }
+           :nth-child(4){
+            padding-left: 4%;
+           }
+           .color {
+               color:rgba(66,84,143,0.5);
+           }
+        }
+    }
     nz-table {
         tbody {
             td {
