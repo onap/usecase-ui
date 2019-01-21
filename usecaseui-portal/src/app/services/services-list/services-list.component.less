@@ -25,25 +25,31 @@ hr {
     margin-bottom: 20px;
 }
 .action {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    padding: 28px;
+    background: #ffffff;
+    position: relative;
     span {
         display: inline-block;
         font: 700 14px "Arial";
-        color: #4c5e70;
+        color: #3C4F8C;
+        margin-right: 5px;
     }
     nz-dropdown {
         vertical-align: middle;
+        background-color:#ffffff;
         :hover{
-            border-color: #147dc2;
+            border-color: #48C6EF;
         }
         button {
             width: 165px;
-            height: 30px;
-            background-color: #eceff4;
+            height: 42px;
+            background-color:#ffffff;
             text-align: left;
-            border-color: #9fa9ab;
+            border-color: #EEEEEE;
             span {
                 font-weight: 400;
+                color: #3C4F8C;
                 display: inline-block;
                 width: 120px;
                 overflow: hidden;
@@ -56,17 +62,69 @@ hr {
                 right: 10px;
             }
         }
-        //下拉框中的样式在style.less中，下拉框是在body中额外临时生成的
     }
+    //        //下拉框中的样式在style.less中，下拉框是在body中额外临时生成的
     .create {
-        float: right;
-        height: 30px;
-        padding: 0 10px;
+        position: absolute;
+        right: 3%;
+        top:50%;
+        width:116px;
+        height:42px;
+        background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%);
+        border-radius:2px;
+        margin-top: -15px;
         span {
             color: #fff;
             font-weight: 400;
+            font-size: 18px;
+        }
+        .anticon-plus-circle-o{
+            font-size: 18px;
         }
     }
+    .create.ant-btn.ant-btn-primary{
+        border: none;
+    }
+
+}
+.top-num{
+    overflow: auto;
+}
+.top-list{
+    position: relative;
+    width:360px;
+    height:160px;
+    margin: 15px 15px 30px 15px;
+    float: left;
+    background:linear-gradient(90deg,rgba(16,174,222,1) 0%,rgba(43,206,202,1) 100%);
+    box-shadow:0px 10px 15px 2px rgba(222,222,222,1);
+    border-radius:2px;
+}
+.top-list .round{
+    position: absolute;
+    width:80px;
+    height:80px;
+    line-height: 80px;
+    text-align: center;
+    top:50%;
+    left: 10px;
+    margin-top: -40px;
+    background:#E0EDFF;
+    border:2px solid rgba(224,237,255,1);
+    border-radius: 50%;
+    font-size:18px;
+    font-family:ArialMT;
+    color:#3C4F8C;
+}
+.top-list .top-list-text{
+    position: absolute;
+    text-align: right;
+    height: 40px;
+    line-height: 20px;
+    top:50%;
+    margin-top: -20px;
+    right: 20px;
+    color: #fff;
 }
 .list {
     background-color: #fff;
@@ -154,3 +212,27 @@ hr {
     padding: 20px 32px;
     z-index: 3;
 }
+/*2019.01.14*/
+.e2eColor{
+    color: #5B45E7;
+}
+.nsColor{
+    color: #F96D7D;
+}
+.ccvpnColor{
+    color: #3E86EC;
+}
+.sotnColor{
+    color: #FFB629;
+}
+.select-list{
+    width: 280px;
+    height: 32px;
+    line-height: 32px;
+    margin: 25px auto;
+}
+.select-list>span{
+    text-align: left;
+    line-height: 32px;
+}
+
