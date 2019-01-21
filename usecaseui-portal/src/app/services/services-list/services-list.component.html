@@ -13,236 +13,276 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> Services List </h3>
-<hr>
-<div class="action">
-  <span>Customer: </span>
-  <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-    <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i></button>
-    <ul nz-menu style="max-height: 200px; overflow: auto;">
-      <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
-        <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
-      </li>
-    </ul>
-  </nz-dropdown>
-  
-  &nbsp;&nbsp;
-  <span>Service Type: </span>
-  <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-    <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i></button>
-    <ul nz-menu style="max-height: 200px; overflow: auto;">
-      <li nz-menu-item (click)="choseServiceType(item)" *ngFor="let item of serviceTypeList">
-        <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
-      </li>
-    </ul>
-  </nz-dropdown>
+<div class="action ant-tabs-bar">
+    <span>Customer: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+            <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
+                <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
 
-  <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
-  <nz-modal [(nzVisible)]="isVisible" nzTitle="Create" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <span style="display:inline-block;width:70px;">Service: </span>
-    <nz-select style="width: 165px;" [(ngModel)]="templateTypeSelected" nzAllowClear (ngModelChange)="choseTemplateType()">
-      <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
-      <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
-      <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
-      <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
-      <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
-    </nz-select>
+    &nbsp;&nbsp;
+    <span>Service Type: </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+            <li nz-menu-item (click)="choseServiceType(item)" *ngFor="let item of serviceTypeList">
+                <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
 
-    <hr>
-    <div *ngIf="templateTypeSelected == 'SOTN'||templateTypeSelected == 'CCVPN'">
-      <span>SOTN VPN: </span>
-      <nz-select style="width: 165px;" [(ngModel)]="template1" nzAllowClear >
-        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-      </nz-select>
+    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i
+            class="anticon anticon-plus-circle-o"></i><span> Create </span></button>
+    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="CREATE" (nzOnCancel)="handleCancel()"
+              (nzOnOk)="handleOk()">
+        <div class="select-list">
+            <span style="display:inline-block;width:70px;">Service: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
+                       (ngModelChange)="choseTemplateType()">
+                <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
+                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
+                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
+                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
+                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
+            </nz-select>
+        </div>
 
-      <br><br>
-      <span style="display:inline-block;width:70px;"> SITE: </span>
-      <nz-select style="width: 165px;" [(ngModel)]="template2" nzAllowClear >
-        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-      </nz-select>
-      
-      <div *ngIf="templateTypeSelected == 'CCVPN'">
-        <br>
-        <span style="display:inline-block;width:70px;">SD-WAN: </span>
-        <nz-select style="width: 165px;" [(ngModel)]="template3" nzAllowClear >
-          <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-        </nz-select>
-      </div>
-    </div>
+        <div *ngIf="templateTypeSelected == 'SOTN'||templateTypeSelected == 'CCVPN'">
+            <div class="select-list">
+                <span style="display:inline-block;">SOTN VPN: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
+                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;"> SITE: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="template2" nzAllowClear>
+                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+            <div *ngIf="templateTypeSelected == 'CCVPN'">
+                <div class="select-list">
+                    <span style="display:inline-block;width:70px;">SD-WAN: </span>
+                    <nz-select style="width: 176px;float: right;" [(ngModel)]="template3" nzAllowClear>
+                        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
 
-    <div *ngIf="templateTypeSelected == 'E2E Service'||templateTypeSelected == 'Network Service'">
-      <span style="display:inline-block;width:70px;">TEMPLATE: </span>
-      <nz-select style="width: 165px;" [(ngModel)]="template4" nzAllowClear >
-        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-      </nz-select>
-    </div>
-  </nz-modal>
+        <div *ngIf="templateTypeSelected == 'E2E Service'||templateTypeSelected == 'Network Service'">
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;">TEMPLATE: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="template4" nzAllowClear>
+                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </nz-modal>
 </div>
-<div class="list">
-    <nz-table *ngIf="1"
-      #nzTable [nzData]="tableData" 
-      nzShowSizeChanger 
-      [nzFrontPagination]="false" 
-      [nzShowQuickJumper]="true" 
-      [nzPageSizeOptions]="[5,10,15,20]" 
-      [nzTotal]= 'total'
-      [(nzPageSize)]="pageSize" 
-      [(nzPageIndex)]='pageIndex'
-      [nzLoading]="loading"
-      [nzSize]="'middle'"
-      [nzScroll]="{ y: '58vh' }"
-      (nzPageIndexChange)="searchData()"
-      (nzPageSizeChange)="searchData(true)">
-      <thead>
-        <tr>
-          <th nzWidth="5%">NO</th>
-          <th nzWidth="5%"></th>
-          <th nzWidth="20%">Service Instance Id</th>
-          <th nzWidth="20%">Name</th>
-          <th nzWidth="15%">Type</th>
-          <th nzWidth="20%">Status</th>
-          <th nzWidth="15%">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index">
-          <tr>
-            <td>{{pageSize*(pageIndex-1) + i+1}}</td>
-            <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
-            <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
-            <td>{{data["service-instance-name"] || data.nsName}}</td>
-            <td>{{data.serviceDomain}}</td>
-            <td>
+<nz-layout style=" padding: 20px 32px; ">
+    <ul class="top-num">
+        <li *ngFor="let item of serviceMunber" class="top-list">
+            <span class="round">{{item.serviceDomain}}</span>
+            <div class="top-list-text">
+                <span>{{item.number}}</span><br>
+                <span>{{item.serviceDomain}}&nbsp;&nbsp;Service Instances</span>
+            </div>
+        </li>
+    </ul>
+    <div class="list">
+        <nz-table *ngIf="1"
+                  #nzTable [nzData]="tableData"
+                  nzShowSizeChanger
+                  [nzFrontPagination]="false"
+                  [nzShowQuickJumper]="true"
+                  [nzPageSizeOptions]="[5,10,15,20]"
+                  [nzTotal]='total'
+                  [(nzPageSize)]="pageSize"
+                  [(nzPageIndex)]='pageIndex'
+                  [nzLoading]="loading"
+                  [nzSize]="'middle'"
+                  [nzScroll]="{ y: '58vh' }"
+                  (nzPageIndexChange)="searchData()"
+                  (nzPageSizeChange)="searchData(true)">
+            <thead>
+            <tr>
+                <th nzWidth="5%">NO</th>
+                <th nzWidth="5%"></th>
+                <th nzWidth="20%">Service Instance Id</th>
+                <th nzWidth="20%">Name</th>
+                <th nzWidth="15%">Service</th>
+                <th nzWidth="20%">Status</th>
+                <th nzWidth="15%">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index">
+                <tr>
+                    <td>{{pageSize*(pageIndex-1) + i+1}}</td>
+                    <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
+                    <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
+                    <td>{{data["service-instance-name"] || data.nsName}}</td>
+                    <td [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN'}">
+                        {{data.serviceDomain}}
+                    </td>
+                    <td>
               <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
                     'updating':data.statusClass=='Updating','deleting':data.statusClass=='1002','creating':data.statusClass=='1001',
                     'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}">{{data.tips}}</span>
-              <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate"></nz-progress>
-            </td>
-            <td>
-              <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                *ngIf="data.serviceDomain=='E2E Service' " class="anticon anticon-setting" (click)="scaleService(data)"></i>
-              <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-              <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}" 
-                *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
-              <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                *ngIf="data.serviceDomain=='SOTN'||data.serviceDomain=='CCVPN' " class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
-              <i [ngClass]="{'cannotclick':data.status == 'In Progress'}"  class="anticon anticon-delete" (click)="deleteModel(data)"></i>
-            </td>
-          </tr>
-          <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
-            <td></td>
-            <td></td>
-            <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
-            <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
-            <td>{{item.serviceDomain}}</td>
-            <td>
-              <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Available"}}</span>
-              <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
-            </td>
-            <td>
-              <i *ngIf="item.serviceDomain=='vnf'" [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"  class="anticon anticon-reload" (click)="healService(item)"></i>
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </nz-table>
+                        <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate"></nz-progress>
+                    </td>
+                    <td>
+                        <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                           class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
+                        <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
+                           (click)="deleteModel(data)"></i>
+                        <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                           class="anticon anticon-setting" (click)="scaleService(data)"></i>
+                        <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
+                        <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
+                          *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
+                    </td>
+                </tr>
+                <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
+                    <td></td>
+                    <td></td>
+                    <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
+                    <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
+                    <td>{{item.serviceDomain}}</td>
+                    <td>
+                        <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Available"}}</span>
+                        <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
+                    </td>
+                    <td>
+                        <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                           class="anticon anticon-reload" (click)="healService(item)"></i>
+                    </td>
+                </tr>
+            </ng-template>
+            </tbody>
+        </nz-table>
 
-    <nz-modal [nzVisible]="scaleModelVisible" nzTitle="Scale" (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk()">
-      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?</h3>
-      Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] || thisService["vnfInstanceId"]}}</b>
-      <div *ngFor="let item of e2e_nsData">
-        <h3>{{ item.netWorkServiceName }}</h3><hr>
-        <span style="display:inline-block;width:50%;">Scale Type:</span>
-        <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
-          <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
-          <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
-        </nz-select>
-        <span style="display:inline-block;width:50%;">AspectId:</span>
-        <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
-        <span style="display:inline-block;width:50%;">Number Of Steps:</span>
-        <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100" nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
-        <span style="display:inline-block;width:50%;">Scaling Direction:</span>
-        <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
-          <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
-          <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
-        </nz-select>
-      </div>
-    </nz-modal>
-    <nz-modal [(nzVisible)]="deleteModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk()">
-      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure delete this instance?</h3>
-      Instance ID: <b class="deleteModelContent"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] }}</b>
-      <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
-        <span style="display:inline-block;width:50%;">terminationType:</span>
-        <nz-select style="width: 165px;" [(ngModel)]="terminationType" >
-          <nz-option nzValue="graceful" nzLabel="graceful"></nz-option>
-          <nz-option nzValue="forceful" nzLabel="forceful"></nz-option>
-        </nz-select>
-        <span *ngIf="terminationType=='graceful'" style="display:inline-block;width:50%;">gracefulTerminationTimeout:</span>
-        <input *ngIf="terminationType=='graceful'" style="width: 165px;" nz-input [(ngModel)]="gracefulTerminationTimeout">
-      </div>
-    </nz-modal>
-    <nz-modal [nzVisible]="healModelVisible" nzTitle="Heal" (nzOnCancel)="healCancel()" (nzOnOk)="healOk()">
-      <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?</h3>
-      Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] || thisService["vnfInstanceId"]}}</b>
-      <!-- NS -->
-      <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
-        <span style="display:inline-block;width:50%;">degreeHealing:</span>
-        <nz-select style="width: 165px;" [(ngModel)]="nsParams.degreeHealing" >
-          <nz-option nzValue="HEAL_RESTORE" nzLabel="HEAL_RESTORE"></nz-option>
-          <nz-option nzValue="HEAL_QOS" nzLabel="HEAL_QOS"></nz-option>
-          <nz-option nzValue="HEAL_RESET" nzLabel="HEAL_RESET"></nz-option>
-          <nz-option nzValue="PARTIAL_HEALING" nzLabel="PARTIAL_HEALING"></nz-option>
-        </nz-select> 
-        <div>
-          <span  style="display:inline-block;">actionsHealing:</span>
-          <button nz-button [nzType]="'default'" (click)="addActionsHealing()"><i class="anticon anticon-plus-circle-o"></i></button>
-          <br>
-          <div *ngFor="let item of healActions;let i = index;" style="display:inline-block;">
-              <input style="width: 165px;" nz-input [(ngModel)]="item.value"><button nz-button [nzType]="'dashed'" (click)="minusActionsHealing(i)"><i class="anticon anticon-minus-circle-o"></i></button>
-              &nbsp;
-          </div>
-        </div>
-        <span  style="display:inline-block;width:50%;">healScript:</span>
-        <input style="width: 165px;" nz-input [(ngModel)]="nsParams.healScript"> 
-        <div>
-          <span  style="display:inline-block;">additionalParamsforNs:</span>
-          <button nz-button [nzType]="'default'" (click)="addNsAdditional()"><i class="anticon anticon-plus-circle-o"></i></button>
-          <br>
-          <div *ngFor="let item of nsAdditional;let i = index;">
-              Key: <input style="width: 165px;" nz-input [(ngModel)]="item.key"> &nbsp;
-              Value: <input style="width: 165px;" nz-input [(ngModel)]="item.value">
-              <button nz-button [nzType]="'dashed'" (click)="minusNsAdditional(i)"><i class="anticon anticon-minus-circle-o"></i></button>
-          </div>
-        </div>
-      </div>
-      <!-- vnf -->
-      <div *ngIf="thisService['serviceDomain'] == 'vnf'">
-          <span style="display:inline-block;width:50%;">cause:</span>
-          <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.cause">
-          <span style="display:inline-block;width:50%;">action:</span>
-          <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.additionalParams.action">
-          <span style="display:inline-block;width:50%;">actionvminfo:</span>
-          <nz-select style="width: 165px;" [(ngModel)]="vmSelected" >
-            <nz-option *ngFor="let item of vnfVms" [nzValue]="item" [nzLabel]="item.vmName"></nz-option>
-          </nz-select>
-      </div>
-    </nz-modal>
-</div>
+        <nz-modal [nzVisible]="scaleModelVisible" nzTitle="Scale" (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk()">
+            <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?
+            </h3>
+            Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] ||
+            thisService["vnfInstanceId"]}}</b>
+            <div *ngFor="let item of e2e_nsData">
+                <h3>{{ item.netWorkServiceName }}</h3>
+                <hr>
+                <span style="display:inline-block;width:50%;">Scale Type:</span>
+                <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
+                    <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
+                    <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
+                </nz-select>
+                <span style="display:inline-block;width:50%;">AspectId:</span>
+                <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
+                <span style="display:inline-block;width:50%;">Number Of Steps:</span>
+                <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100"
+                                 nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
+                <span style="display:inline-block;width:50%;">Scaling Direction:</span>
+                <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
+                    <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
+                    <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
+                </nz-select>
+            </div>
+        </nz-modal>
+        <nz-modal [(nzVisible)]="deleteModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCancel()"
+                  (nzOnOk)="deleteOk()">
+            <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure delete this instance?
+            </h3>
+            Instance ID: <b class="deleteModelContent"> {{ thisService["service-instance-id"] ||
+            thisService["nsInstanceId"] }}</b>
+            <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+                <span style="display:inline-block;width:50%;">terminationType:</span>
+                <nz-select style="width: 165px;" [(ngModel)]="terminationType">
+                    <nz-option nzValue="graceful" nzLabel="graceful"></nz-option>
+                    <nz-option nzValue="forceful" nzLabel="forceful"></nz-option>
+                </nz-select>
+                <span *ngIf="terminationType=='graceful'" style="display:inline-block;width:50%;">gracefulTerminationTimeout:</span>
+                <input *ngIf="terminationType=='graceful'" style="width: 165px;" nz-input
+                       [(ngModel)]="gracefulTerminationTimeout">
+            </div>
+        </nz-modal>
+        <nz-modal [nzVisible]="healModelVisible" nzTitle="Heal" (nzOnCancel)="healCancel()" (nzOnOk)="healOk()">
+            <h3><i class="anticon anticon-question-circle" style="color:yellow;"></i>Are you sure heal this instance?
+            </h3>
+            Instance ID: <b style="color:green"> {{ thisService["service-instance-id"] || thisService["nsInstanceId"] ||
+            thisService["vnfInstanceId"]}}</b>
+            <!-- NS -->
+            <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+                <span style="display:inline-block;width:50%;">degreeHealing:</span>
+                <nz-select style="width: 165px;" [(ngModel)]="nsParams.degreeHealing">
+                    <nz-option nzValue="HEAL_RESTORE" nzLabel="HEAL_RESTORE"></nz-option>
+                    <nz-option nzValue="HEAL_QOS" nzLabel="HEAL_QOS"></nz-option>
+                    <nz-option nzValue="HEAL_RESET" nzLabel="HEAL_RESET"></nz-option>
+                    <nz-option nzValue="PARTIAL_HEALING" nzLabel="PARTIAL_HEALING"></nz-option>
+                </nz-select>
+                <div>
+                    <span style="display:inline-block;">actionsHealing:</span>
+                    <button nz-button [nzType]="'default'" (click)="addActionsHealing()"><i
+                            class="anticon anticon-plus-circle-o"></i></button>
+                    <br>
+                    <div *ngFor="let item of healActions;let i = index;" style="display:inline-block;">
+                        <input style="width: 165px;" nz-input [(ngModel)]="item.value">
+                        <button nz-button [nzType]="'dashed'" (click)="minusActionsHealing(i)"><i
+                                class="anticon anticon-minus-circle-o"></i></button>
+                        &nbsp;
+                    </div>
+                </div>
+                <span style="display:inline-block;width:50%;">healScript:</span>
+                <input style="width: 165px;" nz-input [(ngModel)]="nsParams.healScript">
+                <div>
+                    <span style="display:inline-block;">additionalParamsforNs:</span>
+                    <button nz-button [nzType]="'default'" (click)="addNsAdditional()"><i
+                            class="anticon anticon-plus-circle-o"></i></button>
+                    <br>
+                    <div *ngFor="let item of nsAdditional;let i = index;">
+                        Key: <input style="width: 165px;" nz-input [(ngModel)]="item.key"> &nbsp;
+                        Value: <input style="width: 165px;" nz-input [(ngModel)]="item.value">
+                        <button nz-button [nzType]="'dashed'" (click)="minusNsAdditional(i)"><i
+                                class="anticon anticon-minus-circle-o"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- vnf -->
+            <div *ngIf="thisService['serviceDomain'] == 'vnf'">
+                <span style="display:inline-block;width:50%;">cause:</span>
+                <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.cause">
+                <span style="display:inline-block;width:50%;">action:</span>
+                <input style="width: 165px;" nz-input [(ngModel)]="vnfParams.additionalParams.action">
+                <span style="display:inline-block;width:50%;">actionvminfo:</span>
+                <nz-select style="width: 165px;" [(ngModel)]="vmSelected">
+                    <nz-option *ngFor="let item of vnfVms" [nzValue]="item" [nzLabel]="item.vmName"></nz-option>
+                </nz-select>
+            </div>
+        </nz-modal>
+    </div>
 
-<div class="detailComponent" *ngIf="detailshow">
-  <app-ccvpn-detail [namesTranslate]="namesTranslate" [detailParams]="detailData" (closeDetail)="detailshow = false;"></app-ccvpn-detail>
-</div>
-<div class="createComponent" *ngIf="createshow">
-  <app-ccvpn-creation 
-    [createParams]="createData" 
-    [namesTranslate]="namesTranslate" 
-    (closeCreate)="closeCreate($event)">
-  </app-ccvpn-creation>
-</div>
-<div class="createComponent" *ngIf="createshow2">
-  <app-e2e-creation
-    [createParams]="createData" 
-    (nsCloseCreate)="nsCloseCreate($event)" 
-    (e2eCloseCreate)="e2eCloseCreate($event)">
-  </app-e2e-creation>
-</div>
+    <div class="detailComponent" *ngIf="detailshow">
+        <app-ccvpn-detail [namesTranslate]="namesTranslate" [detailParams]="detailData"
+                          (closeDetail)="detailshow = false;"></app-ccvpn-detail>
+    </div>
+    <div class="createComponent" *ngIf="createshow">
+        <app-ccvpn-creation
+                [createParams]="createData"
+                [namesTranslate]="namesTranslate"
+                (closeCreate)="closeCreate($event)">
+        </app-ccvpn-creation>
+    </div>
+    <div class="createComponent" *ngIf="createshow2">
+        <app-e2e-creation
+                [createParams]="createData"
+                (nsCloseCreate)="nsCloseCreate($event)"
+                (e2eCloseCreate)="e2eCloseCreate($event)">
+        </app-e2e-creation>
+    </div>
+    <!--</div>-->
+</nz-layout>

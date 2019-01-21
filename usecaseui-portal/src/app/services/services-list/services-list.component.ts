@@ -40,6 +40,24 @@ export class ServicesListComponent implements OnInit {
   serviceTypeSelected = {name:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
   language="en";
+    serviceMunber = [
+        {
+            "serviceDomain": "E2E",
+            "number": 10
+        },
+        {
+            "serviceDomain": "NS",
+            "number": 20
+        },
+        {
+            "serviceDomain": "SOTN",
+            "number": 30
+        },
+        {
+            "serviceDomain": "CCVPN",
+            "number": 40
+        }
+    ];
 
   getallCustomers(){
     console.log(this.listSortMasters);

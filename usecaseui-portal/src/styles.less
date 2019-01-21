@@ -1,63 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
 // 下拉框背景hover状态颜色
 .ant-dropdown-menu {
-    .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover {
-        background-color: #3fa8eb;
+  .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover {
+    background-color: #3fa8eb;
+    a {
+      color: #fff;
     }
+  }
 }
 // 表格每页条数选项单位置
 nz-table {
-    .ant-table-thead>tr>th {
-        color:rgba(60,79,140,0.5); //标题字体颜色
-        background-color: #F7F8FC;
-        border-bottom: 0px solid #e8e8e8;
-    }
-    .ant-table-tbody>tr>td{
-        background-color:#fff;
-        border-bottom: 8px solid #F7F8FC;
-    }
-    .ant-spin-container {
-        nz-pagination {
-            ul {
-                .ant-pagination-options {
-                    .ant-pagination-options-size-changer.ant-select{
-                        position: absolute;
-                        left: 0;
-                    }
-                }
+  .ant-table-thead > tr > th {
+    color: rgba(60, 79, 140, 0.5); //标题字体颜色
+    background-color: #F7F8FC;
+    border-bottom: 0px solid #e8e8e8;
+  }
+  .ant-table-tbody > tr > td {
+    background-color: #fff;
+    border-bottom: 8px solid #F7F8FC;
+  }
+  .ant-spin-container {
+    nz-pagination {
+      ul {
+        .ant-pagination-options {
+          .ant-pagination-options-size-changer.ant-select {
+            width: 100px;
+            height: 40px;
+            line-height: 40px !important;
+            position: absolute;
+            left: 0;
+            color: #3C4F8C;
+            .ant-select-selection--single {
+              height: 40px;
+              line-height: 40px !important;
+              .ant-select-selection-selected-value {
+                height: 40px;
+                line-height: 40px !important;
+              }
             }
+          }
         }
+      }
+      .ant-pagination.mini.ant-table-pagination {
+        .ant-pagination-prev, .ant-pagination-item, .ant-pagination-next {
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          .ant-pagination-item-link, .ant-pagination-item-link:after {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+          }
+        }
+        .ant-pagination-item.ant-pagination-item-active {
+          background: linear-gradient(270deg, rgba(63, 156, 255, 1) 0%, rgba(98, 193, 246, 1) 100%);
+          border-radius: 2px;
+          a {
+            color: #fff;
+          }
+        }
+      }
     }
+  }
 }
 
 // 详情页迷你表格样式
 .detailInformatioin {
-    nz-table {
-        .ant-table-small {
+  nz-table {
+    .ant-table-small {
+      border-color: #dfdfe0;
+      border-right: 0;
+      .ant-table-content {
+        border-color: #dfdfe0;
+        .ant-table-body > table {
+          padding: 0;
+          .ant-table-thead > tr > th {
+            background-color: #f0f2f5;
+            font-weight: 700;
+            font-size: 18px;
+            padding: 2px 15px;
             border-color: #dfdfe0;
-            border-right: 0;
-            .ant-table-content {
-                border-color:  #dfdfe0;
-                .ant-table-body > table { 
-                    padding: 0;
-                    .ant-table-thead > tr > th {
-                        background-color: #f0f2f5;
-                        font-weight: 700;
-                        font-size: 14px;
-                        padding: 2px 15px;
-                        border-color: #dfdfe0;
-                    }
-                    .ant-table-tbody > tr > td {
-                        background-color: #f0f2f5;
-                        font-size: 14px;
-                        padding: 2px 15px;
-                        color: #323437;
-                        border-color: #dfdfe0;
-                    }
-                }
-            }
+          }
+          .ant-table-tbody > tr > td {
+            background-color: #f0f2f5;
+            font-size: 14px;
+            padding: 2px 15px;
+            color: #323437;
+            border-color: #dfdfe0;
+          }
         }
+      }
     }
+  }
 }
 
 // 日期选择插件背景颜色
@@ -69,14 +103,45 @@ nz-table {
 }
 // 分页每页条数选项单位置
 nz-pagination {
-    ul {
-        .ant-pagination-options {
-            .ant-pagination-options-size-changer.ant-select{
-                position: absolute;
-                left: 0;
-            }
+  ul {
+    .ant-pagination-options {
+      .ant-pagination-options-size-changer.ant-select {
+        position: absolute;
+        left: 0;
+        width: 100px;
+        height: 40px;
+        color: #3C4F8C;
+        line-height: 40px !important;
+        .ant-select-selection--single {
+          height: 40px;
+          line-height: 40px !important;
+          .ant-select-selection-selected-value {
+            height: 40px;
+            line-height: 40px !important;
+          }
         }
+      }
     }
+  }
+  .ant-pagination.mini.ant-table-pagination {
+    .ant-pagination-prev, .ant-pagination-item, .ant-pagination-next {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      .ant-pagination-item-link, .ant-pagination-item-link:after {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+    .ant-pagination-item.ant-pagination-item-active {
+      background: linear-gradient(270deg, rgba(63, 156, 255, 1) 0%, rgba(98, 193, 246, 1) 100%);
+      border-radius: 2px;
+      a {
+        color: #fff;
+      }
+    }
+  }
 }
 
 html,body,div,h1,h2,h3,h4,h5,h6,p,ul,li,a,span {
@@ -179,4 +244,78 @@ nz-layout {
 }
 .ant-calendar-picker {
     width: 234px !important;
+}
+
+//2019.01.21 add services-list.component.html
+
+nz-modal {
+  .ant-modal {
+    height: 628px;
+    background: url("assets/images/create-box.png") 100% 100%;
+  }
+  .ant-modal-content{
+    height: 628px;
+    background:transparent;
+  }
+  .ant-modal-header,ant-modal-title,.ant-modal-footer{
+    background:transparent;
+    border: none;
+  }
+  .ant-modal-title{
+    font-size:20px;
+    text-align: center;
+    color:rgba(255,255,255,1);
+    line-height:23px;
+  }
+  .ant-modal-body{
+    span{
+      font-size: 16px;
+      color:rgba(60,79,140,0.5);
+      line-height: 18px;
+      display: inline-block;
+    }
+    nz-select{
+      .ant-select-open.ant-select-selection{
+        border: #48C6EF;
+      }
+      .ant-select-selection__rendered{
+        .ant-select-selection-selected-value{
+          color:rgba(60,79,140,0.5)!important;
+        }
+      }
+    }
+  }
+  .ant-modal-footer{
+    margin: 0 auto;
+    button{
+      width: 126px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border: none;
+      outline: none;
+      margin-top: 50px;
+    }
+    button:nth-child(1){
+      background:#EEEEEE;
+      border-radius:2px;
+      margin-left: 50px;
+      margin-right: 10px;
+      span{
+        color: #9DA7C5;
+        font-size: 14px !important;
+      }
+    }
+    button:nth-child(2){
+      background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
+      box-shadow:0px 0px 2px 0px rgba(14,90,218,1);
+      border-radius:2px;
+      margin-left: 20px;
+      margin-right: 50px;
+      span{
+        color: #FFFFFF;
+        font-size: 14px !important;
+      }
+    }
+  }
 }
