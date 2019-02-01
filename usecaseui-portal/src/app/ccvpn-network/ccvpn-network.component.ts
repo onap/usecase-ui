@@ -1128,6 +1128,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 // });
             });
         // return pro;
+        console.log(params);
     }
 
     createCloudLinks(time) {
@@ -1138,7 +1139,9 @@ export class CcvpnNetworkComponent implements OnInit {
                 "link-name": this.linkName,
                 "link-type": "cross-link",
                 "operational-status": "up",
-                "relationship-list": {
+                "in-maint":"false",
+                "relationship-list": [
+                  {
                     "relationship": [
                         {
                             "related-to": "p-interface",
@@ -1154,6 +1157,7 @@ export class CcvpnNetworkComponent implements OnInit {
                         }
                     ]
                 }
+                ]
         }
 
         // var pro = new Promise(function (resolve, reject) {
