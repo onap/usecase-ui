@@ -19,11 +19,22 @@ export class CcvpnCreationComponent implements OnInit {
   @Input() namesTranslate;  //输入项参数名字转换
   @Output() closeCreate = new EventEmitter();
 
+    //tabBarStyle
+    tabBarStyle = {
+        "height": "58px",
+        "width": "528px",
+        "box-shadow": "none",
+        "margin": "0",
+        "border-radius": "4px 4px 0px 0px"
+    };
   templateParameters = {};
   getTemParameters(){ //获取模板参数
     let chosedtemplates = Object.values(this.createParams.templates);
     // console.log(this.createParams);
     console.log(chosedtemplates);  //模板id数组
+        if(this.createParams.commonParams.templateType == 'SOTN'){
+            this.tabBarStyle["width"]="351px";
+        }
     let types = ["sotnvpn","site","sdwanvpn"];
     chosedtemplates.forEach((item,index)=>{
       this.myhttp.getTemplateParameters(types[index],item)
