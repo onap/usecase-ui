@@ -25,27 +25,67 @@ hr {
     margin-bottom: 10px;
 }
 .model {
-    background-color: #fff;
-    height: 90%;
+    background-color: #F7F8FC;
+    /*height: 100%;*/
     overflow-y: auto;
+}
+.creation-model{
+    position: relative;
+}
+.top-title{ /*2019.01.22 add*/
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    display: inline-block;
 }
 .model .back {
     position: absolute;
     top: 10px;
     right: 20px;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%) !important;
+    border-radius:4px;
+    color: #fff;
+    border: none!important;
+    border-color:rgba(0,0,0,0)!important;
+}
+.top-title h3.title {
+    height: 35px;
+    width: 80%;
+    /*font: 700 20px/20px "Arial";*/
+    font-size:16px;
+    font-family:ArialMT;
+    color:#3C4F8C;
+    line-height:35px;
+    display: inline-block;
+    /*top:10px;*/
+
+}
+.model .submit{
+    position: absolute;
+    width:84px;
+    height: 35px;
+    top: 10px;
+    right: 85px;
+    color: #fff;
+    font-size: 18px;
+    background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%) !important;
+    border-radius:4px;
+    border: none!important;
+    border-color:rgba(0,0,0,0)!important;
+}
+.model .submit:hover,.model .back:hover,.model .site>button:hover,.model .sitegroup>button:hover{
+    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
+    border: none;
 }
 .model .creation {
-    position: relative;
-    width: 60%;
-    height: 100%;
+    width: 100%;
+    /*height: 60vh;*/
     overflow-y: auto;
     border-radius: 5px;
     padding: 15px;
-}
-.model .creation h3.title {
-    height: 20px;
-    font: 700 20px/20px "Arial";
-    color: #666;
 }
 .model .creation h3 {
     height: 20px;
@@ -53,52 +93,57 @@ hr {
     margin: 5px 0px;
     color: #000;
 }
-.model .creation .submit {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-}
 /* SOTN VPN */
 .model .creation .sotnvpn ul li {
     display: inline-block;
-    height: 35px;
-    width: 49.5%;
+    height: 40px;
+    width: 24.5%;
+    margin-bottom: 40px;
 }
 .model .creation .sotnvpn ul li span {
     display: inline-block;
     width: 110px;
     font: 700 14px "Arial";
-    color: #3fa8eb;
+    color: #3C4F8C;
     vertical-align: middle;
 }
 .model .creation .sotnvpn ul li input {
-    width: 165px;
+    width: 234px;
+    height: 40px;
+    border-radius:4px;
+    outline: none;
 }
 /* Site List */
 /* addsite model */
 .model .sitemodel {
     position: absolute;
-    z-index: 10;
-    left: 10px;
+    z-index: 1001;
+    left: 100px;
     top: 60px;
     background-color: #fff;
-    box-shadow: 0px 0px 20px #000;
-    width: 60%;
+    /*box-shadow: 0px 0px 20px #000;*/
+    width:650px;
+    /*width:1300px;px*/
     max-height: 90%;
-    border-radius: 5px;
+    border-radius:2px;
     overflow-y: auto;
 }
-.model .sitemodel h3 {
-    height: 30px;
-    font: 700 16px/30px "Arial";
-    border-bottom: 1px solid #aaa;
-    padding-left: 10px;
-}
-.model .sitemodel h4 {
-    height: 30px;
-    font: 700 16px/30px "Arial";
-    padding-left: 10px;
-    background-color: #ddd;
+.model .sitemodel h3,.sitegroupmodal>h3{
+    width: 92%;
+    height: 40px;
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 10px auto;
+    /*padding-left: 10px;*/
+    color: #06A7E2;
+    /*color: #ffffff;*/
+    /*background:linear-gradient(90deg,rgba(7,169,225,1) 0%,rgba(48,217,196,1) 100%);*/
+    border-bottom: 2px solid;
+    border-image: -webkit-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: -moz-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-radius:2px;
 }
 .model .sitemodel .inputs {
     padding: 10px 20px 0;
@@ -106,21 +151,46 @@ hr {
 .model .sitemodel .inputs ul li {
     display: inline-block;
     height: 35px;
+    line-height: 35px;
     width: 49.5%;
 }
 .model .sitemodel .inputs ul li span {
     display: inline-block;
-    width: 110px;
-    font: 700 14px "Arial";
-    color: #3fa8eb;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3C4F8C;
+    margin-left: 10px;
     vertical-align: middle;
+    float: left;
 }
-.model .sitemodel .inputs input {
-    width: 165px;
+.model .sitemodel .inputs input,.model .sitemodel .inputs nz-select {
+    width: 156px;
+    float: right;
+    margin-right: 30px;
 }
 .model .sitemodel .action {
-    float: left;
-    padding: 10px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.model .sitemodel .action button{
+    width: 126px;
+    height:40px;
+    background:#EEEEEE;
+    border-radius:2px;
+    border: none!important;
+    color: #9DA7C5;
+    font-size: 16px;
+    margin: 0 15px;
+}
+.model .sitemodel .action button:nth-child(2),.sitemodel h3 button{
+    background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
+    color: #fff;
+}
+.model .sitemodel .action button:nth-child(2):hover,.sitemodel h3 button:hover{
+    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
 }
 
 .model nz-table tbody td i.anticon:hover {
@@ -129,6 +199,24 @@ hr {
 }
 
 /* site table */
+.model .site>button,.model .sitegroup>button,.sitemodel h3>button{
+    width:36px;
+    height:36px;
+    color: #fff;
+    background:linear-gradient(270deg,rgba(63,156,255,1) 0%,rgba(98,193,246,1) 100%);
+    border-radius:4px;
+    border: none!important;
+}
+.sitemodel h3>button{
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+}
+.model nz-table tbody th{
+    color:rgba(60,79,140,0.5);
+    font-size: 16px;
+}
 .model .site nz-table tbody td i.anticon:hover {
     color: #3fa8eb;
     cursor: pointer;
@@ -136,49 +224,75 @@ hr {
 /* WAN Port */
 
 /* Site Group List */
-.model .sitegroup .sitegroupmodal {
+
+.model .sitegroupmodal {
     position: absolute;
-    z-index: 10;
-    left: 200px;
-    top: 300px;
-    background-color: #fff;
-    box-shadow: 0px 0px 20px #000;
-    width: 330px;
-    border-radius: 5px;
+    z-index: 1001;
+    width: 360px!important;
+    height: 376px!important;
+    left:35%;
+    top:40%;
+    margin-top: -188px;
+    margin-left: -180px;
+    background: #ffffff;
 }
-.model .sitegroup .sitegroupmodal h3 {
-    height: 30px;
-    font: 700 16px/30px "Arial";
-    border-bottom: 1px solid #aaa;
-    padding-left: 10px;
-}
-.model .sitegroup .sitegroupmodal .inputs {
-    padding: 10px 20px 0;
-}
-.model .sitegroup .sitegroupmodal span {
-    display: inline-block;
-    width: 100px;
+.sitegroupmodal .list-div{
+    width: 100%;
+    height: 32px !important;
+    line-height: 32px;
     margin-bottom: 10px;
 }
-.model .sitegroup .sitegroupmodal .inputs input {
-    width: 165px;
+.sitegroupmodal .list-div > span {
+    line-height: 32px !important;
+    color: #3C4F8C;
+    margin-left: 30px;
 }
-.model .sitegroup .sitegroupmodal .action {
-    float: right;
-    padding: 10px;
+.sitegroupmodal .list-div input, .sitegroupmodal .list-div nz-select {
+    margin-right: 50px;
 }
-
-
-/* 图 */
-.model .chart {
-    width: 40%;
-    padding: 10px;
+.sitegroupmodal .action{
+    text-align: center;
+    margin-top: 30px;
+}
+.sitegroupmodal .action button{
+    width: 126px;
+    height:40px;
+    background:#EEEEEE;
+    border-radius:2px;
+    border: none!important;
+    color: #9DA7C5;
+    font-size: 16px;
+    margin: 0 8px;
+}
+.sitegroupmodal .action button:nth-child(2){
+    background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
+    color: #fff;
+}
+.sitegroupmodal .action button:nth-child(2):hover{
+    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
+}
+.mask{
+    width: 100%;
     height: 100%;
+    position: absolute;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.65);
+    top:0;
+}
+
+
+/* chart */
+.model .chart {
+    width: 100%;
+    padding: 10px;
+    /*height: 30vh;*/
     border-left: 10px solid #f3f3f3;
+    margin-bottom: 30px;
+    box-shadow: 0px 10px 15px 2px rgba(222, 222, 222, 0.5);
 }
 .model .chart #createChart {
     width: 100%;
-    height: 80%;
+    /*height: 50vh;*/
     margin-top: 20px;
     position: relative;
 }
@@ -192,4 +306,8 @@ hr {
     max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.model .creation .sotnvpn,.model .creation .site,.model .creation .sitegroup{
+    background: #fff;
+    padding: 30px;
 }

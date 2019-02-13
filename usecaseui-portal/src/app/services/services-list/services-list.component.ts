@@ -140,6 +140,7 @@ export class ServicesListComponent implements OnInit {
   //
   createshow = false;
   createshow2 = false;
+    listDisplay = false;
   createData:Object={};
   handleOk(): void {
     // console.log('Button ok clicked!');
@@ -153,6 +154,7 @@ export class ServicesListComponent implements OnInit {
     }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
       this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4};
       this.createshow2 = true;
+            this.listDisplay = true;
     }
 
   }
@@ -461,9 +463,11 @@ export class ServicesListComponent implements OnInit {
   closeCreate(obj){
     if(!obj){
       this.createshow = false; //close
+            this.listDisplay = false; 
       return false;
     }
     this.createshow = false;
+        this.listDisplay = false;
     console.log(obj);
     let newData; //Newly created service data for the main table
     let stageNum = 0; //Different stages of progress, used to add up subsequent service progress;
@@ -584,9 +588,11 @@ export class ServicesListComponent implements OnInit {
   e2eCloseCreate(obj){
     if(!obj){
       this.createshow2 = false; //
+            this.listDisplay = false;
       return false;
     }
     this.createshow2 = false; //
+        this.listDisplay = false;
     console.log(obj);
     let newData; //
     let   createParams = "?customerId="+this.customerSelected.id +
@@ -638,9 +644,11 @@ export class ServicesListComponent implements OnInit {
   nsCloseCreate(obj){
     if(!obj){
       this.createshow2 = false; //
+            this.listDisplay = false;
       return false;
     }
     this.createshow2 = false; //
+        this.listDisplay = false;
     console.log(obj);
     let newData; //
     // step1
