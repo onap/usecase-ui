@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ export class AlarmComponent implements OnInit {
   ngOnInit() {
     this.getAlarmFormData();
     this.getSourceNames();
+
     // this.getstatuscount();
   }
 
@@ -95,8 +96,13 @@ export class AlarmComponent implements OnInit {
   // Date screening
   dateRange = [(new Date(), -30), new Date()];
   onChange(result: Date): void {
-    this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd HH:mm:ss');
-    this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd HH:mm:ss');
+    this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd');
+    this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd');
+  }
+  dateRange2 = [(new Date(), -30), new Date()];
+  onChange2(result: Date): void {
+    this.startTime = this.datePipe.transform(result[0], 'yyyy-MM-dd');
+    this.endTime = this.datePipe.transform(result[1], 'yyyy-MM-dd');
   }
 
   // total
@@ -118,9 +124,9 @@ export class AlarmComponent implements OnInit {
     this.myhttp.getAlarmFormData(this.currentPage, this.pageSize, this.sourceName, this.priority, this.startTime, this.endTime, this.vfStatus).subscribe((data) => {
       this.list = data.alarms;
     })
-    this.getAlarmChartData(event);
+    // this.getAlarmChartData(event);
   }
-  getAlarmChartData(event) {
+  getAlarmChartData() {
     let paramsObj = {
       // sourceName: this.sourceName,
       // startTime: this.startTime,
@@ -193,10 +199,13 @@ export class AlarmComponent implements OnInit {
   alarmShow = false;
   alarmChartData: Object;
   alarmChartInit: Object = {
-    height:  240,
+    height:  200,
     option: {
       legend: {
-        bottom: '0px',
+        icon: "circle", 
+        itemWidth:10,
+        itemHeight:10,
+        bottom: '-5px',
         data: ['Active', 'Fixed']
       },
       tooltip: {
@@ -208,7 +217,8 @@ export class AlarmComponent implements OnInit {
           show: true,
           start: 1,
           height: 10,
-          end: 40
+          end: 60,
+          bottom:'9%'
         }
       ],
       xAxis: {

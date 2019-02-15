@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
     limitations under the License.
 */
 .title {
-    font: 700 18px/18px "思源黑体";
-    color: #4c5e70;
-    margin-bottom: 18px; 
+    font: 500 16px/16px "ArialMT";
+    color: #3C4F8C;
+    margin: 20px;
 }
 hr {
     border: none;
@@ -26,47 +26,64 @@ hr {
 }
 .select {
     margin-bottom: 15px;
-    span {
-        display: inline-block;
-        font: 700 14px "Arial";
-        color: #4c5e70;
-    }
-    nz-dropdown {
-        vertical-align: middle;
-        :hover{
-            border-color: #147dc2;
-        }
-        button {
-            width: 165px;
-            height: 30px;
-            background-color: #eceff4;
-            text-align: left;
-            border-color: #9fa9ab;
+    width: 100%;
+    .query_criteria {
+        width: 100%;
+        .query_item {
+            width: 20%;
+            display: inline-block;
             span {
-                font-weight: 400;
                 display: inline-block;
-                width: 120px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding-top: 2px;
+                font: 500 13px "ArialMT";
+                color: #3C4F8C;
             }
-            i {
-                position: absolute;
-                top: 10px;
-                right: 10px;
+            nz-dropdown {
+                vertical-align: middle;
+                width: 55%;
+                :hover{
+                    border-color: #48C6EF;
+                }
+                button {
+                    width: 100%;
+                    height: 30px;
+                    background-color: #fff;
+                    text-align: left;
+                    border-color: #EEEEEE ;
+                    border-radius: 2px;
+                    span {
+                        font-weight: 400;
+                        color:rgba(60,79,140,0.5);
+                        display: inline-block;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        padding-top: 2px;
+                    }
+                    i {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                    }
+                }
+            }
+        }
+       
+        .query_time{
+            display: inline-block;
+            span {
+                font: 500 13px "ArialMT";
+                color: #3C4F8C;
+            }
+        }
+        .search {
+            margin-left: 0.8%;
+            height: 30px;
+            padding: 0 10px;
+            span {
+                color: #fff;
+                font-weight: 400;
             }
         }
     }
-    .search {
-        margin-left: 20px;       
-        height: 30px;
-        padding: 0 10px;
-        span {
-            color: #fff;
-            font-weight: 400;
-        }
-    }
-    
 }
 .charts{
     width: 100%;
@@ -112,8 +129,15 @@ hr {
     .chartsright {
         background-color: #fff;
         width: 68%;
+        padding: 20px;
         float: left;
         height: 100%;
+        .picker {
+            float: right; margin-right: 3%;
+        }
+        .datapicker {
+            padding-left: 700px;
+        }
     }
 }
 .content {
@@ -213,24 +237,8 @@ hr {
         }
     }
 }
-// select 框更改
-.select[_ngcontent-c3] nz-dropdown[_ngcontent-c3] button[_ngcontent-c3] {
-    width: 120px;
-    height: 30px;
-    background-color: #fff;
-    text-align: left;
-    border-color: #EEEEEE;
-    border-radius: 2px;
-}
-.select[_ngcontent-c3] nz-dropdown[_ngcontent-c3] [_ngcontent-c3]:hover {
-    border-color: #58B7F9;
-}
-.ant-progress-inner{
-    background:rgba(229,238,252,0.8) !important;
-}
-.ant-progress-bg {
-    background-color: linear-gradient(270deg,rgba(255,255,255,1) 0%,rgba(223,233,243,1) 100%) !important;
-}
+
+
 
 
 

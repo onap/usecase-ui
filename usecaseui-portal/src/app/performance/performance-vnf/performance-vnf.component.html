@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,11 +14,10 @@
     limitations under the License.
 -->
 <h3 class="title">
-    <span (click)="performanceShow()" style="cursor:pointer;">Performance VNF</span> 
-    <span (click)="graphicShow()" *ngIf="graphicshow">> Graphic list </span> 
-    <span *ngIf="detailshow">> Details </span> 
+    <span (click)="performanceShow()" style="cursor:pointer;" *ngIf="graphicshow" >Performance VNF</span> 
+    <span (click)="graphicShow()" *ngIf="graphicshow">/ Graphic list </span> 
+    <span *ngIf="detailshow">/ Details </span> 
 </h3>
-<hr>
 <div class="select" [@showHideAnimate]="state">
     <span>Source Name: </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
@@ -29,15 +28,22 @@
             </li>
         </ul>
     </nz-dropdown>
-    <button class="search" nz-button [nzType]="'primary'" (click)="getperformanceSsourceNames()"><i class="anticon anticon-search"></i><span>Search</span></button>
+    <button class="search" nz-button [nzType]="'primary'"><i class="anticon anticon-search"></i><span>Search</span></button>
+    <!-- <button class="search" nz-button [nzType]="'primary'" (click)="getperformanceSsourceNames()"><i class="anticon anticon-search"></i><span>Search</span></button> -->
 </div>
 <div class="content" [@showHideAnimate]="state">
     <div class="vnfs">
         <div class="vnf" *ngFor="let item of totalRecords">
-            <img src="../../../assets/images/VNF3.png" title="VF" (click)="graphicShow2(item)">
-            <h3>{{item}}</h3>
+            <img src="../../../assets/images/vnf01.png" title="VNF" (click)="graphicShow2(item)">
+            <!-- <h3>{{item.name}}</h3> -->
             <div class="intro"> 
-               {{item}}
+              {{item.name}}
+            </div>
+        </div>
+        <div class="vnf" *ngFor="let item of totalpnfs">
+            <img src="../../../assets/images/pnf01.png" alt="PNF" (click)="graphicShow2(item)">
+            <div class="intro"> 
+                {{item.name}}
             </div>
         </div>
         <div class="empty" *ngFor="let empty of emptys"></div>   

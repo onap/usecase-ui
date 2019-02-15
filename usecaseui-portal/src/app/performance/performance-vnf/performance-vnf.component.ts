@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -39,7 +39,29 @@ export class PerformanceVnfComponent implements OnInit {
 
   ngOnInit() {
     this.getqueryAllSourceNames();
-    this.getperformanceSsourceNames();
+    // this.getperformanceSsourceNames();
+    let _this = this;
+    setTimeout(function(){
+      _this.totalRecords = [    
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"}
+      ];
+      _this.totalpnfs = [
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"},
+        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement¡­",text:"oahgieango"}
+      ]
+      _this.emptys = new Array(12-_this.totalRecords.length);
+    },300)
   }
 
 
@@ -62,21 +84,23 @@ export class PerformanceVnfComponent implements OnInit {
   }
   // vnfs data
   totalRecords = [];
+  totalpnfs = [];
   //Fill the box
   emptys = []; 
 
-  getperformanceSsourceNames() {
-    this.myhttp.getperformanceSourceNames(this.currentPage, this.pageSize, this.sourceName).subscribe((data) => {
-      this.totalRecords = data.totalRecords;
-      this.vnfsdataTotal = data.names;
-      if (Number.isInteger(this.totalRecords.length / 5)) {
-        this.emptys = new Array(0);
-      } else {
-        this.emptys = new Array(5 - this.totalRecords.length % 5);
-      }
-    })
-  }
+  // getperformanceSsourceNames() {
+  //   this.myhttp.getperformanceSourceNames(this.currentPage, this.pageSize, this.sourceName).subscribe((data) => {
+  //     this.totalRecords = data.totalRecords;
+  //     this.vnfsdataTotal = data.names;
+  //     if (Number.isInteger(this.totalRecords.length / 5)) {
+  //       this.emptys = new Array(0);
+  //     } else {
+  //       this.emptys = new Array(5 - this.totalRecords.length % 5);
+  //     }
+  //   })
+  // }
   //Detail page title display
+  isHidden = true;
   graphicshow = false;
   detailshow = false;
   // Show hidden animation

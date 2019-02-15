@@ -242,16 +242,23 @@ nz-layout {
     font-family:"ArialMT" !important;
     font-size: 13px !important;
 }
-// 時間框
-.ant-calendar-picker .ant-input {
-    background-color: #fff;
-    border-color: #EEEEEE;
-}
-.ant-calendar-picker:hover {
-    border-color: #58B7F9;
-}
-.ant-calendar-picker {
-    width: 234px !important;
+// Time box change
+nz-range-picker {
+  nz-picker {       
+      .ant-calendar-picker .ant-input {
+          width: 260px !important;
+          height: 30px;
+          background-color: #fff !important;
+          border-color: #EEEEEE !important;
+          color: rgba(60, 79, 140, 0.5);
+      }
+      .ant-input:hover {
+          border-color: #58B7F9 !important;
+      }  
+      .ant-calendar-picker-clear:hover {
+          color: #58B7F9 !important; 
+      }       
+  }
 }
 
 //2019.01.21 add services-list.component.html

@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,21 +13,20 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> <span (click)="detailHide()" style="cursor:pointer;" *ngIf="detailshow">Alarm</span> <span *ngIf="detailshow">>
-        Details</span> </h3>
+<h3 class="title"> <span (click)="detailHide()" style="cursor:pointer; float:right;" *ngIf="detailshow">Alarm</span> <span *ngIf="detailshow">Device Alarm Details</span> </h3>
 <div style="padding:0px 20px 20px 20px;">
     <div class="charts" [@showHideAnimate]="state">
         <div class="chartsleft">
             <div class="active sctive_closed">
                 <div>Active</div>
                 <div>13,980</div>
-                <div><nz-progress [nzPercent]="90" [nzShowInfo]="false"></nz-progress></div>
+                <div><nz-progress [nzPercent]="30" [nzShowInfo]="false"></nz-progress></div>
                 <div>There are 13980 faults waiting to be solved</div>
             </div>
             <div class="closed sctive_closed">
                 <div>Closed</div>
                 <div>23,980</div>
-                <div><nz-progress [nzPercent]="30" [nzShowInfo]="false"></nz-progress></div>
+                <div><nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress></div>
                 <div>23,980 faults have been fixed</div>
             </div>
         </div>
@@ -38,39 +37,45 @@
     </div>
     <div class="select" [@showHideAnimate]="state">
         <div class="query_criteria">
-            <span>Source Name: </span>
-            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
-                        <a>{{item}}</a>
-                    </li>
-                </ul>
-            </nz-dropdown>
-            &nbsp;&nbsp;
-            <span>Priority: </span>
-            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown><span>{{prioritySelected}}</span> <i class="anticon anticon-down"></i></button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="chosePriority(item)" *ngFor="let item of priorityList">
-                        <a>{{item}}</a>
-                    </li>
-                </ul>
-            </nz-dropdown>
-            &nbsp;&nbsp;
-            <span>Status: </span>
-            <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-                <button nz-button nz-dropdown><span>{{statusSelected}}</span> <i class="anticon anticon-down"></i></button>
-                <ul nz-menu>
-                    <li nz-menu-item (click)="choseStatus(item)" *ngFor="let item of statusList">
-                        <a>{{item}}</a>
-                    </li>
-                </ul>
-            </nz-dropdown>
-            &nbsp;&nbsp;
-            <span>Report Time: </span>
-            <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime></nz-range-picker>
-
+            <div class="query_item">
+                <span>Source Name: </span>
+                <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                    <button nz-button nz-dropdown><span>{{sourceNameSelected}}</span> <i class="anticon anticon-down"></i></button>
+                    <ul nz-menu>
+                        <li nz-menu-item (click)="choseSourceName(item)" *ngFor="let item of sourceNameList">
+                            <a>{{item}}</a>
+                        </li>
+                    </ul>
+                </nz-dropdown>
+            </div>
+            <div class="query_item" style="margin-left: 1.5%;">
+                <span>Priority: </span>
+                <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                    <button nz-button nz-dropdown><span>{{prioritySelected}}</span> <i class="anticon anticon-down"></i></button>
+                    <ul nz-menu>
+                        <li nz-menu-item (click)="chosePriority(item)" *ngFor="let item of priorityList">
+                            <a>{{item}}</a>
+                        </li>
+                    </ul>
+                </nz-dropdown>
+            </div>
+            <div class="query_item" style="margin-left:-2%;">
+                <span>Status: </span>
+                <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+                    <button nz-button nz-dropdown><span>{{statusSelected}}</span> <i class="anticon anticon-down"></i></button>
+                    <ul nz-menu>
+                        <li nz-menu-item (click)="choseStatus(item)" *ngFor="let item of statusList">
+                            <a>{{item}}</a>
+                        </li>
+                    </ul>
+                </nz-dropdown>
+            </div>
+            <div class="query_time" style="margin-left: -3%;">
+                <span>Report Time: </span>
+                <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" 
+               ></nz-range-picker>
+                <!-- <nz-range-picker [nzFormat]="dateFormat"></nz-range-picker> -->
+            </div>
             <button class="search" nz-button [nzType]="'primary'" (click)="getAlarmFormData()"><i class="anticon anticon-search"></i><span>Search</span></button>
         </div>
     </div>
