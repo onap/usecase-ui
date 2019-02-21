@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -45,16 +45,14 @@ hr {
     display: inline-block;
     width: 35px;
     height: 35px;
-    background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%) !important;
+    background:#ffffff!important;
     border-radius:4px;
-    color: #fff;
-    border: none!important;
-    border-color:rgba(0,0,0,0)!important;
+    color: #D7D7D7;
+    /*border: 1px solid #ffffff;*/
 }
 .top-title h3.title {
     height: 35px;
     width: 80%;
-    /*font: 700 20px/20px "Arial";*/
     font-size:16px;
     font-family:ArialMT;
     color:#3C4F8C;
@@ -76,7 +74,7 @@ hr {
     border: none!important;
     border-color:rgba(0,0,0,0)!important;
 }
-.model .submit:hover,.model .back:hover,.model .site>button:hover,.model .sitegroup>button:hover{
+.model .submit:hover{
     background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
     border: none;
 }
@@ -118,18 +116,18 @@ hr {
 .model .sitemodel {
     position: absolute;
     z-index: 1001;
-    left: 100px;
+    left: 50px;
     top: 60px;
     background-color: #fff;
     /*box-shadow: 0px 0px 20px #000;*/
-    width:650px;
+    width:1300px;
     /*width:1300px;px*/
     max-height: 90%;
     border-radius:2px;
     overflow-y: auto;
 }
 .model .sitemodel h3,.sitegroupmodal>h3{
-    width: 92%;
+    width: 96%;
     height: 40px;
     line-height: 35px;
     font-size: 18px;
@@ -152,7 +150,8 @@ hr {
     display: inline-block;
     height: 35px;
     line-height: 35px;
-    width: 49.5%;
+    width: 24.5%;
+    margin-bottom: 20px;
 }
 .model .sitemodel .inputs ul li span {
     display: inline-block;
@@ -165,9 +164,9 @@ hr {
     float: left;
 }
 .model .sitemodel .inputs input,.model .sitemodel .inputs nz-select {
-    width: 156px;
+    width: 186px;
     float: right;
-    margin-right: 30px;
+    margin-right: 25px;
 }
 .model .sitemodel .action {
     text-align: center;
@@ -185,11 +184,11 @@ hr {
     font-size: 16px;
     margin: 0 15px;
 }
-.model .sitemodel .action button:nth-child(2),.sitemodel h3 button{
+.model .sitemodel .action button:nth-child(2){
     background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
     color: #fff;
 }
-.model .sitemodel .action button:nth-child(2):hover,.sitemodel h3 button:hover{
+.model .sitemodel .action button:nth-child(2):hover{
     background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
 }
 
@@ -199,13 +198,18 @@ hr {
 }
 
 /* site table */
-.model .site>button,.model .sitegroup>button,.sitemodel h3>button{
-    width:36px;
-    height:36px;
-    color: #fff;
-    background:linear-gradient(270deg,rgba(63,156,255,1) 0%,rgba(98,193,246,1) 100%);
+.model .site>button,.model .sitegroup>button,.sitemodel h3 button{
+    color: #D7D7D7;
+    width:32px;
+    height:32px;
+    background:#ffffff;
     border-radius:4px;
-    border: none!important;
+    border:1px solid #D7D7D7;
+}
+.model .site>button:hover,.model .sitegroup>button:hover,.sitemodel h3 button:hover,.model .back:hover{
+    background:#ffffff;
+    color: #3F9CFF;
+    border:1px solid #3F9CFF;
 }
 .sitemodel h3>button{
     float: right;
@@ -229,13 +233,14 @@ hr {
     position: absolute;
     z-index: 1001;
     width: 360px!important;
-    height: 376px!important;
+    height: 450px!important;
     left:35%;
     top:40%;
     margin-top: -188px;
     margin-left: -180px;
     background: #ffffff;
 }
+
 .sitegroupmodal .list-div{
     width: 100%;
     height: 32px !important;
@@ -286,6 +291,9 @@ hr {
     width: 100%;
     padding: 10px;
     /*height: 30vh;*/
+    color: #06A7E2;
+    font-size: 16px;
+    font-weight: 500;
     border-left: 10px solid #f3f3f3;
     margin-bottom: 30px;
     box-shadow: 0px 10px 15px 2px rgba(222, 222, 222, 0.5);

@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@
             </div>
         </li>
     </ul>
-    <div class="list" [ngClass]="{'listdisplay':listDisplay == true}">
+    <div class="list" id="services-list" [ngClass]="{'listdisplay':listDisplay == true}">
         <nz-table *ngIf="1"
                   #nzTable [nzData]="tableData"
                   nzShowSizeChanger
@@ -159,7 +159,7 @@
                     <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
                     <td>{{item.serviceDomain}}</td>
                     <td>
-                        <span [ngClass]="{'healing':item.status=='Healing'}">{{item.status || "Available"}}</span>
+                        <span [ngClass]="{'healing':data.statusClass=='1004'}">{{data.tips}}</span>
                         <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
                     </td>
                     <td>

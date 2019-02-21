@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ export class E2eCreationComponent implements OnInit {
     inputs2:[],
     vnfs:[]
   }
-  getTemParameters(){ //获取模板参数
+  getTemParameters(){ //Get template parameters
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
     this.myhttp.getTemplateParameters(type,this.createParams.template)
     .subscribe((data)=>{
@@ -104,6 +104,8 @@ export class E2eCreationComponent implements OnInit {
   service = {
     name: "",
     description: "",
+    COS:"",
+    EBS:"",
     serviceInvariantUuid: "",
     serviceUuid: "", // uuid ??
     globalSubscriberId: "",   // "customer.id",

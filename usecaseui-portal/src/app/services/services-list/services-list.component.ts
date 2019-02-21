@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -151,6 +151,7 @@ export class ServicesListComponent implements OnInit {
       let data2 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"CCVPN"},templates:{template1:this.template1,template2:this.template2,template3:this.template3}};
       this.createData = this.templateTypeSelected == "SOTN" ? data1 : data2;
       this.createshow = true;
+      this.listDisplay = true;
     }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
       this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4};
       this.createshow2 = true;
@@ -173,7 +174,7 @@ export class ServicesListComponent implements OnInit {
 
 
     getTableData(){
-    // 查询参数: customer serviceType 当前页码，每页条数
+    // Query parameter: customer serviceType Current page number, number of pages per page
     let paramsObj = {
       customerId:this.customerSelected.id,
       serviceType:this.serviceTypeSelected.name,
@@ -463,7 +464,7 @@ export class ServicesListComponent implements OnInit {
   closeCreate(obj){
     if(!obj){
       this.createshow = false; //close
-            this.listDisplay = false; 
+      this.listDisplay = false; //close
       return false;
     }
     this.createshow = false;
@@ -588,11 +589,11 @@ export class ServicesListComponent implements OnInit {
   e2eCloseCreate(obj){
     if(!obj){
       this.createshow2 = false; //
-            this.listDisplay = false;
+      this.listDisplay = false; //
       return false;
     }
     this.createshow2 = false; //
-        this.listDisplay = false;
+    this.listDisplay = false; //
     console.log(obj);
     let newData; //
     let   createParams = "?customerId="+this.customerSelected.id +
@@ -644,11 +645,11 @@ export class ServicesListComponent implements OnInit {
   nsCloseCreate(obj){
     if(!obj){
       this.createshow2 = false; //
-            this.listDisplay = false;
+      this.listDisplay = false; //
       return false;
     }
     this.createshow2 = false; //
-        this.listDisplay = false;
+    this.listDisplay = false; //
     console.log(obj);
     let newData; //
     // step1
@@ -757,15 +758,16 @@ export class ServicesListComponent implements OnInit {
         }
         let updata = (prodata)=>{
           service.rate = prodata.progress;
+                    service.tips = "Scaling" + '\xa0\xa0\xa0' +service["rate"]+"%";
           if(service["rate"] > 100){
             service["status"]=prodata.status;
-            service.tips = "Scaling" + service["status"];
+                        service.tips = "Scaling"+ '\xa0\xa0\xa0' + service["status"];
           }
         }
         this.queryProgress(obj,updata).then(()=>{
           service.rate = 100;
           service.status = "Successful";
-          service.tips = "Scaling" + service["status"];
+                    service.tips = "Scaling"+ '\xa0\xa0\xa0' + service["status"];
         })
       })
   }
@@ -788,9 +790,11 @@ export class ServicesListComponent implements OnInit {
         let operationType = "1004";
         let updata = (prodata)=>{
           service.rate = prodata.progress;
+                    service.tips = "Healing" + '\xa0\xa0\xa0' +service.rate+"%";
+                    console.log(service.rate)
           if(service["rate"] > 100){
             service["status"]=prodata.status;
-            service.tips = "Healing" + service["status"];
+                        service.tips = "Healing" + '\xa0\xa0\xa0' + service["status"];
           }
         }
         this.queryNsProgress(jobid,null,updata,operationType).then((data1)=>{
@@ -830,9 +834,10 @@ export class ServicesListComponent implements OnInit {
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
             service["rate"]=average;
+                            service.tips = "Deleting" + '\xa0\xa0\xa0' +service["rate"]+"%";
             if(service["rate"] > 100){
               service["status"]=prodata.status;
-              service.tips = "Deleting" + service["status"];
+                                service.tips = "Deleting" + '\xa0\xa0\xa0' + service["status"];
             }
           }
           querypros.push(this.queryProgress(obj,updata));
@@ -877,6 +882,7 @@ export class ServicesListComponent implements OnInit {
       }
       let updata = (prodata)=>{
         service.rate = prodata.progress;
+                service.tips = "Deleting" + '\xa0\xa0\xa0' +service.rate+"%";
         if(service["rate"] > 100){
           service["status"]=prodata.status;
           service.tips = "Deleting" +  service["status"];
@@ -893,7 +899,7 @@ export class ServicesListComponent implements OnInit {
           if(data.status == "FAILED"){
             console.log("delete ns service failed :" + JSON.stringify(data));
             service.status = "failed";
-            service.tips = "Deleting" +  service["status"];
+                        service.tips = "Deleting" +'\xa0\xa0\xa0' + service["status"];
             return false;
           }
           let hasUndone = this.tableData.some((item)=>{

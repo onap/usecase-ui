@@ -267,11 +267,13 @@ nz-range-picker {
 nz-modal {
   .ant-modal {
     height: 628px;
-    background: url("assets/images/create-box.png") 100% 100%;
+    background: url("assets/images/create-box.png") no-repeat 100% 110%;
+    overflow: auto;
   }
-  .ant-modal-content{
-    height: 628px;
+  .ant-modal-content {
+    height: 600px;
     background: transparent;
+    box-shadow:none!important;
     .ant-modal-close-x {
       width: 25px;
       height: 25px;
@@ -440,6 +442,7 @@ nz-modal {
             padding-bottom: 20px;
           }
           .ant-table-placeholder{
+            margin-top: 30px;
             background:url("./assets/images/noDatalist.png") no-repeat 50% 0;
             span{
               display: inline-block;
@@ -453,8 +456,9 @@ nz-modal {
 }
 //2019.01.29 add
 .sitemodel nz-table {
-  .ant-table-wrapper {
-
+  .ant-table-wrapper{
+    width: 96%!important;
+    margin: 0 auto;
   }
   .ant-table-small {
     border: none;
@@ -469,21 +473,25 @@ nz-modal {
             color:rgba(60,79,140,0.5);
             th{
                 border: none;
-                color:rgba(60,79,140,0.5);
+              color:rgba(60,79,140,0.5);
                 font-size: 16px;
                 font-weight: 500;
+              padding: 8px 0!important;
             }
           }
         }
         .ant-table-tbody > tr > td{
           border-top: 1px solid #e8e8e8;
           border-bottom: 2px solid #F7F8FC;
-          padding-top: 10px;
-          padding-bottom: 10px;
+          padding: 10px 0!important;
+          nz-select,input{
+            width: 90%!important;
+          }
         }
       }
     }
     .ant-table-placeholder{
+      margin-top: 30px;
       font-size: 16px;
       background:url("./assets/images/noDatalist.png") no-repeat 50% 0;
       span {
@@ -518,6 +526,7 @@ nz-modal {
       }
     }
     .ant-table-placeholder{
+      margin-top: 30px;
       font-size: 16px;
       background:url("./assets/images/noDatalist.png") no-repeat 50% 0;
       span {
@@ -526,7 +535,6 @@ nz-modal {
       }
     }
   }
-
 }
 //2019.02.01 gong add
 .list#services-list nz-table{
@@ -550,6 +558,7 @@ nz-modal {
           border-bottom: 1px solid #e8e8e8;
         }
         .ant-table-placeholder{
+          margin-top: 30px;
           background:url("assets/images/noDatalist.png") no-repeat 50% 0;
           border: none;
           span{

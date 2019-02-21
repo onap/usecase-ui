@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MyhttpService } from '../myhttp.service';
 
@@ -16,7 +31,7 @@ export class CcvpnCreationComponent implements OnInit {
   }
 
   @Input() createParams;
-  @Input() namesTranslate;  //输入项参数名字转换
+  @Input() namesTranslate;  //Input parameter name conversion
   @Output() closeCreate = new EventEmitter();
 
     //tabBarStyle
@@ -28,10 +43,10 @@ export class CcvpnCreationComponent implements OnInit {
         "border-radius": "4px 4px 0px 0px"
     };
   templateParameters = {};
-  getTemParameters(){ //获取模板参数
+  getTemParameters(){ //Get template parameters
     let chosedtemplates = Object.values(this.createParams.templates);
     // console.log(this.createParams);
-    console.log(chosedtemplates);  //模板id数组
+    console.log(chosedtemplates);  //Template id array
         if(this.createParams.commonParams.templateType == 'SOTN'){
             this.tabBarStyle["width"]="351px";
         }
@@ -41,11 +56,11 @@ export class CcvpnCreationComponent implements OnInit {
         .subscribe((data)=>{
           if(index === 0){
             this.templateParameters["sotnvpn"] = data;
-            this.sotnNames = data.inputs.map((item)=>{return item.name}); //云的真实名字
+            this.sotnNames = data.inputs.map((item)=>{return item.name}); //The real name of the cloud
           }else if(index === 1){
             this.templateParameters["site"] = data;
             let wanportnames = {};
-            this.siteNames = data.inputs.map((item)=>{return item.name}); //site中所有真实名字,没有分组，放在一起了
+            this.siteNames = data.inputs.map((item)=>{return item.name}); //All the real names in the site, no grouping, put together
             this.siteNames.forEach((item)=>{
               if(item.includes("_device_")){
                 this.siteCpeNames.push(item);
@@ -58,7 +73,7 @@ export class CcvpnCreationComponent implements OnInit {
             })
             this.siteWanNames = Object.values(wanportnames);
             this.siteWanNames.forEach((item)=>{
-              this.siteWanData.push(this.siteWanParams);  //根据wanport组添加表格中
+              this.siteWanData.push(this.siteWanParams);  //Add a table according to the wanport group
             })
             // console.log(this.sotnNames)
             // console.log(this.siteNames)
@@ -68,7 +83,7 @@ export class CcvpnCreationComponent implements OnInit {
             // console.log(this.siteWanData)
           }else if(index === 2){
             this.templateParameters["sdwan"] = data;
-            this.siteGroupNames = data.inputs.map((item)=>{return item.name}); //sdwanvpn真实名字
+            this.siteGroupNames = data.inputs.map((item)=>{return item.name}); //sdwanvpn Real name
             // console.log(this.siteGroupNames);
           }
          
@@ -78,7 +93,7 @@ export class CcvpnCreationComponent implements OnInit {
     })
 
   }
-  // SOTN VPN Info 输入参数
+  // SOTN VPN Info Input parameters
   sotnInfo = {
     name:null,description:null,
     startTime:null,endTime:null,
@@ -88,7 +103,7 @@ export class CcvpnCreationComponent implements OnInit {
     CBS:null,EBS:null,
     colorAware:false,couplingFlag:false
   }
-  sotnNames = [] //真实名字
+  sotnNames = [] //Real name
 
   startTimeChange(event){
     console.log(event)
@@ -102,10 +117,10 @@ export class CcvpnCreationComponent implements OnInit {
   siteTableData = [
 
   ]
-  siteModeAddress = [];//site地址，筛选框数据,本地配置文件
-  siteNames = [];//site中所有真实名字，未分组，模拟真实请求情况；
+  siteModeAddress = [];//site Address, filter box data, local configuration file
+  siteNames = [];//All real names in the site, not grouped, simulating real request conditions；
 
-  siteBaseData = {  //模态框数据，输入参数，绑定数据
+  siteBaseData = {  //Modal box data, input parameters, binding data
     name:null,
     description:null,
     type:null,
@@ -113,17 +128,17 @@ export class CcvpnCreationComponent implements OnInit {
     postcode:null,
     address:null,
     vlan:null,
-    sotnVpnName:null, //SOTN VPN Info中name
-    controlPoint:null, //site group里面site的Role设置为spoke时，传递site group里面Role设置为hub的site name；否则传递空白
-    groupRole:null, //site group的role
-    groupName:null, //site group的name
-    emails:null,//  不显示传空
+    sotnVpnName:null, //SOTN VPN Info name
+    controlPoint:null, //When the Role of the site in the site group is set to spoke, pass the site name to the site name of the hub. Otherwise, pass the blank.
+    groupRole:null, //site group role
+    groupName:null, //site group name
+    emails:null,//  Do not show air
     latitude:null,//
     longitude:null,//
     clientSignal:null//
   };
-  siteBaseNames = [] //真实名字
-  // cpe 编辑
+  siteBaseNames = [] //Real name
+  // cpe edit
   siteCpeData = {
     device_name:null,
     device_version:null,
@@ -133,10 +148,10 @@ export class CcvpnCreationComponent implements OnInit {
     device_vendor:null,
     device_type:null
   };
-  siteCpeNames = [] //真实名字
-  // Wan Port 编辑
-  siteWanData = [];  //wan port 表格绑定数据
-  siteWanParams = {  //每一行数据详细参数，模态框
+  siteCpeNames = [] //Real name
+  // Wan Port edit
+  siteWanData = [];  //wan port Table binding data
+  siteWanParams = {  //Detailed parameters of each line of data, modal box
     sitewanport_name:null,
     sitewanport_deviceName:null,
     sitewanport_description:null,
@@ -148,31 +163,40 @@ export class CcvpnCreationComponent implements OnInit {
     sitewanport_inputBandwidth:null,
     sitewanport_outputBandwidth:null
   };
-  siteWanNames = [] //真实名字
-  wanPortModal = false;  //模态框显示隐藏
-  wanPortEditNum = 0;//编辑哪行
-  editWanPort(num){
-    this.wanPortModal = true;
-    this.wanPortEditNum = num;
-    this.siteWanParams = Object.assign({},this.siteWanData[num-1]);
-  }
-  wanPortModal_Ok(){
-    let inputsData = Object.assign({},this.siteWanParams); //新建对象，断开原引用，因为后面要清空模态框
-    inputsData.sitewanport_deviceName = this.siteCpeData.device_name;
-    this.siteWanData[this.wanPortEditNum-1] = inputsData; 
-    this.siteWanData = [...this.siteWanData]; //表格刷新
-    Object.keys(this.siteWanParams).forEach((item)=>{ //清空模态框
-      this.siteWanParams[item] = null;
-    })
-    this.wanPortModal = false;
-    console.log(this.siteWanData)
-  }
+  siteWanNames = [] //Real name
+  wanPortModal = false;  //Modal box display hidden
+  wanPortEditNum = 0;//Which line to edit
+    editWanPort(num) {
+        // if(){
+        console.log(this)
+        console.log(num)
+        if (!this.wanPortModal) {
+            console.log(11111)
+            console.log(this.wanPortModal)
+            this.wanPortModal = true;
+            this.wanPortEditNum = num;
+            this.siteWanParams = Object.assign({}, this.siteWanData[num - 1]);
+        } else {
+            console.log(22222)
+            let inputsData = Object.assign({}, this.siteWanParams); //Create a new object, disconnect the original reference, because you want to empty the modal box later
+            inputsData.sitewanport_deviceName = this.siteCpeData.device_name;
+            this.siteWanData[this.wanPortEditNum - 1] = inputsData;
+            this.siteWanData = [...this.siteWanData]; //Table refresh
+            Object.keys(this.siteWanParams).forEach((item) => { //Clear modal box
+                this.siteWanParams[item] = null;
+            })
+            this.wanPortModal = false;
+            console.log(this.siteWanData)
+        }
+        // }
+
+    }
   wanPortModal_Cancel(){
     this.wanPortModal = false;
   }
 
 
-  // 获取site地址，手动文件
+  // Get the site address, manual file
   getSiteAddressList(){
     this.myhttp.getSiteAddress()
       .subscribe((data)=>{
@@ -187,11 +211,11 @@ export class CcvpnCreationComponent implements OnInit {
     this.siteModelShow = true;
     this.isEdit = 0;
   }
-  // addsite模态框按钮
-  isEdit = 0; //编辑序号，No值，0表示增加
+  // addsite Modal box button
+  isEdit = 0; //Edit serial number, No value, 0 means increase
   addsite_OK(){
     this.siteBaseData.sotnVpnName = this.sotnInfo.name;
-    // let inputsData = Object.assign({},this.siteBaseData,this.siteCpeData,this.siteWanData); //新建对象，断开原引用，因为后面要清空模态框
+    // let inputsData = Object.assign({},this.siteBaseData,this.siteCpeData,this.siteWanData); //Create a new object, disconnect the original reference, because you want to empty the modal box later
     let inputs = {};
     inputs["baseData"] = Object.assign({},this.siteBaseData);
     inputs["cpeData"] = Object.assign({},this.siteCpeData);
@@ -200,23 +224,23 @@ export class CcvpnCreationComponent implements OnInit {
     })
     console.log(inputs);
     if(this.isEdit){
-      // 编辑状态不增加
+      // Edit status does not increase
       this.siteTableData[this.isEdit-1] = inputs; 
-      this.siteTableData = [...this.siteTableData]; //表格刷新
-      this.siteGroupTableData.forEach((item)=>{  //site修改名字后，更新组中sites值
+      this.siteTableData = [...this.siteTableData]; //Table refresh
+      this.siteGroupTableData.forEach((item)=>{  //After the site changes the name, update the sites value in the group.
         if(item.sites.split(";").filter((d)=>{return d!=""}).includes(this.lastSiteName)){
           item.sites = item.sites.replace(this.lastSiteName,this.siteBaseData.name);
         }
       })
     }else{
-      // this.siteTableData.push(inputs);//使用 push 或者 splice 修改 nzData 失效 当加上[nzFrontPagination]="false" 时，生效
+      // this.siteTableData.push(inputs);//use push or splice modify nzData Invalid When added [nzFrontPagination]="false" ，Effective
       this.siteTableData = [...this.siteTableData,inputs];
     }
     
-    Object.keys(this.siteBaseData).forEach((item)=>{ //清空模态框
+    Object.keys(this.siteBaseData).forEach((item)=>{ //Clear modal box
       this.siteBaseData[item] = null;
     })
-    Object.keys(this.siteCpeData).forEach((item)=>{ //清空模态框
+    Object.keys(this.siteCpeData).forEach((item)=>{ //Clear modal box
       this.siteCpeData[item] = null;
     })
     this.siteWanData.forEach((item)=>{
@@ -230,10 +254,10 @@ export class CcvpnCreationComponent implements OnInit {
     this.siteModelShow = false;
   }
   addsite_cancel(){
-    Object.keys(this.siteBaseData).forEach((item)=>{ //清空模态框
+    Object.keys(this.siteBaseData).forEach((item)=>{ //Clear modal box
       this.siteBaseData[item] = null;
     })
-    Object.keys(this.siteCpeData).forEach((item)=>{ //清空模态框
+    Object.keys(this.siteCpeData).forEach((item)=>{ //Clear modal box
       this.siteCpeData[item] = null;
     })
     this.siteWanData.forEach((item)=>{
@@ -244,8 +268,8 @@ export class CcvpnCreationComponent implements OnInit {
     this.lastSiteName = null;
     this.siteModelShow = false;
   }
-  lastSiteName = null; //当site修改之后，若修改了名字，则需要更新group中sites的名字
-  editSite(num){ //编辑修改选中site信息
+  lastSiteName = null; //After the site is modified, if the name is changed, the name of the sites in the group needs to be updated.
+  editSite(num){ //Edit and modify the selected site information
     this.siteModelShow = true;
     this.isEdit=num;
     this.siteBaseData = Object.assign({},this.siteTableData[num-1].baseData);
@@ -254,7 +278,7 @@ export class CcvpnCreationComponent implements OnInit {
     this.lastSiteName = this.siteBaseData.name;
   }
   deleteSite(num){
-    let deleteSiteName = this.siteTableData[num-1].baseData.name;   //删除的site中name
+    let deleteSiteName = this.siteTableData[num-1].baseData.name;   //Deleted site name
     let groupSites = [];
     this.siteGroupTableData.forEach((item)=>{ groupSites.push(...item.sites.split(";").filter((d)=>{return d!=""})) });
     if(groupSites.includes(deleteSiteName)){
@@ -262,15 +286,15 @@ export class CcvpnCreationComponent implements OnInit {
       return false;
     }
     this.siteTableData = this.siteTableData.filter((d,i) => i !== num-1);
-    // this.siteTableData.splice(num-1,1); //模板中加上[nzFrontPagination]="false" 时，生效
+    // this.siteTableData.splice(num-1,1); //Add in template [nzFrontPagination]="false" ，Effective
     this.drawImage(this.siteTableData);
 
     // let groupIndex = this.siteGroupTableData.findIndex((item)=>{return item.sites.split(";").includes(deleteSiteName)});
     // console.log(groupIndex)
-    // this.deleteGroupSite(groupIndex + 1); //删除时首行编号为1
+    // this.deleteGroupSite(groupIndex + 1); //The first line number is 1 when deleting
   }
 
-  // site节点图形描绘
+  // site Node graphic depiction
   lines=[];
   siteImage=[];
   drawImage(sitelist){
@@ -319,9 +343,9 @@ export class CcvpnCreationComponent implements OnInit {
   }
   siteGroupModelShow = false;
   siteGroupModalTableData = [];// ==> siteTableData?
-  siteGroupNames=[];  //sdwanvpn真实名字
+  siteGroupNames=[];  //sdwanvpn Real name
 
-  // 勾选框
+  // Check box
   allChecked = false;
   indeterminate = false;
   groupModal_checkAll(value){
@@ -342,7 +366,7 @@ export class CcvpnCreationComponent implements OnInit {
   addSiteGroup(){
     this.isGroupEdit = 0;
     this.siteGroupModelShow = true;
-    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//循环组中是否已经选用了某个site，若存在 则新组不可选
+    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//Whether a site has been selected in the loop group, if it exists, the new group is not optional.
     // console.log(checkedSite);
     this.siteTableData.forEach((item,index)=>{ 
       if(checkedSite.includes(item.baseData.name)){ 
@@ -352,22 +376,22 @@ export class CcvpnCreationComponent implements OnInit {
       }    
     })
   }
-  // addsiteGroup模态框按钮
-  addsitegroup_OK(){  //将模态框中的值赋给表中对应项--->将选中的site中的groupRole、groupName、controlPoint更新--->
-                      //拷贝数据判断是增加或编辑，更新表中数据---> 清除模态框中数据,便于下次添加，关闭模态框
+  // addsiteGroup Modal box button
+  addsitegroup_OK(){  //Assign the value in the modal box to the corresponding item in the table ---> update the groupRole, groupName, and controlPoint in the selected site --->
+                      //Copy data judgment is to add or edit, update the data in the table ---> Clear the data in the modal box, easy to add next time, close the modal box
     console.log(this.siteGroupModalTableData);
-    this.siteGroupModelData.sites="";  //置空组成员名字，写成""方便+=  ,若为null +=时会转成 "null"
+    this.siteGroupModelData.sites="";  //Empty group member name，"" Convenience +=  ,if it's null += Will turn into "null"
     this.siteGroupModelData.role="";  //
     let site_controlPoint = this.siteGroupModalTableData.map((item)=>{ if(item.checked&&item.role=="hub"){ return item.siteName}}).filter((item)=>{return item!=undefined});  
     // console.log(site_controlPoint);
-    this.siteGroupModalTableData.forEach((item,index)=>{  //模态框中site顺序和 表中site顺序一致
+    this.siteGroupModalTableData.forEach((item,index)=>{  //The order of the sites in the modal box is the same as the order of the sites in the table.
       if(item.checked){
         this.siteGroupModelData.sites += item.siteName+";";
         this.siteGroupModelData.role += item.role+";";
         this.siteTableData[index].baseData.groupRole = item.role; //site group的role
         this.siteTableData[index].baseData.groupName = this.siteGroupModelData.name; //site group的name
         if(item.role == "spoke"){
-          this.siteTableData[index].baseData.controlPoint = site_controlPoint.join(); //site group里面site的Role设置为spoke时，传递site group里面Role设置为hub的site name；否则传递空白
+          this.siteTableData[index].baseData.controlPoint = site_controlPoint.join(); //When site group site Role it's spoke，Pass the site group inside the Role set to the hub's site name; otherwise pass the blank
         }
       }
     })
@@ -375,11 +399,11 @@ export class CcvpnCreationComponent implements OnInit {
     let inputsData = {};
     Object.assign(inputsData,this.siteGroupModelData);
     if(this.isGroupEdit){
-      // 编辑状态不增加
+      // Edit status does not increase
       this.siteGroupTableData[this.isGroupEdit-1] = inputsData; 
-      this.siteGroupTableData = [...this.siteGroupTableData]; //表格刷新
+      this.siteGroupTableData = [...this.siteGroupTableData]; //Table refresh
     }else{
-      // this.siteTableData.push(inputsData);//使用 push 或者 splice 修改 nzData 失效
+      // this.siteTableData.push(inputsData);//use push or splice modify nzData Invalid
       this.siteGroupTableData = [...this.siteGroupTableData,inputsData];
     }
 
@@ -393,18 +417,18 @@ export class CcvpnCreationComponent implements OnInit {
     this.siteGroupModalTableData = [];
     this.siteGroupModelShow = false;
   }
-  isGroupEdit = 0; //编辑序号，No值，0表示增加
-  editGroupSite(num){ //将当前编辑的行数据填入模态框--->获取当前编辑项sites名--->判断更新模态框中site项状态
+  isGroupEdit = 0; //Edit serial number, No value, 0 means increase
+  editGroupSite(num){ //Fill the currently edited row data into the modal box--->Get the current edit item sites name--->Determine the status of the site item in the updated modal box
     this.siteGroupModelShow = true;
     this.isGroupEdit=num;
     this.siteGroupModelData = Object.assign({},this.siteGroupTableData[num-1]);
     console.log(this.siteGroupModelData)
-    let editSites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //获取组中的site名
+    let editSites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //Get the site name in the group
     // console.log(editSites);
-    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//循环组中是否已经选用了某个site，若存在 则新组不可选
+    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//Whether a site has been selected in the loop group，If present, the new group is not optional
     // console.log(checkedSite);
     this.siteTableData.forEach((item,index)=>{ 
-      if(editSites.includes(item.baseData.name)){//先将编辑组中的site 中这三个值还原，否则减少某个site时 不会更新不选中的
+      if(editSites.includes(item.baseData.name)){//First restore these three values in the site in the edit group, otherwise it will not be updated when the site is reduced.
         item.baseData.groupRole = null; //site group的role
         item.baseData.groupName = null; //site group的name
         item.baseData.controlPoint = null;
@@ -419,12 +443,12 @@ export class CcvpnCreationComponent implements OnInit {
       
   }
   deleteGroupSite(num){
-    let deleteSiteGroupsites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //删除的site中name
+    let deleteSiteGroupsites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //delete site name
     this.siteGroupTableData = this.siteGroupTableData.filter((d,i) => i !== num-1);
     this.siteTableData.forEach((item,index)=>{
       if(deleteSiteGroupsites.includes(item.baseData.name)){ 
-        item.baseData.groupRole = null; //site group的role
-        item.baseData.groupName = null; //site group的name
+        item.baseData.groupRole = null; //site group role
+        item.baseData.groupName = null; //site group name
         item.baseData.controlPoint = null; 
       }
     })
@@ -432,12 +456,12 @@ export class CcvpnCreationComponent implements OnInit {
 
 
 
-  // 提交创建数据
+  // Submit creation data
   submit(){   
     let globalCustomerId = this.createParams.commonParams.customer.id;
     let globalServiceType = this.createParams.commonParams.serviceType.name;
     let sotnInputs = {}; 
-    // 由于请求模板不一样，所以外层需要循环请求回来的真实名字，内层循环本地参数，将当前值赋给真实名字
+    // Since the request template is different, the outer layer needs to loop back the real name of the request, the inner loop loops the local parameter, and assigns the current value to the real name.
     this.sotnNames.forEach((name)=>{
       for(let key in this.sotnInfo){
         let nameParts = this.namesTranslate.sotnNameTranslate[key].split("_");
