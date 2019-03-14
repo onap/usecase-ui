@@ -50,6 +50,7 @@ import { HomesService } from './homes.service';
 import { onboardService } from './onboard.service';
 import { networkHttpservice } from './networkHttpservice.service';
 import { PerformanceDetailsComponent } from './components/performance-details/performance-details.component';
+import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component';
 
 @NgModule({
   providers   : [ 
@@ -83,6 +84,7 @@ import { PerformanceDetailsComponent } from './components/performance-details/pe
     CcvpnNetworkComponent,
     CcvpnDetailComponent,
     CcvpnCreationComponent,
+    E2eDetailComponent,
     PerformanceDetailsComponent,
   ],
   imports: [

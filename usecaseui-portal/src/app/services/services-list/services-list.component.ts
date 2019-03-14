@@ -419,6 +419,7 @@ export class ServicesListComponent implements OnInit {
 
   // show detail
   detailshow = false;
+    detailshow2 = false;
   detailData:Object;
   serviceDetail(service){
     service["siteSer"]=[];
@@ -433,7 +434,12 @@ export class ServicesListComponent implements OnInit {
         service.sdwanSer.push(item);
       }
     })
-    this.detailshow = true;
+        if(service["serviceDomain"]=='CCVPN' ||service["serviceDomain"]=='SOTN' ){
+            this.detailshow = true;
+        }else if(service["serviceDomain"]=='E2E Service' || service["serviceDomain"]=='Network Service'){
+            this.detailshow2 = true;
+        }
+        this.listDisplay = true;
     this.detailData = service;
     console.log(service);
   }

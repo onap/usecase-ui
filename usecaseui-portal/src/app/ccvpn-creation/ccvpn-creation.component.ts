@@ -13,7 +13,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import * as d3 from 'd3';
+import * as $ from 'jquery';
 import { MyhttpService } from '../myhttp.service';
 
 @Component({
@@ -294,25 +296,134 @@ export class CcvpnCreationComponent implements OnInit {
     // this.deleteGroupSite(groupIndex + 1); //The first line number is 1 when deleting
   }
 
-  // site Node graphic depiction
-  lines=[];
-  siteImage=[];
-  drawImage(sitelist){
-    let cx = 200;
-    let cy = 200;
-    let r = 180;
-    let startAngle = -210 * (Math.PI/180);
-    let step = sitelist.length > 1 ? 120/(sitelist.length-1) * (Math.PI/180) : 1;
+// Site node graphic depiction
+    lines = [];
+    siteImage = [];
+    tpImage = [];
+    imgmap = {
+        '1': './assets/images/domain1.png',
+        '2': './assets/images/site.png'
+    };
 
-    this.lines = sitelist.map((item,index)=>{
-      let x = cx + Math.cos(startAngle - step*index)*r;
-      let y = cy + Math.sin(startAngle - step*index)*r;
-      return {img:"line",site:item.baseData.name,x1:cx,y1:cy,x2:x,y2:y}
-    })
-    this.siteImage = this.lines.map((item)=>{
-      return {img:"site",name:item.site,x:item.x2 - 40,y:item.y2 - 40}
-    })
-  }
+    drawImage(sitelist) {
+        let cx = 550;
+        let cy = 0;
+        let innerx1 = 720;
+        let innery1 = 80;
+        let ox = 950;
+        let oy = 0;
+        let innerx2 = 780;
+        let innery2 = 60;
+        let lateX1 = Math.random() * 30 + 55;
+        let lateY1 = Math.random() * -20 + 10;
+        let lateX2 = 15;
+        let lateY2 = 20;
+        // let step = sitelist.length > 1 ?sitelist.length: 1;
+
+        this.lines = sitelist.map((item, index) => {
+            let step = index + 1;
+            let x = cx;
+            let y = cy;
+            let innerX = innerx1;
+            let innerY = innery1;
+            if (step % 2 != 0) {
+                x = cx;
+                y = cy;
+                innerX = innerx1;
+                innerY = innery1;
+                if (step == 1) {
+                    innerX = innerx1;
+                    innerY = innery1;
+                } else {
+                    x = cx - lateX1 * Math.ceil((step / 2)) >= 0 ? cx - lateX1 * Math.ceil((step / 2)) : -(cx - lateX1 * Math.ceil((step / 2)));
+                    y = cy + lateY1 * step >= 0 ? cy + lateY1 * step : -(cy + lateY1 * step);
+                    innerX = this.lines[step - 3].innerX - lateX2;
+                    innerY = this.lines[step - 3].innerY + lateY2;
+                }
+            } else {
+                x = ox;
+                y = oy;
+                innerX = innerx2;
+                innerY = innery2;
+                if (step / 2 == 1) {
+                    innerX = innerx2;
+                    innerY = innery2;
+                } else {
+                    x = ox + lateX1 * (step / 2) >= 0 ? ox + lateX1 * (step / 2) : -(ox + lateX1 * (step / 2));
+                    y = oy + lateY1 * step >= 0 ? oy + lateY1 * step : -(oy + lateY1 * step);
+                    innerX = this.lines[step - 3].innerX + lateX2;
+                    innerY = this.lines[step - 3].innerY + lateY2;
+                }
+            }
+            return {
+                img: "line",
+                site: item.baseData.name,
+                x1: x + 25,
+                y1: y + 25,
+                x2: innerX,
+                y2: innerY,
+                innerX: innerX,
+                innerY: innerY
+            }
+        });
+
+        console.log(this.lines)
+        this.render(this.imgmap, this.lines);
+    }
+
+    render(imgmap, lines) {
+
+        //enter
+        var svg = d3.select("svg"),
+            _g_lines = svg.selectAll('line.line')
+                .data(lines)
+                .enter()
+                .append('line')
+                .style('stroke', '#3fa8eb'
+                )
+                .style('stroke-width', 2)
+                .attr('class', 'line')
+                .attr("x1", function (d) {
+                    return d.x1;
+                })
+                .attr("y1", function (d) {
+                    return d.y1;
+                })
+                .attr("x2", function (d) {
+                    return d.x2;
+                })
+                .attr("y2", function (d) {
+                    return d.y2;
+                }),
+            _g_site = svg.selectAll('g.g-site')
+                .data(lines)
+                .enter()
+                .append('g')
+                .style('cursor', 'pointer')
+                .attr('class', 'g-site');
+        _g_site.append('image')
+            .style("width", "50px")
+            .attr('xlink:href', function (d) {
+                return imgmap[2];
+            })
+            .attr("x", function (d) {
+                return d.x1 - 25;
+            })
+            .attr("y", function (d) {
+                return d.y1 - 25;
+            })
+
+        //quit
+        svg.selectAll("g.g-site")
+            .data(lines)
+            .exit() //Select a picture without bound data
+            .remove();
+        svg.selectAll("line.line")
+            .data(lines)
+            .exit() //Select the connection without binding data
+            .remove();
+
+    }
 
   siteName=null;
   siteNameStyle = {

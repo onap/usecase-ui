@@ -28,26 +28,39 @@
     </div>
     <!-- chart -->
     <div class="chart">
-        Create Service
+       <span style="padding: 25px;display: inline-block;">
+            Create Service
         {{createParams.commonParams.templateType}}
+       </span>
         <div id="createChart">
             <svg width="100%" height="100%">
-                <line *ngFor="let item of lines" x1=50% y1="45%" [attr.x2]="item.x2" y2="72%"
-                      style="stroke:#3fa8eb;stroke-width:2"/>
-                <image xlink:href="./assets/images/cloud-site.png"
-                       x="25%" y="30%" width="50%"/>
-                <!-- <text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666">{{createParams.commonParams.templateType}}</text> -->
-                <text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666"></text>
-                <g *ngFor="let item of siteImage"
-                   (mouseover)="showSite($event,item)"
-                   (mousemove)="moveSite($event,item)"
-                   (mouseout)="hideSite($event)">
-                    <image
-                            xlink:href="./assets/images/site.png"
-                            [attr.x]="item.x" y="65%" width="80px"/>
-                    <text [attr.dx]="item.x + 25" dy="72%" style="font:700 16px 'Arial';fill:#666">{{ item.name }}
-                    </text>
-                </g>
+                <image id="domain"  xlink:href="../../assets/images/domain1.png" style="width: 15%"
+                       x="40%" y="0" />
+                <!--<line *ngFor="let item of lines" [attr.x1]="item.x1" [attr.y1]="item.y1" [attr.x2]="item.x2" [attr.y2]="item.y2"-->
+                      <!--style="stroke:#3fa8eb;stroke-width:2"/>-->
+
+                <!--&lt;!&ndash; <text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666">{{createParams.commonParams.templateType}}</text> &ndash;&gt;-->
+                <!--&lt;!&ndash;<text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666"></text>&ndash;&gt;-->
+                <!--<g *ngFor="let item of siteImage"-->
+                   <!--(mouseover)="showSite($event,item)"-->
+                   <!--(mousemove)="moveSite($event,item)"-->
+                   <!--(mouseout)="hideSite($event)">-->
+                    <!--<image-->
+                            <!--xlink:href="../../assets/images/site.png"-->
+                            <!--[attr.x]="item.x" [attr.y]="item.y" width="50px"/>-->
+                    <!--&lt;!&ndash;<text [attr.dx]="item.x + 25" dy="72%" style="font:700 16px 'Arial';fill:#666">{{ item.name }}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</text>&ndash;&gt;-->
+                <!--</g>-->
+                <!--<g *ngFor="let item of siteImage"-->
+                   <!--(mouseover)="showSite($event,item)"-->
+                   <!--(mousemove)="moveSite($event,item)"-->
+                   <!--(mouseout)="hideSite($event)">-->
+                    <!--<image-->
+                            <!--xlink:href="../../assets/images/site.png"-->
+                            <!--[attr.x]="item.x" [attr.y]="item.y" width="50px"/>-->
+                    <!--&lt;!&ndash;<text [attr.dx]="item.x + 25" dy="72%" style="font:700 16px 'Arial';fill:#666">{{ item.name }}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</text>&ndash;&gt;-->
+                <!--</g>-->
 
             </svg>
             <!-- <p class="siteNameP" [ngStyle]="siteNameStyle">{{ siteName }}</p> -->
@@ -81,9 +94,6 @@
                                 <nz-option nzValue="standard" nzLabel="standard"></nz-option>
                             </nz-select>
                         </li>
-                        <li><span style="width: 130px">Reroute Enabled:</span>
-                            <nz-switch [(ngModel)]="sotnInfo.reroute"></nz-switch>
-                        </li>
                         <li><span>Service Level Specification:</span> <input nz-input [(ngModel)]="sotnInfo.SLS"></li>
                         <li><span>Dual Link:</span>
                             <nz-select style="width: 234px;height: 40px" [(ngModel)]="sotnInfo.dualLink" nzAllowClear
@@ -97,6 +107,9 @@
                         <li><span>EIR:</span> <input nz-input [(ngModel)]="sotnInfo.EIR"></li>
                         <li><span>CBS:</span> <input nz-input [(ngModel)]="sotnInfo.CBS"></li>
                         <li><span>EBS:</span> <input nz-input [(ngModel)]="sotnInfo.EBS"></li>
+                        <li><span style="width: 130px">Reroute Enabled:</span>
+                            <nz-switch [(ngModel)]="sotnInfo.reroute"></nz-switch>
+                        </li>
                         <li><span>Color Aware:</span>
                             <nz-switch [(ngModel)]="sotnInfo.colorAware"></nz-switch>
                         </li>
