@@ -36,4 +36,4 @@ app.config(function ($routeProvider) {
 });
 
 // 请求数据地址
-var global_url = "/api/usecaseui-server/v1";
+var global_url = "http://msb-iag:80/api/usecaseui-server/v1/";
