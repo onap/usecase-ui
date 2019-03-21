@@ -77,12 +77,26 @@
             </div>
         </div>
 
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;">Orchestrator: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
+                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+        </div>
         <div *ngIf="templateTypeSelected == 'E2E Service'||templateTypeSelected == 'Network Service'">
             <div class="select-list">
                 <span style="display:inline-block;width:70px;">TEMPLATE: </span>
                 <nz-select style="width: 176px;float: right;" [(ngModel)]="template4" nzAllowClear>
                     <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
                 </nz-select>
+            </div>
+        </div>
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="check-box" style="margin:30px; height: 50px">
+                <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox" [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
+                <label class="label" style="font-size: 20px; color: rgb(60,79,140,.5)">Sol005</label>
             </div>
         </div>
     </nz-modal>
