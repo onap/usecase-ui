@@ -70,32 +70,32 @@ nz-table {
 
 // 详情页迷你表格样式
 .detailInformatioin {
-  nz-table {
-    .ant-table-small {
-      border-color: #dfdfe0;
-      border-right: 0;
-      .ant-table-content {
-        border-color: #dfdfe0;
-        .ant-table-body > table {
-          padding: 0;
-          .ant-table-thead > tr > th {
-            background-color: #f0f2f5;
-            font-weight: 700;
-            font-size: 18px;
-            padding: 2px 15px;
+    nz-table {
+        .ant-table-small {
             border-color: #dfdfe0;
-          }
-          .ant-table-tbody > tr > td {
-            background-color: #f0f2f5;
-            font-size: 14px;
-            padding: 2px 15px;
-            color: #323437;
-            border-color: #dfdfe0;
-          }
+            border-right: 0;
+            .ant-table-content {
+                border-color:  #dfdfe0;
+                .ant-table-body > table { 
+                    padding: 0;
+                    .ant-table-thead > tr > th {
+                        background-color: #f0f2f5;
+                        font-weight: 700;
+                        font-size: 16px;
+                        padding: 2px 15px;
+                        border-color: #dfdfe0;
+                    }
+                    .ant-table-tbody > tr > td {
+                        background-color: #f0f2f5;
+                        font-size: 14px;
+                        padding: 2px 15px;
+                        color: #323437;
+                        border-color: #dfdfe0;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
 
 // 日期选择插件背景颜色
@@ -206,7 +206,7 @@ nz-layout {
     }
 }
 // onboard-vnf-vm页面调整
-// 頭部導航
+// 头部导航
 .ant-tabs-bar {
     box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
     border-bottom:none !important;
@@ -216,6 +216,10 @@ nz-layout {
     padding-left: 15px !important;
     padding-top: 14px !important; 
 }
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container {
+    height: 55px !important;
+}
+// 头部导航按钮
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
     background-color: #fff !important;
     border: 1px solid #fff !important;

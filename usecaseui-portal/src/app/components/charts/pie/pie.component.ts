@@ -28,13 +28,18 @@ export class PieComponent implements OnInit {
               name: this.initData.option.series[0].name,
               type: 'pie',
               radius : this.initData.option.series[0].radius,
-              center: ['50%', '45%'],
+              center:this.initData.option.series[0].center,
               legendHoverLink: false,
               hoverOffset: 3,
               avoidLabelOverlap: false,
               label: this.initData.option.series[0].label,
               data:[
-                  {value:1, name:'11'}
+                  {value:5, name:'11'},
+                  {value:8, name:'22'},
+                  {value:10, name:'33'},
+                  {value:20, name:'44'},
+                  {value:60, name:'55'},
+
               ],
               itemStyle: this.initData.option.series[0].itemStyle
           }

@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,59 +18,60 @@
         <!-- nsList -->
         <div class="list" *ngIf="tab === 'NS'">
             <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
-            <div class="listupload">
-                <nz-upload nzType="drag" [(nzFileList)]="fileListNS" [nzBeforeUpload]="beforeUploadNS">
-                    <p class="ant-upload-drag-icon">
-                        <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
-                    </p>
-                    <p class="ant-upload-text">Click or drag CSAR File here</p>
-                    <p class="ant-upload-hint"></p>
-                </nz-upload>
-                <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
-                    style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;">
-                    {{ nsuploading ? 'Uploading' : 'Start Upload' }}
-                </button>
-            </div>
-            <div class="listlin"></div>
-            <div class="listfile">
-                <div>
-                    <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;">Uploaded files</div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div>
-                            <nz-progress [nzPercent]="20" [nzShowInfo]="false"></nz-progress>
+            <div style="width:100%;">
+                <div class="listupload">
+                    <nz-upload nzType="drag" [(nzFileList)]="fileListNS" [nzBeforeUpload]="beforeUploadNS">
+                        <p class="ant-upload-drag-icon">
+                            <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+                        </p>
+                        <p class="ant-upload-text">Click or drag CSAR File here</p>
+                        <p class="ant-upload-hint"></p>
+                    </nz-upload>
+                    <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
+                        style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;">
+                        {{ nsuploading ? 'Uploading' : 'Start Upload' }}
+                    </button>
+                </div>
+                <div class="listlin"></div>
+                <div class="listfile">
+                    <div>
+                        <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;">Uploaded files</div>
+                        <div class="listfilebgc">
+                            <div>111</div>
+                            <div class="color">pnf-test.csar</div>
+                            <div>
+                                <nz-progress [nzPercent]="20" [nzShowInfo]="false"></nz-progress>
+                            </div>
+                            <div>456</div>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div class="color">
-                            <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+                        <div class="listfilebgc">
+                            <div>111</div>
+                            <div class="color">pnf-test.csar</div>
+                            <div class="color">
+                                <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+                            </div>
+                            <div>456</div>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div>File upload completed</div>
-                        <div>456</div>
+                        <div class="listfilebgc">
+                            <div>111</div>
+                            <div>pnf-test.csar</div>
+                            <div class="color">File upload completed</div>
+                            <div>456</div>
+                        </div>
+                        <div class="listfilebgc">
+                            <div>111</div>
+                            <div>pnf-test.csar</div>
+                            <div class="color">File upload completed</div>
+                            <div>456</div>
+                        </div>
+                        <div class="listfilebgc">
+                            <div>111</div>
+                            <div class="color">pnf-test.csar</div>
+                            <div>File upload completed</div>
+                            <div>456</div>
+                        </div>
                     </div>
                 </div>
-
             </div>
             <nz-spin [nzSpinning]="isSpinning">
                 <div class="mask" *ngIf="isSpinning"></div>
@@ -136,7 +137,7 @@
                 </nz-table>
             </nz-spin>
             <!-- <div style="margin-top:8px;">
-                        Loading state£º
+                        Loading state:
                         <nz-switch [(ngModel)]="isSpinning"></nz-switch>
                       </div> -->
 

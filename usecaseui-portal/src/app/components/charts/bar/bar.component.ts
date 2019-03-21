@@ -8,9 +8,9 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class BarComponent implements OnInit {
 
-  // Í¼ĞÎÊı¾İ
+  // å›¾å½¢æ•°æ®
   @Input() chartData;
-  // ³õÊ¼»¯Êı¾İ
+  // åˆå§‹åŒ–æ•°æ®
   @Input() initData;
 
   constructor() { }
@@ -18,36 +18,32 @@ export class BarComponent implements OnInit {
   ngOnInit() {
     this.initOpts = {
       renderer: 'canvas',
-      height: 40,
-      width: 160,
+      height: 200,
+      width: 280,
 
     };
     this.barOption = {
+      tooltip: this.initData.option.tooltip,
+      grid: this.initData.option.grid,
       xAxis: this.initData.option.xAxis,
-      yAxis: {
-        type: 'category',
-        show: false,
-        axisTick: {
-          show: false
-        }
-      },
+      yAxis:this.initData.option.yAxis,
       series: this.initData.option.series
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // µ±ÓĞÊµÀıµÄÊ±ºòÔÙÖ´ĞĞ£¬Ïàµ±ÓÚµÚÒ»´Î²»Ö´ĞĞÏÂÃæ·½·¨
+    // å½“æœ‰å®ä¾‹çš„æ—¶å€™å†æ‰§è¡Œï¼Œç›¸å½“äºç¬¬ä¸€æ¬¡ä¸æ‰§è¡Œä¸‹é¢æ–¹æ³•
     if (this.chartIntance) {
       this.chartDataChange()
     }
   }
-  // ³õÊ¼»¯Í¼ĞÎ¸ß¶È
+  // åˆå§‹åŒ–å›¾å½¢é«˜åº¦
   initOpts: any;
-  // ÕÛÏßÍ¼ÅäÖÃ
+  // æŠ˜çº¿å›¾é…ç½®
   barOption: any;
-  // ÊµÀı¶ÔÏó
+  // å®ä¾‹å¯¹è±¡
   chartIntance: any;
-  // Êı¾İ±ä»¯
+  // æ•°æ®å˜åŒ–
   updateOption: any;
   chartDataChange() {
     this.updateOption = this.chartData;

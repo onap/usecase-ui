@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, HostBinding } from '@angular/core';
 // import { MyhttpService } from '../../myhttp.service';
@@ -37,13 +52,13 @@ export class OnboardVnfVmComponent implements OnInit {
   //url
   url = {
     // line up
-    //ns:  '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
-    //vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
-    //pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
-    // 本地
-    ns: 'https://jsonplaceholder.typicode.com/posts/',
-    vnf: 'https://jsonplaceholder.typicode.com/posts/',
-    pnf: 'https://jsonplaceholder.typicode.com/posts/',
+    ns:  '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
+    vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
+    pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
+    // line local
+    //ns: 'https://jsonplaceholder.typicode.com/posts/',
+    //vnf: 'https://jsonplaceholder.typicode.com/posts/',
+    //pnf: 'https://jsonplaceholder.typicode.com/posts/',
   };
   constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService, private modalService: NzModalService) { }
 

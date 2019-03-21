@@ -26,10 +26,10 @@ export class LineComponent implements OnInit {
       legend: this.initData.option.legend,
       dataZoom: this.initData.option.dataZoom,
       grid: {
-          left: '1%',
+          left: '0%',
           right: '3%',
           top: '10%',
-          bottom: '10%',
+          bottom: '18%',
           containLabel: true
       },
       xAxis: {
@@ -65,7 +65,6 @@ export class LineComponent implements OnInit {
   }
 
   ngOnChanges(changes:SimpleChanges){
-
     // 当有实例的时候再执行，相当于第一次不执行下面方法
     if(this.chartIntance){
       this.chartDataChange()
