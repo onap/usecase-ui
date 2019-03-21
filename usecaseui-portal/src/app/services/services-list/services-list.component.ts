@@ -35,7 +35,9 @@ export class ServicesListComponent implements OnInit {
   }
   // customer servicetype
   customerList = [];
+  orchestratorList = [];
   customerSelected = {name:null,id:null};
+  orchestratorSelected = {name:null,id:null};
   serviceTypeList = [];
   serviceTypeSelected = {name:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
@@ -74,6 +76,18 @@ export class ServicesListComponent implements OnInit {
       })
   }
 
+  getallOrchestrators(){
+    this.myhttp.getAllOrchestrators()
+      .subscribe((data)=>{
+        this.orchestratorList = data.map((item)=>{return {name:item["name"],id:item["name"]}});
+        if(this.orchestratorList.length==0){
+          console.log("orchestratorList.length == 0",this.orchestratorList);
+          return false;
+        }
+        this.orchestratorSelected = this.orchestratorList[0];
+      })
+  }
+
   choseCustomer(item){
     this.customerSelected = item;
     this.myhttp.getServiceTypes(this.customerSelected)
@@ -88,6 +102,7 @@ export class ServicesListComponent implements OnInit {
         // console.log(this.listServiceTypes);
       })
   }
+
   choseServiceType(item){
     this.serviceTypeSelected = item;
     this.getTableData();
@@ -98,11 +113,13 @@ export class ServicesListComponent implements OnInit {
   isVisible = false;
   createModal(): void {
     this.isVisible = true;
+    this.getallOrchestrators();
     this.getAlltemplates();
   }
   //
   templateTypeSelected = "SOTN";
   choseTemplateType(){
+    this.getallOrchestrators();
     this.getAlltemplates();
   }
   //
@@ -153,7 +170,7 @@ export class ServicesListComponent implements OnInit {
       this.createshow = true;
       this.listDisplay = true;
     }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
-      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4};
+      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4, orchestrator:this.orchestratorSelected};
       this.createshow2 = true;
             this.listDisplay = true;
     }
@@ -440,6 +457,7 @@ export class ServicesListComponent implements OnInit {
             this.detailshow2 = true;
         }
         this.listDisplay = true;
+    this.detailshow = true;
     this.detailData = service;
     console.log(service);
   }
