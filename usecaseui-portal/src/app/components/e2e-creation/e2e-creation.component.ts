@@ -179,7 +179,7 @@ export class E2eCreationComponent implements OnInit {
         })
         this.service.parameters.resources.push(nsService);
       })
-
+      this.service.parameters.requestInputs['orchestrator'] = this.createParams.orchestrator.name;
       this.e2eCloseCreate.emit({service:this.service}); 
 
     }else if(type == "ns"){
