@@ -77,6 +77,14 @@
             </div>
         </div>
 
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;">Orchestrator: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
+                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+        </div>
         <div *ngIf="templateTypeSelected == 'E2E Service'||templateTypeSelected == 'Network Service'">
             <div class="select-list">
                 <span style="display:inline-block;width:70px;">TEMPLATE: </span>

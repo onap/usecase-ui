@@ -26,6 +26,7 @@ export class MyhttpService {
   url = {
     listSortMasters:this.baseUrl+"/listSortMasters",
     customers: this.baseUrl + "/uui-lcm/customers",
+    orchestrators: this.baseUrl + "/uui-lcm/orchestrators",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
@@ -65,6 +66,11 @@ export class MyhttpService {
   // Get all customers
   getAllCustomers() {
     return this.http.get<any>(this.url.customers);
+  }
+
+  // Get all Orchestrators
+  getAllOrchestrators() {
+    return this.http.get<any>(this.url.orchestrators);
   }
 
   // Get relevant serviceType
