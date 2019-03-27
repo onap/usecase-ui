@@ -63,19 +63,21 @@ hr {
 }
 .model .submit{
     position: absolute;
-    width:84px;
+    width:116px;
     height: 35px;
     top: 10px;
     right: 85px;
     color: #fff;
     font-size: 18px;
-    background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%) !important;
+    background:#0DA9E2;
+    /*background:linear-gradient(90deg,rgba(99,194,246,1) 0%,rgba(62,155,255,1) 100%) !important;*/
     border-radius:4px;
     border: none!important;
     border-color:rgba(0,0,0,0)!important;
 }
 .model .submit:hover{
-    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
+    background:#09C6E2;
+    /*background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;*/
     border: none;
 }
 .model .creation {
@@ -185,11 +187,13 @@ hr {
     margin: 0 15px;
 }
 .model .sitemodel .action button:nth-child(2){
-    background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
+    /*background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);*/
+    background: #0DA9E2;
     color: #fff;
 }
 .model .sitemodel .action button:nth-child(2):hover{
-    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
+    /*background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;*/
+    background:#09C6E2;
 }
 
 .model nz-table tbody td i.anticon:hover {
@@ -208,8 +212,8 @@ hr {
 }
 .model .site>button:hover,.model .sitegroup>button:hover,.sitemodel h3 button:hover,.model .back:hover{
     background:#ffffff;
-    color: #3F9CFF;
-    border:1px solid #3F9CFF;
+    color: #0DA9E2;
+    border:1px solid #0DA9E2;
 }
 .sitemodel h3>button{
     float: right;
@@ -270,11 +274,13 @@ hr {
     margin: 0 8px;
 }
 .sitegroupmodal .action button:nth-child(2){
-    background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);
+    /*background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);*/
+    background:#0DA9E2;
     color: #fff;
 }
 .sitegroupmodal .action button:nth-child(2):hover{
-    background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
+    /*background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;*/
+    background:#09C6E2;
 }
 .mask{
     width: 100%;
@@ -288,18 +294,16 @@ hr {
 
 /* chart */
 .model .chart {
-    width: 100%;
+    width: 98%;
     padding: 10px;
     /*height: 30vh;*/
+    margin: 0 auto;
     color: #06A7E2;
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 30px;
-    /*box-shadow: 0px 10px 15px 2px rgba(222, 222, 222, 0.5);*/
-    /*background: url("../../../assets/images/ccvpn-createbanner.png") no-repeat;*/
-    /*background-size: 100% 100%;*/
-    background:linear-gradient(180deg,rgba(183, 230, 247, 1) 0%,rgba(214, 240, 254, 1) 100%);
-    /*background-color:rgba(188, 231, 248, 1);*/
+    background: #EEF9FF;
+    /*background:linear-gradient(180deg,rgba(183, 230, 247, 1) 0%,rgba(214, 240, 254, 1) 100%);*/
     border-radius:4px;
 }
 .model .chart #createChart {

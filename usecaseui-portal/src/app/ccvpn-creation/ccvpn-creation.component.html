@@ -20,7 +20,8 @@
     <div class="top-title">
         <h3 class="title fl">{{createParams.commonParams.templateType}} Instance Creation</h3>
         <div class="fl" style="width: 20%">
-            <button class="submit" nz-button (click)="submit()"><span>Create</span></button>
+            <button class="submit" nz-button (click)="submit()"><i
+                    class="anticon anticon-plus" style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span>Create</span></button>
             <button class="back" nz-button (click)="goback()">
                <i class="anticon anticon-arrow-left" style="transform: scale(1.5)"></i>
             </button>
@@ -29,8 +30,7 @@
     <!-- chart -->
     <div class="chart">
        <span style="padding: 25px;display: inline-block;">
-            Create Service
-        {{createParams.commonParams.templateType}}
+            Instance Topology
        </span>
         <div id="createChart">
             <svg width="100%" height="100%">
