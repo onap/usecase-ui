@@ -124,9 +124,9 @@ export class CcvpnNetworkComponent implements OnInit {
     network = [];
     delcloud = false;
 
-    winWidth = $('.content').width();
-    winHeight = 600;
-    charge = -300;
+    winWidth = $('#tpContainer').width();
+    winHeight = $('#tpContainer').height();
+  charge = -300;
 
     imgmap = {
         '1': './assets/images/cloud-county1.png',
@@ -274,7 +274,10 @@ export class CcvpnNetworkComponent implements OnInit {
                 .attr('width', width)
                 .attr('height', height)
                 .attr('id', 'content-svg')
-                .style('pointer-events', 'all'),
+                .style('pointer-events', 'all')
+                .style('position','absolute')
+                .style('top','1%')
+                .style('right','2%'),
             graph = svg.append('g').attr('class', 'graph').attr('id', 'graph'),
 
             _g_nodes = graph.selectAll('g.node')

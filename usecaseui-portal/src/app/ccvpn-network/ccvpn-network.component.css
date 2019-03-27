@@ -38,13 +38,17 @@
 
 
 #tpContainer{
+  position: relative;
   width:100%;
-  /*height: 80%;*/
+  height: 95%;
+  margin-top: 15px;
   float: left;
+  background: #EEF9FF;
 }
 .model {
+  position: relative;
   padding: 15px;
-  height: 100%;
+  height: 100vh;
   width: 100%;
 }
 .model .creation {
@@ -53,7 +57,9 @@
   /*float: left;*/
   width: 20%;
   position: absolute;
-  right: 1%;
+  left: 0;
+  margin-top: 30px;
+  margin-left: 30px;
   border-radius: 5px;
   box-shadow: 0 0 10px #9e9e9e;
   padding: 10px;
