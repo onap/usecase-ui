@@ -14,7 +14,8 @@
     limitations under the License.
 -->
 <div class="action ant-tabs-bar">
-    <span>Customer: </span>
+
+    <span><i style="margin-right: 10px"><img src="../../../assets/images/customer.png" alt=""></i>Customer: </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
@@ -25,8 +26,7 @@
         </ul>
     </nz-dropdown>
 
-    &nbsp;&nbsp;
-    <span>Service Type: </span>
+    <span style="margin-left:40px"><i style="margin-right: 10px"><img src="../../../assets/images/service-type.png" alt=""></i>Service Type: </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
@@ -40,10 +40,22 @@
     <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i
             class="anticon anticon-plus" style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span> Create </span>
     </button>
-    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="CREATE" (nzOnCancel)="handleCancel()"
+    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="TEMPLATE" (nzOnCancel)="handleCancel()"
               (nzOnOk)="handleOk()">
         <div class="select-list">
-            <span style="display:inline-block;width:70px;">Service: </span>
+            <span style="display:inline-block;">Customer: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="customerSelected2.name" nzAllowClear>
+                <nz-option *ngFor="let item of customerList2" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+            </nz-select>
+        </div>
+        <div class="select-list">
+            <span style="display:inline-block;">Service Type: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelected2.name" nzAllowClear>
+                <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name" ></nz-option>
+            </nz-select>
+        </div>
+        <div class="select-list">
+            <span style="display:inline-block;">Service: </span>
             <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
                        (ngModelChange)="choseTemplateType()">
                 <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
@@ -62,14 +74,14 @@
                 </nz-select>
             </div>
             <div class="select-list">
-                <span style="display:inline-block;width:70px;"> SITE: </span>
+                <span style="display:inline-block;"> SITE: </span>
                 <nz-select style="width: 176px;float: right;" [(ngModel)]="template2" nzAllowClear>
                     <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
                 </nz-select>
             </div>
             <div *ngIf="templateTypeSelected == 'CCVPN'">
                 <div class="select-list">
-                    <span style="display:inline-block;width:70px;">SD-WAN: </span>
+                    <span style="display:inline-block;">SD-WAN: </span>
                     <nz-select style="width: 176px;float: right;" [(ngModel)]="template3" nzAllowClear>
                         <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
                     </nz-select>
@@ -144,8 +156,10 @@
                     <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
                     <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
                     <td>{{data["service-instance-name"] || data.nsName}}</td>
-                    <td [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN'}">
-                        {{data.serviceDomain}}
+                    <td>
+                        <p [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN','voLTEColor':data.serviceDomain=='voLTE type'}">
+                            {{data.serviceDomain}}
+                        </p>
                     </td>
                     <td>
               <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
@@ -156,11 +170,24 @@
                     </td>
                     <td>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                           class="anticon anticon-ellipsis" (click)="serviceDetail(data)"></i>
+                           class="anticon anticon-bars" (click)="serviceDetail(data)"></i>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
                            (click)="deleteModel(data)"></i>
-                        <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                           class="anticon anticon-setting" (click)="scaleService(data)"></i>
+                        <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-ellipsis"
+                           (click)="iconMoreShow(data)" style="transform: rotate(90deg);"></i>
+
+                        <ul *ngIf="data.iconMore==true " class="icon-more">
+                            <li>
+                                <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                                   class="anticon anticon-setting" (click)="scaleService(data)"></i>
+                                <span>scale</span>
+                            </li>
+                           <li>
+                               <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                                  class="anticon anticon-cloud-upload-o" (click)="update(data)"></i>
+                               <span>update</span>
+                           </li>
+                        </ul>
                         <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
                         <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
                           *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
@@ -171,7 +198,11 @@
                     <td></td>
                     <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
                     <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
-                    <td>{{item.serviceDomain}}</td>
+                    <td>
+                        <p [ngClass]="{'vnfColor':item.serviceDomain=='vnf','siteColor':item.serviceDomain=='SITE','SDWANColor':item.serviceDomain=='SDWAN'}">
+                            {{item.serviceDomain}}
+                        </p>
+                    </td>
                     <td>
                         <span [ngClass]="{'healing':data.statusClass=='1004'}">{{data.tips}}</span>
                         <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>

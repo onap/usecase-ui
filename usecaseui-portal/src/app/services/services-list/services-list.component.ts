@@ -35,14 +35,19 @@ export class ServicesListComponent implements OnInit {
   }
   // customer servicetype
   isSol005Interface = false;
-  customerList = [];
   orchestratorList = [];
+  customerList = [];
+  customerList2 = [];
   customerSelected = {name:null,id:null};
-  orchestratorSelected = {name:null,id:null};
+  customerSelected2 = {name: null, id: null};
   serviceTypeList = [];
+  serviceTypeList2 = [];
   serviceTypeSelected = {name:null};
+  serviceTypeSelected2 = {name: null};
+  orchestratorSelected = {name:null,id:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
   language="en";
+    iconMore=false;
     serviceMunber = [
         {
             "serviceDomain": "E2E",
@@ -62,6 +67,14 @@ export class ServicesListComponent implements OnInit {
         }
     ];
 
+    //The icon behind each row of data in the table expands
+    iconMoreShow(data){
+        if(data.iconMore==false){
+            data.iconMore=true;
+        }else {
+            data.iconMore=false;
+        }
+    }
   getallCustomers(){
     console.log(this.listSortMasters);
     this.myhttp.getAllCustomers()
@@ -71,7 +84,15 @@ export class ServicesListComponent implements OnInit {
           console.log("customerList.length == 0",this.customerList);
           return false;
         }
+        this.customerList2 = data.map((item) => {
+            return {name: item["subscriber-name"], id: item["global-customer-id"]}
+        });
+        if (this.customerList2.length == 0) {
+            console.log("customerList2.length == 0", this.customerList2);
+            return false;
+        }
         this.customerSelected = this.customerList[0];
+                this.customerSelected2 = this.customerList2[0];
         this.choseCustomer(this.customerSelected);
         // console.log(this.customers)
       })
@@ -94,11 +115,19 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.getServiceTypes(this.customerSelected)
       .subscribe((data)=>{
         this.serviceTypeList = data.map((item)=>{return {name:item["service-type"]}});
+                this.serviceTypeList2 = data.map((item) => {
+                    return {name: item["service-type"]}
+                });
         if(this.serviceTypeList.length==0){
           console.log("serviceTypeList.length == 0",this.serviceTypeList);
           return false;
         }
+          if (this.serviceTypeList2.length == 0) {
+              console.log("serviceTypeList2.length == 0", this.serviceTypeList2);
+              return false;
+          }
         this.serviceTypeSelected = this.serviceTypeList[0];
+                this.serviceTypeSelected2 = this.serviceTypeList2[0];
         this.choseServiceType(this.serviceTypeSelected);
         // console.log(this.listServiceTypes);
       })
