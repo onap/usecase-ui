@@ -1,0 +1,19 @@
+<div class="content" style="padding: 20px 20px;">
+  <div class="management"  [@showHideAnimate]="show" >
+    <div class="title">
+      <p>Create initial customer</p>
+      <span>Customer has not been created in ONAP </span>
+      <span>please create customer and its service type</span>
+      <img src="../../assets/images/customer01.png" alt="">
+      <input nz-input placeholder="input customer name" nzSize="large">
+      <button nz-button nzType="primary" class="cancel">Cancel</button>
+      <button nz-button nzType="primary" class="add" (click) = "customerhide()">Add</button>
+    </div>
+    <div class="image">
+      <img src="../../assets/images/customer02.png" alt="">
+    </div>
+  </div>
+  <div  [@showHideAnimate]="hide">
+    <app-customer></app-customer>
+  </div>
+</div>

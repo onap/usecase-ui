@@ -16,14 +16,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 import { AppRoutingModule } from './app-routing.module';
 
-//注册语言包
+//Registered language pack
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 registerLocaleData(en);  
 
-//自定义组件
+//Custom component
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { ManagementComponent } from './management/management.component';
 import { ServicesComponent } from './services/services.component';
 import { ServicesListComponent } from './services/services-list/services-list.component';
 import { OnboardVnfVmComponent } from './services/onboard-vnf-vm/onboard-vnf-vm.component';
@@ -44,13 +45,15 @@ import { LineComponent } from './components/charts/line/line.component';
 import { PieComponent } from './components/charts/pie/pie.component';
 
 import {PathLocationStrategy, LocationStrategy, HashLocationStrategy} from '@angular/common';
-// 自定义服务
+// Custom service
 import { MyhttpService } from './myhttp.service';
 import { HomesService } from './homes.service';
 import { onboardService } from './onboard.service';
 import { networkHttpservice } from './networkHttpservice.service';
 import { PerformanceDetailsComponent } from './components/performance-details/performance-details.component';
 import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component';
+import { CustomerComponent } from './components/customer/customer.component';
+import { ManagemencsService } from './managemencs.service';
 
 @NgModule({
   providers   : [ 
@@ -59,12 +62,13 @@ import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component
     MyhttpService,
     HomesService,
     onboardService,
-    networkHttpservice 
+    networkHttpservice,
+    ManagemencsService 
   ],
   declarations: [
     AppComponent,
     HomeComponent,
-
+    ManagementComponent,
     ServicesComponent,
     ServicesListComponent,
     OnboardVnfVmComponent,
@@ -85,6 +89,7 @@ import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component
     CcvpnDetailComponent,
     CcvpnCreationComponent,
     E2eDetailComponent,
+    CustomerComponent ,
     PerformanceDetailsComponent,
   ],
   imports: [

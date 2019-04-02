@@ -1,0 +1,70 @@
+<div class="content">
+  <div class="customer">
+    <div class="customer_title">
+      <div class="customers">
+        <span>Customer</span>
+        <img src="./assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd">
+      </div>
+    </div>
+    <div class="customer_detail">
+      <div class="customer_add" *ngIf="customeradd">
+        <input nz-input placeholder="Input customer name" class="customer_name" nzSize="default">
+        <button nz-button nzType="primary" class="customer_addbut">Add</button>
+      </div>
+      <div class="customer_list">
+        <ul>
+          <li class="active"><img src="./assets/images/customer05.png" alt=""><span>name</span><i
+              class="anticon anticon-delete" nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
+              nzType="info"></i></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="services_type">
+    <div class="services_type_title">
+      <div class="servicess">
+        <span>Services Type</span>
+        <img src="./assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd ">
+      </div>
+    </div>
+    <div class="services_type_detail">
+      <div class="services_add" *ngIf="servicesadd">
+        <input nz-input placeholder="Input services type" class="services_name" nzSize="default">
+        <button nz-button nzType="primary" class="services_addbut">Add</button>
+      </div>
+      <div class="services_list">
+        <div style="padding:0 20px;">
+          <ul>
+            <li><span>Type1</span><i class="anticon anticon-delete" nzType="info"></i></li>
+            <li><span>Type2</span><i class="anticon anticon-delete" nzType="info"></i></li>
+            <li><span>Type3</span><i class="anticon anticon-delete" nzType="info"></i></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chearts">
+    <div class="Cu">
+      <p>Instance Count of Customer</p>
+      <app-pie [initData]="CUChartInit" [chartData]="CUChartData"></app-pie>
+      <div class="legend"></div><span>users</span>
+    </div>
+    <div class="type">
+      <p>Instance Count of Service Type</p>
+      <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
+    </div>
+  </div>
+</div>

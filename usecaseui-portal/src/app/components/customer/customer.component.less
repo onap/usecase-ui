@@ -1,0 +1,208 @@
+.content {
+    width: 100%;
+    height: 100vh;
+    i.anticon {
+        cursor: pointer;
+        font-size: 18px;
+        padding: 2px;
+        &:hover{
+            color: #147dc2;
+        }
+    }
+    li.active{
+        &:hover{
+            cursor: pointer;
+            color: #3C4F8C;
+            // background:linear-gradient(to right, #E5F6FF, #CFEEFA)
+            background-color: #e6f7ff;
+        }
+    }
+    .customer {
+        height: 580px;
+        margin-right: 2.5%;
+        border-radius: 5px;
+        width: 31%;
+        background-color: #fff;
+        box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+        display: inline-block;
+        vertical-align: top;
+        .customer_title {
+            line-height: 3.5;
+            height: 50px;
+            width: 100%;
+            border-bottom: 1px #07A9E1 solid;
+            .customers {
+                padding: 0 20px;
+                span {
+                    color: #3F9CFF;
+                    font-family:"ArialMT";
+                }
+                img {
+                    width: 30px;
+                    float: right;
+                    margin-top: 7px;
+                }
+            }
+        }
+        .customer_detail {
+            height: 535px;
+            width: 100%;
+            border-top: 1px #07A9E1 solid;
+            .customer_add {
+                line-height: 3.5;
+                height: 50px;
+                width: 100%;
+                padding: 0 20px;
+                background-color: #F4F5F8;
+                .customer_name {
+                    width: 52%;
+                    font-size: 12px;
+                    color: #CCCCCC;
+                    font-family: ArialMT;
+                    border-color: #3F9CFF;
+                }
+                .customer_addbut {
+                    float: right;
+                    margin-top: 9px;
+                    width: 28%;
+                    background-color: #0DA9E2;
+                }
+            }
+            .customer_list {
+                .active {
+                    background:linear-gradient(to right, #E5F6FF, #CFEEFA);
+                }
+                li {                  
+                    padding: 0 20px;
+                    height: 50px;
+                    line-height: 3.5;
+                    width: 100%;
+                    img {
+                        width: 10%;
+                    }
+                    span {
+                        width: 80%;
+                        padding-left: 10%;
+                        display: inline-block;
+                        color: rgba(60,79,140,0.5);
+                    }
+                }
+            }
+        }
+        
+    }
+    .services_type {
+        height: 580px;
+        margin-right: 2.5%;
+        border-radius: 5px;
+        width: 31%;
+        background-color: #fff;
+        box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+        display: inline-block;
+        vertical-align: top;
+        .services_type_title {
+            line-height: 3.5;
+            height: 50px;
+            width: 100%;
+            border-bottom: 1px #07A9E1 solid;
+            .servicess {
+                padding: 0 20px;
+                span {
+                    color: #3F9CFF;
+                    font-family:"ArialMT";
+                }
+                img {
+                    width: 50px;
+                    float: right;
+                    margin-top: 5px;
+                }
+            }
+        }
+        .services_type_detail {
+            height: 535px;
+            width: 100%;
+            border-top: 1px #07A9E1 solid;
+            .services_add {
+                line-height: 3.5;
+                height: 50px;
+                width: 100%;
+                padding: 0 20px;
+                background-color: #F4F5F8;
+                .services_name {
+                    width: 52%;
+                    font-size: 12px;
+                    color: #CCCCCC;
+                    font-family: ArialMT;
+                    border-color: #3F9CFF;
+                }
+                .services_addbut {
+                    float: right;
+                    margin-top: 5px;
+                    width: 28%;
+                    clear: both;
+                    background-color: #0DA9E2;
+                }
+            }
+            .services_list {
+                background:linear-gradient(to right, #E5F6FF, #CFEEFA);
+                height: 530px;
+                li {
+                    height: 50px;
+                    line-height: 3.5;
+                    width: 100%;
+                    border-bottom: 2px #FFFFFF dashed;
+                    i {
+                        float: right;
+                        clear: both;
+                        padding-top: 17px;
+                    }
+                }
+
+            }
+            
+        }
+    }
+    .chearts {
+        display: inline-block;
+        width: 31%;
+        vertical-align: top;
+        >div{
+            padding: 20px 20px;
+        }
+        .Cu {
+            height: 280px;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-right: 2.5%;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+            p {
+                color :#3F9CFF;
+                font-family:"ArialMT";
+            }
+            .legend {
+                height: 10px;
+                width: 20px;
+                display: inline-block;
+                background: linear-gradient(to right,#7DCEFB, #0DA9E2);
+                border-radius: 1px;
+                margin: 15px 4px 0 43%;
+            }
+        }
+        .type {
+            height: 280px;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-right: 2.5%;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+            p {
+                color :#3F9CFF;
+                font-family:"ArialMT";
+                
+            }
+        }
+    }
+}

@@ -253,7 +253,6 @@ export class CcvpnNetworkComponent implements OnInit {
         var _this = this.tpoption,
             width = null,
             height = _this.height;
-        console.log("查询svg高度");
         console.log(height);
         if (_this.width > 800) {
             width = _this.width;

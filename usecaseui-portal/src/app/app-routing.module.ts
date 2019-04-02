@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import { HomeComponent }        from './home/home.component';
+import { ManagementComponent }    from './management/management.component';
 import { ServicesComponent }    from './services/services.component';
 import { ServicesListComponent }    from './services/services-list/services-list.component';
 import { OnboardVnfVmComponent } from './services/onboard-vnf-vm/onboard-vnf-vm.component';
@@ -23,6 +24,7 @@ const ServicesChildRoutes: Routes = [
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
+  { path: 'management', component: ManagementComponent},
   // { path: 'services', component: ServicesComponent, children:ServicesChildRoutes}, //暂时不是子路由结构
   { path: 'services/services-list', component: ServicesListComponent},
   { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent},
