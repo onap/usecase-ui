@@ -284,17 +284,17 @@
                     <tr *ngFor="let item of siteModalTable.data; let i = index;">
                         <td>{{i+1}}</td>
                         <td>
-                            <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_name}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_name" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_name}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_name" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                            <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_description}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_description" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_description}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_description" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                            <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_portType}}</span>
-                            <nz-select style="width: 100px;" [(ngModel)]="siteWanParams.sitewanport_portType" nzAllowClear
-                                       nzPlaceHolder="Choose" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_portType}}</span>
+                            <nz-select style="width: 100px;" [(ngModel)]="item.sitewanport_portType" nzAllowClear
+                                       nzPlaceHolder="Choose" *ngIf="item.tabInputShow">
                                 <nz-option nzValue="GE" nzLabel="GE"></nz-option>
                                 <nz-option nzValue="FE" nzLabel="FE"></nz-option>
                                 <nz-option nzValue="XGE" nzLabel="XGE"></nz-option>
@@ -304,32 +304,32 @@
                             </nz-select>
                         </td>
                         <td>
-                            <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_portNumber}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_portNumber" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_portNumber}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_portNumber" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                            <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_ipAddress}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_ipAddress" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_ipAddress}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_ipAddress" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                              <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_providerIpAddress}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_providerIpAddress" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_providerIpAddress}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_providerIpAddress" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                              <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_transportNetworkName}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_transportNetworkName" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_transportNetworkName}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_transportNetworkName" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                              <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_inputBandwidth}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_inputBandwidth" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_inputBandwidth}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_inputBandwidth" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                              <span *ngIf="wanPortEditNum==(i+1) && !wanPortModal">{{item.sitewanport_outputBandwidth}}</span>
-                            <input nz-input [(ngModel)]="siteWanParams.sitewanport_outputBandwidth" *ngIf="wanPortEditNum==(i+1) && wanPortModal">
+                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_outputBandwidth}}</span>
+                            <input nz-input [(ngModel)]="item.sitewanport_outputBandwidth" *ngIf="item.tabInputShow">
                         </td>
                         <td>
-                            <span class="action" (click)="editWanPort(i+1)"><i class="anticon anticon-edit" style="margin: 0 5px"></i></span>
-                            <span class="action" (click)="deleteModel(i+1)"><i class="anticon anticon-delete"></i></span>
+                            <span class="action" (click)="editWanPort(i+1,item,siteWanData)"><i class="anticon anticon-edit" style="margin: 0 5px"></i></span>
+                            <span class="action" (click)="deleteModel(i+1,item,siteWanData)"><i class="anticon anticon-delete"></i></span>
                         </td>
                     </tr>
                     <!-- </ng-template> -->

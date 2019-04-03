@@ -75,8 +75,12 @@ export class CcvpnCreationComponent implements OnInit {
             })
             this.siteWanNames = Object.values(wanportnames);
             this.siteWanNames.forEach((item)=>{
-              this.siteWanData.push(this.siteWanParams);  //Add a table according to the wanport group
+              this.siteWanData.push(Object.assign({},this.siteWanParams));  //Add a table according to the wanport group
             })
+                        this.siteWanData.forEach((item,index) => {
+                            item.indexs=index;
+                        });
+                        console.log(this.siteWanData)
             // console.log(this.sotnNames)
             // console.log(this.siteNames)
             // console.log(this.siteBaseNames)
@@ -163,39 +167,29 @@ export class CcvpnCreationComponent implements OnInit {
     sitewanport_providerIpAddress:null,
     sitewanport_transportNetworkName:null,
     sitewanport_inputBandwidth:null,
-    sitewanport_outputBandwidth:null
+        sitewanport_outputBandwidth: null,
+        tabInputShow:false,
+        indexs:null,
   };
   siteWanNames = [] //Real name
-  wanPortModal = false;  //Modal box display hidden
   wanPortEditNum = 0;//Which line to edit
-    editWanPort(num) {
-        // if(){
+    editWanPort(num,item,siteWanData) {     
         console.log(this)
-        console.log(num)
-        if (!this.wanPortModal) {
-            console.log(11111)
-            console.log(this.wanPortModal)
-            this.wanPortModal = true;
-            this.wanPortEditNum = num;
-            this.siteWanParams = Object.assign({}, this.siteWanData[num - 1]);
-        } else {
-            console.log(22222)
-            let inputsData = Object.assign({}, this.siteWanParams); //Create a new object, disconnect the original reference, because you want to empty the modal box later
-            inputsData.sitewanport_deviceName = this.siteCpeData.device_name;
-            this.siteWanData[this.wanPortEditNum - 1] = inputsData;
-            this.siteWanData = [...this.siteWanData]; //Table refresh
-            Object.keys(this.siteWanParams).forEach((item) => { //Clear modal box
-                this.siteWanParams[item] = null;
-            })
-            this.wanPortModal = false;
-            console.log(this.siteWanData)
-        }
-        // }
+        console.log(siteWanData)
+        console.log(item)      
+        siteWanData.map((its) => {
+            if(its.indexs==item.indexs){
+                if (its.tabInputShow==false) {
+                       this.wanPortEditNum = num;                   
+                    item.tabInputShow=true;
+                } else {                   
+                    item.tabInputShow=false;
+                    console.log(this.siteWanData)
+                }
+            }
+        })
 
     }
-  wanPortModal_Cancel(){
-    this.wanPortModal = false;
-  }
 
 
   // Get the site address, manual file
