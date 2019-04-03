@@ -68,12 +68,18 @@ export class ServicesListComponent implements OnInit {
     ];
 
     //The icon behind each row of data in the table expands
-    iconMoreShow(data){
-        if(data.iconMore==false){
-            data.iconMore=true;
-        }else {
-            data.iconMore=false;
-        }
+    iconMoreShow(data,tableData){
+        tableData.map((its) => {
+            if(its["service-instance-id"]==data["service-instance-id"]){
+                if(its["iconMore"]==false){
+                    data.iconMore=true;
+                }else if(its["iconMore"]==true) {
+                    data.iconMore=false;
+                }
+            }else{
+                its["iconMore"]=false;
+            }
+        })
     }
   getallCustomers(){
     console.log(this.listSortMasters);
@@ -273,7 +279,7 @@ export class ServicesListComponent implements OnInit {
             item["tips"] = "Available";
             item["statusClass"] = item["operationResult"];
           }
-  // 2018.12.13日
+  // 2018.12.13
           else if(item["operationResult"]=="2002"){ //operationResult==2002
             if(item["operationType"]=="1001"||item["operationType"]=="1002"){
                 // item["status"] = this.accordingState["operationResult"][item["operationResult"]];

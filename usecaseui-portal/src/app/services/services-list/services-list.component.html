@@ -174,7 +174,7 @@
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
                            (click)="deleteModel(data)"></i>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-ellipsis"
-                           (click)="iconMoreShow(data)" style="transform: rotate(90deg);"></i>
+                           (click)="iconMoreShow(data,tableData)" style="transform: rotate(90deg);"></i>
 
                         <ul *ngIf="data.iconMore==true " class="icon-more">
                             <li>
