@@ -1,22 +1,37 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-// 路由动画
+// Routing animation
 export const slideToRight = trigger('routerAnimate', [
-    // 定义void表示空状态下
-    state('void', style({ position:'fixed', zIndex:'-1' })), //不明白为啥要加定位出场动画才生效
-    // * 表示任何状态
+    // Define void to indicate empty state
+    state('void', style({ position:'fixed', zIndex:'-1' })), //I don't understand why I want to add a positioning animation to take effect.
+    // * Indicates any state
     state('*', style({ })),
-    // 进场动画
+    // Admission animation
     transition(':enter', [
         style({transform: 'translateX(-100%)'}),
         animate('.5s ease-in-out')
     ]),
-    // 出场动画
+    // Opening animation
     transition(':leave', [
         animate('.5s ease-in-out',  style({transform: 'translateX(100%)'}) )
     ])
 ]);
-// 详情页显示隐藏动画
+// Detail page shows hidden animation
 export const showHideAnimate = trigger('showHideAnimate', [
     state('show', style({
       transform: 'scale(1)',
@@ -29,7 +44,7 @@ export const showHideAnimate = trigger('showHideAnimate', [
     transition('show => hide', animate('300ms ease-in')),
     transition('hide => show', animate('300ms ease-out'))
 ]);
-// 详情页显示隐藏动画
+// Detail page shows hidden animation
 export const slideUpDown = trigger('slideUpDown', [
     state('down', style({
         height: "*"

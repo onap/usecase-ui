@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  // alarm饼图
+  // alarm bar
   alarmChartData:Object;
   alarmChartInit:Object = {
     height: 180,
@@ -143,11 +143,11 @@ export class HomeComponent implements OnInit {
           x2: 0,
           y2: 1,
           colorStops: [{
-            offset: 0, color: '#FB93C2' // 0% 处的颜色
+            offset: 0, color: '#FB93C2'
           }, {
-            offset: 1, color: '#FB7788' // 100% 处的颜色
+            offset: 1, color: '#FB7788' 
           }],
-          globalCoord: false // 缺省为 false
+          globalCoord: false
         }, {
           type: 'linear',
           x: 0,
@@ -155,14 +155,14 @@ export class HomeComponent implements OnInit {
           x2: 0,
           y2: 1,
           colorStops: [{
-            offset: 0, color: '#A6BFE4' // 0% 处的颜色
+            offset: 0, color: '#A6BFE4'
           }, {
-            offset: 1, color: '#7A8BAE' // 100% 处的颜色
+            offset: 1, color: '#7A8BAE'
           }],
-          globalCoord: false // 缺省为 false
+          globalCoord: false
         }],
       series: [{
-        name: "告警信息",
+        name: " ",
         radius: '55%',
         center:['50%', '45%'],
         label: {
@@ -189,7 +189,7 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  // alarm线图
+  // alarm lin
   alarmLineChartData:Object;
   alarmLineChartInit:Object = {
     height:320,
@@ -232,7 +232,7 @@ export class HomeComponent implements OnInit {
     }
   };
   
-   // services进度条
+   // services 
   servicesBarChartData: Object;
   serviceBarChartInit: Object = {
     option: {
@@ -318,7 +318,7 @@ export class HomeComponent implements OnInit {
         console.log(err);
       })
   }
-  // sourceName筛选框
+  // sourceName 
   sourceNameList = ['performanceNameOne'];
   sourceNameSelected = null;
 

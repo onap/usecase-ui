@@ -1,3 +1,18 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 import { Component, OnInit, Input } from '@angular/core';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
@@ -8,9 +23,9 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class BarComponent implements OnInit {
 
-  // 图形数据
+  // chart Data
   @Input() chartData;
-  // 初始化数据
+  // init Data
   @Input() initData;
 
   constructor() { }
@@ -32,18 +47,18 @@ export class BarComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // 当有实例的时候再执行，相当于第一次不执行下面方法
+    // Execute when there is an instance, which is equivalent to not executing the following method for the first time.
     if (this.chartIntance) {
       this.chartDataChange()
     }
   }
-  // 初始化图形高度
+  // Initialize the height of the graphic
   initOpts: any;
-  // 折线图配置
+  // Line chart configuration
   barOption: any;
-  // 实例对象
+  // Instance object
   chartIntance: any;
-  // 数据变化
+  // Data change
   updateOption: any;
   chartDataChange() {
     this.updateOption = this.chartData;

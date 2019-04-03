@@ -62,12 +62,12 @@ export class OnboardVnfVmComponent implements OnInit {
   };
   constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService, private modalService: NzModalService) { }
 
-  //default 默认调用ns数据
+  //default Call ns data by default
   ngOnInit() {
     this.getTableData();
   }
 
-  //表格数据
+  //Tabular data
   nstableData:any;
   vnftableData:any;
   pnftableData:any;
@@ -89,7 +89,7 @@ export class OnboardVnfVmComponent implements OnInit {
   tabs = ['NS', 'VNF', 'PNF'];
   isSpinning = false;
 
-  // 处理tab切换 请求数据
+  // Handling tab switching request data
   handleTabChange(tab) {
     this.tabTitle = tab;
     console.log(tab);
@@ -101,7 +101,7 @@ export class OnboardVnfVmComponent implements OnInit {
       case 'NS':
           this.nstableData = [];
           this.getTableData();
-          this.fileList = []; //切换时清空上传的文件
+          this.fileList = []; //Empty uploaded files when switching
         break
       case 'VNF':
           this.vnftableData = [];
@@ -126,7 +126,7 @@ export class OnboardVnfVmComponent implements OnInit {
            }
       }
 
-  //NS/VNF列表添加文件
+  //NS/VNF List add file
   beforeUpload = (file: UploadFile): boolean => {
     this.fileList.push(file);
     console.log('fileList' + this.fileList)
@@ -186,7 +186,7 @@ export class OnboardVnfVmComponent implements OnInit {
     return false;
   }
 
-  //获取列表单条id
+  //Get list list id
   onClickId(id,tab){
     switch (tab) {
       case 'NS':
@@ -204,7 +204,7 @@ export class OnboardVnfVmComponent implements OnInit {
     }
   }
   
-  //拖拽后点击上传按钮
+  //Drag and drop and click the upload button
   onClick (tab) {
     switch (tab) {
       case 'NS':
@@ -228,7 +228,7 @@ export class OnboardVnfVmComponent implements OnInit {
     }
   }
 
-  //put Upload 上传
+  //put Upload Upload
   handleUpload(url,tab): void { 
     console.log('startUpload')
     const formData = new FormData();
@@ -267,7 +267,7 @@ export class OnboardVnfVmComponent implements OnInit {
     });
     console.log('req--->'+ JSON.stringify(req));
     console.log('formData--->'+ JSON.stringify(formData));
-    //上传前置空数组
+    //Upload pre-empty array
     this.fileList = [];
     this.fileListNS = [];
     this.fileListVNF = [];
@@ -289,7 +289,7 @@ export class OnboardVnfVmComponent implements OnInit {
       );
   }
   
-//  控制uploading的状态
+//  Control the status of uploading
 changeUploadingSta(tab) {
   switch(tab) {
     case "NS":
@@ -305,7 +305,7 @@ changeUploadingSta(tab) {
 
 //----------------------------------------------------------------------------------------------
 
-  // 获取NS列表
+  // Get the NS list
   getTableData() {
     this.isSpinning = true;
     //ns vfc lists 
@@ -348,7 +348,7 @@ changeUploadingSta(tab) {
     
   }
 
-  // 获取vnf列表
+  // Get the vnf list
   getTableVnfData() {
     this.isSpinning = true;
     //vnf vfc lists
@@ -388,7 +388,7 @@ changeUploadingSta(tab) {
       })
   }
 
-  // 获取pnf列表
+  // Get pnf list
   getTablePnfData() { 
     this.isSpinning = true;  
     this.myhttp.getOnboardTablePnfData()
@@ -402,7 +402,7 @@ changeUploadingSta(tab) {
       })
   }
 
-  //合并并去重
+  //Merge and de-emphasize
   // MergeArray(arr1, arr2) {
   //   var _arr = new Array();
   //   for (var i = 0; i < arr1.length; i++) {
@@ -413,7 +413,7 @@ changeUploadingSta(tab) {
   //   for (var i = 0; i < arr2.length; i++) {
   //     var flag = true;
   //     for (var j = 0; j < arr1.length; j++) {
-  //       // 根据vfc列表arr1的id和sdc列表arr2的uuid去重
+  //       // According to the id of the vfc list arr1 and the uuid of the sdc list arr2
   //       if (arr2[i].uuid == arr1[j].id) {
   //         flag = false;
   //         break;
@@ -428,7 +428,7 @@ changeUploadingSta(tab) {
 
 //-----------------------------------------------------------------------------------
   /* onboard */
-  //成功弹框
+  //Successful frame
   success(tab): void {
     const modal = this.modalService.success({
       nzTitle: 'This is an success message',
@@ -447,7 +447,7 @@ changeUploadingSta(tab) {
     // window.setTimeout(() => modal.destroy(), 5000);
   }
 
-  //失败弹框
+  //Failure frame
   error(): void {
     this.modalService.error({
       nzTitle: 'This is an error message',
@@ -461,10 +461,10 @@ changeUploadingSta(tab) {
     progress: 0,
   }
   currentIndex = 0;
-  // ns onboard 上传按钮
+  // ns onboard Upload button
   updataNsService(id,index) {
     this.currentIndex = index;
-    this.onboardData.status = "onboarding"; //置灰
+    this.onboardData.status = "onboarding"; //Disabled
     this.onboardData.progress = 0;
     console.log("NS-onboard-id-->" + id);
     let requestBody = {
@@ -487,10 +487,10 @@ changeUploadingSta(tab) {
       })
   }
 
-  // vnf onboard 上传按钮
+  // vnf onboard Upload button
   updataVnfService(id,index) {
     this.currentIndex = index;
-    this.onboardData.status = "onboarding";  //按钮置灰
+    this.onboardData.status = "onboarding";  //Disabled button
     this.onboardData.progress = 0;
 
     console.log("VNF-onboard-id-->" + id)
@@ -502,18 +502,18 @@ changeUploadingSta(tab) {
         console.log('onboard vnf sdc-->', data);
         this.jobId =  data.jobId;
         console.log('onboard vnf sdc jobId-->'+ data.jobId);
-        this.queryProgress(this.jobId,0);   //vnf需要查询进度接口
+        this.queryProgress(this.jobId,0);   //vnf Need to query progress interface
       }, (err) => {
         console.log(err);
       })
   }
 
-  // pnf onboard //暂时没有上传功能
+  // pnf onboard //Temporarily no upload function
   // updataPnfService(id) {
   //   console.log('pnf',id);
   // }
 
-  //Progress 进度查询
+  //Progress Progress inquiry
   queryProgress(jobId,responseId){
     let mypromise = new Promise((res)=>{
         this.myhttp.getProgress(jobId,responseId)
@@ -555,7 +555,7 @@ changeUploadingSta(tab) {
   }
 
   //--------------------------------------------------------------------------------
-  /* delete  删除按钮 */
+  /* delete button */
   showConfirm(index,pkgid,tab): void {
     this.confirmModal = this.modal.confirm({
       nzTitle: 'Do you Want to delete these items?',
@@ -624,7 +624,7 @@ changeUploadingSta(tab) {
   }
 
 //------------------------------------------------------------------------------------
-  //下载download
+  //download
   // downloadNsService(id) {
   //   console.log('download')
   //   console.log(id)
