@@ -14,7 +14,7 @@ export class PerformanceVmComponent implements OnInit {
   ngOnInit() {
   }
 
-  // 筛选框（下拉框）
+  // Filter box (drop-down box)
   sourceNameList = ['aaaa','bbbb','cccc','dddddDDDDDDDDDDDDDDD'];
   sourceNameSelected = this.sourceNameList[0];
   ReportingEntityNameList = ['aaaa','bbbb','cccc','ddddd'];
@@ -28,7 +28,7 @@ export class PerformanceVmComponent implements OnInit {
     this.ReportingEntityNameSelected = item;
   }
 
-  //表格数据
+  //Tabular data
   dataSet = [
     {
       name       : 'John Brown',
@@ -123,10 +123,10 @@ export class PerformanceVmComponent implements OnInit {
     }
   ];
   
-  //详情页标题显示
+  //Detail page title display
   graphicshow = false;
   detailshow = false;
-  // 显示隐藏动画
+  // Show hidden animation
   state = "show";
   state2 = "hide";
   state3 = "hide";
@@ -144,7 +144,7 @@ export class PerformanceVmComponent implements OnInit {
     this.graphicshow = true;
     this.detailshow = false;
   }
-  // 选中id
+  // Selected id
   detailId:number;
   detailShow(prems) {
     this.state = 'hide';

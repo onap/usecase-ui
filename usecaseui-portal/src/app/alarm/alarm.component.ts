@@ -241,9 +241,9 @@ export class AlarmComponent implements OnInit {
                 x2: 0,
                 y2: 1,
                 colorStops: [{
-                  offset: 0, color: '#FB7788' // 0% 处的颜色
+                  offset: 0, color: '#FB7788' 
                 }, {
-                  offset: 1, color: '#FB93C2' // 100% 处的颜色
+                  offset: 1, color: '#FB93C2'
                 }],
               },
               opacity: 1,
@@ -266,9 +266,9 @@ export class AlarmComponent implements OnInit {
                 x2: 0,
                 y2: 1,
                 colorStops: [{
-                  offset: 0, color: '#7A8BAE' // 0% 处的颜色
+                  offset: 0, color: '#7A8BAE'
                 }, {
-                  offset: 1, color: '#A6BFE4' // 100% 处的颜色
+                  offset: 1, color: '#A6BFE4'
                 }],
               },
               opacity: 1,
