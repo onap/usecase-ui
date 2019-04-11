@@ -51,19 +51,22 @@ export class ServicesListComponent implements OnInit {
     serviceMunber = [
         {
             "serviceDomain": "E2E",
-            "number": 10
+            "number": 10,
+            "detailName":"End To End service"
         },
         {
             "serviceDomain": "NS",
-            "number": 20
+            "number": 20,
+            "detailName":"Network Service"
         },
-        {
-            "serviceDomain": "SOTN",
-            "number": 30
-        },
+        // {
+        //     "serviceDomain": "SOTN",
+        //     "number": 30
+        // },
         {
             "serviceDomain": "CCVPN",
-            "number": 40
+            "number": 40,
+            "detailName":"Cross Domain and Cross Layer VPN"
         }
     ];
 
@@ -153,7 +156,8 @@ export class ServicesListComponent implements OnInit {
     this.getAlltemplates();
   }
   //
-  templateTypeSelected = "SOTN";
+    templateTypeSelected = this.serviceTypeList2["name"];
+
   choseTemplateType(){
     this.getallOrchestrators();
     this.getAlltemplates();
@@ -180,11 +184,8 @@ export class ServicesListComponent implements OnInit {
         }
         console.log(this.templates);
         this.template1 = this.templates[0];
-        this.template2 = this.templates[1];
-        this.template3 = this.templates[2];
-        this.template4 = this.templates[0];
-
-      },(err)=>{
+             
+            }, (err) => {
 
       })
   }
@@ -200,13 +201,11 @@ export class ServicesListComponent implements OnInit {
     this.isVisible = false;
 
     if(this.templateTypeSelected=="SOTN"||this.templateTypeSelected=="CCVPN"){
-      let data1 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"SOTN"},templates:{template1:this.template1,template2:this.template2}};
-      let data2 = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:"CCVPN"},templates:{template1:this.template1,template2:this.template2,template3:this.template3}};
-      this.createData = this.templateTypeSelected == "SOTN" ? data1 : data2;
+     this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected2, templateType:this.templateTypeSelected},template:this.template1};
       this.createshow = true;
       this.listDisplay = true;
     }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
-      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected, templateType:this.templateTypeSelected},template:this.template4, orchestrator:this.orchestratorSelected, isSol005Interface:this.isSol005Interface};
+      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected2, templateType:this.templateTypeSelected},template:this.template1, orchestrator:this.orchestratorSelected, isSol005Interface:this.isSol005Interface};
       this.createshow2 = true;
             this.listDisplay = true;
     }
@@ -253,7 +252,7 @@ export class ServicesListComponent implements OnInit {
               return child;
             }
           })
-
+                    item["iconMore"]=this.iconMore;
           if(item["serviceDomain"]=="Network Service"){
             if(item["vnfInfo"]){
               item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
@@ -534,7 +533,7 @@ export class ServicesListComponent implements OnInit {
     let stageNum = 0; //Different stages of progress, used to add up subsequent service progress;
 
     let   createParams = "?customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected.name +
+                        "&serviceType="+this.serviceTypeSelected2.name +
                         "&serviceDomain="+this.templateTypeSelected +
                         "&parentServiceInstanceId=";
     this.createService(obj.vpnbody,createParams).then((data)=>{
@@ -568,7 +567,7 @@ export class ServicesListComponent implements OnInit {
       let querypros = [];  //All the query
       // Additional parameters
       let   createParams = "?customerId="+this.customerSelected.id +
-                          "&serviceType="+this.serviceTypeSelected.name +
+                          "&serviceType="+this.serviceTypeSelected2.name +
                           "&serviceDomain="+"SDWAN" +
                           "&parentServiceInstanceId="+this.parentServiceInstanceId;
 
@@ -605,7 +604,7 @@ export class ServicesListComponent implements OnInit {
       let querypros = [];  //All the query
       // Additional parameters
       let createParams = "?customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected.name +
+                        "&serviceType="+this.serviceTypeSelected2.name +
                         "&serviceDomain="+"SITE" +
                         "&parentServiceInstanceId="+this.parentServiceInstanceId;
       let createPros = obj.sitebody.map((group)=>{
@@ -657,7 +656,7 @@ export class ServicesListComponent implements OnInit {
     console.log(obj);
     let newData; //
     let   createParams = "?customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected.name +
+                        "&serviceType="+this.serviceTypeSelected2.name +
                         "&serviceDomain="+this.templateTypeSelected +
                         "&parentServiceInstanceId="+
                         "&uuid="+obj.service.serviceUuid+
@@ -733,7 +732,7 @@ export class ServicesListComponent implements OnInit {
       }
       let createParams = "?ns_instance_id=" + data.nsInstanceId +
                         "&customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected.name +
+                        "&serviceType="+this.serviceTypeSelected2.name +
                         "&serviceDomain="+ this.templateTypeSelected +
                         "&parentServiceInstanceId=";
       // step2

@@ -40,7 +40,7 @@
     <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i
             class="anticon anticon-plus" style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span> Create </span>
     </button>
-    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="TEMPLATE" (nzOnCancel)="handleCancel()"
+    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="Service Creation" (nzOnCancel)="handleCancel()"
               (nzOnOk)="handleOk()">
         <div class="select-list">
             <span style="display:inline-block;">Customer: </span>
@@ -48,45 +48,17 @@
                 <nz-option *ngFor="let item of customerList2" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
             </nz-select>
         </div>
-        <div class="select-list">
-            <span style="display:inline-block;">Service Type: </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelected2.name" nzAllowClear>
+       <div class="select-list">
+            <span style="display:inline-block;">SERVICE TYPE: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelected2.name" nzAllowClear (ngModelChange)="choseTemplateType()">
                 <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name" ></nz-option>
             </nz-select>
         </div>
-        <div class="select-list">
-            <span style="display:inline-block;">Service: </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
-                       (ngModelChange)="choseTemplateType()">
-                <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
-                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
-                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
-                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
-                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
+  <div class="select-list">
+            <span style="display:inline-block;width:70px;">TEMPLATE: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
+                <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
             </nz-select>
-        </div>
-
-        <div *ngIf="templateTypeSelected == 'SOTN'||templateTypeSelected == 'CCVPN'">
-            <div class="select-list">
-                <span style="display:inline-block;">SOTN VPN: </span>
-                <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
-                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                </nz-select>
-            </div>
-            <div class="select-list">
-                <span style="display:inline-block;"> SITE: </span>
-                <nz-select style="width: 176px;float: right;" [(ngModel)]="template2" nzAllowClear>
-                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                </nz-select>
-            </div>
-            <div *ngIf="templateTypeSelected == 'CCVPN'">
-                <div class="select-list">
-                    <span style="display:inline-block;">SD-WAN: </span>
-                    <nz-select style="width: 176px;float: right;" [(ngModel)]="template3" nzAllowClear>
-                        <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                    </nz-select>
-                </div>
-            </div>
         </div>
 
         <div *ngIf="templateTypeSelected == 'E2E Service'">
@@ -97,14 +69,7 @@
                 </nz-select>
             </div>
         </div>
-        <div *ngIf="templateTypeSelected == 'E2E Service'||templateTypeSelected == 'Network Service'">
-            <div class="select-list">
-                <span style="display:inline-block;width:70px;">TEMPLATE: </span>
-                <nz-select style="width: 176px;float: right;" [(ngModel)]="template4" nzAllowClear>
-                    <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                </nz-select>
-            </div>
-        </div>
+   
         <div *ngIf="templateTypeSelected == 'E2E Service'">
             <div class="check-box" style="margin:30px; height: 50px">
                 <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox" [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
@@ -119,7 +84,7 @@
             <span class="round">{{item.serviceDomain}}</span>
             <div class="top-list-text">
                 <span>{{item.number}}</span><br>
-                <span>{{item.serviceDomain}}&nbsp;&nbsp;Service Instances</span>
+                <span>{{item.detailName}}</span>
             </div>
         </li>
     </ul>
@@ -142,9 +107,9 @@
             <tr>
                 <th nzWidth="5%">NO</th>
                 <th nzWidth="5%"></th>
-                <th nzWidth="20%">Service Instance Id</th>
                 <th nzWidth="20%">Name</th>
-                <th nzWidth="15%">Service</th>
+                <th nzWidth="20%">Description</th>
+                <th nzWidth="15%">Use Case</th>
                 <th nzWidth="20%">Status</th>
                 <th nzWidth="15%">Action</th>
             </tr>
@@ -154,8 +119,8 @@
                 <tr>
                     <td>{{pageSize*(pageIndex-1) + i+1}}</td>
                     <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
-                    <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
                     <td>{{data["service-instance-name"] || data.nsName}}</td>
+                    <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
                     <td>
                         <p [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN','voLTEColor':data.serviceDomain=='voLTE type'}">
                             {{data.serviceDomain}}

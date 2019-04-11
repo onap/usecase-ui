@@ -33,9 +33,11 @@ nz-table {
             .ant-select-selection--single {
               height: 40px;
               line-height: 40px !important;
+              border:none !important;
               .ant-select-selection-selected-value {
                 height: 40px;
                 line-height: 40px !important;
+                margin-left: 5px !important;
               }
             }
           }
@@ -63,12 +65,15 @@ nz-table {
             color: #fff;
           }
         }
+        .ant-pagination-options-quick-jumper{
+          display: none!important;
+        }
       }
     }
   }
 }
 
-// Detail page mini table style
+// 详情页迷你表格样式
 .detailInformatioin {
     nz-table {
         .ant-table-small {
@@ -119,9 +124,11 @@ nz-pagination {
         .ant-select-selection--single {
           height: 40px;
           line-height: 40px !important;
+          border:none !important;
           .ant-select-selection-selected-value {
             height: 40px;
             line-height: 40px !important;
+            margin-left: 5px !important;
           }
         }
       }
@@ -148,6 +155,9 @@ nz-pagination {
       a {
         color: #fff;
       }
+    }
+    .ant-pagination-options-quick-jumper{
+      display: none!important;
     }
   }
 }
