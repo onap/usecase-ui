@@ -48,6 +48,7 @@ export class ServicesListComponent implements OnInit {
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
   language="en";
     iconMore=false;
+    maskShow=false;
     serviceMunber = [
         {
             "serviceDomain": "E2E",
@@ -438,6 +439,7 @@ export class ServicesListComponent implements OnInit {
     // console.log(service);
     this.thisService = service;
     this.healModelVisible = true;
+        this.maskShow = true;
     if(service.serviceDomain == "vnf"){
       this.vnfParams.vnfInstanceId = service.vnfInstanceId;
       this.myhttp.getVnfInfo(service.vnfInstanceId)
@@ -450,6 +452,7 @@ export class ServicesListComponent implements OnInit {
   }
   healOk(){
     this.healModelVisible = false;
+        this.maskShow = false;
     // nsParams
     this.nsParams.actionsHealing = this.healActions.map((item)=>{return item.value});
     let additional = {};
@@ -467,6 +470,7 @@ export class ServicesListComponent implements OnInit {
   }
   healCancel(){
     this.healModelVisible = false;
+        this.maskShow = false;
   }
 
   // show detail
@@ -504,9 +508,11 @@ export class ServicesListComponent implements OnInit {
   deleteModel(service){
     this.thisService = service;
     this.deleteModelVisible = true;
+        this.maskShow = true;
   }
   deleteOk(){
     this.deleteModelVisible = false;
+        this.maskShow = false;
     if(this.thisService["serviceDomain"] == "Network Service"){
       this.deleteNsService(this.thisService);
     }else{
@@ -516,6 +522,7 @@ export class ServicesListComponent implements OnInit {
 
   deleteCancel(){
     this.deleteModelVisible = false;
+        this.maskShow = false;
   }
 
   //ccvpn sotn createservice
