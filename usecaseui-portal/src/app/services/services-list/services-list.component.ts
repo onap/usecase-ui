@@ -496,7 +496,6 @@ export class ServicesListComponent implements OnInit {
             this.detailshow2 = true;
         }
         this.listDisplay = true;
-    this.detailshow = true;
     this.detailData = service;
     console.log(service);
   }

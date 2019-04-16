@@ -278,12 +278,10 @@ nz-range-picker {
 //2019.01.21 add services-list.component.html
 
 //creat
-nz-modal {
-  .ant-modal {
+nz-modal .serviceCreationModel.ant-modal,nz-modal .deleteModel.ant-modal, nz-modal .nsdeleteModel.ant-modal, nz-modal .healModel.ant-modal, nz-modal .scaleModel.ant-modal{
     height: 628px;
     background: url("assets/images/create-box.png") no-repeat 100% 110%;
     overflow: auto;
-  }
   .ant-modal-content {
     height: 600px;
     background: transparent;
@@ -609,4 +607,151 @@ nz-modal {
 
     }
   }
+}
+
+//gong 2019.04.15 services-list.component.html add
+//deleteModel style
+nz-modal .deleteModel.ant-modal, nz-modal .nsdeleteModel.ant-modal, nz-modal .healModel.ant-modal, nz-modal .scaleModel.ant-modal {
+  background: #ffffff;
+  height: 450px;
+  .ant-modal-content {
+    height: auto !important;
+    .ant-modal-header {
+      border-bottom: 2px solid #07A9E1;
+    }
+    .ant-modal-close {
+      background: #ffffff;
+      .ant-modal-close-x::before {
+        color: #B8C0C4;
+        border: 1px solid #B8C0C4;
+      }
+    }
+    .ant-modal-title {
+      color: #0DA9E2;
+    }
+  }
+  .ant-modal-body {
+    padding: 24px 35px;
+    h3 {
+      color: #3C4F8C;
+      margin-bottom: 10px;
+    }
+    .question, .heal-question {
+      margin-bottom: 15px;
+      h4 {
+        border-radius: 4px;
+        font-size: 16px;
+        color: rgba(60, 79, 140, 0.5);
+      }
+      .deleteModelContent, .healModelContent,.scaleModelContent{
+        color: #0DA9E2;
+        width: 306px;
+        height: 40px;
+        line-height: 40px;
+        background: rgba(229, 238, 252, 0.8);
+        border-radius: 4px;
+        text-indent: 10px;
+      }
+      .heal-label {
+        float: left;
+        line-height: 42px;
+        margin-bottom: 0;
+        color: rgba(60, 79, 140, 0.5);
+      }
+      .heal-input {
+        width: 200px;
+        height: 40px;
+        border-radius: 6px;
+        float: right;
+        margin-right: 30px;
+      }
+      .healModelContent {
+        width: 200px;
+        height: 40px;
+        overflow: hidden;
+        float: right;
+        margin-right: 30px
+      }
+    }
+    .heal-question {
+      height: 40px;
+    }
+    .e2eScaleContent {
+      margin: 10px 0;
+      .e2eScaleLable {
+        height: 40px;
+        line-height: 40px;
+        display: inline-block;
+        width: 50%;
+      }
+      nz-select{
+        .ant-select-selection--single {
+          height: 40px;
+          .ant-select-selection__rendered {
+            line-height: 40px;
+          }
+        }
+      }
+      input{
+        height: 40px;
+        line-height: 40px;
+      }
+      nz-input-number {
+        height: 40px;
+        .ant-input-number-input-wrap {
+          height: 40px;
+          line-height: 40px;
+          .ant-input-number-input {
+            height: 38px;
+            line-height: 38px;
+          }
+        }
+      }
+    }
+  }
+  .ant-modal-footer {
+    padding: 0;
+    text-align: center;
+    button {
+      margin-top: 35px;
+    }
+    button:nth-child(2) {
+      margin-right: 0;
+    }
+  }
+}
+
+nz-modal .nsdeleteModel.ant-modal {
+  height: 580px !important;
+  .ant-modal-footer {
+    padding: 0;
+    button {
+      margin-top: 15px;
+    }
+  }
+  .ant-modal-body {
+    .question {
+      nz-select {
+        .ant-select-selection--single {
+          height: 40px;
+        }
+        .ant-select-selection__rendered {
+          line-height: 40px;
+        }
+      }
+      input {
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+  }
+}
+
+nz-modal .healModel.ant-modal {
+  min-height: 470px !important;
+}
+
+nz-modal .scaleModel.ant-modal {
+  height: 628px !important;
+  overflow: auto;
 }
