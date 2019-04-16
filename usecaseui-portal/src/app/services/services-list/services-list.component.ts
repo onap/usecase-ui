@@ -44,6 +44,7 @@ export class ServicesListComponent implements OnInit {
   serviceTypeList2 = [];
   serviceTypeSelected = {name:null};
   serviceTypeSelected2 = {name: null};
+    templateTypeSelected =null;
   orchestratorSelected = {name:null,id:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
   language="en";
@@ -60,10 +61,6 @@ export class ServicesListComponent implements OnInit {
             "number": 20,
             "detailName":"Network Service"
         },
-        // {
-        //     "serviceDomain": "SOTN",
-        //     "number": 30
-        // },
         {
             "serviceDomain": "CCVPN",
             "number": 40,
@@ -104,6 +101,8 @@ export class ServicesListComponent implements OnInit {
         this.customerSelected = this.customerList[0];
                 this.customerSelected2 = this.customerList2[0];
         this.choseCustomer(this.customerSelected);
+	 this.getServiceType(this.customerSelected2);
+
         // console.log(this.customers)
       })
   }
@@ -125,19 +124,14 @@ export class ServicesListComponent implements OnInit {
     this.myhttp.getServiceTypes(this.customerSelected)
       .subscribe((data)=>{
         this.serviceTypeList = data.map((item)=>{return {name:item["service-type"]}});
-                this.serviceTypeList2 = data.map((item) => {
-                    return {name: item["service-type"]}
-                });
+              
         if(this.serviceTypeList.length==0){
           console.log("serviceTypeList.length == 0",this.serviceTypeList);
           return false;
         }
-          if (this.serviceTypeList2.length == 0) {
-              console.log("serviceTypeList2.length == 0", this.serviceTypeList2);
-              return false;
-          }
+          
         this.serviceTypeSelected = this.serviceTypeList[0];
-                this.serviceTypeSelected2 = this.serviceTypeList2[0];
+
         this.choseServiceType(this.serviceTypeSelected);
         // console.log(this.listServiceTypes);
       })
@@ -151,15 +145,35 @@ export class ServicesListComponent implements OnInit {
 
   // Create modal box 2 (dialog box) create -------------------------------
   isVisible = false;
+    customerChange(): void {
+        console.log(this.customerSelected2)
+        this.getServiceType(this.customerSelected2);
+    }
+    getServiceType(customerSelected2) {
+        this.myhttp.getServiceTypes(customerSelected2)
+            .subscribe((data) => {
+                this.serviceTypeList2 = data.map((item) => {
+                    return {name: item["service-type"]}
+                });
+                if (this.serviceTypeList2.length == 0) {
+                    console.log("serviceTypeList.length == 0", this.serviceTypeList2);
+                    return false;
+                }
+                this.serviceTypeSelected2 = this.serviceTypeList2[0];
+                this.templateTypeSelected = this.serviceTypeList2[0].name;
+                console.log(this.serviceTypeList2);
+                this.getAlltemplates();
+            })
+    }
   createModal(): void {
     this.isVisible = true;
     this.getallOrchestrators();
-    this.getAlltemplates();
+
   }
   //
-    templateTypeSelected = this.serviceTypeList2["name"];
 
   choseTemplateType(){
+  this.templateTypeSelected = this.serviceTypeSelected2.name;
     this.getallOrchestrators();
     this.getAlltemplates();
   }

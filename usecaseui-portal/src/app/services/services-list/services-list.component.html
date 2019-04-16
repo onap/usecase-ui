@@ -43,8 +43,10 @@
     <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle="Service Creation" (nzOnCancel)="handleCancel()"
               (nzOnOk)="handleOk()" nzClassName="serviceCreationModel">
         <div class="select-list">
-            <span style="display:inline-block;">Customer: </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="customerSelected2.name" nzAllowClear>
+            <span style="display:inline-block;">CUSTOMER: </span>
+
+
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="customerSelected2.name" nzAllowClear (ngModelChange)="customerChange()">
                 <nz-option *ngFor="let item of customerList2" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
             </nz-select>
         </div>
