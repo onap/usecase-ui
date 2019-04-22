@@ -22,7 +22,7 @@ import { homeData, homeVmLineData, servicesSelectData, servicesTableData, create
 export class MyhttpService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = baseUrl.baseUrl
+  baseUrl = baseUrl.baseUrl;
   url = {
     listSortMasters:this.baseUrl+"/listSortMasters",
     customers: this.baseUrl + "/uui-lcm/customers",
@@ -30,7 +30,7 @@ export class MyhttpService {
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
-    templateParameters: this.baseUrl + "/uui-lcm/service-templates/" + "*_*" + "?toscaModelPath=",
+    templateParameters: this.baseUrl + "/uui-lcm/fetchTemplateInfo",
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
     vimInfo: this.baseUrl + "/uui-lcm/locations/",
     sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers/",
@@ -101,8 +101,12 @@ export class MyhttpService {
       }
       return this.http.post<any>(this.url.nstemplateParameters, body);
     }
-    let url = this.url.templateParameters.replace("*_*", template.uuid) + template.toscaModelURL;
-    return this.http.get<any>(url);
+    let body = {
+      csarId: template.id,
+      packageType: "",
+      inputs: ""
+    };
+    return this.http.post<any>(this.url.templateParameters, body);
   }
   // siteAddress address
   getSiteAddress() {
