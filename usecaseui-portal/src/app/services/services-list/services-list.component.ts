@@ -44,7 +44,8 @@ export class ServicesListComponent implements OnInit {
   serviceTypeList2 = [];
   serviceTypeSelected = {name:null};
   serviceTypeSelected2 = {name: null};
-    templateTypeSelected =null;
+    serviceTypeSelectedName = "";
+    templateTypeSelected ="CCVPN";
   orchestratorSelected = {name:null,id:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
   language="en";
@@ -160,7 +161,7 @@ export class ServicesListComponent implements OnInit {
                     return false;
                 }
                 this.serviceTypeSelected2 = this.serviceTypeList2[0];
-                this.templateTypeSelected = this.serviceTypeList2[0].name;
+                this.serviceTypeSelectedName = this.serviceTypeSelected2.name;
                 console.log(this.serviceTypeList2);
                 this.getAlltemplates();
             })
@@ -179,10 +180,10 @@ export class ServicesListComponent implements OnInit {
   }
   //
   templates = [];
-    template1={name:null};
-    template2={name:null};
-    template3={name:null};
-    template4={name:null};
+    template1 = {name: null};
+    // template2 = {name: null};
+    // template3 = {name: null};
+    // template4 = {name: null};
 
   getAlltemplates(){  //
     this.myhttp.getAllServiceTemplates(this.templateTypeSelected)

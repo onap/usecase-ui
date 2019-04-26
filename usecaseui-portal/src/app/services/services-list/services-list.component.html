@@ -52,8 +52,19 @@
         </div>
        <div class="select-list">
             <span style="display:inline-block;">SERVICE TYPE: </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelected2.name" nzAllowClear (ngModelChange)="choseTemplateType()">
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelectedName" nzAllowClear>
                 <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name" ></nz-option>
+            </nz-select>
+        </div>
+		<div class="select-list">
+            <span style="display:inline-block;">Use Case: </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
+                       (ngModelChange)="choseTemplateType()">
+                <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
+                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
+                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
+                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
+                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
             </nz-select>
         </div>
   		<div class="select-list">
@@ -61,6 +72,20 @@
             <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
                 <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
             </nz-select>
+        </div>
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;">Orchestrator: </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
+                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="check-box" style="margin:30px; height: 50px">
+                <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox" [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
+                <label class="label" style="font-size: 20px; color: rgb(60,79,140,0.5)">Sol005</label>
+            </div>
         </div>
     </nz-modal>
 </div>
