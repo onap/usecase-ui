@@ -44,60 +44,80 @@ export class CcvpnCreationComponent implements OnInit {
         "margin": "0",
         "border-radius": "4px 4px 0px 0px"
     };
-  templateParameters = {};
-  getTemParameters(){ //Get template parameters
-    let chosedtemplates = Object.values(this.createParams.templates);
-    // console.log(this.createParams);
-    console.log(chosedtemplates);  //Template id array
-        if(this.createParams.commonParams.templateType == 'SOTN'){
-            this.tabBarStyle["width"]="351px";
+    templateParameters={
+        service:{},
+        sotnvpn:{
+            info:{},
+            sdwanvpnresource_list:[],
+            sdwansitelan_list:[]
+        },
+        site:{
+            info:{},
+            sdwansiteresource_list:[],
+            sdwandevice_list:[],
+            sdwansitewan_list:[]
         }
-    let types = ["sotnvpn","site","sdwanvpn"];
-    chosedtemplates.forEach((item,index)=>{
-      this.myhttp.getTemplateParameters(types[index],item)
-        .subscribe((data)=>{
-          if(index === 0){
-            this.templateParameters["sotnvpn"] = data;
-            this.sotnNames = data.inputs.map((item)=>{return item.name}); //The real name of the cloud
-          }else if(index === 1){
-            this.templateParameters["site"] = data;
-            let wanportnames = {};
-            this.siteNames = data.inputs.map((item)=>{return item.name}); //All the real names in the site, no grouping, put together
-            this.siteNames.forEach((item)=>{
-              if(item.includes("_device_")){
-                this.siteCpeNames.push(item);
-              }else if(item.includes("_sitewanport_")){
-                let firstName = item.split("_")[0];
-                wanportnames[firstName]?wanportnames[firstName].push(item):wanportnames[firstName]=[item];
-              }else {
-                this.siteBaseNames.push(item);
-              }
-            })
-            this.siteWanNames = Object.values(wanportnames);
-            this.siteWanNames.forEach((item)=>{
-              this.siteWanData.push(Object.assign({},this.siteWanParams));  //Add a table according to the wanport group
-            })
-                        this.siteWanData.forEach((item,index) => {
-                            item.indexs=index;
-                        });
-                        console.log(this.siteWanData)
-            // console.log(this.sotnNames)
-            // console.log(this.siteNames)
-            // console.log(this.siteBaseNames)
-            // console.log(this.siteCpeNames)
-            // console.log(this.siteWanNames)
-            // console.log(this.siteWanData)
-          }else if(index === 2){
-            this.templateParameters["sdwan"] = data;
-            this.siteGroupNames = data.inputs.map((item)=>{return item.name}); //sdwanvpn Real name
-            // console.log(this.siteGroupNames);
-          }
-         
-        },(err)=>{
+    };
 
-        })
-    })
+    getTemParameters() { //获取模板参数
+        let chosedtemplates = this.createParams.template;
+        let types = this.createParams.commonParams.templateType;
+        console.log(this.createParams);
+        console.log(chosedtemplates);  //模板id数组
+        if (types == 'SOTN') {
+            this.tabBarStyle["width"] = "351px";
+        }
+        this.myhttp.getTemplateParameters(types, chosedtemplates)
+            .subscribe((data) => {
+                let inputs=data["inputs"];
+                let vnfs=data["vnfs"];
+                this.templateParameters.service={
+                    serviceInvariantUuid:data.metadata.invariantUUID,
+                    serviceUuid:data.metadata.UUID
+                };
+                vnfs.map((item) => { //将sotnvpn和site的基本信息添加进来
+                   if( item["vnf_id"]=='sdwanvpnresource'){
+                       this.templateParameters["sotnvpn"]["info"]={resourceName: item["vnf_id"], min:item.properties["min_instances"],resourceInvariantUuid: item.metadata["invariantUUID"], resourceUuid: item.metadata["UUID"],resourceCustomizationUuid: item.metadata["customizationUUID"]}
+                   }
+                   if(item["vnf_id"]=='sdwansiteresource'){
+                       this.templateParameters["site"]["info"]={resourceName: item["vnf_id"], min:item.properties["min_instances"],resourceInvariantUuid: item.metadata["invariantUUID"], resourceUuid: item.metadata["UUID"],resourceCustomizationUuid: item.metadata["customizationUUID"]}
+                   }
+                });
 
+                //筛选 分离 sotnvpn数据
+                inputs["sdwanvpnresource_list"].map((item,index) => {
+                    if(item["required"] !=undefined){
+                        this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
+                    }
+                    if(item["sdwansitelan_list"] !=undefined && item["sdwansitelan_list"] instanceof Array === true){
+                        console.log(item)
+                        this.templateParameters["sotnvpn"]["sdwansitelan_list"]=item["sdwansitelan_list"]
+                    }
+                });
+
+                //筛选 分离 site数据
+                inputs["sdwansiteresource_list"].map((item,index) => {
+                    if(item["required"] !=undefined){
+                        this.templateParameters["site"]["sdwansiteresource_list"].push(item);
+                    }
+                    if(item["sdwandevice_list"] !=undefined && item["sdwandevice_list"] instanceof Array === true){
+                        console.log(item)
+                        this.templateParameters["site"]["sdwandevice_list"]=item["sdwandevice_list"]
+                    }
+                    if(item["sdwansitewan_list"] !=undefined && item["sdwansitewan_list"] instanceof Array === true){
+                        console.log(item)
+                        this.templateParameters["site"]["sdwansitewan_list"]=item["sdwansitewan_list"]
+                    }
+                });
+                console.log( this.templateParameters)
+
+
+
+
+
+            }, (err) => {
+
+            });
   }
   // SOTN VPN Info Input parameters
   sotnInfo = {
@@ -581,8 +601,8 @@ export class CcvpnCreationComponent implements OnInit {
         service:{
           name:this.sotnInfo.name,
           description:this.sotnInfo.description,
-          serviceInvariantUuid:this.templateParameters["sotnvpn"].invariantUUID,  //template.invariantUUID, //serviceDefId
-          serviceUuid:this.templateParameters["sotnvpn"].uuid,  //template.uuid, // uuid ?? templateId
+          // serviceInvariantUuid:this.templateParameters["sotnvpn"].invariantUUID,  //template.invariantUUID, //serviceDefId
+          // serviceUuid:this.templateParameters["sotnvpn"].uuid,  //template.uuid, // uuid ?? templateId
           globalSubscriberId:globalCustomerId,  //customer.id
           serviceType:globalServiceType,  //serviceType.value
           parameters:{
@@ -629,8 +649,8 @@ export class CcvpnCreationComponent implements OnInit {
         service:{
           name:site.baseData.name,
           description:site.baseData.description,
-          serviceInvariantUuid:this.templateParameters["site"].invariantUUID,
-          serviceUuid:this.templateParameters["site"].uuid,
+          // serviceInvariantUuid:this.templateParameters["site"].invariantUUID,
+          // serviceUuid:this.templateParameters["site"].uuid,
           globalSubscriberId:globalCustomerId,
           serviceType:globalServiceType,
           parameters:{
