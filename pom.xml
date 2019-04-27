@@ -40,7 +40,7 @@
     </modules>
 
     <properties>
-      <tomcat.version>8.0.37</tomcat.version>
+      <tomcat.version>9.0.19</tomcat.version>
     </properties>
 
     <dependencyManagement>
