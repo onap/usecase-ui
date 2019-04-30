@@ -108,10 +108,6 @@ export class MyhttpService {
     };
     return this.http.post<any>(this.url.templateParameters, body);
   }
-  // siteAddress address
-  getSiteAddress() {
-    return this.http.get<any>(this.url.addressData);
-  }
 
   getVimInfo() {
     return this.http.get<any>(this.url.vimInfo);

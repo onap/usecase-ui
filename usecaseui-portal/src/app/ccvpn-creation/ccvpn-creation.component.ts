@@ -28,7 +28,6 @@ export class CcvpnCreationComponent implements OnInit {
   constructor(private myhttp:MyhttpService) { }
 
   ngOnInit() {
-    this.getSiteAddressList();
     this.getTemParameters();
   }
 
@@ -36,46 +35,64 @@ export class CcvpnCreationComponent implements OnInit {
   @Input() namesTranslate;  //Input parameter name conversion
   @Output() closeCreate = new EventEmitter();
 
-    //tabBarStyle
-    tabBarStyle = {
-        "height": "58px",
-        "width": "528px",
-        "box-shadow": "none",
-        "margin": "0",
-        "border-radius": "4px 4px 0px 0px"
-    };
-    templateParameters={
-        service:{},
-        sotnvpn:{
-            info:{},
-            sdwanvpnresource_list:[],
-            sdwansitelan_list:[]
-        },
-        site:{
-            info:{},
-            sdwansiteresource_list:[],
-            sdwandevice_list:[],
-            sdwansitewan_list:[]
-        }
-    };
+  //tabBarStyle
+  tabBarStyle = {
+    "height": "58px",
+        "width": "460px",
+    "box-shadow": "none",
+    "margin": "0",
+    "border-radius": "4px 4px 0px 0px"
+  };
+  templateParameters = {
+    service: {},
+    sotnvpn: {
+      info: {},
+      sdwanvpnresource_list: [],
+      sdwansitelan_list: []
+    },
+    site: {
+      info: {},
+      sdwansiteresource_list: [],
+      sdwandevice_list: [],
+      sdwansitewan_list: []
+    }
+  };
 
-    getTemParameters() { //获取模板参数
+    // SOTN VPN List
+    sotnVpnTableData = [];
+    sotnInfo = {};//sotnmodel  The first part of sotnInfo
+    sotnSdwansitelanData = [];//sotnmodel The second part of the data  sdwansitelan Table
+    sotnSdwansitelanParams = {};//sdwansitelan Table  Detailed parameters of each line of data
+    tabInputShowSdwansitelan = [];//sdwansitelan Table input&span The status identifier of the label switching display
+    // Site List
+    siteTableData = [];
+    siteBaseData = {}; //sitemodel one sdwansiteresource_list
+    // cpe
+    siteCpeData = {}; //sitemodel two sdwandevice_list
+    // Wan Port
+    siteWanData = [];  //sitemodel three wan port Table data
+    siteWanParams = {}; //wan port Table Detailed parameters of each line of data
+    tabInputShowWanPort = [];//wan port Table input和span The status identifier of the label switching display
+    getKeys(item) {
+        return Object.keys(item);
+    }
+
+    getTemParameters() { //Get template parameters
         let chosedtemplates = this.createParams.template;
         let types = this.createParams.commonParams.templateType;
         console.log(this.createParams);
-        console.log(chosedtemplates);  //模板id数组
-        if (types == 'SOTN') {
-            this.tabBarStyle["width"] = "351px";
-        }
+        console.log(chosedtemplates);  //Template id array
         this.myhttp.getTemplateParameters(types, chosedtemplates)
             .subscribe((data) => {
-                let inputs=data["inputs"];
-                let vnfs=data["vnfs"];
-                this.templateParameters.service={
-                    serviceInvariantUuid:data.metadata.invariantUUID,
-                    serviceUuid:data.metadata.UUID
+                let inputs = data["inputs"];
+                let vnfs = data["vnfs"];
+                this.templateParameters.service = {
+                    name: data.metadata.name,
+                    description: data.metadata.description,
+                    serviceInvariantUuid: data.metadata.invariantUUID,
+                    serviceUuid: data.metadata.UUID
                 };
-                vnfs.map((item) => { //将sotnvpn和site的基本信息添加进来
+                vnfs.map((item) => { //Add basic information about sotnvpn and site
                    if( item["vnf_id"]=='sdwanvpnresource'){
                        this.templateParameters["sotnvpn"]["info"]={resourceName: item["vnf_id"], min:item.properties["min_instances"],resourceInvariantUuid: item.metadata["invariantUUID"], resourceUuid: item.metadata["UUID"],resourceCustomizationUuid: item.metadata["customizationUUID"]}
                    }
@@ -84,231 +101,356 @@ export class CcvpnCreationComponent implements OnInit {
                    }
                 });
 
-                //筛选 分离 sotnvpn数据
+                //Screening separation sotnvpn data
                 inputs["sdwanvpnresource_list"].map((item,index) => {
                     if(item["required"] !=undefined){
                         this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
                     }
-                    if(item["sdwansitelan_list"] !=undefined && item["sdwansitelan_list"] instanceof Array === true){
-                        console.log(item)
-                        this.templateParameters["sotnvpn"]["sdwansitelan_list"]=item["sdwansitelan_list"]
+                    if (item["sdwansitelan_list"] != undefined && item["sdwansitelan_list"] instanceof Array === true) {
+                        this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item["sdwansitelan_list"]
                     }
                 });
 
-                //筛选 分离 site数据
+                //Screening separation site data
                 inputs["sdwansiteresource_list"].map((item,index) => {
                     if(item["required"] !=undefined){
                         this.templateParameters["site"]["sdwansiteresource_list"].push(item);
                     }
-                    if(item["sdwandevice_list"] !=undefined && item["sdwandevice_list"] instanceof Array === true){
-                        console.log(item)
-                        this.templateParameters["site"]["sdwandevice_list"]=item["sdwandevice_list"]
+                    if (item["sdwandevice_list"] != undefined && item["sdwandevice_list"] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwandevice_list"] = item["sdwandevice_list"]
                     }
-                    if(item["sdwansitewan_list"] !=undefined && item["sdwansitewan_list"] instanceof Array === true){
-                        console.log(item)
-                        this.templateParameters["site"]["sdwansitewan_list"]=item["sdwansitewan_list"]
+                    if (item["sdwansitewan_list"] != undefined && item["sdwansitewan_list"] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwansitewan_list"] = item["sdwansitewan_list"]
                     }
                 });
-                console.log( this.templateParameters)
 
-
-
-
+                this.showTemParametersSotnVpn();
+                this.showTemParametersSite();
 
             }, (err) => {
 
             });
-  }
-  // SOTN VPN Info Input parameters
-  sotnInfo = {
-    name:null,description:null,
-    startTime:null,endTime:null,
-    COS:"premium",reroute:false,
-    SLS:null,dualLink:false,
-    CIR:null,EIR:null,
-    CBS:null,EBS:null,
-    colorAware:false,couplingFlag:false
-  }
-  sotnNames = [] //Real name
+    }
 
-  startTimeChange(event){
-    console.log(event)
-  }
-  endTimeChange(event){
-    console.log(event)
-  }
-
-
-  // Site List
-  siteTableData = [
-
-  ]
-  siteModeAddress = [];//site Address, filter box data, local configuration file
-  siteNames = [];//All real names in the site, not grouped, simulating real request conditions；
-
-  siteBaseData = {  //Modal box data, input parameters, binding data
-    name:null,
-    description:null,
-    type:null,
-    role:null,
-    postcode:null,
-    address:null,
-    vlan:null,
-    sotnVpnName:null, //SOTN VPN Info name
-    controlPoint:null, //When the Role of the site in the site group is set to spoke, pass the site name to the site name of the hub. Otherwise, pass the blank.
-    groupRole:null, //site group role
-    groupName:null, //site group name
-    emails:null,//  Do not show air
-    latitude:null,//
-    longitude:null,//
-    clientSignal:null//
-  };
-  siteBaseNames = [] //Real name
-  // cpe edit
-  siteCpeData = {
-    device_name:null,
-    device_version:null,
-    device_esn:null,
-    device_class:null,
-    device_systemIp:null,
-    device_vendor:null,
-    device_type:null
-  };
-  siteCpeNames = [] //Real name
-  // Wan Port edit
-  siteWanData = [];  //wan port Table binding data
-  siteWanParams = {  //Detailed parameters of each line of data, modal box
-    sitewanport_name:null,
-    sitewanport_deviceName:null,
-    sitewanport_description:null,
-    sitewanport_portType:null,
-    sitewanport_portNumber:null,
-    sitewanport_ipAddress:null,
-    sitewanport_providerIpAddress:null,
-    sitewanport_transportNetworkName:null,
-    sitewanport_inputBandwidth:null,
-        sitewanport_outputBandwidth: null,
-        tabInputShow:false,
-        indexs:null,
-  };
-  siteWanNames = [] //Real name
-  wanPortEditNum = 0;//Which line to edit
-    editWanPort(num,item,siteWanData) {     
-        console.log(this)
-        console.log(siteWanData)
-        console.log(item)      
-        siteWanData.map((its) => {
-            if(its.indexs==item.indexs){
-                if (its.tabInputShow==false) {
-                       this.wanPortEditNum = num;                   
-                    item.tabInputShow=true;
-                } else {                   
-                    item.tabInputShow=false;
-                    console.log(this.siteWanData)
+    //sotnVpn data, after combining the structure, rendering the template data to the page
+    showTemParametersSotnVpn(){
+        //sotn Data analysis, structure assembly
+        this.templateParameters.sotnvpn.sdwanvpnresource_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    item["lableShow"] = keys.split("_")[1];
+                    this.sotnInfo = Object.assign(this.sotnInfo, input);
                 }
             }
-        })
+        });
+
+        this.templateParameters.sotnvpn.sdwansitelan_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.sotnSdwansitelanParams = Object.assign(this.sotnSdwansitelanParams, this.sotnSdwansitelanParams, input);
+                }
+            }
+        });
+        this.sotnSdwansitelanData.push(this.sotnSdwansitelanParams);
+        this.sotnSdwansitelanData.map((item, index) => {
+            this.tabInputShowSdwansitelan[index] = true;
+        });
+    }
+
+    //Site data, after combining the structure, rendering the template to the page
+    showTemParametersSite() {
+        //site Data analysis, structure assembly
+        this.templateParameters.site.sdwansiteresource_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    item["lableShow"] = keys.split("_")[1];
+                    this.siteBaseData = Object.assign(this.siteBaseData, input);
+                }
+            }
+        });
+
+        this.templateParameters.site.sdwandevice_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.siteCpeData = Object.assign(this.siteCpeData, input);
+                }
+            }
+        });
+
+        this.templateParameters.site.sdwansitewan_list.push(
+            {
+                ipMode: "",
+                description: ""
+            },
+            {
+                publicIP: "",
+                description: ""
+            }
+        );
+
+        this.templateParameters.site.sdwansitewan_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.siteWanParams = Object.assign(this.siteWanParams, this.siteWanParams, input);
+                }
+            }
+        });
+        this.siteWanData.push(this.siteWanParams);
+        this.siteWanData.map((item, index) => {
+            this.tabInputShowWanPort[index] = true;
+        });
 
     }
 
-
-  // Get the site address, manual file
-  getSiteAddressList(){
-    this.myhttp.getSiteAddress()
-      .subscribe((data)=>{
-        console.log(data);
-        this.siteModeAddress = data.map((item)=>{ return item.location});
-      },(err)=>{
-        console.log(err);
-      })
-  }
-  siteModelShow = false;
-  addSite(){
-    this.siteModelShow = true;
-    this.isEdit = 0;
-  }
-  // addsite Modal box button
-  isEdit = 0; //Edit serial number, No value, 0 means increase
-  addsite_OK(){
-    this.siteBaseData.sotnVpnName = this.sotnInfo.name;
-    // let inputsData = Object.assign({},this.siteBaseData,this.siteCpeData,this.siteWanData); //Create a new object, disconnect the original reference, because you want to empty the modal box later
-    let inputs = {};
-    inputs["baseData"] = Object.assign({},this.siteBaseData);
-    inputs["cpeData"] = Object.assign({},this.siteCpeData);
-    inputs["wanportData"] = this.siteWanData.map((item)=>{
-      return Object.assign({},item);
-    })
-    console.log(inputs);
-    if(this.isEdit){
-      // Edit status does not increase
-      this.siteTableData[this.isEdit-1] = inputs; 
-      this.siteTableData = [...this.siteTableData]; //Table refresh
-      this.siteGroupTableData.forEach((item)=>{  //After the site changes the name, update the sites value in the group.
-        if(item.sites.split(";").filter((d)=>{return d!=""}).includes(this.lastSiteName)){
-          item.sites = item.sites.replace(this.lastSiteName,this.siteBaseData.name);
+    //add,edit,delete sotnSdwansitelan
+    addSotnSdwansitelan(){
+        if (this.tabInputShowSdwansitelan.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
+            return false;
         }
-      })
-    }else{
-      // this.siteTableData.push(inputs);//use push or splice modify nzData Invalid When added [nzFrontPagination]="false" ，Effective
-      this.siteTableData = [...this.siteTableData,inputs];
+        let addNum = this.sotnSdwansitelanData.length;
+        let inputsData = Object.assign({}, this.sotnSdwansitelanParams);
+        Object.keys(inputsData).forEach((item) => {//Add a new line of empty data
+            if (item != "description") {
+                inputsData[item] = null;
+            }
+        });
+        this.sotnSdwansitelanData[addNum] = inputsData;
+        this.tabInputShowSdwansitelan[addNum] = true;
+        this.sotnSdwansitelanData = [...this.sotnSdwansitelanData]; //Table refresh
+        console.log(this.sotnSdwansitelanData)
     }
-    
-    Object.keys(this.siteBaseData).forEach((item)=>{ //Clear modal box
-      this.siteBaseData[item] = null;
-    })
-    Object.keys(this.siteCpeData).forEach((item)=>{ //Clear modal box
-      this.siteCpeData[item] = null;
-    })
-    this.siteWanData.forEach((item)=>{
-      Object.keys(item).forEach((item2)=>{
-        item[item2] = null;
-      })
-    })
-    // console.log(this.siteTableData);
-    this.lastSiteName = null;
-    this.drawImage(this.siteTableData);
-    this.siteModelShow = false;
-  }
-  addsite_cancel(){
-    Object.keys(this.siteBaseData).forEach((item)=>{ //Clear modal box
-      this.siteBaseData[item] = null;
-    })
-    Object.keys(this.siteCpeData).forEach((item)=>{ //Clear modal box
-      this.siteCpeData[item] = null;
-    })
-    this.siteWanData.forEach((item)=>{
-      Object.keys(item).forEach((item2)=>{
-        item[item2] = null;
-      })
-    })
-    this.lastSiteName = null;
-    this.siteModelShow = false;
-  }
-  lastSiteName = null; //After the site is modified, if the name is changed, the name of the sites in the group needs to be updated.
-  editSite(num){ //Edit and modify the selected site information
-    this.siteModelShow = true;
-    this.isEdit=num;
-    this.siteBaseData = Object.assign({},this.siteTableData[num-1].baseData);
-    this.siteCpeData = Object.assign({},this.siteTableData[num-1].cpeData);
-    this.siteWanData = this.siteTableData[num-1].wanportData.map((item)=>{return Object.assign({},item)});
-    this.lastSiteName = this.siteBaseData.name;
-  }
-  deleteSite(num){
-    let deleteSiteName = this.siteTableData[num-1].baseData.name;   //Deleted site name
-    let groupSites = [];
-    this.siteGroupTableData.forEach((item)=>{ groupSites.push(...item.sites.split(";").filter((d)=>{return d!=""})) });
-    if(groupSites.includes(deleteSiteName)){
-      alert("this site has in grouplist；can't delete！")
-      return false;
+    editSotnSdwansitelan(num, item, sotnSdwansitelanData){
+        console.log(item)
+        if (this.tabInputShowSdwansitelan[num - 1] == false) {
+            this.tabInputShowSdwansitelan[num - 1] = true;
+        } else {
+            this.tabInputShowSdwansitelan[num - 1] = false;
+        }
+        console.log(sotnSdwansitelanData);
     }
-    this.siteTableData = this.siteTableData.filter((d,i) => i !== num-1);
-    // this.siteTableData.splice(num-1,1); //Add in template [nzFrontPagination]="false" ，Effective
-    this.drawImage(this.siteTableData);
+    deleteSotnSdwansitelan(num, item, sotnSdwansitelanData){
+        this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
+        console.log(this.sotnSdwansitelanData)
+    }
 
-    // let groupIndex = this.siteGroupTableData.findIndex((item)=>{return item.sites.split(";").includes(deleteSiteName)});
-    // console.log(groupIndex)
-    // this.deleteGroupSite(groupIndex + 1); //The first line number is 1 when deleting
-  }
+    //add,edit,delete siteWanPort
+    addSiteWan() {
+        if (this.tabInputShowWanPort.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
+            return false;
+        }
+        let addNum = this.siteWanData.length;
+        let inputsData = Object.assign({}, this.siteWanParams);
+        Object.keys(inputsData).forEach((item) => {//Add a new line of empty data
+            if (item != "description") {
+                inputsData[item] = null;
+            }
+        });
+        this.siteWanData[addNum] = inputsData;
+        this.tabInputShowWanPort[addNum] = true;
+        this.siteWanData = [...this.siteWanData]; //Table refresh
+        console.log(this.siteWanData)
+    }
+    editWanPort(num, item, siteWanData) {
+        console.log(item)
+        if (this.tabInputShowWanPort[num - 1] == false) {
+            this.tabInputShowWanPort[num - 1] = true;
+        } else {
+            this.tabInputShowWanPort[num - 1] = false;
+        }
+        console.log(siteWanData);
+    }
+    deleteWanPort(num, item, siteWanData){
+        this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
+        console.log(this.siteWanData)
+    }
+
+    //siteModel,sotnVpnModel Display sign
+    siteModelShow = false;
+    sotnVpnModelShow = false;
+    addSotnvpn(){
+        this.sotnVpnModelShow = true;
+        this.isEditSotnVpn = 0;
+    }
+    addSite() {
+        this.siteModelShow = true;
+        this.isEditSite = 0;
+    }
+
+//add sotnVpn model
+    isEditSotnVpn = 0;//Edit serial number, No value, 0 means increase
+    addSotnVpn_OK(){
+        let inputs= {
+          "sdwansitelan_list":[]
+        };
+        inputs = Object.assign(inputs, this.sotnInfo);
+        inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
+            return Object.assign({}, item);
+        });
+        console.log(inputs);
+        if (this.isEditSotnVpn) {
+            // Edit status does not increase
+            this.sotnVpnTableData[this.isEditSotnVpn - 1] = inputs;
+            this.sotnVpnTableData = [...this.sotnVpnTableData]; //Table refresh
+        } else {
+            this.sotnVpnTableData = [...this.sotnVpnTableData, inputs];
+        }
+        console.log(this.sotnVpnTableData)
+
+        Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
+            this.sotnInfo[item] = null;
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            if (index > 0) {
+                this.sotnSdwansitelanData.splice(index, 1);
+                this.tabInputShowSdwansitelan.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowSdwansitelan[index] = true;
+            }
+
+        });
+        this.sotnVpnModelShow = false;
+    }
+
+    addSotnVpn_cancel(){
+        Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
+            this.sotnInfo[item] = null;
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            if (index > 0) {
+                this.sotnSdwansitelanData.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowSdwansitelan[index] = true;
+            }
+
+        });
+        this.sotnVpnModelShow = false;
+    }
+
+    editSotnVpn(num){
+        this.sotnVpnModelShow = true;
+        this.isEditSotnVpn = num;
+        Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
+            this.sotnInfo[item] = this.sotnInfo[num - 1][item];
+        });
+        this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
+            return Object.assign({}, item)
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            this.tabInputShowSdwansitelan[index] = false;
+        });
+    }
+
+    deleteSotnVpn(num){
+        this.sotnVpnTableData = this.sotnVpnTableData.filter((d, i) => i !== num - 1);
+        console.log(this.sotnVpnTableData)
+    }
+
+// addsite model
+    isEditSite = 0; //Edit serial number, No value, 0 means increase
+    addsite_OK() {
+        let inputs = {
+            "sdwandevice_list": [],
+            "sdwansitewan_list": []
+        };
+        inputs = Object.assign(inputs, this.siteBaseData);
+        inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
+        inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
+            return Object.assign({}, item);
+        });
+        console.log(inputs);
+        if (this.isEditSite) {
+            // Edit status does not increase
+            this.siteTableData[this.isEditSite - 1] = inputs;
+            this.siteTableData = [...this.siteTableData]; //Table refresh
+        } else {
+            this.siteTableData = [...this.siteTableData, inputs];
+        }
+
+        Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
+            this.siteBaseData[item] = null;
+        });
+        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
+            this.siteCpeData[item] = null;
+        });
+        this.siteWanData.forEach((item, index) => {
+            if (index > 0) {
+                this.siteWanData.splice(index, 1);
+                this.tabInputShowWanPort.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowWanPort[index] = true;
+            }
+
+        });
+        console.log(this.siteTableData);
+        this.drawImage(this.siteTableData);
+        this.siteModelShow = false;
+    }
+
+    addsite_cancel() {
+        Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
+            this.siteBaseData[item] = null;
+        })
+        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
+            this.siteCpeData[item] = null;
+        })
+        this.siteWanData.forEach((item, index) => {
+            if (index > 0) {
+                this.siteWanData.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowWanPort[index] = true;
+            }
+
+        });
+        this.siteModelShow = false;
+    }
+
+    editSite(num) { //Edit and modify the selected site information
+        this.siteModelShow = true;
+        this.isEditSite = num;
+        Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
+            this.siteBaseData[item] = this.siteTableData[num - 1][item];
+        });
+        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
+        this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
+            return Object.assign({}, item)
+        });
+        this.siteWanData.forEach((item, index) => {
+            this.tabInputShowWanPort[index] = false;
+        });
+    }
+
+    deleteSite(num) {
+        this.siteTableData = this.siteTableData.filter((d, i) => i !== num - 1);
+        console.log(this.siteTableData)
+        this.drawImage(this.siteTableData);
+    }
 
 // Site node graphic depiction
     lines = [];
@@ -321,26 +463,23 @@ export class CcvpnCreationComponent implements OnInit {
 
     drawImage(sitelist) {
         let cx = 550;
-        let cy = 0;
-        let innerx1 = 720;
-        let innery1 = 80;
+        let cy = 40;
+        let innerx1 = 720; //Left site pattern coordinate position
+        let innery1 = 40;
         let ox = 950;
-        let oy = 0;
-        let innerx2 = 780;
-        let innery2 = 60;
+        let oy = 50;
+        let innerx2 = 780;//Right site pattern coordinate position
+        let innery2 = 50;
         let lateX1 = Math.random() * 30 + 55;
-        let lateY1 = Math.random() * -20 + 10;
-        let lateX2 = 15;
-        let lateY2 = 20;
-        // let step = sitelist.length > 1 ?sitelist.length: 1;
-
+        let lateX2 = 10;
+        let lateY1 = 15;
         this.lines = sitelist.map((item, index) => {
             let step = index + 1;
             let x = cx;
             let y = cy;
             let innerX = innerx1;
             let innerY = innery1;
-            if (step % 2 != 0) {
+            if (step % 2 != 0) { //Left site pattern coordinate position
                 x = cx;
                 y = cy;
                 innerX = innerx1;
@@ -350,11 +489,11 @@ export class CcvpnCreationComponent implements OnInit {
                     innerY = innery1;
                 } else {
                     x = cx - lateX1 * Math.ceil((step / 2)) >= 0 ? cx - lateX1 * Math.ceil((step / 2)) : -(cx - lateX1 * Math.ceil((step / 2)));
-                    y = cy + lateY1 * step >= 0 ? cy + lateY1 * step : -(cy + lateY1 * step);
+                    y = cy + lateY1 * Math.floor((step / 2));
                     innerX = this.lines[step - 3].innerX - lateX2;
-                    innerY = this.lines[step - 3].innerY + lateY2;
+                    innerY = y;
                 }
-            } else {
+            } else { //Right site pattern coordinate position
                 x = ox;
                 y = oy;
                 innerX = innerx2;
@@ -364,24 +503,22 @@ export class CcvpnCreationComponent implements OnInit {
                     innerY = innery2;
                 } else {
                     x = ox + lateX1 * (step / 2) >= 0 ? ox + lateX1 * (step / 2) : -(ox + lateX1 * (step / 2));
-                    y = oy + lateY1 * step >= 0 ? oy + lateY1 * step : -(oy + lateY1 * step);
-                    innerX = this.lines[step - 3].innerX + lateX2;
-                    innerY = this.lines[step - 3].innerY + lateY2;
+                    y = oy + lateY1 * (step / 2 - 1);
+                    innerX = this.lines[step - 3].innerX - lateX2;
+                    innerY = y;
                 }
             }
             return {
                 img: "line",
-                site: item.baseData.name,
-                x1: x + 25,
-                y1: y + 25,
+                site: item.sdwandevice_list[0].name,
+                x1: x,
+                y1: y,
                 x2: innerX,
                 y2: innerY,
                 innerX: innerX,
                 innerY: innerY
             }
         });
-
-        console.log(this.lines)
         this.render(this.imgmap, this.lines);
     }
 
@@ -439,269 +576,76 @@ export class CcvpnCreationComponent implements OnInit {
 
     }
 
-  siteName=null;
-  siteNameStyle = {
-    'display':'none',
-    'left':'0',
-    'top':'0'
-  }
-  showSite($event,item){
-    this.siteName = item.name;
-    this.siteNameStyle.display = 'block';
-  }
-  moveSite($event,item){
-    this.siteNameStyle.left = $event.clientX  + "px";
-    this.siteNameStyle.top = $event.clientY - 35 + "px";
-  }
-  hideSite($event){
-    this.siteNameStyle.display = 'none'; 
-  }
-  // siteGroup List
-  siteGroupTableData = [
+// submit createData
+    submit() {
+        let globalCustomerId = this.createParams.commonParams.customer.id;
+        let globalServiceType = this.createParams.commonParams.serviceType.name;
+        let servicebody={
+            name: this.templateParameters.service["name"],
+            description: this.templateParameters.service["description"],
+            serviceInvariantUuid: this.templateParameters.service["serviceInvariantUuid"],
+            serviceUuid:this.templateParameters.service["serviceUuid"],
+            globalSubscriberId: globalCustomerId,  //customer.id
+            serviceType: globalServiceType,  //serviceType.value
+            parameters: {
+                locationConstraints: [
+                ],
+            },
+            requestInputs: {
+            },
+            resources:[]
+        };
 
-  ]
-  siteGroupModelData = {
-    name:null,
-    topology:null,
-    sites:null,
-    role:null
-  }
-  siteGroupModelShow = false;
-  siteGroupModalTableData = [];// ==> siteTableData?
-  siteGroupNames=[];  //sdwanvpn Real name
+        let sotnbody = this.sotnVpnTableData.map((sotn) => {
+            let sotninputs = {
+                resourceIndex: 0,
+                resourceName:this.templateParameters["sotnvpn"]["info"]["resourceName"],
+                resourceInvariantUuid: this.templateParameters["sotnvpn"]["info"]["resourceInvariantUuid"],
+                resourceUuid: this.templateParameters["sotnvpn"]["info"]["resourceUuid"],
+                resourceCustomizationUuid:this.templateParameters["sotnvpn"]["info"]["resourceCustomizationUuid"],
+                parameters: {
+                    locationConstraints: [
+                    ],
+                    resources: [
+                    ],
+                    requestInputs: {}
+                }
+            };
+            sotninputs.parameters.requestInputs=Object.assign({}, sotn);
 
-  // Check box
-  allChecked = false;
-  indeterminate = false;
-  groupModal_checkAll(value){
-    this.siteGroupModalTableData.forEach(data => {
-      if (!data.disabled) {
-        data.checked = value;
-      }
-    });
-    this.refreshStatus();
-  }
-  refreshStatus(){
-    const allChecked = this.siteGroupModalTableData.filter(item => !item.disabled).every(item => item.checked === true);
-    const allUnChecked = this.siteGroupModalTableData.filter(item => !item.disabled).every(item => !item.checked);
-    this.allChecked = allChecked;
-    this.indeterminate = (!allChecked) && (!allUnChecked);
-  }
+            return sotninputs;
+        });
 
-  addSiteGroup(){
-    this.isGroupEdit = 0;
-    this.siteGroupModelShow = true;
-    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//Whether a site has been selected in the loop group, if it exists, the new group is not optional.
-    // console.log(checkedSite);
-    this.siteTableData.forEach((item,index)=>{ 
-      if(checkedSite.includes(item.baseData.name)){ 
-        this.siteGroupModalTableData.push({siteName:item.baseData.name,role:null,checked:false,disabled:true})
-      }else {
-        this.siteGroupModalTableData.push({siteName:item.baseData.name,role:null,checked:false,disabled:false})
-      }    
-    })
-  }
-  // addsiteGroup Modal box button
-  addsitegroup_OK(){  //Assign the value in the modal box to the corresponding item in the table ---> update the groupRole, groupName, and controlPoint in the selected site --->
-                      //Copy data judgment is to add or edit, update the data in the table ---> Clear the data in the modal box, easy to add next time, close the modal box
-    console.log(this.siteGroupModalTableData);
-    this.siteGroupModelData.sites="";  //Empty group member name，"" Convenience +=  ,if it's null += Will turn into "null"
-    this.siteGroupModelData.role="";  //
-    let site_controlPoint = this.siteGroupModalTableData.map((item)=>{ if(item.checked&&item.role=="hub"){ return item.siteName}}).filter((item)=>{return item!=undefined});  
-    // console.log(site_controlPoint);
-    this.siteGroupModalTableData.forEach((item,index)=>{  //The order of the sites in the modal box is the same as the order of the sites in the table.
-      if(item.checked){
-        this.siteGroupModelData.sites += item.siteName+";";
-        this.siteGroupModelData.role += item.role+";";
-        this.siteTableData[index].baseData.groupRole = item.role; //site group的role
-        this.siteTableData[index].baseData.groupName = this.siteGroupModelData.name; //site group的name
-        if(item.role == "spoke"){
-          this.siteTableData[index].baseData.controlPoint = site_controlPoint.join(); //When site group site Role it's spoke，Pass the site group inside the Role set to the hub's site name; otherwise pass the blank
-        }
-      }
-    })
+        let sitebody = this.sotnVpnTableData.map((site) => {
+            let siteinputs = {
+                resourceIndex: 0,
+                resourceName:this.templateParameters["site"]["info"]["resourceName"],
+                resourceInvariantUuid: this.templateParameters["site"]["info"]["resourceInvariantUuid"],
+                resourceUuid: this.templateParameters["site"]["info"]["resourceUuid"],
+                resourceCustomizationUuid:this.templateParameters["site"]["info"]["resourceCustomizationUuid"],
+                parameters: {
+                    locationConstraints: [
+                    ],
+                    resources: [
+                    ],
+                    requestInputs: {}
+                }
+            };
+            siteinputs.parameters.requestInputs=Object.assign({}, site);
 
-    let inputsData = {};
-    Object.assign(inputsData,this.siteGroupModelData);
-    if(this.isGroupEdit){
-      // Edit status does not increase
-      this.siteGroupTableData[this.isGroupEdit-1] = inputsData; 
-      this.siteGroupTableData = [...this.siteGroupTableData]; //Table refresh
-    }else{
-      // this.siteTableData.push(inputsData);//use push or splice modify nzData Invalid
-      this.siteGroupTableData = [...this.siteGroupTableData,inputsData];
-    }
+            return siteinputs;
+        });
 
-    Object.keys(this.siteGroupModelData).forEach((item)=>{   
-      this.siteGroupModelData[item] = null;
-    })
-    this.siteGroupModalTableData = [];
-    this.siteGroupModelShow = false;
-  }
-  addsitegroup_cancel(){
-    this.siteGroupModalTableData = [];
-    this.siteGroupModelShow = false;
-  }
-  isGroupEdit = 0; //Edit serial number, No value, 0 means increase
-  editGroupSite(num){ //Fill the currently edited row data into the modal box--->Get the current edit item sites name--->Determine the status of the site item in the updated modal box
-    this.siteGroupModelShow = true;
-    this.isGroupEdit=num;
-    this.siteGroupModelData = Object.assign({},this.siteGroupTableData[num-1]);
-    console.log(this.siteGroupModelData)
-    let editSites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //Get the site name in the group
-    // console.log(editSites);
-    let checkedSite = this.siteGroupTableData.map((item)=>{return item.sites}).join(";").split(";").filter((d)=>{return d!=""});//Whether a site has been selected in the loop group，If present, the new group is not optional
-    // console.log(checkedSite);
-    this.siteTableData.forEach((item,index)=>{ 
-      if(editSites.includes(item.baseData.name)){//First restore these three values in the site in the edit group, otherwise it will not be updated when the site is reduced.
-        item.baseData.groupRole = null; //site group的role
-        item.baseData.groupName = null; //site group的name
-        item.baseData.controlPoint = null;
-        this.siteGroupModalTableData.push({siteName:item.baseData.name,role:item.baseData.groupRole,checked:true,disabled:false})
-      }else
-      if(checkedSite.includes(item.baseData.name)){ 
-        this.siteGroupModalTableData.push({siteName:item.baseData.name,role:null,checked:false,disabled:true})
-      }else {
-        this.siteGroupModalTableData.push({siteName:item.baseData.name,role:null,checked:false,disabled:false})
-      }    
-    })
-      
-  }
-  deleteGroupSite(num){
-    let deleteSiteGroupsites = this.siteGroupTableData[num-1].sites.split(";").filter((item)=>{return item!=""}); //delete site name
-    this.siteGroupTableData = this.siteGroupTableData.filter((d,i) => i !== num-1);
-    this.siteTableData.forEach((item,index)=>{
-      if(deleteSiteGroupsites.includes(item.baseData.name)){ 
-        item.baseData.groupRole = null; //site group role
-        item.baseData.groupName = null; //site group name
-        item.baseData.controlPoint = null; 
-      }
-    })
-  }
+        servicebody.resources = sotnbody.concat(sitebody);
+        servicebody.resources.map((item,index) => {
+            item.resourceIndex=index;
+        });
 
+        console.log(sotnbody);
+        console.log(sitebody);
+        console.log(servicebody);
 
-
-  // Submit creation data
-  submit(){   
-    let globalCustomerId = this.createParams.commonParams.customer.id;
-    let globalServiceType = this.createParams.commonParams.serviceType.name;
-    let sotnInputs = {}; 
-    // Since the request template is different, the outer layer needs to loop back the real name of the request, the inner loop loops the local parameter, and assigns the current value to the real name.
-    this.sotnNames.forEach((name)=>{
-      for(let key in this.sotnInfo){
-        let nameParts = this.namesTranslate.sotnNameTranslate[key].split("_");
-        if(name.startsWith(nameParts[0])&&name.endsWith(nameParts[1])){
-          sotnInputs[name] = this.sotnInfo[key];
-          break;
-        }
-      }
-    })
-    console.log(sotnInputs);
-    let vpnbody = {
-        service:{
-          name:this.sotnInfo.name,
-          description:this.sotnInfo.description,
-          // serviceInvariantUuid:this.templateParameters["sotnvpn"].invariantUUID,  //template.invariantUUID, //serviceDefId
-          // serviceUuid:this.templateParameters["sotnvpn"].uuid,  //template.uuid, // uuid ?? templateId
-          globalSubscriberId:globalCustomerId,  //customer.id
-          serviceType:globalServiceType,  //serviceType.value
-          parameters:{
-            locationConstraints:[],
-            resources:[],
-            requestInputs:sotnInputs
-          }
-        }
-    }
-    
-    let sitebody = this.siteTableData.map((site)=>{
-      let siteInputs = {};
-      this.siteBaseNames.forEach((basename)=>{
-        for(let key in site.baseData){
-          let namePart = this.namesTranslate.siteNameTranslate.baseNames[key];
-          if(basename.endsWith(namePart)){
-            siteInputs[basename] = site.baseData[key];
-            break;
-          }
-        }
-      })
-      this.siteCpeNames.forEach((cpename)=>{
-        for(let key in site.cpeData){
-          let namePart = this.namesTranslate.siteNameTranslate.cpeNames[key];
-          if(cpename.endsWith(namePart)){
-            siteInputs[cpename] = site.cpeData[key];
-            break;
-          }
-        }
-      })
-      this.siteWanNames.forEach((item,index)=>{
-        item.forEach((wanportname)=>{
-          for(let key in site.wanportData[index]){
-            let namePart = this.namesTranslate.siteNameTranslate.wanportNames[key];
-            if(wanportname.endsWith(namePart)){
-              siteInputs[wanportname] = site.wanportData[index][key];
-              break;
-            }
-          }
-        })
-      })
-
-      return {
-        service:{
-          name:site.baseData.name,
-          description:site.baseData.description,
-          // serviceInvariantUuid:this.templateParameters["site"].invariantUUID,
-          // serviceUuid:this.templateParameters["site"].uuid,
-          globalSubscriberId:globalCustomerId,
-          serviceType:globalServiceType,
-          parameters:{
-            locationConstraints:[],
-            resources:[],
-            requestInputs:siteInputs
-          }
-        }
-      }
-    });
-    console.log(sitebody);
-
-    let groupbody = this.siteGroupTableData.map((item)=>{
-      let siteGroupInputs = {};
-      this.siteGroupNames.forEach((name)=>{
-        for(let key in item){
-          if(this.namesTranslate.siteGroupNameTranslate[key] == undefined){
-              continue;
-          }
-          let nameParts = this.namesTranslate.siteGroupNameTranslate[key].split("_");
-          if(name.startsWith(nameParts[0])&&name.endsWith(nameParts[1])){
-            siteGroupInputs[name] = item[key];
-            break;
-          }
-        }
-      })
-      return {
-        service:{
-          name:item.name,
-          description:item.topology,
-          serviceInvariantUuid:this.templateParameters["sdwan"].invariantUUID,
-          serviceUuid:this.templateParameters["sdwan"].uuid,
-          globalSubscriberId:globalCustomerId,
-          serviceType:globalServiceType,
-          parameters:{
-            locationConstraints:[],
-            resources:[],
-            requestInputs:siteGroupInputs
-          }
-        }
-      }
-    })
-    console.log(groupbody);
-
-    let createObj = {
-      vpnbody:vpnbody,
-      sitebody:sitebody,
-      groupbody:groupbody
-    }
-    
-    this.closeCreate.emit(createObj);
+        this.closeCreate.emit(servicebody);
 
   }
 
