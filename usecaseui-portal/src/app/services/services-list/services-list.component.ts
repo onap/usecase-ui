@@ -551,120 +551,55 @@ export class ServicesListComponent implements OnInit {
         this.listDisplay = false;
     console.log(obj);
     let newData; //Newly created service data for the main table
-    let stageNum = 0; //Different stages of progress, used to add up subsequent service progress;
 
-    let   createParams = "?customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected2.name +
-                        "&serviceDomain="+this.templateTypeSelected +
-                        "&parentServiceInstanceId=";
-    this.createService(obj.vpnbody,createParams).then((data)=>{
-      console.log(data)
-      this.parentServiceInstanceId = data["serviceId"]; //------------updata parentServiceInstanceId
-      newData = {  //
-        'service-instance-id':data["serviceId"],
-        'service-instance-name':obj.vpnbody.service.name,
-        serviceDomain:this.templateTypeSelected,
-        childServiceInstances:[],
-        status:"In Progress",
-        rate:0,
-        statusClass:1001,
-        tips:""
-      };
-      this.tableData = [newData,...this.tableData];
-      let updata = (prodata)=>{
-        newData.rate = Math.floor(prodata.progress/3);
-        newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+newData.rate+"%";
-        if(newData["rate"] > 100){
-          newData["status"]=prodata.status;
-          newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
-        }
-      }
-      let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"],operationType:"1001"};
-      return this.queryProgress(queryParams,updata);
-    }).then((data)=>{
-      console.log(data);
-      stageNum = newData.rate; //Phase progress value update;
-      let allprogress = {};  //
-      let querypros = [];  //All the query
-      // Additional parameters
-      let   createParams = "?customerId="+this.customerSelected.id +
-                          "&serviceType="+this.serviceTypeSelected2.name +
-                          "&serviceDomain="+"SDWAN" +
-                          "&parentServiceInstanceId="+this.parentServiceInstanceId;
+        let createParams = "?customerId=" + this.customerSelected.id +
+            "&serviceType=" + this.serviceTypeSelected2.name +
+            "&serviceDomain=" + this.templateTypeSelected;
+        this.createService(obj, createParams).then((data) => {
+            console.log(data)
+            newData = {  //Newly created service data in the main form
+                'service-instance-id': data["serviceId"],
+                'service-instance-name': obj.service.name,
+                serviceDomain: this.templateTypeSelected,
+                childServiceInstances: [],
+                status: "In Progress",
+                rate: 0,
+                statusClass: 1001,
+                tips: ""
+            };
+            this.tableData = [newData, ...this.tableData];
 
-      let createPros = obj.groupbody.map((group)=>{  //
-        return this.createService(group,createParams).then((data)=>{
-          console.log(data);
-          let updata = (prodata)=>{
-            allprogress[prodata.operationId] = prodata.progress;
-            let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress))
-            newData.rate = Math.floor(average/3) + stageNum;
-            newData.tips = newData["status"]+newData.rate+"%";
-            if(newData["rate"] > 100){
-              newData["status"]=prodata.status;
-              newData.tips =this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
-            }
-          }
-          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"],operationType:"1001"};
-          querypros.push(this.queryProgress(queryParams,updata))
-        })
-      })
-
-      return new Promise((res)=>{
-        Promise.all(createPros).then(()=>{  //All queries in querypros are added only once created
-          Promise.all(querypros).then((data)=>{
+            let updata = (prodata) => {
+                newData.rate = prodata.progress;
+                newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                    return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+                })["sortValue"] + newData.rate + "%";
+                if (newData["rate"] > 100) {
+                    newData["status"] = prodata.status;
+                    newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+                }
+            };
+            let queryParams = {serviceId: data["serviceId"], operationId: data["operationId"]};
+            return this.queryProgress(queryParams, updata);
+        }).then((data) => {
             console.log(data);
-            res("site--begin");
-          })
-        })
-      })
-    }).then((data)=>{
-      console.log(data);
-      stageNum = newData.rate; //Phase progress value update;
-      let allprogress = {};
-      let querypros = [];  //All the query
-      // Additional parameters
-      let createParams = "?customerId="+this.customerSelected.id +
-                        "&serviceType="+this.serviceTypeSelected2.name +
-                        "&serviceDomain="+"SITE" +
-                        "&parentServiceInstanceId="+this.parentServiceInstanceId;
-      let createPros = obj.sitebody.map((group)=>{
-        return this.createService(group,createParams).then((data)=>{
-          console.log(data);
-          let updata = (prodata)=>{
-            allprogress[prodata.operationId] = prodata.progress;
-            let average =((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress))
-            newData.rate = Math.floor(average/3) + stageNum;
-            newData.tips = newData["status"]+newData.rate+"%";
-            if(newData["rate"] > 100){
-              newData["status"]=prodata.status;
-              newData.tips =this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
+            newData.rate = 100;
+            newData.status = "Successful";
+            newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+            })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+            let hasUndone = this.tableData.some((item) => {
+                return item.rate < 100;
+            });
+            if (!hasUndone) {
+                setTimeout(() => {
+                    this.getTableData();
+                }, 1000)
             }
-          }
-          let queryParams = {serviceId:data["serviceId"],operationId:data["operationId"], operationType:"1001"};
-          querypros.push(this.queryProgress(queryParams,updata))
         })
-      })
-      console.log(createPros);
-      Promise.all(createPros).then(()=>{  //
-        Promise.all(querypros).then((data)=>{
-          console.log(data);
-          newData.rate = 100;
-          newData.status = "Successful";
-          newData.tips =this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
-          let hasUndone = this.tableData.some((item)=>{
-            return item.rate < 100;
-          })
-          if(!hasUndone){
-            setTimeout(()=>{
-              this.getTableData();
-            },1000)
-          }
-        })
-      })
-    })
-
-  }
+    }
 
   e2eCloseCreate(obj){
     if(!obj){

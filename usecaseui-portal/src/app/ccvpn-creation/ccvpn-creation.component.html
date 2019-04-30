@@ -34,96 +34,67 @@
        </span>
         <div id="createChart">
             <svg width="100%" height="100%">
-                <image id="domain"  xlink:href="../../assets/images/domain1.png" style="width: 15%"
-                       x="40%" y="0" />
-                <!--<line *ngFor="let item of lines" [attr.x1]="item.x1" [attr.y1]="item.y1" [attr.x2]="item.x2" [attr.y2]="item.y2"-->
-                      <!--style="stroke:#3fa8eb;stroke-width:2"/>-->
-
-                <!--&lt;!&ndash; <text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666">{{createParams.commonParams.templateType}}</text> &ndash;&gt;-->
-                <!--&lt;!&ndash;<text dx="42%" dy="45%" style="font:700 18px 'Arial';fill:#666"></text>&ndash;&gt;-->
-                <!--<g *ngFor="let item of siteImage"-->
-                   <!--(mouseover)="showSite($event,item)"-->
-                   <!--(mousemove)="moveSite($event,item)"-->
-                   <!--(mouseout)="hideSite($event)">-->
-                    <!--<image-->
-                            <!--xlink:href="../../assets/images/site.png"-->
-                            <!--[attr.x]="item.x" [attr.y]="item.y" width="50px"/>-->
-                    <!--&lt;!&ndash;<text [attr.dx]="item.x + 25" dy="72%" style="font:700 16px 'Arial';fill:#666">{{ item.name }}&ndash;&gt;-->
-                    <!--&lt;!&ndash;</text>&ndash;&gt;-->
-                <!--</g>-->
-                <!--<g *ngFor="let item of siteImage"-->
-                   <!--(mouseover)="showSite($event,item)"-->
-                   <!--(mousemove)="moveSite($event,item)"-->
-                   <!--(mouseout)="hideSite($event)">-->
-                    <!--<image-->
-                            <!--xlink:href="../../assets/images/site.png"-->
-                            <!--[attr.x]="item.x" [attr.y]="item.y" width="50px"/>-->
-                    <!--&lt;!&ndash;<text [attr.dx]="item.x + 25" dy="72%" style="font:700 16px 'Arial';fill:#666">{{ item.name }}&ndash;&gt;-->
-                    <!--&lt;!&ndash;</text>&ndash;&gt;-->
-                <!--</g>-->
-
+                <image id="domain" xlink:href="../../assets/images/domain1.png" style="width: 15%"
+                       x="40%" y="0"/>
             </svg>
             <!-- <p class="siteNameP" [ngStyle]="siteNameStyle">{{ siteName }}</p> -->
         </div>
     </div>
     <div class="creation">
         <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle>
-            <nz-tab nzTitle="SOTN VPN Info">
+            <nz-tab nzTitle="sdwanvpnresource_list">
                 <div class="sotnvpn clearfix">
-                    <!--<h3>SOTN VPN Info</h3>-->
-                    <ul>
-                        <li><span>Name:</span> <input nz-input [(ngModel)]="sotnInfo.name"></li>
-                        <li><span>Description:</span> <input nz-input [(ngModel)]="sotnInfo.description"></li>
-                        <li><span>Start Time:</span>
-                            <nz-date-picker [(ngModel)]="sotnInfo.startTime"
-                                            (ngModelChange)="startTimeChange($event)"
-                                            nzPlaceHolder="start time"
-                                            nzShowTime>
-                            </nz-date-picker>
-                        </li>
-                        <li><span>End Time:</span>
-                            <nz-date-picker [(ngModel)]="sotnInfo.endTime"
-                                            (ngModelChange)="endTimeChange($event)"
-                                            nzPlaceHolder="end time"
-                                            nzShowTime>
-                            </nz-date-picker>
-                        </li>
-                        <li><span>COS:</span>
-                            <nz-select style="width: 234px;height: 40px" [(ngModel)]="sotnInfo.COS" nzAllowClear nzPlaceHolder="Choose">
-                                <nz-option nzValue="premium" nzLabel="premium"></nz-option>
-                                <nz-option nzValue="standard" nzLabel="standard"></nz-option>
-                            </nz-select>
-                        </li>
-                        <li><span>Service Level Specification:</span> <input nz-input [(ngModel)]="sotnInfo.SLS"></li>
-                        <li><span>Dual Link:</span>
-                            <nz-select style="width: 234px;height: 40px" [(ngModel)]="sotnInfo.dualLink" nzAllowClear
-                                       nzPlaceHolder="Choose">
-                                <nz-option nzValue="no_protection" nzLabel="no_protection"></nz-option>
-                                <nz-option nzValue="static_1+1" nzLabel="static_1+1"></nz-option>
-                                <nz-option nzValue="permanent_1+1" nzLabel="permanent_1+1"></nz-option>
-                            </nz-select>
-                        </li>
-                        <li><span>CIR:</span> <input nz-input [(ngModel)]="sotnInfo.CIR"></li>
-                        <li><span>EIR:</span> <input nz-input [(ngModel)]="sotnInfo.EIR"></li>
-                        <li><span>CBS:</span> <input nz-input [(ngModel)]="sotnInfo.CBS"></li>
-                        <li><span>EBS:</span> <input nz-input [(ngModel)]="sotnInfo.EBS"></li>
-                        <li><span style="width: 130px">Reroute Enabled:</span>
-                            <nz-switch [(ngModel)]="sotnInfo.reroute"></nz-switch>
-                        </li>
-                        <li><span>Color Aware:</span>
-                            <nz-switch [(ngModel)]="sotnInfo.colorAware"></nz-switch>
-                        </li>
-                        <li><span style="width: 130px">Coupling Flag:</span>
-                            <nz-switch [(ngModel)]="sotnInfo.couplingFlag"></nz-switch>
-                        </li>
-                    </ul>
+                    <div class="service-title" style="clear: both">
+                        <span style="color: red;">*</span><span class="lable" style="width: 50px">name:</span>
+                        <input nz-input [(ngModel)]="this.templateParameters.service['name']" required="required">
+                        <span style="color: red;">*</span><span class="lable">description:</span>
+                        <input nz-input [(ngModel)]="this.templateParameters.service['description']">
+                    </div>
+                    <div style="clear: both;height: 10px">
+                        <h3 style="float: left;color: #3C4F8C">sdwanVPN List</h3>
+                        <button nz-button (click)="addSotnvpn()" class="addListBtn"
+                                style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
+                                                                           style="transform: scale(1.2);font-weight: 700"></i>Add
+                        </button>
+                    </div>
+                    <nz-table #sotnVpnTable [nzData]="sotnVpnTableData"
+                              [nzShowPagination]="false"
+                              nzSize="small">
+                        <thead>
+                        <tr>
+                            <th width="30%"> NO.</th>
+                            <th width="30%"> Name</th>
+                            <th width="30%"> topology</th>
+                            <th width="10%"> Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
+                        <tr *ngFor="let item of sotnVpnTable.data; let i = index; ">
+                            <td>{{i+1}}</td>
+                            <td>{{item.sdwanvpn_name}}</td>
+                            <td>{{item.sdwanvpn_topology}}</td>
+                            <td>
+                                <span class="action" (click)="editSotnVpn(i+1)"><i class="anticon anticon-edit"></i></span>
+                                &nbsp;
+                                <span class="action" (click)="deleteSotnVpn(i+1)"><i
+                                        class="anticon anticon-delete"></i></span>
+                            </td>
+                        </tr>
+                        <!-- </ng-template> -->
+                        </tbody>
+                    </nz-table>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="Site List">
+            <nz-tab nzTitle="sdwansiteresource_list">
                 <div class="site">
-                    <!--<h3>Site List</h3>-->
-                    <button nz-button (click)="addSite()"><i class="anticon anticon-plus"
-                                                             style="transform: scale(1.2)"></i></button>
+                    <div>
+                        <h3 style="float: left;color: #3C4F8C">Site List</h3>
+                        <button nz-button (click)="addSite()" class="addListBtn"
+                                style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
+                                                                           style="transform: scale(1.2);font-weight: 700"></i>Add
+                        </button>
+                    </div>
                     <nz-table #siteTable [nzData]="siteTableData"
                               [nzShowPagination]="false"
                               nzSize="small">
@@ -134,7 +105,7 @@
                             <th nzWidth="15%"> Description</th>
                             <th nzWidth="15%"> Post Code</th>
                             <th nzWidth="15%"> Address</th>
-                            <th nzWidth="15%"> VLAN</th>
+                            <th nzWidth="15%"> emails</th>
                             <th nzWidth="15%"> Action</th>
                         </tr>
                         </thead>
@@ -142,11 +113,11 @@
                         <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
                         <tr *ngFor="let item of siteTable.data; let i = index; ">
                             <td>{{i+1}}</td>
-                            <td>{{item.baseData.name}}</td>
-                            <td>{{item.baseData.description}}</td>
-                            <td>{{item.baseData.postcode}}</td>
-                            <td>{{item.baseData.address}}</td>
-                            <td>{{item.baseData.vlan}}</td>
+                            <td>{{item.sdwandevice_list[0].name}}</td>
+                            <td>{{item.sdwansite_description}}</td>
+                            <td>{{item.sdwansite_postcode}}</td>
+                            <td>{{item.sdwansite_address}}</td>
+                            <td>{{item.sdwansite_emails}}</td>
                             <td>
                                 <span class="action" (click)="editSite(i+1)"><i class="anticon anticon-edit"></i></span>
                                 &nbsp;
@@ -159,218 +130,124 @@
                     </nz-table>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="Site_Group List" *ngIf="createParams.commonParams.templateType == 'CCVPN'">
-                <div class="sitegroup" >
-                    <!--<h3>Site_Group List</h3>-->
-                    <button nz-button (click)="addSiteGroup()"><i class="anticon anticon-plus"
-                                                                  style="transform: scale(1.2)"></i></button>
-                    <nz-table #siteGroupTable [nzData]="siteGroupTableData"
-                              [nzLoading]="loading"
-                              [nzShowPagination]="false"
-                              nzSize="small">
-                        <thead>
-                        <tr>
-                            <th nzWidth="10%"> NO.</th>
-                            <th nzWidth="20%"> Group Name</th>
-                            <th nzWidth="20%"> Topology</th>
-                            <th nzWidth="20%"> Sites</th>
-                            <th nzWidth="15%"> Role</th>
-                            <th nzWidth="15%"> Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- <ng-template ngFor let-data [ngForOf]="siteGroupTable.data" let-i="index"> -->
-                        <tr *ngFor="let item of siteGroupTable.data; let i = index; ">
-                            <td>{{i+1}}</td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.topology}}</td>
-                            <td>{{item.sites}}</td>
-                            <td>{{item.role}}</td>
-                            <td>
-                                <span class="action" (click)="editGroupSite(i+1)"><i class="anticon anticon-edit"></i></span>
-                                &nbsp;
-                                <span class="action" (click)="deleteGroupSite(i+1)"><i
-                                        class="anticon anticon-delete"></i></span>
-                            </td>
-                        </tr>
-                        <!-- </ng-template> -->
-                        </tbody>
-                    </nz-table>
-                </div>
-            </nz-tab>
         </nz-tabset>
     </div>
-    <!-- site model-->
-    <div class="sitemodel" *ngIf="siteModelShow">
-        <h3>Site_Enterprise Service</h3>
+    <!-- sotnVpnmodel -->
+    <div class="sotnnpnmodel" *ngIf="sotnVpnModelShow">
+        <h3>sdwanvpnresource_list</h3>
         <div class="inputs">
             <ul>
-                <li><span>Name:</span> <input nz-input [(ngModel)]="siteBaseData.name" style=" margin-right: 60px;"></li>
-                <li *ngIf="createParams.commonParams.templateType == 'CCVPN'"><span>Type:</span>
-                    <nz-select [(ngModel)]="siteBaseData.type" nzAllowClear
-                               nzPlaceHolder="Choose"
-                               style=" margin-right: 60px;">
-                        <nz-option nzValue="single-gateway" nzLabel="single-gateway"></nz-option>
-                        <nz-option nzValue="dual-gateway" nzLabel="dual-gateway"></nz-option>
-                    </nz-select>
-                </li>
-                <li><span>PostCode:</span> <input nz-input [(ngModel)]="siteBaseData.postcode"></li>
-                <li><span style="margin-left: 50px">Address:</span>
-                    <nz-select [(ngModel)]="siteBaseData.address" nzAllowClear
-                               nzPlaceHolder="Choose"
-                                style="margin-right: 0">
-                        <nz-option *ngFor="let item of siteModeAddress" nzValue="{{item}}"
-                                   nzLabel="{{item}}"></nz-option>
-                    </nz-select>
-                    <!--<input nz-input [(ngModel)]="siteBaseData.address">-->
-                </li>
-                <li><span>VLAN:</span> <input nz-input [(ngModel)]="siteBaseData.vlan" style=" margin-right: 60px;"></li>
-                <li *ngIf="createParams.commonParams.templateType == 'CCVPN'"><span>Role:</span>
-                    <nz-select [(ngModel)]="siteBaseData.role" nzAllowClear
-                               nzPlaceHolder="Choose"
-                               style=" margin-right: 60px;">
-                        <nz-option nzValue="dsvpn-hub" nzLabel="dsvpn-hub"></nz-option>
-                        <nz-option nzValue="sd-wan-edge" nzLabel="sd-wan-edge"></nz-option>
-                    </nz-select>
-                </li>
-                <li><span>Description:</span> <input nz-input [(ngModel)]="siteBaseData.description"></li>
+                <li *ngFor="let item of this.templateParameters.sotnvpn.sdwanvpnresource_list">
+                    <span *ngIf="item.required" style="color: red;margin: 0;margin-right: -5px;">*</span><span>{{item.lableShow}}:</span>
+                    <input nz-input [(ngModel)]="sotnInfo[item.lable]" title="{{item.description ? item.description:null }}"
+                           required="{{item.required==true ? 'required':null}}"></li>
             </ul>
         </div>
-        <div *ngIf="createParams.commonParams.templateType == 'CCVPN'">
-            <h3>CPE</h3>
-            <div class="inputs">
-                <ul>
-                    <li><span>Name:</span> <input nz-input [(ngModel)]="siteCpeData.device_name" style=" margin-right: 60px;"></li>
-                    <li><span>Type:</span> <input nz-input [(ngModel)]="siteCpeData.device_type" style=" margin-right: 60px;"></li>
-                    <li><span>System IP:</span> <input nz-input [(ngModel)]="siteCpeData.device_systemIp"></li>
-                    <li><span style="margin-left: 50px">Version:</span> <input nz-input [(ngModel)]="siteCpeData.device_version" style="margin-right: 0"></li>
-                    <li><span>ESN:</span> <input nz-input [(ngModel)]="siteCpeData.device_esn" style=" margin-right: 60px;"></li>
-                    <li><span>Class:</span>
-                        <nz-select [(ngModel)]="siteCpeData.device_class" nzAllowClear
-                                   nzPlaceHolder="Choose"
-                                   style=" margin-right: 60px;">
-                            <nz-option nzValue="VNF" nzLabel="VNF"></nz-option>
-                            <nz-option nzValue="PNF" nzLabel="PNF"></nz-option>
-                        </nz-select>
-                    </li>
-                    <li><span>Vendor:</span> <input nz-input [(ngModel)]="siteCpeData.device_vendor"></li>
-                </ul>
-            </div>
-            <h3>WAN Port
-                <button nz-button><i class="anticon anticon-plus" style="transform: scale(1.2)"></i></button>
-            </h3>
+        <div>
+            <h3>sdwansitelan_list</h3>
             <div>
-                <nz-table #siteModalTable [nzData]="siteWanData"
-                          [nzLoading]="loading"
-                          [nzShowPagination]="false"
-                          nzSize="small">
+                <div style="width: 100%;text-align: right">
+                    <button nz-button (click)="addSotnSdwansitelan()" class="addListBtn"><i class="anticon anticon-plus"
+                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>Add
+                    </button>
+                </div>
+                <table class="siteWanTab">
                     <thead>
                     <tr>
                         <th width="4%"> NO.</th>
-                        <th width="6%"> Name</th>
-                        <th width="9%"> Description</th>
-                        <th width="7%"> PortType</th>
-                        <th width="10%"> PortNumber</th>
-                        <th width="8%"> IPAddress</th>
-                        <th width="14%"> Provider IP Address</th>
-                        <th width="13%"> Transport Nerwork</th>
-                        <th width="12%"> Input Bandwidth</th>
-                        <th width="13%"> Output Bandwidth</th>
+                        <th *ngFor="let key of getKeys(this.sotnSdwansitelanParams)">{{key}}</th>
                         <th width="7%"> Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
-                    <tr *ngFor="let item of siteModalTable.data; let i = index;">
+                    <tr *ngFor="let item of sotnSdwansitelanData; let i = index;"
+                        [ngClass]="{'tr-border':item.tabInputShowSdwansitelan ==false}">
                         <td>{{i+1}}</td>
-                        <td>
-                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_name}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_name" *ngIf="item.tabInputShow">
+                        <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="!tabInputShowSdwansitelan[i]"
+                                  title="{{this.templateParameters.sotnvpn.sdwansitelan_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwansitewan_list[a].description:null}}">{{item[key]}}</span>
+                            <input nz-input [(ngModel)]="item[key]" *ngIf="tabInputShowSdwansitelan[i] "
+                                   title="{{this.templateParameters.sotnvpn.sdwansitelan_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwansitewan_list[a].description:null}}"
+                                   required="{{item.required==true ? 'required':null}}">
                         </td>
                         <td>
-                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_description}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_description" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_portType}}</span>
-                            <nz-select style="width: 100px;" [(ngModel)]="item.sitewanport_portType" nzAllowClear
-                                       nzPlaceHolder="Choose" *ngIf="item.tabInputShow">
-                                <nz-option nzValue="GE" nzLabel="GE"></nz-option>
-                                <nz-option nzValue="FE" nzLabel="FE"></nz-option>
-                                <nz-option nzValue="XGE" nzLabel="XGE"></nz-option>
-                                <nz-option nzValue="LTE" nzLabel="LTE"></nz-option>
-                                <nz-option nzValue="xDSL(ATM)" nzLabel="xDSL(ATM)"></nz-option>
-                                <nz-option nzValue="xSDL(PTM)" nzLabel="xSDL(PTM)"></nz-option>
-                            </nz-select>
-                        </td>
-                        <td>
-                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_portNumber}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_portNumber" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                            <span *ngIf="!item.tabInputShow">{{item.sitewanport_ipAddress}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_ipAddress" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_providerIpAddress}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_providerIpAddress" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_transportNetworkName}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_transportNetworkName" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_inputBandwidth}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_inputBandwidth" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                              <span *ngIf="!item.tabInputShow">{{item.sitewanport_outputBandwidth}}</span>
-                            <input nz-input [(ngModel)]="item.sitewanport_outputBandwidth" *ngIf="item.tabInputShow">
-                        </td>
-                        <td>
-                            <span class="action" (click)="editWanPort(i+1,item,siteWanData)"><i class="anticon anticon-edit" style="margin: 0 5px"></i></span>
-                            <span class="action" (click)="deleteModel(i+1,item,siteWanData)"><i class="anticon anticon-delete"></i></span>
+                            <span class="action" (click)="editSotnSdwansitelan(i+1,item,sotnSdwansitelanData)"><i
+                                    class="anticon anticon-edit" style="margin: 0 5px;"></i></span>
+                            <span class="action" (click)="deleteSotnSdwansitelan(i+1,item,sotnSdwansitelanData)"><i
+                                    class="anticon anticon-delete"></i></span>
                         </td>
                     </tr>
                     <!-- </ng-template> -->
                     </tbody>
-                </nz-table>
+                </table>
             </div>
-            <!--<nz-modal [(nzVisible)]="wanPortModal" nzWidth="400" nzTitle="WAN Port Edit"-->
-                      <!--(nzOnCancel)="wanPortModal_Cancel()" (nzOnOk)="wanPortModal_Ok()">-->
-                <!--<ul class="wanPortModalList">-->
-                    <!--<li><span>Name:</span> <input nz-input [(ngModel)]="siteWanParams.sitewanport_name"></li>-->
-                    <!--&lt;!&ndash; <li><span>Device Name:</span> <input nz-input [(ngModel)]="siteWanParams.sitewanport_deviceName"></li> &ndash;&gt;-->
-                    <!--<li><span>Description:</span> <input nz-input [(ngModel)]="siteWanParams.sitewanport_description">-->
-                    <!--</li>-->
-                    <!--<li><span>Port Type:</span>-->
-                        <!--<nz-select style="width: 165px;" [(ngModel)]="siteWanParams.sitewanport_portType" nzAllowClear-->
-                                   <!--nzPlaceHolder="Choose">-->
-                            <!--<nz-option nzValue="GE" nzLabel="GE"></nz-option>-->
-                            <!--<nz-option nzValue="FE" nzLabel="FE"></nz-option>-->
-                            <!--<nz-option nzValue="XGE" nzLabel="XGE"></nz-option>-->
-                            <!--<nz-option nzValue="LTE" nzLabel="LTE"></nz-option>-->
-                            <!--<nz-option nzValue="xDSL(ATM)" nzLabel="xDSL(ATM)"></nz-option>-->
-                            <!--<nz-option nzValue="xSDL(PTM)" nzLabel="xSDL(PTM)"></nz-option>-->
-                        <!--</nz-select>-->
-                    <!--</li>-->
-                    <!--<li><span>Port Number:</span> <input nz-input [(ngModel)]="siteWanParams.sitewanport_portNumber">-->
-                    <!--</li>-->
-                    <!--<li><span>Ip Address:</span> <input nz-input [(ngModel)]="siteWanParams.sitewanport_ipAddress"></li>-->
-                    <!--<li><span>Provider IP Address:</span> <input nz-input-->
-                                                                 <!--[(ngModel)]="siteWanParams.sitewanport_providerIpAddress">-->
-                    <!--</li>-->
-                    <!--<li><span>Transport Nerwork:</span> <input nz-input-->
-                                                               <!--[(ngModel)]="siteWanParams.sitewanport_transportNetworkName">-->
-                    <!--</li>-->
-                    <!--<li><span>Input Bandwidth:</span> <input nz-input-->
-                                                             <!--[(ngModel)]="siteWanParams.sitewanport_inputBandwidth">-->
-                    <!--</li>-->
-                    <!--<li><span>Output Bandwidth:</span> <input nz-input-->
-                                                              <!--[(ngModel)]="siteWanParams.sitewanport_outputBandwidth">-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</nz-modal>-->
+        </div>
+
+        <div class="action">
+            <button nz-button nzType="primary" (click)="addSotnVpn_cancel()">Cancel</button>
+            <button nz-button nzType="primary" (click)="addSotnVpn_OK()">Add</button>
+        </div>
+    </div>
+    <!-- sitemodel -->
+    <div class="sitemodel" *ngIf="siteModelShow">
+        <h3>sdwansiteresource_list</h3>
+        <div class="inputs">
+            <ul>
+                <li *ngFor="let item of this.templateParameters.site.sdwansiteresource_list">
+                    <span *ngIf="item.required" style="color: red;margin: 0;margin-right: -5px;">*</span><span>{{item.lableShow}}:</span>
+                    <input nz-input [(ngModel)]="siteBaseData[item.lable]" title="{{item.description}}"
+                           required="{{item.required==true ? 'required':null}}"></li>
+            </ul>
+        </div>
+        <div>
+            <h3>sdwandevice_list</h3>
+            <div class="inputs">
+                <ul>
+                    <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
+                        <span *ngIf="item.required" style="color: red;margin: 0;margin-right: -5px;">*</span><span>{{item.lable}}:</span>
+                        <input nz-input [(ngModel)]="siteCpeData[item.lable]" title="{{item.description}}"
+                               required="{{item.required==true ? 'required':null}}"></li>
+                </ul>
+            </div>
+            <h3>sdwansitewan_list</h3>
+            <div>
+                <div style="width: 100%;text-align: right">
+                    <button nz-button (click)="addSiteWan()" class="addListBtn"><i class="anticon anticon-plus"
+                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>Add
+                    </button>
+                </div>
+                <table class="siteWanTab">
+                    <thead>
+                    <tr>
+                        <th width="4%"> NO.</th>
+                        <th *ngFor="let key of getKeys(this.siteWanParams)">{{key}}</th>
+                        <th width="7%"> Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
+                    <tr *ngFor="let item of siteWanData; let i = index;"
+                        [ngClass]="{'tr-border':item.tabInputShowWanPort ==false}">
+                        <td>{{i+1}}</td>
+                        <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="!tabInputShowWanPort[i]"
+                                  title="{{this.templateParameters.site.sdwansitewan_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwansitewan_list[a].description:null}}">{{item[key]}}</span>
+                            <input nz-input [(ngModel)]="item[key]" *ngIf="tabInputShowWanPort[i] "
+                                   title="{{this.templateParameters.site.sdwansitewan_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwansitewan_list[a].description:null}}"
+                                   required="{{item.required==true ? 'required':null}}">
+                        </td>
+                        <td>
+                            <span class="action" (click)="editWanPort(i+1,item,siteWanData)"><i
+                                    class="anticon anticon-edit" style="margin: 0 5px;"></i></span>
+                            <span class="action" (click)="deleteWanPort(i+1,item,siteWanData)"><i
+                                    class="anticon anticon-delete"></i></span>
+                        </td>
+                    </tr>
+                    <!-- </ng-template> -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="action">
@@ -378,53 +255,5 @@
             <button nz-button nzType="primary" (click)="addsite_OK()">Add</button>
         </div>
     </div>
-    <!--sitegroupmodal-->
-        <div class="sitegroupmodal" *ngIf="siteGroupModelShow" >
-            <h3>Site_Group</h3>
-            <div class="inputs">
-                <div class="list-div">
-                    <span class="fl">Group Name:</span>
-                    <input nz-input [(ngModel)]="siteGroupModelData.name" style="width: 170px" class="fr">
-                </div>
-                <div class="list-div">
-                    <span class="fl">Topology:</span>
-                    <nz-select style="width: 170px;" [(ngModel)]="siteGroupModelData.topology" nzAllowClear
-                               nzPlaceHolder="Choose" class="fr">
-                        <nz-option nzValue="full-mesh" nzLabel="full-mesh"></nz-option>
-                        <nz-option nzValue="hub-spoke" nzLabel="hub-spoke"></nz-option>
-                    </nz-select>
-                </div>
-                <nz-table #groupModalTable [nzData]="siteGroupModalTableData" [nzLoading]="loading"
-                          [nzShowPagination]="false" nzSize="small">
-                    <thead>
-                    <tr>
-                        <th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-                            (nzCheckedChange)="groupModal_checkAll($event)"></th>
-                        <th> Site Name</th>
-                        <th> Role</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let item of groupModalTable.data; let i = index;">
-                        <td nzShowCheckbox [nzDisabled]="item.disabled" [(nzChecked)]="item.checked"
-                            (nzCheckedChange)="refreshStatus($event)"></td>
-                        <td>{{ item.siteName }}</td>
-                        <td>
-                            <nz-select style="width: 80px;" [(ngModel)]="item.role"
-                                       nzAllowClear nzPlaceHolder="Choose"
-                                       [nzDisabled]="siteGroupModelData.topology != 'hub-spoke'">
-                                <nz-option nzValue="hub" nzLabel="hub"></nz-option>
-                                <nz-option nzValue="spoke" nzLabel="spoke"></nz-option>
-                            </nz-select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </nz-table>
-            </div>
-            <div class="action">
-                <button nz-button nzType="primary" (click)="addsitegroup_cancel()">Cancel</button>
-                <button nz-button nzType="primary" (click)="addsitegroup_OK()">Add</button>
-            </div>
-        </div>
-    <div class="mask" *ngIf="siteModelShow || siteGroupModelShow"></div>
+    <div class="mask" *ngIf="siteModelShow || sotnVpnModelShow"></div>
 </div>
