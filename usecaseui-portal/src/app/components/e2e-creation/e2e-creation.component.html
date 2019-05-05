@@ -35,60 +35,9 @@
                     <li><span>Description:</span> <input nz-input [(ngModel)]="service.description"></li>
                     <li><span>COS:</span> <input nz-input [(ngModel)]="service.COS"></li>
                     <li><span>EBS:</span> <input nz-input [(ngModel)]="service.EBS"></li>
-                    <li>
-                        <span style="vertical-align: top;margin-top: 3px;">checkbox</span>
-                        <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="log($event)">
-                            <div nz-row>
-                                <div nz-col style="margin-bottom: 10px"><label nz-checkbox nzValue="A"
-                                                                               [nzDisabled]="true">Mauris rutrum quam p
-                                </label></div>
-                                <div nz-col><label nz-checkbox nzValue="B" [ngModel]="true">fince in felis nec e
-                                </label></div>
-                            </div>
-                        </nz-checkbox-wrapper>
-                    </li>
                 </ul>
             </div>
-            <div class="vnf-box">
-                <h3>VNF1</h3>
-                <ul class="clearfix">
-                    <li><span>Name:</span> <input nz-input></li>
-                    <li><span>Description:</span> <input nz-input></li>
-                    <li>
-                        <span style="vertical-align: top;margin-top: 3px;">radio button</span>
-                        <nz-radio-group [(ngModel)]="radioValue1" nzName="radiogroup">
-                            <label nz-radio [ngStyle]="{'margin-bottom':'10px'}" nzValue="Selected" [ngModel]="true">Selected</label>
-                            <br>
-                            <label nz-radio [ngStyle]="style" nzValue="Disaled">Disaled</label>
-                        </nz-radio-group>
-                    </li>
-                    <li>
-                        <span>pull down:</span>
-                        <nz-select nzAllowClear [(ngModel)]="selectedValue">
-                            <nz-option nzValue="Heresanoption" nzLabel="Heresanoption"></nz-option>
-                            <nz-option nzValue="Anotheroption" nzLabel="Anotheroption"></nz-option>
-                            <nz-option nzValue="Thirdoption" nzLabel="Thirdoption"></nz-option>
-                            <nz-option nzValue="Noneoftheabove" nzLabel="Noneoftheabove"></nz-option>
-                        </nz-select>
-                    </li>
-                </ul>
-            </div>
-            <div class="vnf-box">
-                <h3>VNF2</h3>
-                <ul class="clearfix">
-                    <li><span>Name:</span> <input nz-input></li>
-                    <li><span>Description:</span> <input nz-input></li>
-                    <li>
-                        <span style="vertical-align: top;margin-top: 3px;" nzName="radiogroup2">radio button</span>
-                        <nz-radio-group [(ngModel)]="radioValue2">
-                            <label nz-radio [ngStyle]="{'margin-bottom':'10px'}" nzValue="Selected2" [ngModel]="true">Selected2</label>
-                            <br>
-                            <label nz-radio [ngStyle]="style" nzValue="Disaled2">Disaled2</label>
-                        </nz-radio-group>
-                    </li>
-                </ul>
-            </div>
-            <div class="vnf-box">
+            <div class="vnf-box" *ngIf="templateParameters.inputs.length>0">
                 <h3>template Inputs</h3>
                 <ul>
                     <li *ngFor="let parameter of templateParameters.inputs; let i = index;">
@@ -108,29 +57,31 @@
                         </nz-select> -->
                     </li>
                 </ul>
-                <h4>nestedTemplate Inputs</h4>
-                <div *ngFor="let template of templateParameters.nestedTemplates;">
-                    <h4 style="font:400 14px 'Arial';color:#aaa;">templateName: {{template.name}}</h4>
-                    <ul>
-                        <li *ngFor="let input of template.inputs; let i = index;">
-                            <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'"> {{input.name}}: </span>
-                            <input *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" nz-input
-                                   [(ngModel)]="input.value">
+            </div>
+            <div class="vnf-box" *ngFor="let template of templateParameters.nestedTemplates;">
+                <h3>{{template.name}}</h3>
+                <ul>
+                    <li *ngFor="let input of template.inputs; let i = index;">
+                        <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'"> {{input.name}}: </span>
+                        <input *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" nz-input
+                               [(ngModel)]="input.value">
 
-                            <h5 *ngIf="input.type === 'vf_location'" style="padding-left:10px;">id: {{input.name}}</h5>
-                            <span *ngIf="input.type === 'vf_location'"> vf_location: </span>
-                            <nz-select *ngIf="input.type === 'vf_location'" style="width: 165px;"
-                                       [(ngModel)]="input.value"
-                                       nzAllowClear>
-                                <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim"
-                                           [nzLabel]="vim.name"></nz-option>
-                            </nz-select>
-                            <!-- <nz-select *ngIf="input.type === 'sdn_controller'" style="width: 165px;" [(ngModel)]="input.value" nzAllowClear >
-                              <nz-option *ngFor="let control of sdnControllers" [nzValue]="control" [nzLabel]="control.name"></nz-option>
-                            </nz-select> -->
-                        </li>
-                    </ul>
-                </div>
+                        <h5 *ngIf="input.type === 'vf_location'" style="padding-left:10px;">id: {{input.name}}</h5>
+                        <span *ngIf="input.type === 'vf_location'"> vf_location: </span>
+                        <nz-select *ngIf="input.type === 'vf_location'" style="width: 165px;"
+                                   [(ngModel)]="input.value"
+                                   nzAllowClear>
+                            <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim"
+                                       [nzLabel]="vim.name"></nz-option>
+                        </nz-select>
+
+                        <!--<nz-select *ngIf="input.type === 'sdn_controller'" style="width: 165px;"-->
+                                   <!--[(ngModel)]="input.value" nzAllowClear>-->
+                            <!--<nz-option *ngFor="let control of sdnControllers" [nzValue]="control"-->
+                                       <!--[nzLabel]="control.name"></nz-option>-->
+                        <!--</nz-select>-->
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -142,8 +93,7 @@
                     <li><span>Description:</span> <input nz-input [(ngModel)]="ns_service.description"></li>
                 </ul>
             </div>
-            <div class="vnf-box">
-                <h3>Template Parameters</h3>
+            <div class="vnf-box" *ngIf="nsTemplateParameters.inputs2.length>0">
                 <h4>template Inputs</h4>
                 <ul>
                     <li *ngFor="let parameter of nsTemplateParameters.inputs2; let i = index;">
@@ -163,9 +113,9 @@
                         </nz-select> -->
                     </li>
                 </ul>
-
+            </div>
+            <div class="vnf-box">
                 <h4>vnfs Inputs</h4>
-
                 <ul>
                     <li *ngFor="let vnf of nsTemplateParameters.vnfs;">
                         <h5 style="padding-left:10px;">id: {{vnf.vnf_id}}</h5>
