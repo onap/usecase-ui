@@ -94,20 +94,32 @@ hr {
     color: #000;
 }
 /* SOTN VPN */
-.model .creation .sotnvpn .service-title{
-    margin-bottom: 35px;
+.model .creation .service-title{
+    margin:60px 50px;
 }
-.model .creation .sotnvpn .service-title .lable {
+.model .creation .service-title .info-inputs{
+    width:400px;
+    height: 42px;
     display: inline-block;
-    width: 90px;
+}
+.model .creation .service-title span{
+    height: 42px;
+    line-height: 42px;
+    vertical-align: middle;
+}
+.model .creation .service-title .lable{
+    display: inline-block;
+    width: 100px;
     font: 700 14px "Arial";
     color: #3C4F8C;
+    height: 42px;
+    line-height: 42px;
     vertical-align: middle;
     margin-left: 5px;
 }
-.model .creation .sotnvpn .service-title  input {
-    width: 234px;
-    height: 40px;
+.model .creation .service-title  input {
+    width: 230px;
+    height: 42px;
     border-radius:4px;
     outline: none;
     margin-right: 50px;
@@ -177,7 +189,7 @@ hr {
 .model .sitemodel .inputs input,.model .sitemodel .inputs nz-select {
     width: 186px;
     float: right;
-    margin-right: 25px;
+    margin-right: 60px;
 }
 .model .sotnnpnmodel .inputs input{
     width: 186px;

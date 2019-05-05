@@ -42,14 +42,16 @@
     </div>
     <div class="creation">
         <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle>
-            <nz-tab nzTitle="sdwanvpnresource_list">
+            <nz-tab nzTitle="Service Info">
+                <div class="service-title" style="clear: both">
+                    <span style="color: red;">*</span><span class="lable" style="width: 60px">name:</span>
+                    <input nz-input [(ngModel)]="this.templateParameters.service['name']" required="required">
+                    <span style="color: red;">*</span><span class="lable">description:</span>
+                    <input nz-input [(ngModel)]="this.templateParameters.service['description']">
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Sdwanvpnresource List">
                 <div class="sotnvpn clearfix">
-                    <div class="service-title" style="clear: both">
-                        <span style="color: red;">*</span><span class="lable" style="width: 50px">name:</span>
-                        <input nz-input [(ngModel)]="this.templateParameters.service['name']" required="required">
-                        <span style="color: red;">*</span><span class="lable">description:</span>
-                        <input nz-input [(ngModel)]="this.templateParameters.service['description']">
-                    </div>
                     <div style="clear: both;height: 10px">
                         <h3 style="float: left;color: #3C4F8C">sdwanVPN List</h3>
                         <button nz-button (click)="addSotnvpn()" class="addListBtn"
@@ -86,7 +88,7 @@
                     </nz-table>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="sdwansiteresource_list">
+            <nz-tab nzTitle="Sdwansiteresource List">
                 <div class="site">
                     <div>
                         <h3 style="float: left;color: #3C4F8C">Site List</h3>
@@ -134,7 +136,7 @@
     </div>
     <!-- sotnVpnmodel -->
     <div class="sotnnpnmodel" *ngIf="sotnVpnModelShow">
-        <h3>sdwanvpnresource_list</h3>
+        <h3>Base</h3>
         <div class="inputs">
             <ul>
                 <li *ngFor="let item of this.templateParameters.sotnvpn.sdwanvpnresource_list">
@@ -144,7 +146,7 @@
             </ul>
         </div>
         <div>
-            <h3>sdwansitelan_list</h3>
+            <h3>Sdwansitelan List</h3>
             <div>
                 <div style="width: 100%;text-align: right">
                     <button nz-button (click)="addSotnSdwansitelan()" class="addListBtn"><i class="anticon anticon-plus"
@@ -191,7 +193,7 @@
     </div>
     <!-- sitemodel -->
     <div class="sitemodel" *ngIf="siteModelShow">
-        <h3>sdwansiteresource_list</h3>
+        <h3>Base</h3>
         <div class="inputs">
             <ul>
                 <li *ngFor="let item of this.templateParameters.site.sdwansiteresource_list">
@@ -201,7 +203,7 @@
             </ul>
         </div>
         <div>
-            <h3>sdwandevice_list</h3>
+            <h3>Sdwandevice</h3>
             <div class="inputs">
                 <ul>
                     <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
@@ -210,7 +212,7 @@
                                required="{{item.required==true ? 'required':null}}"></li>
                 </ul>
             </div>
-            <h3>sdwansitewan_list</h3>
+            <h3>Sdwansitewan List</h3>
             <div>
                 <div style="width: 100%;text-align: right">
                     <button nz-button (click)="addSiteWan()" class="addListBtn"><i class="anticon anticon-plus"

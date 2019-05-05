@@ -38,7 +38,7 @@ export class CcvpnCreationComponent implements OnInit {
   //tabBarStyle
   tabBarStyle = {
     "height": "58px",
-        "width": "460px",
+        "width": "694px",
     "box-shadow": "none",
     "margin": "0",
     "border-radius": "4px 4px 0px 0px"
@@ -591,58 +591,14 @@ export class CcvpnCreationComponent implements OnInit {
                 locationConstraints: [
                 ],
             },
+            resources:[],
             requestInputs: {
-            },
-            resources:[]
+                sdwanvpnresource_list:[],
+                sdwansiteresource_list:[]
+            }
         };
-
-        let sotnbody = this.sotnVpnTableData.map((sotn) => {
-            let sotninputs = {
-                resourceIndex: 0,
-                resourceName:this.templateParameters["sotnvpn"]["info"]["resourceName"],
-                resourceInvariantUuid: this.templateParameters["sotnvpn"]["info"]["resourceInvariantUuid"],
-                resourceUuid: this.templateParameters["sotnvpn"]["info"]["resourceUuid"],
-                resourceCustomizationUuid:this.templateParameters["sotnvpn"]["info"]["resourceCustomizationUuid"],
-                parameters: {
-                    locationConstraints: [
-                    ],
-                    resources: [
-                    ],
-                    requestInputs: {}
-                }
-            };
-            sotninputs.parameters.requestInputs=Object.assign({}, sotn);
-
-            return sotninputs;
-        });
-
-        let sitebody = this.sotnVpnTableData.map((site) => {
-            let siteinputs = {
-                resourceIndex: 0,
-                resourceName:this.templateParameters["site"]["info"]["resourceName"],
-                resourceInvariantUuid: this.templateParameters["site"]["info"]["resourceInvariantUuid"],
-                resourceUuid: this.templateParameters["site"]["info"]["resourceUuid"],
-                resourceCustomizationUuid:this.templateParameters["site"]["info"]["resourceCustomizationUuid"],
-                parameters: {
-                    locationConstraints: [
-                    ],
-                    resources: [
-                    ],
-                    requestInputs: {}
-                }
-            };
-            siteinputs.parameters.requestInputs=Object.assign({}, site);
-
-            return siteinputs;
-        });
-
-        servicebody.resources = sotnbody.concat(sitebody);
-        servicebody.resources.map((item,index) => {
-            item.resourceIndex=index;
-        });
-
-        console.log(sotnbody);
-        console.log(sitebody);
+        servicebody.requestInputs.sdwanvpnresource_list=servicebody.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
+        servicebody.requestInputs.sdwansiteresource_list=servicebody.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
         console.log(servicebody);
 
         this.closeCreate.emit(servicebody);
