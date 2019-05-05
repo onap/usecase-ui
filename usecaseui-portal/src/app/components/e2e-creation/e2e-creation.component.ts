@@ -30,7 +30,6 @@ export class E2eCreationComponent implements OnInit {
     this.getTemParameters();
     this.getVimInfo();
     this.getSdnControllers();
-    // this.drawImage("e2e");
     console.log(this.createParams);
   }
 
@@ -208,7 +207,8 @@ export class E2eCreationComponent implements OnInit {
             let location = {
               vnfProfileId: input.name,
               locationConstraints:{
-                vimId: input.value.name + "_" + input.value.id,
+                                cloudOwner: input.value.name,
+                                cloudRegionId:input.value.id
               }
             }
             nsService.parameters.locationConstraints.push(location);
@@ -237,7 +237,8 @@ export class E2eCreationComponent implements OnInit {
         let vnfparams = {
           vnfProfileId: vnf.properties.id,
           locationConstraints: {
-            vimId: vnf.value.name + "_" + vnf.value.id,
+                        cloudOwner: vnf.value.name,
+                        cloudRegionId:vnf.value.id
           }
         }
         this.ns_service2.locationConstraints.push(vnfparams);
@@ -277,7 +278,6 @@ export class E2eCreationComponent implements OnInit {
             .projection(function (d) {
                 return [d.x-18, d.y+40];
             });
-        console.log(diagonal)
         var svg = d3.select("svg");
 
         //marker
