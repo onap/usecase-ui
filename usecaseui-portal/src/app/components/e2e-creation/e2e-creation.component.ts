@@ -59,6 +59,23 @@ export class E2eCreationComponent implements OnInit {
     inputs2:[],
     vnfs:[]
   }
+    roote2e = {
+        "name": "e2e",
+        "type": "e2e",
+        "children": []
+    };
+
+    rootns = {
+        "name": "ns",
+        "type": "ns",
+        "children": []
+    };
+
+    imgmap = {
+        '1': './assets/images/create-e2e.png',
+        '2': './assets/images/create-ns.png',
+        '3': './assets/images/create-vnf.png',
+    };
   getTemParameters(){ //Get template parameters
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
     this.myhttp.getTemplateParameters(type,this.createParams.template)
@@ -70,6 +87,22 @@ export class E2eCreationComponent implements OnInit {
         this.templateParameters.nestedTemplates.forEach((item)=>{
           item.inputs = item.inputs.filter((input)=>{return input.type !== "sdn_controller"});
         })
+                    this.templateParameters.nestedTemplates.map((item,index) => {
+                        let nsIndex={
+                            "name": "ns",
+                            "type": "ns",
+                            "children": []
+                        };
+                        nsIndex.children=item.nestedTemplates.map((item,index) => {
+                            return {
+                                "name": "vnf",
+                                "type": "vnf",
+                            }
+                        });
+                        this.roote2e.children.push(nsIndex);
+                    });
+                    console.log(this.templateParameters);
+                    console.log(this.roote2e)
       }else if(type == "ns"){
         if(typeof data["model"]=='string'){
           this.nsTemplateParameters = JSON.parse(data["model"]);
@@ -81,6 +114,12 @@ export class E2eCreationComponent implements OnInit {
         for(let key in inputs){
           this.nsTemplateParameters["inputs2"].push({name:key,type:inputs[key].type,value:inputs[key].value})
         }
+   	this.rootns.children=this.nsTemplateParameters.vnfs.map((item,index) => {
+                            return {
+                                "name": "vnf",
+                                "type": "vnf",
+                            }
+                        });
         console.log(this.nsTemplateParameters);
       }
 
@@ -217,64 +256,7 @@ export class E2eCreationComponent implements OnInit {
     this.e2eCloseCreate.emit(); 
   }
 
-    roote2e = {
-        "name": "e2e",
-        "type": "e2e",
-        "children":
-            [
-                {
-                    "name": "ns",
-                    "type": "ns",
-                    "children":
-                        [
-                            {
-                                "name": "vnf",
-                                "type": "vnf",
-                            },
-                            {
-                                "name": "vnf",
-                                "type": "vnf",
-                            }
-                        ]
-                },
-                {
-                    "name": "ns",
-                    "type": "ns",
-                    "children":
-                        [
-                            {
-                                "name": "vnf",
-                                "type": "vnf",
-                            },
-                            {
-                                "name": "vnf",
-                                "type": "vnf",
-                            }
-                        ]
-                }]
-    }
-
-    rootns = {
-                "name": "ns",
-                "type": "ns",
-                "children":
-                    [
-                        {
-                            "name": "vnf",
-                            "type": "vnf",
-                        },
-                        {
-                            "name": "vnf",
-                            "type": "vnf",
-                        }
-                    ]
-            }
-
-    imgmap = {
-        '1': './assets/images/create-e2e.png',
-        '2': './assets/images/create-ns.png',
-        '3': './assets/images/create-vnf.png',
-    };
+    
 
     drawImage(type) {
         if (type == "e2e") {
