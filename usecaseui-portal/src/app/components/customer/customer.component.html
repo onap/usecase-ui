@@ -14,6 +14,17 @@
     limitations under the License.
 -->
 <div class="content">
+    <div class="chearts">
+        <div class="Cu">
+          <p>Instance Count of Customer</p>
+          <app-pie [initData]="CUChartInit" [chartData]="CUChartData"></app-pie>
+          <div class="legend"></div><span>users</span>
+        </div>
+        <div class="type">
+          <p>Instance Count of Service Type</p>
+          <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
+        </div>
+      </div>
   <div class="customer">
     <div class="customer_title">
       <div class="customers">
@@ -28,22 +39,8 @@
       </div>
       <div class="customer_list">
         <ul>
-          <li class="active"><img src="./assets/images/customer05.png" alt=""><span>name</span><i
+          <li *ngFor ="let item of AllCustomersdata,let i = index"  [ngClass]="{active: chose ==i}" (click)="choseCustomer(i,item)"><img src="./assets/images/customer05.png" alt=""><span>{{item.name}}</span><i
               class="anticon anticon-delete" nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
-          <li><img src="./assets/images/customer05.png" alt=""><span>name</span><i class="anticon anticon-delete"
-              nzType="info"></i></li>
         </ul>
       </div>
     </div>
@@ -61,25 +58,14 @@
         <button nz-button nzType="primary" class="services_addbut">Add</button>
       </div>
       <div class="services_list">
+        <div class="border_size"></div>
         <div style="padding:0 20px;">
-          <ul>
-            <li><span>Type1</span><i class="anticon anticon-delete" nzType="info"></i></li>
-            <li><span>Type2</span><i class="anticon anticon-delete" nzType="info"></i></li>
-            <li><span>Type3</span><i class="anticon anticon-delete" nzType="info"></i></li>
-          </ul>
+            <ul>
+              <li *ngFor = "let item of AllServiceTypes" ><span>{{item.type}}</span><i class="anticon anticon-delete" nzType="info"></i></li>
+            </ul>
         </div>
       </div>
     </div>
   </div>
-  <div class="chearts">
-    <div class="Cu">
-      <p>Instance Count of Customer</p>
-      <app-pie [initData]="CUChartInit" [chartData]="CUChartData"></app-pie>
-      <div class="legend"></div><span>users</span>
-    </div>
-    <div class="type">
-      <p>Instance Count of Service Type</p>
-      <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
-    </div>
-  </div>
+ 
 </div>

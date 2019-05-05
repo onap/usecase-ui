@@ -69,6 +69,7 @@ import { PerformanceDetailsComponent } from './components/performance-details/pe
 import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { ManagemencsService } from './managemencs.service';
+import { FcapsComponent } from './fcaps/fcaps.component';
 
 @NgModule({
   providers   : [ 
@@ -106,6 +107,7 @@ import { ManagemencsService } from './managemencs.service';
     E2eDetailComponent,
     CustomerComponent ,
     PerformanceDetailsComponent,
+    FcapsComponent   
   ],
   imports: [
     BrowserModule,

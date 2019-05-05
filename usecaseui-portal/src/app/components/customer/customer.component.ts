@@ -14,6 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit } from '@angular/core';
+import { ManagemencsService } from '../../managemencs.service';
 
 @Component({
   selector: 'app-customer',
@@ -21,10 +22,39 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer.component.less']
 })
 export class CustomerComponent implements OnInit {
-
-  constructor() { }
+  public chose = '';
+ 
+  constructor(private managemencs: ManagemencsService) { }
 
   ngOnInit() {
+    this.getAllCustomers();
+    this.getCustomersPie();
+  }
+  AllCustomersdata = [];
+  AllServiceTypes = [];
+  customerber = [];
+  // Get all customers
+  active;
+  getAllCustomers() {
+    this.managemencs.getAllCustomers().subscribe((data) => {
+      this.AllCustomersdata = data.map((item)=>{return {name:item["subscriber-name"],id:item["global-customer-id"]}});
+      this.active = this.AllCustomersdata[0].id
+      this.getServiceTypes(this.active);
+      this.getCustomersColumn(this.active);
+    })
+  
+  }
+  // Get all servicetype
+  getServiceTypes(item){
+    this.managemencs.getServiceTypes(item).subscribe((data) => {
+      this.AllServiceTypes = data.map((item) => {return {type:item["service-type"],id:item["global-customer-id"]}});
+    })
+  }
+  // Switch user data
+  choseCustomer(index,item){
+    this.chose = index;
+    this.getServiceTypes(item);
+    this.getCustomersColumn(item);
   }
   customeradd = false;
   servicesadd = false;
@@ -100,20 +130,25 @@ export class CustomerComponent implements OnInit {
       }]
     }
   };
-  // getHomeAlarmData() {
-  //   this.myhttp.getHomeAlarmData()
-  //     .subscribe((data) => {
-  //       this.alarmChartData = {
-  //         series: [{
-  //           data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
-  //         }]
-  //       };
-  //     })
-  // }
+  // get customers chart pie
+  getCustomersPie(){
+    this.managemencs.getCustomersPie().subscribe((data)=>{
+      this.CUChartData = {
+        series: [{
+          data: data
+        }]
+      }
+      console.log(this.CUChartData)
+    }, (err) => {
+      console.log(err);
+    });
+  }
 
   // service bar
   serviceData: Object;
   serviceInit: Object = {
+    height: 200,
+    width:280,
     option: {
       tooltip: {
         show: true,
@@ -274,4 +309,29 @@ export class CustomerComponent implements OnInit {
       ]
     }
   }
+  name_s = [];
+  value_s = [];
+  getCustomersColumn(item){
+    this.name_s = [];
+    this.value_s = [];
+    this.managemencs.getCustomersColumn(item).subscribe((data)=>{
+      data.forEach((item)=>{
+        this.name_s.push(item.name);
+        this.value_s.push(item.value);
+      })
+      this.serviceData = {
+        yAxis:[{
+          data:this.name_s
+        }],
+        series :[{
+          data:this.value_s
+        }]
+      }
+      console.log(this.serviceData)
+    })
+  }
+
+ 
+
+  
 }

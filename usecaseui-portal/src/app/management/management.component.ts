@@ -15,6 +15,7 @@
 */
 import { Component, OnInit , HostBinding} from '@angular/core';
 import { showHideAnimate, slideToRight } from '../animates';
+import { ManagemencsService } from '../managemencs.service';
 
 @Component({
   selector: 'app-management',
@@ -27,14 +28,30 @@ import { showHideAnimate, slideToRight } from '../animates';
 export class ManagementComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
 
-  constructor() { }
+  constructor(private managemencs: ManagemencsService) { }
 
   ngOnInit() {
+    this.getAllCustomers();
   }
 
   show = "show";
   hide = "hide";
   custerhide = false;
+  AllCustomersdata = [];
+  // Get all customers
+  getAllCustomers() {
+    this.managemencs.getAllCustomers().subscribe((data) => {
+      if(data.length > 0){
+        this.show = "hide";
+        this.hide = "show";
+        this.custerhide = false;
+      }else{
+        this.show = "show";
+        this.hide = "hide";
+        this.custerhide = true;
+      } 
+    })
+  }
   customershow(){
     this.show = "show";
     this.hide = "hide";

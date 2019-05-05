@@ -33,8 +33,8 @@ export class BarComponent implements OnInit {
   ngOnInit() {
     this.initOpts = {
       renderer: 'canvas',
-      height: 200,
-      width: 280,
+      height: this.initData.height,
+      width: this.initData.width,
 
     };
     this.barOption = {

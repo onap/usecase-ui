@@ -34,9 +34,10 @@
     }
     .customer {
         height: 580px;
-        margin-right: 2.5%;
+        overflow: hidden;
+        width: 32%;
+        margin-right: 1.5%;
         border-radius: 5px;
-        width: 31%;
         background-color: #fff;
         box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
         display: inline-block;
@@ -107,10 +108,10 @@
         
     }
     .services_type {
+        overflow: hidden;
         height: 580px;
-        margin-right: 2.5%;
         border-radius: 5px;
-        width: 31%;
+        width: 32%;
         background-color: #fff;
         box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
         display: inline-block;
@@ -129,6 +130,7 @@
                 img {
                     width: 50px;
                     float: right;
+                    margin-right: -10px;
                     margin-top: 5px;
                 }
             }
@@ -158,28 +160,38 @@
                     background-color: #0DA9E2;
                 }
             }
+
             .services_list {
                 background:linear-gradient(to right, #E5F6FF, #CFEEFA);
                 height: 530px;
-                li {
-                    height: 50px;
-                    line-height: 3.5;
-                    width: 100%;
-                    border-bottom: 2px #FFFFFF dashed;
-                    i {
-                        float: right;
-                        clear: both;
-                        padding-top: 17px;
+                .border_size{
+                    position: absolute;
+                    margin-left: -8px;
+                    width: 0;
+                    height: 0;
+                    border-top: 24px solid transparent;
+                    border-bottom: 24px solid transparent;
+                    border-right: 10px solid #E5F6FF;
+                }
+                    li {
+                        height: 50px;
+                        line-height: 3.5;
+                        width: 100%;
+                        border-bottom: 2px #FFFFFF dashed;
+                        i {
+                            float: right;
+                            clear: both;
+                            padding-top: 17px;
+                        }
                     }
                 }
-
-            }
             
         }
     }
     .chearts {
         display: inline-block;
-        width: 31%;
+        width: 32%;
+        margin-right: 1.5%;  
         vertical-align: top;
         >div{
             padding: 20px 20px;

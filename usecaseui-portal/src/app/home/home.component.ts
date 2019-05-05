@@ -235,7 +235,15 @@ export class HomeComponent implements OnInit {
    // services 
   servicesBarChartData: Object;
   serviceBarChartInit: Object = {
+    height: 40,
+    width: 160,
     option: {
+      tooltip:{
+        
+      },
+      grid: {
+        
+      },
       xAxis: {
         // data: [],
         type: 'value',
@@ -245,6 +253,13 @@ export class HomeComponent implements OnInit {
         axisTick: {
           show: false
         },
+      },
+      yAxis: {
+        type: 'category',
+        show: false,
+        axisTick: {
+          show: false
+        }
       },
       series: [{
         type: 'bar',
