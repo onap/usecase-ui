@@ -94,8 +94,19 @@
         <li *ngFor="let item of serviceMunber" class="top-list">
             <span class="round">{{item.serviceDomain}}</span>
             <div class="top-list-text">
-                <span>{{item.number}}</span><br>
-                <span>{{item.detailName}}</span>
+                    <p>
+                        <span>{{item.failed}}</span>
+                        <span>failed</span>
+                    </p>
+                    <p>
+                        <span>{{item.Success}}</span>
+                        <span>Success</span>
+                    </p>
+                    <p>
+                        <span>{{item.InProgress}}</span>
+                        <span>In Progress</span>
+                    </p>
+                <p class="service-description">{{item.detailName}}</p>
             </div>
         </li>
     </ul>

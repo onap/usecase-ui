@@ -108,9 +108,9 @@ hr {
 }
 .top-list{
     position: relative;
-    width:31%;
-    height:224px;
-    margin: 15px 1%;
+    width:29%;
+    height:170px;
+    margin: 10px 1%;
     float: left;
     background:url("../../../assets/images/servicelist-e2e.png") no-repeat;
     background-size: 100% 100%;
@@ -151,15 +151,35 @@ hr {
     text-align: right;
     height: 40px;
     line-height: 20px;
-    top:45%;
-    margin-top: -20px;
     right: 50px;
     color: #fff;
-    span:nth-child(1){
-        display: inline-block;
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 20px;
+    p{
+        font-size: 14px;
+        width: 250px;
+        margin: 15px 0 0 0;
+        height: 13px;
+        clear: both;
+        span{
+            display: inline-block;
+            font-weight: 500;
+            text-align: right;
+            float: right;
+        }
+        span:nth-child(1){
+            font-size: 18px;
+            width: 40px;
+            min-width: 40px;
+        }
+        span:nth-child(2){
+            width: 85px;
+            font-size: 16px;
+        }
+    }
+    p:nth-child(1){
+        margin-top: 25px;
+    }
+    .service-description{
+        color: rgba(255,255,255,0.7);
     }
 }
 .list {

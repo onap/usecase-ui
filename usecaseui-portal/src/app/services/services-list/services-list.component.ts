@@ -54,17 +54,23 @@ export class ServicesListComponent implements OnInit {
     serviceMunber = [
         {
             "serviceDomain": "E2E",
-            "number": 10,
+            "Success": 16,
+            "failed": 4,
+            "InProgress": 11,
             "detailName":"End To End service"
         },
         {
             "serviceDomain": "NS",
-            "number": 20,
+            "Success": 21,
+            "failed": 2,
+            "InProgress": 17,
             "detailName":"Network Service"
         },
         {
             "serviceDomain": "CCVPN",
-            "number": 40,
+            "Success": 36,
+            "failed": 15,
+            "InProgress": 6,
             "detailName":"Cross Domain and Cross Layer VPN"
         }
     ];
@@ -92,21 +98,17 @@ export class ServicesListComponent implements OnInit {
           console.log("customerList.length == 0",this.customerList);
           return false;
         }
-        this.customerList2 = data.map((item) => {
-            return {name: item["subscriber-name"], id: item["global-customer-id"]}
-        });
-        if (this.customerList2.length == 0) {
-            console.log("customerList2.length == 0", this.customerList2);
-            return false;
-        }
-        this.customerSelected = this.customerList[0];
-                this.customerSelected2 = this.customerList2[0];
-        this.choseCustomer(this.customerSelected);
-	 this.getServiceType(this.customerSelected2);
-
-        // console.log(this.customers)
-      })
-  }
+                this.customerList2 = data.map((item) => {
+                    return {name: item["subscriber-name"], id: item["global-customer-id"]}
+                });
+                if (this.customerList2.length == 0) {
+                    console.log("customerList2.length == 0", this.customerList2);
+                    return false;
+                }
+                this.customerSelected = this.customerList[0];
+                this.choseCustomer(this.customerSelected);
+            })
+    }
 
   getallOrchestrators(){
     this.myhttp.getAllOrchestrators()
@@ -160,16 +162,18 @@ export class ServicesListComponent implements OnInit {
                     console.log("serviceTypeList.length == 0", this.serviceTypeList2);
                     return false;
                 }
-                this.serviceTypeSelected2 = this.serviceTypeList2[0];
+                this.serviceTypeSelected2 = this.serviceTypeSelected;
                 this.serviceTypeSelectedName = this.serviceTypeSelected2.name;
-                console.log(this.serviceTypeList2);
+                console.log(this.customerSelected2);
+                console.log(this.serviceTypeSelected2);
                 this.getAlltemplates();
             })
     }
   createModal(): void {
     this.isVisible = true;
-    this.getallOrchestrators();
-
+     this.getallOrchestrators();
+        this.customerSelected2 = this.customerSelected;
+        this.getServiceType(this.customerSelected2);
   }
   //
 
