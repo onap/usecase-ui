@@ -29,18 +29,21 @@
     <div class="customer_title">
       <div class="customers">
         <span>Customer</span>
-        <img src="./assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd">
+        <img  src="./assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd" style="cursor: pointer">
       </div>
     </div>
     <div class="customer_detail">
       <div class="customer_add" *ngIf="customeradd">
-        <input nz-input placeholder="Input customer name" class="customer_name" nzSize="default">
-        <button nz-button nzType="primary" class="customer_addbut">Add</button>
+        <input nz-input placeholder="Input customer name" class="customer_name" nzSize="default"  [(ngModel)]="addNewCustomer">
+        <button nz-button nzType="primary" class="customer_addbut" (click) = "createNewCustomer()">Add</button>
       </div>
       <div class="customer_list">
         <ul>
-          <li *ngFor ="let item of AllCustomersdata,let i = index"  [ngClass]="{active: chose ==i}" (click)="choseCustomer(i,item)"><img src="./assets/images/customer05.png" alt=""><span>{{item.name}}</span><i
-              class="anticon anticon-delete" nzType="info"></i></li>
+          <li *ngFor ="let item of AllCustomersdata,let i = index"  [ngClass]="{active: chose ==i}" (click)="choseCustomer(i,item)">
+            <img src="./assets/images/customer05.png" alt="">
+            <span>{{item.name}}</span>
+            <i class="anticon anticon-delete" nzType="info" (click)="deleteCustomerModel(item)"></i>
+          </li>
         </ul>
       </div>
     </div>
@@ -49,23 +52,55 @@
     <div class="services_type_title">
       <div class="servicess">
         <span>Services Type</span>
-        <img src="./assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd ">
+        <img src="./assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd " style="cursor: pointer">
       </div>
     </div>
     <div class="services_type_detail">
       <div class="services_add" *ngIf="servicesadd">
         <input nz-input placeholder="Input services type" class="services_name" nzSize="default">
-        <button nz-button nzType="primary" class="services_addbut">Add</button>
+        <button nz-button nzType="primary" class="services_addbut" (click) = "createNewServiceType()">Add</button>
       </div>
       <div class="services_list">
         <div class="border_size"></div>
         <div style="padding:0 20px;">
             <ul>
-              <li *ngFor = "let item of AllServiceTypes" ><span>{{item.type}}</span><i class="anticon anticon-delete" nzType="info"></i></li>
+              <li *ngFor = "let item of AllServiceTypes" >
+                <span>{{item.type}}</span>
+                <i class="anticon anticon-delete" nzType="info" (click)="deleteServiceTypeModel(item)"></i>
+              </li>
             </ul>
         </div>
       </div>
     </div>
   </div>
+
+  <nz-modal nzWidth="428"  [(nzVisible)]="deleteCustomerModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCustomerCancel()"
+            (nzOnOk)="deleteCustomerOk()"  nzClassName="deleteModel">
+    <h3><span style="color: red">*&nbsp;</span>Are you sure delete this Customer ?</h3>
+    <div class="question">
+      <h4>Customer Name:</h4>
+      <div class="deleteModelContent">{{thisdeleteCustomer["name"]}}</div>
+    </div>
+    <div class="question">
+      <h4>Customer ID:</h4>
+      <div class="deleteModelContent">{{thisdeleteCustomer["id"]}}</div>
+    </div>
+  </nz-modal>
+  <nz-modal nzWidth="428" [(nzVisible)]="deleteServiceTypeModelVisible" nzTitle="Delete" (nzOnCancel)="deleteServiceTypeCancel()"
+            (nzOnOk)="deleteServiceTypeOk()"  nzClassName="deleteModel deleteServiceTypeModel">
+    <h3><span style="color: red">*&nbsp;</span>Are you sure delete this Service Type ?</h3>
+    <div class="question">
+      <h4>Customer Name:</h4>
+      <div class="deleteModelContent">{{selectCustomer.name}}</div>
+    </div>
+    <div class="question">
+      <h4>Customer ID:</h4>
+      <div class="deleteModelContent">{{selectCustomer.id}}</div>
+    </div>
+    <div class="question">
+      <h4>Service Type:</h4>
+      <div class="deleteModelContent">{{thisdeleteServiceType["type"]}}</div>
+    </div>
+  </nz-modal>
  
 </div>

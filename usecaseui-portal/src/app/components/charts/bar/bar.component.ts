@@ -62,6 +62,7 @@ export class BarComponent implements OnInit {
   updateOption: any;
   chartDataChange() {
     this.updateOption = this.chartData;
+    console.log(this.initData.customer)
   }
   chartInit(chart) {
     this.chartIntance = chart;
