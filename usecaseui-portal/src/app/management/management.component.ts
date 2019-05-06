@@ -34,33 +34,35 @@ export class ManagementComponent implements OnInit {
     this.getAllCustomers();
   }
 
-  show = "show";
-  hide = "hide";
-  custerhide = false;
-  AllCustomersdata = [];
-  // Get all customers
-  getAllCustomers() {
-    this.managemencs.getAllCustomers().subscribe((data) => {
-      if(data.length > 0){
-        this.show = "hide";
-        this.hide = "show";
-        this.custerhide = false;
-      }else{
-        this.show = "show";
-        this.hide = "hide";
-        this.custerhide = true;
-      } 
-    })
-  }
-  customershow(){
-    this.show = "show";
-    this.hide = "hide";
-    this.custerhide = true;
-  }
-  customerhide(){
-    this.show = "hide";
-    this.hide = "show";
-    this.custerhide = false;
-  }
+    nocuster = true;
+    firstCustomer = null;
+    AllCustomersdata = [];
 
+    // Get all customers
+    getAllCustomers() {
+        this.managemencs.getAllCustomers().subscribe((data) => {
+            if (data.length > 0) {
+                this.nocuster = false;
+            } else {
+                this.nocuster = true;
+            }
+        })
+    }
+
+    createNewCustomer(customer) {
+        let createParams = {
+            customerId: customer
+        };
+        this.managemencs.createCustomer(customer, createParams).subscribe((data) => {
+            if (data["status"] == 'SUCCESS') {
+                this.nocuster = false;
+            } else {
+                this.nocuster = true;
+                console.log(data, "Interface returned error")
+            }
+        })
+    }
+    clearCustomerInput(){
+        this.firstCustomer=null;
+    }
 }
