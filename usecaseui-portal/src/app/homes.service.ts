@@ -31,6 +31,7 @@ export class HomesService {
     home_servicebarData:this.baseUrl + "",	
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters:this.baseUrl+"/listSortMasters",
+    currentLanguage:this.baseUrl+"/auxapi/languageSetting/user/",
 
   }
 
@@ -109,5 +110,10 @@ export class HomesService {
     //2019.1.2 add listSortMasters
     getListSortMasters(){
         return this.http.get<any>(this.url.listSortMasters);
+    }
+    //2019.05.08 add
+    getCurrentLanguage(currentloginId){
+      let url=this.url.currentLanguage+currentloginId;
+        return this.http.get<any>(url);
     }
 }

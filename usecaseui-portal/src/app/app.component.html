@@ -20,16 +20,34 @@
         <a routerLink="home">
           <span title>
             <i class="anticon anticon-home"></i>
-            <span> {{"Home" | translate}} </span>
+            <span> {{"i18nTextDefine_Home" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr>
+      <li nz-menu-item> 
+        <a routerLink="management">
+          <span title>
+            <i class="anticon anticon-user"></i>
+            <span> {{"i18nTextDefine_Customer" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr>
+      <li nz-menu-item> 
+        <a routerLink="fcaps">
+          <span title>
+            <i class="anticon anticon-user"></i>
+            <span> {{"i18nTextDefine_Monitor" | translate}} </span>
           </span>
         </a>
       </li>
       <hr>
       <li nz-submenu>
-        <span title><i class="anticon anticon-home"></i> {{"Services" | translate}} </span>
+        <span title><i class="anticon anticon-home"></i> {{"i18nTextDefine_Services" | translate}} </span>
         <ul>
-          <li nz-menu-item><a routerLink='services/services-list'> {{"Services List" | translate}}</a></li>
-          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> Onboard VNF/VM </a></li>
+          <li nz-menu-item><a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a></li>
+          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_Onboard_VNF/VM" | translate}} </a></li>
         </ul>
       </li>
       <!-- <hr>
@@ -37,16 +55,16 @@
         <a routerLink="alarm">
           <span title>
             <i class="anticon anticon-mail"></i>
-            <span> {{"Alarm" | translate}} </span>
+            <span> {{"i18nTextDefine_Alarm" | translate}} </span>
           </span>
         </a>
       </li>
       <hr> -->
       <!-- <li nz-submenu>
-        <span title><i class="anticon anticon-setting"></i> {{"Monitor" | translate}} </span>
+        <span title><i class="anticon anticon-setting"></i> {{"i18nTextDefine_Monitor" | translate}} </span>
         <ul>
-          <li nz-menu-item><a routerLink='alarm'> {{"Alarm" | translate}} </a></li>
-          <li nz-menu-item><a routerLink='performance/performance-vnf'> {{"Performance" | translate}}</a></li>
+          <li nz-menu-item><a routerLink='alarm'> {{"i18nTextDefine_Alarm" | translate}} </a></li>
+          <li nz-menu-item><a routerLink='performance/performance-vnf'> {{"i18nTextDefine_Performance" | translate}}</a></li>
         </ul>
       </li> -->
       <hr>
@@ -54,7 +72,7 @@
         <a routerLink="network">
           <span title>
             <i class="anticon anticon-share-alt"></i>
-            <span> {{"Network" | translate}} </span>
+            <span> {{"i18nTextDefine_NetworkTopology" | translate}} </span>
           </span>
         </a>
       </li>

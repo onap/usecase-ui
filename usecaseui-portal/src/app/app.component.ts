@@ -13,8 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import {Component} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+import {MyhttpService} from "./myhttp.service";
+import {HomesService} from "./homes.service";
 
 
 @Component({
@@ -23,15 +25,37 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  constructor(private translate:TranslateService){
-    translate.addLangs(['en', 'zh']);
-    translate.setDefaultLang('en');
-    // translate.use('en');
-  }
+
+    constructor(private translate: TranslateService,private myhttp: HomesService) {
+        this.currentLanguageGet();
+        translate.addLangs(['en', 'zh']);
+        // translate.use('en');
+    }
 
   
   Language:String[] = ["zh","en"];
-  selectLanguage = "en";
+    //209.05.08 Get the currentLanguage
+    currentloginId = null;
+    currentLanguage = "en";
+    currentLanguageGet() {
+        this.currentloginId = sessionStorage.getItem("loginId") || null;
+        if (this.currentloginId != null) {
+            this.myhttp.getCurrentLanguage(this.currentloginId)
+                .subscribe(
+                    (data) => {
+                        this.currentLanguage = data.languageName.toLowerCase();
+                        this.translate.use(this.currentLanguage);
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                )
+        }else {
+           this.translate.setDefaultLang('en');
+        }
+    }
+
+    selectLanguage = "en";
 
   changeLanguage(item){
     this.selectLanguage = item;
