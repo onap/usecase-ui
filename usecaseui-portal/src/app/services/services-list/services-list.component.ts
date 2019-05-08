@@ -57,21 +57,21 @@ export class ServicesListComponent implements OnInit {
             "Success": 16,
             "failed": 4,
             "InProgress": 11,
-            "detailName":"End To End service"
+            "detailName":"i18nTextDefine_End_To_End_Service"
         },
         {
             "serviceDomain": "NS",
             "Success": 21,
             "failed": 2,
             "InProgress": 17,
-            "detailName":"Network Service"
+            "detailName":"i18nTextDefine_Network_Service"
         },
         {
             "serviceDomain": "CCVPN",
             "Success": 36,
             "failed": 15,
             "InProgress": 6,
-            "detailName":"Cross Domain and Cross Layer VPN"
+            "detailName":"i18nTextDefine_Cross_Domain_and_Cross_Layer_VPN"
         }
     ];
 
