@@ -16,6 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { HomesService } from '../homes.service';
 import { slideToRight } from '../animates';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-home',
@@ -109,15 +110,64 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  // performance
-  performanceVnfNum = 0;
-  performanceVmNum = 0;
-  getHomePerformanceData(){
-    this.myhttp.getHomePerformanceData()
-      .subscribe((data)=>{
-        this.performanceVnfNum = data.length;
-      })
-  }
+    // performance
+    // performanceVnfNum = 0;
+    // performanceVmNum = 0;
+    // getHomePerformanceData() {
+    //   this.myhttp.getHomePerformanceData()
+    //     .subscribe((data) => {
+    //       this.performanceVnfNum = data.length;
+    //     })
+    // }
+
+    // VM alarm
+    VMAlarmChartData: Object;
+    VMAlarmChartInit: Object = {
+        height: 180,
+        option: {
+            color: [
+                {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FB93C2' 
+                    }, {
+                        offset: 1, color: '#FB7788' 
+                    }],
+                    globalCoord: false // 
+                }, {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#A6BFE4' 
+                    }, {
+                        offset: 1, color: '#7A8BAE' 
+                    }],
+                    globalCoord: false // 缺省为 false
+                }],
+            series: [{
+                name: "告警信息",
+                radius: ['50%', '70%'],
+                center: ['50%', '45%'],
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    emphasis: {
+                        show: true,
+                        formatter: '{b}\n{c},{d}%',
+                        color: "#3C4F8C"
+                    }
+                }
+            }]
+        }
+    };
 
   // alarm bar
   alarmChartData:Object;
@@ -186,8 +236,13 @@ export class HomeComponent implements OnInit {
             data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
           }]
         };
-      })
-  }
+                this.VMAlarmChartData = {
+                    series: [{
+                        data: [{name: "Active", value: data[0]}, {name: "Fixed", value: data[1]}]
+                    }]
+                };
+            })
+    }
 
   // alarm lin
   alarmLineChartData:Object;
@@ -329,6 +384,7 @@ export class HomeComponent implements OnInit {
             { data: [Val1 - Val2] },
           ]
         }
+                console.log(this.servicesBarChartData)
       }, (err) => {
         console.log(err);
       })
