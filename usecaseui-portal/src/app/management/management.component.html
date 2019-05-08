@@ -16,14 +16,14 @@
 <div class="content" style="padding: 20px 20px;height: 100vh">
   <div class="management"  *ngIf="nocuster" >
     <div class="title">
-      <p>Create initial customer</p>
-      <span>Customer has not been created in ONAP </span>
-      <span>please create customer and its service type</span>
+      <p> {{"i18nTextDefine_Create_initial_customer" | translate}} </p>
+      <span> {{"i18nTextDefine_Customer_not_in_ONAP" | translate}} </span>
+      <span> {{"i18nTextDefine_createCustomer&serviceType" | translate}} </span>
       <img src="../../assets/images/customer01.png" alt="">
-      <input nz-input placeholder="input customer name" nzSize="large" style="height: 50px" [(ngModel)]="firstCustomer">
+      <input nz-input placeholder=" {{'i18nTextDefine_input_customerName' | translate}} " nzSize="large" style="height: 50px" [(ngModel)]="firstCustomer">
       <div class="action">
-        <button nz-button nzType="primary" class="cancel" (click) = "clearCustomerInput()">Cancel</button>
-        <button nz-button nzType="primary" class="add" (click) = "createNewCustomer(firstCustomer)">Add</button>
+        <button nz-button nzType="primary" class="cancel" (click) = "clearCustomerInput()"> {{"i18nTextDefine_Cancel" | translate}} </button>
+        <button nz-button nzType="primary" class="add" (click) = "createNewCustomer(firstCustomer)"> {{"i18nTextDefine_Add" | translate}} </button>
       </div>
     </div>
     <div class="image">

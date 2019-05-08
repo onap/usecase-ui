@@ -149,10 +149,10 @@ export class HomeComponent implements OnInit {
                     }, {
                         offset: 1, color: '#7A8BAE' 
                     }],
-                    globalCoord: false // 缺省为 false
+                    globalCoord: false
                 }],
             series: [{
-                name: "告警信息",
+                name: "",
                 radius: ['50%', '70%'],
                 center: ['50%', '45%'],
                 label: {
@@ -244,7 +244,7 @@ export class HomeComponent implements OnInit {
             })
     }
 
-  // alarm lin
+  // alarm line
   alarmLineChartData:Object;
   alarmLineChartInit:Object = {
     height:320,
