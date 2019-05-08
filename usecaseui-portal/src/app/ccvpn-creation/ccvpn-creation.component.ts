@@ -17,6 +17,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { MyhttpService } from '../myhttp.service';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
   selector: 'app-ccvpn-creation',
@@ -32,7 +33,6 @@ export class CcvpnCreationComponent implements OnInit {
   }
 
   @Input() createParams;
-  @Input() namesTranslate;  //Input parameter name conversion
   @Output() closeCreate = new EventEmitter();
 
   //tabBarStyle
@@ -244,6 +244,12 @@ export class CcvpnCreationComponent implements OnInit {
         console.log(sotnSdwansitelanData);
     }
     deleteSotnSdwansitelan(num, item, sotnSdwansitelanData){
+        if(this.sotnSdwansitelanData.length <= 1){
+            console.log("num>=1","sotnSdwansitelanData");
+            return false;
+        }else {
+
+        }
         this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
         console.log(this.sotnSdwansitelanData)
     }
@@ -275,6 +281,10 @@ export class CcvpnCreationComponent implements OnInit {
         console.log(siteWanData);
     }
     deleteWanPort(num, item, siteWanData){
+        if(this.siteWanData.length <= 1){
+            console.log("num>=1","siteWanData");
+            return false;
+        }
         this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
         console.log(this.siteWanData)
     }

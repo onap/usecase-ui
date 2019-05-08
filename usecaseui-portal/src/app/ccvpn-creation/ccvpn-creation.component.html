@@ -18,10 +18,10 @@
 <div class="model creation-model">
     
     <div class="top-title">
-        <h3 class="title fl">{{createParams.commonParams.templateType}} Instance Creation</h3>
+        <h3 class="title fl">{{createParams.commonParams.templateType}}  {{"i18nTextDefine_InstanceCreation" | translate}} </h3>
         <div class="fl" style="width: 20%">
-            <button class="submit" nz-button (click)="submit()"><i
-                    class="anticon anticon-plus" style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span>Create</span></button>
+            <button class="submit" nz-button (click)="submit()"><span> {{"i18nTextDefine_Create" | translate}} </span>
+            </button>
             <button class="back" nz-button (click)="goback()">
                <i class="anticon anticon-arrow-left" style="transform: scale(1.5)"></i>
             </button>
@@ -30,14 +30,13 @@
     <!-- chart -->
     <div class="chart">
        <span style="padding: 25px;display: inline-block;">
-            Instance Topology
+            {{"i18nTextDefine_InstanceTopology" | translate}}
        </span>
         <div id="createChart">
             <svg width="100%" height="100%">
                 <image id="domain" xlink:href="../../assets/images/domain1.png" style="width: 15%"
                        x="40%" y="0"/>
             </svg>
-            <!-- <p class="siteNameP" [ngStyle]="siteNameStyle">{{ siteName }}</p> -->
         </div>
     </div>
     <div class="creation">
@@ -56,7 +55,7 @@
                         <h3 style="float: left;color: #3C4F8C">sdwanVPN List</h3>
                         <button nz-button (click)="addSotnvpn()" class="addListBtn"
                                 style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
-                                                                           style="transform: scale(1.2);font-weight: 700"></i>Add
+                                                                           style="transform: scale(1.2);font-weight: 700"></i> {{"i18nTextDefine_Add" | translate}}
                         </button>
                     </div>
                     <nz-table #sotnVpnTable [nzData]="sotnVpnTableData"
@@ -90,11 +89,11 @@
             </nz-tab>
             <nz-tab nzTitle="Sdwansiteresource List">
                 <div class="site">
-                    <div>
+                    <div style="height: 10px">
                         <h3 style="float: left;color: #3C4F8C">Site List</h3>
                         <button nz-button (click)="addSite()" class="addListBtn"
                                 style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
-                                                                           style="transform: scale(1.2);font-weight: 700"></i>Add
+                                                                           style="transform: scale(1.2);font-weight: 700"></i>{{"i18nTextDefine_Add" | translate}}
                         </button>
                     </div>
                     <nz-table #siteTable [nzData]="siteTableData"
@@ -136,7 +135,7 @@
     </div>
     <!-- sotnVpnmodel -->
     <div class="sotnnpnmodel" *ngIf="sotnVpnModelShow">
-        <h3>Base</h3>
+        <h3> {{"i18nTextDefine_Base" | translate}} </h3>
         <div class="inputs">
             <ul>
                 <li *ngFor="let item of this.templateParameters.sotnvpn.sdwanvpnresource_list">
@@ -150,7 +149,7 @@
             <div>
                 <div style="width: 100%;text-align: right">
                     <button nz-button (click)="addSotnSdwansitelan()" class="addListBtn"><i class="anticon anticon-plus"
-                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>Add
+                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
                     </button>
                 </div>
                 <table class="siteWanTab">
@@ -187,13 +186,13 @@
         </div>
 
         <div class="action">
-            <button nz-button nzType="primary" (click)="addSotnVpn_cancel()">Cancel</button>
-            <button nz-button nzType="primary" (click)="addSotnVpn_OK()">Add</button>
+            <button nz-button nzType="primary" (click)="addSotnVpn_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+            <button nz-button nzType="primary" (click)="addSotnVpn_OK()">{{"i18nTextDefine_Add" | translate}}</button>
         </div>
     </div>
     <!-- sitemodel -->
     <div class="sitemodel" *ngIf="siteModelShow">
-        <h3>Base</h3>
+        <h3> {{"i18nTextDefine_Base" | translate}} </h3>
         <div class="inputs">
             <ul>
                 <li *ngFor="let item of this.templateParameters.site.sdwansiteresource_list">
@@ -216,7 +215,7 @@
             <div>
                 <div style="width: 100%;text-align: right">
                     <button nz-button (click)="addSiteWan()" class="addListBtn"><i class="anticon anticon-plus"
-                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>Add
+                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
                     </button>
                 </div>
                 <table class="siteWanTab">
@@ -253,8 +252,8 @@
         </div>
 
         <div class="action">
-            <button nz-button nzType="primary" (click)="addsite_cancel()">Cancel</button>
-            <button nz-button nzType="primary" (click)="addsite_OK()">Add</button>
+            <button nz-button nzType="primary" (click)="addsite_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+            <button nz-button nzType="primary" (click)="addsite_OK()">{{"i18nTextDefine_Add" | translate}}</button>
         </div>
     </div>
     <div class="mask" *ngIf="siteModelShow || sotnVpnModelShow"></div>
