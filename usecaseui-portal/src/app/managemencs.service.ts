@@ -10,19 +10,7 @@ export class ManagemencsService {
   constructor(private http: HttpClient) { }
     baseUrl = baseUrl.baseUrl;
 
-    /* location */
-    // url = {
-    //     customers: this.baseUrl + "/customers/customers_list.json",
-    //     serviceType: this.baseUrl + "/serviceTypes.json?*_*",
-    //     CustomersPir: this.baseUrl + "/customers/customersber.json",
-    //     CustomersColumn: this.baseUrl + "/customers/customersber.json?*_*",
-    //     createCustomer: this.baseUrl + "/customers/createCustomer.json?",
-    //     createServiceType: this.baseUrl + "/customers/createServiceType.json",
-    //     getCustomerResourceVersion: this.baseUrl + "/customers/deleteCustomer.json?*_*",
-    //     deleteCustomer: this.baseUrl + "/customers/createServiceType.json",
-    //     getServiceTypeResourceVersion: this.baseUrl + "/customers/deleteCustomer.json?*_*",
-    //     deleteServiceType: this.baseUrl + "/customers/createServiceType.json",
-    // };
+    
 
 
     /* line up */

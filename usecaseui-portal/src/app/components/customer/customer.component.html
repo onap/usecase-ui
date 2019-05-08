@@ -16,26 +16,30 @@
 <div class="content">
     <div class="chearts">
         <div class="Cu">
-          <p>Instance Count of Customer</p>
+          <p> {{"i18nTextDefine_Instance_Count_of_Customer" | translate}} </p>
           <app-pie [initData]="CUChartInit" [chartData]="CUChartData"></app-pie>
-          <div class="legend"></div><span>users</span>
+          <div class="legend"></div><span> {{"i18nTextDefine_users" | translate}} </span>
         </div>
         <div class="type">
-          <p>Instance Count of Service Type</p>
+          <p> {{"i18nTextDefine_Instance_Count_of_ServiceType" | translate}} </p>
           <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
+          <div class="footname" style="width: 100%;height: 40px;line-height: 40px;text-align: center;color: #3C4F8C;margin-top: 20px">
+            <img src="../../../../assets/images/customerBarUser.png" alt="customerName" style="margin-right: 5px;margin-bottom: 3px;">
+            {{this.serviceInit["customer"]}}
+          </div>
         </div>
       </div>
   <div class="customer">
     <div class="customer_title">
       <div class="customers">
-        <span>Customer</span>
+        <span> {{"i18nTextDefine_Customer" | translate}} </span>
         <img  src="./assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd" style="cursor: pointer">
       </div>
     </div>
     <div class="customer_detail">
       <div class="customer_add" *ngIf="customeradd">
-        <input nz-input placeholder="Input customer name" class="customer_name" nzSize="default"  [(ngModel)]="addNewCustomer">
-        <button nz-button nzType="primary" class="customer_addbut" (click) = "createNewCustomer()">Add</button>
+        <input nz-input placeholder=" {{'i18nTextDefine_Input_customerName' | translate}} " class="customer_name" nzSize="default"  [(ngModel)]="addNewCustomer">
+        <button nz-button nzType="primary" class="customer_addbut" (click) = "createNewCustomer()">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
       <div class="customer_list">
         <ul>
@@ -51,14 +55,14 @@
   <div class="services_type">
     <div class="services_type_title">
       <div class="servicess">
-        <span>Services Type</span>
+        <span> {{"i18nTextDefine_ServiceType" | translate}} </span>
         <img src="./assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd " style="cursor: pointer">
       </div>
     </div>
     <div class="services_type_detail">
       <div class="services_add" *ngIf="servicesadd">
-        <input nz-input placeholder="Input services type" class="services_name" nzSize="default">
-        <button nz-button nzType="primary" class="services_addbut" (click) = "createNewServiceType()">Add</button>
+        <input nz-input placeholder=" {{'i18nTextDefine_Input_ServicesType' | translate}} " class="services_name" nzSize="default">
+        <button nz-button nzType="primary" class="services_addbut" (click) = "createNewServiceType()">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
       <div class="services_list">
         <div class="border_size"></div>
@@ -74,31 +78,31 @@
     </div>
   </div>
 
-  <nz-modal nzWidth="428"  [(nzVisible)]="deleteCustomerModelVisible" nzTitle="Delete" (nzOnCancel)="deleteCustomerCancel()"
-            (nzOnOk)="deleteCustomerOk()"  nzClassName="deleteModel">
-    <h3><span style="color: red">*&nbsp;</span>Are you sure delete this Customer ?</h3>
+  <nz-modal nzWidth="428"  [(nzVisible)]="deleteCustomerModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} " (nzOnCancel)="deleteCustomerCancel()"
+            (nzOnOk)="deleteCustomerOk()"  nzClassName="deleteModel"  nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+    <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_Input_Sure_deleteCustomer" | translate}} </h3>
     <div class="question">
-      <h4>Customer Name:</h4>
+      <h4> {{"i18nTextDefine_CustomerName" | translate}} :</h4>
       <div class="deleteModelContent">{{thisdeleteCustomer["name"]}}</div>
     </div>
     <div class="question">
-      <h4>Customer ID:</h4>
+      <h4> {{"i18nTextDefine_CustomerID" | translate}} :</h4>
       <div class="deleteModelContent">{{thisdeleteCustomer["id"]}}</div>
     </div>
   </nz-modal>
-  <nz-modal nzWidth="428" [(nzVisible)]="deleteServiceTypeModelVisible" nzTitle="Delete" (nzOnCancel)="deleteServiceTypeCancel()"
-            (nzOnOk)="deleteServiceTypeOk()"  nzClassName="deleteModel deleteServiceTypeModel">
-    <h3><span style="color: red">*&nbsp;</span>Are you sure delete this Service Type ?</h3>
+  <nz-modal nzWidth="428" [(nzVisible)]="deleteServiceTypeModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} " (nzOnCancel)="deleteServiceTypeCancel()"
+            (nzOnOk)="deleteServiceTypeOk()"  nzClassName="deleteModel deleteServiceTypeModel"  nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+    <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_Input_Sure_deleteServiceType" | translate}} </h3>
     <div class="question">
-      <h4>Customer Name:</h4>
+      <h4> {{"i18nTextDefine_CustomerName" | translate}} :</h4>
       <div class="deleteModelContent">{{selectCustomer.name}}</div>
     </div>
     <div class="question">
-      <h4>Customer ID:</h4>
+      <h4> {{"i18nTextDefine_CustomerID" | translate}} :</h4>
       <div class="deleteModelContent">{{selectCustomer.id}}</div>
     </div>
     <div class="question">
-      <h4>Service Type:</h4>
+      <h4> {{"i18nTextDefine_ServiceType" | translate}} :</h4>
       <div class="deleteModelContent">{{thisdeleteServiceType["type"]}}</div>
     </div>
   </nz-modal>
