@@ -24,7 +24,7 @@
                         <p class="ant-upload-drag-icon">
                             <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
                         </p>
-                        <p class="ant-upload-text">Click or drag CSAR File here</p>
+                        <p class="ant-upload-text"> {{"i18nTextDefine_Click_CSAR_File" | translate}} </p>
                         <p class="ant-upload-hint"></p>
                     </nz-upload>
                     <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileListNS.length == 0"
@@ -35,7 +35,7 @@
                 <div class="listlin"></div>
                 <div class="listfile">
                     <div>
-                        <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;">Uploaded files</div>
+                        <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
                         <div class="listfilebgc">
                             <div>111</div>
                             <div class="color">pnf-test.csar</div>
@@ -55,19 +55,19 @@
                         <div class="listfilebgc">
                             <div>111</div>
                             <div>pnf-test.csar</div>
-                            <div class="color">File upload completed</div>
+                            <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                             <div>456</div>
                         </div>
                         <div class="listfilebgc">
                             <div>111</div>
                             <div>pnf-test.csar</div>
-                            <div class="color">File upload completed</div>
+                            <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                             <div>456</div>
                         </div>
                         <div class="listfilebgc">
                             <div>111</div>
                             <div class="color">pnf-test.csar</div>
-                            <div>File upload completed</div>
+                            <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                             <div>456</div>
                         </div>
                     </div>
@@ -80,13 +80,13 @@
                     [(nzPageIndex)]='nspageIndex' [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>
-                            <th nzWidth="15%">NO</th>
-                            <th nzWidth="15%" nzShowSort nzSortKey="name"> Name </th>
-                            <th nzWidth="15%">Version</th>
-                            <th nzWidth="15%">Onboarding State</th>
-                            <th nzWidth="15%">Operational State</th>
-                            <th nzWidth="10%">Usage State</th>
-                            <th nzWidth="15%">Operation button</th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
+                            <th nzWidth="15%" nzShowSort nzSortKey="name"> {{"i18nTextDefine_Name" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OperationalState" | translate}} </th>
+                            <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -181,19 +181,19 @@
                     <div class="listfilebgc">
                         <div>111</div>
                         <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
+                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                     <div class="listfilebgc">
                         <div>111</div>
                         <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
+                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                     <div class="listfilebgc">
                         <div>111</div>
                         <div class="color">pnf-test.csar</div>
-                        <div>File upload completed</div>
+                        <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                 </div>
@@ -205,13 +205,13 @@
                     [(nzPageIndex)]='vnfpageIndex' [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>
-                            <th nzWidth="15%">NO</th>
-                            <th nzWidth="15%" nzShowSort nzSortKey="name"> Name </th>
-                            <th nzWidth="15%">Version</th>
-                            <th nzWidth="15%">Onboarding State</th>
-                            <th nzWidth="15%">Operational State</th>
-                            <th nzWidth="10%">Usage State</th>
-                            <th nzWidth="15%">Operation button</th>
+							<th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
+                            <th nzWidth="15%" nzShowSort nzSortKey="name"> {{"i18nTextDefine_Name" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OperationalState" | translate}} </th>
+                            <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -293,19 +293,19 @@
                     <div class="listfilebgc">
                         <div>111</div>
                         <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
+                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                     <div class="listfilebgc">
                         <div>111</div>
                         <div>pnf-test.csar</div>
-                        <div class="color">File upload completed</div>
+                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                     <div class="listfilebgc">
                         <div>111</div>
                         <div class="color">pnf-test.csar</div>
-                        <div>File upload completed</div>
+                        <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
                         <div>456</div>
                     </div>
                 </div>
@@ -317,12 +317,13 @@
                     [(nzPageIndex)]='pnfpageIndex' [nzLoading]="loading" nzSize="middle">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                         <tr>
-                            <th nzWidth="15%">NO</th>
-                            <th nzWidth="15%" nzShowSort nzSortKey="name"> Name </th>
-                            <th nzWidth="15%">Version</th>
-                            <th nzWidth="15%">Onboarding State</th>
-                            <th nzWidth="10%">Usage State</th>
-                            <th nzWidth="15%">Operation button</th>
+							<th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
+                            <th nzWidth="15%" nzShowSort nzSortKey="name"> {{"i18nTextDefine_Name" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_OperationalState" | translate}} </th>
+                            <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
+                            <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>                 
                         </tr>
                     </thead>
                     <tbody>
