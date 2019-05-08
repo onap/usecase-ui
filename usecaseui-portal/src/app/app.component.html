@@ -47,7 +47,7 @@
         <span title><i class="anticon anticon-home"></i> {{"i18nTextDefine_Services" | translate}} </span>
         <ul>
           <li nz-menu-item><a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a></li>
-          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_Onboard_VNF/VM" | translate}} </a></li>
+          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_PackageManagement" | translate}} </a></li>
         </ul>
       </li>
       <!-- <hr>
@@ -78,14 +78,14 @@
       </li>
     </ul>
 
-    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
-      <button nz-button nz-dropdown><span>{{selectLanguage | translate}}</span> <i class="anticon anticon-down"></i></button>
-      <ul nz-menu>
-        <li nz-menu-item (click)="changeLanguage(item)" *ngFor="let item of Language">
-          <a>{{item | translate}}</a>
-        </li>
-      </ul>
-    </nz-dropdown>
+    <!--<nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">-->
+      <!--<button nz-button nz-dropdown><span>{{selectLanguage | translate}}</span> <i class="anticon anticon-down"></i></button>-->
+      <!--<ul nz-menu>-->
+        <!--<li nz-menu-item (click)="changeLanguage(item)" *ngFor="let item of Language">-->
+          <!--<a>{{item | translate}}</a>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</nz-dropdown>-->
   </nz-sider>
   <nz-layout style="margin-left: 260px;  height:100vh; position:relative;">
       <router-outlet></router-outlet>

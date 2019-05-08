@@ -31,7 +31,7 @@ export class HomesService {
     home_servicebarData:this.baseUrl + "",	
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters:this.baseUrl+"/listSortMasters",
-    currentLanguage:this.baseUrl+"/auxapi/languageSetting/user/",
+    currentLanguage:this.baseUrl+"/ONAPPORTAL/auxapi/languageSetting/user/",
 
   }
 

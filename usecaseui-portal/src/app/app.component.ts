@@ -28,22 +28,24 @@ export class AppComponent {
 
     constructor(private translate: TranslateService,private myhttp: HomesService) {
         this.currentLanguageGet();
-        translate.addLangs(['en', 'zh']);
+        // translate.addLangs(['en', 'zh']);
         // translate.use('en');
     }
 
   
-  Language:String[] = ["zh","en"];
+    // Language:String[] = ["zh","en"];
     //209.05.08 Get the currentLanguage
     currentloginId = null;
     currentLanguage = "en";
     currentLanguageGet() {
         this.currentloginId = sessionStorage.getItem("loginId") || null;
         if (this.currentloginId != null) {
+            console.log(this.currentloginId);
             this.myhttp.getCurrentLanguage(this.currentloginId)
                 .subscribe(
                     (data) => {
-                        this.currentLanguage = data.languageName.toLowerCase();
+                        console.log(data,"-------------getCurrentLanguage");
+                        this.currentLanguage = data.languageAlias.toLowerCase();
                         this.translate.use(this.currentLanguage);
                     },
                     (err) => {
@@ -51,14 +53,14 @@ export class AppComponent {
                     }
                 )
         }else {
-           this.translate.setDefaultLang('en');
+           this.translate.setDefaultLang(this.currentLanguage);
         }
     }
+    //
+    // selectLanguage = "en";
 
-    selectLanguage = "en";
-
-  changeLanguage(item){
-    this.selectLanguage = item;
-    this.translate.use(item);
-  }
+  // changeLanguage(item){
+  //   this.selectLanguage = item;
+  //   this.translate.use(item);
+  // }
 }
