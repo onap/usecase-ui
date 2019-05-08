@@ -1,7 +1,7 @@
 {
   "Language":"--:",
-    "zh":"中文",
-    "en":"英文",
+  "zh":"中文",
+  "en":"英文",
 
   "app-component":"--:",
   "i18nTextDefine_Home":"首页",
@@ -42,6 +42,7 @@
   "i18nTextDefine_Status":"状态",
   "i18nTextDefine_Action":"动作",
   "i18nTextDefine_Template":"模板",
+  "i18nTextDefine_Orchestrator":"编排器",
   "i18nTextDefine_ServiceCreation":"服务创建",
   "i18nTextDefine_Cancel":"取消",
   "i18nTextDefine_modelOk":"确认",
