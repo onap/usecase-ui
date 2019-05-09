@@ -52,9 +52,9 @@ export class OnboardVnfVmComponent implements OnInit {
   //url
   url = {
     // line up
-    ns:  '/api/nsd/v1/ns_descriptors/'+this.nsdInfoId +'/nsd_content',
-    vnf: '/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',
-    pnf: '/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content'
+    ns:  '/api/nsd/v1/ns_descriptors/*_*/nsd_content',
+    vnf: '/api/vnfpkgm/v1/vnf_packages/*_*/package_content',
+    pnf: '/api/nsd/v1/pnf_descriptors/*_*/pnfd_content'
     // line local
     //ns: 'https://jsonplaceholder.typicode.com/posts/',
     //vnf: 'https://jsonplaceholder.typicode.com/posts/',
@@ -209,20 +209,21 @@ export class OnboardVnfVmComponent implements OnInit {
     switch (tab) {
       case 'NS':
         console.log(this.nsdInfoId);
+        console.log(this.url.ns.replace("*_*",this.nsdInfoId));
      // this.handleUpload('/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',tab);
-         this.handleUpload(this.url.ns, tab);
+         this.handleUpload(this.url.ns.replace("*_*",this.nsdInfoId), tab);
         this.getTableData();
         break
       case 'VNF':
       console.log(this.vnfPkgId);
      // this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
-        this.handleUpload(this.url.vnf, tab); 
+        this.handleUpload(this.url.vnf.replace("*_*",this.nsdInfoId), tab);
         this.getTableVnfData()
         break
       case 'PNF':
       console.log(this.pnfdInfoId);
       // this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
-        this.handleUpload(this.url.pnf, tab);  
+         this.handleUpload(this.url.pnf.replace("*_*",this.nsdInfoId), tab);
         this.getTablePnfData();  
         break
     }
