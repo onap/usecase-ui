@@ -217,13 +217,13 @@ export class OnboardVnfVmComponent implements OnInit {
       case 'VNF':
       console.log(this.vnfPkgId);
      // this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
-        this.handleUpload(this.url.vnf.replace("*_*",this.nsdInfoId), tab);
+        this.handleUpload(this.url.vnf.replace("*_*",this.vnfPkgId), tab);
         this.getTableVnfData()
         break
       case 'PNF':
       console.log(this.pnfdInfoId);
       // this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
-         this.handleUpload(this.url.pnf.replace("*_*",this.nsdInfoId), tab);
+         this.handleUpload(this.url.pnf.replace("*_*",this.pnfdInfoId), tab);
         this.getTablePnfData();  
         break
     }
