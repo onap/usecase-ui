@@ -724,3 +724,49 @@ nz-modal .scaleModel.ant-modal {
   height: 628px !important;
   overflow: auto;
 }
+
+//2019.05.09 add notification model
+nz-notification-container .ant-notification{
+  width: 592px!important;
+  max-width: 592px!important;
+  background-image: url("assets/images/notificationmodel.png");
+  background-repeat:  no-repeat;
+  opacity: 0.8;
+  nz-notification{
+    width: 100%!important;
+    opacity: 1!important;
+    color: #ffffff;
+    .ant-notification-notice{
+      width: 100%!important;
+      height: 140px !important;
+      background: rgba(255,255,255,0);
+      opacity: 1!important;
+      color: #ffffff;
+      .ant-notification-notice-content{
+        .ant-notification-notice-icon{}
+        .ant-notification-notice-message{
+          margin-left: 88px;
+          font-size: 18px;
+          color: #ffffff;
+          font-weight: 500;
+        }
+        .ant-notification-notice-description{
+          margin-left: 88px;
+          .notificationlist{
+            height: 25px;
+            line-height: 25px;
+            margin-bottom: 5px;
+            p,span{
+              display: inline-block;
+              margin-bottom: 0!important;
+              margin-right: 6px;
+            }
+            span{
+              color: #D9DEF1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

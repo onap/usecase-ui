@@ -272,8 +272,7 @@ export class OnboardVnfVmComponent implements OnInit {
     this.fileListNS = [];
     this.fileListVNF = [];
     this.fileListPNF = [];
-    this.http
-      .request(req)
+    this.http.request(req)
       .pipe(filter(e => e instanceof HttpResponse))
       .subscribe(
         (event: {}) => {
