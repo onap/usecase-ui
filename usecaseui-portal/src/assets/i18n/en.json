@@ -1,8 +1,4 @@
 {
-  "Language":"--:",
-  "zh":"Chinese",
-  "en":"English",
-
   "app-component":"--:",
   "i18nTextDefine_Home":"Home",
   "i18nTextDefine_Customer":"Customer",
@@ -69,6 +65,7 @@
   "i18nTextDefine_cause":"cause",
   "i18nTextDefine_action":"action",
   "i18nTextDefine_actionvminfo":"actionvminfo",
+  "i18nTextDefine_Update":"Update",
   "i18nTextDefine_InstanceCreationStarting":"instance creation is starting.",
   "i18nTextDefine_InstanceCreatedSuccessfully":"instance was created successfully.",
   "i18nTextDefine_InstanceCreationFailed":"instance creation failed!!!",
@@ -84,7 +81,6 @@
   "i18nTextDefine_InstanceUpdateStarting":"instance update is starting.",
   "i18nTextDefine_InstanceUpdatedSuccessfully":"instance was updated successfully.",
   "i18nTextDefine_InstanceUpdateFailed":"instance update failed!!!",
-
 
   "ccvpn-creation-component":"--:",
   "i18nTextDefine_InstanceCreation":"Instance Creation",

@@ -1,8 +1,4 @@
 {
-  "Language":"--:",
-  "zh":"中文",
-  "en":"英文",
-
   "app-component":"--:",
   "i18nTextDefine_Home":"首页",
   "i18nTextDefine_Customer":"用户",
@@ -69,6 +65,7 @@
   "i18nTextDefine_cause":"原因",
   "i18nTextDefine_action":"动作",
   "i18nTextDefine_actionvminfo":"操作虚拟机信息",
+  "i18nTextDefine_Update":"更新",
   "i18nTextDefine_InstanceCreationStarting":"创建开始",
   "i18nTextDefine_InstanceCreatedSuccessfully":"创建成功",
   "i18nTextDefine_InstanceCreationFailed":"创建失败！",

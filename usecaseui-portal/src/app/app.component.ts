@@ -28,12 +28,10 @@ export class AppComponent {
 
     constructor(private translate: TranslateService,private myhttp: HomesService) {
         this.currentLanguageGet();
-        // translate.addLangs(['en', 'zh']);
         // translate.use('en');
     }
 
-  
-    // Language:String[] = ["zh","en"];
+
     //209.05.08 Get the currentLanguage
     currentloginId = null;
     currentLanguage = "en";

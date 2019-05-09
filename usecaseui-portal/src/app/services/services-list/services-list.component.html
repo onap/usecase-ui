@@ -74,7 +74,7 @@
         </div>
         <div *ngIf="templateTypeSelected == 'E2E Service'">
             <div class="select-list">
-                <span style="display:inline-block;width:70px;">Orchestrator: </span>
+                <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Orchestrator" | translate}} : </span>
                 <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
                     <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
                 </nz-select>
@@ -166,13 +166,13 @@
                             <li>
                                 <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
                                    class="anticon anticon-setting" (click)="scaleService(data)"></i>
-                                <span>scale</span>
+                                <span> {{"i18nTextDefine_Scale" | translate}} </span>
                             </li>
-                           <li>
-                               <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                                  class="anticon anticon-cloud-upload-o" (click)="update(data)"></i>
-                               <span>update</span>
-                           </li>
+                            <li>
+                                <i [ngClass]="{'cannotclick':data.serviceDomain!='CCVPN' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                                   class="anticon anticon-cloud-upload-o" (click)="update(data)"></i>
+                                <span> {{"i18nTextDefine_Update" | translate}} </span>
+                            </li>
                         </ul>
                         <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
                         <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
@@ -202,13 +202,17 @@
             </tbody>
         </nz-table>
 
-        <nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} " (nzOnCancel)="scaleCancel()"
-                  (nzOnOk)="scaleOk()" nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+        <nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} "
+                  (nzOnCancel)="scaleCancel()"
+                  (nzOnOk)="scaleOk(templatescalestarting,templateScaleSuccessFaild)" nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+                  nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
             <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureScale" | translate}} </h3>
             <div class="question">
                 <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
-                <div class="scaleModelContent" style="width: 100%">{{ thisService["service-instance-id"] || thisService["nsInstanceId"] ||
-                    thisService["vnfInstanceId"]}}</div>
+                <div class="scaleModelContent" style="width: 100%">{{ thisService["service-instance-id"] ||
+                    thisService["nsInstanceId"] ||
+                    thisService["vnfInstanceId"]}}
+                </div>
             </div>
             <div *ngFor="let item of e2e_nsData" style="margin-top: 20px">
                 <h3>{{ item.netWorkServiceName }}</h3>
@@ -236,20 +240,53 @@
                     </nz-select>
                 </div>
             </div>
+            <!--2019.05.09 add Scale notification-->
+            <ng-template #templatescalestarting >
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message">E2E &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
         </nz-modal>
 
-        <nz-modal nzWidth="428" [(nzVisible)]="deleteModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} " (nzOnCancel)="deleteCancel()"
-                  (nzOnOk)="deleteOk()"  nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+        <nz-modal nzWidth="428" [(nzVisible)]="deleteModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} "
+                  (nzOnCancel)="deleteCancel()"
+                  (nzOnOk)="deleteOk(templatedeletestarting,templateDeleteSuccessFaild)"
+                  nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}"
+                  nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+                  nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
             <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureDelete" | translate}} </h3>
             <div class="question">
                 <h4> {{"i18nTextDefine_InstanceName" | translate}} :</h4>
-                <div class="deleteModelContent">{{ thisService["service-instance-id"] ||
-                    thisService["nsInstanceId"] }}</div>
+                <div class="deleteModelContent">{{ thisService["service-instance-name"] ||
+                    thisService["nsInstanceName"] }}
+                </div>
             </div>
             <div class="question">
                 <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
-                <div class="deleteModelContent">{{ thisService["service-instance-name"] ||
-                    thisService["nsInstanceName"] }}</div>
+                <div class="deleteModelContent">{{ thisService["service-instance-id"] ||
+                    thisService["nsInstanceId"] }}
+                </div>
             </div>
             <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
                 <div class="question">
@@ -265,10 +302,42 @@
                            [(ngModel)]="gracefulTerminationTimeout">
                 </div>
             </div>
+            <!--2019.05.09 add delete notification-->
+            <ng-template #templatedeletestarting >
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message" *ngIf="thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
+                        </div>
+                        <div class="ant-notification-notice-message" *ngIf="thisService['serviceDomain'] == 'E2E Service'">E2E &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
+                        <div class="ant-notification-notice-message" *ngIf="thisService['serviceDomain'] == 'Network Service'">NS &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
         </nz-modal>
 
-        <nz-modal nzWidth="428" [nzVisible]="healModelVisible" nzTitle=" {{'i18nTextDefine_Heal' | translate}} " (nzOnCancel)="healCancel()"
-                  (nzOnOk)="healOk()" nzClassName="healModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+        <nz-modal nzWidth="428" [nzVisible]="healModelVisible" nzTitle=" {{'i18nTextDefine_Heal' | translate}} "
+                  (nzOnCancel)="healCancel()"
+                  (nzOnOk)="healOk(templatehealstarting,templatehealSuccessFaild)" nzClassName="healModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+                  nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
             <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureHeal" | translate}} </h3>
             <div class="heal-question">
                 <p class="heal-label"> {{"i18nTextDefine_InstanceID" | translate}} : </p>
@@ -331,9 +400,217 @@
                     </nz-select>
                 </div>
             </div>
+            <!--2019.05.09 add heal notification-->
+            <ng-template #templatehealstarting >
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message">NS &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
         </nz-modal>
-    </div>
 
+        <!-- add notification-->
+        <ng-template #templateCreatestarting >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisCreateService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="thisCreateService['serviceDomain'] == 'E2E Service'">E2E &nbsp; {{"i18nTextDefine_InstanceCreationStarting" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="thisCreateService['serviceDomain'] == 'Network Service'">NS &nbsp; {{"i18nTextDefine_InstanceCreationStarting" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisCreateService["service-instance-name"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected2.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisCreateService['serviceDomain'] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateCreateSuccessFaild >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Successful'">
+                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Failed'">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">{{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Successful'">E2E &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Successful'">NS &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Failed'">{{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Failed'">E2E &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Failed'">NS &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisCreateService["service-instance-name"] ||
+                                    thisCreateService["nsInstanceName"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected2.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisCreateService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateDeleteSuccessFaild >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Successful'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'E2E Service') && thisService.status == 'Successful'">E2E &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'Network Service') && thisService.status == 'Successful'">NS &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Failed'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'E2E Service') && thisService.status == 'Failed'">E2E &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'Network Service') && thisService.status == 'Failed'">NS &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateScaleSuccessFaild >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">E2E &nbsp; {{"i18nTextDefine_InstanceScaledSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">E2E &nbsp; {{"i18nTextDefine_InstanceScaleFailed" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templatehealSuccessFaild >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                          <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">NS &nbsp; {{"i18nTextDefine_InstanceHealedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">NS &nbsp; {{"i18nTextDefine_InstanceHealingFailed" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateUpdateSuccessFaild >
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                        </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">CCVPN &nbsp; {{"i18nTextDefine_InstanceUpdatedSuccessfully" | translate}}</div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">CCVPN &nbsp; {{"i18nTextDefine_InstanceUpdateFailed" | translate}}</div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
     <div class="detailComponent" *ngIf="detailshow">
         <app-ccvpn-detail [namesTranslate]="namesTranslate" [detailParams]="detailData"
                           (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
@@ -345,14 +622,14 @@
     <div class="createComponent" *ngIf="createshow">
         <app-ccvpn-creation
                 [createParams]="createData"
-                (closeCreate)="closeCreate($event)">
+                (closeCreate)="closeCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
         </app-ccvpn-creation>
     </div>
     <div class="createComponent" *ngIf="createshow2">
         <app-e2e-creation
                 [createParams]="createData"
-                (nsCloseCreate)="nsCloseCreate($event)"
-                (e2eCloseCreate)="e2eCloseCreate($event)">
+                (nsCloseCreate)="nsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)"
+                (e2eCloseCreate)="e2eCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
         </app-e2e-creation>
     </div>
     <!--</div>-->
