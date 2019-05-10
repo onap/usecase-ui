@@ -178,7 +178,6 @@ export class ServicesListComponent implements OnInit {
   //
 
   choseTemplateType(){
-  this.templateTypeSelected = this.serviceTypeSelected2.name;
     this.getallOrchestrators();
     this.getAlltemplates();
   }
