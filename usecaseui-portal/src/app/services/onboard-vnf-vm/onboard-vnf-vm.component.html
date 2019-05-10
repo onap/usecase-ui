@@ -121,15 +121,15 @@
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"
                                     *ngIf="item.id"></i>
                                 <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
-                                <span *ngIf="item.id && item.sameid == undefined">
-                                    <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-                                        <i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>
-                                    </nz-upload>
-                                    <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"
-                                        style="margin-top: 16px" *ngIf="item.id==nsdInfoId">
-                                        {{ nsuploading ? 'Uploading' : 'Start Upload' }}
-                                    </button>
-                                </span>
+                                <!--<span *ngIf="item.id && item.sameid == undefined">-->
+                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
+                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
+                                    <!--</nz-upload>-->
+                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
+                                        <!--style="margin-top: 16px" *ngIf="item.id==nsdInfoId">-->
+                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
+                                    <!--</button>-->
+                                <!--</span>-->
 
                             </td>
                         </tr>
@@ -233,20 +233,20 @@
                                     *ngIf="item.uuid"></i>
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"
                                     *ngIf="item.id"></i>
-                                <span *ngIf="item.id && item.sameid == undefined">
-                                    <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-                                        <!-- <button nz-button> -->
-                                        <i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>
-                                        <!-- <span >upload</span> -->
-                                        <!-- </button> -->
+                                <!--<span *ngIf="item.id && item.sameid == undefined">-->
+                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
+                                        <!--&lt;!&ndash; <button nz-button> &ndash;&gt;-->
+                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
+                                        <!--&lt;!&ndash; <span >upload</span> &ndash;&gt;-->
+                                        <!--&lt;!&ndash; </button> &ndash;&gt;-->
 
-                                    </nz-upload>
-                                    <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"
-                                        style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"
-                                        *ngIf="item.id==vnfPkgId">
-                                        {{ nsuploading ? 'Uploading' : 'Start Upload' }}
-                                    </button>
-                                </span>
+                                    <!--</nz-upload>-->
+                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
+                                        <!--style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"-->
+                                        <!--*ngIf="item.id==vnfPkgId">-->
+                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
+                                    <!--</button>-->
+                                <!--</span>-->
                             </td>
                         </tr>
                     </tbody>
@@ -335,16 +335,16 @@
                             <td>{{item.pnfdUsageState}}</td>
                             <td>
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"></i>
-                                <span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">
-                                    <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-                                        <i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>
-                                    </nz-upload>
-                                    <button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"
-                                        style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"
-                                        *ngIf="item.id==vnfPkgId">
-                                        {{ nsuploading ? 'Uploading' : 'Start Upload' }}
-                                    </button>
-                                </span>
+                                <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
+                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
+                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
+                                    <!--</nz-upload>-->
+                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
+                                        <!--style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"-->
+                                        <!--*ngIf="item.id==vnfPkgId">-->
+                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
+                                    <!--</button>-->
+                                <!--</span>-->
                             </td>
                         </tr>
                     </tbody>
