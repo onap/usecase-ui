@@ -102,7 +102,7 @@ export class MyhttpService {
       return this.http.post<any>(this.url.nstemplateParameters, body);
     }
     let body = {
-      csarId: template.id,
+      csarId: template.uuid,
       packageType: "",
       inputs: ""
     };
