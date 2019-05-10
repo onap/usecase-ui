@@ -14,40 +14,48 @@
     limitations under the License.
 -->
 <nz-layout>
-  <nz-sider nzWidth='260' style="overflow: auto; height: 100vh; position: fixed; left: 0">
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 260px;">
-      <li nz-menu-item nzSelected> 
+  <nz-sider nzWidth='330' style="overflow: auto; height: 100vh; position: fixed; left: 0;background: url('../assets/images/UUIMenuBar.png')">
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 330px;margin-top: 200px">
+      <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[0] == true}" (click)="thisActive(0)">
         <a routerLink="home">
           <span title>
-            <i class="anticon anticon-home"></i>
+            <i>
+              <img src="{{activeMenuBar[0] == true ? '../assets/images/home-icon-active.png':'../assets/images/home-icon.png'}}" alt="home">
+            </i>
             <span> {{"i18nTextDefine_Home" | translate}} </span>
           </span>
         </a>
       </li>
       <hr>
-      <li nz-menu-item> 
+      <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[1] == true}" (click)="thisActive(1)">
         <a routerLink="management">
           <span title>
-            <i class="anticon anticon-user"></i>
+           <i>
+              <img src="{{activeMenuBar[1] == true ? '../assets/images/customer-icon-active.png':'../assets/images/customer-icon.png'}}" alt="home">
+            </i>
             <span> {{"i18nTextDefine_Customer" | translate}} </span>
           </span>
         </a>
       </li>
       <hr>
-      <li nz-menu-item> 
+      <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[2]== true}" (click)="thisActive(2)">
         <a routerLink="fcaps">
           <span title>
-            <i class="anticon anticon-user"></i>
+            <i>
+              <img src="{{activeMenuBar[2] == true ? '../assets/images/monitor-icon-active.png':'../assets/images/monitor-icon.png'}}" alt="home">
+            </i>
             <span> {{"i18nTextDefine_Monitor" | translate}} </span>
           </span>
         </a>
       </li>
       <hr>
-      <li nz-submenu>
-        <span title><i class="anticon anticon-home"></i> {{"i18nTextDefine_Services" | translate}} </span>
+      <li nz-submenu [ngClass]="{'activeMenuBar':activeMenuBar[3] == true}" (click)="thisActive(3)">
+        <span title>  <i>
+              <img src="{{activeMenuBar[3] == true ? '../assets/images/Services-icon-active.png':'../assets/images/Services-icon.png'}}" alt="home">
+            </i> {{"i18nTextDefine_Services" | translate}} </span>
         <ul>
-          <li nz-menu-item><a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a></li>
-          <li nz-menu-item><a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_PackageManagement" | translate}} </a></li>
+          <li nz-menu-item [ngClass]="{'activeMenuList':activeMenuList[0] == true}" (click)="thisListActive(0)"><a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a></li>
+          <li nz-menu-item [ngClass]="{'activeMenuList':activeMenuList[1] == true}" (click)="thisListActive(1)"><a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_PackageManagement" | translate}} </a></li>
         </ul>
       </li>
       <!-- <hr>
@@ -68,17 +76,19 @@
         </ul>
       </li> -->
       <hr>
-      <li nz-menu-item>
+      <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[4] == true}" (click)="thisActive(4)">
         <a routerLink="network">
           <span title>
-            <i class="anticon anticon-share-alt"></i>
+             <i>
+              <img src="{{activeMenuBar[4] == true ? '../assets/images/network-icon-active.png':'../assets/images/network-icon.png'}}" alt="home">
+            </i>
             <span> {{"i18nTextDefine_NetworkTopology" | translate}} </span>
           </span>
         </a>
       </li>
     </ul>
   </nz-sider>
-  <nz-layout style="margin-left: 260px;  height:100vh; position:relative;">
+  <nz-layout style="margin-left: 330px;  height:100vh; position:relative;">
       <router-outlet></router-outlet>
   </nz-layout>
 </nz-layout>

@@ -1,24 +1,50 @@
 nz-layout {
     nz-sider {
         ul {
+            background: transparent;
             li {
                 margin: 0;
                 font-size: 16px;
+                color: #ffffff!important;
+                background: transparent;
+                a{
+                    color: #ffffff;
+                }
                 span {
                     font-size: 16px;
                 }
                 i {
                     width: 16px;
                     height: 16px;
+                    margin-right: 12px;
+                    img{
+                        width: 20px;
+                    }
                 }
                 .icon-services {
                     background: url(../assets/images/icon.png) no-repeat 0px -16px;
                 }
                 ul {
+                    background: transparent!important;
                     li{
                         font-size: 12px;
+                        color: #ffffff!important;
+                        background: transparent!important;
+                    }
+                    li:hover,li a:hover{
+                        color: #ffffff!important;
+                    }
+                    li.activeMenuList,li.activeMenuList a{
+                        color: #0DA9E2!important;
                     }
                 }
+            }
+            li:hover,li a:hover{
+                color: #ffffff!important;
+            }
+            li.activeMenuBar{
+                color: #ffffff!important;
+                background:linear-gradient(90deg,rgba(7,169,225,1) 0%,rgba(48,217,196,1) 100%);
             }
             hr {
                 margin: 0 auto;

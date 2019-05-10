@@ -45,13 +45,61 @@ export class AppComponent {
                         console.log(data,"-------------getCurrentLanguage");
                         this.currentLanguage = data.languageAlias.toLowerCase();
                         this.translate.use(this.currentLanguage);
+                        sessionStorage.setItem("DefaultLang",this.currentLanguage);
                     },
                     (err) => {
                         console.log(err);
                     }
                 )
         }else {
-           this.translate.setDefaultLang(this.currentLanguage);
+            this.translate.setDefaultLang(this.currentLanguage);
+            sessionStorage.setItem("DefaultLang",this.currentLanguage);
+        }
+    }
+    activeMenuBar =[true,false,false,false,false];
+    activeMenuList =[false,false];
+    thisActive(item){
+        if(this.activeMenuBar[item] == true){
+            this.activeMenuBar.map((its,index) => {
+                if(item != index){
+                    this.activeMenuBar[index] = false;
+                }
+            })
+        }else {
+            this.activeMenuBar.map((its,index) => {
+                if(item == index){
+                    this.activeMenuBar[item] = true;
+                }else {
+                    this.activeMenuBar[index] = false;
+                }
+            })
+            this.activeMenuList.map((its,index) => {
+                this.activeMenuList[index] = false;
+            })
+        }
+    }
+    thisListActive(item){
+        if(this.activeMenuBar[3] = true){
+            if(this.activeMenuList[item] == true){
+                this.activeMenuList.map((its,index) => {
+                    if(item != index){
+                        this.activeMenuList[index] = false;
+                    }
+                })
+            }else {
+                this.activeMenuList.map((its,index) => {
+                    if(item == index){
+                        this.activeMenuList[item] = true;
+                    }else {
+                        this.activeMenuList[index] = false;
+                    }
+                })
+
+            }
+        }else {
+            this.activeMenuList.map((its,index) => {
+                this.activeMenuList[index] = false;
+            })
         }
     }
     //

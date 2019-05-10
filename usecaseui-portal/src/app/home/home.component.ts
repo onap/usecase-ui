@@ -254,9 +254,7 @@ export class HomeComponent implements OnInit {
         data: ['CPU', 'Memory', 'Disk']
       },
       xAxis:{
-        data:["2018-09-10 ","2018-09-11","2018-09-12","2018-09-13","2018-09-14",
-        "2018-09-15","2018-09-16","2018-09-17","2018-09-18","2018-09-19",
-        "2018-09-20","2018-09-21","2018-09-22"]
+        data:[]
       },
       series : [
         {
@@ -265,7 +263,7 @@ export class HomeComponent implements OnInit {
           itemStyle: {
             color: "#70ACEC"
           },
-          data: [30, 45, 34, 35, 43, 56, 36, 53, 42, 45, 44, 35, 32]
+          data: []
         },
         {
           name: 'Memory',
@@ -273,7 +271,7 @@ export class HomeComponent implements OnInit {
           itemStyle: {
             color: "#3BCD79"
           },
-          data: [10, 23, 24, 22, 14, 15, 32, 12, 12, 32, 14, 23, 23]
+          data: []
         },
         {
           name: 'Disk',
@@ -281,7 +279,7 @@ export class HomeComponent implements OnInit {
           itemStyle: {
             color: "#FDC288"
           },
-          data: [20, 23, 14, 12, 34, 25, 22, 42, 52, 35, 34, 13, 13]
+          data: []
         }
       ]
     }

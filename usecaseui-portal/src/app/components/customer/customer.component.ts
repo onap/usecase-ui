@@ -89,15 +89,7 @@ export class CustomerComponent implements OnInit {
                 name: "customer",
                 radius: '90%',
                 center: ['50%', '50%'],
-                data: [{
-                    value: 67,
-                }, {
-                    value: 10,
-                }, {
-                    value: 17,
-                }, {
-                    value: 33,
-                },],
+                data: [],
                 label: {
                     normal: {
                         position: 'center',
@@ -217,7 +209,7 @@ export class CustomerComponent implements OnInit {
                     axisLabel: {
                         color: "#3C4F8C"
                     },
-                    data: ['Other', 'Type1', 'Type2', 'Type3', 'Type4'],
+                    data: [],
                 },
 
             ],
@@ -226,7 +218,7 @@ export class CustomerComponent implements OnInit {
                     name: '',
                     barWidth: '40%',
                     type: 'bar',
-                    data: [2800, 1700, 1200, 1000, 900],
+                    data: [],
                     itemStyle: {
                         normal: {
                             color: function (params) {
@@ -297,32 +289,32 @@ export class CustomerComponent implements OnInit {
                     name: 'Type4',
                     type: 'bar',
                     stack: '',
-                    data: 2800,
+                    data: '',
 
                 },
                 {
                     name: 'Type1',
                     type: 'bar',
                     stack: '',
-                    data: 1700
+                    data: ''
                 },
                 {
                     name: 'Type2',
                     type: 'bar',
                     stack: '',
-                    data: 1500
+                    data: ''
                 },
                 {
                     name: 'Type3',
                     type: 'bar',
                     stack: '',
-                    data: 1300
+                    data: ''
                 },
                 {
                     name: 'Other',
                     type: 'bar',
                     stack: '',
-                    data: 1000,
+                    data: '',
 
                 }
             ]
