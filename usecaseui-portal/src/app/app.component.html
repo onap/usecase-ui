@@ -15,7 +15,10 @@
 -->
 <nz-layout>
   <nz-sider nzWidth='330' style="overflow: auto; height: 100vh; position: fixed; left: 0;background: url('../assets/images/UUIMenuBar.png')">
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 330px;margin-top: 200px">
+    <div style="width: 330px;height:240px;text-align: center">
+      <img src="../assets/images/uui-logo130.png" alt="" style="margin-top: 40px">
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 330px">
       <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[0] == true}" (click)="thisActive(0)">
         <a routerLink="home">
           <span title>
@@ -39,7 +42,7 @@
       </li>
       <hr>
       <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[2]== true}" (click)="thisActive(2)">
-        <a routerLink="fcaps">
+        <a href="#" onclick="window.open('http://172.30.1.80:5601/app/kibana#/dashboards')">
           <span title>
             <i>
               <img src="{{activeMenuBar[2] == true ? '../assets/images/monitor-icon-active.png':'../assets/images/monitor-icon.png'}}" alt="home">

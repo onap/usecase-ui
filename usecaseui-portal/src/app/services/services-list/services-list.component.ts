@@ -49,7 +49,7 @@ export class ServicesListComponent implements OnInit {
     templateTypeSelected ="CCVPN";
   orchestratorSelected = {name:null,id:null};
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
-  language="en";
+    language = sessionStorage.getItem("DefaultLang");
     iconMore=false;
     serviceMunber = [
         {
@@ -330,7 +330,9 @@ export class ServicesListComponent implements OnInit {
               let operationType = item["operationType"];
               this.queryNsProgress(jobid,id,updata,operationType).then(()=>{
                 item["rate"] = 100;
-                item["status"] = "Successful";
+                item["status"] = this.listSortMasters["operationResults"].find((its) => {
+                    return its["sortCode"] == 2001 && its["language"] == this.language
+                })["sortValue"];
                 item["tips"] = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==item["operationType"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+item["status"];
               })
             }else{
@@ -349,7 +351,9 @@ export class ServicesListComponent implements OnInit {
               }
               this.queryProgress(obj,updata).then(()=>{
                 item["rate"] = 100;
-                item["status"] = "Successful";
+                item["status"] = this.listSortMasters["operationResults"].find((its) => {
+                    return its["sortCode"] == 2001 && its["language"] == this.language
+                })["sortValue"];
                 item["tips"] = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==item["operationType"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+item["status"];
               })
             }
@@ -634,7 +638,9 @@ deleteOk(templatedeletestarting,templateDeleteSuccessFaild) {
             this.createSuccessNotification(templateCreateSuccessFaild);
             newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                 return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
-            })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+            })["sortValue"] + '\xa0\xa0\xa0' +this.listSortMasters["operationResults"].find((its) => {
+                return its["sortCode"] == 2001 && its["language"] == this.language
+            })["sortValue"];
             let hasUndone = this.tableData.some((item) => {
                 return item.rate < 100;
             });
@@ -670,6 +676,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         serviceDomain:this.templateTypeSelected,
         childServiceInstances:[],
         status:"Creating",
+                statusClass: 1001,
         rate:0,
         tips:""
       }
@@ -691,7 +698,11 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       newData.rate = 100;
       newData.status = "Successful";
        this.createSuccessNotification(templateCreateSuccessFaild);
-      newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
+            newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+            })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                return its["sortCode"] == 2001 && its["language"] == this.language
+            })["sortValue"];
       let hasUndone = this.tableData.some((item)=>{
         return item.rate < 100;
       })
@@ -724,6 +735,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         serviceDomain:this.templateTypeSelected,
         childServiceInstances:[],
         status:"Creating",
+                    statusClass: 1001,
         rate:0,
         tips:""
       }
@@ -746,6 +758,11 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         if(jobid == "failed"){
             this.createSuccessNotification(templateCreateSuccessFaild);
           newData.status = "failed";
+        newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+            return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+        })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+            return its["sortCode"] == 2002 && its["language"] == this.language
+        })["sortValue"];
           return false;
         }
         let operationType="1001";
@@ -764,7 +781,11 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         newData.rate = 100;
         newData.status = "Successful";
 	this.createSuccessNotification(templateCreateSuccessFaild);
-        newData.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==newData["statusClass"] && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+newData["status"];
+                    newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2001 && its["language"] == this.language
+                    })["sortValue"];
         let hasUndone = this.tableData.some((item)=>{
           return item.rate < 100;
         })
@@ -811,7 +832,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     service.rate = 0;
     service.status = "In Progress";
     service.statusClass = "1003";
-    service.tips= "Scaling";
+        service.tips = "";
     this.myhttp.scaleE2eService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
@@ -827,16 +848,24 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         }
         let updata = (prodata)=>{
           service.rate = prodata.progress;
-                    service.tips = "Scaling" + '\xa0\xa0\xa0' +service["rate"]+"%";
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service.statusClass && its["language"] == this.language
+                    })["sortValue"]  + '\xa0\xa0\xa0' +service["rate"]+"%";
           if(service["rate"] > 100){
             service["status"]=prodata.status;
-                        service.tips = "Scaling"+ '\xa0\xa0\xa0' + service["status"];
+                        service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                            return its["sortCode"] == service["statusClass"] && its["language"] == this.language
+                        })["sortValue"]+ '\xa0\xa0\xa0' + service["status"];
           }
         }
         this.queryProgress(obj,updata).then(()=>{
           service.rate = 100;
           service.status = "Successful";
-                    service.tips = "Scaling"+ '\xa0\xa0\xa0' + service["status"];
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service["statusClass"] && its["language"] == this.language
+                    })["sortValue"]+ '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2001 && its["language"] == this.language
+                    })["sortValue"];
                     this.scaleSuccessNotification(templateScaleSuccessFaild);
         })
       })
@@ -846,7 +875,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     console.log(service);
     service.rate = 0;
     service.status = "In Progress";
-    service.tips = "Healing";
+        service.tips = "";
     service.statusClass = "1004";
     let id = service.nsInstanceId || service["service-instance-id"] || service["vnfNsInstanceId"];
     this.myhttp.healNsService(id,requestBody)
@@ -854,6 +883,11 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         if(data.status == "FAILED"){
           console.log("heal nsvnf service failed :" + JSON.stringify(data));
           service.status = "failed";
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service.statusClass && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2002 && its["language"] == this.language
+                    })["sortValue"];
                     this.healSuccessNotification(templatehealSuccessFaild);
           return false;
         }
@@ -861,18 +895,26 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         let operationType = "1004";
         let updata = (prodata)=>{
           service.rate = prodata.progress;
-                    service.tips = "Healing" + '\xa0\xa0\xa0' +service.rate+"%";
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service.statusClass && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' +service.rate+"%";
                     console.log(service.rate)
           if(service["rate"] > 100){
             service["status"]=prodata.status;
-                        service.tips = "Healing" + '\xa0\xa0\xa0' + service["status"];
+                        service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                            return its["sortCode"] == service.statusClass && its["language"] == this.language
+                        })["sortValue"] + '\xa0\xa0\xa0' + service["status"];
           }
         }
         this.queryNsProgress(jobid,null,updata,operationType).then((data1)=>{
           console.log(data1);
           service.rate = 100;
           service.status = "Successful";
-          service.tips = "Healing" + service["status"];
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service.statusClass && its["language"] == this.language
+                    })["sortValue"]  + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2001 && its["language"] == this.language
+                    })["sortValue"];
                     this.healSuccessNotification(templatehealSuccessFaild);
         });
       })
@@ -883,7 +925,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     let querypros = [];  //
     service.rate = 0;
     service.status = "In Progress";
-    service.tips = "Deleting";
+        service.tips = "";
     service.statusClass = "1002";
     service["childServiceInstances"].push({"service-instance-id":service["service-instance-id"]});
     let deletePros = service["childServiceInstances"].map((item)=>{
@@ -898,7 +940,9 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
           if(data.status == "FAILED"){
             console.log("delete service failed :" + JSON.stringify(data));
             service.status = "failed";
-            service.tips = "Deleting" + service["status"];
+                            service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+ this.listSortMasters["operationResults"].find((its) => {
+                                return its["sortCode"] == 2002 && its["language"] == this.language
+                            })["sortValue"];
             return false;
           }
           let obj = {serviceId:params.serviceInstanceId,operationId:data.operationId,operationType:"1002"}
@@ -906,10 +950,10 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
             allprogress[prodata.operationId] = prodata.progress;
             let average = ((arr)=>{return eval(arr.join("+"))/arr.length})(Object.values(allprogress));
             service["rate"]=average;
-                            service.tips = "Deleting" + '\xa0\xa0\xa0' +service["rate"]+"%";
+                            service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + '\xa0\xa0\xa0' +service["rate"]+"%";
             if(service["rate"] > 100){
               service["status"]=prodata.status;
-                                service.tips = "Deleting" + '\xa0\xa0\xa0' + service["status"];
+                                service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + '\xa0\xa0\xa0' + service["status"];
             }
           }
           querypros.push(this.queryProgress(obj,updata));
@@ -923,7 +967,9 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         console.log(data);
         service.rate = 100;
         service.status = "Successful";
-        service.tips = "Deleting" + service.status;
+                service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
+                    return its["sortCode"] == 2001 && its["language"] == this.language
+                })["sortValue"];
                 this.deleteSuccessNotification(templateDeleteSuccessFaild);
         let hasUndone = this.tableData.some((item)=>{
           return item.rate < 100;
@@ -939,7 +985,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     deleteNsService(service,templateDeleteSuccessFaild) {
     service.rate = 0;
     service.status = "In Progress";
-    service.tips = "Deleting";
+        service.tips = "";
     service.statusClass = "1002";
     let id = service.nsInstanceId || service["service-instance-id"];
     let operationType ="1002";
@@ -950,15 +996,17 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     this.stopNsService(id,requestBody).then((jobid)=>{
       if(jobid == "failed"){
         service.status = "failed";
-        service.tips = "Deleting" +  service["status"];
+                service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
+                    return its["sortCode"] == 2002 && its["language"] == this.language
+                })["sortValue"];
         return false;
       }
       let updata = (prodata)=>{
         service.rate = prodata.progress;
-                service.tips = "Deleting" + '\xa0\xa0\xa0' +service.rate+"%";
+                service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + '\xa0\xa0\xa0' +service.rate+"%";
         if(service["rate"] > 100){
           service["status"]=prodata.status;
-          service.tips = "Deleting" +  service["status"];
+                    service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + service["status"];
         }
       }
       return this.queryNsProgress(jobid,null,updata,operationType);
@@ -968,12 +1016,16 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
           console.log(data);
           service.rate = 100;
           service.status = "Successful";
-          service.tips = "Deleting" +  service["status"];
+                    service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2001 && its["language"] == this.language
+                    })["sortValue"];
                     this.deleteSuccessNotification(templateDeleteSuccessFaild);
           if(data.status == "FAILED"){
             console.log("delete ns service failed :" + JSON.stringify(data));
             service.status = "failed";
-                        service.tips = "Deleting" +'\xa0\xa0\xa0' + service["status"];
+                        service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
+                            return its["sortCode"] == 2002 && its["language"] == this.language
+                        })["sortValue"];
                         this.deleteSuccessNotification(templateDeleteSuccessFaild);
             return false;
           }

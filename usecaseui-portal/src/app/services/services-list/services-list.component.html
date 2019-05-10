@@ -190,8 +190,8 @@
                         </p>
                     </td>
                     <td>
-                        <span [ngClass]="{'healing':data.statusClass=='1004'}">{{data.tips}}</span>
-                        <nz-progress *ngIf=" item.status == 'Healing' " [nzPercent]="item.rate"></nz-progress>
+                        <span [ngClass]="{'healing':data.statusClass=='1004'}">{{item.tips}}</span>
+                        <nz-progress *ngIf=" item.status == 'In Progress' " [nzPercent]="item.rate"></nz-progress>
                     </td>
                     <td>
                         <i [ngClass]="{'cannotclick':data.serviceDomain!='Network Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
@@ -407,7 +407,7 @@
                         <span class="ant-notification-notice-icon">
                             <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
                         </span>
-                        <div class="ant-notification-notice-message">NS &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
+                        <div class="ant-notification-notice-message">NS &nbsp; {{"i18nTextDefine_InstanceHealingStarting" | translate}}</div>
                         <div class="ant-notification-notice-description">
                             <div class="notificationlist">
                                 <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
