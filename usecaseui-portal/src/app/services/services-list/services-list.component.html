@@ -15,7 +15,7 @@
 -->
 <div class="action ant-tabs-bar">
 
-    <span><i style="margin-right: 10px"><img src="../../../assets/images/customer.png" alt=""></i> {{"i18nTextDefine_Customer" | translate}} : </span>
+    <span><i style="margin-right: 10px"><img src="assets/images/customer.png" alt=""></i> {{"i18nTextDefine_Customer" | translate}} : </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
@@ -26,7 +26,7 @@
         </ul>
     </nz-dropdown>
 
-    <span style="margin-left:40px"><i style="margin-right: 10px"><img src="../../../assets/images/service-type.png" alt=""></i> {{"i18nTextDefine_ServiceType" | translate}} : </span>
+    <span style="margin-left:40px"><i style="margin-right: 10px"><img src="assets/images/service-type.png" alt=""></i> {{"i18nTextDefine_ServiceType" | translate}} : </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
@@ -245,7 +245,7 @@
                 <div class="ant-notification-notice-content">
                     <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                         </span>
                         <div class="ant-notification-notice-message">E2E &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}</div>
                         <div class="ant-notification-notice-description">
@@ -307,7 +307,7 @@
                 <div class="ant-notification-notice-content">
                     <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                         </span>
                         <div class="ant-notification-notice-message" *ngIf="thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
                         </div>
@@ -405,7 +405,7 @@
                 <div class="ant-notification-notice-content">
                     <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                         </span>
                         <div class="ant-notification-notice-message">NS &nbsp; {{"i18nTextDefine_InstanceHealingStarting" | translate}}</div>
                         <div class="ant-notification-notice-description">
@@ -434,7 +434,7 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-inproess.png" alt="instance temination is starting">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="thisCreateService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" | translate}}
                     </div>
@@ -462,8 +462,8 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Successful'">
-                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Failed'">
+                            <img src="assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Successful'">
+                            <img src="assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisCreateService.status == 'Failed'">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">{{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
                     </div>
@@ -496,8 +496,8 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
-                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                            <img src="assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Successful'">{{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}
                     </div>
@@ -530,8 +530,8 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                         <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
-                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                            <img src="assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">E2E &nbsp; {{"i18nTextDefine_InstanceScaledSuccessfully" | translate}}</div>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">E2E &nbsp; {{"i18nTextDefine_InstanceScaleFailed" | translate}}</div>
@@ -558,8 +558,8 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                           <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
-                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                            <img src="assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">NS &nbsp; {{"i18nTextDefine_InstanceHealedSuccessfully" | translate}}</div>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">NS &nbsp; {{"i18nTextDefine_InstanceHealingFailed" | translate}}</div>
@@ -586,8 +586,8 @@
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
                     <span class="ant-notification-notice-icon">
-                            <img src="../../../assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
-                            <img src="../../../assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
+                            <img src="assets/images/execute-success.png" alt="instance temination is starting" *ngIf="thisService.status == 'Successful'">
+                            <img src="assets/images/execute-faild.png" alt="instance temination is starting" *ngIf="thisService.status == 'Failed'">
                         </span>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">CCVPN &nbsp; {{"i18nTextDefine_InstanceUpdatedSuccessfully" | translate}}</div>
                     <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">CCVPN &nbsp; {{"i18nTextDefine_InstanceUpdateFailed" | translate}}</div>
