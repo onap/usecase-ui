@@ -150,7 +150,14 @@
                     <td>
               <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
                     'updating':data.statusClass=='Updating','deleting':data.statusClass=='1002','creating':data.statusClass=='1001',
-                    'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}">{{data.tips}}</span>
+                    'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}"
+                    *ngIf="data.tips != 'Available' && data.tips != 'Unavailable'">{{data.tips}}</span>
+                        <span *ngIf="data.tips == 'Available' " style="margin-left: 10px">
+                            <img src="assets/images/wancheng-icon.png" alt="Available">
+                        </span>
+                        <span *ngIf="data.tips == 'Unavailable' " style="margin-left: 10px">
+                            <img src="assets/images/shibai-icon.png" alt="Unavailable">
+                        </span>
                         <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate" [nzShowInfo]="false"
                                      nzStatus="active"></nz-progress>
                     </td>
@@ -163,14 +170,14 @@
                            (click)="iconMoreShow(data,tableData)" style="transform: rotate(90deg);"></i>
 
                         <ul *ngIf="data.iconMore==true " class="icon-more">
-                            <li>
+                            <li (click)="scaleService(data)">
                                 <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                                   class="anticon anticon-setting" (click)="scaleService(data)"></i>
+                                   class="anticon anticon-scale"></i>
                                 <span> {{"i18nTextDefine_Scale" | translate}} </span>
                             </li>
-                            <li>
+                            <li (click)="update(data)">
                                 <i [ngClass]="{'cannotclick':data.serviceDomain!='CCVPN' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                                   class="anticon anticon-cloud-upload-o" (click)="update(data)"></i>
+                                   class="anticon anticon-update" ></i>
                                 <span> {{"i18nTextDefine_Update" | translate}} </span>
                             </li>
                         </ul>
@@ -264,6 +271,7 @@
                                 <span>{{ thisService["serviceDomain"] }}</span>
                             </div>
                         </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                     </div>
                 </div>
             </ng-template>
@@ -329,6 +337,7 @@
                                 <span>{{ thisService["serviceDomain"] }}</span>
                             </div>
                         </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                     </div>
                 </div>
             </ng-template>
@@ -424,6 +433,7 @@
                                 <span>{{ thisService["serviceDomain"] }}</span>
                             </div>
                         </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                     </div>
                 </div>
             </ng-template>
@@ -455,6 +465,7 @@
                             <span>{{ thisCreateService['serviceDomain'] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>
@@ -489,6 +500,7 @@
                             <span>{{ thisCreateService["serviceDomain"] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>
@@ -523,6 +535,7 @@
                             <span>{{ thisService["serviceDomain"] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>
@@ -551,6 +564,7 @@
                             <span>{{ thisService["serviceDomain"] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>
@@ -579,6 +593,7 @@
                             <span>{{ thisService["serviceDomain"] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>
@@ -607,6 +622,7 @@
                             <span>{{ thisService["serviceDomain"] }}</span>
                         </div>
                     </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
                 </div>
             </div>
         </ng-template>

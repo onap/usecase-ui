@@ -742,7 +742,11 @@ nz-notification-container .ant-notification{
       background: rgba(255,255,255,0);
       opacity: 1!important;
       color: #ffffff;
+      position: relative;
+      background-image: url("assets/images/notificationmodel.png");
+      background-repeat: no-repeat;
       .ant-notification-notice-content{
+        position: relative;
         .ant-notification-notice-icon{}
         .ant-notification-notice-message{
           margin-left: 88px;
@@ -752,6 +756,8 @@ nz-notification-container .ant-notification{
         }
         .ant-notification-notice-description{
           margin-left: 88px;
+          width: 68%;
+          display: inline-block;
           .notificationlist{
             height: 25px;
             line-height: 25px;
@@ -766,9 +772,29 @@ nz-notification-container .ant-notification{
             }
           }
         }
+        .close-icons{
+          position: absolute;
+          width: 100px;
+          text-align: center;
+          display: inline-block;
+          color: #D9DEF1;
+          top: 0;
+          line-height: 120px;
+          font-size: 18px;
+        }
       }
       .ant-notification-notice-close,.ant-notification-notice-close:hover{
         color: #ffffff!important;
+      }
+      .ant-notification-notice-close{
+        width: 80px;
+        height: 100%;
+        position: absolute;
+        border-left: 1px solid #717171;
+        top: 0;
+        .ant-notification-notice-close-x{
+          display: none;
+        }
       }
     }
   }

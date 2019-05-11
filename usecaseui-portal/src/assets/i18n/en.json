@@ -81,6 +81,7 @@
   "i18nTextDefine_InstanceUpdateStarting":"instance update is starting.",
   "i18nTextDefine_InstanceUpdatedSuccessfully":"instance was updated successfully.",
   "i18nTextDefine_InstanceUpdateFailed":"instance update failed!!!",
+  "i18nTextDefine_Close":"close",
 
   "ccvpn-creation-component":"--:",
   "i18nTextDefine_InstanceCreation":"Instance Creation",

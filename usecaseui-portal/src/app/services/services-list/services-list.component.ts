@@ -54,23 +54,23 @@ export class ServicesListComponent implements OnInit {
     serviceMunber = [
         {
             "serviceDomain": "E2E",
-            "Success": 16,
-            "failed": 4,
-            "InProgress": 11,
+            "Success": 0,
+            "failed": 0,
+            "InProgress": 0,
             "detailName":"i18nTextDefine_End_To_End_Service"
         },
         {
             "serviceDomain": "NS",
-            "Success": 21,
-            "failed": 2,
-            "InProgress": 17,
+            "Success": 0,
+            "failed": 0,
+            "InProgress": 0,
             "detailName":"i18nTextDefine_Network_Service"
         },
         {
             "serviceDomain": "CCVPN",
-            "Success": 36,
-            "failed": 15,
-            "InProgress": 6,
+            "Success": 0,
+            "failed": 0,
+            "InProgress": 0,
             "detailName":"i18nTextDefine_Cross_Domain_and_Cross_Layer_VPN"
         }
     ];
@@ -361,6 +361,36 @@ export class ServicesListComponent implements OnInit {
           return item;
         })
         console.log(this.tableData)
+                this.tableData.map((item,index) => {
+                    if(item.serviceDomain == 'E2E Service'){
+                        if(item.operationResult == 2001){
+                            this.serviceMunber[0]["Success"]+=1;
+                        }else if(item.operationResult == 2002){
+                            this.serviceMunber[0]["failed"]+=1;
+                        }else if(item.operationResult == 2003){
+                            this.serviceMunber[0]["InProgress"]+=1;
+                        }
+                    }
+                    else if(item.serviceDomain == 'Network Service'){
+                        if(item.operationResult == 2001){
+                            this.serviceMunber[1]["Success"]+=1;
+                        }else if(item.operationResult == 2002){
+                            this.serviceMunber[1]["failed"]+=1;
+                        }else if(item.operationResult == 2003){
+                            this.serviceMunber[1]["InProgress"]+=1;
+                        }
+                    }
+                    else if(item.serviceDomain == 'CCVPN'){
+                        if(item.operationResult == 2001){
+                            this.serviceMunber[2]["Success"]+=1;
+                        }else if(item.operationResult == 2002){
+                            this.serviceMunber[2]["failed"]+=1;
+                        }else if(item.operationResult == 2003){
+                            this.serviceMunber[2]["InProgress"]+=1;
+                        }
+                    }
+                })
+                console.log(this.serviceMunber)
       },(err)=>{
         console.log(err);
       })
@@ -838,6 +868,11 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         if(data.status == "FAILED"){
           console.log("scale E2e service failed :" + JSON.stringify(data));
           service.status = "failed";
+                    service.tips = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == service.statusClass && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2002 && its["language"] == this.language
+                    })["sortValue"];
                     this.scaleSuccessNotification(templateScaleSuccessFaild);
           return false;
         }
