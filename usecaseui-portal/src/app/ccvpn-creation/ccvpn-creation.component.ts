@@ -126,7 +126,7 @@ export class CcvpnCreationComponent implements OnInit {
 
                 this.showTemParametersSotnVpn();
                 this.showTemParametersSite();
-
+                console.log(this.templateParameters)
             }, (err) => {
 
             });
@@ -361,10 +361,10 @@ export class CcvpnCreationComponent implements OnInit {
         this.sotnVpnModelShow = true;
         this.isEditSotnVpn = num;
         Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
-            this.sotnInfo[item] = this.sotnInfo[num - 1][item];
+            this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
         this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
-            return Object.assign({}, item)
+            return Object.assign({}, {},item)
         });
         this.sotnSdwansitelanData.forEach((item, index) => {
             this.tabInputShowSdwansitelan[index] = false;
