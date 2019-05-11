@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,39 +13,207 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<h3 class="title"> Services List </h3>
-<hr>
-<div class="model">
 
-  <button class="back" nz-button (click)="goback()"><span><i class="anticon anticon-rollback"></i></span></button>
-  <div class="detaildata fl">
-    <h3 class="title" style="margin-bottom: 20px">{{detailParams['service-instance-name']}} Instance Detail</h3>
-    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-      <nz-tab [nzTitle]="'SOTN VPN Info'">
-        <div class="sotnvpn clearfix">
-          <!--<h3>SOTN VPN Info</h3>-->
-          <ul>
-            <li><span>Name:</span> {{sotnVpnInfo.name}}</li>
-            <li><span>Description:</span> {{sotnVpnInfo.description}} </li>
-            <li><span>Start Time:</span> {{sotnVpnInfo.startTime}}</li>
-            <li><span>End Time:</span> {{sotnVpnInfo.endTime}} </li>
-            <li><span>COS:</span> {{sotnVpnInfo.COS}}</li>
-            <li><span>Reroute Enable:</span> {{sotnVpnInfo.reroute}} </li>
-            <li><span>Service Level Specification:</span> {{sotnVpnInfo.SLS}}</li>
-            <li><span>DualLink:</span> {{sotnVpnInfo.dualLink}} </li>
-            <li><span>CIR:</span> {{sotnVpnInfo.CIR}}</li>
-            <li><span>EIR:</span> {{sotnVpnInfo.EIR}} </li>
-            <li><span>CBS:</span> {{sotnVpnInfo.CBS}}</li>
-            <li><span>EBS:</span> {{sotnVpnInfo.EBS}} </li>
-            <li><span>Color Aware:</span> {{sotnVpnInfo.colorAware}}</li>
-            <li><span>Coupling Flag:</span> {{sotnVpnInfo.couplingFlag}} </li>
-          </ul>
+<div class="model creation-model" style="background: #F7F8FC;">
+  <!-- ???? -->
+  <div class="top-title">
+    <h3 class="title fl">{{detailParams['service-instance-name']}} Instance Detail</h3>
+    <div class="fl" style="width: 20%">
+      <button class="back" nz-button (click)="goback()">
+        <i class="anticon anticon-arrow-left" style="transform: scale(1.5)"></i>
+      </button>
+    </div>
+  </div>
+  <!-- ͼ -->
+  <div class="chart">
+
+    <div id="detailChart">
+      <svg width="100%" height="100%" style="position: relative">
+        <!--local domain-->
+        <g class="clouds">
+          <image xlink:href="./assets/images/domain1.png"
+                 id="domain1"
+                 width="14%"
+                 x="17%" y="14%"
+          ></image>
+          <text dx="24%" dy="51%" style="font-size: 14px; fill:#ffffff;width: 20px;">
+            {{vpns[0].domain}}
+          </text>
+        </g>
+        <g *ngIf="vpns[1]" class="clouds">
+          <image xlink:href="./assets/images/domain1.png"
+                 id="domain2"
+                 width="14%"
+                 x="40%" y="40%"
+          ></image>
+          <text dx="43%" dy="19%" style="font-size: 14px; fill: #ffffff;width: 20px;">
+            {{vpns[1].domain}}
+          </text>
+        </g>
+        <!--domain1 tp-->
+        <g class="clouds">
+          <image xlink:href="./assets/images/tp.png"
+                 class="tp"
+                 id="tp1"
+                 height="16" width="20"
+                 x="21%" y="37%"
+          ></image>
+          <text dx="21%" dy="34%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{vpns[0].sitetpname}}
+          </text>
+        </g>
+        <g class="clouds">
+          <image xlink:href="./assets/images/tp.png"
+                 class="tp"
+                 id="tp2"
+                 height="16" width="20"
+                 x="29%" y="52%"
+          ></image>
+          <text dx="29%" dy="49%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{vpns[0].othertpname}}
+          </text>
+        </g>
+        <!--domain2 tp-->
+        <g *ngIf="vpns[1]" class="clouds">
+          <image xlink:href="./assets/images/tp.png"
+                 class="tp"
+                 id="tp3"
+                 height="16" width="20"
+                 x="44%" y="52%"
+          ></image>
+          <text dx="44%" dy="49%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{vpns[1].othertpname}}
+          </text>
+        </g>
+        <g *ngIf="vpns[1]" class="clouds">
+          <image xlink:href="./assets/images/tp.png"
+                 class="tp"
+                 id="tp4"
+                 height="16" width="20"
+                 x="51%" y="78%"
+          ></image>
+          <text dx="51%" dy="75%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{vpns[1].sitetpname}}
+          </text>
+        </g>
+        <!--clouds-->
+        <g class="clouds">
+          <image xlink:href="./assets/images/cloud-out.png"
+                 id="extent-cloud"
+                 width="14%"
+                 x="70%" y="11%"
+          ></image>
+          <text dx="75%" dy="39%" style="font-size: 14px; fill: #666;width: 20px;">
+            SP Partent Network
+          </text>
+        </g>
+        <!--local site-->
+        <g class="clouds">
+          <image xlink:href="./assets/images/site.png"
+                 id="site1"
+                 height="59" width="100"
+                 x="6%" y="29%"
+          ></image>
+          <text dx="8%" dy="26%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{localSite[0] && localSite[0]["service-instance-name"]}}
+          </text>
+        </g>
+        <g *ngIf="!detailSites" class="clouds">
+          <image xlink:href="./assets/images/site.png"
+                 id="site2"
+                 height="59" width="100"
+                 x="61%" y="70%"
+                 *ngIf="this.vpns.length == 2"
+          ></image>
+          <text dx="62%" dy="66%" style="font-size: 14px; fill: #666;width: 20px;"  *ngIf="this.vpns.length == 2">
+            {{ localSite[1] && localSite[1]["service-instance-name"]}}
+          </text>
+          <image xlink:href="./assets/images/site.png"
+                 id="site2"
+                 height="59" width="100"
+                 x="40%" y="44%"
+                 *ngIf="this.vpns.length == 1"
+          ></image>
+          <text dx="41%" dy="40%" style="font-size: 14px; fill: #666;width: 20px;"  *ngIf="this.vpns.length == 1">
+            {{ localSite[1] && localSite[1]["service-instance-name"]}}
+          </text>
+        </g>
+        <!--cloud site-->
+        <g *ngIf="!detailSites" class="clouds">
+          <image xlink:href="./assets/images/site.png"
+                 id="site3"
+                 height="59" width="100"
+                 x="89%" y="10%"
+          ></image>
+          <text dx="90%" dy="7%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{outerSite[1]["service-instance-name"]}}
+          </text>
+        </g>
+        <g class="clouds">
+          <image xlink:href="./assets/images/site.png"
+                 id="site4"
+                 height="59" width="100"
+                 x="89%" y="40%"
+          ></image>
+          <text dx="90%" dy="37%" style="font-size: 14px; fill: #666;width: 20px;">
+            {{outerSite[0]["service-instance-name"]}}
+          </text>
+        </g>
+        <!--tp,site,domain---line -->
+        <line *ngFor="let item of detailLines" [attr.x1]="item.x1" [attr.y1]="item.y1" [attr.x2]="item.x2" [attr.y2]="item.y2" style="stroke:#2F8BF7; stroke-width:2"></line>
+        <line *ngIf="detailSites" x1="45%" y1="30%" x2="75%" y2="20%" style="stroke:#FFC000; stroke-width:2"></line>
+      </svg>
+    </div>
+  </div>
+  <div class="detaildata">
+    <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle>
+      <nz-tab nzTitle="Service Info">
+        <div class="service-title" style="clear: both">
+          <span class="lable" style="width: 60px">name:</span>
+          <div class="service-title-input">{{templateParameters.service["name"]}}</div>
+          <span class="lable">description:</span>
+          <div class="service-title-input">{{templateParameters.service["description"]}}</div>
         </div>
       </nz-tab>
-      <nz-tab [nzTitle]="'Site List'">
+      <nz-tab nzTitle="Sdwanvpnresource List">
+        <div class="sotnvpn clearfix">
+          <div style="clear: both;height: 10px">
+            <h3 style="float: left;color: #3C4F8C">sdwanVPN List</h3>
+          </div>
+          <nz-table #sotnVpnTable [nzData]="sotnVpnTableData"
+                    [nzShowPagination]="false"
+                    nzSize="small">
+            <thead>
+            <tr>
+              <th width="30%"> NO.</th>
+              <th width="30%"> Name</th>
+              <th width="30%"> topology</th>
+              <th nzWidth="10%"> Action </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of sotnVpnTable.data; let i = index; ">
+              <td>{{i+1}}</td>
+              <td>{{item.sdwanvpn_name}}</td>
+              <td>{{item.sdwanvpn_topology}}</td>
+              <td>
+                <span class="action" (click)="showstonVpnDetail(i+1)"><i class="anticon anticon-bars"></i></span>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Sdwansiteresource List">
         <div class="site">
-          <!--<h3>Site List</h3>-->
-          <nz-table #nzTable [nzData]="siteList"
+          <div style="height: 10px">
+            <h3 style="float: left;color: #3C4F8C">Site List</h3>
+            <button nz-button (click)="addSite()" class="addListBtn"
+                    style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
+                                                               style="transform: scale(1.2);font-weight: 700"></i>{{"i18nTextDefine_Add" | translate}}
+            </button>
+          </div>
+          <nz-table #nzTable [nzData]="siteTableData"
                     [nzShowPagination]="false"
                     nzSize="small">
             <thead>
@@ -63,121 +231,15 @@
 
             <tr *ngFor="let item of nzTable.data; let i = index; ">
               <td>{{i+1}}</td>
-              <td>{{item.baseNames.name}}</td>
-              <td>{{item.baseNames.description}}</td>
-              <td>{{item.baseNames.postcode}}</td>
-              <td>{{item.baseNames.address}}</td>
-              <td>{{item.baseNames.vlan}}</td>
-              <td (click)="showSiteDetail(item)"> <a href="javascript:;">Detail</a> </td>
-            </tr>
-
-            </tbody>
-          </nz-table>
-          <div class="siteDetail" *ngIf="siteDetail">
-            <h3>Site_Enterprise Service <span class="closeDetail fr" (click)="siteDetail=false">X</span></h3>
-            <ul>
-              <li><span>Name:</span> {{ siteDetailData.baseNames.name}}</li>
-              <li><span>Description:</span> {{ siteDetailData.baseNames.description }} </li>
-              <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Type:</span> {{ siteDetailData.baseNames.type }} </li>
-              <li *ngIf="detailParams.serviceDomain == 'CCVPN'"><span>Role:</span> {{ siteDetailData.baseNames.role }} </li>
-              <li><span>PostCode:</span> {{ siteDetailData.baseNames.postcode }} </li>
-              <li><span>VLAN:</span> {{ siteDetailData.baseNames.vlan }}</li>
-              <li><span>Address:</span> {{ siteDetailData.baseNames.address }}</li>
-              <li><span>ClientSignal:</span> {{ siteDetailData.baseNames.clientSignal }}</li>
-              <li><span>ControlPoint:</span> {{ siteDetailData.baseNames.controlPoint }}</li>
-              <li><span>Emails:</span> {{ siteDetailData.baseNames.emails }}</li>
-              <li><span>GroupName:</span> {{ siteDetailData.baseNames.groupName }}</li>
-              <li><span>GroupRole:</span> {{ siteDetailData.baseNames.groupRole }}</li>
-              <li><span>Latitude:</span> {{ siteDetailData.baseNames.latitude }}</li>
-              <li><span>Longitude:</span> {{ siteDetailData.baseNames.longitude }}</li>
-              <li><span>SotnVpnName:</span> {{ siteDetailData.baseNames.sotnVpnName }}</li>
-            </ul>
-            <div *ngIf="detailParams.serviceDomain == 'CCVPN'">
-              <h3>CPE</h3>
-              <ul>
-                <li><span>Name:</span> {{siteDetailData.cpeNames.device_name}}</li>
-                <li><span>Version:</span> {{ siteDetailData.cpeNames.device_version }} </li>
-                <li><span>ESN:</span> {{ siteDetailData.cpeNames.device_esn }} </li>
-                <li><span>Class:</span> {{ siteDetailData.cpeNames.device_class }} </li>
-                <li><span>System IP:</span> {{ siteDetailData.cpeNames.device_systemIp }} </li>
-                <li><span>Vendor:</span> {{ siteDetailData.cpeNames.device_vendor }}</li>
-                <li><span>Type:</span> {{ siteDetailData.cpeNames.device_type }}</li>
-              </ul>
-              <h3>WAN Port</h3>
-              <nz-table #nzTable [nzData]="siteDetailData.wanportNames"
-                        [nzShowPagination]="false"
-                        nzSize="small">
-                <thead>
-                <tr>
-                  <th nzWidth="10%"> NO. </th>
-                  <th nzWidth="15%"> Name </th>
-                  <th nzWidth="20%"> Description </th>
-                  <th nzWidth="15%"> PortType </th>
-                  <th nzWidth="15%"> PortNumber </th>
-                  <th nzWidth="15%"> IPAddress </th>
-                  <th nzWidth="10%"> Action </th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr *ngFor="let item of nzTable.data; let i = index; ">
-                  <td>{{i+1}}</td>
-                  <td>{{item.sitewanport_name}}</td>
-                  <td>{{item.sitewanport_description}}</td>
-                  <td>{{item.sitewanport_portType}}</td>
-                  <td>{{item.sitewanport_portNumber}}</td>
-                  <td>{{item.sitewanport_ipAddress}}</td>
-                  <td (click)="showWanportDetail(item)"> <a href="javascript:;">Detail</a> </td>
-                </tr>
-
-                </tbody>
-              </nz-table>
-              <nz-modal [(nzVisible)]="wanPortModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel()">
-                <ng-template #modalTitle>
-                  WAN Port Detail
-                </ng-template>
-
-                <ng-template #modalContent>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Name </span> {{wanPortDetail.sitewanport_name}}</p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Description: </span> {{wanPortDetail.sitewanport_description}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Type: </span> {{wanPortDetail.sitewanport_portType}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Port Number: </span> {{wanPortDetail.sitewanport_portNumber}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Ip Address: </span> {{wanPortDetail.sitewanport_ipAddress}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Provider IP Address: </span> {{wanPortDetail.sitewanport_providerIpAddress}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Transport Nerwork: </span> {{wanPortDetail.sitewanport_transportNetworkName}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Input Bandwidth: </span> {{wanPortDetail.sitewanport_inputBandwidth}} </p>
-                  <p> <span style="color:#3fa8eb;font:700 14px 'Arial';display:inline-block;width:200px;"> Output Bandwidth: </span> {{wanPortDetail.sitewanport_outputBandwidth}} </p>
-                </ng-template>
-
-                <ng-template #modalFooter>
-
-                </ng-template>
-              </nz-modal>
-            </div>
-
-          </div>
-        </div>
-      </nz-tab>
-      <nz-tab [nzTitle]="'Site_Group List'" *ngIf="detailParams.serviceDomain == 'CCVPN'">
-        <div class="sitegroup" >
-          <h3>Site_Group List</h3>
-          <nz-table #nzTable [nzData]="siteGroupList"
-                    [nzLoading]="loading"
-                    [nzShowPagination]="false"
-                    nzSize="small">
-            <thead>
-            <tr>
-              <th nzWidth="10%"> NO. </th>
-              <th nzWidth="20%"> Group Name </th>
-              <th nzWidth="20%"> Topology </th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr *ngFor="let item of nzTable.data; let i = index; ">
-              <td>{{i+1}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.topology}}</td>
+              <td>{{item.sdwandevice_list[0].name}}</td>
+              <td>{{item.sdwansite_description}}</td>
+              <td>{{item.sdwansite_postcode}}</td>
+              <td>{{item.sdwansite_address}}</td>
+              <td>{{item.sdwansite_emails}}</td>
+              <td>
+                <span class="action" (click)="showSiteDetail(i+1)"><i class="anticon anticon-bars"></i></span>
+                <span class="action" (click)="deleteSite(i+1)"><i class="anticon anticon-delete"></i></span>
+              </td>
             </tr>
 
             </tbody>
@@ -186,14 +248,88 @@
       </nz-tab>
     </nz-tabset>
   </div>
-
-  <div class="chart fr">
-
-    <div id="detailChart">
-      <svg id="togo">
-
-      </svg>
+  <!-- sotnVpn model -->
+  <div class="sotnnpnmodel" *ngIf="sotnVpnDetailShow">
+    <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+    <div class="inputs">
+      <ul>
+        <li *ngFor="let item of this.templateParameters.sotnvpn.sdwanvpnresource_list">
+          <span>{{item.lableShow}}:</span>
+          <span class="input-info">{{sotnInfo[item.lable]}}</span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>Sdwansitelan List</h3>
+      <div>
+        <div style="width: 100%;text-align: right">
+        </div>
+        <table class="siteWanTab">
+          <thead>
+          <tr>
+            <th width="4%"> NO.</th>
+            <th *ngFor="let key of getKeys(this.sotnSdwansitelanParams)">{{key}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of sotnSdwansitelanData; let i = index;" class="tr-border">
+            <td>{{i+1}}</td>
+            <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="key != 'lable' ">{{item[key]}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="action">
+      <button nz-button nzType="primary" (click)="detailSotnVpn_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
     </div>
   </div>
+  <!-- site model -->
+  <div class="sitemodel" *ngIf="siteDetail">
+    <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+    <div class="inputs">
+      <ul>
+        <li *ngFor="let item of this.templateParameters.site.sdwansiteresource_list">
+          <span>{{item.lableShow}}:</span>
+          <span class="input-info">{{siteBaseData[item.lable]}}</span>
+          </li>
+      </ul>
+    </div>
+    <div>
+      <h3>Sdwandevice</h3>
+      <div class="inputs">
+        <ul>
+          <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
+            <span>{{item.lable}}:</span>
+            <span class="input-info">{{siteCpeData[item.lable]}}</span>
+        </ul>
+      </div>
+      <h3>Sdwansitewan List</h3>
+      <div>
+        <table class="siteWanTab">
+          <thead>
+          <tr>
+            <th width="4%"> NO.</th>
+            <th *ngFor="let key of getKeys(this.siteWanParams)">{{key}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of siteWanData; let i = index;" class="tr-border">
+            <td>{{i+1}}</td>
+            <td *ngFor="let key of getKeys(item);">
+                            <span *ngIf="key != 'lable' ">{{item[key]}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
+    <div class="action">
+      <button nz-button nzType="primary" (click)="detailsite_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+    </div>
+  </div>
+  <div class="mask" *ngIf="sotnVpnDetailShow || siteDetail" (click)="hiddenModel()"></div>
 </div>
