@@ -82,6 +82,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     addLinkDisabled = true;
+    nonetwork = false;
     isVisible = false;
     outCloudShow = false;
     inputshow = false;
@@ -169,8 +170,10 @@ export class CcvpnNetworkComponent implements OnInit {
             .subscribe((data) => {
                 if (data.length == 0) {
                     this.addLinkDisabled = false;
+                    this.nonetwork = true;
                     return;
                 }
+	 this.nonetwork = false;
                 for (let ii = 0; ii < data.length; ii++) {//Determine if there is external cloud information in the data, and kick it out.
                     if (data[ii]['aaiId'] != null) {
                         this.dataCloud = data.splice(ii, 1);

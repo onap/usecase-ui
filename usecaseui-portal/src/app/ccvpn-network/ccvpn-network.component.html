@@ -15,118 +15,137 @@
 -->
 <div class="model">
   <!--chart-->
-  <button nz-button nzType="primary" style="margin-top: 2px;display: block" (click)="showForm()">Add Link</button>
-  <div id="tpContainer" style="overflow: hidden;"></div>
+  <button nz-button nzType="primary" *ngIf="!nonetwork" style="margin-top: 2px;display: inline-block" (click)="showForm()"
+          [disabled]='isVisible' [attr.disabled] ='isVisible?true:undefined'>
+    {{"i18nTextDefine_CreateLink" | translate}}
+  </button>
+  <h2 *ngIf="!nonetwork" [ngClass]="{'title-modelshow':isVisible == true}">
+    Please configure network links for registered devices and partner system.
+  </h2>
+  <div id="tpContainer" style="overflow: hidden;">
+    <div *ngIf="nonetwork" style="padding: 20px">
+      <h2>
+        There is not any terminal device can be used for configuration
+      </h2>
+      <br>
+      <h2>
+        please register external network into ONAP.
+      </h2>
+    </div>
+    <div class="no-network" *ngIf="nonetwork">
+      <img src="assets/images/no-network available.png" alt="No network available">
+      <p>No network available</p>
+    </div>
+  </div>
   <!--Popup-->
   <div class="creation" id="d3_form" *ngIf="isVisible==true">
     <span class="v_color"></span>
-    <h3 class="w_font4">Set Attribtes</h3>
+    <h3 class="w_font4"> {{"i18nTextDefine_SetAttribtes" | translate}} </h3>
     <ul class="choose">
       <li>
-        <span class="title-span"><span class="red-span">*</span>Link Name </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_LinkName" | translate}} </span>
         <input nz-input [(ngModel)]="linkName" maxlength="20">
       </li>
     </ul>
-    <h4>Left Port</h4>
+    <h4> {{"i18nTextDefine_LeftPort" | translate}} </h4>
     <ul class="choose">
       <li>
-        <span class="title-span"><span class="red-span">*</span>Network </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_Network" | translate}} </span>
         <nz-select [(ngModel)]="networkVal1" nzShowSearch nzAllowClear (ngModelChange)="network1Change($event)">
           <nz-option *ngFor="let option of networkOption" [nzLabel]="option.network" [nzValue]="option.network"></nz-option>
         </nz-select>
       </li>
       <li>
-       <span class="title-span"> <span class="red-span">*</span>Node </span>
+       <span class="title-span"> <span class="red-span">*</span> {{"i18nTextDefine_Node" | translate}} </span>
         <nz-select  [(ngModel)]="selectedNode1" nzShowSearch nzAllowClear (ngModelChange)="node1Change($event)">
           <nz-option *ngFor="let node of nodeOption1[networkVal1]" [nzValue]="node" [nzLabel]="node"></nz-option>
         </nz-select>
       </li>
       <li>
-        <span class="title-span"><span class="red-span">*</span>Terminal Point </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_TerminalPoint" | translate}} </span>
         <!-- <input  nz-input id="city-one" value=""> -->
         <nz-select [(ngModel)]="selecteTpName1" nzShowSearch nzAllowClear>
           <nz-option *ngFor="let tp of tpOption1" [nzValue]="tp" [nzLabel]="tp"></nz-option>
         </nz-select>
       </li>
     </ul>
-    <h4>Right Port</h4>
-    <label nz-checkbox [(ngModel)]="inputshow">Partner Network</label>
+    <h4> {{"i18nTextDefine_RightPort" | translate}} </h4>
+    <label nz-checkbox [(ngModel)]="inputshow"> {{"i18nTextDefine_PartnerNetwork" | translate}} </label>
     <ul class="choose">
       <li>
-        <span class="title-span"><span *ngIf="inputshow" class="red-span">*</span>Host Url</span>
+        <span class="title-span"><span *ngIf="inputshow" class="red-span">*</span> {{"i18nTextDefine_HostUrl" | translate}} </span>
         <input nz-input [(ngModel)]="cloudUrl" [disabled]='!inputshow' [attr.disabled] ='!inputshow?true:undefined'>
       </li>
       <li>
-        <span class="title-span"><span class="red-span">*</span>Network </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_Network" | translate}} </span>
         <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudNetwork">
         <nz-select *ngIf="!inputshow" [(ngModel)]="networkVal2" nzShowSearch nzAllowClear (ngModelChange)="network2Change($event)">
           <nz-option *ngFor="let option of networkOption" [nzLabel]="option.network" [nzValue]="option.network"> </nz-option>
         </nz-select>
       </li>
       <li>
-        <span class="title-span"><span class="red-span">*</span>Node </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_Node" | translate}} </span>
         <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudNode">
         <nz-select *ngIf="!inputshow" [(ngModel)]="selectedNode2" nzShowSearch nzAllowClear (ngModelChange)="node2Change($event)">
           <nz-option *ngFor="let node of nodeOption1[networkVal2]" [nzValue]="node" [nzLabel]="node"></nz-option>
         </nz-select>
       </li>
       <li>
-        <span class="title-span"><span class="red-span">*</span>Terminal Point </span>
+        <span class="title-span"><span class="red-span">*</span> {{"i18nTextDefine_TerminalPoint" | translate}} </span>
         <input  nz-input *ngIf="inputshow" [(ngModel)]="cloudTp">
         <nz-select *ngIf="!inputshow" [(ngModel)]="selecteTpName2" nzShowSearch nzAllowClear>
           <nz-option *ngFor="let tp of tpOption2" [nzValue]="tp" [nzLabel]="tp"></nz-option>
         </nz-select>
       </li>
     </ul>
-    <button nz-button nzType="primary" nzSize="small" style="width: 60px;" (click)="submitForm()">OK</button>
-    <button nz-button nzType="default" nzSize="small" style="width: 60px;" (click)="hideForm()">Cancel</button>
+    <button nz-button nzType="primary" nzSize="small" style="width: 60px;" (click)="submitForm()"> {{"i18nTextDefine_modelOk" | translate}} </button>
+    <button nz-button nzType="default" nzSize="small" style="width: 60px;" (click)="hideForm()"> {{"i18nTextDefine_Cancel" | translate}} </button>
   </div>
   <div class="creation" id="delbox" *ngIf="delBoxisVisible==true">
     <span class="v_color"></span>
-    <h3 class="w_font4">Set Attribtes</h3>
     <ul class="choose">
       <li>
-        <span class="title-span">Link Name </span>
+        <span class="title-span"> {{"i18nTextDefine_LinkName" | translate}} </span>
         <input nz-input [(ngModel)]="delLinkname" disabled="disabled">
       </li>
     </ul>
-    <h4>Left Port</h4>
+    <h4> {{"i18nTextDefine_LeftPort" | translate}} </h4>
     <ul class="choose">
       <li>
-        <span class="title-span">Network </span>
+        <span class="title-span"> {{"i18nTextDefine_Network" | translate}} </span>
         <input nz-input [(ngModel)]="delNetwork1" disabled="disabled">
       </li>
       <li>
-        <span class="title-span">Node </span>
+        <span class="title-span"> {{"i18nTextDefine_Node" | translate}} </span>
         <input nz-input [(ngModel)]="delNode1" disabled="disabled">
       </li>
       <li>
-        <span class="title-span">Terminal Point </span>
+        <span class="title-span"> {{"i18nTextDefine_TerminalPoint" | translate}} </span>
         <input nz-input [(ngModel)]="delTp1" disabled="disabled">
       </li>
     </ul>
-    <h4>Right Port</h4>
+    <h4> {{"i18nTextDefine_RightPort" | translate}} </h4>
     <ul class="choose">
       <li *ngIf="delcloud">
-        <span class="title-span">Host Url</span>
+        <span class="title-span"> {{"i18nTextDefine_HostUrl" | translate}} </span>
         <input nz-input [(ngModel)]="delcloudUrl" disabled="disabled">
       </li>
       <li>
-        <span class="title-span">Network </span>
+        <span class="title-span"> {{"i18nTextDefine_Network" | translate}} </span>
         <input nz-input [(ngModel)]="delNetwork2" disabled="disabled">
       </li>
       <li>
-      <span class="title-span">Node </span>
+      <span class="title-span"> {{"i18nTextDefine_Node" | translate}} </span>
       <input nz-input [(ngModel)]="delNode2" disabled="disabled">
       </li>
       <li>
-        <span class="title-span">Terminal Point </span>
+        <span class="title-span"> {{"i18nTextDefine_TerminalPoint" | translate}} </span>
         <input nz-input [(ngModel)]="delTp2" disabled="disabled">
       </li>
     </ul>
-    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delLink()" *ngIf="!delcloud">delete Link</button>
-    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delCloudLink()" *ngIf="delcloud">delete Link</button>
-    <button nz-button nzType="default" nzSize="small" class="del-button" style="width: 60px;" (click)="hideForm()">Cancel</button>
+    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delLink()" *ngIf="!delcloud"> {{"i18nTextDefine_DeleteLink" | translate}} </button>
+    <button nz-button nzType="primary" nzSize="small" class="del-button" style="width: 90px;" (click)="delCloudLink()" *ngIf="delcloud"> {{"i18nTextDefine_deleteLink" | translate}} </button>
+    <button nz-button nzType="default" nzSize="small" class="del-button" style="width: 60px;" (click)="hideForm()"> {{"i18nTextDefine_Cancel" | translate}} </button>
   </div>
 </div>
 
