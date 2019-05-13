@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -36,102 +36,216 @@ export class CcvpnDetailComponent implements OnInit {
     @Input() namesTranslate;
     @Output() closeDetail = new EventEmitter();
 
-    sotnVpnInfo:any;
-    siteList=[];
-    siteGroupList=[];
-    dataInit(){
-        console.log(this.detailParams);
-
-        this.sotnVpnInfo = JSON.parse(this.detailParams['input-parameters']).service.parameters.requestInputs;
-        for(let key in this.sotnVpnInfo){
-            for(let key2 in this.namesTranslate.sotnNameTranslate){
-                let partnames = this.namesTranslate.sotnNameTranslate[key2].split("_");
-                if(key.startsWith(partnames[0])&&key.endsWith(partnames[1])){
-                    this.sotnVpnInfo[key2] = this.sotnVpnInfo[key];
-                    break;
-                }
-            }
+    tabBarStyle = {
+        "height": "58px",
+        "width": "694px",
+        "box-shadow": "none",
+        "margin": "0",
+        "border-radius": "4px 4px 0px 0px"
+    };
+    input_parameters: any;
+    templateParameters = {
+        service: {},
+        sotnvpn: {
+            // info: {},
+            sdwanvpnresource_list: [],
+            sdwansitelan_list: []
+        },
+        site: {
+            // info: {},
+            sdwansiteresource_list: [],
+            sdwandevice_list: [],
+            sdwansitewan_list: []
         }
+    };
+    // SOTN VPN List
+    sotnVpnTableData = [];
+    sotnInfo = {};//sotnmodel  The first part of sotnInfo
+    sotnSdwansitelanData = [];//sotnmodel The second part of the data  sdwansitelan Table
+    sotnSdwansitelanParams = {};//sdwansitelan Table  Detailed parameters of each line of data
 
-        this.siteList = this.detailParams.siteSer.map((item)=>{
-            return JSON.parse(item['input-parameters']).service.parameters.requestInputs;
-        })
-        this.siteList.forEach((oneSite,idex)=>{
-            oneSite["baseNames"]={};oneSite["cpeNames"]={};oneSite["wanportNames"]=[];
-            for(let key in oneSite){
-                let hasfind = false;
-                if(key == "baseNames" || key == "cpeNames" || key == "wanportNames"){ continue };
-                for(let key2 in this.namesTranslate.siteNameTranslate.baseNames){
-                    if(key.endsWith(this.namesTranslate.siteNameTranslate.baseNames[key2])){
-                        oneSite["baseNames"][key2] = oneSite[key];
-                        hasfind = true;
-                        break;
-                    }
-                }
-                if(hasfind){ continue };
-                for(let key3 in this.namesTranslate.siteNameTranslate.cpeNames){
-                    if(key.endsWith(this.namesTranslate.siteNameTranslate.cpeNames[key3])){
-                        oneSite["cpeNames"][key3] = oneSite[key];
-                        hasfind = true;
-                        break;
-                    }
-                }
-                if(hasfind){ continue };
-                let wanportStartName = key.split("_")[0];
+    // Site List
+    siteTableData = [];
+    siteBaseData = {}; //sitemodel one sdwansiteresource_list
+    // cpe
+    siteCpeData = {}; //sitemodel two sdwandevice_list
+    // Wan Port
+    siteWanData = [];  //sitemodel three wan port Table data
+    siteWanParams = {}; //wan port Table Detailed parameters of each line of data
+    getKeys(item) {
+        return Object.keys(item);
+    }
+    //tabBarStyle
+    dataInit() {
+        console.log(this.detailParams)
+        this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
+        this.input_parameters = JSON.parse(this.input_parameters);
+        console.log(this.input_parameters);
+        this.templateParameters.service = {
+            name:  this.input_parameters.service.name,
+            description:  this.input_parameters.service.description
+        };
+        let inputs = this.input_parameters.service.parameters.requestInputs;
+        //筛选 分离 sotnvpn数据
+        inputs["sdwanvpnresource_list"].map((item, index) => {
+            this.sotnVpnTableData.push(item);
+        });
 
-                let theItem =  oneSite["wanportNames"].find((item,index)=>{
-                    if(item){
-                        return Object.keys(item)[0].startsWith(wanportStartName)
-                    }
+        let sdwanvpnresource_list = inputs["sdwanvpnresource_list"][0];
+        Object.keys(sdwanvpnresource_list).forEach((its) => {
+            let input = {};
+            if(its =="sdwansitelan_list"){
+                this.templateParameters["sotnvpn"]["sdwansitelan_list"] = sdwanvpnresource_list[its]
+            }else if(its !="sdwansitelan_list"){
+                input[its] = sdwanvpnresource_list[its];
+                this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(input);
+            }
+        });
+
+        console.log( this.templateParameters.sotnvpn);
+        console.log(this.sotnVpnTableData);
+
+        //筛选 分离 site数据
+        inputs["sdwansiteresource_list"].map((item, index) => {
+            this.siteTableData.push(item);
+        });
+
+        let sdwansiteresource_list = inputs["sdwansiteresource_list"][0];
+        Object.keys(sdwansiteresource_list).forEach((its) => {
+            let input2 = {};
+            if(its =="sdwandevice_list"){
+                Object.keys(sdwansiteresource_list[its][0]).forEach((i) => {
+                    let input1 = {};
+                    input1[i] = sdwansiteresource_list[its][i];
+                    this.templateParameters["site"]["sdwandevice_list"].push(input1);
                 })
-                theItem?theItem[key]=oneSite[key]:oneSite["wanportNames"].push({[key]:oneSite[key]})
+            }else if(its =="sdwansitewan_list"){
+                this.templateParameters["site"]["sdwansitewan_list"] = sdwansiteresource_list[its]
+            }else if(its !="sdwandevice_list" && its !="sdwansitewan_list"){
+                input2[its] = sdwansiteresource_list[its];
+                this.templateParameters["site"]["sdwansiteresource_list"].push(input2);
             }
-            let wanportTs = Object.values(this.namesTranslate.siteNameTranslate.wanportNames);
-            oneSite["wanportNames"].forEach((item)=>{
-                for(let key in item){
-                    let newName = wanportTs.find((name)=>{
-                        return key.endsWith(name);
-                    })
-                    newName?item[newName]=item[key]:null;
-                }
-            })
+        });
+        console.log( this.templateParameters.site);
+        console.log(this.siteTableData);
 
-        })
+        this.showTemParametersSotnVpn();
+        this.showTemParametersSite();
 
-        this.siteGroupList = this.detailParams.sdwanSer.map((item)=>{
-            return JSON.parse(item['input-parameters']).service.parameters.requestInputs;
-        })
-        this.siteGroupList.forEach((oneSiteGroup)=>{
-            for(let key in oneSiteGroup){
-                for(let key2 in this.namesTranslate.siteGroupNameTranslate){
-                    let partnames = this.namesTranslate.siteGroupNameTranslate[key2].split("_");
-                    if(key.startsWith(partnames[0])&&key.endsWith(partnames[1])){
-                        oneSiteGroup[key2] = oneSiteGroup[key];
-                        break;
-                    }
-                }
-            }
-        })
     }
 
+    //sotnVpn data, after combining the structure, rendering the template data to the page
+    showTemParametersSotnVpn(){
+        //sotn Data analysis, structure assembly
+        this.templateParameters.sotnvpn.sdwanvpnresource_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    item["lableShow"] = keys.split("_")[1];
+                    this.sotnInfo = Object.assign(this.sotnInfo, input);
+                }
+            }
+        });
 
-    siteDetailData={baseNames:{},cpeNames:{},wanportNames:[]};
+        this.templateParameters.sotnvpn.sdwansitelan_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.sotnSdwansitelanParams = Object.assign(this.sotnSdwansitelanParams, this.sotnSdwansitelanParams, input);
+                }
+            }
+        });
+        this.sotnSdwansitelanData.push(this.sotnSdwansitelanParams);
+    }
+
+    //Site data, after combining the structure, rendering the template to the page
+    showTemParametersSite() {
+        //site Data analysis, structure assembly
+        this.templateParameters.site.sdwansiteresource_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    item["lableShow"] = keys.split("_")[1];
+                    this.siteBaseData = Object.assign(this.siteBaseData, input);
+                }
+            }
+        });
+
+        this.templateParameters.site.sdwandevice_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.siteCpeData = Object.assign(this.siteCpeData, input);
+                }
+            }
+        });
+        this.templateParameters.site.sdwansitewan_list.map((item, index) => {
+            let input = {};
+            for (var keys in item) {
+                if (keys != "required" && keys != "type" && keys != "description") {
+                    input[keys] = item[keys];
+                    item["lable"] = keys;
+                    this.siteWanParams = Object.assign(this.siteWanParams, this.siteWanParams, input);
+                }
+            }
+        });
+        this.siteWanData.push(this.siteWanParams);
+    }
+
+    //sotnVpn detail show
+    sotnVpnDetailShow = false;
+    isEditSotnVpn = 0;
+    showstonVpnDetail(num){
+        this.sotnVpnDetailShow = true;
+        this.isEditSotnVpn = num;
+        Object.keys(this.sotnInfo).forEach((item) => {
+            this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
+        });
+        this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
+            return Object.assign({}, {},item)
+        });
+    }
+    detailSotnVpn_cancel(){
+        this.sotnVpnDetailShow = false;
+    }
+
+    // site detail show
     siteDetail = false;
-    showSiteDetail(item){
+    isEditSite = 0;
+    showSiteDetail(num) {
         this.siteDetail = true;
-        this.siteDetailData = item;
+        this.isEditSite = num;
+        console.log(this.siteTableData[num - 1]);
+        console.log(this.siteCpeData);
+        console.log(this.templateParameters.site.sdwandevice_list);
+        Object.keys(this.siteBaseData).forEach((item) => {
+            this.siteBaseData[item] = this.siteTableData[num - 1][item];
+        });
+        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
+        console.log(this.siteCpeData);
+        this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
+            return Object.assign({}, {},item)
+        });
+    }
+    detailsite_cancel(){
+        this.siteDetail = false;
+    }
+    deleteSite(num){
+        this.siteTableData = this.siteTableData.filter((d, i) => i !== num - 1);
+        console.log(this.siteTableData)
     }
 
-    wanPortModal = false;
-    wanPortDetail = {};
-    showWanportDetail(item){
-        this.wanPortModal = true;
-        this.wanPortDetail = item;
-    }
-    handleCancel(){
-        this.wanPortModal = false;
-    }
+    addSite(){
 
+    }
 
 
 
@@ -173,691 +287,165 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
 
-    vpns = [{
-        name:"",
-        domain: "",
-        tp1: "",
-        tp2: "",
-        tps:[],
-        site: [],
-        type: "domain",
-        start:false,
-        end:false
-    }];
-    cloudDomain={
-        cloud: "Partent Network",
-        site: [],
-        type: "cloud"
-    };
-    d3Data={
-        dates:[],
-        linkss:[]
-    };
-    svg;
-    scale=1;
-    width=600;
-    height=600;
-    container;
-    nodes;
-    lineGroup;
+    vpns = [{name: "", tps: [], domain: "", sitetpname: "", othertpname: ""}];
 
-    getSotnAresource(){
-        // return new Promise((res,rej)=>{
-        let connectivityId = this.detailParams["relationship-list"]["relationship"]
-            .find((item)=>{return item["related-to"]=="connectivity"})["relationship-data"]
-            .find((item2)=>{return item2["relationship-key"]=="connectivity.connectivity-id"})["relationship-value"];
-        this.myhttp.getSotnConnectivity(connectivityId)
-            .subscribe((data)=>{
 
-                let vpns = data.connectivity[0]["relationship-list"]["relationship"]
-                    .filter((item)=>{ return item["related-to"]=="vpn-binding"})
-                    .map((item2)=>{return item2["relationship-data"].find((item3)=>{return item3["relationship-key"]=="vpn-binding.vpn-id"})["relationship-value"]});
-                console.log(vpns);
-                this.detailParams.vpns = vpns.map((item)=>{return {
-                    name:item,
-                    domain: "",
-                    tp1: "",
-                    tp2: "",
-                    tps:[],
-                    site: [],
-                    type: "domain",
-                    start:false,
-                    end:false
-                }});
-                console.log(this.detailParams.vpns)
-                let getDomain = this.detailParams.vpns.map((vpn,index)=>{
-                    return new Promise((res,rej)=>{
+    getSotnAresource() {
+        return new Promise((res, rej) => {
+            let connectivityId = this.detailParams["relationship-list"]["relationship"]
+                .find((item) => {
+                    return item["related-to"] == "connectivity"
+                })["relationship-data"]
+                .find((item2) => {
+                    return item2["relationship-key"] == "connectivity.connectivity-id"
+                })["relationship-value"];
+            this.myhttp.getSotnConnectivity(connectivityId)
+                .subscribe((data) => {
+                    // console.log(data);  //By default, a connectivityId can only find a connectivity.
+                    let vpns = data.connectivity[0]["relationship-list"]["relationship"]
+                        .filter((item) => {
+                            return item["related-to"] == "vpn-binding"
+                        })
+                        .map((item2) => {
+                            return item2["relationship-data"].find((item3) => {
+                                return item3["relationship-key"] == "vpn-binding.vpn-id"
+                            })["relationship-value"]
+                        });
+                    console.log(vpns);
+                    this.detailParams.vpns = vpns.map((item) => {
+                        return {name: item}
+                    });
+                    this.detailParams.vpns.forEach((vpn, index) => {
                         this.myhttp.getVpnBinding(vpn.name)
-                            .subscribe((data2)=>{
-
+                            .subscribe((data2) => {
+                                // console.log(data2); //By default, a vpnid can only find a vpnbinding
                                 let tps_pnfs = data2["vpn-binding"][0]["relationship-list"]["relationship"]
-                                    .filter((item)=>{ return item["related-to"]=="p-interface"})
-                                    .map((item2)=>{return item2["relationship-data"]});
-                                let pnfname = tps_pnfs.map((item)=>{return item.find((item2)=>{return item2["relationship-key"]=="pnf.pnf-name"})["relationship-value"]});
-                                let tpnames = tps_pnfs.map((item)=>{return item.find((item2)=>{return item2["relationship-key"]=="p-interface.interface-name"})["relationship-value"]});
-
+                                    .filter((item) => {
+                                        return item["related-to"] == "p-interface"
+                                    })
+                                    .map((item2) => {
+                                        return item2["relationship-data"]
+                                    });
+                                let pnfname = tps_pnfs.map((item) => {
+                                    return item.find((item2) => {
+                                        return item2["relationship-key"] == "pnf.pnf-name"
+                                    })["relationship-value"]
+                                });
+                                let tpnames = tps_pnfs.map((item) => {
+                                    return item.find((item2) => {
+                                        return item2["relationship-key"] == "p-interface.interface-name"
+                                    })["relationship-value"]
+                                });
+                                // console.log(pnfname)
+                                // console.log(tpnames)
                                 vpn.tps = tpnames;
+                                // let thissite = this.localSite.find((item)=>{return item.pnfname == pnfname[0]}); //Find the same item on the site pnfname, that is, the same domain
+                                // console.log(thissite);
+                                // thissite.tpsotnname = tpsotnnames.find((item)=>{return item!=thissite.tpsitename});
+                                // Get domain（network-resource） by pnfname;
                                 this.myhttp.getPnfDetail(pnfname[0])
-                                    .subscribe((data2)=>{
-
-                                        let networkRelation = data2["relationship-list"]["relationship"].find((item)=>{ return item["related-to"]=="network-resource"})["relationship-data"];
-                                        vpn.domain = networkRelation.find((item)=>{return item["relationship-key"]=="network-resource.network-id"})["relationship-value"];
-                                        console.log(this.localSite)
-                                        for(let i=0;i<this.localSite.length;i++){
-                                            for(let a=0;a<this.detailParams.vpns.length;a++){
-                                                let tps=this.detailParams.vpns[a].tps;
-                                                if(i==0){
-                                                    if(tps.indexOf(this.localSite[i]["tpsitename"])>-1){
-                                                        this.detailParams.vpns[a].site=[];
-                                                        let index=tps.indexOf(this.localSite[i]["tpsitename"]);
-                                                        let tp1=tps.slice(index,1)[0];
-                                                        let tp2=tps.find((name)=>{return name != tp1});
-                                                        this.detailParams.vpns[a].tp1=tp1;
-                                                        this.detailParams.vpns[a].tp2=tp2;
-                                                        this.detailParams.vpns[a].site.push(this.localSite[i]["service-instance-name"]);
-                                                        this.detailParams.vpns[a].start=true;
-                                                        let first=this.detailParams.vpns.splice(a,1)[0];
-                                                        console.log(first)
-                                                        this.detailParams.vpns.unshift(first);
-                                                        console.log(this.detailParams.vpns)
-                                                    }else {
-                                                        this.detailParams.vpns[a].tp1=tps[0];
-                                                        this.detailParams.vpns[a].tp2=tps[1];
-                                                    }
-
-                                                } else if(i==1){
-                                                    if(tps.indexOf(this.localSite[i]["tpsitename"])>-1){
-                                                        let thisDomain=this.detailParams.vpns[a].domain;
-                                                        if(thisDomain==this.detailParams.vpns[0].domain){
-                                                            console.log(this.detailParams.vpns[0]);
-                                                            console.log(this.localSite[i]["service-instance-name"]);
-                                                            this.detailParams.vpns[0].site.push(this.localSite[i]["service-instance-name"])
-                                                            console.log(this.detailParams.vpns[0])
-                                                        }else {
-                                                            this.detailParams.vpns[a].site=[];
-                                                            let index=tps.indexOf(this.localSite[i]["tpsitename"]);
-                                                            let tp2=tps.slice(index,1)[0];
-                                                            let tp1=tps.find((name)=>{return name != tp2});
-                                                            this.detailParams.vpns[a].tp1=tp1;
-                                                            this.detailParams.vpns[a].tp2=tp2;
-                                                            console.log("有多个domain,2个site");
-                                                            this.detailParams.vpns[a].site.push(this.localSite[i]["service-instance-name"]);
-                                                            this.detailParams.vpns[a].start=false;
-                                                            this.detailParams.vpns[a].end=true;
-                                                            let last=this.detailParams.vpns.splice(a,1)[0];
-                                                            console.log(last);
-                                                            this.detailParams.vpns.push(last);
-                                                        }
-
-                                                    }
-                                                    console.log(this.detailParams.vpns)
-                                                }
-
-                                            }
+                                    .subscribe((data2) => {
+                                        // console.log(data2);
+                                        let networkRelation = data2["relationship-list"]["relationship"].find((item) => {
+                                            return item["related-to"] == "network-resource"
+                                        })["relationship-data"];
+                                        vpn.domain = networkRelation.find((item) => {
+                                            return item["relationship-key"] == "network-resource.network-id"
+                                        })["relationship-value"];
+                                        if (this.localSite[index]) {
+                                            vpn.sitetpname = this.localSite.find((site) => {
+                                                return tpnames.includes(site.tpsitename)
+                                            }).tpsitename;
+                                            console.log(tpnames)
+                                            console.log(vpn.sitetpname)
+                                            vpn.othertpname = tpnames.find((name) => {
+                                                return name != vpn.sitetpname
+                                            });
+                                        } else {
+                                            vpn.sitetpname = this.localSite[0].tpsitename;
+                                            vpn.othertpname = tpnames.find((name) => {
+                                                return name != vpn.sitetpname
+                                            });
                                         }
+
                                         this.vpns = this.detailParams.vpns;
-                                        console.log(this.vpns);
+                                        console.log(this.vpns)
                                         res(this.detailParams.vpns)
                                     })
                                 console.log(this.detailParams.vpns)
                             })
                     })
-
-                });
-                Promise.all(getDomain).then((data)=>{
-                    console.log(this.vpns);
-                    console.log(this.detailParams.vpns);
-                    for(let b=0;b<this.outerSite.length;b++){
-                        this.cloudDomain.site.push(this.outerSite[b]["service-instance-name"]);
-                    }
-                    this.detailParams.vpns.push(this.cloudDomain);
-                    this.vpns = this.detailParams.vpns;
-                    this.getD3Data(this.detailParams.vpns)
-                });
-                // res(this.detailParams.vpns)
-            });
-        // })
+                })
+        })
     }
 
-    drawImages(){
-        this.getSiteAResource().then((data)=>{
+
+    drawImages() {
+
+        this.getSiteAResource().then((data) => {
             console.log(data);
-            this.getSotnAresource();
-        });
-    }
-
-    getD3Data(data){
-        console.log(data);
-        console.log("start d3data");
-        console.log(this.detailParams.vpns);
-        this.detailParams.vpns.forEach((item)=>{
-            if(item.type == "domain" && item.site.length == 0){
-                this.d3Data.dates.push(
-                    {
-                        name: item.domain,
-                        type: 'domain'
-                    },{
-                        name: item.tp1,
-                        type: 'tp'
-
-                    },{
-                        name: item.tp2,
-                        type: 'tp'
-                    });
-                this.d3Data.linkss.push({
-                    source: item.domain,
-                    target: item.domain
-                },{
-                    source: item.domain,
-                    target: item.tp1
-                },{
-                    source: item.domain,
-                    target: item.tp2
-                })
-            };
-            if (item.type == "domain" && item.site.length == 1) {
-                this.d3Data.dates.push({
-                    name: item.domain,
-                    type: 'domain'
-                }, {
-                    name: item.tp1,
-                    type: 'tp'
-                }, {
-                    name: item.tp2,
-                    type: 'tp'
-                });
-                this.d3Data.linkss.push({
-                    source: item.domain,
-                    target: item.domain
-                }, {
-                    source: item.domain,
-                    target: item.tp1
-                }, {
-                    source: item.domain,
-                    target: item.tp2
-                });
-                if (item.start == true && item.end == false) {
-                    this.d3Data.dates.push(
-                        {
-                            name: item.site[0],
-                            type: 'site'
-                        });
-                    this.d3Data.linkss.push({
-                        source: item.tp1,
-                        target: item.site[0]
-                    })
-                }
-                if (item.start == false && item.end == true) {
-                    this.d3Data.dates.push(
-                        {
-                            name: item.site[0],
-                            type: 'site'
-                        });
-                    this.d3Data.linkss.push({
-                        source: item.tp2,
-                        target: item.site[0]
-                    })
-                }
-
-            }else if (item.type == "domain" && item.site.length == 2) {
-                this.d3Data.dates.push({
-                        name: item.domain,
-                        type: 'domain'
-                    }, {
-                        name: item.tp1,
-                        type: 'tp'
-                    }, {
-                        name: item.tp2,
-                        type: 'tp'
-                    },
-                    {
-                        name: item.site[0],
-                        type: 'site'
-                    },
-                    {
-                        name: item.site[1],
-                        type: 'site'
-                    });
-                this.d3Data.linkss.push({
-                    source: item.domain,
-                    target: item.domain
-                }, {
-                    source: item.domain,
-                    target: item.tp1
-                }, {
-                    source: item.domain,
-                    target: item.tp2
-                }, {
-                    source: item.tp1,
-                    target: item.site[0]
-                }, {
-                    source: item.tp2,
-                    target: item.site[1]
-                });
-            }else if (item.type == "cloud" && item.site.length == 1) {
-                this.d3Data.dates.push({
-                        name: item.cloud,
-                        type: 'cloud'
-                    },
-                    {
-                        name: item.site[0],
-                        type: 'site'
-                    });
-                this.d3Data.linkss.push({
-                    source: item.cloud,
-                    target: item.cloud
-                }, {
-                    source: item.cloud,
-                    target: item.site[0]
-                })
-            }
-            else if (item.type == "cloud" && item.site.length == 2) {
-                this.d3Data.dates.push({
-                        name: item.cloud,
-                        type: 'cloud',
-                        source: item.cloud,
-                        target: item.cloud
-                    },
-                    {
-                        name: item.site[0],
-                        type: 'site',
-                        source: item.cloud,
-                        target: item.site[0]
-                    },
-                    {
-                        name: item.site[1],
-                        type: 'site',
-                        source: item.cloud,
-                        target: item.site[1]
-                    });
-                this.d3Data.linkss.push({
-                    source: item.cloud,
-                    target: item.cloud
-                }, {
-                    source: item.cloud,
-                    target: item.site[0]
-                }, {
-                    source: item.cloud,
-                    target: item.site[1]
-                })
-            }
-
-
-        });
-
-        var siteNum = 0;
-
-        for (var b = 0; b < this.d3Data.dates.length; b++) {
-            if (this.d3Data.dates[b].type == "site") {
-                siteNum++;
-            }
-        }
-
-        if (this.detailParams.vpns.length == 2) {
-            var source = this.detailParams.vpns.find((item) => {return item["type"] == "domain"}).site[1];
-            var target = this.detailParams.vpns.find((item) => {return item["type"] == "cloud"}).site[0];
-            this.d3Data.linkss.push({
-                source: source,
-                target: target
-            })
-        } else if (this.detailParams.vpns.length > 2) {
-            if (siteNum == 2) {
-                for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
-                    if (c + 1 == this.detailParams.vpns.length - 1) {
-                        var sourcess = this.detailParams.vpns[c].tp2,
-                            targetss = this.detailParams.vpns.find((item)=> {return item["type"] == "cloud";}).cloud;
-                        this.d3Data.linkss.push({
-                            source: sourcess,
-                            target: targetss
-                        });
-                        break;
+            return this.getSotnAresource()
+        }).then((data) => {
+            console.log(data);
+            console.log(this.localSite);
+            this.detailSites = this.detailParams.serviceDomain == "CCVPN" ? false : true;
+            // When there is only one vpn
+            if (this.detailParams.serviceDomain == "CCVPN" && this.vpns.length == 1) {
+                this.detailLines.length = this.detailLines.length - 3;
+                // this.detailLines.push(line);
+                // when local site have 2
+                if (this.localSite.length == 2) {
+                    let line =  {
+                        "x1": "30%", "y1": "55%", "x2": "42%", "y2": "55%"//tp2--tp3
                     }
-                    var sources = this.detailParams.vpns[c].tp2,
-                        targets = this.detailParams.vpns[c + 1].tp1;
-                    this.d3Data.linkss.push({
-                        source: sources,
-                        target: targets
-                    })
+                    this.detailLines.push(line);
                 }
-            } else if (siteNum == 4) {
-                for (var c = 0; c < this.detailParams.vpns.length - 1; c++) {
-                    if (c + 1 == this.detailParams.vpns.length - 1) {
-                        break;
-                    }
-                    var sources = this.detailParams.vpns[c].tp2,
-                        targets = this.detailParams.vpns[c + 1].tp1;
-                    this.d3Data.linkss.push({
-                        source: sources,
-                        target: targets
-                    })
+                // when cloud site have 2
+                if (this.outerSite.length == 2) {
+                    let line = {
+                        "x1": "81%", "y1": "21%", "x2": "90%", "y2": "21%"//out-domain--site3
+                    };
+                    this.detailLines.push(line);
                 }
             }
+        })
+        let allnodes = [this.getSiteAResource(),this.getSotnAresource()];
+        Promise.all(allnodes).then((data)=>{
+          console.log(data)
+          console.log(this.localSite);
+
+
+        })
+    }
+
+    detailSites = false;
+    detailLines = [ //Details of the topology map connection coordinates
+        {
+            "x1": "9%", "y1": "40%", "x2": "21%", "y2": "40%"//site1--tp1
+        },
+
+        {
+            "x1": "83%", "y1": "51%", "x2": "91%", "y2": "51%"//out-domain--site4
+        },
+
+        {
+            "x1": "52%", "y1": "81%", "x2": "63%", "y2": "81%"//site2--tp4
+        },
+        {
+            "x1": "81%", "y1": "21%", "x2": "90%", "y2": "21%"//out-domain--site3
+        },
+        {
+            "x1": "30%", "y1": "55%", "x2": "44%", "y2": "55%"//tp2--tp3
         }
-        setTimeout(this.render(),0)
-    }
-
-
-    clickShow = false;
-    hoverShow = false;
-    toggleClick(){
-        this.clickShow = !this.clickShow;
-    }
-    hoverShowcould(){
-        this.hoverShow = true;
-    }
-    hoverHidecould(){
-        this.hoverShow = false;
-    }
-
-
+    ];
 
     goback(){
         this.closeDetail.emit();
     }
 
-
-    render() {
-        console.log("dadada");
-        console.log(this.d3Data);
-        console.log(this.detailParams.vpns);
-        this.scale = 1;
-        var svgs=d3.select("#togo");
-        this.svg=svgs;
-        this.svg.attr('width', this.width)
-            .attr('height', this.height);
-        this.container = this.svg.append('g')
-            .attr('transform', 'scale(' + this.scale + ')');
-        this.initPosition();
-        this.initLink();
-        this.initNode();
+    hiddenModel(){
+        this.sotnVpnDetailShow = false;
+        this.siteDetail = false;
     }
-
-
-    initPosition() {
-        let origin = [this.width / 6, this.height / 7];
-        var data=this.d3Data.dates;
-        let points = this.getVertices(origin, Math.min(this.width, this.height) * 0.3,data.length,this.detailParams.vpns);
-
-        this.d3Data.dates.forEach((item,i)=>{
-            item.x = points[i].x;
-            item.y = points[i].y;
-        })
-    }
-
-
-    getVertices(origin, r, n,data) {
-        if (typeof n !== 'number') return;
-        var ox = origin[0];
-        var oy = origin[1];
-        var i = 0;
-        var points = [];
-        var tempAngle =180,
-            reduce=50,
-            add=100;
-        for(let a=0;a<this.detailParams.vpns.length;a++){
-            if(this.detailParams.vpns[a].type=="domain"){
-                if(this.detailParams.vpns[a].site.length == 0){
-                    tempAngle =180*i;
-                    points.push({
-                        x: ox +tempAngle,
-                        y: oy
-                    },{
-                        x: ox +tempAngle-reduce,
-                        y: oy+add
-                    },{
-                        x: ox +tempAngle+reduce,
-                        y: oy+add
-                    });
-                    i++;
-                }else if((this.detailParams.vpns[a].site.length == 1)){
-                    tempAngle =180*i;
-                    points.push({
-                        x: ox +tempAngle,
-                        y: oy
-                    },{
-                        x: ox +tempAngle-reduce,
-                        y: oy+add
-                    },{
-                        x: ox +tempAngle+reduce,
-                        y: oy+add
-                    },{
-                        x: ox +tempAngle-1.5*reduce,
-                        y: oy+2*add
-                    });
-                    i++;
-                } else if((this.detailParams.vpns[a].site.length == 2)){
-                    tempAngle =350*i;
-                    reduce=70;
-                    points.push({
-                            x: ox +tempAngle,
-                            y: oy
-                        },{
-                            x: ox +tempAngle-reduce,
-                            y: oy+add
-                        },{
-                            x: ox +tempAngle+reduce,
-                            y: oy+add
-                        },{
-                            x: ox +tempAngle-1.5*reduce,
-                            y: oy+2*add
-                        }
-                        ,{
-                            x: ox +tempAngle+reduce,
-                            y: oy+2*add
-                        });
-                    i++;
-                }
-
-            }else if((this.detailParams.vpns[a].type=="cloud")){
-                if((this.detailParams.vpns[a].site.length ==1)){
-                    tempAngle =180*i;
-                    points.push({
-                        x: ox +tempAngle,
-                        y: oy
-                    },{
-                        x: ox +tempAngle+1.5*reduce,
-                        y: oy+2*add
-                    });
-                    i++;
-                } else if((this.detailParams.vpns[a].site.length == 2)){
-                    if((this.detailParams.vpns.length>2)){
-                        tempAngle =180*i;
-                    }else{
-                        tempAngle =400*i;
-                    }
-                    points.push({
-                            x: ox +tempAngle,
-                            y: oy
-                        },{
-                            x: ox +tempAngle-1.5*reduce,
-                            y: oy+2*add
-                        }
-                        ,{
-                            x: ox +tempAngle+1.5*reduce,
-                            y: oy+2*add
-                        });
-                    i++;
-                }
-
-            }
-        }
-
-        return points;
-    }
-
-
-    initLink() {
-        this.drawLinkLine();
-    }
-
-
-    initNode() {
-        var self = this;
-
-        this.nodes = this.container.selectAll(".node")
-            .data(this.d3Data.dates)
-            .enter()
-            .append("g")
-            .attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            })
-            .attr('class', 'node')
-            .style("cursor","pointer")
-            .call(d3.behavior.drag()
-                .on("drag", function (d) {
-                    self.onDrag(this, d)
-                })
-            );
-
-
-        this.drawNodeSymbol();
-
-        this.drawNodeTitle();
-    }
-
-
-
-    drawNodeSymbol() {
-        var  imgmap = {
-            'domain': '../../assets/images/domain.png',
-            'tp': '../../assets/images/tp.png',
-            'site': '../../assets/images/site.png',
-            'cloud': '../../assets/images/out-domain.png'
-        };
-
-
-        this.nodes.append('image')
-            .attr('width', function (d) {
-                let width = "15%";
-                switch (d.type) {
-                    case 'domain':
-                        width ="15%";
-                        break;
-                    case 'tp':
-                        width ="4%";
-                        break;
-                    case 'site':
-                        width ="10%";
-                        break;
-                    case 'cloud':
-                        width ="15%";
-                        break;
-                    default:
-                        break;
-                }
-                return width;
-            })
-            .attr('height', function (d) {
-                let height = "15%";
-                switch (d.type) {
-                    case 'domain':
-                        height ="15%";
-                        break;
-                    case 'tp':
-                        height ="4%";
-                        break;
-                    case 'site':
-                        height ="10%";
-                        break;
-                    case 'cloud':
-                        height ="15%";
-                        break;
-                    default:
-                        break;
-                }
-                return height;
-            })
-            .attr('xlink:href', function (d) {
-                return imgmap[d.type];
-            })
-            .attr('x',function () {
-                return -this.getBBox().width/2
-            })
-            .attr('y',function () {
-                return -this.getBBox().height/2
-            });
-    }
-
-
-
-    drawNodeTitle() {
-
-        this.nodes.append("text")
-            .attr('class','node-title')
-            .text(function (d) {
-                return d.name;
-            })
-            .attr("dx",function (d) {
-                var x=0;
-                if(d.type=="tp"){
-                    x=20;
-                }else {
-                    x=0;
-                }
-                return x;
-            })
-            .attr("dy",function (d) {
-                var y=0;
-                if(d.type=="tp"){
-                    y=25;
-                }else {
-                    y=0;
-                }
-                return y;
-            });
-    }
-
-
-    drawLinkLine() {
-        let data = this.d3Data.dates;
-        if (this.lineGroup) {
-            this.lineGroup.selectAll('.link')
-                .attr('d', link => genLinkPath(link))
-        } else {
-            this.lineGroup = this.container.append('g');
-            this.lineGroup.selectAll('.link')
-                .data(this.d3Data.linkss)
-                .enter()
-                .append('path')
-                .attr('class', 'link')
-                .style("stroke","#FFC000")
-                .style("stroke-width",1)
-                .attr('d',function (link) {
-                    return genLinkPath(link)
-                })
-
-        }
-        function genLinkPath(d) {
-            let sx = data.find(function(item){
-                return item["name"]==d.source;
-            }).x;
-            let sy = data.find(function(item){
-                return item["name"]==d.source;
-            }).y;
-            let tx =data.find(function(item){
-                return item["name"]==d.target;
-            }).x;
-            let ty =data.find(function(item){
-                return item["name"]==d.target;
-            }).y;
-            return 'M' + sx + ',' + sy + ' L' + tx + ',' + ty;
-        }
-    }
-
-
-
-    update(d) {
-        this.drawLinkLine();
-    }
-
-
-    onDrag(ele, d) {
-        d.x = d3.event.x;
-        d.y = d3.event.y;
-        d3.select(ele)
-            .attr('transform', "translate(" + d3.event.x + "," + d3.event.y + ")");
-        this.update(d);
-    }
-
 
 }

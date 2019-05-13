@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -25,19 +25,44 @@ hr {
     margin-bottom: 10px;
 }
 .model {
-    background-color: #fff;
-    height: 90%;
+    background-color: #F7F8FC;
+    /*height: 100%;*/
     overflow-y: auto;
+}
+.creation-model{
+    position: relative;
+    height: 100%;
+}
+.top-title{ /*2019.02.22 add*/
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    display: inline-block;
 }
 .model .back {
     position: absolute;
     top: 10px;
     right: 20px;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background:#ffffff!important;
+    border-radius:4px;
+    color: #D7D7D7;
 }
+.top-title h3.title {
+    height: 35px;
+    width: 80%;
+    font-size:16px;
+    font-family:ArialMT;
+    color:#3C4F8C;
+    line-height:35px;
+    display: inline-block;
+}
+
+
 .model .detaildata {
-    position: relative;
-    width: 60%;
-    height: 100%;
+    width: 100%;
     overflow-y: auto;
     border-radius: 5px;
     padding: 15px;
@@ -50,76 +75,223 @@ hr {
 .model .detaildata h3 {
     height: 20px;
     font: 700 16px/20px "Arial";
-    margin: 5px 0px;
+    margin: 5px 0;
     color: #000;
+}
+.model .detaildata .service-title{
+    margin:60px 50px;
+}
+.model .detaildata .service-title .info-inputs{
+    width:400px;
+    height: 42px;
+    display: inline-block;
+}
+.model .detaildata .service-title span{
+    height: 42px;
+    line-height: 42px;
+    vertical-align: middle;
+}
+.model .detaildata .service-title .lable{
+    display: inline-block;
+    width: 100px;
+    font: 700 14px "Arial";
+    color: #3C4F8C;
+    height: 42px;
+    line-height: 42px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.model .detaildata .service-title .service-title-input {
+    width: 230px;
+    height: 42px;
+    border-radius:4px;
+    margin-right: 30px;
+    display: inline-block;
 }
 /* SOTN VPN */
 .model .detaildata .sotnvpn ul li {
     display: inline-block;
-    height: 35px;
-    width: 49.5%;
+    height: 40px;
+    width: 24.5%;
+    margin-bottom: 40px;
+    float: left;
 }
 .model .detaildata .sotnvpn ul li span {
     display: inline-block;
-    width: 110px;
-    font: 700 14px "Arial";
-    color: #3fa8eb;
+    font-size: 14px;
+    font-weight: 500;
+    color:rgba(60,79,140,0.5);
+    margin-left: 10px;
     vertical-align: middle;
+    float: left;
+    width: 110px;
 }
-/* site Detail */
-.model .detaildata .site .siteDetail {
-    position: fixed;
-    z-index: 10;
-    left: 260px;
-    top: 50px;
+
+/* addsite model */
+.model .sitemodel,.model .sotnnpnmodel{
+    position: absolute;
+    z-index: 1001;
+    left: 50px;
+    top: 60px;
     background-color: #fff;
-    box-shadow: 0px 0px 20px #000;
-    width: 50%;
-    max-height: 85%;
-    border-radius: 5px;
-    overflow-y: auto;
+    /*box-shadow: 0px 0px 20px #000;*/
+    width:1500px;
+    /*width:1300px;px*/
+    height: 81%;
+    border-radius:2px;
+    overflow:auto;
 }
-.model .detaildata .site h3 {
-    margin: 0;
+.model .sotnnpnmodel{
+    width: 1000px;
+    height: 53%;
+    top:200px;
+    left: 50%;
+    margin-left: -500px;
+}
+.model .sitemodel h3,.model .sotnnpnmodel h3{
+    width: 96%;
+    height: 40px;
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 10px auto;
+    /*padding-left: 10px;*/
+    color: #06A7E2;
+    /*color: #ffffff;*/
+    /*background:linear-gradient(90deg,rgba(7,169,225,1) 0%,rgba(48,217,196,1) 100%);*/
+    border-bottom: 2px solid;
+    border-image: -webkit-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: -moz-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-radius:2px;
+}
+.model .sitemodel .inputs,.model .sotnnpnmodel .inputs  {
+    padding: 10px 20px 0;
+}
+.model .sitemodel .inputs ul li,.model .sotnnpnmodel .inputs ul li {
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    width: 24.5%;
+    margin-bottom: 20px;
+}
+.model .sotnnpnmodel .inputs ul li{
+    width: 31%;
+}
+.model .sitemodel .inputs ul li span,.model .sotnnpnmodel .inputs ul li span {
+    display: inline-block;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3C4F8C;
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+}
+.model .sitemodel .inputs input,.model .sitemodel .inputs nz-select{
+    width: 186px;
+    float: right;
+    margin-right: 60px;
+}
+.model .sotnnpnmodel .inputs div{
+    width: 186px;
+    float: left;
+    margin-left: 20px;
+}
+.model .sitemodel .action,.model .sotnnpnmodel .action {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    cursor: pointer
+}
+.model .sotnnpnmodel .action{
+    margin-top: 70px;
+}
+.model .sitemodel .action button,.model .sotnnpnmodel .action button{
+    width: 126px;
+    height:40px;
+    background:#EEEEEE;
+    border-radius:2px;
+    border: none!important;
+    color: #9DA7C5;
+    font-size: 16px;
+    margin: 0 15px;
+}
+.model .sitemodel .action button:nth-child(2),.model .sotnnpnmodel .action button:nth-child(2){
+    /*background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);*/
+    background: #0DA9E2;
+    color: #fff;
+}
+.model .sitemodel .action button:nth-child(2):hover,.model .sotnnpnmodel .action button:nth-child(2):hover{
+    /*background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;*/
+    background:#09C6E2;
+}
+
+.model nz-table tbody td i.anticon:hover {
+    color: #3fa8eb;
+    cursor: pointer;
+}
+
+/* site table */
+.sitemodel h3 button,.sotnnpnmodel h3 button{
+    color: #D7D7D7;
+    width:32px;
+    height:32px;
+    background:#ffffff;
+    border-radius:4px;
+    border:1px solid #D7D7D7;
+}
+.sitemodel h3 button:hover,.model .back:hover,.sotnnpnmodel h3 button:hover{
+    background:#ffffff;
+    color: #0DA9E2;
+    border:1px solid #0DA9E2;
+}
+.sitemodel h3>button,.sotnnpnmodel h3>button{
+    float: right;
+    width: 30px;
     height: 30px;
-    font: 700 16px/30px "Arial";
-    padding-left: 10px;
-    background-color: #ddd;
+    margin-right: 15px;
 }
+
+/* site Detail */
+
 .model .detaildata .site h3 .closeDetail {
     cursor: pointer;
     padding: 2px 15px;
     color: #3fa8eb;
 }
-.model .detaildata .site ul li {
-    padding-left: 5px;
-    display: inline-block;
-    height: 35px;
-    width: 32%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+
+.model .detaildata .sotnvpn,.model .detaildata .site{
+    background: #fff;
+    padding: 30px 30px 0 30px;
 }
-.model .detaildata .site ul li span {
-    display: inline-block;
-    width: 95px;
-    font: 700 14px "Arial";
-    color: #3fa8eb;
-    vertical-align: middle;
+
+.mask{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.65);
+    top:0;
 }
 
 /* 图 */
 .model .chart {
-    width: 40%;
+    width: 98%;
     padding: 10px;
-    height: 100%;
-    border-left: 10px solid #f3f3f3;
+    margin: 0 auto;
+    color: #06A7E2;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    background: #EEF9FF;
+    border-radius: 4px;
 }
 .model .chart #detailChart {
-    position: relative;
     width: 100%;
-    height: 80%;
+    height: 254px;
     margin-top: 20px;
+    position: relative;
 }
 .model .chart #detailChart .cloudcounty {
     cursor: pointer;
@@ -136,21 +308,26 @@ hr {
     border-radius: 5px;
     box-shadow: 0px 0px 20px #000;
 }
-#togo{
-    width: 600px;
-    height:400px;
-    border:1px solid #ccc;
-    user-select: none;
+.siteWanTab{
+    width: 96%;
+    margin: 0 auto;
+    margin-top: 10px;
 }
-#togo text{
-    font-size:10px;
-    fill:#1A2C3F;
-    text-anchor: middle;
+.siteWanTab th{
+    padding: 10px 8px;
+    color: #3C4F8C;
+    font-size: 16px;
 }
-
-#togo .link{
-    stroke:#FFC000;
+.siteWanTab tr td{
+    padding: 10px 5px;
 }
-#togo .node-title{
-    font-size: 14px;
+.siteWanTab .tr-border{
+    border-bottom: 1px solid #EDEDED;
+}
+.addListBtn{
+    margin-right: 30px;
+    color: #06A7E2;
+    border: none;
+    background: rgba(229,238,252,0.8);
+    cursor: pointer;
 }
