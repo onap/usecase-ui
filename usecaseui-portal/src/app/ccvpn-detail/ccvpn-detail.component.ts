@@ -78,8 +78,8 @@ export class CcvpnDetailComponent implements OnInit {
     //tabBarStyle
     dataInit() {
         console.log(this.detailParams)
-        this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
-        this.input_parameters = JSON.parse(this.input_parameters);
+        // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
+        this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
         console.log(this.input_parameters);
         this.templateParameters.service = {
             name:  this.input_parameters.service.name,
