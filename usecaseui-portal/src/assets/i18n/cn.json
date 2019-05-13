@@ -81,6 +81,7 @@
   "i18nTextDefine_InstanceUpdateStarting":"更新开始",
   "i18nTextDefine_InstanceUpdatedSuccessfully":"更新成功",
   "i18nTextDefine_InstanceUpdateFailed":"更新失败",
+  "i18nTextDefine_Close":"关闭",
 
   "ccvpn-creation-component":"--:",
   "i18nTextDefine_InstanceCreation":"实例创建",
