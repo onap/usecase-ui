@@ -49,7 +49,7 @@
                         <h5 *ngIf="parameter.type === 'vf_location'" style="padding-left:10px;">id:
                             {{parameter.name}}</h5>
                         <span *ngIf="parameter.type === 'vf_location'"> vf_location: </span>
-                        <nz-select *ngIf="parameter.type === 'vf_location'" style="width: 165px;"
+                        <nz-select *ngIf="parameter.type === 'vf_location'"
                                    [(ngModel)]="parameter.value" nzAllowClear>
                             <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim" [nzLabel]="vim.name"></nz-option>
                         </nz-select>
@@ -69,7 +69,7 @@
 
                         <h5 *ngIf="input.type === 'vf_location'" style="padding-left:10px;">id: {{input.name}}</h5>
                         <span *ngIf="input.type === 'vf_location'"> vf_location: </span>
-                        <nz-select *ngIf="input.type === 'vf_location'" style="width: 165px;"
+                        <nz-select *ngIf="input.type === 'vf_location'"
                                    [(ngModel)]="input.value"
                                    nzAllowClear>
                             <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim"
@@ -105,7 +105,7 @@
                         <h5 *ngIf="parameter.type === 'vf_location'" style="padding-left:10px;">id:
                             {{parameter.name}}</h5>
                         <span *ngIf="parameter.type === 'vf_location'"> vf_location: </span>
-                        <nz-select *ngIf="parameter.type === 'vf_location'" style="width: 165px;"
+                        <nz-select *ngIf="parameter.type === 'vf_location'"
                                    [(ngModel)]="parameter.value" nzAllowClear>
                             <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim" [nzLabel]="vim.name"></nz-option>
                         </nz-select>
@@ -121,7 +121,7 @@
                     <li *ngFor="let vnf of nsTemplateParameters.vnfs;">
                         <h5 style="padding-left:10px;">id: {{vnf.vnf_id}}</h5>
                         <span> vf_location: </span>
-                        <nz-select style="width: 165px;" [(ngModel)]="vnf.value" nzAllowClear>
+                        <nz-select  [(ngModel)]="vnf.value" nzAllowClear>
                             <nz-option *ngFor="let vim of vimInfos" [nzValue]="vim" [nzLabel]="vim.name"></nz-option>
                         </nz-select>
                     </li>
