@@ -45,11 +45,40 @@
   float: left;
   background: #EEF9FF;
 }
+#tpContainer .no-network{
+  width: 300px;
+  margin: 0 auto;
+  height: 280px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -140px;
+  margin-left: -150px;
+}
+.no-network img{
+  width: 100%;
+}
+.no-network p{
+  text-align: center;
+  color: #A0AACD;
+  font-size: 18px;
+  margin-top: 20px;
+}
 .model {
   position: relative;
   padding: 15px;
   height: 100vh;
   width: 100%;
+}
+.model h2{
+  display: inline-block;
+  margin: 0;
+  color: #3C4F8C;
+  margin-left: 10px;
+  display: inline-block;
+}
+.model .title-modelshow{
+  color: #A0AACD;
 }
 .model .creation {
   /*margin-top:-4%;*/
