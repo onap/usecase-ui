@@ -38,21 +38,23 @@ hr {
     position: relative;
     display: inline-block;
   }
-  .back {
+  .back,.back:hover{
     position: absolute;
     top: 10px;
     right: 20px;
     display: inline-block;
     width: 35px;
     height: 35px;
-    background:#ffffff!important;
+    background:url("../../../assets/images/Return-icon.png") no-repeat!important;
+    background-size: 100%!important;
     border-radius:4px;
     color: #D7D7D7;
+    cursor: pointer;
+    /*border: 1px solid #ffffff;*/
   }
   .back:hover{
-    background:#ffffff;
-    color: #3F9CFF;
-    border:1px solid #3F9CFF;
+    background: url("../../../assets/images/Return-icon-active.png")!important;
+    background-size: 100%!important;
   }
   .top-title h3.title {
     height: 35px;
@@ -132,10 +134,7 @@ hr {
     height: 95%;
     box-shadow: 0px 10px 35px 10px rgba(222, 222, 222, 0.5);
     margin-right: 40px;
-    //background: url("../../../assets/images/ccvpn-createbanner2.png") no-repeat -45px -10px;
-    //background-size: 110% 110%;
     background:linear-gradient(180deg,rgba(183, 230, 247, 1) 0%,rgba(214, 240, 254, 1) 100%);
-    //background-color: rgba(188, 231, 248, 1);
     border-radius: 4px;
     #createChart{
       height: 100%;

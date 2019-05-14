@@ -52,21 +52,23 @@ hr {
         background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;
         border: none;
     }
-    .back {
+    .back,.back:hover{
         position: absolute;
         top: 10px;
         right: 20px;
         display: inline-block;
         width: 35px;
         height: 35px;
-        background:#ffffff!important;
+        background:url("../../../assets/images/Return-icon.png") no-repeat!important;
+        background-size: 100%!important;
         border-radius:4px;
         color: #D7D7D7;
+        cursor: pointer;
+        /*border: 1px solid #ffffff;*/
     }
     .back:hover{
-        background:#ffffff;
-        color: #3F9CFF;
-        border:1px solid #3F9CFF;
+        background: url("../../../assets/images/Return-icon-active.png")!important;
+        background-size: 100%!important;
     }
     .top-title h3.title {
         height: 35px;
