@@ -32,7 +32,6 @@ export class ServicesListComponent implements OnInit {
 
   ngOnInit() {
     this.getallCustomers();
-    this.inputNamests();
   }
   // customer servicetype
   isSol005Interface = false;
@@ -1226,16 +1225,6 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       requery();
     })
     return mypromise;
-  }
-
-
-  //  -->
-  namesTranslate:Object;
-  inputNamests(){
-    this.myhttp.inputNamesTransform()
-      .subscribe((data)=>{
-        this.namesTranslate = data;
-      })
   }
 
 }

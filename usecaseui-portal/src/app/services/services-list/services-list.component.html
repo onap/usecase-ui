@@ -628,11 +628,11 @@
         </ng-template>
     </div>
     <div class="detailComponent" *ngIf="detailshow">
-        <app-ccvpn-detail [namesTranslate]="namesTranslate" [detailParams]="detailData"
+        <app-ccvpn-detail [detailParams]="detailData"
                           (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
     </div>
     <div class="detailComponent" *ngIf="detailshow2">
-        <app-e2e-detail  [namesTranslate]="namesTranslate" [detailParams]="detailData"
+        <app-e2e-detail  [detailParams]="detailData"
                         (closeDetail)="detailshow2 = false;listDisplay = false;"></app-e2e-detail>
     </div>
     <div class="createComponent" *ngIf="createshow">

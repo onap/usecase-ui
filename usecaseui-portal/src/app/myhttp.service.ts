@@ -39,7 +39,6 @@ export class MyhttpService {
     createService: this.baseUrl + "/uui-lcm/services",
     ns_createService: this.baseUrl + "/uui-lcm/createNetworkServiceInstance",
     ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
-    inputNamesTransform: "./assets/json/configuration_files/inputNamesTranslate.json?",
     deleteService: this.baseUrl + "/uui-lcm/services/",
     ns_deleteService: this.baseUrl + "/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=",
     ns_stopService: this.baseUrl + "/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=",
@@ -133,11 +132,6 @@ export class MyhttpService {
   nsCreateInstance2(params, requestBody) {
     // return this.http.get<any>(this.url.ns_createService2 + params);  //Local simulation
     return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
-  }
-
-  // Input parameter name conversion
-  inputNamesTransform() {
-    return this.http.get(this.url.inputNamesTransform);
   }
 
   // Delete interface
