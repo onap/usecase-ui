@@ -108,8 +108,8 @@
   "management-component":"--:",
   "i18nTextDefine_Create_initial_customer":"创建初始用户",
   "i18nTextDefine_Customer_not_in_ONAP":"ONAP尚未存在已创建用户",
-  "i18nTextDefine_createCustomer&serviceType":"请创建用户及其服务类型",
-  "i18nTextDefine_input_customerName":"输入用户名称",
+  "i18nTextDefine_CreateCustomer":"请创建用户及其服务类型",
+  "i18nTextDefine_Input_customerName":"输入用户名称",
 
   "customer-component":"--:",
   "i18nTextDefine_Instance_Count_of_Customer":"用户实例计数",

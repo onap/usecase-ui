@@ -48,14 +48,7 @@ export class PieComponent implements OnInit {
               hoverOffset: 3,
               avoidLabelOverlap: false,
               label: this.initData.option.series[0].label,
-              data:[
-                  {value:5, name:'11'},
-                  {value:8, name:'22'},
-                  {value:10, name:'33'},
-                  {value:20, name:'44'},
-                  {value:60, name:'55'},
-
-              ],
+              data:[],
               itemStyle: this.initData.option.series[0].itemStyle
           }
       ]
