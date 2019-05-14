@@ -31,6 +31,7 @@ export class MyhttpService {
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
     templateParameters: this.baseUrl + "/uui-lcm/fetchTemplateInfo",
+    e2etemplateParameters: this.baseUrl + "/uui-lcm/service-templates/" + "*_*" + "?toscaModelPath=",
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
     vimInfo: this.baseUrl + "/uui-lcm/locations/",
     sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers/",
@@ -98,15 +99,19 @@ export class MyhttpService {
       let body = {
         csarId: template.id,
         inputs: ""
-      }
+      };
       return this.http.post<any>(this.url.nstemplateParameters, body);
+    }else if(type == "e2e"){
+        let url = this.url.e2etemplateParameters.replace("*_*", template.uuid) + template.toscaModelURL;
+        return this.http.get<any>(url);
+    }else {
+        let body = {
+            csarId: template.uuid,
+            packageType: "Service",
+            inputs: ""
+        };
+        return this.http.post<any>(this.url.templateParameters, body);
     }
-    let body = {
-      csarId: template.uuid,
-      packageType: "",
-      inputs: ""
-    };
-    return this.http.post<any>(this.url.templateParameters, body);
   }
 
   getVimInfo() {
