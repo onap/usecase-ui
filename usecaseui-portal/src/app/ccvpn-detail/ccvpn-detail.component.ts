@@ -33,7 +33,6 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     @Input() detailParams;
-    @Input() namesTranslate;
     @Output() closeDetail = new EventEmitter();
 
     tabBarStyle = {

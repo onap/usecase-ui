@@ -28,87 +28,125 @@ export class E2eDetailComponent implements OnInit {
   constructor(private myhttp: MyhttpService) {
   }
 
-  ngOnInit() {
-    // this.getDetails();
-    this.dataInit();
-    this.drawImage("E2E Service");
-  }
+    ngOnInit() {
+        // this.getDetails();
+        this.dataInit();
+    }
 
-  @Input() detailParams;
-  @Input() namesTranslate;
-  @Output() closeDetail = new EventEmitter();
-  templateParameters: any;
-  serviceInstanceName: any;
-  serviceType: any;
+    @Input() detailParams;
 
-  dataInit() {
-    console.log(this.detailParams);
-    this.serviceInstanceName = this.detailParams['service-instance-name'];
-  }
+    @Output() closeDetail = new EventEmitter();
+    serviceInstanceName: any;
+    serviceType: any;
+    input_parameters: any;
+    nsinput_parameters: any;
 
-  goback() {
-    this.closeDetail.emit();
-  }
+    // e2e
+    service = {
+        name: "",
+        description: "",
+    };
+    e2e_nestedTemplates = [];
+    e2e_requestInputs: any;
 
+    ns_service = {
+        name:"",
+        description:""
+    }
+    ns_nestedTemplates = [];
+    ns_requestInputs = {};
+    roote2e = {
+        "name": "e2e",
+        "type": "e2e",
+        "children": []
+    };
 
-  roote2e = {
-    "name": "e2e",
-    "type": "e2e",
-    "children":
-      [
-        {
-          "name": "ns",
-          "type": "ns",
-          "children":
-            [
-              {
-                "name": "vnf",
-                "type": "vnf",
-              },
-              {
-                "name": "vnf",
-                "type": "vnf",
-              }
-            ]
-        },
-        {
-          "name": "ns",
-          "type": "ns",
-          "children":
-            [
-              {
-                "name": "vnf",
-                "type": "vnf",
-              },
-              {
-                "name": "vnf",
-                "type": "vnf",
-              }
-            ]
-        }]
-  }
+    rootns = {
+        "name": "ns",
+        "type": "ns",
+        "children": []
+    };
 
-  rootns = {
-    "name": "ns",
-    "type": "ns",
-    "children":
-      [
-        {
-          "name": "vnf",
-          "type": "vnf",
-        },
-        {
-          "name": "vnf",
-          "type": "vnf",
+    imgmap = {
+        '1': './assets/images/create-e2e.png',
+        '2': './assets/images/create-ns.png',
+        '3': './assets/images/create-vnf.png',
+    };
+
+    getKeys(item) {
+        return Object.keys(item);
+    }
+
+    dataInit() {
+        console.log(this.detailParams);
+        this.serviceInstanceName = this.detailParams['service-instance-name'] || this.detailParams["nsName"];
+        if (this.detailParams.serviceDomain == 'E2E Service'){
+            this.input_parameters = JSON.stringify(this.detailParams['input-parameters']);
+            this.input_parameters = JSON.parse(this.input_parameters);
+            console.log(this.input_parameters);
+            this.service = {
+                name:this.input_parameters.service.name,
+                description: this.input_parameters.service.description,
+            };
+            if(this.input_parameters.service.parameters.requestInputs!=undefined && Object.keys(this.input_parameters.service.parameters.requestInputs).length>0){
+              this.e2e_requestInputs = this.input_parameters.service.parameters.requestInputs;
+            }
+            if(this.input_parameters.service.parameters.resources!=undefined && this.input_parameters.service.parameters.resources.length>0){
+                this.input_parameters.service.parameters.resources.map((item,i) => {
+                    let nestedTemplates={
+                        name:null,
+                        vnfs:[]
+                    };
+                    nestedTemplates.name= item.resourceName;
+                    item.parameters.locationConstraints.map((its,k) => {
+                        nestedTemplates.vnfs.push({
+                            "vf_location":its.locationConstraints.cloudOwner
+                        })
+                    });
+                    this.e2e_nestedTemplates.push(nestedTemplates);
+
+                    let nsIndex={
+                        "name": "ns",
+                        "type": "ns",
+                        "children": []
+                    };
+                    nsIndex.children=item.parameters.locationConstraints.map((itemits,index) => {
+                        return {
+                            "name": "vnf",
+                            "type": "vnf",
+                        }
+                    });
+                    this.roote2e.children.push(nsIndex);
+                });
+                console.log(this.e2e_nestedTemplates);
+                console.log(this.e2e_requestInputs);
+                console.log(this.roote2e)
+            }
+        }else if(this.detailParams.serviceDomain == 'Network Service'){
+            this.ns_service = {
+                name:this.detailParams.name,
+                description: this.detailParams.description,
+            };
+            if(this.detailParams.requestInputs!=undefined && Object.keys(this.detailParams.requestInputs).length>0){
+                this.ns_requestInputs = this.detailParams.requestInputs;
+            }
+            this.ns_nestedTemplates = this.detailParams.vnfInfo;
+            this.rootns.children=this.ns_nestedTemplates.map((item,index) => {
+                return {
+                    "name": "vnf",
+                    "type": "vnf",
+                }
+            });
+            console.log(this.ns_nestedTemplates);
+            console.log(this.ns_requestInputs);
+            console.log(this.rootns)
         }
-      ]
-  }
+        this.drawImage(this.detailParams.serviceDomain)
+    }
 
-  imgmap = {
-    '1': './assets/images/create-e2e.png',
-    '2': './assets/images/create-ns.png',
-    '3': './assets/images/create-vnf.png',
-  };
+    goback() {
+        this.closeDetail.emit();
+    }
 
   drawImage(type) {
     if (type == "E2E Service") {
@@ -129,7 +167,6 @@ export class E2eDetailComponent implements OnInit {
       .projection(function (d) {
         return [d.x-18, d.y+40];
       });
-    console.log(diagonal)
     var svg = d3.select("svg");
 
     //marker

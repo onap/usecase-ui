@@ -42,7 +42,7 @@
                     <h3>{{"i18nTextDefine_templateInputs" | translate}}</h3>
                 <ul>
                     <li *ngFor="let parameter of templateParameters.inputs; let i = index;">
-                        <span *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'">{{parameter.name}}:</span>
+                        <span *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'" title="{{parameter.name}}">{{parameter.name}}:</span>
                         <input *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'" nz-input
                                [(ngModel)]="parameter.value">
 
@@ -63,7 +63,7 @@
                 <h3>{{template.name}}</h3>
                 <ul>
                     <li *ngFor="let input of template.inputs; let i = index;">
-                        <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'"> {{input.name}}: </span>
+                        <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" title=" {{input.name}}"> {{input.name}}: </span>
                         <input *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" nz-input
                                [(ngModel)]="input.value">
 
@@ -98,7 +98,7 @@
                     <h4>{{"i18nTextDefine_templateInputs" | translate}}</h4>
                 <ul>
                     <li *ngFor="let parameter of nsTemplateParameters.inputs2; let i = index;">
-                        <span *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'">{{parameter.name}}:</span>
+                        <span *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'" title="{{parameter.name}}">{{parameter.name}}:</span>
                         <input *ngIf="parameter.type !== 'vf_location' && parameter.type !== 'sdn_controller'" nz-input
                                [(ngModel)]="parameter.value">
 
@@ -116,7 +116,7 @@
                 </ul>
             </div>
             <div class="vnf-box">
-                <h4>vnfs Inputs</h4>
+                    <h4 *ngIf="nsTemplateParameters.vnfs.length>0">vnfs Inputs</h4>
                 <ul>
                     <li *ngFor="let vnf of nsTemplateParameters.vnfs;">
                         <h5 style="padding-left:10px;">id: {{vnf.vnf_id}}</h5>
