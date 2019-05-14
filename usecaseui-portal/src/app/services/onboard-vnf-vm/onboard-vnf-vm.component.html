@@ -91,8 +91,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
-                            <td *ngIf="item.id">{{item.id}}</td>
-                            <td *ngIf="item.uuid">{{item.uuid}}</td>
+                            <td>{{i+1}}</td>
+                            <!--<td *ngIf="item.uuid">{{item.uuid}}</td>-->
 
                             <td *ngIf="item.nsdName">{{item.nsdName}}</td>
                             <td *ngIf="item.nsdName === null || item.nsdName === ''">&nbsp;</td>
@@ -216,8 +216,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
-                            <td *ngIf="item.id">{{item.id}}</td>
-                            <td *ngIf="item.uuid">{{item.uuid}}</td>
+                            <td>{{i+1}}</td>
+                            <!--<td *ngIf="item.uuid">{{item.uuid}}</td>-->
                             <td *ngIf="item.vnfProductName">{{item.vnfProductName}}</td>
                             <td *ngIf="item.vnfProductName === null || item.vnfProductName === ''">&nbsp;</td>
                             <td *ngIf="item.name">{{item.name}}</td>
@@ -225,8 +225,8 @@
                             <td *ngIf="item.vnfdVersion === null || item.vnfdVersion === ''">&nbsp;</td>
                             <td *ngIf="item.version">{{item.version}}</td>
                             <td>{{item.onboardingState}}</td>
-                            <td>{{item.usageState}}</td>
                             <td>{{item.operationalState}}</td>
+                            <td>{{item.usageState}}</td>
                             <td>
                                 <i [ngClass]="{'cannotclick':onboardData.status == 'onboarding'  && i == currentIndex}"
                                     class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid,i)"
@@ -321,14 +321,13 @@
                             <th nzWidth="15%" nzShowSort nzSortKey="name"> {{"i18nTextDefine_Name" | translate}} </th>
                             <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
                             <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
-                            <th nzWidth="15%"> {{"i18nTextDefine_OperationalState" | translate}} </th>
                             <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
                             <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>                 
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
-                            <td>{{item.id}}</td>
+                            <td>{{i+1}}</td>
                             <td>{{item.pnfdName}}</td>
                             <td>{{item.pnfdVersion}}</td>
                             <td>{{item.pnfdOnboardingState}}</td>
