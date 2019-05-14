@@ -145,7 +145,7 @@ export class CustomerComponent implements OnInit {
         this.managemencs.getCustomersPie().subscribe((data) => {
             this.CUChartData = {
                 series: [{
-                    data: data
+                    data:data.customerServiceList
                 }]
             }
             console.log(this.CUChartData)
@@ -158,8 +158,8 @@ export class CustomerComponent implements OnInit {
     serviceData: Object;
     serviceInit: Object = {
         customer: '',
-        height: 230,
-        width: 410,
+        width: 280,
+        height: 210,
         option: {
             tooltip: {
                 show: true,
@@ -327,7 +327,7 @@ export class CustomerComponent implements OnInit {
         this.name_s = [];
         this.value_s = [];
         this.managemencs.getCustomersColumn(item).subscribe((data) => {
-            data.forEach((item) => {
+            data.list.forEach((item) => {
                 this.name_s.push(item.name);
                 this.value_s.push(item.value);
             })
