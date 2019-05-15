@@ -30,7 +30,7 @@ export class MyhttpService {
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
-    templateParameters: this.baseUrl + "/uui-lcm/fetchTemplateInfo",
+    templateParameters: this.baseUrl + "/uui-lcm/fetchCCVPNTemplateData",
     e2etemplateParameters: this.baseUrl + "/uui-lcm/service-templates/" + "*_*" + "?toscaModelPath=",
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
     vimInfo: this.baseUrl + "/uui-lcm/locations/",
