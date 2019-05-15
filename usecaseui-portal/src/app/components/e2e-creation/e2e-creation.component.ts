@@ -102,11 +102,13 @@ export class E2eCreationComponent implements OnInit {
                     console.log(this.templateParameters);
                     console.log(this.roote2e)
       }else if(type == "ns"){
-        if(typeof data["model"]=='string'){
+        if(data["model"]!=undefined && typeof data["model"]=='string'){
           this.nsTemplateParameters = JSON.parse(data["model"]);
+            console.log(data["model"]);
         }else{
           this.nsTemplateParameters = data;
         }
+          console.log(this.nsTemplateParameters);
         this.nsTemplateParameters["inputs2"] = [];
         let inputs = this.nsTemplateParameters.inputs;
         for(let key in inputs){
