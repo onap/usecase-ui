@@ -79,35 +79,49 @@ export class CcvpnCreationComponent implements OnInit {
 
     getccvpnTemParameters(data) { //Get template parameters
         console.log(this.createParams);
-                let inputs = data["inputs"];
-                this.templateParameters.service = {
-                    name: data.metadata.name,
-                    description: data.metadata.description,
-                    serviceInvariantUuid: data.metadata.invariantUUID,
-                    serviceUuid: data.metadata.UUID
-                };
-                //Screening separation sotnvpn data
-                inputs["vpnresourcelist"].map((item,index) => {
-                    if(item["required"] !=undefined){
-                        this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
-                    }
-                    if (item["sitelanlist"] != undefined && item["sitelanlist"] instanceof Array === true) {
-                        this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item["sitelanlist"]
-                    }
-                });
+        if (typeof data["model"] == 'string') {
+            data = JSON.parse(data["model"]);
+        }
+        console.log(data);
+        let inputss = data["inputs"];
+        let inputs = {};
+        this.templateParameters.service = {
+            name: data.metadata["name"],
+            description: data.metadata.description,
+            serviceInvariantUuid: data.metadata.invariantUUID,
+            serviceUuid: data.metadata.UUID
+        };
+        //Screening separation sotnvpn data
+        Object.keys(inputss).map((item) => {
+            if (item.search("vpn")) {
+                inputs["vpnresourcelist"] = inputss[item];
+            }
+            if (item.search("site")) {
+                inputs["sitereourcelist"] = inputss[item];
+            }
+        });
+        console.log(inputs);
+        inputs["vpnresourcelist"].map((item, index) => {
+            if (item["required"] != undefined) {
+                this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
+            }
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan") && item[Object.keys(item)[0]] instanceof Array === true){
+                this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item[Object.keys(item)[0]]
+            }
+        });
 
-                //Screening separation site data
-                inputs["sitereourcelist"].map((item,index) => {
-                    if(item["required"] !=undefined){
-                        this.templateParameters["site"]["sdwansiteresource_list"].push(item);
-                    }
-                    if (item["deviceList"] != undefined && item["deviceList"] instanceof Array === true) {
-                        this.templateParameters["site"]["sdwandevice_list"] = item["deviceList"]
-                    }
-                    if (item["sitewanlist"] != undefined && item["sitewanlist"] instanceof Array === true) {
-                        this.templateParameters["site"]["sdwansitewan_list"] = item["sitewanlist"]
-                    }
-                });
+        //Screening separation site data
+        inputs["sitereourcelist"].map((item, index) => {
+            if (item["required"] != undefined) {
+                this.templateParameters["site"]["sdwansiteresource_list"].push(item);
+            }
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("device") && item[Object.keys(item)[0]] instanceof Array === true){
+                this.templateParameters["site"]["sdwandevice_list"] = item[Object.keys(item)[0]];
+            }
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan") && item[Object.keys(item)[0]] instanceof Array === true){
+                this.templateParameters["site"]["sdwansitewan_list"] = item[Object.keys(item)[0]];
+            }
+        });
 
                 this.showTemParametersSotnVpn();
                 this.showTemParametersSite();
