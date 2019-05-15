@@ -82,6 +82,7 @@
   "i18nTextDefine_InstanceUpdatedSuccessfully":"instance was updated successfully.",
   "i18nTextDefine_InstanceUpdateFailed":"instance update failed!!!",
   "i18nTextDefine_Close":"close",
+  "i18nTextDefine_Templateparsingfailed": "Template parsing failed",
 
   "ccvpn-creation-component":"--:",
   "i18nTextDefine_InstanceCreation":"Instance Creation",
@@ -108,7 +109,7 @@
   "management-component":"--:",
   "i18nTextDefine_Create_initial_customer":"Create initial customer",
   "i18nTextDefine_Customer_not_in_ONAP":"Customer has not been created in ONAP",
-  "i18nTextDefine_createCustomer":"Please create customer and its service type",
+  "i18nTextDefine_CreateCustomer":"Please create customer and its service type",
   "i18nTextDefine_Input_customerName":"Input customer name",
 
   "customer-component":"--:",

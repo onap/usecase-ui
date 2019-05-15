@@ -27,13 +27,13 @@ import {el} from "@angular/platform-browser/testing/src/browser_util";
 export class CcvpnCreationComponent implements OnInit {
 
   constructor(private myhttp:MyhttpService) { }
+    @Input() createParams;
+    @Input() ccvpn_temParametersContent;
+    @Output() closeCreate = new EventEmitter();
 
   ngOnInit() {
-    this.getTemParameters();
+    this.getccvpnTemParameters(this.ccvpn_temParametersContent);
   }
-
-  @Input() createParams;
-  @Output() closeCreate = new EventEmitter();
 
   //tabBarStyle
   tabBarStyle = {
@@ -77,59 +77,41 @@ export class CcvpnCreationComponent implements OnInit {
         return Object.keys(item);
     }
 
-    getTemParameters() { //Get template parameters
-        let chosedtemplates = this.createParams.template;
-        let types = this.createParams.commonParams.templateType;
+    getccvpnTemParameters(data) { //Get template parameters
         console.log(this.createParams);
-        console.log(chosedtemplates);  //Template id array
-        this.myhttp.getTemplateParameters(types, chosedtemplates)
-            .subscribe((data) => {
                 let inputs = data["inputs"];
-                let vnfs = data["vnfs"];
                 this.templateParameters.service = {
                     name: data.metadata.name,
                     description: data.metadata.description,
                     serviceInvariantUuid: data.metadata.invariantUUID,
                     serviceUuid: data.metadata.UUID
                 };
-                vnfs.map((item) => { //Add basic information about sotnvpn and site
-                   if( item["vnf_id"]=='sdwanvpnresource'){
-                       this.templateParameters["sotnvpn"]["info"]={resourceName: item["vnf_id"], min:item.properties["min_instances"],resourceInvariantUuid: item.metadata["invariantUUID"], resourceUuid: item.metadata["UUID"],resourceCustomizationUuid: item.metadata["customizationUUID"]}
-                   }
-                   if(item["vnf_id"]=='sdwansiteresource'){
-                       this.templateParameters["site"]["info"]={resourceName: item["vnf_id"], min:item.properties["min_instances"],resourceInvariantUuid: item.metadata["invariantUUID"], resourceUuid: item.metadata["UUID"],resourceCustomizationUuid: item.metadata["customizationUUID"]}
-                   }
-                });
-
                 //Screening separation sotnvpn data
-                inputs["sdwanvpnresource_list"].map((item,index) => {
+                inputs["vpnresourcelist"].map((item,index) => {
                     if(item["required"] !=undefined){
                         this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
                     }
-                    if (item["sdwansitelan_list"] != undefined && item["sdwansitelan_list"] instanceof Array === true) {
-                        this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item["sdwansitelan_list"]
+                    if (item["sitelanlist"] != undefined && item["sitelanlist"] instanceof Array === true) {
+                        this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item["sitelanlist"]
                     }
                 });
 
                 //Screening separation site data
-                inputs["sdwansiteresource_list"].map((item,index) => {
+                inputs["sitereourcelist"].map((item,index) => {
                     if(item["required"] !=undefined){
                         this.templateParameters["site"]["sdwansiteresource_list"].push(item);
                     }
-                    if (item["sdwandevice_list"] != undefined && item["sdwandevice_list"] instanceof Array === true) {
-                        this.templateParameters["site"]["sdwandevice_list"] = item["sdwandevice_list"]
+                    if (item["deviceList"] != undefined && item["deviceList"] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwandevice_list"] = item["deviceList"]
                     }
-                    if (item["sdwansitewan_list"] != undefined && item["sdwansitewan_list"] instanceof Array === true) {
-                        this.templateParameters["site"]["sdwansitewan_list"] = item["sdwansitewan_list"]
+                    if (item["sitewanlist"] != undefined && item["sitewanlist"] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwansitewan_list"] = item["sitewanlist"]
                     }
                 });
 
                 this.showTemParametersSotnVpn();
                 this.showTemParametersSite();
                 console.log(this.templateParameters)
-            }, (err) => {
-
-            });
     }
 
     //sotnVpn data, after combining the structure, rendering the template data to the page

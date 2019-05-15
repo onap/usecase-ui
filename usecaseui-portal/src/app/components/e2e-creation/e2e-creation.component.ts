@@ -27,7 +27,7 @@ export class E2eCreationComponent implements OnInit {
   constructor( private myhttp:MyhttpService ) { }
 
   ngOnInit() {
-    this.getTemParameters();
+        this.gete2eTemParameters(this.e2e_ns_temParametersContent);
     this.getVimInfo();
     this.getSdnControllers();
     console.log(this.createParams);
@@ -36,6 +36,7 @@ export class E2eCreationComponent implements OnInit {
   @Output() e2eCloseCreate = new EventEmitter();
   @Output() nsCloseCreate = new EventEmitter();
   @Input() createParams;
+    @Input() e2e_ns_temParametersContent;
 
 
   // e2e serviceTemplateParameters
@@ -75,12 +76,10 @@ export class E2eCreationComponent implements OnInit {
         '2': './assets/images/create-ns.png',
         '3': './assets/images/create-vnf.png',
     };
-  getTemParameters(){ //Get template parameters
+    gete2eTemParameters(data) { //Get template parameters
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
-    this.myhttp.getTemplateParameters(type,this.createParams.template)
-    .subscribe((data)=>{
-      // console.log(this.createParams);
-      // console.log(data);
+        console.log(this.createParams);
+        console.log(data);
       if(type == "e2e"){
         this.templateParameters = data;
         this.templateParameters.nestedTemplates.forEach((item)=>{
@@ -124,7 +123,6 @@ export class E2eCreationComponent implements OnInit {
 
       this.drawImage(type)
 
-    })
   }
   vimInfos=[];
   getVimInfo() {

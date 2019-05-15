@@ -20,9 +20,7 @@
         <h3 class="title fl">{{createParams.commonParams.templateType}}  {{"i18nTextDefine_InstanceCreation" | translate}} </h3>
         <div class="fl" style="width: 20%">
             <button class="submit" nz-button (click)="submit()"><span> {{"i18nTextDefine_Create" | translate}} </span></button>
-            <button class="back" nz-button (click)="goback()">
-                <i class="anticon anticon-arrow-left" style="transform: scale(1.5)"></i>
-            </button>
+            <button class="back" nz-button (click)="goback()"></button>
         </div>
     </div>
     <div class="e2ecreate-content">
@@ -63,7 +61,7 @@
                 <h3>{{template.name}}</h3>
                 <ul>
                     <li *ngFor="let input of template.inputs; let i = index;">
-                        <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" title=" {{input.name}}"> {{input.name}}: </span>
+                        <span *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" title="{{input.name}}"> {{input.name}}: </span>
                         <input *ngIf="input.type !== 'vf_location' && input.type !== 'sdn_controller'" nz-input
                                [(ngModel)]="input.value">
 

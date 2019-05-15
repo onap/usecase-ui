@@ -216,24 +216,52 @@ export class ServicesListComponent implements OnInit {
   createData:Object={};
   handleOk(): void {
     // console.log('Button ok clicked!');
-    this.isVisible = false;
 
     if(this.templateTypeSelected=="SOTN"||this.templateTypeSelected=="CCVPN"){
      this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected2, templateType:this.templateTypeSelected},template:this.template1};
-      this.createshow = true;
-      this.listDisplay = true;
     }else if(this.templateTypeSelected=="E2E Service"||this.templateTypeSelected=="Network Service"){
       this.createData = {commonParams:{customer:this.customerSelected, serviceType:this.serviceTypeSelected2, templateType:this.templateTypeSelected},template:this.template1, orchestrator:this.orchestratorSelected, isSol005Interface:this.isSol005Interface};
-      this.createshow2 = true;
-            this.listDisplay = true;
     }
-
+    this.getTemParameters();
   }
   handleCancel(): void {
     // console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
+
+    temParametersTips=false;
+    ccvpn_temParametersContent :any;
+    e2e_ns_temParametersContent :any;
+    getTemParameters(){
+        let chosedtemplates = this.createData["template"];
+        let types = this.createData["commonParams"].templateType;
+        if(types == "E2E Service"){
+            types = "e2e";
+        }else if(types == "Network Service"){
+            types = "ns";
+        }
+        this.myhttp.getTemplateParameters(types, chosedtemplates)
+            .subscribe((data) => {
+                if (data.status == "FAILED") {
+                    this.temParametersTips = true;
+                    this.isVisible = true;
+                    console.log("Template parsing failed");
+                }else {
+                    this.isVisible = false;
+                    this.temParametersTips = false;
+                    if (this.templateTypeSelected == "SOTN" || this.templateTypeSelected == "CCVPN") {
+                        this.ccvpn_temParametersContent = data;
+                        this.createshow = true;
+                        this.listDisplay = true;
+                    } else if (this.templateTypeSelected == "E2E Service" || this.templateTypeSelected == "Network Service") {
+                        this.e2e_ns_temParametersContent = data;
+                        this.createshow2 = true;
+                        this.listDisplay = true;
+                    }
+                }
+            })
+    }
 
   //tableData
   tableData = [];
