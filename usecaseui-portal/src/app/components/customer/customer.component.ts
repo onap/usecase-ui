@@ -94,7 +94,7 @@ export class CustomerComponent implements OnInit {
                     normal: {
                         position: 'center',
                         show: false,
-                        formatter: '   {b|{b}：{d}%}  ',
+                        formatter: '   {b|{b}：{c}%}  ',
                         backgroundColor: 'rgba(51,51,51,0.9)',
                         borderColor: 'rgba(51,51,51,0.9)',
                         borderWidth: 1,
