@@ -639,15 +639,21 @@
     <div class="createComponent" *ngIf="createshow">
         <app-ccvpn-creation
                 [createParams]="createData"
+                [ccvpn_temParametersContent]="ccvpn_temParametersContent"
                 (closeCreate)="closeCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
         </app-ccvpn-creation>
     </div>
     <div class="createComponent" *ngIf="createshow2">
         <app-e2e-creation
                 [createParams]="createData"
+                [e2e_ns_temParametersContent]="e2e_ns_temParametersContent"
                 (nsCloseCreate)="nsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)"
                 (e2eCloseCreate)="e2eCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
         </app-e2e-creation>
     </div>
     <!--</div>-->
 </nz-layout>
+<div class="loading" *ngIf="loadingAnimateShow">
+    <img src="../../../assets/images/loading-animate2.gif" alt="loading">
+    <p>Please wating¡­¡­</p>
+</div>

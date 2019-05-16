@@ -50,6 +50,7 @@ export class ServicesListComponent implements OnInit {
   listSortMasters=JSON.parse(sessionStorage.getItem('listSortMasters'));
     language = sessionStorage.getItem("DefaultLang");
     iconMore=false;
+    loadingAnimateShow = false;
     serviceMunber = [
         {
             "serviceDomain": "E2E",
@@ -227,7 +228,7 @@ export class ServicesListComponent implements OnInit {
   handleCancel(): void {
     // console.log('Button cancel clicked!');
     this.isVisible = false;
-    this.temParametersTips = false;
+    this.loadingAnimateShow = false;
   }
 
 
@@ -242,8 +243,10 @@ export class ServicesListComponent implements OnInit {
         }else if(types == "Network Service"){
             types = "ns";
         }
+        this.loadingAnimateShow = true;
         this.myhttp.getTemplateParameters(types, chosedtemplates)
             .subscribe((data) => {
+                this.loadingAnimateShow = false;
                 if (data.status == "FAILED") {
                     this.temParametersTips = true;
                     this.isVisible = true;
