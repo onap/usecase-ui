@@ -22,6 +22,7 @@ import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zor
 import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import * as $ from 'jquery';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 
 @Component({
@@ -136,8 +137,8 @@ export class OnboardVnfVmComponent implements OnInit {
    // ns  beforeUpload
   beforeUploadNS = (file: UploadFile): boolean => {
     this.fileListNS.push(file);
-    console.log('beforeUpload');
-    console.log('fileListNS' + this.fileListNS);
+    console.log('beforeUpload');    
+    console.log(this.fileListNS.length);
     console.log('fileListNS' + JSON.stringify(this.fileListNS));
       this.myhttp.getCreatensData("createNetworkServiceData",this.requestBody)//on-line
       // this.myhttp.getCreatensData("creatensDataNS")  //local
@@ -229,6 +230,12 @@ export class OnboardVnfVmComponent implements OnInit {
     }
   }
 
+    nsRightList = [];
+    nsNum=0;
+    vnfRightList = [];
+    vnfNum=0;
+    pnfRightList = [];
+    pnfNum=0;
   //put Upload Upload
   handleUpload(url,tab): void { 
     console.log('startUpload')
@@ -240,18 +247,84 @@ export class OnboardVnfVmComponent implements OnInit {
           formData.append('file', file);
         });
         this.nsuploading = true;
+          let lastNs = this.fileListNS[this.fileListNS.length-1];
+          let nsfile={
+              name:lastNs.name,
+              uid:lastNs.uid,
+              progress:0,
+              status:true,
+              success:0
+          };
+          this.nsNum+=1;
+          this.nsRightList.push(nsfile);
+          let requeryNs = (nsfile) => {
+              setTimeout(() => {
+                  nsfile.progress+=2;
+                  if (nsfile.progress < 100) {
+                      requeryNs(nsfile)
+                  } else {
+                      nsfile.progress = 100;
+                      nsfile.status = false;
+                  }
+              }, 100)
+          };
+          requeryNs(nsfile);
       break
       case "VNF": 
         this.fileListVNF.forEach((file: any) => {
           formData.append('file', file);
         });
         this.vnfuploading = true;
+          let lastVnf = this.fileListVNF[this.fileListVNF.length-1];
+          let vnffile={
+              name:lastVnf.name,
+              uid:lastVnf.uid,
+              progress:0,
+              status:true,
+              success:0
+          };
+          this.vnfNum+=1;
+          this.vnfRightList.push(vnffile);
+          let requeryVnf = (vnffile) => {
+              setTimeout(() => {
+                  vnffile.progress+=2;
+                  if (vnffile.progress < 100) {
+                      requeryVnf(vnffile)
+                  } else {
+                      vnffile.progress = 100;
+                      vnffile.status = false;
+                  }
+              }, 100)
+          };
+          requeryVnf(vnffile);
       break
       case "PNF": 
         this.fileListPNF.forEach((file: any) => {
           formData.append('file', file);
         });
         this.pnfloading = true;
+          let lastPnf = this.fileListPNF[this.fileListPNF.length-1];
+          let pnffile={
+              name:lastPnf.name,
+              uid:lastPnf.uid,
+              progress:0,
+              status:true,
+              success:0
+          };
+          this.pnfNum+=1;
+          this.pnfRightList.push(pnffile);
+          let requeryPnf = (pnffile) => {
+              setTimeout(() => {
+                  pnffile.progress+=2;
+                  if (pnffile.progress < 100) {
+                      requeryPnf(pnffile)
+                  } else {
+                      pnffile.progress = 100;
+                      pnffile.status = false;
+                  }
+              }, 100)
+          };
+          requeryPnf(pnffile);
       break
     }
 
@@ -277,11 +350,47 @@ export class OnboardVnfVmComponent implements OnInit {
       .pipe(filter(e => e instanceof HttpResponse))
       .subscribe(
         (event: {}) => {
+            if(tab =="NS"){
+                console.log(this.nsRightList[this.nsNum-1],"this.nsRightList")
+                this.nsRightList[this.nsNum-1].progress = 100;
+                this.nsRightList[this.nsNum-1].status = false;
+                this.nsRightList[this.nsNum-1].success=0;
+            }
+            if(tab =="VNF"){
+                console.log(this.vnfRightList[this.vnfNum-1],"this.vnfRightList")
+                this.vnfRightList[this.vnfNum-1].progress = 100;
+                this.vnfRightList[this.vnfNum-1].status = false;
+                this.vnfRightList[this.vnfNum-1].success=0;
+            }
+            if(tab =="PNF"){
+                console.log(this.pnfRightList[this.pnfNum-1],"this.pnfRightList")
+                this.pnfRightList[this.pnfNum-1].progress = 100;
+                this.pnfRightList[this.pnfNum-1].status = false;
+                this.pnfRightList[this.pnfNum-1].success=0;
+            }
           this.changeUploadingSta(tab)
           console.log('upload successfully')
           this.msg.success('upload successfully.');
         },
         err => {
+            if(tab =="NS"){
+                console.log(this.nsRightList[this.nsNum-1])
+              this.nsRightList[this.nsNum-1].progress = 100;
+              this.nsRightList[this.nsNum-1].status = false;
+              this.nsRightList[this.nsNum-1].success=1;
+            }
+            if(tab =="VNF"){
+                console.log(this.vnfRightList[this.vnfNum-1],"this.vnfRightList")
+                this.vnfRightList[this.vnfNum-1].progress = 100;
+                this.vnfRightList[this.vnfNum-1].status = false;
+                this.vnfRightList[this.vnfNum-1].success=1;
+            }
+            if(tab =="PNF"){
+                console.log(this.pnfRightList[this.pnfNum-1],"this.pnfRightList")
+                this.pnfRightList[this.pnfNum-1].progress = 100;
+                this.pnfRightList[this.pnfNum-1].status = false;
+                this.pnfRightList[this.pnfNum-1].success=1;
+            }
           this.changeUploadingSta(tab)
           console.log('upload failed')
           this.msg.error('upload failed.');

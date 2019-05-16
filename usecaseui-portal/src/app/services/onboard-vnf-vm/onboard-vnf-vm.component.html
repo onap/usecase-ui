@@ -18,7 +18,7 @@
         <!-- nsList -->
         <div class="list" *ngIf="tab === 'NS'">
             <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
-            <div style="width:100%;">
+            <div style="width:100%;height: 30%;margin-bottom: 1%">
                 <div class="listupload">
                     <nz-upload nzType="drag" [(nzFileList)]="fileListNS" [nzBeforeUpload]="beforeUploadNS">
                         <p class="ant-upload-drag-icon">
@@ -34,46 +34,29 @@
                 </div>
                 <div class="listlin"></div>
                 <div class="listfile">
-                    <div>
-                        <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
-                        <div class="listfilebgc">
-                            <div>111</div>
-                            <div class="color">pnf-test.csar</div>
+                    <div style="color: rgba(66,84,143,1);font-family:ArialMT;padding-bottom: 15px;height: 15%"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
+                    <div style="height:80%;overflow: auto">
+                        <div class="listfilebgc" *ngFor="let itemns of nsRightList">
                             <div>
-                                <nz-progress [nzPercent]="20" [nzShowInfo]="false"></nz-progress>
+                                <i class="anticon anticon-link"></i>
                             </div>
-                            <div>456</div>
-                        </div>
-                        <div class="listfilebgc">
-                            <div>111</div>
-                            <div class="color">pnf-test.csar</div>
-                            <div class="color">
-                                <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+                            <div class="color" [ngClass]="{'progress':itemns.status == true}">{{itemns.name}}</div>
+                            <div class="color" *ngIf="itemns.status">
+                                <nz-progress [nzPercent]="itemns.progress" [nzShowInfo]="false"></nz-progress>
                             </div>
-                            <div>456</div>
-                        </div>
-                        <div class="listfilebgc">
-                            <div>111</div>
-                            <div>pnf-test.csar</div>
-                            <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                            <div>456</div>
-                        </div>
-                        <div class="listfilebgc">
-                            <div>111</div>
-                            <div>pnf-test.csar</div>
-                            <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                            <div>456</div>
-                        </div>
-                        <div class="listfilebgc">
-                            <div>111</div>
-                            <div class="color">pnf-test.csar</div>
-                            <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                            <div>456</div>
+                            <div class="color" *ngIf="!itemns.status">
+                                <span *ngIf="itemns.success == 0">{{"i18nTextDefine_File_upload_completed" | translate}}</span>
+                                <span *ngIf="itemns.success == 1">{{"i18nTextDefine_File_upload_failed" | translate}}</span>
+                            </div>
+                            <div *ngIf="!itemns.status">
+                                <i class="anticon anticon-check-circle" *ngIf="itemns.success == 0" style="color:#7BC7F3!important;"></i>
+                                <i class="anticon anticon-exclamation-circle"  *ngIf="itemns.success == 1" style="color:#fb5c5c!important;"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <nz-spin [nzSpinning]="isSpinning">
+            <nz-spin [nzSpinning]="isSpinning" style="height: 69%">
                 <div class="mask" *ngIf="isSpinning"></div>
                 <nz-table #nzTable [nzData]="nstableData" nzShowSizeChanger [nzFrontPagination]="true"
                     [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="nspageSize"
@@ -145,6 +128,7 @@
         <!-- VNFList -->
         <div class="list" *ngIf="tab === 'VNF'">
             <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
+            <div style="width:100%;height: 30%;margin-bottom: 1%">
             <div class="listupload">
                 <nz-upload nzType="drag" [(nzFileList)]="fileListVNF" [nzBeforeUpload]="beforeUploadVNF">
                     <p class="ant-upload-drag-icon">
@@ -160,45 +144,29 @@
             </div>
             <div class="listlin"></div>
             <div class="listfile">
-                <div>
-                    <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;">Uploaded files</div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
+                <div style="color: rgba(66,84,143,1);font-family:ArialMT;padding-bottom: 15px;height: 15%"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
+                <div style="height:80%;overflow: auto">
+                    <div class="listfilebgc" *ngFor="let itemns of vnfRightList">
                         <div>
-                            <nz-progress [nzPercent]="20" [nzShowInfo]="false"></nz-progress>
+                            <i class="anticon anticon-link"></i>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div class="color">
-                            <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+                        <div class="color" [ngClass]="{'progress':itemns.status == true}">{{itemns.name}}</div>
+                        <div class="color" *ngIf="itemns.status">
+                            <nz-progress [nzPercent]="itemns.progress" [nzShowInfo]="false"></nz-progress>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
+                        <div class="color" *ngIf="!itemns.status">
+                            <span *ngIf="itemns.success == 0">{{"i18nTextDefine_File_upload_completed" | translate}}</span>
+                            <span *ngIf="itemns.success == 1">{{"i18nTextDefine_File_upload_failed" | translate}}</span>
+                        </div>
+                        <div *ngIf="!itemns.status">
+                            <i class="anticon anticon-check-circle" *ngIf="itemns.success == 0" style="color:#7BC7F3!important;"></i>
+                            <i class="anticon anticon-exclamation-circle"  *ngIf="itemns.success == 1" style="color:#fb5c5c!important;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-            <nz-spin [nzSpinning]="isSpinning">
+            </div>
+            <nz-spin [nzSpinning]="isSpinning"  style="height: 69%">
                 <div class="mask" *ngIf="isSpinning"></div>
                 <nz-table #nzTable [nzData]="vnftableData" nzShowSizeChanger [nzFrontPagination]="true"
                     [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="vnfpageSize"
@@ -257,6 +225,7 @@
         <!-- PNFList -->
         <div class="list" *ngIf="tab === 'PNF'">
             <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
+            <div style="width:100%;height: 30%;margin-bottom: 1%">
             <div class="listupload">
                 <nz-upload nzType="drag" [(nzFileList)]="fileListPNF" [nzBeforeUpload]="beforeUploadPNF">
                     <p class="ant-upload-drag-icon">
@@ -272,45 +241,29 @@
             </div>
             <div class="listlin"></div>
             <div class="listfile">
-                <div>
-                    <div style="color: #42548F;font-family:ArialMT;padding-bottom: 15px;">Uploaded files</div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
+                <div style="color: rgba(66,84,143,1);font-family:ArialMT;padding-bottom: 15px;height: 15%"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
+                <div style="height:80%;overflow: auto">
+                    <div class="listfilebgc" *ngFor="let itemns of pnfRightList">
                         <div>
-                            <nz-progress [nzPercent]="20" [nzShowInfo]="false"></nz-progress>
+                            <i class="anticon anticon-link"></i>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div class="color">
-                            <nz-progress [nzPercent]="50" [nzShowInfo]="false"></nz-progress>
+                        <div class="color" [ngClass]="{'progress':itemns.status == true}">{{itemns.name}}</div>
+                        <div class="color" *ngIf="itemns.status">
+                            <nz-progress [nzPercent]="itemns.progress" [nzShowInfo]="false"></nz-progress>
                         </div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div>pnf-test.csar</div>
-                        <div class="color">{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
-                    </div>
-                    <div class="listfilebgc">
-                        <div>111</div>
-                        <div class="color">pnf-test.csar</div>
-                        <div>{{"i18nTextDefine_File_upload_completed" | translate}}</div>
-                        <div>456</div>
+                        <div class="color" *ngIf="!itemns.status">
+                            <span *ngIf="itemns.success == 0">{{"i18nTextDefine_File_upload_completed" | translate}}</span>
+                            <span *ngIf="itemns.success == 1">{{"i18nTextDefine_File_upload_failed" | translate}}</span>
+                        </div>
+                        <div *ngIf="!itemns.status">
+                            <i class="anticon anticon-check-circle" *ngIf="itemns.success == 0" style="color:#7BC7F3!important;"></i>
+                            <i class="anticon anticon-exclamation-circle"  *ngIf="itemns.success == 1" style="color:#fb5c5c!important;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-            <nz-spin [nzSpinning]="isSpinning">
+            </div>
+            <nz-spin [nzSpinning]="isSpinning" style="height: 69%">
                 <div class="mask" *ngIf="isSpinning"></div>
                 <nz-table #nzTable [nzData]="pnftableData" nzShowSizeChanger [nzFrontPagination]="true"
                     [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pnfpageSize"

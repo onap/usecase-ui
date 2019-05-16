@@ -131,7 +131,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
     imgmap = {
         '1': './assets/images/cloud-county1.png',
-        '2': './assets/images/cloud-city1.png',
+        '2': './assets/images/tp.png',
         '3': './assets/images/cloud-out.png',
     };
     tpoption = {

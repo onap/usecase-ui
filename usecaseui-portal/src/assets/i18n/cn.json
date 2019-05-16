@@ -100,6 +100,7 @@
   "i18nTextDefine_Uploading":"上传中",
   "i18nTextDefine_StartUpload":"开始上传",
   "i18nTextDefine_File_upload_completed":"文件上传完毕",
+  "i18nTextDefine_File_upload_failed":"文件上传失败",
   "i18nTextDefine_Version":"版本",
   "i18nTextDefine_OnboardingState":"分发状态",
   "i18nTextDefine_OperationalState":"操作状态",
