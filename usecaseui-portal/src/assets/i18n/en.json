@@ -100,6 +100,7 @@
   "i18nTextDefine_Uploading":"Uploading",
   "i18nTextDefine_StartUpload":"StartUpload",
   "i18nTextDefine_File_upload_completed":"File upload completed",
+  "i18nTextDefine_File_upload_failed":"File upload failed",
   "i18nTextDefine_Version":"Version",
   "i18nTextDefine_OnboardingState":"Onboarding State",
   "i18nTextDefine_OperationalState":"Operational State",
