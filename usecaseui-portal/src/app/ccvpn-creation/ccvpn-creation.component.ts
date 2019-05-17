@@ -93,19 +93,20 @@ export class CcvpnCreationComponent implements OnInit {
         };
         //Screening separation sotnvpn data
         Object.keys(inputss).map((item) => {
-            if (item.search("vpn")) {
+            if (item.search("vpn")!=-1) {
                 inputs["vpnresourcelist"] = inputss[item];
             }
-            if (item.search("site")) {
+            if (item.search("site")!=-1) {
                 inputs["sitereourcelist"] = inputss[item];
             }
         });
+        console.log(inputss);
         console.log(inputs);
         inputs["vpnresourcelist"].map((item, index) => {
             if (item["required"] != undefined) {
                 this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
             }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan") && item[Object.keys(item)[0]] instanceof Array === true){
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
                 this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item[Object.keys(item)[0]]
             }
         });
@@ -115,10 +116,10 @@ export class CcvpnCreationComponent implements OnInit {
             if (item["required"] != undefined) {
                 this.templateParameters["site"]["sdwansiteresource_list"].push(item);
             }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("device") && item[Object.keys(item)[0]] instanceof Array === true){
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("device")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
                 this.templateParameters["site"]["sdwandevice_list"] = item[Object.keys(item)[0]];
             }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan") && item[Object.keys(item)[0]] instanceof Array === true){
+            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
                 this.templateParameters["site"]["sdwansitewan_list"] = item[Object.keys(item)[0]];
             }
         });
@@ -184,7 +185,11 @@ export class CcvpnCreationComponent implements OnInit {
                 }
             }
         });
-
+        this.templateParameters.site.sdwandevice_list.map((item, index) => {
+            if(this.getKeys(item).indexOf("lable") == -1){
+                this.templateParameters.site.sdwandevice_list.splice(index,1)
+            }
+        });
         this.templateParameters.site.sdwansitewan_list.push(
             {
                 ipMode: "",
@@ -356,6 +361,7 @@ export class CcvpnCreationComponent implements OnInit {
     editSotnVpn(num){
         this.sotnVpnModelShow = true;
         this.isEditSotnVpn = num;
+        console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
         Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
