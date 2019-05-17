@@ -50,7 +50,7 @@
         </div>
         <div class="select-list">
             <span style="display:inline-block;"> {{"i18nTextDefine_ServiceType" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelectedName" nzAllowClear>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelectedName" nzAllowClear (ngModelChange)="serviceTypeChange()">
                 <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name" ></nz-option>
             </nz-select>
         </div>
@@ -654,6 +654,6 @@
     <!--</div>-->
 </nz-layout>
 <div class="loading" *ngIf="loadingAnimateShow">
-    <img src="../../../assets/images/loading-animate2.gif" alt="loading">
-    <p>Please wating¡­¡­</p>
+    <img src="./assets/images/loading-animate2.gif" alt="loading">
+    <p>Please watingâ€¦â€¦</p>
 </div>
