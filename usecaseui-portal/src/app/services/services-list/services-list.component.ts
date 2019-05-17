@@ -42,8 +42,8 @@ export class ServicesListComponent implements OnInit {
   customerSelected2 = {name: null, id: null};
   serviceTypeList = [];
   serviceTypeList2 = [];
-  serviceTypeSelected = {name:null};
-  serviceTypeSelected2 = {name: null};
+  serviceTypeSelected = {name:''};
+  serviceTypeSelected2 = {name: ''};
     serviceTypeSelectedName = "";
     templateTypeSelected ="CCVPN";
   orchestratorSelected = {name:null,id:null};
@@ -162,17 +162,19 @@ export class ServicesListComponent implements OnInit {
                     console.log("serviceTypeList.length == 0", this.serviceTypeList2);
                     return false;
                 }
-                this.serviceTypeSelected2 = this.serviceTypeSelected;
-                this.serviceTypeSelectedName = this.serviceTypeSelected2.name;
-                console.log(this.customerSelected2);
-                console.log(this.serviceTypeSelected2);
                 this.getAlltemplates();
             })
+    }
+    serviceTypeChange(): void {
+        this.serviceTypeSelected2.name = this.serviceTypeSelectedName
+        console.log(this.serviceTypeSelectedName)
     }
   createModal(): void {
     this.isVisible = true;
      this.getallOrchestrators();
         this.customerSelected2 = this.customerSelected;
+        this.serviceTypeSelectedName = this.serviceTypeSelected.name;
+        this.serviceTypeSelected2 = Object.assign({},this.serviceTypeSelected);
         this.getServiceType(this.customerSelected2);
   }
   //
@@ -250,7 +252,7 @@ export class ServicesListComponent implements OnInit {
                 if (data.status == "FAILED") {
                     this.temParametersTips = true;
                     this.isVisible = true;
-                    console.log("Template parsing failed");
+                    console.log("Template parsing Failed");
                 }else {
                     this.isVisible = false;
                     this.temParametersTips = false;
@@ -804,9 +806,9 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.tableData = [newData,...this.tableData];
                 this.createNotification(templateCreatestarting);
       if(data.status == "FAILED"){
-              this.createSuccessNotification(templateCreateSuccessFaild);
-        console.log("create ns service failed :" + JSON.stringify(data));
-        newData.status = "failed";
+        console.log("create ns service Failed :" + JSON.stringify(data));
+        newData.status = "Failed";
+        this.createSuccessNotification(templateCreateSuccessFaild);
         return false;
       }
       let createParams = "?ns_instance_id=" + data.nsInstanceId +
@@ -816,9 +818,12 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
                         "&parentServiceInstanceId=";
       // step2
       this.createNsService(createParams,obj.step2).then((jobid)=>{
-        if(jobid == "failed"){
-            this.createSuccessNotification(templateCreateSuccessFaild);
-          newData.status = "failed";
+        if(jobid == "Failed"){
+          newData.status = "Failed";
+          console.log(jobid,"ns two jobid")
+            this.thisCreateService = newData;
+          console.log(this.thisCreateService)
+        this.createSuccessNotification(templateCreateSuccessFaild);
         newData.tips = this.listSortMasters["operationTypes"].find((its) => {
             return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
         })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -864,8 +869,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.myhttp.createInstance(requestBody,createParams)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
-                        this.createSuccessNotification(templateCreateSuccessFaild);
-            console.log("create e2e service failed :" + JSON.stringify(data));
+            res("Failed");
+            console.log("create e2e service Failed :" + JSON.stringify(data));
             return false;
           }
           res(data.service);
@@ -878,8 +883,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.myhttp.nsCreateInstance2(id,obj)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
-            console.log("instantiate ns service failed :" + JSON.stringify(data));
-            res("failed");
+            console.log("instantiate ns service Failed :" + JSON.stringify(data));
+            res("Failed");
             return false;
           }
           res(data.jobId);
@@ -897,8 +902,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     this.myhttp.scaleE2eService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
-          console.log("scale E2e service failed :" + JSON.stringify(data));
-          service.status = "failed";
+          console.log("scale E2e service Failed :" + JSON.stringify(data));
+          service.status = "Failed";
                     service.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == service.statusClass && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -947,8 +952,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     this.myhttp.healNsService(id,requestBody)
       .subscribe((data)=>{
         if(data.status == "FAILED"){
-          console.log("heal nsvnf service failed :" + JSON.stringify(data));
-          service.status = "failed";
+          console.log("heal nsvnf service Failed :" + JSON.stringify(data));
+          service.status = "Failed";
                     service.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == service.statusClass && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -1004,8 +1009,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         this.myhttp.deleteInstance(params)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
-            console.log("delete service failed :" + JSON.stringify(data));
-            service.status = "failed";
+            console.log("delete service Failed :" + JSON.stringify(data));
+            service.status = "Failed";
                             service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"]+'\xa0\xa0\xa0'+ this.listSortMasters["operationResults"].find((its) => {
                                 return its["sortCode"] == 2002 && its["language"] == this.language
                             })["sortValue"];
@@ -1060,8 +1065,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       gracefulTerminationTimeout : this.gracefulTerminationTimeout
     }
     this.stopNsService(id,requestBody).then((jobid)=>{
-      if(jobid == "failed"){
-        service.status = "failed";
+      if(jobid == "Failed"){
+        service.status = "Failed";
                 service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                     return its["sortCode"] == 2002 && its["language"] == this.language
                 })["sortValue"];
@@ -1087,8 +1092,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
                     })["sortValue"];
                     this.deleteSuccessNotification(templateDeleteSuccessFaild);
           if(data.status == "FAILED"){
-            console.log("delete ns service failed :" + JSON.stringify(data));
-            service.status = "failed";
+            console.log("delete ns service Failed :" + JSON.stringify(data));
+            service.status = "Failed";
                         service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                             return its["sortCode"] == 2002 && its["language"] == this.language
                         })["sortValue"];
@@ -1115,8 +1120,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.myhttp.stopNsService(id,obj)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
-            console.log("stop ns service failed :" + JSON.stringify(data));
-            res("failed");
+            console.log("stop ns service Failed :" + JSON.stringify(data));
+            res("Failed");
             return false;
           }
           res(data.jobId);
@@ -1144,7 +1149,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         this.myhttp.getProgress(obj)
           .subscribe((data)=>{
             if(data.status == "FAILED"){
-              callback({progress:255,status:"failed"});
+              callback({progress:255,status:"Failed"});
               return false;
             }
             if(data.operationStatus == null || data.operationStatus.progress==undefined){
@@ -1214,7 +1219,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         this.myhttp.getNsProgress(jobid,id,operationType)
           .subscribe((data)=>{
             if(data.status == "FAILED"){
-              callback({progress:255,status:"failed"});
+              callback({progress:255,status:"Failed"});
               return false;
             }
             if(data.responseDescriptor == null || data.responseDescriptor.progress==undefined){
@@ -1229,8 +1234,8 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
               },10000)
               return false;
             }
-            if(data.responseDescriptor.progress > 100){
-              callback({progress:255,status:"time over"});
+            if(data.responseDescriptor.progress > 100 && data.responseDescriptor.status == "error"){
+              callback({progress:255,status:data.responseDescriptor.statusDescription});
               return false;
             }
             if(data.responseDescriptor.progress < 100){
