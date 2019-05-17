@@ -124,7 +124,7 @@
   "i18nTextDefine_CustomerID":"用户ID",
 
   "ccvpn-network-component":"--:",
-  "i18nTextDefine_AddLink":"添加链接",
+  "i18nTextDefine_CreateLink":"添加链接",
   "i18nTextDefine_SetAttribtes":"设置属性",
   "i18nTextDefine_LinkName":"链接名称",
   "i18nTextDefine_LeftPort":"左侧端口",
