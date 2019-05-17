@@ -94,7 +94,7 @@ export class CustomerComponent implements OnInit {
                     normal: {
                         position: 'center',
                         show: false,
-                        formatter: '   {b|{b}：{c}%}  ',
+                        formatter: '   {b|{b}：{c}}  ',
                         backgroundColor: 'rgba(51,51,51,0.9)',
                         borderColor: 'rgba(51,51,51,0.9)',
                         borderWidth: 1,
@@ -110,6 +110,11 @@ export class CustomerComponent implements OnInit {
                     emphasis: {
                         show: true,
 
+                    }
+                },
+                labelLine: {
+                    normal: {
+                      show: false
                     }
                 },
                 itemStyle: {
@@ -131,6 +136,7 @@ export class CustomerComponent implements OnInit {
                             }],
                             global: false
                         },
+                        borderWidth: 0,
                         shadowBlur: 10,
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 10, 5, 0)'
@@ -141,8 +147,18 @@ export class CustomerComponent implements OnInit {
     };
 
     // get customers chart pie
+    Pie_name = [];
+    Pie_value = [];
+    serviceChart=true;
+    serviceNumber;
     getCustomersPie() {
         this.managemencs.getCustomersPie().subscribe((data) => {
+            this.serviceNumber = data.serviceTotalNum;
+          if (this.serviceNumber>0) {
+              this.serviceChart = true;
+          } else {
+            this.serviceChart = false;
+          }
             this.CUChartData = {
                 series: [{
                     data:data.customerServiceList

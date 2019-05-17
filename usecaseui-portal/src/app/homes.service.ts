@@ -22,13 +22,17 @@ import { homeData, homeVmLineData, servicesSelectData, servicesTableData, create
 export class HomesService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = baseUrl.baseUrl
+  baseUrl = baseUrl.baseUrl;
+  baseUrlbar = baseUrl.baseUrl + "/uui-lcm/";
   url = {
     home_serviceData: this.baseUrl + "/uui-lcm/serviceNumByCustomer",
     home_performanceData: this.baseUrl + "/performance/queryAllSourceNames",
     home_alarmData: this.baseUrl + "/alarm/statusCount",
     home_alarmChartData: this.baseUrl + "/alarm/diagram",
-    home_servicebarData:this.baseUrl + "",	
+    home_servicebarData:this.baseUrl + "",
+    home_servicebarnsData: this.baseUrlbar + "ns-packages",
+    home_servicebarvnfData: this.baseUrlbar + "vnf-packages",
+    home_servicebarpnfData: this.baseUrlbar + "pnf-packages",	
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters:this.baseUrl+"/listSortMasters",
     currentLanguage:this.baseUrl+"/ONAPPORTAL/auxapi/languageSetting/user/",
@@ -70,6 +74,15 @@ export class HomesService {
   
    getHomeServiceBarData(){
     return this.http.get<any>(this.url.home_servicebarData);
+  }
+  getHomeServiceBarNsData(){
+    return this.http.get<any>(this.url.home_servicebarnsData);
+  }
+  getHomeServiceBarVnfData(){
+    return this.http.get<any>(this.url.home_servicebarvnfData);
+  }
+  getHomeServiceBarPnfData(){
+    return this.http.get<any>(this.url.home_servicebarpnfData);
   }
 
    // alarm data

@@ -16,7 +16,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { HomesService } from '../homes.service';
 import { slideToRight } from '../animates';
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -27,16 +28,17 @@ import {TranslateService} from "@ngx-translate/core";
 export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
 
-  constructor(private myhttp: HomesService) { }
+  constructor(private myhttp: HomesService,private router:Router) { }
 
   ngOnInit() {
     this.getListSortMasters();
     this.getSourceNames();
     this.getHomeServiceData();
-    // this.getHomePerformanceData();
     this.getHomeAlarmData();
     this.getHomeAlarmChartData();
-    this.getHomeServiceBarData();
+    this.getHomeServiceBarNsData();
+    this.getHomeServiceBarVnfData();
+    this.getHomeServiceBarPnfData();
   }
   
 
@@ -45,7 +47,7 @@ export class HomeComponent implements OnInit {
   serviceChartData:Object;
   serviceChartInit:Object = {
   backgroundColor: '#fff',
-    height: 300,
+    height: 200,
     option:{
       legend: {
         orient: 'vertical',
@@ -93,12 +95,18 @@ export class HomeComponent implements OnInit {
     }
   };
   // gethomeServiceData
+  serviceChart = true;
   getHomeServiceData(){
     this.myhttp.getHomeServiceData()
     .subscribe(
       (data)=>{
         // console.log(data);
         this.serviceNumber = data.serviceTotalNum;
+          if (this.serviceNumber > 0) {
+            this.serviceChart = true;
+          } else {
+            this.serviceChart = false;
+          }
         this.serviceChartData = {
           series:[{data:data.customerServiceList}]
         };
@@ -109,16 +117,6 @@ export class HomeComponent implements OnInit {
       }
     )
   }
-
-    // performance
-    // performanceVnfNum = 0;
-    // performanceVmNum = 0;
-    // getHomePerformanceData() {
-    //   this.myhttp.getHomePerformanceData()
-    //     .subscribe((data) => {
-    //       this.performanceVnfNum = data.length;
-    //     })
-    // }
 
     // VM alarm
     VMAlarmChartData: Object;
@@ -287,6 +285,8 @@ export class HomeComponent implements OnInit {
   
    // services 
   servicesBarChartData: Object;
+  servicesBarChartData1: Object;
+  servicesBarChartData2: Object;
   serviceBarChartInit: Object = {
     height: 40,
     width: 160,
@@ -298,11 +298,10 @@ export class HomeComponent implements OnInit {
         
       },
       xAxis: {
-        // data: [],
         type: 'value',
         show: false,
         min: 0,
-        max: 80,
+        max: 100,
         axisTick: {
           show: false
         },
@@ -319,13 +318,24 @@ export class HomeComponent implements OnInit {
         name: 'a',
         silent: true,
         animation: false,
-        data: [80],
+        data: [],
         stack: 'income',
         barWidth: 12,
         itemStyle: {
           normal: {
-            color: '#7AC0EF',
-            barBorderRadius: [10, 10, 10, 10]
+            // color: {
+            //   type: 'bar',
+            //   colorStops: [{
+            //     offset: 0,
+            //     color: '#FDAC63' 
+            //   }, {
+            //     offset: 1,
+            //     color: '#FECE72' 
+            //   }],
+            //   globalCoord: false,
+
+            // },
+            // barBorderRadius: [10, 10, 10, 10]
           }
         },
       }, {
@@ -333,7 +343,7 @@ export class HomeComponent implements OnInit {
         name: '',
         animation: false,
         silent: true,
-        data: [60],
+        data: [100],
         tooltip: {
           show: false
         },
@@ -354,35 +364,106 @@ export class HomeComponent implements OnInit {
       ]
     }
   }
-  userdata;
-  getHomeServiceBarData() {
-    this.myhttp.getHomeServiceBarData()
+
+
+  NSdata: number;
+  Vnfdata: number;
+  PnfData: number;
+  getHomeServiceBarNsData() {
+    this.myhttp.getHomeServiceBarNsData()
       .subscribe((data) => {
-        this.userdata = data.customerServiceList;
-        let Val1;
-        let Val2;
-        let MIN: number = 0;
-        let MAX: number = Val1;
-        Val1 = data.customerServiceList[1].value1;
-        Val2 = data.customerServiceList[1].value2;
-        if (Val1 > Val2) {
-          MIN = 0;
-          MAX = Val1;
-        } else {
-          MIN = Val1 - Val2;
-          MAX = Val2;
-        }
+        this.NSdata = data.length;
         this.servicesBarChartData = {
-          xAxis: {
-            min: MIN,
-            max: MAX,
-          },
           series: [
-            { data: [Val1] },
-            { data: [Val1 - Val2] },
+            {
+              data: [this.NSdata],
+              itemStyle: {
+                normal: {
+                  color: {
+                    type: 'bar',
+                    colorStops: [{
+                      offset: 0,
+                      color: '#FDAC63'
+                    }, {
+                      offset: 1,
+                      color: '#FECE72' 
+                    }],
+                    globalCoord: false, 
+                  },
+                  barBorderRadius: [10, 10, 10, 10]
+                }
+              },
+            },
+            { data: [100] },
+
           ]
         }
-                console.log(this.servicesBarChartData)
+      }, (err) => {
+        console.log(err);
+      })
+  }
+
+  getHomeServiceBarVnfData() {
+    this.myhttp.getHomeServiceBarVnfData()
+      .subscribe((data) => {
+        this.Vnfdata = data.length;
+        this.servicesBarChartData1 = {
+          series: [
+            {
+              data: [this.Vnfdata],
+              itemStyle: {
+                normal: {
+                  color: {
+                    type: 'bar',
+                    colorStops: [{
+                      offset: 0,
+                      color: '#9AD09F' 
+                    }, {
+                      offset: 1,
+                      color: '#BCECB8' 
+                    }],
+                    globalCoord: false, 
+
+                  },
+                  barBorderRadius: [10, 10, 10, 10]
+                }
+              },
+            },
+            { data: [100] },
+          ]
+        }
+      }, (err) => {
+        console.log(err);
+      })
+  }
+
+  getHomeServiceBarPnfData() {
+    this.myhttp.getHomeServiceBarPnfData()
+      .subscribe((data) => {
+        this.PnfData = data.length;
+        this.servicesBarChartData2 = {
+          series: [
+            { data: [this.PnfData],
+              itemStyle: {
+                normal: {
+                  color: {
+                    type: 'bar',
+                    colorStops: [{
+                      offset: 0,
+                      color: '#71ADEF' 
+                    }, {
+                      offset: 1,
+                      color: '#ACCAF4' 
+                    }],
+                    globalCoord: false, 
+
+                  },
+                  barBorderRadius: [10, 10, 10, 10]
+                }
+              },},
+            { data: [100] },
+          ]
+        }
       }, (err) => {
         console.log(err);
       })
@@ -398,7 +479,7 @@ export class HomeComponent implements OnInit {
       this.myhttp.getListSortMasters()
           .subscribe((data)=>{
               this.listSortMasters = JSON.stringify(data);
-              console.log(this.listSortMasters);
+        // console.log(this.listSortMasters);
               sessionStorage.setItem('listSortMasters',this.listSortMasters)
           })
   }
@@ -425,7 +506,7 @@ export class HomeComponent implements OnInit {
       endTime:nowTime,
       format:"day"
     }
-    console.log(obj);
+    // console.log(obj);
     this.myhttp.getHomeAlarmChartData(obj)
       .subscribe((data)=>{
         this.alarmLineChartData = {
@@ -443,5 +524,11 @@ export class HomeComponent implements OnInit {
       })
   }
 
+  goback_services(){
+    this.router.navigateByUrl('/services/services-list');
+  }
+  goback_onboard(){
+    this.router.navigateByUrl('/services/onboard-vnf-vm');
+  }
 
 }

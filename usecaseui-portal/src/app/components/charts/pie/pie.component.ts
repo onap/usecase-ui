@@ -47,7 +47,7 @@ export class PieComponent implements OnInit {
               legendHoverLink: false,
               hoverOffset: 3,
               avoidLabelOverlap: false,
-              minAngle:1,
+              // minAngle:1,
               label: this.initData.option.series[0].label,
               data:[],
               itemStyle: this.initData.option.series[0].itemStyle

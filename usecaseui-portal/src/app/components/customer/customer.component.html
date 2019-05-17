@@ -17,8 +17,9 @@
     <div class="chearts">
         <div class="Cu">
           <p> {{"i18nTextDefine_Instance_Count_of_Customer" | translate}} </p>
-          <app-pie [initData]="CUChartInit" [chartData]="CUChartData"></app-pie>
-          <div class="legend"></div><span> {{"i18nTextDefine_users" | translate}} </span>
+          <app-pie [initData]="CUChartInit" [chartData]="CUChartData" *ngIf="serviceChart"></app-pie>
+          <div *ngIf="!serviceChart"  style="color: #ddd; font-weight: 700;font-size: 19px;height: 200px;text-align: center;line-height: 8;">No Service Instances </div>
+          <!-- <div class="legend"></div><span> {{"i18nTextDefine_users" | translate}} </span> -->
         </div>
         <div class="type">
           <p> {{"i18nTextDefine_Instance_Count_of_ServiceType" | translate}} </p>
