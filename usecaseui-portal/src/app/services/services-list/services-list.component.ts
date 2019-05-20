@@ -850,7 +850,9 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
         console.log(data);
         newData.rate = 100;
         newData.status = "Successful";
-	this.createSuccessNotification(templateCreateSuccessFaild);
+        this.thisCreateService = newData;
+        console.log(this.thisCreateService)
+	    this.createSuccessNotification(templateCreateSuccessFaild);
                     newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -1071,6 +1073,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     this.stopNsService(id,requestBody).then((jobid)=>{
       if(jobid == "Failed"){
         service.status = "Failed";
+          this.deleteSuccessNotification(templateDeleteSuccessFaild);
                 service.tips = this.listSortMasters["operationTypes"].find((its)=>{ return its["sortCode"]==service.statusClass && its["language"]==this.language})["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                     return its["sortCode"] == 2002 && its["language"] == this.language
                 })["sortValue"];
@@ -1106,7 +1109,6 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
           }
                     console.log(service,"deleteservice");
                     console.log(this.thisService,"thisService");
-                    this.deleteSuccessNotification(templateDeleteSuccessFaild);
           let hasUndone = this.tableData.some((item)=>{
             return item.rate < 100;
           })

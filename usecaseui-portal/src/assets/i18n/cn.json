@@ -99,6 +99,7 @@
   "i18nTextDefine_Uploaded_files":"已上传文件",
   "i18nTextDefine_Uploading":"上传中",
   "i18nTextDefine_StartUpload":"开始上传",
+  "i18nTextDefine_Nofileuploading":"没有文件正在上传。",
   "i18nTextDefine_File_upload_completed":"文件上传完毕",
   "i18nTextDefine_File_upload_failed":"文件上传失败",
   "i18nTextDefine_Version":"版本",
