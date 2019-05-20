@@ -124,13 +124,13 @@ export class E2eDetailComponent implements OnInit {
             }
         }else if(this.detailParams.serviceDomain == 'Network Service'){
             this.ns_service = {
-                name:this.detailParams.name,
-                description: this.detailParams.description,
+                name:this.detailParams.name || this.detailParams['service-instance-name'],
+                description: this.detailParams.description || null,
             };
             if(this.detailParams.requestInputs!=undefined && Object.keys(this.detailParams.requestInputs).length>0){
                 this.ns_requestInputs = this.detailParams.requestInputs;
             }
-            this.ns_nestedTemplates = this.detailParams.vnfInfo;
+            this.ns_nestedTemplates = this.detailParams.childServiceInstances;
             this.rootns.children=this.ns_nestedTemplates.map((item,index) => {
                 return {
                     "name": "vnf",
