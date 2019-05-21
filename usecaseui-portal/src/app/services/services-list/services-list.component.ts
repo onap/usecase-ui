@@ -581,8 +581,9 @@ export class ServicesListComponent implements OnInit {
   // show detail
   detailshow = false;
     detailshow2 = false;
+    upDateShow = false;
   detailData:Object;
-  serviceDetail(service){
+  serviceDetail(service,typeNum){
     service["siteSer"]=[];
     service["sdwanSer"]=[];
     service["customer"]=this.customerSelected;
@@ -597,6 +598,11 @@ export class ServicesListComponent implements OnInit {
     })
         if(service["serviceDomain"]=='CCVPN' ||service["serviceDomain"]=='SOTN' ){
             this.detailshow = true;
+            if(typeNum == 1){
+                this.upDateShow = false;
+            }else {
+                this.upDateShow = true;
+            }
         }else if(service["serviceDomain"]=='E2E Service' || service["serviceDomain"]=='Network Service'){
             this.detailshow2 = true;
         }

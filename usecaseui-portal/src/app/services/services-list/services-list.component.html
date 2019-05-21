@@ -164,21 +164,19 @@
                     </td>
                     <td>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                           class="anticon anticon-bars" (click)="serviceDetail(data)"></i>
+                           class="anticon anticon-bars" (click)="serviceDetail(data,1)"></i>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
                            (click)="deleteModel(data)"></i>
                         <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-ellipsis"
                            (click)="iconMoreShow(data,tableData)" style="transform: rotate(90deg);"></i>
 
                         <ul *ngIf="data.iconMore==true " class="icon-more">
-                            <li (click)="scaleService(data)">
-                                <i [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                                   class="anticon anticon-scale"></i>
+                            <li (click)="scaleService(data)" [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}">
+                                <i class="anticon anticon-scale"></i>
                                 <span> {{"i18nTextDefine_Scale" | translate}} </span>
                             </li>
-                            <li (click)="update(data)">
-                                <i [ngClass]="{'cannotclick':data.serviceDomain!='CCVPN' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
-                                   class="anticon anticon-update" ></i>
+                            <li (click)="serviceDetail(data,2)" [ngClass]="{'cannotclick':data.serviceDomain!='CCVPN' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}">
+                                <i class="anticon anticon-update" ></i>
                                 <span> {{"i18nTextDefine_Update" | translate}} </span>
                             </li>
                         </ul>
@@ -630,6 +628,7 @@
     </div>
     <div class="detailComponent" *ngIf="detailshow">
         <app-ccvpn-detail [detailParams]="detailData"
+                          [upDateShow]="upDateShow"
                           (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
     </div>
     <div class="detailComponent" *ngIf="detailshow2">

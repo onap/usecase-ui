@@ -33,6 +33,7 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     @Input() detailParams;
+    @Input() upDateShow;
     @Output() closeDetail = new EventEmitter();
 
     tabBarStyle = {
@@ -77,6 +78,7 @@ export class CcvpnDetailComponent implements OnInit {
     //tabBarStyle
     dataInit() {
         console.log(this.detailParams)
+        console.log(this.upDateShow)
         // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
         this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
         console.log(this.input_parameters);
