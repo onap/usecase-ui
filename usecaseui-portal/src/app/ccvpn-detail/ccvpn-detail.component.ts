@@ -35,6 +35,7 @@ export class CcvpnDetailComponent implements OnInit {
     @Input() detailParams;
     @Input() upDateShow;
     @Output() closeDetail = new EventEmitter();
+    @Output() closeUpdate = new EventEmitter();
 
     tabBarStyle = {
         "height": "58px",
@@ -63,7 +64,7 @@ export class CcvpnDetailComponent implements OnInit {
     sotnInfo = {};//sotnmodel  The first part of sotnInfo
     sotnSdwansitelanData = [];//sotnmodel The second part of the data  sdwansitelan Table
     sotnSdwansitelanParams = {};//sdwansitelan Table  Detailed parameters of each line of data
-
+    tabInputShowSdwansitelan = [];//sdwansitelan table input and span 
     // Site List
     siteTableData = [];
     siteBaseData = {}; //sitemodel one sdwansiteresource_list
@@ -72,6 +73,8 @@ export class CcvpnDetailComponent implements OnInit {
     // Wan Port
     siteWanData = [];  //sitemodel three wan port Table data
     siteWanParams = {}; //wan port Table Detailed parameters of each line of data
+    tabInputShowWanPort = [];//wan port table input and span
+    sitenum = [];
     getKeys(item) {
         return Object.keys(item);
     }
@@ -84,7 +87,9 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.input_parameters);
         this.templateParameters.service = {
             name:  this.input_parameters.service.name,
-            description:  this.input_parameters.service.description
+            description: this.input_parameters.service.description,
+            serviceInvariantUuid: this.input_parameters.service["serviceInvariantUuid"],
+            serviceUuid: this.input_parameters.service["serviceUuid"]
         };
         let inputs = this.input_parameters.service.parameters.requestInputs;
         //筛选 分离 sotnvpn数据
@@ -109,6 +114,7 @@ export class CcvpnDetailComponent implements OnInit {
         //筛选 分离 site数据
         inputs["sdwansiteresource_list"].map((item, index) => {
             this.siteTableData.push(item);
+            this.sitenum.push(false);
         });
 
         let sdwansiteresource_list = inputs["sdwansiteresource_list"][0];
@@ -188,6 +194,11 @@ export class CcvpnDetailComponent implements OnInit {
                 }
             }
         });
+        this.templateParameters.site.sdwandevice_list.map((item, index) => {
+            if (this.getKeys(item).indexOf("lable") == -1) {
+                this.templateParameters.site.sdwandevice_list.splice(index, 1)
+            }
+        });
         this.templateParameters.site.sdwansitewan_list.map((item, index) => {
             let input = {};
             for (var keys in item) {
@@ -199,6 +210,9 @@ export class CcvpnDetailComponent implements OnInit {
             }
         });
         this.siteWanData.push(this.siteWanParams);
+        this.siteWanData.map((item, index) => {
+            this.tabInputShowWanPort[index] = true;
+        });
     }
 
     //sotnVpn detail show
@@ -226,7 +240,7 @@ export class CcvpnDetailComponent implements OnInit {
         this.isEditSite = num;
         console.log(this.siteTableData[num - 1]);
         console.log(this.siteCpeData);
-        console.log(this.templateParameters.site.sdwandevice_list);
+        console.log(this.templateParameters);
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
@@ -239,20 +253,130 @@ export class CcvpnDetailComponent implements OnInit {
     detailsite_cancel(){
         this.siteDetail = false;
     }
-    deleteSite(num){
+    deleteUpdateSite(num) {
         this.siteTableData = this.siteTableData.filter((d, i) => i !== num - 1);
+        this.sitenum.splice(num - 1, 1);
         console.log(this.siteTableData)
-    }
-
-    addSite(){
-
+        console.log(this.sitenum)
     }
 
 
+    // site addModel
+    siteAddModelShow = false;
 
+    addSite() {
+        this.siteAddModelShow = true;
+        this.isEditSite = 0;
+        console.log(this.siteWanParams);
+        console.log(this.templateParameters);
+    }
 
-    localSite = [];
-    outerSite = [];
+    updatesite_cancel() {
+        Object.keys(this.siteBaseData).forEach((item) => { 
+            this.siteBaseData[item] = null;
+        })
+        Object.keys(this.siteCpeData).forEach((item) => { 
+            this.siteCpeData[item] = null;
+        })
+        this.siteWanData.forEach((item, index) => {
+            if (index > 0) {
+                this.siteWanData.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowWanPort[index] = true;
+            }
+
+        });
+        this.siteAddModelShow = false;
+    }
+
+    updatesite_OK() {
+        let inputs = {
+            "sdwandevice_list": [],
+            "sdwansitewan_list": []
+        };
+        inputs = Object.assign(inputs, this.siteBaseData);
+        inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
+        inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
+            return Object.assign({}, item);
+        });
+        console.log(inputs);
+        if (this.isEditSite) {
+            // Edit status does not increase
+            this.siteTableData[this.isEditSite - 1] = inputs;
+            this.siteTableData = [...this.siteTableData]; //Table refresh
+        } else {
+            // this.siteTableData.push(inputs);
+            this.siteTableData = [...this.siteTableData, inputs];
+            this.sitenum = [...this.sitenum, true];
+        }
+
+        Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
+            this.siteBaseData[item] = null;
+        });
+        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
+            this.siteCpeData[item] = null;
+        });
+        this.siteWanData.forEach((item, index) => {
+            if (index > 0) {
+                this.siteWanData.splice(index, 1);
+                this.tabInputShowWanPort.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowWanPort[index] = true;
+            }
+
+        });
+        console.log(this.siteTableData);
+        this.siteAddModelShow = false;
+    }
+
+    //add.edit，detele siteWanPort
+    updateSiteWan() {
+        console.log(this.tabInputShowWanPort)
+        if (this.tabInputShowWanPort.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
+            return false;
+        }
+        let addNum = this.siteWanData.length;
+        let inputsData = Object.assign({}, this.siteWanParams);
+        Object.keys(inputsData).forEach((item) => {//Add a new line of empty data
+            if (item != "description") {
+                inputsData[item] = null;
+            }
+        });
+        this.siteWanData[addNum] = inputsData;
+        this.tabInputShowWanPort[addNum] = true;
+        this.siteWanData = [...this.siteWanData]; //Table refresh
+        console.log(this.siteWanData)
+    }
+
+    editUpdateWanPort(num, item, siteWanData) {
+        console.log(item)
+        if (this.tabInputShowWanPort[num - 1] == false) {
+            this.tabInputShowWanPort[num - 1] = true;
+        } else {
+            this.tabInputShowWanPort[num - 1] = false;
+        }
+        console.log(siteWanData);
+    }
+
+    deleteUpdateWanPort(num, item, siteWanData) {
+        if (this.siteWanData.length <= 1) {
+            console.log("num>=1", "siteWanData");
+            return false;
+        }
+        this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
+        console.log(this.siteWanData)
+    }
+
+    // site节点图形描绘
+    // site分类，根据site查tp pnf --> allotted-resource
+    localSite = [];//本地site
+    outerSite = [];//外部site
 
     getSiteAResource(){
         return new Promise((res,rej)=>{
@@ -440,7 +564,34 @@ export class CcvpnDetailComponent implements OnInit {
         }
     ];
 
-    goback(){
+    submitUpdate() {
+        let globalCustomerId = this.detailParams.customer.id;
+        let globalServiceType = this.detailParams.serviceType.name;
+        let servicebody = {
+            service: {
+                name: this.templateParameters.service["name"],
+                description: this.templateParameters.service["description"],
+                serviceInvariantUuid: this.templateParameters.service["serviceInvariantUuid"],
+                serviceUuid: this.templateParameters.service["serviceUuid"],
+                globalSubscriberId: globalCustomerId,  //customer.id
+                serviceType: globalServiceType,  //serviceType.value
+                parameters: {
+                    locationConstraints: [],
+                },
+                resources: [],
+                requestInputs: {
+                    sdwanvpnresource_list: [],
+                    sdwansiteresource_list: []
+                }
+            }
+        };
+        servicebody.service.requestInputs.sdwanvpnresource_list = servicebody.service.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
+        servicebody.service.requestInputs.sdwansiteresource_list = servicebody.service.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
+        console.log(servicebody);
+        this.closeUpdate.emit(servicebody);
+    }
+
+    goback() {
         this.closeDetail.emit();
     }
 

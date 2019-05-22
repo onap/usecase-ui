@@ -629,6 +629,7 @@
     <div class="detailComponent" *ngIf="detailshow">
         <app-ccvpn-detail [detailParams]="detailData"
                           [upDateShow]="upDateShow"
+                           (closeUpdate)="closeCCVPNUpdate($event,templateUpdateSuccessFaild)"
                           (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
     </div>
     <div class="detailComponent" *ngIf="detailshow2">

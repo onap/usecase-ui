@@ -19,6 +19,8 @@
   <div class="top-title">
     <h3 class="title fl">{{detailParams['service-instance-name']}} Instance Detail</h3>
     <div class="fl" style="width: 20%">
+      <button class="submit" nz-button (click)="submitUpdate()" *ngIf="upDateShow"><span> {{"i18nTextDefine_Update" | translate}} </span>
+      </button>
       <button class="back" nz-button (click)="goback()"></button>
     </div>
   </div>
@@ -164,7 +166,7 @@
     </div>
   </div>
   <div class="detaildata">
-    <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle>
+    <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle [nzSelectedIndex]="upDateShow == false?0:1">
       <nz-tab nzTitle="Service Info">
         <div class="service-title" style="clear: both">
           <span class="lable" style="width: 60px">name:</span>
@@ -206,7 +208,7 @@
         <div class="site">
           <div style="height: 10px">
             <h3 style="float: left;color: #3C4F8C">Site List</h3>
-            <button nz-button (click)="addSite()" class="addListBtn"
+            <button nz-button *ngIf="upDateShow" (click)="addSite()" class="addListBtn"
                     style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
                                                                style="transform: scale(1.2);font-weight: 700"></i>{{"i18nTextDefine_Add" | translate}}
             </button>
@@ -236,7 +238,10 @@
               <td>{{item.sdwansite_emails}}</td>
               <td>
                 <span class="action" (click)="showSiteDetail(i+1)"><i class="anticon anticon-bars"></i></span>
-                <span class="action" (click)="deleteSite(i+1)"><i class="anticon anticon-delete"></i></span>
+                &nbsp;
+                <span class="action" (click)="editUpdateSite(i+1)" *ngIf="sitenum[i]"><i class="anticon anticon-edit"></i></span>
+                &nbsp;
+                <span class="action" (click)="deleteUpdateSite(i+1)" *ngIf="upDateShow"><i class="anticon anticon-delete"></i></span>
               </td>
             </tr>
 
@@ -329,5 +334,67 @@
       <button nz-button nzType="primary" (click)="detailsite_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
     </div>
   </div>
-  <div class="mask" *ngIf="sotnVpnDetailShow || siteDetail" (click)="hiddenModel()"></div>
+  <!-- site update model -->
+  <div class="sitemodel" *ngIf="siteAddModelShow">
+    <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+    <div class="inputs">
+      <ul>
+        <li *ngFor="let item of this.templateParameters.site.sdwansiteresource_list">
+          <span>{{item.lableShow}}:</span>
+          <input nz-input [(ngModel)]="siteBaseData[item.lable]"></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Sdwandevice</h3>
+      <div class="inputs">
+        <ul>
+          <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
+            <span>{{item.lable}}:</span>
+            <input nz-input [(ngModel)]="siteCpeData[item.lable]">
+          </li>
+        </ul>
+      </div>
+      <h3>Sdwansitewan List</h3>
+      <div>
+        <div style="width: 100%;text-align: right">
+          <button nz-button (click)="updateSiteWan()" class="addListBtn"><i class="anticon anticon-plus"
+                                                                         style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
+          </button>
+        </div>
+        <table class="siteWanTab">
+          <thead>
+          <tr>
+            <th width="4%"> NO.</th>
+            <th *ngFor="let key of getKeys(this.siteWanParams)">{{key}}</th>
+            <th width="7%"> Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
+          <tr *ngFor="let item of siteWanData; let i = index;"
+              [ngClass]="{'tr-border':item.tabInputShowWanPort ==false}">
+            <td>{{i+1}}</td>
+            <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="!tabInputShowWanPort[i]">{{item[key]}}</span>
+              <input nz-input [(ngModel)]="item[key]" *ngIf="tabInputShowWanPort[i] ">
+            </td>
+            <td>
+                            <span class="action" (click)="editUpdateWanPort(i+1,item,siteWanData)"><i
+                                    class="anticon anticon-edit" style="margin: 0 5px;"></i></span>
+              <span class="action" (click)="deleteUpdateWanPort(i+1,item,siteWanData)"><i
+                      class="anticon anticon-delete"></i></span>
+            </td>
+          </tr>
+          <!-- </ng-template> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="action">
+      <button nz-button nzType="primary" (click)="updatesite_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+      <button nz-button nzType="primary" (click)="updatesite_OK()">{{"i18nTextDefine_Add" | translate}}</button>
+    </div>
+  </div>
+  <div class="mask" *ngIf="sotnVpnDetailShow || siteDetail || siteAddModelShow" (click)="hiddenModel()"></div>
 </div>

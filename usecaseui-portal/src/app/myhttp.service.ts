@@ -48,6 +48,7 @@ export class MyhttpService {
     nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/" + "*_*" + "?responseId=0&serviceInstanceId=",
     e2eScale: this.baseUrl + "/services/scaleServices/",
     e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId/",
+    updateccvpn:this.baseUrl + "/uui-lcm/services/updateService/",
 
     allottedResource: this.baseUrl + "/uui-sotn/getAllottedResources",
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
@@ -135,6 +136,12 @@ export class MyhttpService {
     return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
   }
 
+  updateccvpn(id,requestBody){
+    console.log(id);
+    console.log(requestBody);
+      //return this.http.get<any>(this.url.updateccvpn + id);  //local
+       return this.http.put<any>(this.url.updateccvpn + id,requestBody);// online
+  }
   // Delete interface
   deleteInstance(obj) {
     let httpOptions = {

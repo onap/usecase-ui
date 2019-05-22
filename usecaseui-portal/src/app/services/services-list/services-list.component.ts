@@ -1003,6 +1003,69 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       })
   }
 
+    updateCcvpnNotification(template: TemplateRef<{}>): void {
+        console.log(template,"updateCcvpnNotification show");
+        this.notification.template(template);
+        // this.notification.template(template,{ nzDuration: 0 });
+    }
+    updateCcvpnSuccessNotification(template: TemplateRef<{}>): void {
+        console.log(template,"updateCcvpnSuccessNotification show");
+        this.notification.template(template);
+        // this.notification.template(template,{ nzDuration: 0 });
+    }
+
+    closeCCVPNUpdate(obj,templateUpdateSuccessFaild){
+        console.log(obj);
+        this.detailshow = false;
+        this.listDisplay = false;
+        this.upDateShow = false;
+        this.detailData["rate"] = 0;
+        this.detailData["status"] = "In Progress";
+        this.detailData['tips'] = "";
+        this.detailData["statusClass"] = "1005";
+        let id = this.detailData["service-instance-id"];
+        this.myhttp.updateccvpn(id, obj)
+            .subscribe((data) => {
+                if (data.status == "FAILED") {
+                    console.log("scale E2e service Failed :" + JSON.stringify(data));
+                    this.detailData["status"] = "Failed";
+                    this.detailData["tips"] = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == this.detailData["statusClass"] && its["language"] == this.language
+                    })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2002 && its["language"] == this.language
+                    })["sortValue"];
+                    this.updateCcvpnSuccessNotification(templateUpdateSuccessFaild);
+                    return false;
+                }
+                let obj = {
+                    serviceId: id,
+                    operationId: data.operationId
+                }
+                let updata = (prodata) => {
+                    this.detailData["rate"] = prodata.progress;
+                    this.detailData["tips"] = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == this.detailData["statusClass"] && its["language"] == this.language
+                    })["sortValue"]  + '\xa0\xa0\xa0' +this.detailData["rate"]+"%";
+                    if (this.detailData["rate"] > 100) {
+                        this.detailData["status"] = prodata.status;
+                        this.detailData["tips"] = this.listSortMasters["operationTypes"].find((its) => {
+                            return its["sortCode"] == this.detailData["statusClass"] && its["language"] == this.language
+                        })["sortValue"]+ '\xa0\xa0\xa0' + this.detailData["status"];
+                    }
+                };
+                this.queryProgress(obj, updata).then(() => {
+                    this.detailData["rate"] = 100;
+                    this.detailData["status"] = "Successful";
+                    this.detailData["tips"] = this.listSortMasters["operationTypes"].find((its) => {
+                        return its["sortCode"] == this.detailData["statusClass"] && its["language"] == this.language
+                    })["sortValue"]+ '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                        return its["sortCode"] == 2001 && its["language"] == this.language
+                    })["sortValue"];
+                    this.updateCcvpnSuccessNotification(templateUpdateSuccessFaild);
+                })
+            })
+    }
+
     deleteService(service,templateDeleteSuccessFaild) {
     let allprogress = {};  //
     let querypros = [];  //
