@@ -175,7 +175,7 @@ export class CustomerComponent implements OnInit {
     serviceInit: Object = {
         customer: '',
         width: 280,
-        height: 210,
+        height: 190,
         option: {
             tooltip: {
                 show: true,
@@ -361,7 +361,10 @@ export class CustomerComponent implements OnInit {
 
     createNewCustomer() {
         let createParams = {
-            customerId: this.addNewCustomer
+            customerId: this.addNewCustomer,
+            'global-customer-id':this.addNewCustomer,
+            'subscriber-name':this.addNewCustomer,
+            'subscriber-type':'INFRA'
         };
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
@@ -417,11 +420,14 @@ export class CustomerComponent implements OnInit {
     createNewServiceType() {
         let createParams = {
             customer: this.selectCustomer,
-            ServiceType:this.addNewServiceType
+            ServiceType: this.addNewServiceType,
+            "service-type":this.addNewServiceType,
+            "temp-ub-sub-account-id":"sotnaccount"
         };
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 this.getCustomersColumn(this.selectCustomer);
+                this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")
@@ -444,12 +450,13 @@ export class CustomerComponent implements OnInit {
         this.deleteServiceTypeModelVisible = false;
         this.getServiceTypeVersion();
     }
-    getServiceTypeVersion(){
-        let params={
-            customerId:this.selectCustomer.id,
-            ServiceType:this.thisdeleteServiceType["type"]
+    getServiceTypeVersion() {
+        let paramss = {
+            customerId: this.selectCustomer,
+            ServiceType: this.thisdeleteServiceType["type"]
         };
-        this.managemencs.getdeleteServiceTypeVersion(params).subscribe((data) => {
+        this.managemencs.getdeleteServiceTypeVersion(paramss).subscribe((data) => {
+            console.log(data)
             if (data["status"] == 'SUCCESS') {
                 let params = {
                     customerId:this.selectCustomer,
@@ -466,9 +473,9 @@ export class CustomerComponent implements OnInit {
     deleteServiceType(params){
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.getCustomersPie();
                 this.getServiceTypes(params.customerId);
                 this.getCustomersColumn(params.customerId);
+                this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")

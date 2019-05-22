@@ -24,7 +24,7 @@
         <div class="type">
           <p> {{"i18nTextDefine_Instance_Count_of_ServiceType" | translate}} </p>
           <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
-          <div class="footname" style="width: 100%;height: 40px;line-height: 40px;text-align: center;color: #3C4F8C;margin-top: 20px">
+          <div class="footname" style="width: 100%;height: 40px;line-height: 40px;text-align: center;color: #3C4F8C;">
             <img src="./assets/images/customerBarUser.png" alt="customerName" style="margin-right: 5px;margin-bottom: 3px;">
             {{this.serviceInit["customer"]}}
           </div>
@@ -62,7 +62,7 @@
     </div>
     <div class="services_type_detail">
       <div class="services_add" *ngIf="servicesadd">
-        <input nz-input placeholder=" {{'i18nTextDefine_Input_ServicesType' | translate}} " class="services_name" nzSize="default">
+        <input nz-input placeholder=" {{'i18nTextDefine_Input_ServicesType' | translate}} " class="services_name" nzSize="default" [(ngModel)]="addNewServiceType">
         <button nz-button nzType="primary" class="services_addbut" (click) = "createNewServiceType()">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
       <div class="services_list">
