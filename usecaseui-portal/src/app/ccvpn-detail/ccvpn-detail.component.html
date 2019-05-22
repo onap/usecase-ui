@@ -179,6 +179,10 @@
         <div class="sotnvpn clearfix">
           <div style="clear: both;height: 10px">
             <h3 style="float: left;color: #3C4F8C">sdwanVPN List</h3>
+            <button nz-button *ngIf="upDateShow" (click)="updateSotnvpn()" class="addListBtn"
+                    style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
+                                                               style="transform: scale(1.2);font-weight: 700"></i> {{"i18nTextDefine_Add" | translate}}
+            </button>
           </div>
           <nz-table #sotnVpnTable [nzData]="sotnVpnTableData"
                     [nzShowPagination]="false"
@@ -334,7 +338,60 @@
       <button nz-button nzType="primary" (click)="detailsite_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
     </div>
   </div>
-  <!-- site update model -->
+  <!-- sotnVpn update model -->
+  <div class="sotnnpnmodel" *ngIf="sotnVpnAddModelShow">
+    <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+    <div class="inputs">
+      <ul>
+        <li *ngFor="let item of this.templateParameters.sotnvpn.sdwanvpnresource_list">
+          <span>{{item.lableShow}}:</span>
+          <input nz-input [(ngModel)]="sotnInfo[item.lable]"></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Sdwansitelan List</h3>
+      <div>
+        <div style="width: 100%;text-align: right">
+          <button nz-button (click)="updateSotnSdwansitelan()" class="addListBtn"><i class="anticon anticon-plus"
+                                                                                  style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
+          </button>
+        </div>
+        <table class="siteWanTab">
+          <thead>
+          <tr>
+            <th width="4%"> NO.</th>
+            <th *ngFor="let key of getKeys(this.sotnSdwansitelanParams)">{{key}}</th>
+            <th width="7%"> Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
+          <tr *ngFor="let item of sotnSdwansitelanData; let i = index;"
+              [ngClass]="{'tr-border':item.tabInputShowSdwansitelan ==false}">
+            <td>{{i+1}}</td>
+            <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="!tabInputShowSdwansitelan[i]">{{item[key]}}</span>
+              <input nz-input [(ngModel)]="item[key]" *ngIf="tabInputShowSdwansitelan[i] ">
+            </td>
+            <td>
+                            <span class="action" (click)="editUpdateSotnSdwansitelan(i+1,item,sotnSdwansitelanData)"><i
+                                    class="anticon anticon-edit" style="margin: 0 5px;"></i></span>
+              <span class="action" (click)="deleteUpdateSotnSdwansitelan(i+1,item,sotnSdwansitelanData)"><i
+                      class="anticon anticon-delete"></i></span>
+            </td>
+          </tr>
+          <!-- </ng-template> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="action">
+      <button nz-button nzType="primary" (click)="updateSotnVpn_cancel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+      <button nz-button nzType="primary" (click)="updateSotnVpn_OK()">{{"i18nTextDefine_Add" | translate}}</button>
+    </div>
+  </div>
+  <!-- site update模态框 -->
   <div class="sitemodel" *ngIf="siteAddModelShow">
     <h3> {{"i18nTextDefine_Base" | translate}} </h3>
     <div class="inputs">
@@ -396,5 +453,5 @@
       <button nz-button nzType="primary" (click)="updatesite_OK()">{{"i18nTextDefine_Add" | translate}}</button>
     </div>
   </div>
-  <div class="mask" *ngIf="sotnVpnDetailShow || siteDetail || siteAddModelShow" (click)="hiddenModel()"></div>
+  <div class="mask" *ngIf="sotnVpnDetailShow || siteDetail || sotnVpnAddModelShow || siteAddModelShow" (click)="hiddenModel()"></div>
 </div>

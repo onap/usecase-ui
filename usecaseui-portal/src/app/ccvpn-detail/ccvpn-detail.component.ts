@@ -75,6 +75,8 @@ export class CcvpnDetailComponent implements OnInit {
     siteWanParams = {}; //wan port Table Detailed parameters of each line of data
     tabInputShowWanPort = [];//wan port table input and span
     sitenum = [];
+    sotnvpnnum = [];
+
     getKeys(item) {
         return Object.keys(item);
     }
@@ -95,6 +97,7 @@ export class CcvpnDetailComponent implements OnInit {
         //筛选 分离 sotnvpn数据
         inputs["sdwanvpnresource_list"].map((item, index) => {
             this.sotnVpnTableData.push(item);
+            this.sotnvpnnum.push(false);
         });
 
         let sdwanvpnresource_list = inputs["sdwanvpnresource_list"][0];
@@ -260,15 +263,150 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.sitenum)
     }
 
+    //sotnVpn addModel
+    sotnVpnAddModelShow = false;
+
+    updateSotnVpn_OK() {
+        let inputs = {
+            "sdwansitelan_list": []
+        };
+        inputs = Object.assign(inputs, this.sotnInfo);
+        inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
+            return Object.assign({}, item);
+        });
+        console.log(inputs);
+        if (this.isEditSotnVpn) {
+            
+            this.sotnVpnTableData[this.isEditSotnVpn - 1] = inputs;
+            this.sotnVpnTableData = [...this.sotnVpnTableData]; 
+        } else {
+            // this.siteTableData.push(inputs);
+            this.sotnVpnTableData = [...this.sotnVpnTableData, inputs];
+            this.sotnvpnnum = [...this.sotnvpnnum, true];
+        }
+        console.log(this.sotnVpnTableData)
+
+        Object.keys(this.sotnInfo).forEach((item) => { 
+            this.sotnInfo[item] = null;
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            if (index > 0) {
+                this.sotnSdwansitelanData.splice(index, 1);
+                this.tabInputShowSdwansitelan.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowSdwansitelan[index] = true;
+            }
+
+        });
+        this.sotnVpnAddModelShow = false;
+    }
+
+    updateSotnVpn_cancel() {
+        Object.keys(this.sotnInfo).forEach((item) => { 
+            this.sotnInfo[item] = null;
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            if (index > 0) {
+                this.sotnSdwansitelanData.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowSdwansitelan[index] = true;
+            }
+
+        });
+        this.sotnVpnAddModelShow = false;
+    }
+
+    editUpdateSotnVpn(num) {
+        this.sotnVpnAddModelShow = true;
+        this.isEditSotnVpn = num;
+        console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
+        Object.keys(this.sotnInfo).forEach((item) => { 
+            this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
+        });
+        console.log()
+        this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
+            return Object.assign({}, {}, item)
+        });
+        this.sotnSdwansitelanData.forEach((item, index) => {
+            this.tabInputShowSdwansitelan[index] = false;
+        });
+    }
+
+    deleteUpdateSotnVpn(num) {
+        this.sotnVpnTableData = this.sotnVpnTableData.filter((d, i) => i !== num - 1);
+        console.log(this.sotnVpnTableData)
+        this.sotnvpnnum.splice(num - 1, 1);
+    }
+    updateSotnSdwansitelan() {
+        if (this.tabInputShowSdwansitelan.indexOf(true) > -1) {
+            return false;
+        }
+        let addNum = this.sotnSdwansitelanData.length;
+        let inputsData = Object.assign({}, this.sotnSdwansitelanParams);
+        Object.keys(inputsData).forEach((item) => {
+            if (item != "description") {
+                inputsData[item] = null;
+            }
+        });
+        this.sotnSdwansitelanData[addNum] = inputsData;
+        this.tabInputShowSdwansitelan[addNum] = true;
+        this.sotnSdwansitelanData = [...this.sotnSdwansitelanData]; 
+        console.log(this.sotnSdwansitelanData)
+    }
+    editUpdateSotnSdwansitelan(num, item, sotnSdwansitelanData) {
+        console.log(item)
+        if (this.tabInputShowSdwansitelan[num - 1] == false) {
+            this.tabInputShowSdwansitelan[num - 1] = true;
+        } else {
+            this.tabInputShowSdwansitelan[num - 1] = false;
+        }
+        console.log(sotnSdwansitelanData);
+    }
+    deleteUpdateSotnSdwansitelan(num, item, sotnSdwansitelanData) {
+        if (this.sotnSdwansitelanData.length <= 1) {
+            console.log("num>=1", "sotnSdwansitelanData");
+            return false;
+        } else {
+
+        }
+        this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
+        console.log(this.sotnSdwansitelanData)
+    }
 
     // site addModel
     siteAddModelShow = false;
 
-    addSite() {
+    updateSotnvpn() {
+        this.sotnVpnAddModelShow = true;
+        this.isEditSotnVpn = 0;
+    }
+
+    updateSite() {
         this.siteAddModelShow = true;
         this.isEditSite = 0;
         console.log(this.siteWanParams);
         console.log(this.templateParameters);
+    }
+
+    editUpdateSite(num) { 
+        this.siteAddModelShow = true;
+        this.isEditSite = num;
+        Object.keys(this.siteBaseData).forEach((item) => { 
+            this.siteBaseData[item] = this.siteTableData[num - 1][item];
+        });
+        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
+        this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
+            return Object.assign({}, item)
+        });
+        this.siteWanData.forEach((item, index) => {
+            this.tabInputShowWanPort[index] = false;
+        });
     }
 
     updatesite_cancel() {

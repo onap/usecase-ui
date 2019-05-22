@@ -147,6 +147,27 @@ hr {
     width: 110px;
 }
 
+.model .sitemodel .inputs ul li span,.model .sotnnpnmodel .inputs ul li span {
+    display: inline-block;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3C4F8C;
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+}
+.model .sitemodel .inputs input,.model .sitemodel .inputs nz-select{
+    width: 186px;
+    float: right;
+    margin-right: 60px;
+}
+.model .sotnnpnmodel .inputs input{
+    width: 186px;
+    float: left;
+    margin-left: 20px;
+}
+
 /* addsite model */
 .model .sitemodel,.model .sotnnpnmodel{
     position: absolute;
