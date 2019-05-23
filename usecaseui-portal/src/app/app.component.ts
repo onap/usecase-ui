@@ -36,9 +36,10 @@ export class AppComponent {
     currentloginId = null;
     currentLanguage = "en";
     currentLanguageGet() {
-        this.currentloginId = sessionStorage.getItem("loginId") || null;
+        this.currentloginId = sessionStorage.getItem("userId") || null;
+		console.log(this.currentloginId,"this.currentloginId","loginId");
         if (this.currentloginId != null) {
-            console.log(this.currentloginId);
+            console.log(this.currentloginId,"this.currentloginId","loginId","you id");
             this.myhttp.getCurrentLanguage(this.currentloginId)
                 .subscribe(
                     (data) => {

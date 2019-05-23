@@ -35,7 +35,7 @@ export class HomesService {
     home_servicebarpnfData: this.baseUrlbar + "pnf-packages",	
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters:this.baseUrl+"/listSortMasters",
-    currentLanguage:this.baseUrl+"/ONAPPORTAL/auxapi/languageSetting/user/",
+    currentLanguage:"/api/portal-auxapi/languageSetting/user/",
 
   }
 

@@ -715,16 +715,16 @@ export class CcvpnDetailComponent implements OnInit {
                 serviceType: globalServiceType,  //serviceType.value
                 parameters: {
                     locationConstraints: [],
-                },
-                resources: [],
-                requestInputs: {
-                    sdwanvpnresource_list: [],
-                    sdwansiteresource_list: []
+                    resources: [],
+                    requestInputs: {
+                        sdwanvpnresource_list: [],
+                        sdwansiteresource_list: []
+                    }
                 }
             }
         };
-        servicebody.service.requestInputs.sdwanvpnresource_list = servicebody.service.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
-        servicebody.service.requestInputs.sdwansiteresource_list = servicebody.service.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
+        servicebody.service.parameters.requestInputs.sdwanvpnresource_list = servicebody.service.parameters.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
+        servicebody.service.parameters.requestInputs.sdwansiteresource_list = servicebody.service.parameters.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
         console.log(servicebody);
         this.closeUpdate.emit(servicebody);
     }

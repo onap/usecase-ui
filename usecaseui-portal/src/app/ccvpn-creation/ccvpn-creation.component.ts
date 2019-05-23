@@ -58,6 +58,8 @@ export class CcvpnCreationComponent implements OnInit {
     }
   };
 
+    bodyTemplateParameter = {};
+
     // SOTN VPN List
     sotnVpnTableData = [];
     sotnInfo = {};//sotnmodel  The first part of sotnInfo
@@ -91,38 +93,46 @@ export class CcvpnCreationComponent implements OnInit {
             serviceInvariantUuid: data.metadata.invariantUUID,
             serviceUuid: data.metadata.UUID
         };
+
         //Screening separation sotnvpn data
-        Object.keys(inputss).map((item) => {
-            if (item.search("vpn")!=-1) {
-                inputs["vpnresourcelist"] = inputss[item];
+        Object.keys(inputss).map((items) => {
+            if (items.search("vpn") != -1) {
+                this.bodyTemplateParameter[items] = [];
+                inputss[items].map((item, index) => {
+                    if (item["required"] != undefined) {
+                        this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
+                    }
+                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
+                        this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item[Object.keys(item)[0]]
+                        let sitelanKey = {};
+                        sitelanKey[Object.keys(item)[0]] = [];
+                        this.bodyTemplateParameter[items].push(sitelanKey);
+                    }
+                });
             }
-            if (item.search("site")!=-1) {
-                inputs["sitereourcelist"] = inputss[item];
+            if (items.search("site") != -1) {
+                this.bodyTemplateParameter[items] = [];
+                inputss[items].map((item, index) => {
+                    if (item["required"] != undefined) {
+                        this.templateParameters["site"]["sdwansiteresource_list"].push(item);
+                    }
+                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("device") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwandevice_list"] = item[Object.keys(item)[0]];
+                        let sitelanKey = {};
+                        sitelanKey[Object.keys(item)[0]] = [];
+                        this.bodyTemplateParameter[items].push(sitelanKey);
+                    }
+                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
+                        this.templateParameters["site"]["sdwansitewan_list"] = item[Object.keys(item)[0]];
+                        let sitelanKey = {};
+                        sitelanKey[Object.keys(item)[0]] = [];
+                        this.bodyTemplateParameter[items].push(sitelanKey);
+                    }
+                });
             }
         });
         console.log(inputss);
-        console.log(inputs);
-        inputs["vpnresourcelist"].map((item, index) => {
-            if (item["required"] != undefined) {
-                this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
-            }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
-                this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item[Object.keys(item)[0]]
-            }
-        });
-
-        //Screening separation site data
-        inputs["sitereourcelist"].map((item, index) => {
-            if (item["required"] != undefined) {
-                this.templateParameters["site"]["sdwansiteresource_list"].push(item);
-            }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("device")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
-                this.templateParameters["site"]["sdwandevice_list"] = item[Object.keys(item)[0]];
-            }
-            if(item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan")!=-1 && item[Object.keys(item)[0]] instanceof Array === true){
-                this.templateParameters["site"]["sdwansitewan_list"] = item[Object.keys(item)[0]];
-            }
-        });
+        console.log(this.bodyTemplateParameter);
 
                 this.showTemParametersSotnVpn();
                 this.showTemParametersSite();
@@ -588,29 +598,87 @@ export class CcvpnCreationComponent implements OnInit {
 
     }
 
+    modifyJosnKey(json,oddkey,newkey){
+
+        let val=json[oddkey];
+        delete json[oddkey];
+        json[newkey]=val;
+    }
+
 // submit createData
     submit() {
         let globalCustomerId = this.createParams.commonParams.customer.id;
         let globalServiceType = this.createParams.commonParams.serviceType.name;
         let servicebody={
-            name: this.templateParameters.service["name"],
-            description: this.templateParameters.service["description"],
-            serviceInvariantUuid: this.templateParameters.service["serviceInvariantUuid"],
-            serviceUuid:this.templateParameters.service["serviceUuid"],
-            globalSubscriberId: globalCustomerId,  //customer.id
-            serviceType: globalServiceType,  //serviceType.value
-            parameters: {
-                locationConstraints: [
-                ],
-            },
-            resources:[],
-            requestInputs: {
-                sdwanvpnresource_list:[],
-                sdwansiteresource_list:[]
+            service: {
+                name: this.templateParameters.service["name"],
+                description: this.templateParameters.service["description"],
+                serviceInvariantUuid: this.templateParameters.service["serviceInvariantUuid"],
+                serviceUuid: this.templateParameters.service["serviceUuid"],
+                globalSubscriberId: globalCustomerId,  //customer.id
+                serviceType: globalServiceType,  //serviceType.value
+                parameters: {
+                    locationConstraints: [],
+                    resources: [],
+                    requestInputs: {}
+                },
             }
         };
-        servicebody.requestInputs.sdwanvpnresource_list=servicebody.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
-        servicebody.requestInputs.sdwansiteresource_list=servicebody.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
+        console.log(this.bodyTemplateParameter)
+        console.log(this.sotnVpnTableData,"before fixing")
+        console.log(this.siteTableData,'"before fixing"')
+        let siteresource = null, sitewan = null,device = null,vpnresource = null,sitelan = null;
+        Object.keys(this.bodyTemplateParameter).map((item,index) => {
+            if(item.search("site") != -1){
+                siteresource = item;
+                this.bodyTemplateParameter[item].map((items,index) => {
+                   if(Object.keys(items)[0].search("site") != -1){
+                       sitewan = Object.keys(items)[0]
+                   }
+                    if(Object.keys(items)[0].search("device") != -1){
+                        device = Object.keys(items)[0]
+                    }
+                });
+            }
+            if(item.search("vpn") != -1){
+                vpnresource = item;
+                this.bodyTemplateParameter[item].map((items,index) => {
+                    if(Object.keys(items)[0].search("site") != -1){
+                        sitelan = Object.keys(items)[0]
+                    }
+                });
+            }
+        });
+        this.sotnVpnTableData.forEach((item, index) => {
+            Object.keys(item).map((items,index) => {
+                if(items.search("site") != -1 && item[items] instanceof Array === true){
+                    this.modifyJosnKey(item,items,sitelan)
+                }
+            });
+        });
+        this.siteTableData.forEach((item, index) => {
+            Object.keys(item).map((items,index) => {
+                if(items.search("site") != -1 && item[items] instanceof Array === true){
+                    this.modifyJosnKey(item,items,sitewan)
+                }
+                if(items.search("device") != -1){
+                    this.modifyJosnKey(item,items,device)
+                }
+            });
+        });
+        console.log(siteresource,sitewan,device,vpnresource,sitelan);
+        console.log(this.sotnVpnTableData,"After modification")
+        console.log(this.siteTableData,"After modification")
+        Object.keys(this.bodyTemplateParameter).map((item,index) => {
+            if(item.search("site") != -1){
+                servicebody.service.parameters.requestInputs[item] = [].concat(this.siteTableData);
+            }
+            if(item.search("vpn") != -1){
+                servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
+            }
+        });
+        // servicebody.service.parameters.requestInputs.sdwanvpnresource_list = servicebody.service.parameters.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
+        // servicebody.service.parameters.requestInputs.sdwansiteresource_list = servicebody.service.parameters.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
         console.log(servicebody);
 
         this.closeCreate.emit(servicebody);
