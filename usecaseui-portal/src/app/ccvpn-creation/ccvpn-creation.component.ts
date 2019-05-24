@@ -102,7 +102,7 @@ export class CcvpnCreationComponent implements OnInit {
                     if (item["required"] != undefined) {
                         this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(item);
                     }
-                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitelan") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
+                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("site") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
                         this.templateParameters["sotnvpn"]["sdwansitelan_list"] = item[Object.keys(item)[0]]
                         let sitelanKey = {};
                         sitelanKey[Object.keys(item)[0]] = [];
@@ -122,7 +122,7 @@ export class CcvpnCreationComponent implements OnInit {
                         sitelanKey[Object.keys(item)[0]] = [];
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
-                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("sitewan") != -1 && item[Object.keys(item)[0]] instanceof Array === true) {
+                    if (item["required"] == undefined && Object.keys(item).length == 1 && Object.keys(item)[0].search("site") != -1 && Object.keys(item)[0].search("device") == -1 && item[Object.keys(item)[0]] instanceof Array === true) {
                         this.templateParameters["site"]["sdwansitewan_list"] = item[Object.keys(item)[0]];
                         let sitelanKey = {};
                         sitelanKey[Object.keys(item)[0]] = [];
@@ -632,7 +632,7 @@ export class CcvpnCreationComponent implements OnInit {
             if(item.search("site") != -1){
                 siteresource = item;
                 this.bodyTemplateParameter[item].map((items,index) => {
-                   if(Object.keys(items)[0].search("site") != -1){
+                   if(Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1){
                        sitewan = Object.keys(items)[0]
                    }
                     if(Object.keys(items)[0].search("device") != -1){
@@ -658,7 +658,7 @@ export class CcvpnCreationComponent implements OnInit {
         });
         this.siteTableData.forEach((item, index) => {
             Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && item[items] instanceof Array === true){
+                if(items.search("site") != -1 && Object.keys(item)[0].search("device") == -1  && item[items] instanceof Array === true){
                     this.modifyJosnKey(item,items,sitewan)
                 }
                 if(items.search("device") != -1){

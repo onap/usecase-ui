@@ -107,7 +107,7 @@ export class CcvpnDetailComponent implements OnInit {
                 let sdwanvpnresource_list = inputs[items][0];
                 Object.keys(sdwanvpnresource_list).forEach((its) => {
                     let input = {};
-                    if(its.search("sitelan") != -1 && sdwanvpnresource_list[its] instanceof Array === true){
+                    if(its.search("site") != -1 && sdwanvpnresource_list[its] instanceof Array === true){
                         Object.keys(sdwanvpnresource_list[its][0]).forEach((i) => {
                             let input1 = {};
                             input1[i] = sdwanvpnresource_list[its][i];
@@ -143,7 +143,7 @@ export class CcvpnDetailComponent implements OnInit {
                         sitelanKey[its] = [];
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
-                    if(its.search("site") != -1 && sdwansiteresource_list[its] instanceof Array === true){
+                    if(its.search("site") != -1 && its.search("device") == -1 && sdwansiteresource_list[its] instanceof Array === true){
                         this.templateParameters["site"]["sdwansitewan_list"][0] = sdwansiteresource_list[its][0];
                         let sitelanKey = {};
                         sitelanKey[its] = [];
@@ -763,7 +763,7 @@ export class CcvpnDetailComponent implements OnInit {
             if(item.search("site") != -1){
                 siteresource = item;
                 this.bodyTemplateParameter[item].map((items,index) => {
-                    if(Object.keys(items)[0].search("site") != -1){
+                    if(Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1){
                         sitewan = Object.keys(items)[0]
                     }
                     if(Object.keys(items)[0].search("device") != -1){
@@ -789,7 +789,7 @@ export class CcvpnDetailComponent implements OnInit {
         });
         this.siteTableData.forEach((item, index) => {
             Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && item[items] instanceof Array === true){
+                if(items.search("site") != -1 && items.search("device") == -1 && item[items] instanceof Array === true){
                     this.modifyJosnKey(item,items,sitewan)
                 }
                 if(items.search("device") != -1){
