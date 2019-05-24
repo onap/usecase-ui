@@ -202,6 +202,10 @@
               <td>{{item.sdwanvpn_topology}}</td>
               <td>
                 <span class="action" (click)="showstonVpnDetail(i+1)"><i class="anticon anticon-bars"></i></span>
+                <span class="action" (click)="editUpdateSotnVpn(i+1)" *ngIf="sotnvpnnum[i]"><i class="anticon anticon-edit"></i></span>
+                &nbsp;
+                <span class="action" (click)="deleteUpdateSotnVpn(i+1)" *ngIf="upDateShow"><i
+                        class="anticon anticon-delete"></i></span>
               </td>
             </tr>
             </tbody>
@@ -212,7 +216,7 @@
         <div class="site">
           <div style="height: 10px">
             <h3 style="float: left;color: #3C4F8C">Site List</h3>
-            <button nz-button *ngIf="upDateShow" (click)="addSite()" class="addListBtn"
+            <button nz-button *ngIf="upDateShow" (click)="updateSite()" class="addListBtn"
                     style="float: right;margin-right: 10px"><i class="anticon anticon-plus"
                                                                style="transform: scale(1.2);font-weight: 700"></i>{{"i18nTextDefine_Add" | translate}}
             </button>
