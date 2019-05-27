@@ -179,40 +179,48 @@ hr {
     font-family:ArialMT;
     color:#3C4F8C;
 }
-.top-list .top-list-text{
-    position: absolute;
-    text-align: right;
-    height: 40px;
-    line-height: 20px;
-    right: 50px;
-    color: #fff;
-    p{
-        font-size: 14px;
-        width: 250px;
-        margin: 15px 0 0 0;
-        height: 13px;
-        clear: both;
-        span{
-            display: inline-block;
-            font-weight: 500;
-            text-align: right;
-            float: right;
+.top-list {
+    .top-list-text {
+        position: absolute;
+        text-align: right;
+        height: 40px;
+        line-height: 20px;
+        right: 50px;
+        color: #fff;
+        p {
+            font-size: 14px;
+            width: 250px;
+            margin: 15px 0 0 0;
+            height: 13px;
+            clear: both;
+            span {
+                display: inline-block;
+                font-weight: 500;
+                text-align: right;
+                float: right;
+            }
+            span:nth-child(1) {
+                font-size: 18px;
+                width: 40px;
+                min-width: 40px;
+            }
+            span:nth-child(2) {
+                width: 85px;
+                font-size: 16px;
+            }
         }
-        span:nth-child(1){
-            font-size: 18px;
-            width: 40px;
-            min-width: 40px;
+        p:nth-child(1) {
+            margin-top: 25px;
         }
-        span:nth-child(2){
-            width: 85px;
-            font-size: 16px;
-        }
-    }
-    p:nth-child(1){
-        margin-top: 25px;
     }
     .service-description{
-        color: rgba(255,255,255,0.7);
+        font-size: 14px;
+        width: 250px;
+        height: 13px;
+        position: absolute;
+        bottom: 30px;
+        left: 50px;
+        color: #3C4F8C;
     }
 }
 .list {
