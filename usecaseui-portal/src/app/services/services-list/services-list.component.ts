@@ -698,7 +698,7 @@ deleteOk(templatedeletestarting,templateDeleteSuccessFaild) {
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
                 }
             };
-            let queryParams = {serviceId: data["serviceId"], operationId: data["operationId"]};
+            let queryParams = {serviceId: data["serviceId"], operationId: data["operationId"],operationType:"1001"};
             return this.queryProgress(queryParams, updata);
         }).then((data) => {
             console.log(data);
