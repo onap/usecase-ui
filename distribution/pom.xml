@@ -66,19 +66,40 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>copy-tomcat-resources-linux64</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${linux64outputdir}/tomcat</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*.bat</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-resources-portal-linux</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${linux64outputdir}/tomcat/webapps/</outputDirectory>
+                            <outputDirectory>${linux64outputdir}/tomcat/webapps/usecase-ui</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../usecaseui-portal/</directory>
+                                    <directory>${basedir}/../usecaseui-portal/usecase-ui</directory>
                                     <filtering>false</filtering>
                                     <includes>
-                                        <include>usecase-ui.war</include>
+                                        <include>**/*</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -102,31 +123,11 @@
                                     </includes>
                                     <excludes>
                                         <exclude>**/*.bat</exclude>
+                                        <exclude>Dockerfile</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
                             <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-tomcat-resources-linux64</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${linux64outputdir}/tomcat</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>**/*.bat</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
                         </configuration>
                     </execution>
                     <execution>
@@ -154,6 +155,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
                 <executions>
                     <execution>
                         <id>distribution</id>
@@ -162,7 +164,7 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target name="distribution">
+                            <tasks name="${project.artifactId}">
                                 <tar destfile="${dockeroutput}/usecase-ui-${project.version}-linux64.tar.gz" longfile="posix" compression="gzip">
                                     <tarfileset dir="${linux64outputdir}" filemode="0644" dirmode="0755">
                                         <exclude name="**/*.sh"/>
@@ -172,7 +174,7 @@
                                     </tarfileset>
                                 </tar>
                                 <attachartifact file="${dockeroutput}/usecase-ui-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
-                            </target>
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
