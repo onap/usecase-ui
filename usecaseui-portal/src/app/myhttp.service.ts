@@ -152,7 +152,7 @@ export class MyhttpService {
       }),
       body: {
         'globalSubscriberId': obj.globalSubscriberId,
-        'serviceType': obj.serviceType
+        'serviceType': obj.serviceType.name
       }
     };
     // return this.http.get<any>(this.url.deleteService);  //Local simulation
