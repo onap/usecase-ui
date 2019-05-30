@@ -62,8 +62,7 @@
                         <thead>
                         <tr>
                             <th width="30%"> NO.</th>
-                            <th width="30%"> Name</th>
-                            <th width="30%"> topology</th>
+                            <th *ngFor="let key of getKeys(this.sotnInfo)">{{key.split("_")[1] || key}}</th>
                             <th width="10%"> Action</th>
                         </tr>
                         </thead>
@@ -71,8 +70,9 @@
                         <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
                         <tr *ngFor="let item of sotnVpnTable.data; let i = index; ">
                             <td>{{i+1}}</td>
-                            <td>{{item.sdwanvpn_name}}</td>
-                            <td>{{item.sdwanvpn_topology}}</td>
+                            <td *ngFor="let keys of getKeys(this.sotnInfo);let a = index;">
+                                {{item[keys]}}
+                            </td>
                             <td>
                                 <span class="action" (click)="editSotnVpn(i+1)"><i class="anticon anticon-edit"></i></span>
                                 &nbsp;
@@ -100,24 +100,18 @@
                         <thead>
                         <tr>
                             <th nzWidth="10%"> NO.</th>
-                            <th nzWidth="15%"> Name</th>
-                            <th nzWidth="15%"> Description</th>
-                            <th nzWidth="15%"> Post Code</th>
-                            <th nzWidth="15%"> Address</th>
-                            <th nzWidth="15%"> emails</th>
-                            <th nzWidth="15%"> Action</th>
+                            <th *ngFor="let key of getKeys(this.siteBaseData)">{{key.split("_")[1] || key}}</th>
+                            <th nzWidth="20%" style="text-align: center"> Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
                         <tr *ngFor="let item of siteTable.data; let i = index; ">
                             <td>{{i+1}}</td>
-                            <td>{{item.sdwandevice_list[0].name}}</td>
-                            <td>{{item.sdwansite_description}}</td>
-                            <td>{{item.sdwansite_postcode}}</td>
-                            <td>{{item.sdwansite_address}}</td>
-                            <td>{{item.sdwansite_emails}}</td>
-                            <td>
+                            <td *ngFor="let keys of getKeys(this.siteBaseData);let a = index;">
+                                {{item[keys]}}
+                            </td>
+                            <td style="text-align: center">
                                 <span class="action" (click)="editSite(i+1)"><i class="anticon anticon-edit"></i></span>
                                 &nbsp;
                                 <span class="action" (click)="deleteSite(i+1)"><i

@@ -319,6 +319,7 @@ export class CcvpnCreationComponent implements OnInit {
           "sdwansitelan_list":[]
         };
         inputs = Object.assign(inputs, this.sotnInfo);
+        console.log(this.sotnInfo,"this.sotnInfo");
         inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
             return Object.assign({}, item);
         });
@@ -396,6 +397,7 @@ export class CcvpnCreationComponent implements OnInit {
             "sdwansitewan_list": []
         };
         inputs = Object.assign(inputs, this.siteBaseData);
+        console.log(this.siteBaseData,"this.siteBaseData");
         inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
