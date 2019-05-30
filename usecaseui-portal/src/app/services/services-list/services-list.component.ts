@@ -293,18 +293,8 @@ export class ServicesListComponent implements OnInit {
           if(typeof item == "string"){
             item = JSON.parse(item);
           }
-          if(typeof item["childServiceInstances"] == "string"){
-            item["childServiceInstances"] = JSON.parse(item["childServiceInstances"]);
-          }
 
-          item["childServiceInstances"] = item["childServiceInstances"].map((child)=>{
-            if(typeof child == "string"){
-              return JSON.parse(child);
-            }else{
-              return child;
-            }
-          })
-                    item["iconMore"]=this.iconMore;
+            item["iconMore"]=this.iconMore;
           if(item["serviceDomain"]=="Network Service"){
             if(item["vnfInfo"]){
               item["childServiceInstances"] = item["vnfInfo"].map((vnf)=>{
@@ -322,6 +312,8 @@ export class ServicesListComponent implements OnInit {
                 return vnfInfo;
               })
             }
+          }else {
+              item["childServiceInstances"] = [];
           }
 
           //
