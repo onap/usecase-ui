@@ -30,7 +30,7 @@
     <div id="detailChart">
       <svg width="100%" height="100%" style="position: relative">
         <!--local domain-->
-        <g class="clouds">
+        <g class="clouds" *ngIf="vpns[0].domain!=''">
           <image xlink:href="./assets/images/domain1.png"
                  id="domain1"
                  width="14%"
@@ -51,7 +51,7 @@
           </text>
         </g>
         <!--domain1 tp-->
-        <g class="clouds">
+        <g class="clouds" *ngIf="vpns[0].sitetpname!=''">
           <image xlink:href="./assets/images/tp.png"
                  class="tp"
                  id="tp1"
@@ -62,7 +62,7 @@
             {{vpns[0].sitetpname}}
           </text>
         </g>
-        <g class="clouds">
+        <g class="clouds" *ngIf="vpns[0].othertpname!=''">
           <image xlink:href="./assets/images/tp.png"
                  class="tp"
                  id="tp2"
@@ -108,7 +108,7 @@
           </text>
         </g>
         <!--local site-->
-        <g class="clouds">
+        <g class="clouds" *ngIf="localSite.length>0">
           <image xlink:href="./assets/images/site.png"
                  id="site1"
                  height="59" width="100"
@@ -118,7 +118,7 @@
             {{localSite[0] && localSite[0]["service-instance-name"]}}
           </text>
         </g>
-        <g *ngIf="!detailSites" class="clouds">
+        <g *ngIf="!detailSites && localSite.length>0" class="clouds">
           <image xlink:href="./assets/images/site.png"
                  id="site2"
                  height="59" width="100"
@@ -139,24 +139,24 @@
           </text>
         </g>
         <!--cloud site-->
-        <g *ngIf="!detailSites" class="clouds">
+        <g *ngIf="!detailSites && outerSite.length>0" class="clouds">
           <image xlink:href="./assets/images/site.png"
                  id="site3"
                  height="59" width="100"
                  x="89%" y="10%"
           ></image>
           <text dx="90%" dy="7%" style="font-size: 14px; fill: #666;width: 20px;">
-            {{outerSite[1]["service-instance-name"]}}
+            {{outerSite[1] && outerSite[1]["service-instance-name"]}}
           </text>
         </g>
-        <g class="clouds">
+        <g class="clouds" *ngIf="outerSite.length>0">
           <image xlink:href="./assets/images/site.png"
                  id="site4"
                  height="59" width="100"
                  x="89%" y="40%"
           ></image>
           <text dx="90%" dy="37%" style="font-size: 14px; fill: #666;width: 20px;">
-            {{outerSite[0]["service-instance-name"]}}
+            {{outerSite[0] && outerSite[0]["service-instance-name"]}}
           </text>
         </g>
         <!--tp,site,domain---line -->

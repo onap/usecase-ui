@@ -91,6 +91,7 @@ export class ServicesListComponent implements OnInit {
     }
   getallCustomers(){
     console.log(this.listSortMasters);
+    console.log(this.language,"this.language");
     this.myhttp.getAllCustomers()
       .subscribe((data)=>{
         this.customerList = data.map((item)=>{return {name:item["subscriber-name"],id:item["global-customer-id"]}});
@@ -613,6 +614,7 @@ export class ServicesListComponent implements OnInit {
   }
 deleteOk(templatedeletestarting,templateDeleteSuccessFaild) {
         this.deleteModelVisible = false;
+        this.loadingAnimateShow = true;
         if (this.thisService["serviceDomain"] == "Network Service") {
             this.deleteNsService(this.thisService,templateDeleteSuccessFaild);
         } else {
@@ -657,6 +659,7 @@ deleteOk(templatedeletestarting,templateDeleteSuccessFaild) {
     }
     this.createshow = false;
         this.listDisplay = false;
+      this.loadingAnimateShow = true;
     console.log(obj);
     let newData; //Newly created service data for the main table
 
@@ -664,7 +667,8 @@ deleteOk(templatedeletestarting,templateDeleteSuccessFaild) {
             "&serviceType=" + this.serviceTypeSelected2.name +
             "&serviceDomain=" + this.templateTypeSelected;
         this.createService(obj, createParams,templateCreatestarting,templateCreateSuccessFaild).then((data) => {
-            console.log(data)
+            console.log(data);
+            this.loadingAnimateShow = false;
             newData = {  //Newly created service data in the main form
                 'service-instance-id': data["serviceId"],
                 'service-instance-name': obj.service.name,
@@ -721,6 +725,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     }
     this.createshow2 = false; //
     this.listDisplay = false; //
+    this.loadingAnimateShow = true;
     console.log(obj);
     let newData; //
     let   createParams = "?customerId="+this.customerSelected.id +
@@ -731,6 +736,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
                         "&invariantUuuid="+obj.service.serviceInvariantUuid;
         this.createService(obj, createParams,templateCreatestarting,templateCreateSuccessFaild).then((data) => {
       console.log(data);
+        this.loadingAnimateShow = false;
       newData = {  //
         'service-instance-id':data["serviceId"],
         'service-instance-name':obj.service.name,
@@ -786,12 +792,14 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     }
     this.createshow2 = false; //
     this.listDisplay = false; //
+    this.loadingAnimateShow = true;
     console.log(obj);
     let newData; //
     // step1
     this.myhttp.nsCreateInstance(obj.step1)
     .subscribe((data)=>{
       // console.log(data);
+        this.loadingAnimateShow = false;
       newData = {  //
         'service-instance-id':data.nsInstanceId,
         'service-instance-name':obj.step1.nsName,
@@ -873,6 +881,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.myhttp.createInstance(requestBody,createParams)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
+            this.loadingAnimateShow = false;
             res("Failed");
             console.log("create e2e service Failed :" + JSON.stringify(data));
             return false;
@@ -887,6 +896,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       this.myhttp.nsCreateInstance2(id,obj)
         .subscribe((data)=>{
           if(data.status == "FAILED"){
+              this.loadingAnimateShow = false;
             console.log("instantiate ns service Failed :" + JSON.stringify(data));
             res("Failed");
             return false;
@@ -1075,6 +1085,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
       return new Promise((res,rej)=>{
         this.myhttp.deleteInstance(params)
         .subscribe((data)=>{
+            this.loadingAnimateShow = false;
           if(data.status == "FAILED"){
             console.log("delete service Failed :" + JSON.stringify(data));
             service.status = "Failed";
@@ -1186,6 +1197,7 @@ e2eCloseCreate(obj,templateCreatestarting,templateCreateSuccessFaild) {
     let mypromise = new Promise((res,rej)=>{
       this.myhttp.stopNsService(id,obj)
         .subscribe((data)=>{
+            this.loadingAnimateShow = false;
           if(data.status == "FAILED"){
             console.log("stop ns service Failed :" + JSON.stringify(data));
             res("Failed");
