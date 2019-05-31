@@ -87,7 +87,11 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.detailParams)
         console.log(this.upDateShow)
         // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
-        this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
+        if(this.detailParams['input-parameters']){
+            this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
+        }else {
+            return false;
+        }
         console.log(this.input_parameters);
         this.templateParameters.service = {
             name:  this.input_parameters.service.name,
@@ -557,6 +561,8 @@ export class CcvpnDetailComponent implements OnInit {
             console.log(this.localSite);
             console.log(this.outerSite);
 
+           if(this.localSite.length>0){
+               this.detailLines = [].concat(this.detailLiness);
             this.localSite.forEach((site)=>{
                 let obj = {
                     customerId: this.detailParams.customer.id,
@@ -571,6 +577,10 @@ export class CcvpnDetailComponent implements OnInit {
                         res("sites-domain");
                     })
             })
+           }else {
+               console.log("localSite []");
+               return false;
+           }
         })
     }
 
@@ -707,7 +717,8 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     detailSites = false;
-    detailLines = [ //Details of the topology map connection coordinates
+    detailLines = [];
+    detailLiness = [ //Details of the topology map connection coordinates
         {
             "x1": "9%", "y1": "40%", "x2": "21%", "y2": "40%"//site1--tp1
         },
