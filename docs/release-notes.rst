@@ -5,25 +5,26 @@
 Usecase UI Release Notes
 ========================
 
-Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. It provides self-service management GUI and monitor GUI for operators and end-users.  This project targets identifying all GUI requirements which operators and end-users need ONAP to support, coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
+Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. 
+It provides self-service management GUI and monitor GUI for operators and end-users. 
+This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
+coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
 
-Version: 1.2.0
+Version: 2.0.1
 --------------
 
-:Release Date: 2018-11-30
-
+:Release Date: 2019-06-06
 
 **New Features**
+- Management GUI for Customer and Service Type: customers query/create/delete and service type query/create/delete
+- Lifecycle Management GUI for CCVPN Use Case : CCVPN instances query/create/delte
+- Upgrade Multicloud API : support consistent identification of cloud region functional requirement
+- Maturity Enhancement : change Mysql DB to PostgreSQL
 
-- GUI of Lifecycle Management for vCPE use case
-- GUI of Lifecycle Management for CCVPN use case
-- GUI of Network Management for OTN Domain
-- S3P improvement
- 
-Released components:
-- usecase-ui
-- usecase-ui-server
+**Released Components**
+- usecase-ui  2.0.1
+- usecase-ui-server  2.0.1
 
 **Bug Fixes**
 	NA
@@ -32,14 +33,55 @@ Released components:
 	NA
 
 **Security Notes**
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of 
+the `project <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`_.
 
-UseCase UI code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The UseCase UI open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45300868>`_.
+**Quick Links**
+- `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+- `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+- `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`_
 
-Quick Links:
+**Upgrade Notes**
+	NA
 
-- `UseCase UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
-- `Passing Badge information for UseCase UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
-- `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=45300868>`_
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
+Version: 1.2.0
+--------------
+
+:Release Date: 2018-11-30
+
+**New Features**
+- Lifecycle Management GUI for vCPE use case
+- Network Management GUI for OTN Domain
+
+**Released Components**
+- usecase-ui  1.2.2
+- usecase-ui-server  1.2.1
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of 
+the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45285810>`_.
+
+**Quick Links**
+- `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+- `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+- `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=45285810>`_
 
 **Upgrade Notes**
 	NA
@@ -56,32 +98,30 @@ Version: 1.1.0
 
 :Release Date: 2018-06-07
 
-
 **New Features**
+- Lifecycle Management GUI for VoLTE use case : support NS/VNF manual scaling in/out
+- Package management GUI : support NS/VNF/PNF packages upload/onboarding
 
-- GUI of NS/VNF manual scaling supporting for VoLTE use case
-- S3P improvement
- 
-Released components:
-- usecase-ui
-- usecase-ui-server
+**Released Components**
+- usecase-ui  1.1.1
+- usecase-ui-server  1.1.1
 
 **Bug Fixes**
-
-This is the initial release
+	NA
 
 **Known Issues**
 	NA
 
 **Security Notes**
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of 
+the `project <https://wiki.onap.org/pages/viewpage.action?pageId=41419068>`_.
 
-UseCase UI code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The UseCase UI open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_.
-
-Quick Links:
-
-- `UseCase UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
-- `Passing Badge information for UseCase UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
-- `Project Vulnerability Review Table for UseCase UI <https://wiki.onap.org/pages/viewpage.action?pageId=28379767>`_
+**Quick Links**
+- `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+- `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+- `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=41419068>`_
 
 **Upgrade Notes**
 	NA
@@ -98,18 +138,16 @@ Version: 1.0.0
 
 :Release Date: 2017-11-16
 
-
 **New Features**
+- Lifecycle Management : The feature provides GUI for the users to create, query, update and delete service instances.
+- Monitor : The feature is provides GUI for the users to monitor system alarms and VNFs performance.
 
-In the Amsterdam release, Usecase UI is mainly intended to support the lifecycle management and monitor for the VoLTE scenario. To get us there, Usecase UI provides the following features:
-
-- Lifecycle Management: The feature provides GUI for the users to create, query, update and delete service instances.
-
-- Monitor: The feature is provides GUI for the users to monitor system alarms and VNFs performance.
+**Released Components**
+- usecase-ui
+- usecase-ui-server
 
 **Bug Fixes**
-
-This is the initial release.
+	NA
 
 **Known Issues**
 	NA
@@ -118,7 +156,6 @@ This is the initial release.
 	NA
 
 **Upgrade Notes**
-
 This is the inital release.
 
 **Deprecation Notes**
