@@ -1,22 +1,20 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
 
 
 Usecase-UI Architecture
------------------------
+=======================
 
-Usecase-UI comprises two modules: the Usecase-UI UI module and the Usecase-UI Server module.
+|image0|
 
-    - Usecase-UI UI Module
-    - Usecase-UI Server Module
+.. |image0| image:: images/usecaseui-architecture.png
+   :width: 6.97047in
+   :height: 4.63208in
 
-Usecase-UI itself is an independent component in ONAP, which means it could be deployed as an ONAP-level component.
+Usecase-UI includes two modules : Usecase-UI Frontend and Usecase-UI Backend.
+    - Usecase UI UI (Frontend Module)
+    - Usecase UI Server (Backend Module)
 
-.. image:: images/overall-architecture-in-onap.png
-
-Take a deep dive into Usecase-UI, we could see it mainly consists of two modules, which are the UI module and Server module respectively.
-
+Usecase-UI mainly consists of two modules, they are the UI module and Server module respectively.
 The UI module provides Graphical User Interface (GUI) for operators and end-users (e.g. LCM, Monitor).
-
-The Server module is the logic part of Usecase-UI. This part analyzes NS files for LCM function and subscribes vnf alarm and performance data for monitor function.
-
-.. image:: images/usecaseui-architecture.png
+The Server module is the logic part of Usecase-UI. This part provide ONAP other components APIs for Usecase-UI frontend.
