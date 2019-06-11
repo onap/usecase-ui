@@ -19,6 +19,7 @@ Version: 2.0.1
 **New Features**
 - Management GUI for Customer and Service Type: customers query/create/delete and service type query/create/delete
 - Lifecycle Management GUI for CCVPN Use Case : CCVPN instances query/create/delte
+- Using Modeling Parser : use modeling parser to implement CCVPN instance lifecycle management
 - Upgrade Multicloud API : support consistent identification of cloud region functional requirement
 - Maturity Enhancement : change Mysql DB to PostgreSQL
 
