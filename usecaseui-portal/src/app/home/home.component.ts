@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     this.getHomeServiceBarVnfData();
     this.getHomeServiceBarPnfData();
   }
-  
+
 
   // services
   serviceNumber:number = 0;
@@ -476,6 +476,9 @@ export class HomeComponent implements OnInit {
   listSortMasters=null;
 
   getListSortMasters(){
+      if(sessionStorage.getItem("DefaultLang") ==undefined){
+          sessionStorage.setItem("DefaultLang","en");
+      }
       this.myhttp.getListSortMasters()
           .subscribe((data)=>{
               this.listSortMasters = JSON.stringify(data);
