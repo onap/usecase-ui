@@ -58,16 +58,18 @@ Before you replace the file to the running pod,you need to close the pod livenes
 Basic operation of kubernests cluster(Take the namespace of onap in linux client as an example)
 
 * Check the cluster node
+
 ::
             
     kubectl  get node
-                 
+
 * Check cluster namespace
-::
-               
+
+::             
     kubectl  get ns
-                
+
 * View the pod information and the pod on which the node is located, under the namespace specified (for example, namespace on onap)
+
 ::
                      
     kubectl get pod -o wide
