@@ -42,7 +42,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
 
 **Upgrade Notes**
 	NA
@@ -82,7 +82,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=45285810>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=45285810>`__
 
 **Upgrade Notes**
 	NA
@@ -122,7 +122,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=41419068>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=41419068>`__
 
 **Upgrade Notes**
 	NA
