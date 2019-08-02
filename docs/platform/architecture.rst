@@ -15,6 +15,6 @@ Usecase-UI includes two modules : Usecase-UI Frontend and Usecase-UI Backend.
     - Usecase UI UI (Frontend Module)
     - Usecase UI Server (Backend Module)
 
-Usecase-UI mainly consists of two modules, they are the UI module and Server module respectively.
 The UI module provides Graphical User Interface (GUI) for operators and end-users (e.g. LCM, Monitor).
-The Server module is the logic part of Usecase-UI. This part provide ONAP other components APIs for Usecase-UI frontend.
+The Server module is the logic part of Usecase-UI. This module provides APIs of ONAP's other components (e.g So,AAI) to Usecase-UI frontend.
+

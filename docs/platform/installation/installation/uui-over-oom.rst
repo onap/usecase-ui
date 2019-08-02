@@ -42,20 +42,20 @@ https://onap.readthedocs.io/en/latest/submodules/oom.git/docs/oom_quickstart_gui
 1. First ensure Usecase-UI is marked true against field enabled in the oom/kubernetes/onap/values.yaml for successful deployment.
 
 2. Upgrade Images in OOM charts to ensure the component version is right, you should check the respective component image version in Usecase-UI charts.
-If you need update the version, please modify values.yaml files.
+If you need to update the version, please modify values.yaml files.
 
 3. Rebuild all repos in helm. Every time you change the charts, you need to rebuild all repos to ensure the change can take effect.
 
 **4. Debug and Testing in running Pod**
 =======================================
 
-When you are doing the testing and would like to replace some new file like binary or some script and want to check the new resut.
+When you are doing the testing and would like to replace some new file like binary or some script and want to check the new result.
 Before you replace the file to the running pod,you need to close the pod livenessProbe and readinessProbe first to avoid the pod restart.
 
 **5. Kubectl basic command**
 ============================
 
-Basic operation of kubernests cluster(Take the namespace of onap in linux client as an example)
+Basic operation of kubernetes cluster(Take the namespace of onap in linux client as an example)
 
 * Check the cluster node
 
