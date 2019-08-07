@@ -4,6 +4,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { HomeComponent } from './home.component';
 import { PieComponent } from '../components/charts/pie/pie.component'; 
@@ -11,7 +12,7 @@ import { BarComponent } from '../components/charts/bar/bar.component';
 import { LineComponent } from '../components/charts/line/line.component';
 import { HomesService } from '../homes.service';
 
-fdescribe('HomeComponent', () => {
+describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
@@ -22,7 +23,8 @@ fdescribe('HomeComponent', () => {
               NgZorroAntdModule, 
               NgxEchartsModule, 
               HttpClientModule,
-              BrowserAnimationsModule],
+              BrowserAnimationsModule,
+              RouterTestingModule],
       providers: [HomesService, TranslateService]
     })
     .compileComponents();
