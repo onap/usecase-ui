@@ -24,12 +24,17 @@
   </div>
   <div class="detaildata fl">
     <div *ngIf="detailParams.serviceDomain == 'E2E Service'" class="baseparms clearfix">
-      <!--2019.02.21 add-->
       <div class="vnf-box">
         <h3> {{"i18nTextDefine_Base" | translate}} </h3>
         <ul class="clearfix">
-          <li><span style="width:15%">Name:</span> <span class="input-content">{{service.name}}</span></li>
-          <li><span  style="width:25%">Description:</span><span class="input-content">{{service.description}}</span></li>
+          <li>
+            <span style="width:15%">Name:</span>
+            <span class="input-content">{{service.name}}</span>
+          </li>
+          <li>
+            <span style="width:25%">Description:</span>
+            <span class="input-content">{{service.description}}</span>
+          </li>
         </ul>
       </div>
       <div class="vnf-box" *ngIf="getKeys(e2e_requestInputs).length>0">
@@ -56,8 +61,14 @@
       <div class="vnf-box">
         <h3> {{"i18nTextDefine_Base" | translate}} </h3>
         <ul class="clearfix">
-          <li><span style="width:15%">Name:</span> <span class="input-content">{{ns_service.name}}</span></li>
-          <li><span  style="width:25%">Description:</span><span class="input-content">{{ns_service.description}}</span></li>
+          <li>
+            <span style="width:15%">Name:</span>
+            <span class="input-content">{{ns_service.name}}</span>
+          </li>
+          <li>
+            <span style="width:25%">Description:</span>
+            <span class="input-content">{{ns_service.description}}</span>
+          </li>
         </ul>
       </div>
       <div class="vnf-box" *ngIf="getKeys(ns_requestInputs).length>0">
@@ -86,12 +97,7 @@
   <div class="chart fr">
     <div id="createChart">
       <svg width="100%" height="100%">
-
-        <!--<image xlink:href="./assets/images/create-e2e.png"-->
-        <!--x="40%" y="16%" />-->
-
       </svg>
-
     </div>
   </div>
 
