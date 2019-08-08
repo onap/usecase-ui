@@ -24,7 +24,7 @@ import * as d3 from 'd3';
 })
 export class CcvpnDetailComponent implements OnInit {
 
-    constructor(private myhttp:MyhttpService) { }
+    constructor(private myhttp: MyhttpService) { }
 
     ngOnInit() {
         // this.getDetails();
@@ -87,14 +87,14 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.detailParams)
         console.log(this.upDateShow)
         // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
-        if(this.detailParams['input-parameters']){
+        if (this.detailParams['input-parameters']) {
             this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
-        }else {
+        } else {
             return false;
         }
         console.log(this.input_parameters);
         this.templateParameters.service = {
-            name:  this.input_parameters.service.name,
+            name: this.input_parameters.service.name,
             description: this.input_parameters.service.description,
             serviceInvariantUuid: this.input_parameters.service["serviceInvariantUuid"],
             serviceUuid: this.input_parameters.service["serviceUuid"]
@@ -111,7 +111,7 @@ export class CcvpnDetailComponent implements OnInit {
                 let sdwanvpnresource_list = inputs[items][0];
                 Object.keys(sdwanvpnresource_list).forEach((its) => {
                     let input = {};
-                    if(its.search("site") != -1 && sdwanvpnresource_list[its] instanceof Array === true){
+                    if (its.search("site") != -1 && sdwanvpnresource_list[its] instanceof Array === true) {
                         Object.keys(sdwanvpnresource_list[its][0]).forEach((i) => {
                             let input1 = {};
                             input1[i] = sdwanvpnresource_list[its][i];
@@ -122,7 +122,7 @@ export class CcvpnDetailComponent implements OnInit {
                         console.log(123456)
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
-                    if(its.search("sitelan") == -1 && sdwanvpnresource_list[its] instanceof Array === false){
+                    if (its.search("sitelan") == -1 && sdwanvpnresource_list[its] instanceof Array === false) {
                         input[its] = sdwanvpnresource_list[its];
                         this.templateParameters["sotnvpn"]["sdwanvpnresource_list"].push(input);
                     }
@@ -137,7 +137,7 @@ export class CcvpnDetailComponent implements OnInit {
                 let sdwansiteresource_list = inputs[items][0];
                 Object.keys(sdwansiteresource_list).forEach((its) => {
                     let input2 = {};
-                    if(its.search("device") != -1 && sdwansiteresource_list[its] instanceof Array === true){
+                    if (its.search("device") != -1 && sdwansiteresource_list[its] instanceof Array === true) {
                         Object.keys(sdwansiteresource_list[its][0]).forEach((i) => {
                             let input1 = {};
                             input1[i] = sdwansiteresource_list[its][i];
@@ -147,13 +147,13 @@ export class CcvpnDetailComponent implements OnInit {
                         sitelanKey[its] = [];
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
-                    if(its.search("site") != -1 && its.search("device") == -1 && sdwansiteresource_list[its] instanceof Array === true){
+                    if (its.search("site") != -1 && its.search("device") == -1 && sdwansiteresource_list[its] instanceof Array === true) {
                         this.templateParameters["site"]["sdwansitewan_list"][0] = sdwansiteresource_list[its][0];
                         let sitelanKey = {};
                         sitelanKey[its] = [];
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
-                    if(its.search("device") == -1 && sdwansiteresource_list[its] instanceof Array === false){
+                    if (its.search("device") == -1 && sdwansiteresource_list[its] instanceof Array === false) {
                         input2[its] = sdwansiteresource_list[its];
                         this.templateParameters["site"]["sdwansiteresource_list"].push(input2);
                     }
@@ -162,7 +162,7 @@ export class CcvpnDetailComponent implements OnInit {
             }
         });
 
-        console.log( this.templateParameters.site);
+        console.log(this.templateParameters.site);
         console.log(this.siteTableData);
 
         this.showTemParametersSotnVpn();
@@ -171,7 +171,7 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     //sotnVpn data, after combining the structure, rendering the template data to the page
-    showTemParametersSotnVpn(){
+    showTemParametersSotnVpn() {
         //sotn Data analysis, structure assembly
         this.templateParameters.sotnvpn.sdwanvpnresource_list.map((item, index) => {
             let input = {};
@@ -250,17 +250,17 @@ export class CcvpnDetailComponent implements OnInit {
     //sotnVpn detail show
     sotnVpnDetailShow = false;
     isEditSotnVpn = 0;
-    showstonVpnDetail(num){
+    showstonVpnDetail(num) {
         this.sotnVpnDetailShow = true;
         this.isEditSotnVpn = num;
         Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
         this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
-            return Object.assign({}, {},item)
+            return Object.assign({}, {}, item)
         });
     }
-    detailSotnVpn_cancel(){
+    detailSotnVpn_cancel() {
         this.sotnVpnDetailShow = false;
     }
 
@@ -279,10 +279,10 @@ export class CcvpnDetailComponent implements OnInit {
         this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
         console.log(this.siteCpeData);
         this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
-            return Object.assign({}, {},item)
+            return Object.assign({}, {}, item)
         });
     }
-    detailsite_cancel(){
+    detailsite_cancel() {
         this.siteDetail = false;
     }
     deleteUpdateSite(num) {
@@ -305,9 +305,9 @@ export class CcvpnDetailComponent implements OnInit {
         });
         console.log(inputs);
         if (this.isEditSotnVpn) {
-            
+
             this.sotnVpnTableData[this.isEditSotnVpn - 1] = inputs;
-            this.sotnVpnTableData = [...this.sotnVpnTableData]; 
+            this.sotnVpnTableData = [...this.sotnVpnTableData];
         } else {
             // this.siteTableData.push(inputs);
             this.sotnVpnTableData = [...this.sotnVpnTableData, inputs];
@@ -315,7 +315,7 @@ export class CcvpnDetailComponent implements OnInit {
         }
         console.log(this.sotnVpnTableData)
 
-        Object.keys(this.sotnInfo).forEach((item) => { 
+        Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = null;
         });
         this.sotnSdwansitelanData.forEach((item, index) => {
@@ -334,7 +334,7 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     updateSotnVpn_cancel() {
-        Object.keys(this.sotnInfo).forEach((item) => { 
+        Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = null;
         });
         this.sotnSdwansitelanData.forEach((item, index) => {
@@ -355,7 +355,7 @@ export class CcvpnDetailComponent implements OnInit {
         this.sotnVpnAddModelShow = true;
         this.isEditSotnVpn = num;
         console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
-        Object.keys(this.sotnInfo).forEach((item) => { 
+        Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
         console.log()
@@ -385,7 +385,7 @@ export class CcvpnDetailComponent implements OnInit {
         });
         this.sotnSdwansitelanData[addNum] = inputsData;
         this.tabInputShowSdwansitelan[addNum] = true;
-        this.sotnSdwansitelanData = [...this.sotnSdwansitelanData]; 
+        this.sotnSdwansitelanData = [...this.sotnSdwansitelanData];
         console.log(this.sotnSdwansitelanData)
     }
     editUpdateSotnSdwansitelan(num, item, sotnSdwansitelanData) {
@@ -423,10 +423,10 @@ export class CcvpnDetailComponent implements OnInit {
         console.log(this.templateParameters);
     }
 
-    editUpdateSite(num) { 
+    editUpdateSite(num) {
         this.siteAddModelShow = true;
         this.isEditSite = num;
-        Object.keys(this.siteBaseData).forEach((item) => { 
+        Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
         this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
@@ -439,10 +439,10 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     updatesite_cancel() {
-        Object.keys(this.siteBaseData).forEach((item) => { 
+        Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = null;
         })
-        Object.keys(this.siteCpeData).forEach((item) => { 
+        Object.keys(this.siteCpeData).forEach((item) => {
             this.siteCpeData[item] = null;
         })
         this.siteWanData.forEach((item, index) => {
@@ -545,47 +545,47 @@ export class CcvpnDetailComponent implements OnInit {
     localSite = [];//本地site
     outerSite = [];//外部site
 
-    getSiteAResource(){
-        return new Promise((res,rej)=>{
-            this.detailParams.siteSer.forEach((site)=>{
-                site["relationship-list"]["relationship"].find((item)=>{return item["related-to"]=="site-resource"})?this.localSite.push(site):this.outerSite.push(site);
+    getSiteAResource() {
+        return new Promise((res, rej) => {
+            this.detailParams.siteSer.forEach((site) => {
+                site["relationship-list"]["relationship"].find((item) => { return item["related-to"] == "site-resource" }) ? this.localSite.push(site) : this.outerSite.push(site);
             });
 
-            if(this.localSite[0] && this.localSite[0]["service-instance-name"].startsWith("Dc")){
+            if (this.localSite[0] && this.localSite[0]["service-instance-name"].startsWith("Dc")) {
                 this.localSite.reverse();
             }
 
-            if(this.outerSite[0] && this.outerSite[0]["service-instance-name"].startsWith("Dc")){
+            if (this.outerSite[0] && this.outerSite[0]["service-instance-name"].startsWith("Dc")) {
                 this.outerSite.reverse();
             }
             console.log(this.localSite);
             console.log(this.outerSite);
 
-           if(this.localSite.length>0){
-               this.detailLines = [].concat(this.detailLiness);
-            this.localSite.forEach((site)=>{
-                let obj = {
-                    customerId: this.detailParams.customer.id,
-                    serviceType: this.detailParams.serviceType,
-                    serviceId: site["service-instance-id"]
-                };
-                this.myhttp.getAllottedResource(obj)
-                    .subscribe((data)=>{
-                        let resource = data["allotted-resource"].find((item)=>{ return item["allotted-resource-name"]=="sotn ar"});
-                        let tps_pnfs = resource["relationship-list"]["relationship"].find((item)=>{ return item["related-to"]=="p-interface"})["relationship-data"];
-                        site.tpsitename = tps_pnfs.find((item)=>{return item["relationship-key"]=="p-interface.interface-name"})["relationship-value"];
-                        res("sites-domain");
-                    })
-            })
-           }else {
-               console.log("localSite []");
-               return false;
-           }
+            if (this.localSite.length > 0) {
+                this.detailLines = [].concat(this.detailLiness);
+                this.localSite.forEach((site) => {
+                    let obj = {
+                        customerId: this.detailParams.customer.id,
+                        serviceType: this.detailParams.serviceType,
+                        serviceId: site["service-instance-id"]
+                    };
+                    this.myhttp.getAllottedResource(obj)
+                        .subscribe((data) => {
+                            let resource = data["allotted-resource"].find((item) => { return item["allotted-resource-name"] == "sotn ar" });
+                            let tps_pnfs = resource["relationship-list"]["relationship"].find((item) => { return item["related-to"] == "p-interface" })["relationship-data"];
+                            site.tpsitename = tps_pnfs.find((item) => { return item["relationship-key"] == "p-interface.interface-name" })["relationship-value"];
+                            res("sites-domain");
+                        })
+                })
+            } else {
+                console.log("localSite []");
+                return false;
+            }
         })
     }
 
 
-    vpns = [{name: "", tps: [], domain: "", sitetpname: "", othertpname: ""}];
+    vpns = [{ name: "", tps: [], domain: "", sitetpname: "", othertpname: "" }];
 
 
     getSotnAresource() {
@@ -611,7 +611,7 @@ export class CcvpnDetailComponent implements OnInit {
                         });
                     console.log(vpns);
                     this.detailParams.vpns = vpns.map((item) => {
-                        return {name: item}
+                        return { name: item }
                     });
                     this.detailParams.vpns.forEach((vpn, index) => {
                         this.myhttp.getVpnBinding(vpn.name)
@@ -693,7 +693,7 @@ export class CcvpnDetailComponent implements OnInit {
                 // this.detailLines.push(line);
                 // when local site have 2
                 if (this.localSite.length == 2) {
-                    let line =  {
+                    let line = {
                         "x1": "30%", "y1": "55%", "x2": "42%", "y2": "55%"//tp2--tp3
                     }
                     this.detailLines.push(line);
@@ -707,10 +707,10 @@ export class CcvpnDetailComponent implements OnInit {
                 }
             }
         })
-        let allnodes = [this.getSiteAResource(),this.getSotnAresource()];
-        Promise.all(allnodes).then((data)=>{
-          console.log(data)
-          console.log(this.localSite);
+        let allnodes = [this.getSiteAResource(), this.getSotnAresource()];
+        Promise.all(allnodes).then((data) => {
+            console.log(data)
+            console.log(this.localSite);
 
 
         })
@@ -738,11 +738,11 @@ export class CcvpnDetailComponent implements OnInit {
         }
     ];
 
-    modifyJosnKey(json,oddkey,newkey){
+    modifyJosnKey(json, oddkey, newkey) {
 
-        let val=json[oddkey];
+        let val = json[oddkey];
         delete json[oddkey];
-        json[newkey]=val;
+        json[newkey] = val;
     }
 
     submitUpdate() {
@@ -767,55 +767,55 @@ export class CcvpnDetailComponent implements OnInit {
             }
         };
         console.log(this.bodyTemplateParameter)
-        console.log(this.sotnVpnTableData,"before fixing")
-        console.log(this.siteTableData,'"before fixing"')
-        let siteresource = null, sitewan = null,device = null,vpnresource = null,sitelan = null;
-        Object.keys(this.bodyTemplateParameter).map((item,index) => {
-            if(item.search("site") != -1){
+        console.log(this.sotnVpnTableData, "before fixing")
+        console.log(this.siteTableData, '"before fixing"')
+        let siteresource = null, sitewan = null, device = null, vpnresource = null, sitelan = null;
+        Object.keys(this.bodyTemplateParameter).map((item, index) => {
+            if (item.search("site") != -1) {
                 siteresource = item;
-                this.bodyTemplateParameter[item].map((items,index) => {
-                    if(Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1){
+                this.bodyTemplateParameter[item].map((items, index) => {
+                    if (Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1) {
                         sitewan = Object.keys(items)[0]
                     }
-                    if(Object.keys(items)[0].search("device") != -1){
+                    if (Object.keys(items)[0].search("device") != -1) {
                         device = Object.keys(items)[0]
                     }
                 });
             }
-            if(item.search("vpn") != -1){
+            if (item.search("vpn") != -1) {
                 vpnresource = item;
-                this.bodyTemplateParameter[item].map((items,index) => {
-                    if(Object.keys(items)[0].search("site") != -1){
+                this.bodyTemplateParameter[item].map((items, index) => {
+                    if (Object.keys(items)[0].search("site") != -1) {
                         sitelan = Object.keys(items)[0]
                     }
                 });
             }
         });
         this.sotnVpnTableData.forEach((item, index) => {
-            Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && item[items] instanceof Array === true){
-                    this.modifyJosnKey(item,items,sitelan)
+            Object.keys(item).map((items, index) => {
+                if (items.search("site") != -1 && item[items] instanceof Array === true) {
+                    this.modifyJosnKey(item, items, sitelan)
                 }
             });
         });
         this.siteTableData.forEach((item, index) => {
-            Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && items.search("device") == -1 && item[items] instanceof Array === true){
-                    this.modifyJosnKey(item,items,sitewan)
+            Object.keys(item).map((items, index) => {
+                if (items.search("site") != -1 && items.search("device") == -1 && item[items] instanceof Array === true) {
+                    this.modifyJosnKey(item, items, sitewan)
                 }
-                if(items.search("device") != -1){
-                    this.modifyJosnKey(item,items,device)
+                if (items.search("device") != -1) {
+                    this.modifyJosnKey(item, items, device)
                 }
             });
         });
-        console.log(siteresource,sitewan,device,vpnresource,sitelan);
-        console.log(this.sotnVpnTableData,"After modification")
-        console.log(this.siteTableData,"After modification")
-        Object.keys(this.bodyTemplateParameter).map((item,index) => {
-            if(item.search("site") != -1){
+        console.log(siteresource, sitewan, device, vpnresource, sitelan);
+        console.log(this.sotnVpnTableData, "After modification")
+        console.log(this.siteTableData, "After modification")
+        Object.keys(this.bodyTemplateParameter).map((item, index) => {
+            if (item.search("site") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.siteTableData);
             }
-            if(item.search("vpn") != -1){
+            if (item.search("vpn") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
             }
         });
@@ -827,7 +827,7 @@ export class CcvpnDetailComponent implements OnInit {
         this.closeDetail.emit();
     }
 
-    hiddenModel(){
+    hiddenModel() {
         this.sotnVpnDetailShow = false;
         this.siteDetail = false;
     }

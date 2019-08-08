@@ -13,50 +13,50 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { MyhttpService } from '../myhttp.service';
-import {el} from "@angular/platform-browser/testing/src/browser_util";
+import { el } from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
-  selector: 'app-ccvpn-creation',
-  templateUrl: './ccvpn-creation.component.html',
-  styleUrls: ['./ccvpn-creation.component.css']
+    selector: 'app-ccvpn-creation',
+    templateUrl: './ccvpn-creation.component.html',
+    styleUrls: ['./ccvpn-creation.component.css']
 })
 export class CcvpnCreationComponent implements OnInit {
 
-  constructor(private myhttp:MyhttpService) { }
+    constructor(private myhttp: MyhttpService) { }
     @Input() createParams;
     @Input() ccvpn_temParametersContent;
     @Output() closeCreate = new EventEmitter();
 
-  ngOnInit() {
-    this.getccvpnTemParameters(this.ccvpn_temParametersContent);
-  }
-
-  //tabBarStyle
-  tabBarStyle = {
-    "height": "58px",
-        "width": "694px",
-    "box-shadow": "none",
-    "margin": "0",
-    "border-radius": "4px 4px 0px 0px"
-  };
-  templateParameters = {
-    service: {},
-    sotnvpn: {
-      info: {},
-      sdwanvpnresource_list: [],
-      sdwansitelan_list: []
-    },
-    site: {
-      info: {},
-      sdwansiteresource_list: [],
-      sdwandevice_list: [],
-      sdwansitewan_list: []
+    ngOnInit() {
+        this.getccvpnTemParameters(this.ccvpn_temParametersContent);
     }
-  };
+
+    //tabBarStyle
+    tabBarStyle = {
+        "height": "58px",
+        "width": "694px",
+        "box-shadow": "none",
+        "margin": "0",
+        "border-radius": "4px 4px 0px 0px"
+    };
+    templateParameters = {
+        service: {},
+        sotnvpn: {
+            info: {},
+            sdwanvpnresource_list: [],
+            sdwansitelan_list: []
+        },
+        site: {
+            info: {},
+            sdwansiteresource_list: [],
+            sdwandevice_list: [],
+            sdwansitewan_list: []
+        }
+    };
 
     bodyTemplateParameter = {};
 
@@ -134,13 +134,13 @@ export class CcvpnCreationComponent implements OnInit {
         console.log(inputss);
         console.log(this.bodyTemplateParameter);
 
-                this.showTemParametersSotnVpn();
-                this.showTemParametersSite();
-                console.log(this.templateParameters)
+        this.showTemParametersSotnVpn();
+        this.showTemParametersSite();
+        console.log(this.templateParameters)
     }
 
     //sotnVpn data, after combining the structure, rendering the template data to the page
-    showTemParametersSotnVpn(){
+    showTemParametersSotnVpn() {
         //sotn Data analysis, structure assembly
         this.templateParameters.sotnvpn.sdwanvpnresource_list.map((item, index) => {
             let input = {};
@@ -196,8 +196,8 @@ export class CcvpnCreationComponent implements OnInit {
             }
         });
         this.templateParameters.site.sdwandevice_list.map((item, index) => {
-            if(this.getKeys(item).indexOf("lable") == -1){
-                this.templateParameters.site.sdwandevice_list.splice(index,1)
+            if (this.getKeys(item).indexOf("lable") == -1) {
+                this.templateParameters.site.sdwandevice_list.splice(index, 1)
             }
         });
         this.templateParameters.site.sdwansitewan_list.push(
@@ -229,7 +229,7 @@ export class CcvpnCreationComponent implements OnInit {
     }
 
     //add,edit,delete sotnSdwansitelan
-    addSotnSdwansitelan(){
+    addSotnSdwansitelan() {
         if (this.tabInputShowSdwansitelan.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
             return false;
         }
@@ -245,7 +245,7 @@ export class CcvpnCreationComponent implements OnInit {
         this.sotnSdwansitelanData = [...this.sotnSdwansitelanData]; //Table refresh
         console.log(this.sotnSdwansitelanData)
     }
-    editSotnSdwansitelan(num, item, sotnSdwansitelanData){
+    editSotnSdwansitelan(num, item, sotnSdwansitelanData) {
         console.log(item)
         if (this.tabInputShowSdwansitelan[num - 1] == false) {
             this.tabInputShowSdwansitelan[num - 1] = true;
@@ -254,11 +254,11 @@ export class CcvpnCreationComponent implements OnInit {
         }
         console.log(sotnSdwansitelanData);
     }
-    deleteSotnSdwansitelan(num, item, sotnSdwansitelanData){
-        if(this.sotnSdwansitelanData.length <= 1){
-            console.log("num>=1","sotnSdwansitelanData");
+    deleteSotnSdwansitelan(num, item, sotnSdwansitelanData) {
+        if (this.sotnSdwansitelanData.length <= 1) {
+            console.log("num>=1", "sotnSdwansitelanData");
             return false;
-        }else {
+        } else {
 
         }
         this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
@@ -291,9 +291,9 @@ export class CcvpnCreationComponent implements OnInit {
         }
         console.log(siteWanData);
     }
-    deleteWanPort(num, item, siteWanData){
-        if(this.siteWanData.length <= 1){
-            console.log("num>=1","siteWanData");
+    deleteWanPort(num, item, siteWanData) {
+        if (this.siteWanData.length <= 1) {
+            console.log("num>=1", "siteWanData");
             return false;
         }
         this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
@@ -303,7 +303,7 @@ export class CcvpnCreationComponent implements OnInit {
     //siteModel,sotnVpnModel Display sign
     siteModelShow = false;
     sotnVpnModelShow = false;
-    addSotnvpn(){
+    addSotnvpn() {
         this.sotnVpnModelShow = true;
         this.isEditSotnVpn = 0;
     }
@@ -312,14 +312,14 @@ export class CcvpnCreationComponent implements OnInit {
         this.isEditSite = 0;
     }
 
-//add sotnVpn model
+    //add sotnVpn model
     isEditSotnVpn = 0;//Edit serial number, No value, 0 means increase
-    addSotnVpn_OK(){
-        let inputs= {
-          "sdwansitelan_list":[]
+    addSotnVpn_OK() {
+        let inputs = {
+            "sdwansitelan_list": []
         };
         inputs = Object.assign(inputs, this.sotnInfo);
-        console.log(this.sotnInfo,"this.sotnInfo");
+        console.log(this.sotnInfo, "this.sotnInfo");
         inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
             return Object.assign({}, item);
         });
@@ -351,7 +351,7 @@ export class CcvpnCreationComponent implements OnInit {
         this.sotnVpnModelShow = false;
     }
 
-    addSotnVpn_cancel(){
+    addSotnVpn_cancel() {
         Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
             this.sotnInfo[item] = null;
         });
@@ -369,7 +369,7 @@ export class CcvpnCreationComponent implements OnInit {
         this.sotnVpnModelShow = false;
     }
 
-    editSotnVpn(num){
+    editSotnVpn(num) {
         this.sotnVpnModelShow = true;
         this.isEditSotnVpn = num;
         console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
@@ -377,19 +377,19 @@ export class CcvpnCreationComponent implements OnInit {
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
         this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
-            return Object.assign({}, {},item)
+            return Object.assign({}, {}, item)
         });
         this.sotnSdwansitelanData.forEach((item, index) => {
             this.tabInputShowSdwansitelan[index] = false;
         });
     }
 
-    deleteSotnVpn(num){
+    deleteSotnVpn(num) {
         this.sotnVpnTableData = this.sotnVpnTableData.filter((d, i) => i !== num - 1);
         console.log(this.sotnVpnTableData)
     }
 
-// addsite model
+    // addsite model
     isEditSite = 0; //Edit serial number, No value, 0 means increase
     addsite_OK() {
         let inputs = {
@@ -397,7 +397,7 @@ export class CcvpnCreationComponent implements OnInit {
             "sdwansitewan_list": []
         };
         inputs = Object.assign(inputs, this.siteBaseData);
-        console.log(this.siteBaseData,"this.siteBaseData");
+        console.log(this.siteBaseData, "this.siteBaseData");
         inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
@@ -476,7 +476,7 @@ export class CcvpnCreationComponent implements OnInit {
         this.drawImage(this.siteTableData);
     }
 
-// Site node graphic depiction
+    // Site node graphic depiction
     lines = [];
     siteImage = [];
     tpImage = [];
@@ -600,18 +600,18 @@ export class CcvpnCreationComponent implements OnInit {
 
     }
 
-    modifyJosnKey(json,oddkey,newkey){
+    modifyJosnKey(json, oddkey, newkey) {
 
-        let val=json[oddkey];
+        let val = json[oddkey];
         delete json[oddkey];
-        json[newkey]=val;
+        json[newkey] = val;
     }
 
-// submit createData
+    // submit createData
     submit() {
         let globalCustomerId = this.createParams.commonParams.customer.id;
         let globalServiceType = this.createParams.commonParams.serviceType.name;
-        let servicebody={
+        let servicebody = {
             service: {
                 name: this.templateParameters.service["name"],
                 description: this.templateParameters.service["description"],
@@ -627,55 +627,55 @@ export class CcvpnCreationComponent implements OnInit {
             }
         };
         console.log(this.bodyTemplateParameter)
-        console.log(this.sotnVpnTableData,"before fixing")
-        console.log(this.siteTableData,'"before fixing"')
-        let siteresource = null, sitewan = null,device = null,vpnresource = null,sitelan = null;
-        Object.keys(this.bodyTemplateParameter).map((item,index) => {
-            if(item.search("site") != -1){
+        console.log(this.sotnVpnTableData, "before fixing")
+        console.log(this.siteTableData, '"before fixing"')
+        let siteresource = null, sitewan = null, device = null, vpnresource = null, sitelan = null;
+        Object.keys(this.bodyTemplateParameter).map((item, index) => {
+            if (item.search("site") != -1) {
                 siteresource = item;
-                this.bodyTemplateParameter[item].map((items,index) => {
-                   if(Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1){
-                       sitewan = Object.keys(items)[0]
-                   }
-                    if(Object.keys(items)[0].search("device") != -1){
+                this.bodyTemplateParameter[item].map((items, index) => {
+                    if (Object.keys(items)[0].search("site") != -1 && Object.keys(items)[0].search("device") == -1) {
+                        sitewan = Object.keys(items)[0]
+                    }
+                    if (Object.keys(items)[0].search("device") != -1) {
                         device = Object.keys(items)[0]
                     }
                 });
             }
-            if(item.search("vpn") != -1){
+            if (item.search("vpn") != -1) {
                 vpnresource = item;
-                this.bodyTemplateParameter[item].map((items,index) => {
-                    if(Object.keys(items)[0].search("site") != -1){
+                this.bodyTemplateParameter[item].map((items, index) => {
+                    if (Object.keys(items)[0].search("site") != -1) {
                         sitelan = Object.keys(items)[0]
                     }
                 });
             }
         });
         this.sotnVpnTableData.forEach((item, index) => {
-            Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && item[items] instanceof Array === true){
-                    this.modifyJosnKey(item,items,sitelan)
+            Object.keys(item).map((items, index) => {
+                if (items.search("site") != -1 && item[items] instanceof Array === true) {
+                    this.modifyJosnKey(item, items, sitelan)
                 }
             });
         });
         this.siteTableData.forEach((item, index) => {
-            Object.keys(item).map((items,index) => {
-                if(items.search("site") != -1 && Object.keys(item)[0].search("device") == -1  && item[items] instanceof Array === true){
-                    this.modifyJosnKey(item,items,sitewan)
+            Object.keys(item).map((items, index) => {
+                if (items.search("site") != -1 && Object.keys(item)[0].search("device") == -1 && item[items] instanceof Array === true) {
+                    this.modifyJosnKey(item, items, sitewan)
                 }
-                if(items.search("device") != -1){
-                    this.modifyJosnKey(item,items,device)
+                if (items.search("device") != -1) {
+                    this.modifyJosnKey(item, items, device)
                 }
             });
         });
-        console.log(siteresource,sitewan,device,vpnresource,sitelan);
-        console.log(this.sotnVpnTableData,"After modification")
-        console.log(this.siteTableData,"After modification")
-        Object.keys(this.bodyTemplateParameter).map((item,index) => {
-            if(item.search("site") != -1){
+        console.log(siteresource, sitewan, device, vpnresource, sitelan);
+        console.log(this.sotnVpnTableData, "After modification")
+        console.log(this.siteTableData, "After modification")
+        Object.keys(this.bodyTemplateParameter).map((item, index) => {
+            if (item.search("site") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.siteTableData);
             }
-            if(item.search("vpn") != -1){
+            if (item.search("vpn") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
             }
         });
@@ -685,9 +685,9 @@ export class CcvpnCreationComponent implements OnInit {
 
         this.closeCreate.emit(servicebody);
 
-  }
+    }
 
-  goback(){
-    this.closeCreate.emit(); 
-  }
+    goback() {
+        this.closeCreate.emit();
+    }
 }

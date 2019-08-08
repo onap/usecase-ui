@@ -41,7 +41,7 @@ export class BarComponent implements OnInit {
       tooltip: this.initData.option.tooltip,
       grid: this.initData.option.grid,
       xAxis: this.initData.option.xAxis,
-      yAxis:this.initData.option.yAxis,
+      yAxis: this.initData.option.yAxis,
       series: this.initData.option.series
     }
   }
