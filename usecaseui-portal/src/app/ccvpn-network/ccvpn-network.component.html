@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
+<nz-spin [nzSpinning]="isSpinning" nzSize="large">
 <div class="model">
   <!--chart-->
   <button nz-button nzType="primary" *ngIf="!nonetwork" style="margin-top: 2px;display: inline-block" (click)="showForm()"
@@ -148,4 +149,4 @@
     <button nz-button nzType="default" nzSize="small" class="del-button" style="width: 60px;" (click)="hideForm()"> {{"i18nTextDefine_Cancel" | translate}} </button>
   </div>
 </div>
-
+</nz-spin>

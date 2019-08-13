@@ -87,6 +87,7 @@ export class CcvpnNetworkComponent implements OnInit {
     outCloudShow = false;
     inputshow = false;
     delBoxisVisible = false;
+    isSpinning = true;
 
     d3Data = [];//D3Render the required data
     logicalLinks = [];//logicalLinks Existing connection data returned by the interface
@@ -166,8 +167,10 @@ export class CcvpnNetworkComponent implements OnInit {
 
     //Get cloud image data
     getD3Data() {
+        this.isSpinning = true;
         this.myhttp.getNetworkD3Data()
             .subscribe((data) => {
+                this.isSpinning = false;
                 if (data.length == 0) {
                     this.addLinkDisabled = false;
                     this.nonetwork = true;

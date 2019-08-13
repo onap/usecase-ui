@@ -275,7 +275,7 @@ export class ServicesListComponent implements OnInit {
   pageIndex = 1;
   pageSize = 10;
   total = 100;
-  loading = false;
+  loading = true;
 
 
     getTableData(){
@@ -288,6 +288,7 @@ export class ServicesListComponent implements OnInit {
     }
     this.myhttp.getServicesTableData(paramsObj)
       .subscribe((data)=>{
+        this.loading = false;
         console.log(data);
         this.total = data.body.total;
         this.tableData = data.body.tableList.map((item)=>{
