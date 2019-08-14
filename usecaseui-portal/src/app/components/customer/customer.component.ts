@@ -13,9 +13,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import { ManagemencsService } from '../../managemencs.service';
-
+import { NzNotificationService } from 'ng-zorro-antd';
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -24,7 +24,11 @@ import { ManagemencsService } from '../../managemencs.service';
 export class CustomerComponent implements OnInit {
   public chose = '';
  
-  constructor(private managemencs: ManagemencsService) { }
+    constructor(
+        private managemencs: ManagemencsService,
+        private notification: NzNotificationService
+    ) {
+    }
 
     ngOnInit() {
         this.getAllCustomers();
@@ -43,7 +47,28 @@ export class CustomerComponent implements OnInit {
     addNewServiceType = null;
     deleteCustomerModelVisible = false;
     deleteServiceTypeModelVisible = false;
-
+    //2019.08.14 add
+    notificationAttributes = {
+        "title":"Customer",
+        "imgPath":"../../../../assets/images/execute-inproess.png",
+        "action":"Create",
+        "status":"InProgress",
+        "name":""
+    };
+    notificationModelShow(template: TemplateRef<{}>): void {
+        console.log(this.notificationAttributes,"notificationModelShow show");
+        this.notification.template(template);
+    }
+    notificationSuccess(notificationModel){
+        this.notificationAttributes.imgPath = "../../../assets/images/execute-success.png";
+        this.notificationAttributes.status = "Success";
+        this.notificationModelShow(notificationModel);
+    }
+    notificationFailed(notificationModel){
+        this.notificationAttributes.imgPath = "../../../assets/images/execute-faild.png";
+        this.notificationAttributes.status = "Failed";
+        this.notificationModelShow(notificationModel);
+    }
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
             this.AllCustomersdata = data.map((item) => {
@@ -359,18 +384,28 @@ export class CustomerComponent implements OnInit {
         })
     }
 
-    createNewCustomer() {
+    createNewCustomer(notificationModel) {
         let createParams = {
             customerId: this.addNewCustomer,
             'global-customer-id':this.addNewCustomer,
             'subscriber-name':this.addNewCustomer,
             'subscriber-type':'INFRA'
         };
+ 	this.notificationAttributes = {
+            "title":"Customer",
+            "imgPath":"../../../../assets/images/execute-inproess.png",
+            "action":"Create",
+            "status":"InProgress",
+            "name":this.addNewCustomer
+        };
+        this.notificationModelShow(notificationModel);
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
+               this.notificationSuccess(notificationModel);
                 this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
+                this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
             }
         })
@@ -388,48 +423,68 @@ export class CustomerComponent implements OnInit {
     deleteCustomerCancel() {
         this.deleteCustomerModelVisible = false;
     }
-    deleteCustomerOk() {
+    deleteCustomerOk(notificationModel) {
         this.deleteCustomerModelVisible = false;
-        this.getCustomerVersion(this.thisdeleteCustomer);
+        this.getCustomerVersion(this.thisdeleteCustomer,notificationModel);
+        this.notificationAttributes = {
+            "title":"Customer",
+            "imgPath":"../../../../assets/images/execute-inproess.png",
+            "action":"delete",
+            "status":"InProgress",
+            "name":this.thisdeleteCustomer.name
+        };
+        this.notificationModelShow(notificationModel);
     }
-    getCustomerVersion(thisdeleteCustomer){
+    getCustomerVersion(thisdeleteCustomer,notificationModel){
         this.managemencs.getdeleteCustomerVersion(thisdeleteCustomer).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 let params = {
                     customerId:thisdeleteCustomer.id,
                     version:data["result"]["resource-version"]
                 };
-                this.deleteCustomer(params);
+                this.deleteCustomer(params,notificationModel);
                 console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")
             }
         })
     }
-    deleteCustomer(params){
+    deleteCustomer(params,notificationModel){
         this.managemencs.deleteSelectCustomer(params).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
+                this.notificationSuccess(notificationModel);
                 this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
+                this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
             }
         })
     }
 
-    createNewServiceType() {
+    createNewServiceType(notificationModel) {
         let createParams = {
             customer: this.selectCustomer,
             ServiceType: this.addNewServiceType,
             "service-type":this.addNewServiceType,
             "temp-ub-sub-account-id":"sotnaccount"
         };
+	this.notificationAttributes = {
+            "title":"ServiceType",
+            "imgPath":"../../../../assets/images/execute-inproess.png",
+            "action":"Create",
+            "status":"InProgress",
+            "name":this.addNewServiceType
+        };
+	this.notificationModelShow(notificationModel);
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
+                this.notificationSuccess(notificationModel);
                 this.getCustomersColumn(this.selectCustomer);
                 this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
+                this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
             }
         })
@@ -446,15 +501,23 @@ export class CustomerComponent implements OnInit {
     deleteServiceTypeCancel() {
         this.deleteServiceTypeModelVisible = false;
     }
-    deleteServiceTypeOk() {
+    deleteServiceTypeOk(notificationModel) {
         this.deleteServiceTypeModelVisible = false;
-        this.getServiceTypeVersion();
+        this.getServiceTypeVersion(notificationModel);
     }
-    getServiceTypeVersion() {
+    getServiceTypeVersion(notificationModel) {
         let paramss = {
             customerId: this.selectCustomer,
             ServiceType: this.thisdeleteServiceType["type"]
         };
+	this.notificationAttributes = {
+            "title":"ServiceType",
+            "imgPath":"../../../../assets/images/execute-inproess.png",
+            "action":"delete",
+            "status":"InProgress",
+            "name":this.thisdeleteServiceType["type"]
+        };
+        this.notificationModelShow(notificationModel);
         this.managemencs.getdeleteServiceTypeVersion(paramss).subscribe((data) => {
             console.log(data)
             if (data["status"] == 'SUCCESS') {
@@ -463,21 +526,23 @@ export class CustomerComponent implements OnInit {
                     ServiceType:this.thisdeleteServiceType["type"],
                     version:data["result"]["resource-version"]
                 };
-                this.deleteServiceType(params);
+                this.deleteServiceType(params,notificationModel);
                 console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")
             }
         })
     }
-    deleteServiceType(params){
+    deleteServiceType(params,notificationModel){
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
+  		this.notificationSuccess(notificationModel);
                 this.getServiceTypes(params.customerId);
                 this.getCustomersColumn(params.customerId);
                 this.getAllCustomers();
                 console.log(data, "Interface returned success")
             } else {
+		this.notificationFailed(notificationModel);	
                 console.log(data, "Interface returned error")
             }
         })
