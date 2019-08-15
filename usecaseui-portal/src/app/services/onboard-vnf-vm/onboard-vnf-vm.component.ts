@@ -14,7 +14,8 @@
     limitations under the License.
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, HostBinding } from '@angular/core';
+import {Component, OnInit, HostBinding, TemplateRef} from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd';
 // import { MyhttpService } from '../../myhttp.service';
 import { onboardService } from '../../onboard.service';
 import { slideToRight } from '../../animates';
@@ -22,7 +23,6 @@ import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zor
 import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import * as $ from 'jquery';
-import { NzNotificationService } from 'ng-zorro-antd';
 
 
 @Component({
@@ -61,8 +61,15 @@ export class OnboardVnfVmComponent implements OnInit {
     //vnf: 'https://jsonplaceholder.typicode.com/posts/',
     //pnf: 'https://jsonplaceholder.typicode.com/posts/',
   };
-  constructor(private myhttp: onboardService, private http: HttpClient, private msg: NzMessageService,private titleService: Title,private modal: NzModalService, private modalService: NzModalService) { }
-
+  constructor(
+      private myhttp: onboardService,
+      private http: HttpClient,
+      private msg: NzMessageService,
+      private titleService: Title,
+      private modal: NzModalService,
+      private modalService: NzModalService,
+      private notification: NzNotificationService
+  ) { }
   //default Call ns data by default
   ngOnInit() {
     this.getTableData();
@@ -90,6 +97,28 @@ export class OnboardVnfVmComponent implements OnInit {
   tabs = ['NS', 'VNF', 'PNF'];
   isSpinning = false;
 
+    //2019.08.14 add
+    notificationAttributes = {
+        "title":this.tabs[0],
+        "imgPath":"../../../../assets/images/execute-inproess.png",
+        "action":"OnboardingState",
+        "status":"InProgress",
+        "id":null
+    };
+    notificationModelShow(template: TemplateRef<{}>): void {
+        console.log(this.notificationAttributes,"notificationModelShow show");
+        this.notification.template(template);
+    }
+    notificationSuccess(notificationModel){
+        this.notificationAttributes.imgPath = "../../../assets/images/execute-success.png";
+        this.notificationAttributes.status = "Success";
+        this.notificationModelShow(notificationModel);
+    }
+    notificationFailed(notificationModel){
+        this.notificationAttributes.imgPath = "../../../assets/images/execute-faild.png";
+        this.notificationAttributes.status = "Failed";
+        this.notificationModelShow(notificationModel);
+    }
   // Handling tab switching request data
   handleTabChange(tab) {
     this.tabTitle = tab;
@@ -571,25 +600,35 @@ changeUploadingSta(tab) {
   }
   currentIndex = 0;
   // ns onboard Upload button
-  updataNsService(id,index) {
+  updataNsService(id,index,notificationModel) {
     this.currentIndex = index;
     this.onboardData.status = "onboarding"; //Disabled
     this.onboardData.progress = 0;
     console.log("NS-onboard-id-->" + id);
     let requestBody = {
         "csarId": id
-    }
+    };
+    this.notificationAttributes = {
+        "title":this.tabs[0],
+        "imgPath":"../../../../assets/images/execute-inproess.png",
+        "action":"OnboardingState",
+        "status":"InProgress",
+        "id":id
+    };
+    this.notificationModelShow(notificationModel);
     this.myhttp.getNsonboard(requestBody)
       .subscribe((data) => {
         console.log('onboard ns sdc-->', data);
         if(data.status == "failed"){
           console.log("Package Onboard Failed")
           this.onboardData.status = "Failed";
+          this.notificationFailed(notificationModel);
           this.error();
           return false
         }else if(data.status == "success"){
           this.success("NS");
           this.onboardData.status = "onboarded";
+          this.notificationSuccess(notificationModel);
         }
       }, (err) => {
         console.log(err);
@@ -597,7 +636,7 @@ changeUploadingSta(tab) {
   }
 
   // vnf onboard Upload button
-  updataVnfService(id,index) {
+  updataVnfService(id,index,notificationModel) {
     this.currentIndex = index;
     this.onboardData.status = "onboarding";  //Disabled button
     this.onboardData.progress = 0;
@@ -605,13 +644,21 @@ changeUploadingSta(tab) {
     console.log("VNF-onboard-id-->" + id)
     let requestBody = {
       "csarId": id
-    }
+    };
+    this.notificationAttributes = {
+        "title":this.tabs[1],
+        "imgPath":"../../../../assets/images/execute-inproess.png",
+        "action":"OnboardingState",
+        "status":"InProgress",
+        "id":id
+    };
+    this.notificationModelShow(notificationModel);
     this.myhttp.getVnfonboard(requestBody)
       .subscribe((data) => {
         console.log('onboard vnf sdc-->', data);
         this.jobId =  data.jobId;
         console.log('onboard vnf sdc jobId-->'+ data.jobId);
-        this.queryProgress(this.jobId,0);   //vnf Need to query progress interface
+        this.queryProgress(this.jobId,0,notificationModel);   //vnf Need to query progress interface
       }, (err) => {
         console.log(err);
       })
@@ -623,7 +670,7 @@ changeUploadingSta(tab) {
   // }
 
   //Progress Progress inquiry
-  queryProgress(jobId,responseId){
+  queryProgress(jobId,responseId,notificationModel){
     let mypromise = new Promise((res)=>{
         this.myhttp.getProgress(jobId,responseId)
           .subscribe((data)=>{
@@ -633,7 +680,7 @@ changeUploadingSta(tab) {
               console.log("progress == undefined");
               this.onboardData.status = "onboarding";
               setTimeout(()=>{
-                this.queryProgress(this.jobId,0);
+                this.queryProgress(this.jobId,0,notificationModel);
               },10000)
               return false
             }
@@ -641,6 +688,7 @@ changeUploadingSta(tab) {
               console.log("progress-->",data.responseDescriptor.progress)
               console.log("Package Onboard Failed")
               this.onboardData.status = "Failed";
+              this.notificationFailed(notificationModel);
               this.error();
               return false
             }
@@ -648,7 +696,7 @@ changeUploadingSta(tab) {
               this.onboardData.status = "onboarding";
               console.log("progress < 100")
               setTimeout(()=>{
-                this.queryProgress(this.jobId,0);
+                this.queryProgress(this.jobId,0,notificationModel);
               },5000)
             }else if(data.responseDescriptor.progress == 100){
               res(data);
@@ -656,7 +704,8 @@ changeUploadingSta(tab) {
               console.log(data);
               this.success("VNF");
               this.onboardData.status = "onboarded";
-            }  
+              this.notificationSuccess(notificationModel);
+            }
             return false
           })
     })
@@ -665,7 +714,14 @@ changeUploadingSta(tab) {
 
   //--------------------------------------------------------------------------------
   /* delete button */
-  showConfirm(index,pkgid,tab): void {
+  showConfirm(index,pkgid,tab,notificationModel): void {
+    this.notificationAttributes = {
+        "title":this.tabs[0],
+        "imgPath":"../../../../assets/images/execute-inproess.png",
+        "action":"OnboardingState",
+        "status":"InProgress",
+        "id":pkgid
+    };
     this.confirmModal = this.modal.confirm({
       nzTitle: 'Do you Want to delete these items?',
       nzContent: 'Do you Want to delete these items?',
@@ -674,15 +730,21 @@ changeUploadingSta(tab) {
       nzOnOk: () => new Promise((resolve, reject) => {
         switch (tab) {
           case 'NS':
-          this.deleteNsService(index,pkgid);
+          this.notificationAttributes.title = this.tabs[0];
+          this.notificationModelShow(notificationModel);
+          this.deleteNsService(index,pkgid,notificationModel);
           setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break
         case 'VNF':
-          this.deleteVnfService(index,pkgid);
+          this.notificationAttributes.title = this.tabs[1];
+          this.notificationModelShow(notificationModel);
+          this.deleteVnfService(index,pkgid,notificationModel);
           setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break
         case 'PNF':
-          this.deletePnfService(index,pkgid);
+          this.notificationAttributes.title = this.tabs[2];
+          this.notificationModelShow(notificationModel);
+          this.deletePnfService(index,pkgid,notificationModel);
           setTimeout(Math.random() > 0.5 ? resolve : reject,2000);
           break   
         }
@@ -691,44 +753,50 @@ changeUploadingSta(tab) {
   }
 
   //delete nsItem
-  deleteNsService(index,pkgid) {
+  deleteNsService(index,pkgid,notificationModel) {
     console.log(pkgid)
     console.log("deleteService!");
     this.myhttp.deleteNsIdData(pkgid)
       .subscribe((data) => {
         console.log("nsdel--->", data);
+        this.notificationSuccess(notificationModel);
         //refresh list after successful deletion
         this.getTableData();
       }, (err) => {
         console.log(err);
+        this.notificationFailed(notificationModel);
       })
    }
 
   //delete vnfItem
-  deleteVnfService(index,pkgid) {
+  deleteVnfService(index,pkgid,notificationModel) {
     console.log(pkgid)
     console.log("deleteVnfService!");
     this.myhttp.deleteVnfIdData(pkgid)
       .subscribe((data) => {
         console.log('vnfdel--->', data);
+        this.notificationSuccess(notificationModel);
         //refresh list after successful deletion
         this.getTableVnfData()
       }, (err) => {
         console.log(err);
+        this.notificationFailed(notificationModel);
       })
   }
 
   //delete PnfItem
-  deletePnfService(index,pkgid) {
+  deletePnfService(index,pkgid,notificationModel) {
     console.log(pkgid)
     console.log("deletePnfService!");
     this.myhttp.deletePnfIdData(pkgid)
       .subscribe((data) => {
         console.log('pnfdel--->', data);
         //refresh list after successful deletion
+        this.notificationSuccess(notificationModel);
         this.getTablePnfData()
       }, (err) => {
         console.log(err);
+        this.notificationFailed(notificationModel);
       })
   }
 

@@ -100,9 +100,9 @@
                             <td>{{item.nsdUsageState}}</td>
                             <td>
                                 <i [ngClass]="{'cannotclick':onboardData.status == 'onboarding' && i == currentIndex}"
-                                    class="anticon anticon-upload upicon" #upload_icon (click)="updataNsService(item.uuid,i)"
+                                    class="anticon anticon-upload upicon" #upload_icon (click)="updataNsService(item.uuid,i,notificationModel)"
                                     *ngIf="item.uuid"></i>
-                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"
                                     *ngIf="item.id"></i>
                                 <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
                                 <!--<span *ngIf="item.id && item.sameid == undefined">-->
@@ -199,9 +199,9 @@
                             <td>{{item.usageState}}</td>
                             <td>
                                 <i [ngClass]="{'cannotclick':onboardData.status == 'onboarding'  && i == currentIndex}"
-                                    class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid,i)"
+                                    class="anticon anticon-upload upicon" #upload_icon (click)="updataVnfService(item.uuid,i,notificationModel)"
                                     *ngIf="item.uuid"></i>
-                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"
                                     *ngIf="item.id"></i>
                                 <!--<span *ngIf="item.id && item.sameid == undefined">-->
                                     <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
@@ -289,7 +289,7 @@
                             <td>{{item.pnfdOnboardingState}}</td>
                             <td>{{item.pnfdUsageState}}</td>
                             <td>
-                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab)"></i>
+                                <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"></i>
                                 <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
                                     <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
                                         <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
@@ -308,5 +308,26 @@
 
         </div>
     </nz-tab>
+    <!--2019.08.14 add notification-->
+    <ng-template #notificationModel >
+        <div class="ant-notification-notice-content">
+            <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="{{notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
+                        </span>
+                <div class="ant-notification-notice-message">
+                    {{notificationAttributes.title}}&nbsp;
+                    {{"i18nTextDefine_"+notificationAttributes.action | translate}}&nbsp;&nbsp;{{"i18nTextDefine_"+notificationAttributes.status | translate}}
+                </div>
+                <div class="ant-notification-notice-description">
+                    <div class="notificationlist">
+                        <p>{{notificationAttributes.title}} id:&nbsp;</p>
+                        <span>{{ notificationAttributes.id }}</span>
+                    </div>
+                </div>
+                <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+            </div>
+        </div>
+    </ng-template>
 </nz-tabset>
 
