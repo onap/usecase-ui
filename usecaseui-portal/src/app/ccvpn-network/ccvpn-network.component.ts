@@ -13,10 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
-import {networkHttpservice} from '../networkHttpservice.service';
+import { networkHttpservice } from '../networkHttpservice.service';
 
 @Component({
     selector: 'app-ccvpn-network',
@@ -77,7 +77,7 @@ export class CcvpnNetworkComponent implements OnInit {
             thisNg.delcloudUrl = $(this).attr('data-url');
             thisNg.delLinkname = $(this).attr('data-link');
             thisNg.aaiId = $(this).attr('data-aaiid');
-      	    thisNg.getCloudUrl(thisNg.aaiId);
+            thisNg.getCloudUrl(thisNg.aaiId);
         });
     }
 
@@ -128,7 +128,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
     winWidth = $('#tpContainer').width();
     winHeight = $('#tpContainer').height();
-  charge = -300;
+    charge = -300;
 
     imgmap = {
         '1': './assets/images/cloud-county1.png',
@@ -176,7 +176,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     this.nonetwork = true;
                     return;
                 }
-	 this.nonetwork = false;
+                this.nonetwork = false;
                 for (let ii = 0; ii < data.length; ii++) {//Determine if there is external cloud information in the data, and kick it out.
                     if (data[ii]['aaiId'] != null) {
                         this.dataCloud = data.splice(ii, 1);
@@ -223,7 +223,7 @@ export class CcvpnNetworkComponent implements OnInit {
     getLinksData() {
         this.myhttp.getLogicalLinksData()
             .subscribe((data) => {
-                if (data["status"]=="FAILED") {
+                if (data["status"] == "FAILED") {
                     return;
                 }
                 for (let i = 0; i < data["logical-link"].length; i++) {//Determine whether there is an external cloud connection in the obtained connection, and kick it out.
@@ -276,13 +276,13 @@ export class CcvpnNetworkComponent implements OnInit {
         }
         console.log(charge);
         var svg = d3.select(_this.container).append('svg')
-                .attr('width', width)
-                .attr('height', height)
-                .attr('id', 'content-svg')
-                .style('pointer-events', 'all')
-                .style('position','absolute')
-                .style('top','1%')
-                .style('right','2%'),
+            .attr('width', width)
+            .attr('height', height)
+            .attr('id', 'content-svg')
+            .style('pointer-events', 'all')
+            .style('position', 'absolute')
+            .style('top', '1%')
+            .style('right', '2%'),
             graph = svg.append('g').attr('class', 'graph').attr('id', 'graph'),
 
             _g_nodes = graph.selectAll('g.node')
@@ -568,7 +568,7 @@ export class CcvpnNetworkComponent implements OnInit {
             width = 800;
         }
         var svg = d3.select('#content-svg');
-        svg.append('g').attr('class', 'out').attr('id', 'out').style({'display': 'block'}).attr('transform', 'translate(' + (width - 200) + ',0)');
+        svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
         var out = d3.select('#out');
         out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
         out.append('text').text(networkId)
@@ -593,16 +593,16 @@ export class CcvpnNetworkComponent implements OnInit {
         textval[7] = this.dataCloud[0]['networkId'];
         console.log(this.dataCloud);
         let dataD3 = this.d3Data;
-        let arr=[
-          textval[0],
-          textval[1]
+        let arr = [
+            textval[0],
+            textval[1]
         ];
         for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
-          for (let pp= 0; pp < arr.length; pp++) {//Determine which Domain network the two tp ports belong to
-            if (dataD3[p]['name'] == arr[pp]) {
-              textval[8] = dataD3[p]['source']['name'];//network1
+            for (let pp = 0; pp < arr.length; pp++) {//Determine which Domain network the two tp ports belong to
+                if (dataD3[p]['name'] == arr[pp]) {
+                    textval[8] = dataD3[p]['source']['name'];//network1
+                }
             }
-          }
         }
         textval[9] = dataCloudLink[0]['link-name'];
         let lines_json = {};
@@ -613,8 +613,8 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             width = 800;
         }
-        console.log("shuchu01dataCloudLink"+dataCloudLink[0]);
-        console.log("shuchutextval"+textval);
+        console.log("shuchu01dataCloudLink" + dataCloudLink[0]);
+        console.log("shuchutextval" + textval);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == textval[8]) {
                 //Get the x, y coordinates of the second level
@@ -656,8 +656,8 @@ export class CcvpnNetworkComponent implements OnInit {
             'data-link': textval[9],
         });
         svg.html(svg.html());
-      this.getCloudUrl(textval[6]);
-      this.getExtAAIIdVersion(textval[6]);
+        this.getCloudUrl(textval[6]);
+        this.getExtAAIIdVersion(textval[6]);
     }
 
 
@@ -666,25 +666,25 @@ export class CcvpnNetworkComponent implements OnInit {
         this.myhttp.queryCloudUrl(aaiId)
             .subscribe((data) => {
                 this.delcloudUrl = data['service-url'];
-              $('.cloudline').attr({
-                'data-url': data['service-url']
-              });
+                $('.cloudline').attr({
+                    'data-url': data['service-url']
+                });
             }, (err) => {
                 console.log(err);
             });
     }
 
-  //Query external cloud ext-aai-id resource-version
-    getExtAAIIdVersion(aaiId){
+    //Query external cloud ext-aai-id resource-version
+    getExtAAIIdVersion(aaiId) {
         this.myhttp.queryExtAAIIdVersion(aaiId)
-          .subscribe((data) => {
-            this.delVersion = data["resource-version"];
-            $('.cloudline').attr({
-              'data-version':data["resource-version"],
+            .subscribe((data) => {
+                this.delVersion = data["resource-version"];
+                $('.cloudline').attr({
+                    'data-version': data["resource-version"],
+                });
+            }, (err) => {
+                console.log(err);
             });
-          }, (err) => {
-            console.log(err);
-          });
     }
 
 
@@ -804,7 +804,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 'relationship': [
                     {
                         'related-to': 'p-interface',
-            'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
+                        'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
                         'relationship-data': [
                             {
                                 'relationship-key': 'pnf.pnf-id',
@@ -818,7 +818,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     },
                     {
                         'related-to': 'p-interface',
-            'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode2 + '/p-interfaces/p-interface/' + this.selecteTpName2,
+                        'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode2 + '/p-interfaces/p-interface/' + this.selecteTpName2,
                         'relationship-data': [
                             {
                                 'relationship-key': 'pnf.pnf-id',
@@ -954,7 +954,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 this.outCloudShow = true;
                 this.hideForm();
                 this.outCloud(this.imgmap);
-                setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name,time), 0);
+                setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name, time), 0);
             }, (err) => {
                 console.log(err);
             });
@@ -970,7 +970,7 @@ export class CcvpnNetworkComponent implements OnInit {
             width = 800;
         }
         var svg = d3.select('#content-svg');
-        svg.append('g').attr('class', 'out').attr('id', 'out').style({'display': 'block'}).attr('transform', 'translate(' + (width - 200) + ',0)');
+        svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
         var out = d3.select('#out');
         out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
         out.append('text').text('Partner Network')
@@ -983,7 +983,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     //Add external cloud connection
-    cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name,time) {
+    cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name, time) {
         let lines_json = {};
         var _this = this,
             width;
@@ -992,12 +992,12 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             width = 800;
         }
-        console.log("shuchuNetworkVal1:"+networkVal1);
+        console.log("shuchuNetworkVal1:" + networkVal1);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == networkVal1) {
                 //Get the x, y coordinates of the second level
                 var translates = $('.node').eq(i).css('transform');
-                console.log("shuchuTranslates:"+translates);
+                console.log("shuchuTranslates:" + translates);
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
@@ -1030,7 +1030,7 @@ export class CcvpnNetworkComponent implements OnInit {
             'data-network': networkVal1,
             'data-cloudnetwork': cloudNetWork,
             'data-url': cloudUrl,
-            'data-aaiid':time,
+            'data-aaiid': time,
             'data-link': link_name
         });
         svg.html(svg.html());
@@ -1040,26 +1040,26 @@ export class CcvpnNetworkComponent implements OnInit {
     //Create an external cloud, call the following 5 interfaces when connecting:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
     createCloudNetwork(time) {
         let _thiss = this;
-        console.log("shuchuCloudNetwork:"+time);
-        let params= {
-      		'-xmlns': 'http://org.onap.aai.inventory/v14',
-                'in-maint': 'false',
-                "network-id":this.cloudNetwork,
-                "provider-id": "",
-                "client-id": "",
-                "te-topo-id": "",
-                "relationship-list": {
-                    "relationship": [{
-                        "related-to": "ext-aai-network",
-          		'related-link': '/aai/v14/network/ext-aai-networks/ext-aai-network/' + time
-                    }]
-                }
+        console.log("shuchuCloudNetwork:" + time);
+        let params = {
+            '-xmlns': 'http://org.onap.aai.inventory/v14',
+            'in-maint': 'false',
+            "network-id": this.cloudNetwork,
+            "provider-id": "",
+            "client-id": "",
+            "te-topo-id": "",
+            "relationship-list": {
+                "relationship": [{
+                    "related-to": "ext-aai-network",
+                    'related-link': '/aai/v14/network/ext-aai-networks/ext-aai-network/' + time
+                }]
+            }
         };
 
         //Do some asynchronous operations
         _thiss.myhttp.createNetwrok(params)
             .subscribe((data) => {
-                if(data["status"]=="SUCCESS"){
+                if (data["status"] == "SUCCESS") {
                     _thiss.createPnfs(time)
                 }
             }, (err) => {
@@ -1069,38 +1069,38 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     createPnfs(time) {
-        console.log("shuchupnf:"+time);
+        console.log("shuchupnf:" + time);
         let _thiss = this;
-        let params= {
-      		"-xmlns": "http://org.onap.aai.inventory/v14",
-                "pnf-name": this.cloudNode,
-                "pnf-id": this.cloudNode,
-                "in-maint": "true",
-                "relationship-list": {
-                    "relationship": [
-                        {
-                            "related-to": "ext-aai-network",
-                            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-            		    "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
-                            "relationship-data": {
-                                "relationship-key": "ext-aai-network.aai-id",
-                                "relationship-value":time
-                            }
-                        },
-                        {
-                            "related-to": "network-resource",
-                            "relationship-label": "tosca.relationships.network.LinksTo",
-            		    "related-link": "/aai/v14/network/network-resources/network-resource/" + this.cloudNetwork
+        let params = {
+            "-xmlns": "http://org.onap.aai.inventory/v14",
+            "pnf-name": this.cloudNode,
+            "pnf-id": this.cloudNode,
+            "in-maint": "true",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "ext-aai-network",
+                        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+                        "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
+                        "relationship-data": {
+                            "relationship-key": "ext-aai-network.aai-id",
+                            "relationship-value": time
                         }
-                    ]
-                }
+                    },
+                    {
+                        "related-to": "network-resource",
+                        "relationship-label": "tosca.relationships.network.LinksTo",
+                        "related-link": "/aai/v14/network/network-resources/network-resource/" + this.cloudNetwork
+                    }
+                ]
+            }
         }
 
         // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createPnf(params)
             .subscribe((data) => {
-                if(data["status"]=="SUCCESS"){
+                if (data["status"] == "SUCCESS") {
                     _thiss.createCloudTp(time)
                 }
             }, (err) => {
@@ -1111,16 +1111,16 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     createCloudTp(time) {
-        console.log("shuchuTp:"+time);
+        console.log("shuchuTp:" + time);
         let _thiss = this;
-        let params= {
-      		"-xmlns": "http://org.onap.aai.inventory/v14",
-                "interface-name": this.cloudTp,
-                "speed-value": "1000000",
-                "in-maint": "true",
-                "network-ref": "",
-                "transparent": "true",
-                "operational-status": "up"
+        let params = {
+            "-xmlns": "http://org.onap.aai.inventory/v14",
+            "interface-name": this.cloudTp,
+            "speed-value": "1000000",
+            "in-maint": "true",
+            "network-ref": "",
+            "transparent": "true",
+            "operational-status": "up"
         };
 
         let cloudNodeName = this.cloudNode;
@@ -1129,7 +1129,7 @@ export class CcvpnNetworkComponent implements OnInit {
         //Do some asynchronous operations
         _thiss.myhttp.createTp(params, cloudNodeName)
             .subscribe((data) => {
-                if(data["status"]=="SUCCESS"){
+                if (data["status"] == "SUCCESS") {
                     _thiss.createCloudLinks(time)
                 }
             }, (err) => {
@@ -1140,75 +1140,75 @@ export class CcvpnNetworkComponent implements OnInit {
         // return pro;
     }
 
-  createCloudLinks(time) {
-    let _thiss = this;
-    console.log('shuchuCloudLinks:' + time);
-    let params = {
-      "-xmlns": "http://org.onap.aai.inventory/v14",
-      "link-name": this.linkName,
-      "in-maint": "false",
-      "link-type": "cross-link",
-      "speed-value": "",
-      "operational-status": "up",
-      "relationship-list": {
-        "relationship": [
-          {
-            "related-to": "p-interface",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v14/network/pnfs/pnf/" + this.selectedNode1 + "/p-interfaces/p-interface/" + this.selecteTpName1,
-            "relationship-data": [
-              {
-                "relationship-key": "pnf.pnf-name",
-                "relationship-value": this.selectedNode1
-              },
-              {
-                "relationship-key": "p-interface.interface-name",
-                "relationship-value": this.selecteTpName1
-              }
-            ],
-            "related-to-property": [{
-              "property-key": "p-interface.prov-status"
-            }]
-          },
-          {
-            "related-to": "p-interface",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v14/network/pnfs/pnf/" + this.cloudNode + "/p-interfaces/p-interface/" + this.cloudTp,
-            "relationship-data": [
-              {
-                "relationship-key": "pnf.pnf-name",
-                "relationship-value": this.cloudNode
-              },
-              {
-                "relationship-key": "p-interface.interface-name",
-                "relationship-value": this.cloudTp
-              }
-            ],
-            "related-to-property": [{
-              "property-key": "p-interface.prov-status"
-            }]
-          },
-          {
-            "related-to": "ext-aai-network",
-            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-            "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
-            "relationship-data": [
-              {
-                "relationship-key": "ext-aai-network.aai-id",
-                "relationship-value": time
-              }
-            ]
-          }
-        ]
-      }
-    };
+    createCloudLinks(time) {
+        let _thiss = this;
+        console.log('shuchuCloudLinks:' + time);
+        let params = {
+            "-xmlns": "http://org.onap.aai.inventory/v14",
+            "link-name": this.linkName,
+            "in-maint": "false",
+            "link-type": "cross-link",
+            "speed-value": "",
+            "operational-status": "up",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "p-interface",
+                        "relationship-label": "tosca.relationships.network.LinksTo",
+                        "related-link": "/aai/v14/network/pnfs/pnf/" + this.selectedNode1 + "/p-interfaces/p-interface/" + this.selecteTpName1,
+                        "relationship-data": [
+                            {
+                                "relationship-key": "pnf.pnf-name",
+                                "relationship-value": this.selectedNode1
+                            },
+                            {
+                                "relationship-key": "p-interface.interface-name",
+                                "relationship-value": this.selecteTpName1
+                            }
+                        ],
+                        "related-to-property": [{
+                            "property-key": "p-interface.prov-status"
+                        }]
+                    },
+                    {
+                        "related-to": "p-interface",
+                        "relationship-label": "tosca.relationships.network.LinksTo",
+                        "related-link": "/aai/v14/network/pnfs/pnf/" + this.cloudNode + "/p-interfaces/p-interface/" + this.cloudTp,
+                        "relationship-data": [
+                            {
+                                "relationship-key": "pnf.pnf-name",
+                                "relationship-value": this.cloudNode
+                            },
+                            {
+                                "relationship-key": "p-interface.interface-name",
+                                "relationship-value": this.cloudTp
+                            }
+                        ],
+                        "related-to-property": [{
+                            "property-key": "p-interface.prov-status"
+                        }]
+                    },
+                    {
+                        "related-to": "ext-aai-network",
+                        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+                        "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
+                        "relationship-data": [
+                            {
+                                "relationship-key": "ext-aai-network.aai-id",
+                                "relationship-value": time
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
 
         // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createCloudLink(params)
             .subscribe((data) => {
                 // resolve(data['status']);
-                if(data["status"]=="SUCCESS"){
+                if (data["status"] == "SUCCESS") {
                     _thiss.queryOutCloudLink(time);
                 }
             }, (err) => {
@@ -1219,39 +1219,39 @@ export class CcvpnNetworkComponent implements OnInit {
         // return pro;
     }
 
-  createCloudUrls(time) {
-    let _thiss = this;
-    console.log(this.cloudNetwork);
-    console.log('shuchuUrls:' + time);
-    let params = {
-      '-xmlns': 'http://org.onap.aai.inventory/v14',
-      'aai-id': time,
-      'esr-system-info': {
-        'esr-system-info-id': 'example-esr-system-info-id-val-0',
-        'service-url': this.cloudUrl,
-        'user-name': 'demo',
-        'password': 'demo123456!',
-        'system-type': 'ONAP'
-      }
-    };
-    console.log(time);
-    console.log(params['aai-id']);
-    // var pro = new Promise(function (resolve, reject) {
-    //Do some asynchronous operations
-    _thiss.myhttp.createCloudUrl(params)
-      .subscribe((data) => {
-        if (data['status'] == 'SUCCESS') {
-          console.log(true);
-          _thiss.createCloudNetwork(time);
-        }
-        // resolve(data['status']);
-      }, (err) => {
-        // reject(err);
-        console.log(err);
-      });
-    // });
-    // return pro;
-  }
+    createCloudUrls(time) {
+        let _thiss = this;
+        console.log(this.cloudNetwork);
+        console.log('shuchuUrls:' + time);
+        let params = {
+            '-xmlns': 'http://org.onap.aai.inventory/v14',
+            'aai-id': time,
+            'esr-system-info': {
+                'esr-system-info-id': 'example-esr-system-info-id-val-0',
+                'service-url': this.cloudUrl,
+                'user-name': 'demo',
+                'password': 'demo123456!',
+                'system-type': 'ONAP'
+            }
+        };
+        console.log(time);
+        console.log(params['aai-id']);
+        // var pro = new Promise(function (resolve, reject) {
+        //Do some asynchronous operations
+        _thiss.myhttp.createCloudUrl(params)
+            .subscribe((data) => {
+                if (data['status'] == 'SUCCESS') {
+                    console.log(true);
+                    _thiss.createCloudNetwork(time);
+                }
+                // resolve(data['status']);
+            }, (err) => {
+                // reject(err);
+                console.log(err);
+            });
+        // });
+        // return pro;
+    }
 
     //Local cloud TP port Delete connection Call interface deleteLink
     delLink(): void {
@@ -1294,7 +1294,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let deltp1 = this.delTp1,
             deltp2 = this.delTp2,
             version = this.delVersion,
-            aaiId=this.aaiId;
+            aaiId = this.aaiId;
         let params = {
             "aaiId": aaiId,
             "version": version,

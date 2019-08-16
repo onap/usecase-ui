@@ -23,12 +23,12 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.less'],
-  animations: [ slideToRight ]
+  animations: [slideToRight]
 })
 export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
 
-  constructor(private myhttp: HomesService,private router:Router) { }
+  constructor(private myhttp: HomesService, private router: Router) { }
 
   ngOnInit() {
     this.getListSortMasters();
@@ -43,24 +43,24 @@ export class HomeComponent implements OnInit {
 
 
   // services
-  serviceNumber:number = 0;
-  serviceChartData:Object;
-  serviceChartInit:Object = {
-  backgroundColor: '#fff',
+  serviceNumber: number = 0;
+  serviceChartData: Object;
+  serviceChartInit: Object = {
+    backgroundColor: '#fff',
     height: 200,
-    option:{
+    option: {
       legend: {
         orient: 'vertical',
         left: '0px',
         bottom: '0px',
-        data: ['Active','Closed']
+        data: ['Active', 'Closed']
       },
       color: ["#7AC0EF", "#6A86D8", "#748CDC", "#7277D4", "#7067CE", "#B9B0F7", "#7DCFF5"],
       series: [
         {
           name: "服务信息",
           radius: ['50%', '70%'],
-          center:['50%', '45%'],
+          center: ['50%', '45%'],
           avoidLabelOverlap: false,
           label: {
             normal: {
@@ -73,11 +73,11 @@ export class HomeComponent implements OnInit {
               textStyle: {
                 fontSize: '18',
                 fontWeight: 'bold'
+              }
             }
-          }
-        },
-        labelLine: {
-          normal: {
+          },
+          labelLine: {
+            normal: {
               show: false
             }
           },
@@ -96,82 +96,80 @@ export class HomeComponent implements OnInit {
   };
   // gethomeServiceData
   serviceChart = true;
-  getHomeServiceData(){
+  getHomeServiceData() {
     this.myhttp.getHomeServiceData()
-    .subscribe(
-      (data)=>{
-        // console.log(data);
-        this.serviceNumber = data.serviceTotalNum;
+      .subscribe(
+        (data) => {          
+          this.serviceNumber = data.serviceTotalNum;
           if (this.serviceNumber > 0) {
             this.serviceChart = true;
           } else {
             this.serviceChart = false;
           }
-        this.serviceChartData = {
-          series:[{data:data.customerServiceList}]
-        };
-        // console.log(this.serviceChartData);
-      },
-      (err)=>{
-        console.log(err);
-      }
-    )
+          this.serviceChartData = {
+            series: [{ data: data.customerServiceList }]
+          };         
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
   }
 
-    // VM alarm
-    VMAlarmChartData: Object;
-    VMAlarmChartInit: Object = {
-        height: 180,
-        option: {
-            color: [
-                {
-                    type: 'linear',
-                    x: 0,
-                    y: 0,
-                    x2: 0,
-                    y2: 1,
-                    colorStops: [{
-                        offset: 0, color: '#FB93C2' 
-                    }, {
-                        offset: 1, color: '#FB7788' 
-                    }],
-                    globalCoord: false // 
-                }, {
-                    type: 'linear',
-                    x: 0,
-                    y: 0,
-                    x2: 0,
-                    y2: 1,
-                    colorStops: [{
-                        offset: 0, color: '#A6BFE4' 
-                    }, {
-                        offset: 1, color: '#7A8BAE' 
-                    }],
-                    globalCoord: false
-                }],
-            series: [{
-                name: "",
-                radius: ['50%', '70%'],
-                center: ['50%', '45%'],
-                label: {
-                    normal: {
-                        show: false,
-                    },
-                    emphasis: {
-                        show: true,
-                        formatter: '{b}\n{c},{d}%',
-                        color: "#3C4F8C"
-                    }
-                }
-            }]
+  // VM alarm
+  VMAlarmChartData: Object;
+  VMAlarmChartInit: Object = {
+    height: 180,
+    option: {
+      color: [
+        {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: '#FB93C2'
+          }, {
+            offset: 1, color: '#FB7788'
+          }],
+          globalCoord: false  
+        }, {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: '#A6BFE4'
+          }, {
+            offset: 1, color: '#7A8BAE'
+          }],
+          globalCoord: false
+        }],
+      series: [{
+        name: "",
+        radius: ['50%', '70%'],
+        center: ['50%', '45%'],
+        label: {
+          normal: {
+            show: false,
+          },
+          emphasis: {
+            show: true,
+            formatter: '{b}\n{c},{d}%',
+            color: "#3C4F8C"
+          }
         }
-    };
+      }]
+    }
+  };
 
   // alarm bar
-  alarmChartData:Object;
-  alarmChartInit:Object = {
+  alarmChartData: Object;
+  alarmChartInit: Object = {
     height: 180,
-    option:{
+    option: {
       legend: {
         orient: 'vertical',
         left: '0px',
@@ -193,7 +191,7 @@ export class HomeComponent implements OnInit {
           colorStops: [{
             offset: 0, color: '#FB93C2'
           }, {
-            offset: 1, color: '#FB7788' 
+            offset: 1, color: '#FB7788'
           }],
           globalCoord: false
         }, {
@@ -212,7 +210,7 @@ export class HomeComponent implements OnInit {
       series: [{
         name: " ",
         radius: '55%',
-        center:['50%', '45%'],
+        center: ['50%', '45%'],
         label: {
           normal: {
             show: false,
@@ -226,35 +224,35 @@ export class HomeComponent implements OnInit {
       }]
     }
   };
-  getHomeAlarmData(){
+  getHomeAlarmData() {
     this.myhttp.getHomeAlarmData()
-      .subscribe((data)=>{
-        this.alarmChartData ={
-          series:[{
+      .subscribe((data) => {
+        this.alarmChartData = {
+          series: [{
             data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
           }]
         };
-                this.VMAlarmChartData = {
-                    series: [{
-                        data: [{name: "Active", value: data[0]}, {name: "Fixed", value: data[1]}]
-                    }]
-                };
-            })
-    }
+        this.VMAlarmChartData = {
+          series: [{
+            data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
+          }]
+        };
+      })
+  }
 
   // alarm line
-  alarmLineChartData:Object;
-  alarmLineChartInit:Object = {
-    height:320,
-    option:{
+  alarmLineChartData: Object;
+  alarmLineChartInit: Object = {
+    height: 320,
+    option: {
       legend: {
         bottom: '0px',
         data: ['CPU', 'Memory', 'Disk']
       },
-      xAxis:{
-        data:[]
+      xAxis: {
+        data: []
       },
-      series : [
+      series: [
         {
           name: 'CPU',
           type: 'line',
@@ -282,8 +280,8 @@ export class HomeComponent implements OnInit {
       ]
     }
   };
-  
-   // services 
+
+  // services 
   servicesBarChartData: Object;
   servicesBarChartData1: Object;
   servicesBarChartData2: Object;
@@ -291,11 +289,11 @@ export class HomeComponent implements OnInit {
     height: 40,
     width: 160,
     option: {
-      tooltip:{
-        
+      tooltip: {
+
       },
       grid: {
-        
+
       },
       xAxis: {
         type: 'value',
@@ -322,21 +320,7 @@ export class HomeComponent implements OnInit {
         stack: 'income',
         barWidth: 12,
         itemStyle: {
-          normal: {
-            // color: {
-            //   type: 'bar',
-            //   colorStops: [{
-            //     offset: 0,
-            //     color: '#FDAC63' 
-            //   }, {
-            //     offset: 1,
-            //     color: '#FECE72' 
-            //   }],
-            //   globalCoord: false,
-
-            // },
-            // barBorderRadius: [10, 10, 10, 10]
-          }
+          normal: {}
         },
       }, {
         type: 'bar',
@@ -386,9 +370,9 @@ export class HomeComponent implements OnInit {
                       color: '#FDAC63'
                     }, {
                       offset: 1,
-                      color: '#FECE72' 
+                      color: '#FECE72'
                     }],
-                    globalCoord: false, 
+                    globalCoord: false,
                   },
                   barBorderRadius: [10, 10, 10, 10]
                 }
@@ -417,12 +401,12 @@ export class HomeComponent implements OnInit {
                     type: 'bar',
                     colorStops: [{
                       offset: 0,
-                      color: '#9AD09F' 
+                      color: '#9AD09F'
                     }, {
                       offset: 1,
-                      color: '#BCECB8' 
+                      color: '#BCECB8'
                     }],
-                    globalCoord: false, 
+                    globalCoord: false,
 
                   },
                   barBorderRadius: [10, 10, 10, 10]
@@ -443,24 +427,26 @@ export class HomeComponent implements OnInit {
         this.PnfData = data.length;
         this.servicesBarChartData2 = {
           series: [
-            { data: [this.PnfData],
+            {
+              data: [this.PnfData],
               itemStyle: {
                 normal: {
                   color: {
                     type: 'bar',
                     colorStops: [{
                       offset: 0,
-                      color: '#71ADEF' 
+                      color: '#71ADEF'
                     }, {
                       offset: 1,
-                      color: '#ACCAF4' 
+                      color: '#ACCAF4'
                     }],
-                    globalCoord: false, 
+                    globalCoord: false,
 
                   },
                   barBorderRadius: [10, 10, 10, 10]
                 }
-              },},
+              },
+            },
             { data: [100] },
           ]
         }
@@ -472,65 +458,63 @@ export class HomeComponent implements OnInit {
   sourceNameList = ['performanceNameOne'];
   sourceNameSelected = null;
 
-  //2019.1.2 add listSortMasters
-  listSortMasters=null;
+  
+  listSortMasters = null;
 
-  getListSortMasters(){
-      if(sessionStorage.getItem("DefaultLang") ==undefined){
-          sessionStorage.setItem("DefaultLang","en");
-      }
-      this.myhttp.getListSortMasters()
-          .subscribe((data)=>{
-              this.listSortMasters = JSON.stringify(data);
-        // console.log(this.listSortMasters);
-              sessionStorage.setItem('listSortMasters',this.listSortMasters)
-          })
+  getListSortMasters() {
+    if (sessionStorage.getItem("DefaultLang") == undefined) {
+      sessionStorage.setItem("DefaultLang", "en");
+    }
+    this.myhttp.getListSortMasters()
+      .subscribe((data) => {
+        this.listSortMasters = JSON.stringify(data);        
+        sessionStorage.setItem('listSortMasters', this.listSortMasters)
+      })
   }
 
-  getSourceNames(){
+  getSourceNames() {
     this.myhttp.getSourceNames()
-      .subscribe((data)=>{
+      .subscribe((data) => {
         this.sourceNameList = data;
       })
   }
-  sourceNameSelect(item){
-    if(this.sourceNameSelected != item){
-      // console.log(item);
+  sourceNameSelect(item) {
+    if (this.sourceNameSelected != item) {      
       this.sourceNameSelected = item;
       this.getHomeAlarmChartData()
-    } 
-  }
-  getHomeAlarmChartData(){
-    let nowTime = this.myhttp.dateformater( Date.now());
-    let startTime = this.myhttp.dateformater( Date.now()-30*24*60*60*1000 );
-    let obj = {
-      sourceName:this.sourceNameSelected,
-      startTime: startTime,
-      endTime:nowTime,
-      format:"day"
     }
-    // console.log(obj);
+  }
+  getHomeAlarmChartData() {
+    let nowTime = this.myhttp.dateformater(Date.now());
+    let startTime = this.myhttp.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    let obj = {
+      sourceName: this.sourceNameSelected,
+      startTime: startTime,
+      endTime: nowTime,
+      format: "day"
+    }
+   
     this.myhttp.getHomeAlarmChartData(obj)
-      .subscribe((data)=>{
+      .subscribe((data) => {
         this.alarmLineChartData = {
-          xAxis:{
-            data:data.dataList
+          xAxis: {
+            data: data.dataList
           },
-          series:[
-            {data:data.allList},
-            {data:data.ActiveList},
-            {data:data.closedList}
+          series: [
+            { data: data.allList },
+            { data: data.ActiveList },
+            { data: data.closedList }
           ]
         }
-      },(err)=>{
+      }, (err) => {
         console.log(err);
       })
   }
 
-  goback_services(){
+  goback_services() {
     this.router.navigateByUrl('/services/services-list');
   }
-  goback_onboard(){
+  goback_onboard() {
     this.router.navigateByUrl('/services/onboard-vnf-vm');
   }
 
