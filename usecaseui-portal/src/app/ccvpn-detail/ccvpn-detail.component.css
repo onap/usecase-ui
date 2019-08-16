@@ -26,14 +26,13 @@ hr {
 }
 .model {
     background-color: #F7F8FC;
-    /*height: 100%;*/
     overflow-y: auto;
 }
 .creation-model{
     position: relative;
     height: 100%;
 }
-.top-title{ /*2019.02.22 add*/
+.top-title{
     width: 100%;
     padding: 20px;
     position: relative;
@@ -64,7 +63,6 @@ hr {
     border-radius:4px;
     color: #D7D7D7;
     cursor: pointer;
-    /*border: 1px solid #ffffff;*/
 }
 .model .back:hover{
     background: url("../../assets/images/Return-icon-active.png")!important;
@@ -175,9 +173,7 @@ hr {
     left: 50px;
     top: 60px;
     background-color: #fff;
-    /*box-shadow: 0px 0px 20px #000;*/
     width:1500px;
-    /*width:1300px;px*/
     height: 81%;
     border-radius:2px;
     overflow:auto;
@@ -196,10 +192,7 @@ hr {
     font-size: 18px;
     font-weight: 500;
     margin: 10px auto;
-    /*padding-left: 10px;*/
     color: #06A7E2;
-    /*color: #ffffff;*/
-    /*background:linear-gradient(90deg,rgba(7,169,225,1) 0%,rgba(48,217,196,1) 100%);*/
     border-bottom: 2px solid;
     border-image: -webkit-linear-gradient(#07A9E1,#30D9C4) 100 100;
     border-image: -moz-linear-gradient(#07A9E1,#30D9C4) 100 100;
@@ -258,13 +251,11 @@ hr {
     font-size: 16px;
     margin: 0 15px;
 }
-.model .sitemodel .action button:nth-child(2),.model .sotnnpnmodel .action button:nth-child(2){
-    /*background:linear-gradient(310deg,rgba(30,158,255,1) 0%,rgba(99,200,255,1) 100%);*/
+.model .sitemodel .action button:nth-child(2),.model .sotnnpnmodel .action button:nth-child(2){    
     background: #0DA9E2;
     color: #fff;
 }
-.model .sitemodel .action button:nth-child(2):hover,.model .sotnnpnmodel .action button:nth-child(2):hover{
-    /*background:linear-gradient(90deg, rgb(103, 207, 246) 0%, rgb(69, 175, 255) 100%) !important;*/
+.model .sitemodel .action button:nth-child(2):hover,.model .sotnnpnmodel .action button:nth-child(2):hover{    
     background:#09C6E2;
 }
 

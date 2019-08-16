@@ -120,11 +120,11 @@ export class HomesService {
     return this.http.get<any>(httpurl);
   }
 
-    //2019.1.2 add listSortMasters
+
     getListSortMasters(){
         return this.http.get<any>(this.url.listSortMasters);
     }
-    //2019.05.08 add
+
     getCurrentLanguage(currentloginId){
       let url=this.url.currentLanguage+currentloginId;
         return this.http.get<any>(url);
