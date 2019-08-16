@@ -1,7 +1,46 @@
+@media screen and (min-width: 1200px){
+    .siderContent{
+        height:240px;
+        img{
+            margin-top: 40px;
+        }
+    }
+    .main{
+        margin-left: 330px
+    }
+}
+@media screen and (max-width: 1200px){
+    .siderContent{
+        height:180px;
+        img{
+            transform: scale(0.8);
+            margin-top: 26px;
+        } 
+    }
+    .main{
+        margin-left: 260px
+    }  
+}
+
 nz-layout {
     nz-sider {
+        position: fixed;
+        left: 0;
+        z-index: 100;
+        // overflow: auto; 
+        height: 100vh; 
+        background: #313449 url('../assets/images/UUIMenuBar.png') no-repeat;
+        background-size: 100%;
+        .siderContent{
+            width: 100%;
+            text-align: center;
+            img{
+                transition: .5s;
+            }
+        }
         ul {
             background: transparent;
+            width: 100%;
             li {
                 margin: 0;
                 font-size: 16px;
@@ -54,5 +93,9 @@ nz-layout {
                 width: 80%;
             }
         }
+    }
+    .main{
+        height:100vh;
+        position:relative; 
     }
 }

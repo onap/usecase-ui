@@ -14,11 +14,11 @@
     limitations under the License.
 -->
 <nz-layout>
-  <nz-sider nzWidth='330' style="overflow: auto; height: 100vh; position: fixed; left: 0;background: url('assets/images/UUIMenuBar.png')">
-    <div style="width: 330px;height:240px;text-align: center">
-      <img src="assets/images/uui-logo130.png" alt="" style="margin-top: 40px">
+  <nz-sider nzWidth='330' nzBreakpoint='xl' nzCollapsedWidth=260>
+    <div class="siderContent">
+      <img src="../assets/images/uui-logo130.png" alt="">
     </div>
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="width: 330px">
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
       <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[0] == true}" (click)="thisActive(0)">
         <a routerLink="home">
           <span title>
@@ -91,7 +91,7 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-layout style="margin-left: 330px;  height:100vh; position:relative;">
+  <nz-layout class="main">
       <router-outlet></router-outlet>
   </nz-layout>
 </nz-layout>

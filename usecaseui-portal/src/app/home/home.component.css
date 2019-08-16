@@ -71,6 +71,7 @@ hr {
 }
 .content .rightcontent .rt-content .poerformance {
   float: left;
+  margin-left: 2%;
   background-color: #fff;
   height: 100%;
   width: 50%;
