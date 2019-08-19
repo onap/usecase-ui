@@ -121,124 +121,134 @@ export class HomeComponent implements OnInit {
   VMAlarmChartInit: Object = {
     height: 180,
     option: {
-      color: [
-        {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-            offset: 0, color: '#FB93C2'
-          }, {
-            offset: 1, color: '#FB7788'
-          }],
-          globalCoord: false  
-        }, {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-            offset: 0, color: '#A6BFE4'
-          }, {
-            offset: 1, color: '#7A8BAE'
-          }],
-          globalCoord: false
-        }],
-      series: [{
-        name: "",
-        radius: ['50%', '70%'],
-        center: ['50%', '45%'],
-        label: {
-          normal: {
-            show: false,
-          },
-          emphasis: {
-            show: true,
-            formatter: '{b}\n{c},{d}%',
-            color: "#3C4F8C"
-          }
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}\n{c},{d}%'
+            },
+            color: [
+                {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FB93C2' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FB7788' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }, {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#A6BFE4' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#7A8BAE' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }],
+            series: [{
+                name: "告警信息",
+                radius: ['50%', '70%'],
+                center: ['50%', '45%'],
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    emphasis: {
+                        show: true,
+                        formatter: '{b}\n{c},{d}%',
+                        color: "#3C4F8C"
+                    }
+                },
+                 
+            }]
         }
-      }]
-    }
-  };
+    };
 
   // alarm bar
   alarmChartData: Object;
   alarmChartInit: Object = {
     height: 180,
     option: {
-      legend: {
-        orient: 'vertical',
-        left: '0px',
-        bottom: '0px',
-        itemWidth: 10,
-        itemHeight: 10,
-        textStyle: {
-          color: "#3C4F8C"
-        },
-        data: ['Active', 'Fixed']
-      },
-      color: [
-        {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-            offset: 0, color: '#FB93C2'
-          }, {
-            offset: 1, color: '#FB7788'
-          }],
-          globalCoord: false
-        }, {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-            offset: 0, color: '#A6BFE4'
-          }, {
-            offset: 1, color: '#7A8BAE'
-          }],
-          globalCoord: false
-        }],
-      series: [{
-        name: " ",
-        radius: '55%',
-        center: ['50%', '45%'],
-        label: {
-          normal: {
-            show: false,
-          },
-          emphasis: {
-            show: true,
-            formatter: '{b}\n{c},{d}%',
-            color: "#3C4F8C"
-          }
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}\n{c},{d}%'
+            },
+            legend: {
+                orient: 'vertical',
+                left: '0px',
+                bottom: '0px',
+                itemWidth: 10,
+                itemHeight: 10,
+                textStyle: {
+                    color: "#3C4F8C"
+                },
+                data: ['Active', 'Fixed']
+            },
+            color: [
+                {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FB93C2' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FB7788' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }, {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#A6BFE4' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#7A8BAE' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }],
+            series: [{
+                name: "告警信息",
+                radius: '55%',
+                center: ['50%', '45%'],
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    emphasis: {
+                        show: true,
+                        formatter: '{b}\n{c},{d}%',
+                        color: "#3C4F8C"
+                    }
+                }
+            }]
         }
-      }]
+    };
+
+    getHomeAlarmData() {
+        this.myhttp.getHomeAlarmData()
+            .subscribe((data) => {
+                this.alarmChartData = {
+                    series: [{
+                        data: [{name: "Active", value: data[0]}, {name: "Fixed", value: data[1]}]
+                    }]
+                };
+                this.VMAlarmChartData = {
+                    series: [{
+                        data: [{name: "Active", value: data[0]}, {name: "Fixed", value: data[1]}]
+                    }]
+                };
+            })
     }
-  };
-  getHomeAlarmData() {
-    this.myhttp.getHomeAlarmData()
-      .subscribe((data) => {
-        this.alarmChartData = {
-          series: [{
-            data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
-          }]
-        };
-        this.VMAlarmChartData = {
-          series: [{
-            data: [{ name: "Active", value: data[0] }, { name: "Fixed", value: data[1] }]
-          }]
-        };
-      })
-  }
 
   // alarm line
   alarmLineChartData: Object;
