@@ -70,7 +70,9 @@ export class CcvpnCreationComponent implements OnInit {
     siteTableData = [];
     siteBaseData = {}; //sitemodel one sdwansiteresource_list
     // cpe
+    siteSdwanDevice = []; //sitemodel  SdwanDevice port Table data
     siteCpeData = {}; //sitemodel two sdwandevice_list
+    tabInputShowDevice = [];//Device port Table input和span The status identifier of the label switching display
     // Wan Port
     siteWanData = [];  //sitemodel three wan port Table data
     siteWanParams = {}; //wan port Table Detailed parameters of each line of data
@@ -221,7 +223,11 @@ export class CcvpnCreationComponent implements OnInit {
                 }
             }
         });
+        this.siteSdwanDevice.push(this.siteCpeData);
         this.siteWanData.push(this.siteWanParams);
+        this.siteWanData.map((item, index) => {
+        this.tabInputShowDevice[index] = true;
+        });
         this.siteWanData.map((item, index) => {
             this.tabInputShowWanPort[index] = true;
         });
@@ -263,6 +269,43 @@ export class CcvpnCreationComponent implements OnInit {
         }
         this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
         console.log(this.sotnSdwansitelanData)
+    }
+
+    //add,edit,delete SdwanDevice
+    addSdwanDevice() {
+        if (this.tabInputShowDevice.indexOf(true) > -1) {//当有正在编辑的一行数据时，不允许添加新的行
+            return false;
+        }
+        let addNum = this.siteSdwanDevice.length;
+        let inputsData = Object.assign({}, this.siteCpeData);
+        Object.keys(inputsData).forEach((item) => {//新增一行空数据
+            if (item != "description") {
+                inputsData[item] = null;
+            }
+        });
+        this.siteSdwanDevice[addNum] = inputsData;
+        this.tabInputShowDevice[addNum] = true;
+        this.siteSdwanDevice = [...this.siteSdwanDevice]; //表格刷新
+        console.log(this.siteSdwanDevice)
+    }
+
+    editDevicePort(num, item, siteSdwanDevice) {
+        console.log(item)
+        if (this.tabInputShowDevice[num - 1] == false) {
+            this.tabInputShowDevice[num - 1] = true;
+        } else {
+            this.tabInputShowDevice[num - 1] = false;
+        }
+        console.log(siteSdwanDevice);
+    }
+
+    deleteDevicePort(num, item, siteSdwanDevice) {
+        if (this.siteSdwanDevice.length <= 1) {
+            console.log("num>=1", "siteSdwanDevice");
+            return false;
+        }
+        this.siteSdwanDevice = this.siteSdwanDevice.filter((d, i) => i !== num - 1);
+        console.log(this.siteSdwanDevice)
     }
 
     //add,edit,delete siteWanPort
@@ -397,8 +440,9 @@ export class CcvpnCreationComponent implements OnInit {
             "sdwansitewan_list": []
         };
         inputs = Object.assign(inputs, this.siteBaseData);
-        console.log(this.siteBaseData, "this.siteBaseData");
-        inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
+        inputs["sdwandevice_list"] = this.siteSdwanDevice.map((item) => {
+            return Object.assign({}, item);
+        });
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
         });
@@ -414,8 +458,16 @@ export class CcvpnCreationComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
             this.siteBaseData[item] = null;
         });
-        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
-            this.siteCpeData[item] = null;
+        this.siteSdwanDevice.forEach((item, index) => {
+            if (index > 0) {
+                this.siteSdwanDevice.splice(index, 1);
+                this.tabInputShowDevice.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowDevice[index] = true;
+            }
         });
         this.siteWanData.forEach((item, index) => {
             if (index > 0) {
@@ -427,7 +479,6 @@ export class CcvpnCreationComponent implements OnInit {
                 });
                 this.tabInputShowWanPort[index] = true;
             }
-
         });
         console.log(this.siteTableData);
         this.drawImage(this.siteTableData);
@@ -438,9 +489,17 @@ export class CcvpnCreationComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
             this.siteBaseData[item] = null;
         })
-        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
-            this.siteCpeData[item] = null;
-        })
+        this.siteSdwanDevice.forEach((item, index) => {
+            if (index > 0) {
+                this.siteSdwanDevice.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowDevice[index] = true;
+            }
+
+        });
         this.siteWanData.forEach((item, index) => {
             if (index > 0) {
                 this.siteWanData.splice(index, 1);
@@ -461,7 +520,12 @@ export class CcvpnCreationComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
-        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
+        this.siteSdwanDevice = this.siteTableData[num - 1].sdwandevice_list.map((item) => {
+            return Object.assign({}, item)
+        });
+        this.siteSdwanDevice.forEach((item, index) => {
+            this.tabInputShowDevice[index] = false;
+        });
         this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
             return Object.assign({}, item)
         });

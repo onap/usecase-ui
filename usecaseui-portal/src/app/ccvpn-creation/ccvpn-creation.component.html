@@ -195,14 +195,44 @@
         </div>
         <div>
             <h3>Sdwandevice</h3>
-            <div class="inputs">
-                <ul>
-                    <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
-                        <span *ngIf="item.required" style="color: red;margin: 0;margin-right: -5px;">*</span><span>{{item.lable}}:</span>
-                        <input nz-input [(ngModel)]="siteCpeData[item.lable]" title="{{item.description}}"
-                               required="{{item.required==true ? 'required':null}}"></li>
-                </ul>
+            <div>
+                <div style="width: 100%;text-align: right">
+                    <button nz-button (click)="addSdwanDevice()" class="addListBtn"><i class="anticon anticon-plus"
+                                                                                   style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
+                    </button>
+                </div>
+                <table class="siteWanTab">
+                    <thead>
+                    <tr>
+                        <th width="4%"> NO.</th>
+                        <th *ngFor="let key of getKeys(this.siteCpeData)">{{key}}</th>
+                        <th width="7%"> Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>                    
+                    <tr *ngFor="let item of siteSdwanDevice; let i = index;"
+                        [ngClass]="{'tr-border':item.tabInputShowDevice ==false}">
+                        <td>{{i+1}}</td>
+                        <td *ngFor="let key of getKeys(item);let a = index;">
+                            <span *ngIf="!tabInputShowDevice[i]"
+                                  title="{{this.templateParameters.site.sdwandevice_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwandevice_list[a].description:null}}">{{item[key]}}</span>
+                            <input nz-input [(ngModel)]="item[key]" *ngIf="tabInputShowDevice[i] "
+                                   title="{{this.templateParameters.site.sdwandevice_list[a]['lable']==getKeys(item)[a] ? this.templateParameters.site.sdwandevice_list[a].description:null}}"
+                                   required="{{item.required==true ? 'required':null}}">
+                        </td>
+                        <td>
+                            <span class="action" (click)="editDevicePort(i+1,item,siteSdwanDevice)"><i
+                                    class="anticon anticon-edit" style="margin: 0 5px;"></i></span>
+                            <span class="action" (click)="deleteDevicePort(i+1,item,siteSdwanDevice)"><i
+                                    class="anticon anticon-delete"></i></span>
+                        </td>
+                    </tr>
+                    <!-- </ng-template> -->
+                    </tbody>
+                </table>
             </div>
+
+
             <h3>Sdwansitewan List</h3>
             <div>
                 <div style="width: 100%;text-align: right">
