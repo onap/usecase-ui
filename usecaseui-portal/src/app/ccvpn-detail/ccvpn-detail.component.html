@@ -310,12 +310,30 @@
     </div>
     <div>
       <h3>Sdwandevice</h3>
-      <div class="inputs">
-        <ul>
-          <li *ngFor="let item of this.templateParameters.site.sdwandevice_list">
-            <span>{{item.lable}}:</span>
-            <span class="input-info">{{siteCpeData[item.lable]}}</span>
-        </ul>
+      <!--<div class="inputs">-->
+        <!--<ul>-->
+          <!--<li *ngFor="let item of this.templateParameters.site.sdwandevice_list">-->
+            <!--<span>{{item.lable}}:</span>-->
+            <!--<span class="input-info">{{siteCpeData[item.lable]}}</span>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <div>
+        <table class="siteWanTab">
+          <thead>
+          <tr>
+            <th width="4%"> NO.</th>
+            <th *ngFor="let key of getKeys(this.siteCpeData)">{{key}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of siteSdwanDevice; let i = index;" class="tr-border">
+            <td>{{i+1}}</td>
+            <td *ngFor="let key of getKeys(item);">
+              <span *ngIf="key != 'lable' ">{{item[key]}}</span>
+            </td>
+          </tr>   
+          </tbody>
+        </table>
       </div>
       <h3>Sdwansitewan List</h3>
       <div>

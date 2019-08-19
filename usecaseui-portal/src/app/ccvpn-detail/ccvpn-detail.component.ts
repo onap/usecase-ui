@@ -71,7 +71,9 @@ export class CcvpnDetailComponent implements OnInit {
     siteTableData = [];
     siteBaseData = {}; //sitemodel one sdwansiteresource_list
     // cpe
+    siteSdwanDevice = []; //sitemodel  SdwanDevice port Table data
     siteCpeData = {}; //sitemodel two sdwandevice_list
+    tabInputShowDevice = [];//Device port input and span
     // Wan Port
     siteWanData = [];  //sitemodel three wan port Table data
     siteWanParams = {}; //wan port Table Detailed parameters of each line of data
@@ -137,12 +139,16 @@ export class CcvpnDetailComponent implements OnInit {
                 let sdwansiteresource_list = inputs[items][0];
                 Object.keys(sdwansiteresource_list).forEach((its) => {
                     let input2 = {};
-                    if (its.search("device") != -1 && sdwansiteresource_list[its] instanceof Array === true) {
-                        Object.keys(sdwansiteresource_list[its][0]).forEach((i) => {
-                            let input1 = {};
-                            input1[i] = sdwansiteresource_list[its][i];
-                            this.templateParameters["site"]["sdwandevice_list"].push(input1);
-                        })
+                    if(its.search("device") != -1 && sdwansiteresource_list[its] instanceof Array === true){
+                        // Object.keys(sdwansiteresource_list[its][0]).forEach((i) => {
+                        //     let input1 = {};
+                        //     input1[i] = sdwansiteresource_list[its][i];
+                        //     this.templateParameters["site"]["sdwandevice_list"].push(input1);
+                        // })
+                        // let sitelanKey = {};
+                        // sitelanKey[its] = [];
+                        // this.bodyTemplateParameter[items].push(sitelanKey);
+                        this.templateParameters["site"]["sdwandevice_list"][0] = sdwansiteresource_list[its][0];
                         let sitelanKey = {};
                         sitelanKey[its] = [];
                         this.bodyTemplateParameter[items].push(sitelanKey);
@@ -241,6 +247,10 @@ export class CcvpnDetailComponent implements OnInit {
                 }
             }
         });
+        this.siteSdwanDevice.push(this.siteCpeData);
+        this.siteSdwanDevice.map((item, index) => {
+            this.tabInputShowDevice[index] = true;
+        });
         this.siteWanData.push(this.siteWanParams);
         this.siteWanData.map((item, index) => {
             this.tabInputShowWanPort[index] = true;
@@ -276,8 +286,9 @@ export class CcvpnDetailComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
-        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
-        console.log(this.siteCpeData);
+        this.siteSdwanDevice = this.siteTableData[num - 1].sdwandevice_list.map((item) => {
+            return Object.assign({}, {}, item)
+        });
         this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
             return Object.assign({}, {}, item)
         });
@@ -429,7 +440,12 @@ export class CcvpnDetailComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
-        this.siteCpeData = Object.assign({}, this.siteTableData[num - 1].sdwandevice_list[0]);
+        this.siteSdwanDevice = this.siteTableData[num - 1].sdwandevice_list.map((item) => {
+            return Object.assign({}, item)
+        });
+        this.siteSdwanDevice.forEach((item, index) => {
+            this.tabInputShowDevice[index] = false;
+        });
         this.siteWanData = this.siteTableData[num - 1].sdwansitewan_list.map((item) => {
             return Object.assign({}, item)
         });
@@ -442,9 +458,17 @@ export class CcvpnDetailComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = null;
         })
-        Object.keys(this.siteCpeData).forEach((item) => {
-            this.siteCpeData[item] = null;
-        })
+        this.siteSdwanDevice.forEach((item, index) => {
+            if (index > 0) {
+                this.siteSdwanDevice.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowDevice[index] = true;
+            }
+
+        });
         this.siteWanData.forEach((item, index) => {
             if (index > 0) {
                 this.siteWanData.splice(index, 1);
@@ -465,7 +489,9 @@ export class CcvpnDetailComponent implements OnInit {
             "sdwansitewan_list": []
         };
         inputs = Object.assign(inputs, this.siteBaseData);
-        inputs["sdwandevice_list"][0] = Object.assign({}, this.siteCpeData);
+        inputs["sdwandevice_list"]= this.siteSdwanDevice.map((item) => {
+            return Object.assign({}, item);
+        });
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
         });
@@ -483,8 +509,17 @@ export class CcvpnDetailComponent implements OnInit {
         Object.keys(this.siteBaseData).forEach((item) => { //Clear modal box
             this.siteBaseData[item] = null;
         });
-        Object.keys(this.siteCpeData).forEach((item) => { //Clear modal box
-            this.siteCpeData[item] = null;
+        this.siteSdwanDevice.forEach((item, index) => {
+            if (index > 0) {
+                this.siteSdwanDevice.splice(index, 1);
+                this.tabInputShowDevice.splice(index, 1);
+            } else {
+                Object.keys(item).forEach((item2) => {
+                    item[item2] = null;
+                });
+                this.tabInputShowDevice[index] = true;
+            }
+
         });
         this.siteWanData.forEach((item, index) => {
             if (index > 0) {
