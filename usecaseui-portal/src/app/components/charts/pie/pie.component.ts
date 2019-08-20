@@ -38,6 +38,7 @@ export class PieComponent implements OnInit {
       backgroundColor:this.initData.option.backgroundColor,
       legend: this.initData.option.legend,
       color:this.initData.option.color,
+      tooltip: this.initData.option.tooltip || '',
       series : [
           {
               name: this.initData.option.series[0].name,
