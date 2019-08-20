@@ -29,7 +29,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     ngOnInit() {
-        var thisNg = this;
+        let thisNg = this;
         thisNg.getD3Data();
 
 
@@ -183,7 +183,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     }
                 }
 
-                for (var i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     let name1 = {}, name2 = {};
                     let nodess = [];
                     name1['name'] = name2['network'] = data[i]['networkId'];
@@ -197,9 +197,9 @@ export class CcvpnNetworkComponent implements OnInit {
                     this.networkOption.push(name2);
                 }
                 console.log(this.networkOption);
-                for (var i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                     let tp_length = data[i]['tps'].length;
-                    for (var h = 0; h < tp_length; h++) {
+                    for (let h = 0; h < tp_length; h++) {
                         let name2 = {};
                         let interface_name = data[i]['tps'][h]['interface-name'];
                         name2['name'] = interface_name;
@@ -255,11 +255,10 @@ export class CcvpnNetworkComponent implements OnInit {
 
     //D3Cloud rendering
     render(nodes, imgmap, dataCloud, charge, dataD3) {
-        var thiss = this;
-        var _this = this.tpoption,
+        let thiss = this;
+        let _this = this.tpoption,
             width = null,
             height = _this.height;
-        console.log(height);
         if (_this.width > 800) {
             width = _this.width;
         } else {
@@ -274,8 +273,7 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             charge = -100;
         }
-        console.log(charge);
-        var svg = d3.select(_this.container).append('svg')
+        let svg = d3.select(_this.container).append('svg')
             .attr('width', width)
             .attr('height', height)
             .attr('id', 'content-svg')
@@ -290,7 +288,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 .enter()
                 .append('g')
                 .style('display', function (d) {
-                    var display = 'block';
+                    let display = 'block';
                     switch (d.type) {
                         case '1':
                             display = 'none';
@@ -321,7 +319,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
         _g_nodes.append('image')
             .attr('width', function (d) {
-                var width = 40;
+                let width = 40;
                 switch (d.type) {
                     case '1':
                         width = 4.4 * width;
@@ -335,7 +333,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 return width;
             })
             .attr('height', function (d) {
-                var height = 20;
+                let height = 20;
                 switch (d.type) {
                     case '1':
                         height = 3.5 * height;
@@ -357,8 +355,8 @@ export class CcvpnNetworkComponent implements OnInit {
                 return d.name;
             })
             .style('transform', function (d) {
-                var x = null;
-                var y = null;
+                let x = null;
+                let y = null;
                 switch (d.type) {
                     case '1':
                         x = 7;
@@ -374,7 +372,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 return 'translate(' + x + '%,' + y + '%)';
             })
             .style('font-size', function (d) {
-                var size = 14;
+                let size = 14;
                 switch (d.type) {
                     case '1':
                         size = 14;
@@ -388,7 +386,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 return size;
             })
             .style('fill', function (d) {
-                var color = '#666';
+                let color = '#666';
                 switch (d.type) {
                     case '1':
                         color = '#666';
@@ -406,13 +404,13 @@ export class CcvpnNetworkComponent implements OnInit {
 
         //Add custom attributes online
         _g_lines.each(function (d, i) {
-            var _this = d3.select(this);
+            let _this = d3.select(this);
             if (d.name) {
                 _this.attr('data-text', d.name);
             }
         });
 
-        var force = d3.layout.force()
+        let force = d3.layout.force()
             .size([1000, this.winHeight])
             .linkDistance(5)
             // .theta(0.6)
@@ -421,14 +419,11 @@ export class CcvpnNetworkComponent implements OnInit {
             .links(nodes)
             .start();
 
-        //Add drag and drop behavior
-        // _g_nodes.call(this.getDragBehavior(force));
-
         force.on('tick', function () {
             if (force.alpha() <= 0.04) {
 
                 _g_nodes.style('display', function (d) {
-                    var display = 'block';
+                    let display = 'block';
                     switch (d.type) {
                         case '1':
                             display = 'block';
@@ -456,12 +451,6 @@ export class CcvpnNetworkComponent implements OnInit {
                         halfHeight = parseFloat(image.attributes[1]['value']) / 2;
                     let xx = d.x - halfWidth,
                         yy = d.y - halfHeight;
-                    // if (xx < 0) {
-                    //   xx = -xx;
-                    // }
-                    // if (yy < 0) {
-                    //   yy = -yy;
-                    // }
                     return 'translate(' + xx + ',' + yy + ')';
                 });
 
@@ -480,7 +469,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     });
 
                 _g_nodes.select('text').attr('dy', function (d) {
-                    var image = this.previousSibling,
+                    let image = this.previousSibling,
                         height = parseFloat(image.attributes[1]['value']),
                         fontSize = 12;
                     return height + 1.5 * fontSize;
@@ -540,12 +529,12 @@ export class CcvpnNetworkComponent implements OnInit {
     //Get anchor points based on polygons
     getVertices(origin, r, n) {
         if (typeof n !== 'number') return;
-        var ox = origin[0];
-        var oy = origin[1];
-        var angle = 30 * n / n;
-        var i = 0;
-        var points = [];
-        var tempAngle = 0;
+        let ox = origin[0];
+        let oy = origin[1];
+        let angle = 30 * n / n;
+        let i = 0;
+        let points = [];
+        let tempAngle = 0;
         while (i < n) {
             tempAngle = (i * angle * Math.PI) / 180;
             points.push({
@@ -559,7 +548,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
     //Rendering an external cloud
     getoutCloud(dataCloud, imgmap) {
-        var _this = this,
+        let _this = this,
             width;
         let networkId = dataCloud[0]['networkId'];
         if (_this.tpoption.width > 800) {
@@ -567,9 +556,9 @@ export class CcvpnNetworkComponent implements OnInit {
         } else {
             width = 800;
         }
-        var svg = d3.select('#content-svg');
+        let svg = d3.select('#content-svg');
         svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
-        var out = d3.select('#out');
+        let out = d3.select('#out');
         out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
         out.append('text').text(networkId)
             .style('transform', 'translate(0，0)')
@@ -591,7 +580,6 @@ export class CcvpnNetworkComponent implements OnInit {
         textval[5] = dataCloudLink[0]['operational-status'];//status
         textval[6] = dataCloudLink[0]['relationship-list']['relationship'][2]['relationship-data'][0]['relationship-value'];//aaiId
         textval[7] = this.dataCloud[0]['networkId'];
-        console.log(this.dataCloud);
         let dataD3 = this.d3Data;
         let arr = [
             textval[0],
@@ -606,37 +594,35 @@ export class CcvpnNetworkComponent implements OnInit {
         }
         textval[9] = dataCloudLink[0]['link-name'];
         let lines_json = {};
-        var _this = this,
+        let _this = this,
             width;
         if (_this.tpoption.width > 800) {
             width = _this.tpoption.width;
         } else {
             width = 800;
         }
-        console.log("shuchu01dataCloudLink" + dataCloudLink[0]);
-        console.log("shuchutextval" + textval);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == textval[8]) {
                 //Get the x, y coordinates of the second level
-                var translates = $('.node').eq(i).css('transform');
+                let translates = $('.node').eq(i).css('transform');
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
                 lines_json['y2'] = 100;
             }
         }
-        var x1 = lines_json['x1'];
-        var y1 = lines_json['y1'];
-        var x2 = lines_json['x2'];
-        var y2 = lines_json['y2'];
-        var color = '#14bb58';
+        let x1 = lines_json['x1'];
+        let y1 = lines_json['y1'];
+        let x2 = lines_json['x2'];
+        let y2 = lines_json['y2'];
+        let color = '#14bb58';
         if (textval[5] == 'up') {
             color = '#14bb58';
         } else {
             color = 'red';
         }
-        var line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
-        var svg = d3.select('#graph');
+        let line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
+        let svg = d3.select('#graph');
         $('.cloudline').remove();
         $('#graph').prepend(line);
         $('.cloudline').attr({
@@ -748,7 +734,7 @@ export class CcvpnNetworkComponent implements OnInit {
     //Submit form, connect
     submitForm(): void {
         //When the page ONAP is not selected, the local cloud TP connection
-        var _thiss = this;
+        let _thiss = this;
         if (this.inputshow == false) {
             if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.networkVal2 == null || this.selectedNode2 == null || this.selecteTpName2 == null) {
                 alert('The service port cannot be empty. Please select the port information.');
@@ -860,7 +846,6 @@ export class CcvpnNetworkComponent implements OnInit {
                     operational_status = data['operational-status'],
                     linkname = data['link-name'];
                 let textval = [selecteTpName1, selecteTpName2, version, selectedNode1, selectedNode2, operational_status, linkname];
-                console.log(textval);
                 this.hideForm();
                 this.chose(textval);
             }, (err) => {
@@ -870,7 +855,7 @@ export class CcvpnNetworkComponent implements OnInit {
 
     //Connection between two TP coordinates
     chose(textval) {
-        var lines_json = {};
+        let lines_json = {};
         lines_json['tp1'] = textval[0];
         lines_json['tp2'] = textval[1];
         lines_json['version'] = textval[2];
@@ -882,18 +867,17 @@ export class CcvpnNetworkComponent implements OnInit {
             if ($('.node').eq(i).find('text').html() == textval[0]) {
                 $('.node').eq(i).show();
                 //Get the x, y coordinates of the second level
-                var translates = $('.node').eq(i).css('transform');
+                let translates = $('.node').eq(i).css('transform');
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
             }
             if ($('.node').eq(i).find('text').html() == textval[1]) {
                 $('.node').eq(i).show();
-                var translates = $('.node').eq(i).css('transform');
+                let translates = $('.node').eq(i).css('transform');
                 lines_json['x2'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y2'] = parseFloat(translates.substring(7).split(',')[5]);
             }
         }
-        console.log(lines_json);
         this.addLine(lines_json);
     }
 
@@ -962,16 +946,16 @@ export class CcvpnNetworkComponent implements OnInit {
 
     //Add external cloud
     outCloud(imgmap) {
-        var _this = this,
+        let _this = this,
             width;
         if (_this.tpoption.width > 800) {
             width = _this.tpoption.width;
         } else {
             width = 800;
         }
-        var svg = d3.select('#content-svg');
+        let svg = d3.select('#content-svg');
         svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
-        var out = d3.select('#out');
+        let out = d3.select('#out');
         out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
         out.append('text').text('Partner Network')
             .style('transform', 'translate(0，0)')
@@ -985,37 +969,35 @@ export class CcvpnNetworkComponent implements OnInit {
     //Add external cloud connection
     cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name, time) {
         let lines_json = {};
-        var _this = this,
+        let _this = this,
             width;
         if (_this.tpoption.width > 800) {
             width = _this.tpoption.width;
         } else {
             width = 800;
         }
-        console.log("shuchuNetworkVal1:" + networkVal1);
         for (let i = 0; i < $(".node").length; i++) {
             if ($('.node').eq(i).find('text').html() == networkVal1) {
                 //Get the x, y coordinates of the second level
-                var translates = $('.node').eq(i).css('transform');
-                console.log("shuchuTranslates:" + translates);
+                let translates = $('.node').eq(i).css('transform');
                 lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
                 lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
                 lines_json['x2'] = width - 100;
                 lines_json['y2'] = 100;
             }
         }
-        var x1 = lines_json['x1'];
-        var y1 = lines_json['y1'];
-        var x2 = lines_json['x2'];
-        var y2 = lines_json['y2'];
-        var color = '#14bb58';
+        let x1 = lines_json['x1'];
+        let y1 = lines_json['y1'];
+        let x2 = lines_json['x2'];
+        let y2 = lines_json['y2'];
+        let color = '#14bb58';
         if (status == 'up') {
             color = '#14bb58';
         } else {
             color = 'red';
         }
-        var line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
-        var svg = d3.select('#graph');
+        let line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
+        let svg = d3.select('#graph');
         $('.cloudline').remove();
         $('#graph').prepend(line);
         $('.cloudline').attr({
@@ -1040,7 +1022,6 @@ export class CcvpnNetworkComponent implements OnInit {
     //Create an external cloud, call the following 5 interfaces when connecting:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
     createCloudNetwork(time) {
         let _thiss = this;
-        console.log("shuchuCloudNetwork:" + time);
         let params = {
             '-xmlns': 'http://org.onap.aai.inventory/v14',
             'in-maint': 'false',
@@ -1069,7 +1050,6 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     createPnfs(time) {
-        console.log("shuchupnf:" + time);
         let _thiss = this;
         let params = {
             "-xmlns": "http://org.onap.aai.inventory/v14",
@@ -1094,9 +1074,8 @@ export class CcvpnNetworkComponent implements OnInit {
                     }
                 ]
             }
-        }
+        };
 
-        // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createPnf(params)
             .subscribe((data) => {
@@ -1106,12 +1085,9 @@ export class CcvpnNetworkComponent implements OnInit {
             }, (err) => {
                 console.log(err);
             });
-        // });
-        // return pro;
     }
 
     createCloudTp(time) {
-        console.log("shuchuTp:" + time);
         let _thiss = this;
         let params = {
             "-xmlns": "http://org.onap.aai.inventory/v14",
@@ -1124,8 +1100,6 @@ export class CcvpnNetworkComponent implements OnInit {
         };
 
         let cloudNodeName = this.cloudNode;
-
-        // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createTp(params, cloudNodeName)
             .subscribe((data) => {
@@ -1133,16 +1107,12 @@ export class CcvpnNetworkComponent implements OnInit {
                     _thiss.createCloudLinks(time)
                 }
             }, (err) => {
-                // reject(err);
                 console.log(err);
-                // });
             });
-        // return pro;
     }
 
     createCloudLinks(time) {
         let _thiss = this;
-        console.log('shuchuCloudLinks:' + time);
         let params = {
             "-xmlns": "http://org.onap.aai.inventory/v14",
             "link-name": this.linkName,
@@ -1203,7 +1173,6 @@ export class CcvpnNetworkComponent implements OnInit {
             }
         };
 
-        // var pro = new Promise(function (resolve, reject) {
         //Do some asynchronous operations
         _thiss.myhttp.createCloudLink(params)
             .subscribe((data) => {
@@ -1212,17 +1181,12 @@ export class CcvpnNetworkComponent implements OnInit {
                     _thiss.queryOutCloudLink(time);
                 }
             }, (err) => {
-                // reject(err);
                 console.log(err);
             });
-        // });
-        // return pro;
     }
 
     createCloudUrls(time) {
         let _thiss = this;
-        console.log(this.cloudNetwork);
-        console.log('shuchuUrls:' + time);
         let params = {
             '-xmlns': 'http://org.onap.aai.inventory/v14',
             'aai-id': time,
@@ -1234,23 +1198,14 @@ export class CcvpnNetworkComponent implements OnInit {
                 'system-type': 'ONAP'
             }
         };
-        console.log(time);
-        console.log(params['aai-id']);
-        // var pro = new Promise(function (resolve, reject) {
-        //Do some asynchronous operations
         _thiss.myhttp.createCloudUrl(params)
             .subscribe((data) => {
                 if (data['status'] == 'SUCCESS') {
-                    console.log(true);
                     _thiss.createCloudNetwork(time);
                 }
-                // resolve(data['status']);
             }, (err) => {
-                // reject(err);
                 console.log(err);
             });
-        // });
-        // return pro;
     }
 
     //Local cloud TP port Delete connection Call interface deleteLink
@@ -1301,9 +1256,7 @@ export class CcvpnNetworkComponent implements OnInit {
         };
         this.myhttp.deleteCloudLink(params)
             .subscribe((data) => {
-                console.log(data);
                 if (data['status'] == 'SUCCESS') {
-                    console.log('delete');
                     this.delLine(deltp1, deltp2);
                     $('.cloudline').remove();
                     $('#out').remove();
