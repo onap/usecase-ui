@@ -133,12 +133,9 @@ export class CcvpnCreationComponent implements OnInit {
                 });
             }
         });
-        console.log(inputss);
-        console.log(this.bodyTemplateParameter);
-
         this.showTemParametersSotnVpn();
         this.showTemParametersSite();
-        console.log(this.templateParameters)
+        console.log(this.bodyTemplateParameter,this.templateParameters)
     }
 
     //sotnVpn data, after combining the structure, rendering the template data to the page
@@ -249,26 +246,21 @@ export class CcvpnCreationComponent implements OnInit {
         this.sotnSdwansitelanData[addNum] = inputsData;
         this.tabInputShowSdwansitelan[addNum] = true;
         this.sotnSdwansitelanData = [...this.sotnSdwansitelanData]; //Table refresh
-        console.log(this.sotnSdwansitelanData)
     }
     editSotnSdwansitelan(num, item, sotnSdwansitelanData) {
-        console.log(item)
         if (this.tabInputShowSdwansitelan[num - 1] == false) {
             this.tabInputShowSdwansitelan[num - 1] = true;
         } else {
             this.tabInputShowSdwansitelan[num - 1] = false;
         }
-        console.log(sotnSdwansitelanData);
     }
     deleteSotnSdwansitelan(num, item, sotnSdwansitelanData) {
         if (this.sotnSdwansitelanData.length <= 1) {
-            console.log("num>=1", "sotnSdwansitelanData");
             return false;
         } else {
 
         }
         this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
-        console.log(this.sotnSdwansitelanData)
     }
 
     //add,edit,delete SdwanDevice
@@ -286,26 +278,21 @@ export class CcvpnCreationComponent implements OnInit {
         this.siteSdwanDevice[addNum] = inputsData;
         this.tabInputShowDevice[addNum] = true;
         this.siteSdwanDevice = [...this.siteSdwanDevice]; //表格刷新
-        console.log(this.siteSdwanDevice)
     }
 
     editDevicePort(num, item, siteSdwanDevice) {
-        console.log(item)
         if (this.tabInputShowDevice[num - 1] == false) {
             this.tabInputShowDevice[num - 1] = true;
         } else {
             this.tabInputShowDevice[num - 1] = false;
         }
-        console.log(siteSdwanDevice);
     }
 
     deleteDevicePort(num, item, siteSdwanDevice) {
         if (this.siteSdwanDevice.length <= 1) {
-            console.log("num>=1", "siteSdwanDevice");
             return false;
         }
         this.siteSdwanDevice = this.siteSdwanDevice.filter((d, i) => i !== num - 1);
-        console.log(this.siteSdwanDevice)
     }
 
     //add,edit,delete siteWanPort
@@ -323,24 +310,19 @@ export class CcvpnCreationComponent implements OnInit {
         this.siteWanData[addNum] = inputsData;
         this.tabInputShowWanPort[addNum] = true;
         this.siteWanData = [...this.siteWanData]; //Table refresh
-        console.log(this.siteWanData)
     }
     editWanPort(num, item, siteWanData) {
-        console.log(item)
         if (this.tabInputShowWanPort[num - 1] == false) {
             this.tabInputShowWanPort[num - 1] = true;
         } else {
             this.tabInputShowWanPort[num - 1] = false;
         }
-        console.log(siteWanData);
     }
     deleteWanPort(num, item, siteWanData) {
         if (this.siteWanData.length <= 1) {
-            console.log("num>=1", "siteWanData");
             return false;
         }
         this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
-        console.log(this.siteWanData)
     }
 
     //siteModel,sotnVpnModel Display sign
@@ -362,11 +344,9 @@ export class CcvpnCreationComponent implements OnInit {
             "sdwansitelan_list": []
         };
         inputs = Object.assign(inputs, this.sotnInfo);
-        console.log(this.sotnInfo, "this.sotnInfo");
         inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
             return Object.assign({}, item);
         });
-        console.log(inputs);
         if (this.isEditSotnVpn) {
             // Edit status does not increase
             this.sotnVpnTableData[this.isEditSotnVpn - 1] = inputs;
@@ -374,8 +354,6 @@ export class CcvpnCreationComponent implements OnInit {
         } else {
             this.sotnVpnTableData = [...this.sotnVpnTableData, inputs];
         }
-        console.log(this.sotnVpnTableData)
-
         Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
             this.sotnInfo[item] = null;
         });
@@ -415,7 +393,6 @@ export class CcvpnCreationComponent implements OnInit {
     editSotnVpn(num) {
         this.sotnVpnModelShow = true;
         this.isEditSotnVpn = num;
-        console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
         Object.keys(this.sotnInfo).forEach((item) => { //Clear modal box
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
@@ -429,7 +406,6 @@ export class CcvpnCreationComponent implements OnInit {
 
     deleteSotnVpn(num) {
         this.sotnVpnTableData = this.sotnVpnTableData.filter((d, i) => i !== num - 1);
-        console.log(this.sotnVpnTableData)
     }
 
     // addsite model
@@ -446,7 +422,6 @@ export class CcvpnCreationComponent implements OnInit {
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
         });
-        console.log(inputs);
         if (this.isEditSite) {
             // Edit status does not increase
             this.siteTableData[this.isEditSite - 1] = inputs;
@@ -536,7 +511,6 @@ export class CcvpnCreationComponent implements OnInit {
 
     deleteSite(num) {
         this.siteTableData = this.siteTableData.filter((d, i) => i !== num - 1);
-        console.log(this.siteTableData)
         this.drawImage(this.siteTableData);
     }
 
@@ -690,9 +664,6 @@ export class CcvpnCreationComponent implements OnInit {
                 },
             }
         };
-        console.log(this.bodyTemplateParameter)
-        console.log(this.sotnVpnTableData, "before fixing")
-        console.log(this.siteTableData, '"before fixing"')
         let siteresource = null, sitewan = null, device = null, vpnresource = null, sitelan = null;
         Object.keys(this.bodyTemplateParameter).map((item, index) => {
             if (item.search("site") != -1) {
@@ -732,9 +703,6 @@ export class CcvpnCreationComponent implements OnInit {
                 }
             });
         });
-        console.log(siteresource, sitewan, device, vpnresource, sitelan);
-        console.log(this.sotnVpnTableData, "After modification")
-        console.log(this.siteTableData, "After modification")
         Object.keys(this.bodyTemplateParameter).map((item, index) => {
             if (item.search("site") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.siteTableData);
@@ -743,8 +711,6 @@ export class CcvpnCreationComponent implements OnInit {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
             }
         });
-        // servicebody.service.parameters.requestInputs.sdwanvpnresource_list = servicebody.service.parameters.requestInputs.sdwanvpnresource_list.concat(this.sotnVpnTableData);
-        // servicebody.service.parameters.requestInputs.sdwansiteresource_list = servicebody.service.parameters.requestInputs.sdwansiteresource_list.concat(this.siteTableData);
         console.log(servicebody);
 
         this.closeCreate.emit(servicebody);
