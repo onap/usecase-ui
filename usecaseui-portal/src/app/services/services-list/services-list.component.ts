@@ -13,11 +13,11 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import {Component, OnInit, HostBinding, TemplateRef} from '@angular/core';
-import {MyhttpService} from '../../myhttp.service';
-import {slideToRight} from '../../animates';
-import {NzModalService} from 'ng-zorro-antd';
-import {NzNotificationService} from 'ng-zorro-antd';
+import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
+import { MyhttpService } from '../../myhttp.service';
+import { slideToRight } from '../../animates';
+import { NzModalService } from 'ng-zorro-antd';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-services-list',
@@ -40,15 +40,15 @@ export class ServicesListComponent implements OnInit {
     orchestratorList = [];
     customerList = [];
     customerList2 = [];
-    customerSelected = {name: null, id: null};
-    customerSelected2 = {name: null, id: null};
+    customerSelected = { name: null, id: null };
+    customerSelected2 = { name: null, id: null };
     serviceTypeList = [];
     serviceTypeList2 = [];
-    serviceTypeSelected = {name: ''};
-    serviceTypeSelected2 = {name: ''};
+    serviceTypeSelected = { name: '' };
+    serviceTypeSelected2 = { name: '' };
     serviceTypeSelectedName = "";
     templateTypeSelected = "CCVPN";
-    orchestratorSelected = {name: null, id: null};
+    orchestratorSelected = { name: null, id: null };
     listSortMasters = JSON.parse(sessionStorage.getItem('listSortMasters'));
     language = sessionStorage.getItem("DefaultLang");
     iconMore = false;
@@ -94,19 +94,18 @@ export class ServicesListComponent implements OnInit {
 
     //Get all the customers
     getallCustomers() {
-        console.log(this.listSortMasters);
         console.log(this.language, "this.language");
         this.myhttp.getAllCustomers()
             .subscribe((data) => {
                 this.customerList = data.map((item) => {
-                    return {name: item["subscriber-name"], id: item["global-customer-id"]}
+                    return { name: item["subscriber-name"], id: item["global-customer-id"] }
                 });
                 if (this.customerList.length == 0) {
                     console.log("customerList.length == 0", this.customerList);
                     return false;
                 }
                 this.customerList2 = data.map((item) => {
-                    return {name: item["subscriber-name"], id: item["global-customer-id"]}
+                    return { name: item["subscriber-name"], id: item["global-customer-id"] }
                 });
                 if (this.customerList2.length == 0) {
                     return false;
@@ -120,7 +119,7 @@ export class ServicesListComponent implements OnInit {
         this.myhttp.getAllOrchestrators()
             .subscribe((data) => {
                 this.orchestratorList = data.map((item) => {
-                    return {name: item["name"], id: item["name"]}
+                    return { name: item["name"], id: item["name"] }
                 });
                 if (this.orchestratorList.length == 0) {
                     console.log("orchestratorList.length == 0", this.orchestratorList);
@@ -135,7 +134,7 @@ export class ServicesListComponent implements OnInit {
         this.myhttp.getServiceTypes(this.customerSelected)
             .subscribe((data) => {
                 this.serviceTypeList = data.map((item) => {
-                    return {name: item["service-type"]}
+                    return { name: item["service-type"] }
                 });
 
                 if (this.serviceTypeList.length == 0) {
@@ -166,7 +165,7 @@ export class ServicesListComponent implements OnInit {
         this.myhttp.getServiceTypes(customerSelected2)
             .subscribe((data) => {
                 this.serviceTypeList2 = data.map((item) => {
-                    return {name: item["service-type"]}
+                    return { name: item["service-type"] }
                 });
                 if (this.serviceTypeList2.length == 0) {
                     console.log("serviceTypeList.length == 0", this.serviceTypeList2);
@@ -189,21 +188,15 @@ export class ServicesListComponent implements OnInit {
         this.getServiceType(this.customerSelected2);
     }
 
-    //
-
     choseTemplateType() {
         this.getallOrchestrators();
         this.getAlltemplates();
     }
 
-    //
     templates = [];
-    template1 = {name: null};
-    // template2 = {name: null};
-    // template3 = {name: null};
-    // template4 = {name: null};
+    template1 = { name: null };
 
-    getAlltemplates() {  //
+    getAlltemplates() {
         this.myhttp.getAllServiceTemplates(this.templateTypeSelected)
             .subscribe((data) => {
                 this.templates = data;
@@ -212,19 +205,15 @@ export class ServicesListComponent implements OnInit {
                         return typeof d.packageInfo.csarName == "string";
                     }).map((item) => {
                         let cName = item.packageInfo.csarName.split("/").reverse()[0];
-                        return {name: cName, id: item.csarId, packageInfo: item.packageInfo}
+                        return { name: cName, id: item.csarId, packageInfo: item.packageInfo }
                     });
                 }
-                console.log(this.templates);
                 this.template1 = this.templates[0];
-
             }, (err) => {
-
+                console.log(err);
             })
     }
 
-
-    //
     createshow = false;
     createshow2 = false;
     listDisplay = false;
@@ -258,7 +247,6 @@ export class ServicesListComponent implements OnInit {
         this.isVisible = false;
         this.loadingAnimateShow = false;
     }
-
 
     temParametersTips = false;
     ccvpn_temParametersContent: any;
@@ -301,10 +289,10 @@ export class ServicesListComponent implements OnInit {
     pageIndex = 1;
     pageSize = 10;
     total = 100;
-    loading = true;
-
+    loading = false;
 
     getTableData() {
+        this.loading = true;
         // Query parameter: customer serviceType Current page number, number of pages per page
         let paramsObj = {
             customerId: this.customerSelected.id,
@@ -314,8 +302,6 @@ export class ServicesListComponent implements OnInit {
         }
         this.myhttp.getServicesTableData(paramsObj)
             .subscribe((data) => {
-                this.loading = false;
-                console.log(data);
                 this.total = data.body.total;
                 this.tableData = data.body.tableList.map((item) => {
                     if (typeof item == "string") {
@@ -440,7 +426,6 @@ export class ServicesListComponent implements OnInit {
                     }
                     return item;
                 })
-                console.log(this.tableData)
                 this.tableData.map((item, index) => {
                     if (item.serviceDomain == 'E2E Service') {
                         if (item.operationResult == 2001) {
@@ -470,9 +455,10 @@ export class ServicesListComponent implements OnInit {
                         }
                     }
                 })
-                console.log(this.serviceMunber)
+                this.loading = false;
             }, (err) => {
                 console.log(err);
+                this.loading = false;
             })
     }
 
@@ -530,7 +516,6 @@ export class ServicesListComponent implements OnInit {
 
     scaleNotification(template: TemplateRef<{}>): void {
         this.notification.template(template);
-        // this.notification.template(template,{ nzDuration: 0 });
     }
 
     scaleSuccessNotification(template: TemplateRef<{}>): void {
@@ -563,7 +548,7 @@ export class ServicesListComponent implements OnInit {
     }
 
     addActionsHealing() {
-        this.healActions.push({value: ""})
+        this.healActions.push({ value: "" })
     }
 
     minusActionsHealing(index) {
@@ -571,7 +556,7 @@ export class ServicesListComponent implements OnInit {
     }
 
     addNsAdditional() {
-        this.nsAdditional.push({key: "", value: ""})
+        this.nsAdditional.push({ key: "", value: "" })
     }
 
     minusNsAdditional(index) {
@@ -606,8 +591,7 @@ export class ServicesListComponent implements OnInit {
         this.vnfParams.additionalParams.actionvminfo.vmid = this.vmSelected["vmId"];
         this.vnfParams.additionalParams.actionvminfo.vmname = this.vmSelected["vmName"];
 
-        let requestBody = this.thisService["serviceDomain"] == "Network Service" ? {healNsData: this.nsParams} : {healVnfData: this.vnfParams};
-        console.log(requestBody);
+        let requestBody = this.thisService["serviceDomain"] == "Network Service" ? { healNsData: this.nsParams } : { healVnfData: this.vnfParams };
         this.healNsVnfService(this.thisService, requestBody, templatehealSuccessFaild);
         this.healNotification(templatehealstarting);
     }
@@ -746,7 +730,7 @@ export class ServicesListComponent implements OnInit {
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
                 }
             };
-            let queryParams = {serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001"};
+            let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
             return this.queryProgress(queryParams, updata);
         }).then((data) => {
             console.log(data);
@@ -814,7 +798,7 @@ export class ServicesListComponent implements OnInit {
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
                 }
             }
-            let queryParams = {serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001"};
+            let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
             return this.queryProgress(queryParams, updata);
         }).then((data) => {
             console.log(data);
@@ -1129,7 +1113,7 @@ export class ServicesListComponent implements OnInit {
         service.status = "In Progress";
         service.tips = "";
         service.statusClass = "1002";
-        service["childServiceInstances"].push({"service-instance-id": service["service-instance-id"]});
+        service["childServiceInstances"].push({ "service-instance-id": service["service-instance-id"] });
         let deletePros = service["childServiceInstances"].map((item) => {
             let params = {
                 globalSubscriberId: this.customerSelected.id,
@@ -1307,14 +1291,14 @@ export class ServicesListComponent implements OnInit {
                 this.myhttp.getProgress(obj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
-                            callback({progress: 255, status: "Failed"});
+                            callback({ progress: 255, status: "Failed" });
                             return false;
                         }
                         if (data.operationStatus == null || data.operationStatus.progress == undefined) {
                             // console.log(data);
                             errorNums--;
                             if (errorNums == 0) {
-                                callback({progress: 255, status: "time over"});
+                                callback({ progress: 255, status: "time over" });
                                 return false;
                             }
                             setTimeout(() => {
@@ -1323,7 +1307,7 @@ export class ServicesListComponent implements OnInit {
                             return false;
                         }
                         if (data.operationStatus.progress > 100) {
-                            callback({progress: 255, status: "time over"});
+                            callback({ progress: 255, status: "time over" });
                             return false;
                         }
                         if (data.operationStatus.progress < 100) {
@@ -1378,14 +1362,14 @@ export class ServicesListComponent implements OnInit {
                 this.myhttp.getNsProgress(jobid, id, operationType)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
-                            callback({progress: 255, status: "Failed"});
+                            callback({ progress: 255, status: "Failed" });
                             return false;
                         }
                         if (data.responseDescriptor == null || data.responseDescriptor.progress == undefined) {
                             // console.log(data);
                             errorNums--;
                             if (errorNums == 0) {
-                                callback({progress: 255, status: "time over"});
+                                callback({ progress: 255, status: "time over" });
                                 return false;
                             }
                             setTimeout(() => {
@@ -1394,7 +1378,7 @@ export class ServicesListComponent implements OnInit {
                             return false;
                         }
                         if (data.responseDescriptor.progress > 100 && data.responseDescriptor.status == "error") {
-                            callback({progress: 255, status: data.responseDescriptor.statusDescription});
+                            callback({ progress: 255, status: data.responseDescriptor.statusDescription });
                             return false;
                         }
                         if (data.responseDescriptor.progress < 100) {
