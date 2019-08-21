@@ -27,7 +27,6 @@ export class CcvpnDetailComponent implements OnInit {
     constructor(private myhttp: MyhttpService) { }
 
     ngOnInit() {
-        // this.getDetails();
         this.dataInit();
         this.drawImages();
     }
@@ -86,8 +85,7 @@ export class CcvpnDetailComponent implements OnInit {
     }
     //tabBarStyle
     dataInit() {
-        console.log(this.detailParams)
-        console.log(this.upDateShow)
+        console.log(this.detailParams);
         // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
         if (this.detailParams['input-parameters']) {
             this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
@@ -121,7 +119,6 @@ export class CcvpnDetailComponent implements OnInit {
                         })
                         let sitelanKey = {};
                         sitelanKey[its] = [];
-                        console.log(123456)
                         this.bodyTemplateParameter[items].push(sitelanKey);
                     }
                     if (its.search("sitelan") == -1 && sdwanvpnresource_list[its] instanceof Array === false) {
@@ -140,14 +137,6 @@ export class CcvpnDetailComponent implements OnInit {
                 Object.keys(sdwansiteresource_list).forEach((its) => {
                     let input2 = {};
                     if(its.search("device") != -1 && sdwansiteresource_list[its] instanceof Array === true){
-                        // Object.keys(sdwansiteresource_list[its][0]).forEach((i) => {
-                        //     let input1 = {};
-                        //     input1[i] = sdwansiteresource_list[its][i];
-                        //     this.templateParameters["site"]["sdwandevice_list"].push(input1);
-                        // })
-                        // let sitelanKey = {};
-                        // sitelanKey[its] = [];
-                        // this.bodyTemplateParameter[items].push(sitelanKey);
                         this.templateParameters["site"]["sdwandevice_list"][0] = sdwansiteresource_list[its][0];
                         let sitelanKey = {};
                         sitelanKey[its] = [];
@@ -181,7 +170,7 @@ export class CcvpnDetailComponent implements OnInit {
         //sotn Data analysis, structure assembly
         this.templateParameters.sotnvpn.sdwanvpnresource_list.map((item, index) => {
             let input = {};
-            for (var keys in item) {
+            for (let keys in item) {
                 if (keys != "required" && keys != "type" && keys != "description") {
                     input[keys] = item[keys];
                     item["lable"] = keys;
@@ -193,7 +182,7 @@ export class CcvpnDetailComponent implements OnInit {
 
         this.templateParameters.sotnvpn.sdwansitelan_list.map((item, index) => {
             let input = {};
-            for (var keys in item) {
+            for (let keys in item) {
                 if (keys != "required" && keys != "type" && keys != "description") {
                     input[keys] = item[keys];
                     item["lable"] = keys;
@@ -212,7 +201,7 @@ export class CcvpnDetailComponent implements OnInit {
         //site Data analysis, structure assembly
         this.templateParameters.site.sdwansiteresource_list.map((item, index) => {
             let input = {};
-            for (var keys in item) {
+            for (let keys in item) {
                 if (keys != "required" && keys != "type" && keys != "description") {
                     input[keys] = item[keys];
                     item["lable"] = keys;
@@ -224,7 +213,7 @@ export class CcvpnDetailComponent implements OnInit {
 
         this.templateParameters.site.sdwandevice_list.map((item, index) => {
             let input = {};
-            for (var keys in item) {
+            for (let keys in item) {
                 if (keys != "required" && keys != "type" && keys != "description") {
                     input[keys] = item[keys];
                     item["lable"] = keys;
@@ -239,7 +228,7 @@ export class CcvpnDetailComponent implements OnInit {
         });
         this.templateParameters.site.sdwansitewan_list.map((item, index) => {
             let input = {};
-            for (var keys in item) {
+            for (let keys in item) {
                 if (keys != "required" && keys != "type" && keys != "description") {
                     input[keys] = item[keys];
                     item["lable"] = keys;
@@ -281,8 +270,6 @@ export class CcvpnDetailComponent implements OnInit {
         this.siteDetail = true;
         this.isEditSite = num;
         console.log(this.siteTableData[num - 1]);
-        console.log(this.siteCpeData);
-        console.log(this.templateParameters);
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
@@ -299,8 +286,6 @@ export class CcvpnDetailComponent implements OnInit {
     deleteUpdateSite(num) {
         this.siteTableData = this.siteTableData.filter((d, i) => i !== num - 1);
         this.sitenum.splice(num - 1, 1);
-        console.log(this.siteTableData)
-        console.log(this.sitenum)
     }
 
     //sotnVpn addModel
@@ -314,7 +299,6 @@ export class CcvpnDetailComponent implements OnInit {
         inputs["sdwansitelan_list"] = this.sotnSdwansitelanData.map((item) => {
             return Object.assign({}, item);
         });
-        console.log(inputs);
         if (this.isEditSotnVpn) {
 
             this.sotnVpnTableData[this.isEditSotnVpn - 1] = inputs;
@@ -324,8 +308,6 @@ export class CcvpnDetailComponent implements OnInit {
             this.sotnVpnTableData = [...this.sotnVpnTableData, inputs];
             this.sotnvpnnum = [...this.sotnvpnnum, true];
         }
-        console.log(this.sotnVpnTableData)
-
         Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = null;
         });
@@ -365,11 +347,9 @@ export class CcvpnDetailComponent implements OnInit {
     editUpdateSotnVpn(num) {
         this.sotnVpnAddModelShow = true;
         this.isEditSotnVpn = num;
-        console.log(this.templateParameters.sotnvpn.sdwanvpnresource_list)
         Object.keys(this.sotnInfo).forEach((item) => {
             this.sotnInfo[item] = this.sotnVpnTableData[num - 1][item];
         });
-        console.log()
         this.sotnSdwansitelanData = this.sotnVpnTableData[num - 1].sdwansitelan_list.map((item) => {
             return Object.assign({}, {}, item)
         });
@@ -380,7 +360,6 @@ export class CcvpnDetailComponent implements OnInit {
 
     deleteUpdateSotnVpn(num) {
         this.sotnVpnTableData = this.sotnVpnTableData.filter((d, i) => i !== num - 1);
-        console.log(this.sotnVpnTableData)
         this.sotnvpnnum.splice(num - 1, 1);
     }
     updateSotnSdwansitelan() {
@@ -397,26 +376,21 @@ export class CcvpnDetailComponent implements OnInit {
         this.sotnSdwansitelanData[addNum] = inputsData;
         this.tabInputShowSdwansitelan[addNum] = true;
         this.sotnSdwansitelanData = [...this.sotnSdwansitelanData];
-        console.log(this.sotnSdwansitelanData)
     }
     editUpdateSotnSdwansitelan(num, item, sotnSdwansitelanData) {
-        console.log(item)
         if (this.tabInputShowSdwansitelan[num - 1] == false) {
             this.tabInputShowSdwansitelan[num - 1] = true;
         } else {
             this.tabInputShowSdwansitelan[num - 1] = false;
         }
-        console.log(sotnSdwansitelanData);
     }
     deleteUpdateSotnSdwansitelan(num, item, sotnSdwansitelanData) {
         if (this.sotnSdwansitelanData.length <= 1) {
-            console.log("num>=1", "sotnSdwansitelanData");
             return false;
         } else {
 
         }
         this.sotnSdwansitelanData = this.sotnSdwansitelanData.filter((d, i) => i !== num - 1);
-        console.log(this.sotnSdwansitelanData)
     }
 
     // site addModel
@@ -430,8 +404,6 @@ export class CcvpnDetailComponent implements OnInit {
     updateSite() {
         this.siteAddModelShow = true;
         this.isEditSite = 0;
-        console.log(this.siteWanParams);
-        console.log(this.templateParameters);
     }
 
     editUpdateSite(num) {
@@ -495,7 +467,6 @@ export class CcvpnDetailComponent implements OnInit {
         inputs["sdwansitewan_list"] = this.siteWanData.map((item) => {
             return Object.assign({}, item);
         });
-        console.log(inputs);
         if (this.isEditSite) {
             // Edit status does not increase
             this.siteTableData[this.isEditSite - 1] = inputs;
@@ -539,7 +510,6 @@ export class CcvpnDetailComponent implements OnInit {
 
     //add.edit，detele siteWanPort
     updateSiteWan() {
-        console.log(this.tabInputShowWanPort)
         if (this.tabInputShowWanPort.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
             return false;
         }
@@ -557,22 +527,18 @@ export class CcvpnDetailComponent implements OnInit {
     }
 
     editUpdateWanPort(num, item, siteWanData) {
-        console.log(item)
         if (this.tabInputShowWanPort[num - 1] == false) {
             this.tabInputShowWanPort[num - 1] = true;
         } else {
             this.tabInputShowWanPort[num - 1] = false;
         }
-        console.log(siteWanData);
     }
 
     deleteUpdateWanPort(num, item, siteWanData) {
         if (this.siteWanData.length <= 1) {
-            console.log("num>=1", "siteWanData");
             return false;
         }
         this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
-        console.log(this.siteWanData)
     }
 
     // site节点图形描绘
@@ -593,9 +559,6 @@ export class CcvpnDetailComponent implements OnInit {
             if (this.outerSite[0] && this.outerSite[0]["service-instance-name"].startsWith("Dc")) {
                 this.outerSite.reverse();
             }
-            console.log(this.localSite);
-            console.log(this.outerSite);
-
             if (this.localSite.length > 0) {
                 this.detailLines = [].concat(this.detailLiness);
                 this.localSite.forEach((site) => {
@@ -613,7 +576,6 @@ export class CcvpnDetailComponent implements OnInit {
                         })
                 })
             } else {
-                console.log("localSite []");
                 return false;
             }
         })
@@ -634,7 +596,6 @@ export class CcvpnDetailComponent implements OnInit {
                 })["relationship-value"];
             this.myhttp.getSotnConnectivity(connectivityId)
                 .subscribe((data) => {
-                    // console.log(data);  //By default, a connectivityId can only find a connectivity.
                     let vpns = data.connectivity[0]["relationship-list"]["relationship"]
                         .filter((item) => {
                             return item["related-to"] == "vpn-binding"
@@ -651,7 +612,6 @@ export class CcvpnDetailComponent implements OnInit {
                     this.detailParams.vpns.forEach((vpn, index) => {
                         this.myhttp.getVpnBinding(vpn.name)
                             .subscribe((data2) => {
-                                // console.log(data2); //By default, a vpnid can only find a vpnbinding
                                 let tps_pnfs = data2["vpn-binding"][0]["relationship-list"]["relationship"]
                                     .filter((item) => {
                                         return item["related-to"] == "p-interface"
@@ -669,16 +629,9 @@ export class CcvpnDetailComponent implements OnInit {
                                         return item2["relationship-key"] == "p-interface.interface-name"
                                     })["relationship-value"]
                                 });
-                                // console.log(pnfname)
-                                // console.log(tpnames)
                                 vpn.tps = tpnames;
-                                // let thissite = this.localSite.find((item)=>{return item.pnfname == pnfname[0]}); //Find the same item on the site pnfname, that is, the same domain
-                                // console.log(thissite);
-                                // thissite.tpsotnname = tpsotnnames.find((item)=>{return item!=thissite.tpsitename});
-                                // Get domain（network-resource） by pnfname;
                                 this.myhttp.getPnfDetail(pnfname[0])
                                     .subscribe((data2) => {
-                                        // console.log(data2);
                                         let networkRelation = data2["relationship-list"]["relationship"].find((item) => {
                                             return item["related-to"] == "network-resource"
                                         })["relationship-data"];
@@ -689,8 +642,8 @@ export class CcvpnDetailComponent implements OnInit {
                                             vpn.sitetpname = this.localSite.find((site) => {
                                                 return tpnames.includes(site.tpsitename)
                                             }).tpsitename;
-                                            console.log(tpnames)
-                                            console.log(vpn.sitetpname)
+                                            console.log(tpnames);
+                                            console.log(vpn.sitetpname);
                                             vpn.othertpname = tpnames.find((name) => {
                                                 return name != vpn.sitetpname
                                             });
@@ -716,11 +669,8 @@ export class CcvpnDetailComponent implements OnInit {
     drawImages() {
 
         this.getSiteAResource().then((data) => {
-            console.log(data);
             return this.getSotnAresource()
         }).then((data) => {
-            console.log(data);
-            console.log(this.localSite);
             this.detailSites = this.detailParams.serviceDomain == "CCVPN" ? false : true;
             // When there is only one vpn
             if (this.detailParams.serviceDomain == "CCVPN" && this.vpns.length == 1) {
@@ -744,7 +694,7 @@ export class CcvpnDetailComponent implements OnInit {
         })
         let allnodes = [this.getSiteAResource(), this.getSotnAresource()];
         Promise.all(allnodes).then((data) => {
-            console.log(data)
+            console.log(data);
             console.log(this.localSite);
 
 
@@ -780,6 +730,7 @@ export class CcvpnDetailComponent implements OnInit {
         json[newkey] = val;
     }
 
+    // ccvpn update
     submitUpdate() {
         let globalCustomerId = this.detailParams.customer.id;
         let globalServiceType = this.detailParams.serviceType.name;
@@ -801,9 +752,6 @@ export class CcvpnDetailComponent implements OnInit {
                 }
             }
         };
-        console.log(this.bodyTemplateParameter)
-        console.log(this.sotnVpnTableData, "before fixing")
-        console.log(this.siteTableData, '"before fixing"')
         let siteresource = null, sitewan = null, device = null, vpnresource = null, sitelan = null;
         Object.keys(this.bodyTemplateParameter).map((item, index) => {
             if (item.search("site") != -1) {
@@ -843,9 +791,6 @@ export class CcvpnDetailComponent implements OnInit {
                 }
             });
         });
-        console.log(siteresource, sitewan, device, vpnresource, sitelan);
-        console.log(this.sotnVpnTableData, "After modification")
-        console.log(this.siteTableData, "After modification")
         Object.keys(this.bodyTemplateParameter).map((item, index) => {
             if (item.search("site") != -1) {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.siteTableData);
