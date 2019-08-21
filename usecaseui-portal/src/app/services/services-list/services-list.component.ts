@@ -18,6 +18,7 @@ import { MyhttpService } from '../../myhttp.service';
 import { slideToRight } from '../../animates';
 import { NzModalService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-services-list',
@@ -28,11 +29,16 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class ServicesListComponent implements OnInit {
     @HostBinding('@routerAnimate') routerAnimateState;
 
+    public width:number = document.documentElement.clientWidth;
+
     constructor(private myhttp: MyhttpService, private modalService: NzModalService, private notification: NzNotificationService) {
     }
 
     ngOnInit() {
         this.getallCustomers();
+        Observable.fromEvent(window, 'resize').subscribe((event) => {
+            this.width = document.documentElement.clientWidth
+        });
     }
 
     // customer servicetype
@@ -1273,19 +1279,6 @@ export class ServicesListComponent implements OnInit {
 
     queryProgress(obj, callback) {
         let mypromise = new Promise((res, rej) => {
-            // let data = {
-            //   operationStatus:{
-            //     "operationId": "XXXXXX",
-            //     "operation": "create|delete|update|scale",
-            //     "result": "finished|error|processing",
-            //     "reason": "",
-            //     "userId": "",
-            //     "operationContent": "Be creating pop.",
-            //     "progress": 0,
-            //     "operateAt": "",
-            //     "finishedAt": ""
-            //   }
-            // }
             let errorNums = 180;
             let requery = () => {
                 this.myhttp.getProgress(obj)
@@ -1319,17 +1312,6 @@ export class ServicesListComponent implements OnInit {
                             res(data.operationStatus);
                         }
                     })
-                // setTimeout(()=>{
-                //   console.log(data.operationStatus.progress)
-                //   data.operationStatus.progress++;
-                //   if(data.operationStatus.progress<100){
-                //     callback(data.operationStatus);
-                //     requery()
-                //   }else{
-                //     callback(data.operationStatus);
-                //     res(data.operationStatus)
-                //   }
-                // },100)
             }
             requery();
         })
@@ -1338,25 +1320,7 @@ export class ServicesListComponent implements OnInit {
 
     queryNsProgress(jobid, id, callback, operationType) {
         let mypromise = new Promise((res, rej) => {
-            // let data = {
-            //   "jobId": "string",
-            //   "responseDescriptor": {
-            //     "status": "string",
-            //     "progress": 0,
-            //     "statusDescription": "string",
-            //     "errorCode": "string",
-            //     "responseId": "string",
-            //     "responseHistoryList": [
-            //       {
-            //         "status": "string",
-            //         "progress": "string",
-            //         "statusDescription": "string",
-            //         "errorCode": "string",
-            //         "responseId": "string"
-            //       }
-            //     ]
-            //   }
-            // }
+           
             let errorNums = 180;
             let requery = () => {
                 this.myhttp.getNsProgress(jobid, id, operationType)
@@ -1366,7 +1330,6 @@ export class ServicesListComponent implements OnInit {
                             return false;
                         }
                         if (data.responseDescriptor == null || data.responseDescriptor.progress == undefined) {
-                            // console.log(data);
                             errorNums--;
                             if (errorNums == 0) {
                                 callback({ progress: 255, status: "time over" });
@@ -1390,17 +1353,7 @@ export class ServicesListComponent implements OnInit {
                             res(data);
                         }
                     })
-                // setTimeout(()=>{
-                //   console.log(data.responseDescriptor.progress)
-                //   data.responseDescriptor.progress++;
-                //   if(data.responseDescriptor.progress<100){
-                //     callback(data.responseDescriptor);
-                //     requery()
-                //   }else{
-                //     callback(data);
-                //     res(data)
-                //   }
-                // },100)
+              
             };
             requery();
         });

@@ -15,30 +15,41 @@
 -->
 <div class="action ant-tabs-bar">
 
-    <span><i style="margin-right: 10px"><img src="assets/images/customer.png" alt=""></i> {{"i18nTextDefine_Customer" | translate}} : </span>
+    <span>
+        <i class="icon">
+            <img src="../../../assets/images/customer.png" alt="">
+        </i>
+         {{"i18nTextDefine_Customer" | translate}} : 
+    </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
-        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+        <ul nz-menu>
             <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
-                <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+                <a title="{{item.name}}">{{item.name}}</a>
             </li>
         </ul>
     </nz-dropdown>
 
-    <span style="margin-left:40px"><i style="margin-right: 10px"><img src="assets/images/service-type.png" alt=""></i> {{"i18nTextDefine_ServiceType" | translate}} : </span>
+    <span>
+        <i class="icon">
+            <img src="../../../assets/images/service-type.png"alt="">
+        </i> 
+        {{"i18nTextDefine_ServiceType" | translate}} : 
+    </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
         <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
-        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+        <ul nz-menu>
             <li nz-menu-item (click)="choseServiceType(item)" *ngFor="let item of serviceTypeList">
-                <a title="{{item.name}}" style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+                <a title="{{item.name}}">{{item.name}}</a>
             </li>
         </ul>
     </nz-dropdown>
 
-    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i
-            class="anticon anticon-plus" style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span> {{"i18nTextDefine_Create" | translate}} </span>
+    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()">
+        <i *ngIf="width>1200" class="anticon anticon-plus"></i>
+        <span> {{"i18nTextDefine_Create" | translate}} </span>
     </button>
     <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle=" {{'i18nTextDefine_ServiceCreation' | translate}} "
               (nzOnCancel)="handleCancel()"
