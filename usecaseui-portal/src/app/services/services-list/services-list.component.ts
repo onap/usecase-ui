@@ -18,6 +18,7 @@ import { MyhttpService } from '../../myhttp.service';
 import { slideToRight } from '../../animates';
 import { NzModalService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-services-list',
@@ -28,11 +29,17 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class ServicesListComponent implements OnInit {
     @HostBinding('@routerAnimate') routerAnimateState;
 
+    public width:number = document.documentElement.clientWidth;
+
     constructor(private myhttp: MyhttpService, private modalService: NzModalService, private notification: NzNotificationService) {
     }
 
     ngOnInit() {
         this.getallCustomers();
+        this.inputNamests();
+        Observable.fromEvent(window, 'resize').subscribe((event) => {
+            this.width = document.documentElement.clientWidth
+        });
     }
 
     // customer servicetype
