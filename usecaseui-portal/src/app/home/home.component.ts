@@ -133,11 +133,11 @@ export class HomeComponent implements OnInit {
                     x2: 0,
                     y2: 1,
                     colorStops: [{
-                        offset: 0, color: '#FB93C2' // 0% 处的颜色
+                        offset: 0, color: '#FB93C2' // 0% color
                     }, {
-                        offset: 1, color: '#FB7788' // 100% 处的颜色
+                        offset: 1, color: '#FB7788' // 100% color
                     }],
-                    globalCoord: false // 缺省为 false
+                    globalCoord: false 
                 }, {
                     type: 'linear',
                     x: 0,
@@ -145,11 +145,11 @@ export class HomeComponent implements OnInit {
                     x2: 0,
                     y2: 1,
                     colorStops: [{
-                        offset: 0, color: '#A6BFE4' // 0% 处的颜色
+                        offset: 0, color: '#A6BFE4' // 0% color
                     }, {
-                        offset: 1, color: '#7A8BAE' // 100% 处的颜色
+                        offset: 1, color: '#7A8BAE' // 100% color
                     }],
-                    globalCoord: false // 缺省为 false
+                    globalCoord: false 
                 }],
             series: [{
                 name: "告警信息",
@@ -198,11 +198,11 @@ export class HomeComponent implements OnInit {
                     x2: 0,
                     y2: 1,
                     colorStops: [{
-                        offset: 0, color: '#FB93C2' // 0% 处的颜色
+                        offset: 0, color: '#FB93C2' // 0% color
                     }, {
-                        offset: 1, color: '#FB7788' // 100% 处的颜色
+                        offset: 1, color: '#FB7788' // 100% color
                     }],
-                    globalCoord: false // 缺省为 false
+                    globalCoord: false 
                 }, {
                     type: 'linear',
                     x: 0,
@@ -210,11 +210,11 @@ export class HomeComponent implements OnInit {
                     x2: 0,
                     y2: 1,
                     colorStops: [{
-                        offset: 0, color: '#A6BFE4' // 0% 处的颜色
+                        offset: 0, color: '#A6BFE4' // 0% 
                     }, {
-                        offset: 1, color: '#7A8BAE' // 100% 处的颜色
+                        offset: 1, color: '#7A8BAE' // 100% 
                     }],
-                    globalCoord: false // 缺省为 false
+                    globalCoord: false 
                 }],
             series: [{
                 name: "告警信息",
