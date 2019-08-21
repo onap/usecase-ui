@@ -29,7 +29,6 @@ export class E2eDetailComponent implements OnInit {
   }
 
     ngOnInit() {
-        // this.getDetails();
         this.dataInit();
     }
 
@@ -39,7 +38,6 @@ export class E2eDetailComponent implements OnInit {
     serviceInstanceName: any;
     serviceType: any;
     input_parameters: any;
-    nsinput_parameters: any;
 
     // e2e
     service = {
@@ -52,7 +50,7 @@ export class E2eDetailComponent implements OnInit {
     ns_service = {
         name:"",
         description:""
-    }
+    };
     ns_nestedTemplates = [];
     ns_requestInputs = {};
     roote2e = {
@@ -120,7 +118,6 @@ export class E2eDetailComponent implements OnInit {
                 });
                 console.log(this.e2e_nestedTemplates);
                 console.log(this.e2e_requestInputs);
-                console.log(this.roote2e)
             }
         }else if(this.detailParams.serviceDomain == 'Network Service'){
             this.ns_service = {
@@ -139,7 +136,6 @@ export class E2eDetailComponent implements OnInit {
             });
             console.log(this.ns_nestedTemplates);
             console.log(this.ns_requestInputs);
-            console.log(this.rootns)
         }
         this.drawImage(this.detailParams.serviceDomain)
     }
@@ -158,19 +154,20 @@ export class E2eDetailComponent implements OnInit {
 
   }
 
+  // draw d3 charts
   render(data, imgmap) {
-    var width = document.getElementById("createChart").clientWidth,
+    let width = document.getElementById("createChart").clientWidth,
       height = document.getElementById("createChart").clientHeight;
-    var cluster = d3.layout.tree()
+    let cluster = d3.layout.tree()
       .size([width, height]);
-    var diagonal = d3.svg.diagonal()
+    let diagonal = d3.svg.diagonal()
       .projection(function (d) {
         return [d.x-18, d.y+40];
       });
-    var svg = d3.select("svg");
+    let svg = d3.select("svg");
 
     //marker
-    var marker =
+    let marker =
       svg.append("marker")
         .attr("id", "resolved")
         .attr("markerUnits", "strokeWidth")
@@ -189,16 +186,16 @@ export class E2eDetailComponent implements OnInit {
         .attr("stroke-width", 1)
         .style("stroke", "#2F8BF7")
         .attr('fill', 'white');
-    var i = 0;
-    var nodes = cluster.nodes(data).reverse();
+    let i = 0;
+    let nodes = cluster.nodes(data).reverse();
     nodes.forEach(function (d) {
       d.y = d.depth * 200+100;
 
     });
 
-    var links = cluster.links(nodes);
+    let links = cluster.links(nodes);
 
-    var linkEnter = svg.selectAll("path.link")
+    let linkEnter = svg.selectAll("path.link")
       .data(links);
 
     linkEnter.enter().append("path")
@@ -213,7 +210,7 @@ export class E2eDetailComponent implements OnInit {
         return "mypath" + i;
       });
 
-    var node = svg.selectAll(".node")
+    let node = svg.selectAll(".node")
       .data(nodes)
       .enter()
       .append("g")

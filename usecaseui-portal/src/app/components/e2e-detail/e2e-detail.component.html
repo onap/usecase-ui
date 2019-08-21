@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<!--<h3 class="title"> Services List </h3>-->
+
 <div class="model creation-model">
 
   <div class="top-title">
@@ -23,6 +23,7 @@
     </div>
   </div>
   <div class="detaildata fl">
+      <!--e2e detail data demonstration-->
     <div *ngIf="detailParams.serviceDomain == 'E2E Service'" class="baseparms clearfix">
       <div class="vnf-box">
         <h3> {{"i18nTextDefine_Base" | translate}} </h3>
@@ -56,7 +57,7 @@
         </ul>
       </div>
     </div>
-
+      <!--e2e detail data demonstration-->
     <div *ngIf="detailParams.serviceDomain=='Network Service'" class="baseparms clearfix">
       <div class="vnf-box">
         <h3> {{"i18nTextDefine_Base" | translate}} </h3>
@@ -93,7 +94,7 @@
     </div>
   </div>
 
-  <!-- chart -->
+  <!--topo chart -->
   <div class="chart fr">
     <div id="createChart">
       <svg width="100%" height="100%">
