@@ -30,7 +30,6 @@ export class E2eCreationComponent implements OnInit {
         this.gete2eTemParameters(this.e2e_ns_temParametersContent);
     this.getVimInfo();
     this.getSdnControllers();
-    console.log(this.createParams);
   }
 
   @Output() e2eCloseCreate = new EventEmitter();
@@ -58,7 +57,7 @@ export class E2eCreationComponent implements OnInit {
     inputs:{},
     inputs2:[],
     vnfs:[]
-  }
+  };
     roote2e = {
         "name": "e2e",
         "type": "e2e",
@@ -84,7 +83,7 @@ export class E2eCreationComponent implements OnInit {
         this.templateParameters = data;
         this.templateParameters.nestedTemplates.forEach((item)=>{
           item.inputs = item.inputs.filter((input)=>{return input.type !== "sdn_controller"});
-        })
+        });
                     this.templateParameters.nestedTemplates.map((item,index) => {
                         let nsIndex={
                             "name": "ns",
@@ -100,15 +99,12 @@ export class E2eCreationComponent implements OnInit {
                         this.roote2e.children.push(nsIndex);
                     });
                     console.log(this.templateParameters);
-                    console.log(this.roote2e)
       }else if(type == "ns"){
         if(data["model"]!=undefined && typeof data["model"]=='string'){
           this.nsTemplateParameters = JSON.parse(data["model"]);
-            console.log(data["model"]);
         }else{
           this.nsTemplateParameters = data;
         }
-          console.log(this.nsTemplateParameters);
         this.nsTemplateParameters["inputs2"] = [];
         let inputs = this.nsTemplateParameters.inputs;
         for(let key in inputs){
@@ -170,14 +166,14 @@ export class E2eCreationComponent implements OnInit {
       globalCustomerId: "",
       serviceType: ""
     }
-  }
+  };
   ns_service2 = {
     locationConstraints: [
 
     ],
     additionalParamForNs: {
     }
-  }
+  };
   submit(){
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
     if(type == "e2e"){
@@ -188,7 +184,7 @@ export class E2eCreationComponent implements OnInit {
   
       this.templateParameters.inputs.forEach((ipnut)=>{
         this.service.parameters.requestInputs[ipnut.name] = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value; 
-      })
+      });
   
       this.templateParameters.nestedTemplates.forEach((item)=>{
         let nsService = {
@@ -201,7 +197,7 @@ export class E2eCreationComponent implements OnInit {
             resources:[],
             requestInputs:{}
           }
-        }
+        };
         item.inputs.forEach((input)=>{
           if(input.type == "vf_location"){
             let location = {
@@ -210,7 +206,7 @@ export class E2eCreationComponent implements OnInit {
                                 cloudOwner: input.value.name,
                                 cloudRegionId:input.value.id
               }
-            }
+            };
             nsService.parameters.locationConstraints.push(location);
           }else{
             nsService.parameters.requestInputs[input.name] = input.value == undefined ? input.defaultValue : input.value;
@@ -218,7 +214,7 @@ export class E2eCreationComponent implements OnInit {
         })
         this.service.parameters.resources.push(nsService);
       })
-	    console.log(this.service)
+	    console.log(this.service);
       this.service.parameters.requestInputs['orchestrator'] = this.createParams.orchestrator.name;
       if(this.createParams.isSol005Interface){
           this.service.parameters.requestInputs['isSol005Interface'] = this.createParams.isSol005Interface;
@@ -243,13 +239,13 @@ export class E2eCreationComponent implements OnInit {
           }
         }
         this.ns_service2.locationConstraints.push(vnfparams);
-      })
+      });
       console.log(this.ns_service2);
 
       let requstbody = {
         step1:this.ns_service,
         step2:this.ns_service2
-      }
+      };
       this.nsCloseCreate.emit(requstbody); 
     }
 
@@ -270,19 +266,20 @@ export class E2eCreationComponent implements OnInit {
 
     }
 
+    // e2e or NS draw d3 topo
     render(data, imgmap) {
-        var width = document.getElementById("createChart").clientWidth,
+        let width = document.getElementById("createChart").clientWidth,
             height = document.getElementById("createChart").clientHeight;
-        var cluster = d3.layout.tree()
+        let cluster = d3.layout.tree()
             .size([width, height]);
-        var diagonal = d3.svg.diagonal()
+        let diagonal = d3.svg.diagonal()
             .projection(function (d) {
                 return [d.x-18, d.y+40];
             });
-        var svg = d3.select("svg");
+        let svg = d3.select("svg");
 
         //marker
-        var marker =
+        let marker =
             svg.append("marker")
                 .attr("id", "resolved")
                 .attr("markerUnits", "strokeWidth")
@@ -301,16 +298,16 @@ export class E2eCreationComponent implements OnInit {
                 .attr("stroke-width", 1)
                 .style("stroke", "#2F8BF7")
                 .attr('fill', 'white');
-        var i = 0;
-        var nodes = cluster.nodes(data).reverse();
+        let i = 0;
+        let nodes = cluster.nodes(data).reverse();
         nodes.forEach(function (d) {
             d.y = d.depth * 200+100;
 
         });
 
-        var links = cluster.links(nodes);
+        let links = cluster.links(nodes);
 
-        var linkEnter = svg.selectAll("path.link")
+        let linkEnter = svg.selectAll("path.link")
             .data(links);
 
         linkEnter.enter().append("path")
@@ -325,7 +322,7 @@ export class E2eCreationComponent implements OnInit {
                 return "mypath" + i;
             });
 
-        var node = svg.selectAll(".node")
+        let node = svg.selectAll(".node")
             .data(nodes)
             .enter()
             .append("g")
