@@ -13,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<!--<h3 class="title"> Services List </h3>-->
-<!--<hr>-->
 <div class="model creation-model">
     
     <div class="top-title">
@@ -37,6 +35,7 @@
             </svg>
         </div>
     </div>
+    <!--Template resolution : Three major items-->
     <div class="creation">
         <nz-tabset [nzTabPosition]="'top'" [nzShowPagination]=false [nzTabBarGutter]="'2'" [nzTabBarStyle]=tabBarStyle>
             <nz-tab nzTitle="Service Info">
@@ -67,7 +66,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
                         <tr *ngFor="let item of sotnVpnTable.data; let i = index; ">
                             <td>{{i+1}}</td>
                             <td *ngFor="let keys of getKeys(this.sotnInfo);let a = index;">
@@ -80,7 +78,6 @@
                                         class="anticon anticon-delete"></i></span>
                             </td>
                         </tr>
-                        <!-- </ng-template> -->
                         </tbody>
                     </nz-table>
                 </div>
@@ -105,7 +102,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- <ng-template ngFor let-data [ngForOf]="siteTable.data" let-i="index"> -->
                         <tr *ngFor="let item of siteTable.data; let i = index; ">
                             <td>{{i+1}}</td>
                             <td *ngFor="let keys of getKeys(this.siteBaseData);let a = index;">
@@ -118,7 +114,6 @@
                                         class="anticon anticon-delete"></i></span>
                             </td>
                         </tr>
-                        <!-- </ng-template> -->
                         </tbody>
                     </nz-table>
                 </div>
@@ -153,7 +148,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
                     <tr *ngFor="let item of sotnSdwansitelanData; let i = index;"
                         [ngClass]="{'tr-border':item.tabInputShowSdwansitelan ==false}">
                         <td>{{i+1}}</td>
@@ -171,7 +165,6 @@
                                     class="anticon anticon-delete"></i></span>
                         </td>
                     </tr>
-                    <!-- </ng-template> -->
                     </tbody>
                 </table>
             </div>
@@ -227,7 +220,6 @@
                                     class="anticon anticon-delete"></i></span>
                         </td>
                     </tr>
-                    <!-- </ng-template> -->
                     </tbody>
                 </table>
             </div>
@@ -249,7 +241,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- <ng-template ngFor let-data [ngForOf]="siteModalTable.data" let-i="index"> -->
                     <tr *ngFor="let item of siteWanData; let i = index;"
                         [ngClass]="{'tr-border':item.tabInputShowWanPort ==false}">
                         <td>{{i+1}}</td>
@@ -267,7 +258,6 @@
                                     class="anticon anticon-delete"></i></span>
                         </td>
                     </tr>
-                    <!-- </ng-template> -->
                     </tbody>
                 </table>
             </div>
