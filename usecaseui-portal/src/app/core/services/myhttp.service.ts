@@ -16,7 +16,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from './core/models/dataInterface';
+import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from '../models/dataInterface';
 
 @Injectable()
 export class MyhttpService {
@@ -35,6 +35,7 @@ export class MyhttpService {
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
     vimInfo: this.baseUrl + "/uui-lcm/locations/",
     sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers/",
+    addressData: this.baseUrl + "/uui-sotn/getOssInvenory",
     createService: this.baseUrl + "/uui-lcm/services",
     ns_createService: this.baseUrl + "/uui-lcm/createNetworkServiceInstance",
     ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
@@ -49,12 +50,11 @@ export class MyhttpService {
     e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId/",
     updateccvpn: this.baseUrl + "/uui-lcm/services/updateService/",
 
-    //The following api is about ccvpn details topology
     allottedResource: this.baseUrl + "/uui-sotn/getAllottedResources",
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity: this.baseUrl + "/uui-sotn/getConnectivityInfo/",
     vpnBinding: this.baseUrl + "/uui-sotn/getPinterfaceByVpnId/",
-  };
+  }
 
   // serviceTable list
   getServicesTableData(paramsObj): Observable<HttpResponse<servicesTableData>> {
@@ -94,6 +94,7 @@ export class MyhttpService {
 
   //Get template input parameters
   getTemplateParameters(type, template) {
+    // let url = this.url.templateParameters.replace("*_*",type) + template.toscaModelURL;  //Local simulation
     if (type == "ns") {
       let body = {
         csarId: template.id,
@@ -136,6 +137,9 @@ export class MyhttpService {
   }
 
   updateccvpn(id, requestBody) {
+    console.log(id);
+    console.log(requestBody);
+    //return this.http.get<any>(this.url.updateccvpn + id);  //local
     return this.http.put<any>(this.url.updateccvpn + id, requestBody);// online
   }
   // Delete interface
@@ -151,12 +155,15 @@ export class MyhttpService {
         'serviceType': obj.serviceType.name
       }
     };
+    // return this.http.get<any>(this.url.deleteService);  //Local simulation
     return this.http.delete<any>(this.url.deleteService + obj.serviceInstanceId, httpOptions);
   }
   nsDeleteInstance(id) {
+    // return this.http.get<any>(this.url.ns_deleteService);  //Local simulation
     return this.http.delete<any>(this.url.ns_deleteService + id);
   }
   stopNsService(id, requestBody) {  //You need to terminate before deleting
+    // return this.http.get<any>(this.url.ns_stopService);  //Local simulation
     return this.http.post<any>(this.url.ns_stopService + id, requestBody);
   }
 
@@ -164,11 +171,13 @@ export class MyhttpService {
     return this.http.get<any>(this.url.vnfInfo + id);
   }
   healNsService(id, requestBody) {
+    // return this.http.get<any>(this.url.ns_healService);  //Local simulation
     return this.http.post<any>(this.url.ns_healService + id, requestBody);
   }
 
   // scale
   scaleE2eService(id, requestBody) {
+    // return this.http.get<any>(this.url.e2eScale + id);
     return this.http.post<any>(this.url.e2eScale + id, requestBody);
   }
   getE2e_nsData(paramsObj) {

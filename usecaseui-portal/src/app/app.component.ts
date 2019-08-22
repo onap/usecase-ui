@@ -15,8 +15,8 @@
 */
 import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MyhttpService} from "./myhttp.service";
-import {HomesService} from "./homes.service";
+import {MyhttpService} from "./core/services/myhttp.service";
+import {HomesService} from "./core/services/homes.service";
 
 
 @Component({

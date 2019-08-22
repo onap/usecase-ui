@@ -1,0 +1,365 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+.title {
+    font: 700 18px/18px "思源黑体";
+    color: #4c5e70;
+    margin-bottom: 18px;
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #dce1e7;
+    margin-bottom: 10px;
+}
+.model {
+    background-color: #F7F8FC;
+    overflow-y: auto;
+}
+.creation-model{
+    position: relative;
+    height: 100%;
+}
+.top-title{
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    display: inline-block;
+}
+.model .submit{
+    position: absolute;
+    width: 90px;
+    height: 35px;
+    top: 10px;
+    right: 85px;
+    color: #fff;
+    font-size: 18px;
+    background: #0DA9E2;
+    border-radius: 4px;
+    border: none!important;
+    border-color: rgba(0,0,0,0)!important;
+}
+.model .back,.model .back:hover{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background:url("../../../assets/images/Return-icon.png") no-repeat!important;
+    background-size: 100%!important;
+    border-radius:4px;
+    color: #D7D7D7;
+    cursor: pointer;
+}
+.model .back:hover{
+    background: url("../../../assets/images/Return-icon-active.png")!important;
+    background-size: 100%!important;
+}
+.top-title h3.title {
+    height: 35px;
+    width: 80%;
+    font-size:16px;
+    font-family:ArialMT;
+    color:#3C4F8C;
+    line-height:35px;
+    display: inline-block;
+}
+
+
+.model .detaildata {
+    width: 100%;
+    overflow-y: auto;
+    border-radius: 5px;
+    padding: 15px;
+}
+.model .detaildata h3.title {
+    height: 20px;
+    font: 700 20px/20px "Arial";
+    color: #666;
+}
+.model .detaildata h3 {
+    height: 20px;
+    font: 700 16px/20px "Arial";
+    margin: 5px 0;
+    color: #000;
+}
+.model .detaildata .service-title{
+    margin:60px 50px;
+}
+.model .detaildata .service-title .info-inputs{
+    width:400px;
+    height: 42px;
+    display: inline-block;
+}
+.model .detaildata .service-title span{
+    height: 42px;
+    line-height: 42px;
+    vertical-align: middle;
+}
+.model .detaildata .service-title .lable{
+    display: inline-block;
+    width: 100px;
+    font: 700 14px "Arial";
+    color: #3C4F8C;
+    height: 42px;
+    line-height: 42px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.model .detaildata .service-title .service-title-input {
+    width: 230px;
+    height: 42px;
+    border-radius:4px;
+    margin-right: 30px;
+    display: inline-block;
+}
+/* SOTN VPN */
+.model .detaildata .sotnvpn ul li {
+    display: inline-block;
+    height: 40px;
+    width: 24.5%;
+    margin-bottom: 40px;
+    float: left;
+}
+.model .detaildata .sotnvpn ul li span {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    color:rgba(60,79,140,0.5);
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+    width: 110px;
+}
+
+.model .sitemodel .inputs ul li span,.model .sotnnpnmodel .inputs ul li span {
+    display: inline-block;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3C4F8C;
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+}
+.model .sitemodel .inputs input,.model .sitemodel .inputs nz-select{
+    width: 186px;
+    float: right;
+    margin-right: 60px;
+}
+.model .sotnnpnmodel .inputs input{
+    width: 186px;
+    float: left;
+    margin-left: 20px;
+}
+
+/* addsite model */
+.model .sitemodel,.model .sotnnpnmodel{
+    position: absolute;
+    z-index: 1001;
+    left: 50px;
+    top: 60px;
+    background-color: #fff;
+    width:1500px;
+    height: 81%;
+    border-radius:2px;
+    overflow:auto;
+}
+.model .sotnnpnmodel{
+    width: 1000px;
+    height: 53%;
+    top:200px;
+    left: 50%;
+    margin-left: -500px;
+}
+.model .sitemodel h3,.model .sotnnpnmodel h3{
+    width: 96%;
+    height: 40px;
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 10px auto;
+    color: #06A7E2;
+    border-bottom: 2px solid;
+    border-image: -webkit-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: -moz-linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-image: linear-gradient(#07A9E1,#30D9C4) 100 100;
+    border-radius:2px;
+}
+.model .sitemodel .inputs,.model .sotnnpnmodel .inputs  {
+    padding: 10px 20px 0;
+}
+.model .sitemodel .inputs ul li,.model .sotnnpnmodel .inputs ul li {
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    width: 24.5%;
+    margin-bottom: 20px;
+}
+.model .sotnnpnmodel .inputs ul li{
+    width: 31%;
+}
+.model .sitemodel .inputs ul li span,.model .sotnnpnmodel .inputs ul li span {
+    display: inline-block;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3C4F8C;
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+}
+.model .sitemodel .inputs input,.model .sitemodel .inputs nz-select{
+    width: 186px;
+    float: right;
+    margin-right: 60px;
+}
+.model .sotnnpnmodel .inputs div{
+    width: 186px;
+    float: left;
+    margin-left: 20px;
+}
+.model .sitemodel .action,.model .sotnnpnmodel .action {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    cursor: pointer
+}
+.model .sotnnpnmodel .action{
+    margin-top: 70px;
+}
+.model .sitemodel .action button,.model .sotnnpnmodel .action button{
+    width: 126px;
+    height:40px;
+    background:#EEEEEE;
+    border-radius:2px;
+    border: none!important;
+    color: #9DA7C5;
+    font-size: 16px;
+    margin: 0 15px;
+}
+.model .sitemodel .action button:nth-child(2),.model .sotnnpnmodel .action button:nth-child(2){    
+    background: #0DA9E2;
+    color: #fff;
+}
+.model .sitemodel .action button:nth-child(2):hover,.model .sotnnpnmodel .action button:nth-child(2):hover{    
+    background:#09C6E2;
+}
+
+.model nz-table tbody td i.anticon:hover {
+    color: #3fa8eb;
+    cursor: pointer;
+}
+
+/* site table */
+.sitemodel h3 button,.sotnnpnmodel h3 button{
+    color: #D7D7D7;
+    width:32px;
+    height:32px;
+    background:#ffffff;
+    border-radius:4px;
+    border:1px solid #D7D7D7;
+}
+.sitemodel h3 button:hover,.sotnnpnmodel h3 button:hover{
+    background:#ffffff;
+    color: #0DA9E2;
+    border:1px solid #0DA9E2;
+}
+.sitemodel h3>button,.sotnnpnmodel h3>button{
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+}
+
+/* site Detail */
+
+.model .detaildata .site h3 .closeDetail {
+    cursor: pointer;
+    padding: 2px 15px;
+    color: #3fa8eb;
+}
+
+.model .detaildata .sotnvpn,.model .detaildata .site{
+    background: #fff;
+    padding: 30px 30px 0 30px;
+}
+
+.mask{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.65);
+    top:0;
+}
+
+/* charts */
+.model .chart {
+    width: 98%;
+    padding: 10px;
+    margin: 0 auto;
+    color: #06A7E2;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    background: #EEF9FF;
+    border-radius: 4px;
+}
+.model .chart #detailChart {
+    width: 100%;
+    height: 254px;
+    margin-top: 20px;
+    position: relative;
+}
+.model .chart #detailChart .cloudcounty {
+    cursor: pointer;
+}
+
+.model .chart #detailChart .couldDetail {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 80%;
+    transform: translate(-50%,0);
+    height: 160px;
+    background-color: #aaa;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px #000;
+}
+.siteWanTab{
+    width: 96%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.siteWanTab th{
+    padding: 10px 8px;
+    color: #3C4F8C;
+    font-size: 16px;
+}
+.siteWanTab tr td{
+    padding: 10px 5px;
+}
+.siteWanTab .tr-border{
+    border-bottom: 1px solid #EDEDED;
+}
+.addListBtn{
+    margin-right: 30px;
+    color: #06A7E2;
+    border: none;
+    background: rgba(229,238,252,0.8);
+    cursor: pointer;
+}

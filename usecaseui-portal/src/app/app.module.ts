@@ -24,7 +24,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
@@ -34,52 +34,55 @@ import { AppRoutingModule } from './app-routing.module';
 //Registered language pack
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-registerLocaleData(en);  
+registerLocaleData(en);
 
 //Custom component
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { ManagementComponent } from './management/management.component';
-import { ServicesComponent } from './services/services.component';
-import { ServicesListComponent } from './services/services-list/services-list.component';
-import { OnboardVnfVmComponent } from './services/onboard-vnf-vm/onboard-vnf-vm.component';
-import { AlarmComponent } from './alarm/alarm.component';
-import { PerformanceComponent } from './performance/performance.component';
-import { PerformanceVnfComponent } from './performance/performance-vnf/performance-vnf.component';
-import { PerformanceVmComponent } from './performance/performance-vm/performance-vm.component';
-import { CcvpnNetworkComponent } from './ccvpn-network/ccvpn-network.component';
-import { CcvpnDetailComponent } from './ccvpn-detail/ccvpn-detail.component';
-import { CcvpnCreationComponent } from './ccvpn-creation/ccvpn-creation.component';
+import { HomeComponent } from './views/home/home.component';
+import { ManagementComponent } from './views/management/management.component';
+import { ServicesComponent } from './views/services/services.component';
+import { ServicesListComponent } from './views/services/services-list/services-list.component';
+import { OnboardVnfVmComponent } from './views/services/onboard-vnf-vm/onboard-vnf-vm.component';
+import { AlarmComponent } from './views/alarm/alarm.component';
+import { PerformanceComponent } from './views/performance/performance.component';
+import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
+import { PerformanceVmComponent } from './views/performance/performance-vm/performance-vm.component';
+import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
+import { CcvpnDetailComponent } from './views/ccvpn-detail/ccvpn-detail.component';
+import { CcvpnCreationComponent } from './views/ccvpn-creation/ccvpn-creation.component';
 
-import { DetailsComponent } from './components/details/details.component';
-import { GraphiclistComponent } from './components/graphiclist/graphiclist.component';
-import { E2eCreationComponent } from './components/e2e-creation/e2e-creation.component';
+import { DetailsComponent } from './shared/components/details/details.component';
+import { GraphiclistComponent } from './shared/components/graphiclist/graphiclist.component';
+import { E2eCreationComponent } from './shared/components/e2e-creation/e2e-creation.component';
 
-import { BarComponent } from './components/charts/bar/bar.component';
-import { LineComponent } from './components/charts/line/line.component';
-import { PieComponent } from './components/charts/pie/pie.component';
+import { BarComponent } from './shared/components/charts/bar/bar.component';
+import { LineComponent } from './shared/components/charts/line/line.component';
+import { PieComponent } from './shared/components/charts/pie/pie.component';
 
-import {PathLocationStrategy, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
 // Custom service
-import { MyhttpService } from './myhttp.service';
-import { HomesService } from './homes.service';
-import { onboardService } from './onboard.service';
-import { networkHttpservice } from './networkHttpservice.service';
-import { PerformanceDetailsComponent } from './components/performance-details/performance-details.component';
-import { E2eDetailComponent } from './components/e2e-detail/e2e-detail.component';
-import { CustomerComponent } from './components/customer/customer.component';
-import { ManagemencsService } from './managemencs.service';
-import { FcapsComponent } from './fcaps/fcaps.component';
+import { MyhttpService } from './core/services/myhttp.service';
+import { HomesService } from './core/services/homes.service';
+import { onboardService } from './core/services/onboard.service';
+import { networkHttpservice } from './core/services/networkHttpservice.service';
+import { PerformanceDetailsComponent } from './shared/components/performance-details/performance-details.component';
+import { E2eDetailComponent } from './shared/components/e2e-detail/e2e-detail.component';
+import { CustomerComponent } from './shared/components/customer/customer.component';
+import { ManagemencsService } from './core/services/managemencs.service';
+import { FcapsComponent } from './views/fcaps/fcaps.component';
+import { TestComponent } from './test/test.component';
+import { TextService } from './core/services/text.service';
 
 @NgModule({
-  providers   : [ 
+  providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: NZ_I18N, useValue: en_US },
     MyhttpService,
     HomesService,
     onboardService,
     networkHttpservice,
-    ManagemencsService 
+    ManagemencsService,
+    TextService
   ],
   declarations: [
     AppComponent,
@@ -90,7 +93,7 @@ import { FcapsComponent } from './fcaps/fcaps.component';
     OnboardVnfVmComponent,
 
     AlarmComponent,
-    
+
     PerformanceComponent,
     PerformanceVnfComponent,
     PerformanceVmComponent,
@@ -105,9 +108,10 @@ import { FcapsComponent } from './fcaps/fcaps.component';
     CcvpnDetailComponent,
     CcvpnCreationComponent,
     E2eDetailComponent,
-    CustomerComponent ,
+    CustomerComponent,
     PerformanceDetailsComponent,
-    FcapsComponent   
+    FcapsComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -125,6 +129,6 @@ import { FcapsComponent } from './fcaps/fcaps.component';
     NgxEchartsModule,
     AppRoutingModule
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

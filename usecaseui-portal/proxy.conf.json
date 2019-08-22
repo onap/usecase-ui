@@ -1,0 +1,8 @@
+{
+    "/api/usecaseui-server/v1": {
+        "target": "http://10.73.191.100:8082",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

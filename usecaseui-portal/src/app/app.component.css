@@ -25,7 +25,7 @@ nz-layout nz-sider ul li i {
   height: 16px;
 }
 nz-layout nz-sider ul li .icon-services {
-  background: url(../assets/images/icon.png) no-repeat 0px -16px;
+  background: url(assets/images/icon.png) no-repeat 0px -16px;
 }
 nz-layout nz-sider ul li ul li {
   font-size: 12px;

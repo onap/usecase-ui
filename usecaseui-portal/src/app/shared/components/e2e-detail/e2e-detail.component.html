@@ -1,0 +1,104 @@
+<!--
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!--<h3 class="title"> Services List </h3>-->
+<div class="model creation-model">
+
+  <div class="top-title">
+    <h3 class="title fl">{{serviceInstanceName}} Instance Detail</h3>
+    <div class="fl" style="width: 20%">
+      <button class="back" nz-button (click)="goback()"></button>
+    </div>
+  </div>
+  <div class="detaildata fl">
+    <div *ngIf="detailParams.serviceDomain == 'E2E Service'" class="baseparms clearfix">
+      <div class="vnf-box">
+        <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+        <ul class="clearfix">
+          <li>
+            <span style="width:15%">Name:</span>
+            <span class="input-content">{{service.name}}</span>
+          </li>
+          <li>
+            <span style="width:25%">Description:</span>
+            <span class="input-content">{{service.description}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="vnf-box" *ngIf="getKeys(e2e_requestInputs).length>0">
+        <h3>{{"i18nTextDefine_templateInputs" | translate}}</h3>
+        <ul class="clearfix">
+          <li *ngFor="let key of getKeys(e2e_requestInputs);">
+            <span title="{{key}}">{{key}}:</span>
+            <span class="input-content">{{e2e_requestInputs[key]}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="vnf-box" *ngFor="let template of e2e_nestedTemplates;">
+        <h3>{{template.name}}</h3>
+        <ul class="clearfix">
+          <li *ngFor="let input of template.vnfs; let i = index;">
+            <span style="width: 26%"> vf_location: </span>
+            <span class="input-content">{{input["vf_location"]}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="detailParams.serviceDomain=='Network Service'" class="baseparms clearfix">
+      <div class="vnf-box">
+        <h3> {{"i18nTextDefine_Base" | translate}} </h3>
+        <ul class="clearfix">
+          <li>
+            <span style="width:15%">Name:</span>
+            <span class="input-content">{{ns_service.name}}</span>
+          </li>
+          <li>
+            <span style="width:25%">Description:</span>
+            <span class="input-content">{{ns_service.description}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="vnf-box" *ngIf="getKeys(ns_requestInputs).length>0">
+        <h4>{{"i18nTextDefine_templateInputs" | translate}}</h4>
+        <ul>
+          <li *ngFor="let key of getKeys(ns_requestInputs);">
+            <span title="{{key}}">{{key}}:</span>
+            <span class="input-content">{{ns_requestInputs[key]}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="vnf-box" *ngIf="ns_nestedTemplates.length>0">
+        <h4>vnfs Inputs</h4>
+        <ul>
+          <li *ngFor="let vnf of ns_nestedTemplates;">
+            <h5>id: {{vnf.vnfInstanceId}}</h5>
+            <span style="width: 26%"> vf_location: </span>
+            <span class="input-content">{{vnf["vnfInstanceName"]}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- chart -->
+  <div class="chart fr">
+    <div id="createChart">
+      <svg width="100%" height="100%">
+      </svg>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,745 @@
+<!--
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<div class="action ant-tabs-bar">
+
+    <span><i style="margin-right: 10px"><img src="assets/images/customer.png" alt=""></i>
+        {{"i18nTextDefine_Customer" | translate}} : </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+            <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
+                <a title="{{item.name}}"
+                    style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+
+    <span style="margin-left:40px"><i style="margin-right: 10px"><img src="assets/images/service-type.png" alt=""></i>
+        {{"i18nTextDefine_ServiceType" | translate}} : </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown><span>{{serviceTypeSelected.name}}</span> <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu style="min-height:40px;max-height: 200px; overflow: auto;">
+            <li nz-menu-item (click)="choseServiceType(item)" *ngFor="let item of serviceTypeList">
+                <a title="{{item.name}}"
+                    style="max-width: 165px; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</a>
+            </li>
+        </ul>
+    </nz-dropdown>
+
+    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()"><i class="anticon anticon-plus"
+            style="transform: scale(1.5);line-height: 15px;margin-right: 5px;"></i><span>
+            {{"i18nTextDefine_Create" | translate}} </span>
+    </button>
+    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle=" {{'i18nTextDefine_ServiceCreation' | translate}} "
+        (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzClassName="serviceCreationModel"
+        nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+        <div class="select-list">
+            <span style="display:inline-block;"> {{"i18nTextDefine_Customer" | translate}} : </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="customerSelected2.name" nzAllowClear
+                (ngModelChange)="customerChange()">
+                <nz-option *ngFor="let item of customerList2" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+            </nz-select>
+        </div>
+        <div class="select-list">
+            <span style="display:inline-block;"> {{"i18nTextDefine_ServiceType" | translate}} : </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelectedName" nzAllowClear
+                (ngModelChange)="serviceTypeChange()">
+                <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name">
+                </nz-option>
+            </nz-select>
+        </div>
+        <div class="select-list">
+            <span style="display:inline-block;"> {{"i18nTextDefine_UseCase" | translate}} : </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
+                (ngModelChange)="choseTemplateType()">
+                <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
+                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
+                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
+                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
+                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
+            </nz-select>
+        </div>
+
+        <div class="select-list">
+            <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Template" | translate}} : </span>
+            <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
+                <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+            </nz-select>
+        </div>
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="select-list">
+                <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Orchestrator" | translate}} : </span>
+                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
+                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div *ngIf="templateTypeSelected == 'E2E Service'">
+            <div class="check-box" style="margin:30px; height: 50px">
+                <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox"
+                    [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
+                <label class="label" style="font-size: 20px; color: rgb(60,79,140,0.5)">Sol005</label>
+            </div>
+        </div>
+        <div class="select-list" style="color: red;margin-left: 66px;" *ngIf="temParametersTips">
+            {{"i18nTextDefine_Templateparsingfailed" | translate}}
+        </div>
+    </nz-modal>
+</div>
+<nz-layout style=" padding: 20px 32px; ">
+    <ul class="top-num">
+        <li *ngFor="let item of serviceMunber" class="top-list">
+            <span class="round">{{item.serviceDomain}}</span>
+            <div class="top-list-text">
+                <p>
+                    <span>{{item.failed}}</span>
+                    <span> {{"i18nTextDefine_Failed" | translate}} </span>
+                </p>
+                <p>
+                    <span>{{item.Success}}</span>
+                    <span> {{"i18nTextDefine_Success" | translate}} </span>
+                </p>
+                <p>
+                    <span>{{item.InProgress}}</span>
+                    <span> {{"i18nTextDefine_InProgress" | translate}} </span>
+                </p>
+            </div>
+            <p class="service-description"> {{item.detailName | translate}} </p>
+        </li>
+    </ul>
+    <div class="list" id="services-list" [ngClass]="{'listdisplay':listDisplay == true}">
+        <nz-table *ngIf="1" #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="false"
+            [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize"
+            [(nzPageIndex)]='pageIndex' [nzLoading]="loading" [nzSize]="'middle'" [nzScroll]="{ y: '58vh' }"
+            (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+            <thead>
+                <tr>
+                    <th nzWidth="5%"> {{"i18nTextDefine_NO" | translate}}</th>
+                    <th nzWidth="5%"></th>
+                    <th nzWidth="20%"> {{"i18nTextDefine_Name" | translate}}</th>
+                    <th nzWidth="20%"> {{"i18nTextDefine_InstanceID" | translate}}</th>
+                    <th nzWidth="15%"> {{"i18nTextDefine_UseCase" | translate}}</th>
+                    <th nzWidth="20%"> {{"i18nTextDefine_Status" | translate}}</th>
+                    <th nzWidth="15%"> {{"i18nTextDefine_Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index">
+                    <tr>
+                        <td>{{pageSize*(pageIndex-1) + i+1}}</td>
+                        <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
+                        <td>{{data["service-instance-name"] || data.nsName}}</td>
+                        <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
+                        <td>
+                            <p
+                                [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN','voLTEColor':data.serviceDomain=='voLTE type'}">
+                                {{data.serviceDomain}}
+                            </p>
+                        </td>
+                        <td>
+                            <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
+                    'updating':data.statusClass=='Updating','deleting':data.statusClass=='1002','creating':data.statusClass=='1001',
+                    'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}"
+                                *ngIf="data.tips != 'Available' && data.tips != 'Unavailable'">{{data.tips}}</span>
+                            <span *ngIf="data.tips == 'Available' " style="margin-left: 10px">
+                                <img src="assets/images/wancheng-icon.png" alt="Available">
+                            </span>
+                            <span *ngIf="data.tips == 'Unavailable' " style="margin-left: 10px">
+                                <img src="assets/images/shibai-icon.png" alt="Unavailable">
+                            </span>
+                            <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate"
+                                [nzShowInfo]="false" nzStatus="active"></nz-progress>
+                        </td>
+                        <td>
+                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                                class="anticon anticon-bars" (click)="serviceDetail(data,1)"></i>
+                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
+                                (click)="deleteModel(data)"></i>
+                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-ellipsis"
+                                (click)="iconMoreShow(data,tableData)" style="transform: rotate(90deg);"></i>
+
+                            <ul *ngIf="data.iconMore==true " class="icon-more">
+                                <li (click)="scaleService(data)"
+                                    [ngClass]="{'cannotclick':data.serviceDomain!='E2E Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}">
+                                    <i class="anticon anticon-scale"></i>
+                                    <span> {{"i18nTextDefine_Scale" | translate}} </span>
+                                </li>
+                                <li (click)="serviceDetail(data,2)"
+                                    [ngClass]="{'cannotclick':data.serviceDomain!='CCVPN' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}">
+                                    <i class="anticon anticon-update"></i>
+                                    <span> {{"i18nTextDefine_Update" | translate}} </span>
+                                </li>
+                            </ul>
+                            <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
+                            <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
+                          *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
+                        </td>
+                    </tr>
+                    <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
+                        <td></td>
+                        <td></td>
+                        <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
+                        <td>{{item["service-instance-name"] || item.nsName || item.vnfInstanceName}}</td>
+                        <td>
+                            <p
+                                [ngClass]="{'vnfColor':item.serviceDomain=='vnf','siteColor':item.serviceDomain=='SITE','SDWANColor':item.serviceDomain=='SDWAN'}">
+                                {{item.serviceDomain}}
+                            </p>
+                        </td>
+                        <td>
+                            <span [ngClass]="{'healing':data.statusClass=='1004'}">{{item.tips}}</span>
+                            <nz-progress *ngIf=" item.status == 'In Progress' " [nzPercent]="item.rate"></nz-progress>
+                        </td>
+                        <td>
+                            <i [ngClass]="{'cannotclick':data.serviceDomain!='Network Service' || data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                                class="anticon anticon-reload" (click)="healService(item)"></i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </nz-table>
+
+        <nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} "
+            (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk(templatescalestarting,templateScaleSuccessFaild)"
+            nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+            nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+            <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureScale" | translate}} </h3>
+            <div class="question">
+                <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
+                <div class="scaleModelContent" style="width: 100%">{{ thisService["service-instance-id"] ||
+                    thisService["nsInstanceId"] ||
+                    thisService["vnfInstanceId"]}}
+                </div>
+            </div>
+            <div *ngFor="let item of e2e_nsData" style="margin-top: 20px">
+                <h3>{{ item.netWorkServiceName }}</h3>
+                <div class="e2eScaleContent">
+                    <span class="e2eScaleLable"> {{"i18nTextDefine_ScaleType" | translate}} :</span>
+                    <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
+                        <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
+                        <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="e2eScaleContent">
+                    <span class="e2eScaleLable"> {{"i18nTextDefine_AspectId" | translate}} :</span>
+                    <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
+                </div>
+                <div class="e2eScaleContent">
+                    <span class="e2eScaleLable"> {{"i18nTextDefine_Number_Of_Steps" | translate}} :</span>
+                    <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100"
+                        nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
+                </div>
+                <div class="e2eScaleContent">
+                    <span class="e2eScaleLable"> {{"i18nTextDefine_ScalingDirection" | translate}} :</span>
+                    <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
+                        <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
+                        <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+
+            <ng-template #templatescalestarting>
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message">E2E &nbsp;
+                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
+                        </div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </nz-modal>
+
+        <nz-modal nzWidth="428" [(nzVisible)]="deleteModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} "
+            (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk(templatedeletestarting,templateDeleteSuccessFaild)"
+            nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}"
+            nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+            nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+            <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureDelete" | translate}} </h3>
+            <div class="question">
+                <h4> {{"i18nTextDefine_InstanceName" | translate}} :</h4>
+                <div class="deleteModelContent">{{ thisService["service-instance-name"] ||
+                    thisService["nsInstanceName"] }}
+                </div>
+            </div>
+            <div class="question">
+                <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
+                <div class="deleteModelContent">{{ thisService["service-instance-id"] ||
+                    thisService["nsInstanceId"] }}
+                </div>
+            </div>
+            <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+                <div class="question">
+                    <h4> {{"i18nTextDefine_terminationType" | translate}} :</h4>
+                    <nz-select style="width: 306px;" [(ngModel)]="terminationType">
+                        <nz-option nzValue="graceful" nzLabel=" {{'i18nTextDefine_graceful' | translate}} "></nz-option>
+                        <nz-option nzValue="forceful" nzLabel=" {{'i18nTextDefine_forceful' | translate}} "></nz-option>
+                    </nz-select>
+                </div>
+                <div class="question">
+                    <h4 *ngIf="terminationType=='graceful'"> {{"i18nTextDefine_gracefulTerminationTimeout" | translate}}
+                        :</h4>
+                    <input *ngIf="terminationType=='graceful'" style="width: 306px;" nz-input
+                        [(ngModel)]="gracefulTerminationTimeout">
+                </div>
+            </div>
+
+            <ng-template #templatedeletestarting>
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message"
+                            *ngIf="thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">
+                            {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" |
+                            translate}}
+                        </div>
+                        <div class="ant-notification-notice-message"
+                            *ngIf="thisService['serviceDomain'] == 'E2E Service'">E2E &nbsp;
+                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
+                        </div>
+                        <div class="ant-notification-notice-message"
+                            *ngIf="thisService['serviceDomain'] == 'Network Service'">NS &nbsp;
+                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
+                        </div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </nz-modal>
+
+        <nz-modal nzWidth="428" [nzVisible]="healModelVisible" nzTitle=" {{'i18nTextDefine_Heal' | translate}} "
+            (nzOnCancel)="healCancel()" (nzOnOk)="healOk(templatehealstarting,templatehealSuccessFaild)"
+            nzClassName="healModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+            nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+            <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureHeal" | translate}} </h3>
+            <div class="heal-question">
+                <p class="heal-label"> {{"i18nTextDefine_InstanceID" | translate}} : </p>
+                <div class="healModelContent" title="{{ thisService['service-instance-id'] || thisService['nsInstanceId'] ||
+                    thisService['vnfInstanceId']}}"> {{ thisService["service-instance-id"] ||
+                    thisService["nsInstanceId"] ||
+                    thisService["vnfInstanceId"]}}
+                </div>
+            </div>
+            <!-- NS -->
+            <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+                <div class="question">
+                    <p class="heal-label"> {{"i18nTextDefine_degreeHealing" | translate}} :</p>
+                    <nz-select style="width: 200px;height:42px;margin-left: 15px;border-radius: 6px"
+                        [(ngModel)]="nsParams.degreeHealing">
+                        <nz-option nzValue="HEAL_RESTORE" nzLabel="HEAL_RESTORE"></nz-option>
+                        <nz-option nzValue="HEAL_QOS" nzLabel="HEAL_QOS"></nz-option>
+                        <nz-option nzValue="HEAL_RESET" nzLabel="HEAL_RESET"></nz-option>
+                        <nz-option nzValue="PARTIAL_HEALING" nzLabel="PARTIAL_HEALING"></nz-option>
+                    </nz-select>
+                </div>
+                <div>
+                    <span style="display:inline-block;"> {{"i18nTextDefine_actionsHealing" | translate}} :</span>
+                    <button nz-button [nzType]="'default'" (click)="addActionsHealing()"><i
+                            class="anticon anticon-plus-circle-o"></i></button>
+                    <br>
+                    <div *ngFor="let item of healActions;let i = index;" style="display:inline-block;">
+                        <input style="width: 165px;" nz-input [(ngModel)]="item.value">
+                        <button nz-button [nzType]="'dashed'" (click)="minusActionsHealing(i)"><i
+                                class="anticon anticon-minus-circle-o"></i></button>
+                        &nbsp;
+                    </div>
+                </div>
+                <span style="display:inline-block;width:50%;"> {{"i18nTextDefine_healScript" | translate}} :</span>
+                <input style="width: 165px;" nz-input [(ngModel)]="nsParams.healScript">
+                <div>
+                    <span style="display:inline-block;"> {{"i18nTextDefine_additionalParamsforNs" | translate}} :</span>
+                    <button nz-button [nzType]="'default'" (click)="addNsAdditional()"><i
+                            class="anticon anticon-plus-circle-o"></i></button>
+                    <br>
+                    <div *ngFor="let item of nsAdditional;let i = index;">
+                        Key: <input style="width: 165px;" nz-input [(ngModel)]="item.key"> &nbsp;
+                        Value: <input style="width: 165px;" nz-input [(ngModel)]="item.value">
+                        <button nz-button [nzType]="'dashed'" (click)="minusNsAdditional(i)"><i
+                                class="anticon anticon-minus-circle-o"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- vnf -->
+            <div *ngIf="thisService['serviceDomain'] == 'vnf'" style="clear: both">
+                <div class="heal-question">
+                    <p class="heal-label"> {{"i18nTextDefine_cause" | translate}} :</p>
+                    <input nz-input [(ngModel)]="vnfParams.cause" class="heal-input">
+                </div>
+                <div class="heal-question">
+                    <p class="heal-label"> {{"i18nTextDefine_action" | translate}} :</p>
+                    <input nz-input [(ngModel)]="vnfParams.additionalParams.action" class="heal-input">
+                </div>
+                <div class="heal-question">
+                    <p class="heal-label"> {{"i18nTextDefine_actionvminfo" | translate}}:</p>
+                    <nz-select
+                        style=" float: right;width: 200px;margin-left: 15px;border-radius: 6px;margin-right: 30px"
+                        [(ngModel)]="vmSelected">
+                        <nz-option *ngFor="let item of vnfVms" [nzValue]="item" [nzLabel]="item.vmName"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+
+            <ng-template #templatehealstarting>
+                <div class="ant-notification-notice-content">
+                    <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                        <div class="ant-notification-notice-message">NS &nbsp;
+                            {{"i18nTextDefine_InstanceHealingStarting" | translate}}
+                        </div>
+                        <div class="ant-notification-notice-description">
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                                <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                                <span>{{ customerSelected.name }}</span>
+                            </div>
+                            <div class="notificationlist">
+                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                                <span>{{ thisService["serviceDomain"] }}</span>
+                            </div>
+                        </div>
+                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                    </div>
+                </div>
+            </ng-template>
+        </nz-modal>
+
+        <!-- add notification-->
+        <ng-template #templateCreatestarting>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
+                    </span>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="thisCreateService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">
+                        {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" |
+                        translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="thisCreateService['serviceDomain'] == 'E2E Service'">E2E &nbsp;
+                        {{"i18nTextDefine_InstanceCreationStarting" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="thisCreateService['serviceDomain'] == 'Network Service'">NS &nbsp;
+                        {{"i18nTextDefine_InstanceCreationStarting" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisCreateService["service-instance-name"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected2.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisCreateService['serviceDomain'] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateCreateSuccessFaild>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
+                            *ngIf="thisCreateService.status == 'Successful'">
+                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
+                            *ngIf="thisCreateService.status == 'Failed'">
+                    </span>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">
+                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
+                        translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Successful'">
+                        E2E &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Successful'">
+                        NS &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Failed'">
+                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
+                        translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Failed'">
+                        E2E &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Failed'">
+                        NS &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisCreateService["service-instance-name"] ||
+                                    thisCreateService["nsInstanceName"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected2.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisCreateService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateDeleteSuccessFaild>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Successful'">
+                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Failed'">
+                    </span>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Successful'">
+                        {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" |
+                        translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'E2E Service') && thisService.status == 'Successful'">
+                        E2E &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'Network Service') && thisService.status == 'Successful'">
+                        NS &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Failed'">
+                        {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" |
+                        translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'E2E Service') && thisService.status == 'Failed'">E2E
+                        &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message"
+                        *ngIf="(thisService['serviceDomain'] == 'Network Service') && thisService.status == 'Failed'">
+                        NS &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateScaleSuccessFaild>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Successful'">
+                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Failed'">
+                    </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">E2E &nbsp;
+                        {{"i18nTextDefine_InstanceScaledSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">E2E &nbsp;
+                        {{"i18nTextDefine_InstanceScaleFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templatehealSuccessFaild>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Successful'">
+                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Failed'">
+                    </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">NS &nbsp;
+                        {{"i18nTextDefine_InstanceHealedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">NS &nbsp;
+                        {{"i18nTextDefine_InstanceHealingFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templateUpdateSuccessFaild>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                    <span class="ant-notification-notice-icon">
+                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Successful'">
+                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
+                            *ngIf="thisService.status == 'Failed'">
+                    </span>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Successful'">CCVPN &nbsp;
+                        {{"i18nTextDefine_InstanceUpdatedSuccessfully" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-message" *ngIf="thisService.status == 'Failed'">CCVPN &nbsp;
+                        {{"i18nTextDefine_InstanceUpdateFailed" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                            </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <div class="detailComponent" *ngIf="detailshow">
+        <app-ccvpn-detail [detailParams]="detailData" [upDateShow]="upDateShow"
+            (closeUpdate)="closeCCVPNUpdate($event,templateUpdateSuccessFaild)"
+            (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
+    </div>
+    <div class="detailComponent" *ngIf="detailshow2">
+        <app-e2e-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
+        </app-e2e-detail>
+    </div>
+    <div class="createComponent" *ngIf="createshow">
+        <app-ccvpn-creation [createParams]="createData" [ccvpn_temParametersContent]="ccvpn_temParametersContent"
+            (closeCreate)="closeCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+        </app-ccvpn-creation>
+    </div>
+    <div class="createComponent" *ngIf="createshow2">
+        <app-e2e-creation [createParams]="createData" [e2e_ns_temParametersContent]="e2e_ns_temParametersContent"
+            (nsCloseCreate)="nsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)"
+            (e2eCloseCreate)="e2eCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+        </app-e2e-creation>
+    </div>
+    <!--</div>-->
+</nz-layout>
+<div class="loading" *ngIf="loadingAnimateShow">
+    <img src="assets/images/loading-animate2.gif" alt="loading">
+    <p>Please wating……</p>
+</div>

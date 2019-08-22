@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateLoader, TranslateService, TranslateFakeLoader} from '@ngx-translate/core';
-import {HomesService} from "./homes.service";
+import {HomesService} from "./core/services/homes.service";
 
 import { AppComponent } from './app.component';
 
