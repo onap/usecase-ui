@@ -16,7 +16,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from '../models/dataInterface';
+import { baseUrl } from '../models/dataInterface';
 
 @Injectable()
 export class HomesService {
@@ -36,25 +36,7 @@ export class HomesService {
     sourceNames: this.baseUrl + "/alarm/getSourceNames",
     listSortMasters: this.baseUrl + "/listSortMasters",
     currentLanguage: "/api/portal-auxapi/languageSetting/user/",
-  }
-
-  // Time formatting milliseconds to normal
-  dateformater(vmstime) {
-    if (!vmstime) {
-      return ''
-    }
-    let mstime = Number((vmstime + '').slice(0, 13));
-    let time = new Date(mstime);
-    let year = time.getFullYear();
-    let month = time.getMonth() + 1;
-    let day = time.getDate();
-    let hours = time.getHours();
-    let minutes = time.getMinutes();
-    let seconds = time.getSeconds();
-    let formattime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-    return formattime;
-  }
-
+  };
 
   // home
   getHomeServiceData() {

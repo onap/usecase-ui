@@ -16,6 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
 import { slideToRight } from '../../shared/utils/animates';
+import { Util } from '../../shared/utils/utils';
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from '@angular/router';
 
@@ -28,7 +29,11 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
 
-  constructor(private myhttp: HomesService, private router: Router) { }
+  constructor(
+      private myhttp: HomesService,
+      private router: Router,
+      private Util: Util
+      ) { }
 
   ngOnInit() {
     this.getListSortMasters();
@@ -495,8 +500,8 @@ export class HomeComponent implements OnInit {
     }
   }
   getHomeAlarmChartData() {
-    let nowTime = this.myhttp.dateformater(Date.now());
-    let startTime = this.myhttp.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    let nowTime = this.Util.dateformater(Date.now());
+    let startTime = this.Util.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
     let obj = {
       sourceName: this.sourceNameSelected,
       startTime: startTime,
