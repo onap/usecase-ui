@@ -11,13 +11,82 @@ This is the frontend part of Usecase UI project.
 npm install
 ```
 
-2. Launch development server, and open `localhost:4200` in your browser:
+2. Launch local server, and open `localhost:4200` in your browser:
 
 ```bash
-npm start
+npm run start
 ```
 
+3. Launch data server, and open `localhost:4200` in your browser:
+
+```bash
+npm run mock
+```
+
+4. Launch remote server, and open `localhost:4200` in your browser:
+
+```bash
+npm run server
+```
+
+5. Print changelog in `CHANGELOG.md`:
+
+```bash
+npm run changelog
+```
+
+
 ### Project Structure
+
+```
+├── e2e
+├── src
+│   ├── app   
+│   │   ├── core     
+│   │   │   ├── models
+│   │   │   └── services 
+│   │   ├── mock
+│   │   │   ├── json                        # container of all local mock data files 
+│   │   │   ├── fakedata.js                 # container of all remote mock data created by faker.js 
+│   │   │   ├── mock.js                     # connector of remote mock data and mock interface
+│   │   │   └── server.js                   # mock data server
+│   │   ├── shared
+│   │   │   ├── components                  # container of all general components 
+│   │   │   └── utils                       # container of all general functions 
+│   │   ├── test                            # test page, can be deleted if nessary 
+│   │   ├── views                           # container of all business pages
+│   │   │   ├── alarm 
+│   │   │   └── ......                      
+│   │   ├── app-routing.module.ts                                             
+│   │   ├── app.component.css                                            
+│   │   ├── app.component.less                                              
+│   │   ├── app.component.html                                                                                         
+│   │   ├── app.component.ts                                                                                                            │   │   └── app.module.ts    
+│   ├── assets 
+│   │   ├── i18n                            # container of internationalization assets                      
+│   │   └── images   
+│   ├── environments 
+│   ├── favicon.ico                        
+│   ├── index.html    
+│   ├── style.css  
+│   ├── style.less                         
+│   ├── my-theme.css 
+│   ├── my-theme.less  
+│   ├── main.ts  
+│   ├── polyfill.ts   
+│   ├── test.ts   
+│   ├── tsconfig.app.json 
+│   ├── tsconfig.spec.json 
+│   ├── typing.d.ts 
+├── .angular-cli.json
+├── CHANGELOG.md                            # recorder of all the important changes 
+├── karma.conf.js 
+├── localproxy.conf.json                    # config for mock server proxy 
+├── proxy.conf.json                         # config for server proxy 
+├── tsconfig.json
+├── package.json
+└── README.md   
+```
 
 ### [Change log](./CHANGELOG.md)
 
@@ -72,7 +141,8 @@ Also, run the script `npm run changelog` can generate all the `feat` and `fix` c
 
 ### Contributor
 
-Copyright 2017 CMCC Corporation.
+```
+Copyright 2019 CMCC Corporation.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -83,3 +153,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
