@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
 import { MyhttpService } from '../../../core/services/myhttp.service';
-import { slideToRight } from '../../../animates';
+import { slideToRight } from '../../../shared/utils/animates';
 import { NzModalService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
 

@@ -18,7 +18,7 @@ import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
 // import { MyhttpService } from '../../myhttp.service';
 import { onboardService } from '../../../core/services/onboard.service';
-import { slideToRight } from '../../../animates';
+import { slideToRight } from '../../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';

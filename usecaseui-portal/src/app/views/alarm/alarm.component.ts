@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Pipe, PipeTransform } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
-import { showHideAnimate, slideToRight } from '../../animates';
+import { showHideAnimate, slideToRight } from '../../shared/utils/animates';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-alarm',

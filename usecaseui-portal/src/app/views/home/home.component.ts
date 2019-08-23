@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
-import { slideToRight } from '../../animates';
+import { slideToRight } from '../../shared/utils/animates';
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from '@angular/router';
 
