@@ -16,7 +16,7 @@
 <nz-layout>
   <nz-sider nzWidth='330' nzBreakpoint='xl' nzCollapsedWidth=260>
     <div class="siderContent">
-      <img src="../assets/images/uui-logo130.png" alt="">
+      <img src="assets/images/uui-logo130.png" alt="">
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
       <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[0] == true}" (click)="thisActive(0)">
@@ -71,23 +71,6 @@
               routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_PackageManagement" | translate}} </a></li>
         </ul>
       </li>
-      <!-- <hr>
-      <li nz-menu-item>
-        <a routerLink="alarm">
-          <span title>
-            <i class="anticon anticon-mail"></i>
-            <span> {{"i18nTextDefine_Alarm" | translate}} </span>
-          </span>
-        </a>
-      </li>
-      <hr> -->
-      <!-- <li nz-submenu>
-        <span title><i class="anticon anticon-setting"></i> {{"i18nTextDefine_Monitor" | translate}} </span>
-        <ul>
-          <li nz-menu-item><a routerLink='alarm'> {{"i18nTextDefine_Alarm" | translate}} </a></li>
-          <li nz-menu-item><a routerLink='performance/performance-vnf'> {{"i18nTextDefine_Performance" | translate}}</a></li>
-        </ul>
-      </li> -->
       <hr>
       <li nz-menu-item [ngClass]="{'activeMenuBar':activeMenuBar[4] == true}" (click)="thisActive(4)">
         <a routerLink="network">
