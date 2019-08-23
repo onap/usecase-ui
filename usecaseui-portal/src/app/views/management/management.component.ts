@@ -13,26 +13,26 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit , HostBinding} from '@angular/core';
-import { showHideAnimate, slideToRight } from '../../animates';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import { showHideAnimate, slideToRight } from '../../shared/utils/animates';
 import { ManagemencsService } from '../../core/services/managemencs.service';
 
 @Component({
-  selector: 'app-management',
-  templateUrl: './management.component.html',
-  styleUrls: ['./management.component.less'],
-  animations: [
-    showHideAnimate, slideToRight
-  ]
+    selector: 'app-management',
+    templateUrl: './management.component.html',
+    styleUrls: ['./management.component.less'],
+    animations: [
+        showHideAnimate, slideToRight
+    ]
 })
 export class ManagementComponent implements OnInit {
-  @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
+    @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
 
-  constructor(private managemencs: ManagemencsService) { }
+    constructor(private managemencs: ManagemencsService) { }
 
-  ngOnInit() {
-    this.getAllCustomers();
-  }
+    ngOnInit() {
+        this.getAllCustomers();
+    }
 
     nocuster = true;
     firstCustomer = null;
@@ -62,7 +62,7 @@ export class ManagementComponent implements OnInit {
             }
         })
     }
-    clearCustomerInput(){
-        this.firstCustomer=null;
+    clearCustomerInput() {
+        this.firstCustomer = null;
     }
 }

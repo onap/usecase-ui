@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { slideToRight, showHideAnimate } from '../../../animates';
+import { slideToRight, showHideAnimate } from '../../../shared/utils/animates';
 import { HomesService } from '../../../core/services/homes.service';
 
 @Component({
@@ -41,27 +41,27 @@ export class PerformanceVnfComponent implements OnInit {
     this.getqueryAllSourceNames();
     // this.getperformanceSsourceNames();
     let _this = this;
-    setTimeout(function(){
-      _this.totalRecords = [    
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"}
+    setTimeout(function () {
+      _this.totalRecords = [
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" }
       ];
       _this.totalpnfs = [
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"},
-        {name:"Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��",text:"oahgieango"}
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" },
+        { name: "Mfvs_MMEManagedElem entdElementMfvs_MMEM anagedELement��", text: "oahgieango" }
       ]
-      _this.emptys = new Array(12-_this.totalRecords.length);
-    },300)
+      _this.emptys = new Array(12 - _this.totalRecords.length);
+    }, 300)
   }
 
 
@@ -86,7 +86,7 @@ export class PerformanceVnfComponent implements OnInit {
   totalRecords = [];
   totalpnfs = [];
   //Fill the box
-  emptys = []; 
+  emptys = [];
 
   // getperformanceSsourceNames() {
   //   this.myhttp.getperformanceSourceNames(this.currentPage, this.pageSize, this.sourceName).subscribe((data) => {

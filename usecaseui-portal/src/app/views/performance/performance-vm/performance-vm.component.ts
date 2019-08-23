@@ -1,11 +1,11 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { slideToRight, showHideAnimate } from '../../../animates';
+import { slideToRight, showHideAnimate } from '../../../shared/utils/animates';
 
 @Component({
   selector: 'app-performance-vm',
   templateUrl: './performance-vm.component.html',
   styleUrls: ['./performance-vm.component.less'],
-  animations: [ slideToRight, showHideAnimate ]
+  animations: [slideToRight, showHideAnimate]
 })
 export class PerformanceVmComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
@@ -15,15 +15,15 @@ export class PerformanceVmComponent implements OnInit {
   }
 
   // Filter box (drop-down box)
-  sourceNameList = ['aaaa','bbbb','cccc','dddddDDDDDDDDDDDDDDD'];
+  sourceNameList = ['aaaa', 'bbbb', 'cccc', 'dddddDDDDDDDDDDDDDDD'];
   sourceNameSelected = this.sourceNameList[0];
-  ReportingEntityNameList = ['aaaa','bbbb','cccc','ddddd'];
-  ReportingEntityNameSelected = this.ReportingEntityNameList[0];  
-  choseSourceName(item){
+  ReportingEntityNameList = ['aaaa', 'bbbb', 'cccc', 'ddddd'];
+  ReportingEntityNameSelected = this.ReportingEntityNameList[0];
+  choseSourceName(item) {
     console.log(item);
     this.sourceNameSelected = item;
   }
-  choseReportingEntityName(item){
+  choseReportingEntityName(item) {
     console.log(item);
     this.ReportingEntityNameSelected = item;
   }
@@ -31,98 +31,98 @@ export class PerformanceVmComponent implements OnInit {
   //Tabular data
   dataSet = [
     {
-      name       : 'John Brown',
-      age        : 32,
-      expand     : false,
-      address    : 'New York No. 1',
+      name: 'John Brown',
+      age: 32,
+      expand: false,
+      address: 'New York No. 1',
       description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.'
     },
     {
-      name       : 'Aim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Aim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Bim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Cim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Jim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Xim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Xim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Jim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Jim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Jim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'Jim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'Jim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'cim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'cim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'bim Green',
-      age        : 42,
-      expand     : false,
-      address    : 'London No. 1',
+      name: 'bim Green',
+      age: 42,
+      expand: false,
+      address: 'London No. 1',
       description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
     },
     {
-      name       : 'aoe Black',
-      age        : 32,
-      expand     : false,
-      address    : 'Sidney No. 1',
+      name: 'aoe Black',
+      age: 32,
+      expand: false,
+      address: 'Sidney No. 1',
       description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.'
     }
   ];
-  
+
   //Detail page title display
   graphicshow = false;
   detailshow = false;
@@ -145,7 +145,7 @@ export class PerformanceVmComponent implements OnInit {
     this.detailshow = false;
   }
   // Selected id
-  detailId:number;
+  detailId: number;
   detailShow(prems) {
     this.state = 'hide';
     this.state2 = 'hide';

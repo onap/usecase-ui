@@ -14,23 +14,23 @@
     limitations under the License.
 */
 import { Component, OnInit, Input } from '@angular/core';
-import { slideUpDown } from '../../../animates';
+import { slideUpDown } from '../../utils/animates';
 import { HomesService } from '../../../core/services/homes.service';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.less'],
-  animations: [ slideUpDown ]
+  animations: [slideUpDown]
 })
 export class DetailsComponent implements OnInit {
 
-  constructor(private myhttp:HomesService) { }
+  constructor(private myhttp: HomesService) { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes){
+  ngOnChanges(changes) {
     this.getAlarmDetailData(this.detailId);
   }
 
@@ -38,9 +38,9 @@ export class DetailsComponent implements OnInit {
 
   };
   dataillistdata: any = [];
-  getAlarmDetailData(id){
-    if(id){
-      this.myhttp.getAlarmDetailData(id).subscribe((data)=>{
+  getAlarmDetailData(id) {
+    if (id) {
+      this.myhttp.getAlarmDetailData(id).subscribe((data) => {
         this.datailheaderdata = data.alarmsHeader;
         this.dataillistdata = data.list;
       })
@@ -50,9 +50,9 @@ export class DetailsComponent implements OnInit {
   // detail Show
   moredetailShow = false;
   @Input() detailId;
-  
+
   state = 'up'
-  slideUpDown(){
+  slideUpDown() {
     this.moredetailShow = !this.moredetailShow;
     this.state = this.state === 'up' ? 'down' : 'up';
   }
