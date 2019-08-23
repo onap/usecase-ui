@@ -26,10 +26,9 @@
     <div class="type">
       <p> {{"i18nTextDefine_Instance_Count_of_ServiceType" | translate}} </p>
       <app-bar [initData]="serviceInit" [chartData]="serviceData"></app-bar>
-      <div class="footname" style="width: 100%;height: 40px;line-height: 40px;text-align: center;color: #3C4F8C;">
-        <img src="../../../../assets/images/customerBarUser.png" alt="customerName"
-          style="margin-right: 5px;margin-bottom: 3px;">
-        {{this.serviceInit["customer"]}}
+      <div class="footname">
+        <img src="assets/images/customerBarUser.png" alt="customerName">
+        {{this.serviceInit["customer"]}}     
       </div>
     </div>
   </div>
@@ -37,8 +36,7 @@
     <div class="customer_title">
       <div class="customers">
         <span> {{"i18nTextDefine_Customer" | translate}} </span>
-        <img src="../../../../assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd"
-          style="cursor: pointer">
+        <img  src="assets/images/customer04.png" alt="" (click)="this.customeradd  = !this.customeradd">
       </div>
     </div>
     <div class="customer_detail">
@@ -52,7 +50,7 @@
         <ul>
           <li *ngFor="let item of AllCustomersdata,let i = index" [ngClass]="{active: chose ==i}"
             (click)="choseCustomer(i,item)">
-            <img src="../../../../assets/images/customer05.png" alt="">
+            <img src="assets/images/customer05.png" alt="">
             <span>{{item.name}}</span>
             <i class="anticon anticon-delete" nzType="info" (click)="deleteCustomerModel(item)"></i>
           </li>
@@ -64,8 +62,7 @@
     <div class="services_type_title">
       <div class="servicess">
         <span> {{"i18nTextDefine_ServiceType" | translate}} </span>
-        <img src="../../../../assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd "
-          style="cursor: pointer">
+        <img src="assets/images/customer03.png" alt="" (click)="this.servicesadd  = !this.servicesadd ">
       </div>
     </div>
     <div class="services_type_detail">
@@ -75,9 +72,9 @@
         <button nz-button nzType="primary" class="services_addbut"
           (click)="createNewServiceType(notificationModel)">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
-      <div class="services_list">
+      <div class="services_list_content">
         <div class="border_size"></div>
-        <div style="padding:0 20px;">
+        <div class="services_list">
           <ul>
             <li *ngFor="let item of AllServiceTypes">
               <span>{{item.type}}</span>
