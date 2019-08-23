@@ -16,6 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Pipe, PipeTransform } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
 import { showHideAnimate, slideToRight } from '../../shared/utils/animates';
+import { Util } from '../../shared/utils/utils';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-alarm',
@@ -33,7 +34,7 @@ export class AlarmComponent implements OnInit {
   public pageSize: number = 10;
   public sourceName: string = '';
   public priority: string = '';
-  public startTime: string = this.myhttp.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  public startTime: string = this.Util.dateformater(Date.now() - 30 * 24 * 60 * 60 * 1000);
   public endTime: string = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
   public vfStatus: string = '';
   public sourceNameList: Array<any> = ['---auto---'];
@@ -41,7 +42,9 @@ export class AlarmComponent implements OnInit {
   sourcenames: any;
   constructor(
     private datePipe: DatePipe,
-    private myhttp: HomesService) { }
+    private myhttp: HomesService,
+    private Util: Util
+  ) { }
   ngOnInit() {
     this.getAlarmFormData();
     this.getSourceNames();
