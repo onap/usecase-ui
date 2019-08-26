@@ -74,7 +74,7 @@ function serverRewrite(routerpath) {
         routerpathArr[`/${newPath}`] = `/${item}`;
     })
     //start to rewrite routers
-    console.log(customersRouters, "===customersRouters")
+    // console.log(customersRouters, "===customersRouters")
     // server.use(jsonServer.rewriter(customersRouters))
     server.use(jsonServer.rewriter(routerpathArr));
 }
