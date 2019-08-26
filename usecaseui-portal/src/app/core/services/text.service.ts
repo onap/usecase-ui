@@ -36,7 +36,7 @@ export class TextService {
     return this.http.get<any>(this.url["singleInterface"]);
   }
   getjsonData() {
-    return this.http.get<any>(this.url["jsonInterface"]);
+    return this.http.get<any>(this.url["multipleInterface"]);
   }
   //-------------------------------------------------------------------------------------
 

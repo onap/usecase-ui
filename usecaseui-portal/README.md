@@ -61,7 +61,7 @@ npm run changelog
 │   │   ├── app.component.css                                            
 │   │   ├── app.component.less                                              
 │   │   ├── app.component.html                                                                                         
-│   │   ├── app.component.ts                                                                                                            │   │   └── app.module.ts    
+│   │   ├── app.component.ts                                                                                                  
 │   ├── assets 
 │   │   ├── i18n                            # container of internationalization assets                      
 │   │   └── images   
