@@ -1,6 +1,7 @@
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
+const customersRouters = require('./routes');
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -10,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 let localJsonDb = {};  //import mock datas
-const fakeoriginalData = require('./mock.js');  //import datas created in fakedata.js
+const fakeoriginalData = require('./fake/mock.js');  //import datas created in fakedata.js
 const mockFolder = './src/app/mock/json'; //mock json path folder
 const filePath = path.resolve(mockFolder);
 
@@ -54,8 +55,6 @@ function fileDisplay(filePath) {
         })
     })
     setTimeout(() => {
-        // console.log(rewriter, "===rewriter", localJsonDb, "===localJsonDb", fileList, "===fileList");
-        // console.log(localJsonDb, "===localJsonDb");
         serverRewrite(rewriter);
         runServer(localJsonDb);
     }, 100)
@@ -75,6 +74,8 @@ function serverRewrite(routerpath) {
         routerpathArr[`/${newPath}`] = `/${item}`;
     })
     //start to rewrite routers
+    console.log(customersRouters, "===customersRouters")
+    // server.use(jsonServer.rewriter(customersRouters))
     server.use(jsonServer.rewriter(routerpathArr));
 }
 
