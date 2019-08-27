@@ -23,28 +23,13 @@ export class networkHttpservice {
 
     constructor(private http: HttpClient) { }
 
-    // baseUrl = "./assets/json/";//Local environment
-    // url={
-    //   "getNetworkD3Data":this.baseUrl + "netWorkD3Data.json",
-    //   "getLogicalLinksData":this.baseUrl + "LogicalLinksData.json",
-    //   "getPInterfacesData1":this.baseUrl + "netWorkD3Data.json",
-    //   "getPInterfacesData2":this.baseUrl + "p_interfaces1.json",
-    //   "createLink":this.baseUrl + "status.json",
-    //   "querySpecificLinkInfo":this.baseUrl + "specific_link _nfo.json",
-    //   "queryCloudUrl":this.baseUrl + "url.json",
-    //   "createNetwrok":this.baseUrl + "status.json",
-    //   "createPnf":this.baseUrl + "status.json",
-    //   "createTp":this.baseUrl + "status.json",
-    //   "createCloudLink":this.baseUrl + "status.json",
-    //   "createCloudUrl":this.baseUrl + "status.json",
-    //   "deleteLink":this.baseUrl + "status.json",
-    // };
-    // baseUrl = "http://10.73.242.244:8082/uui-sotn/";//Online environment
-    // baseUrl = "http://172.19.44.223/api/usecaseui-server/v1/uui-sotn/";//Online environment
     baseUrl = baseUrl.baseUrl + "/uui-sotn/";//Online environment
     url = {
+        // The following APIs are optimizable
         "getNetworkD3Data": this.baseUrl + "getNetWorkResources",
         "getLogicalLinksData": this.baseUrl + "getLogicalLinks",
+        "deleteCloud": this.baseUrl + "deleteExtNetWork",
+        // The following APIs are not optimizable
         "getPInterfacesData1": this.baseUrl + "getPinterfaceByPnfName/",
         "getPInterfacesData2": this.baseUrl + "getPinterfaceByPnfName/",
         "createLink": this.baseUrl + "createLink/",
@@ -57,8 +42,10 @@ export class networkHttpservice {
         "createCloudLink": this.baseUrl + "createLink/",
         "createCloudUrl": this.baseUrl + "createHostUrl/",
         "deleteLink": this.baseUrl + "deleteLink/",
-        "deleteCloud": this.baseUrl + "deleteExtNetWork"
+
     };
+
+    //The following APIs function are optimizable------------------------
     //d3data
     getNetworkD3Data() {
         return this.http.get<any>(this.url["getNetworkD3Data"]);
@@ -67,6 +54,12 @@ export class networkHttpservice {
     getLogicalLinksData() {
         return this.http.get<any>(this.url["getLogicalLinksData"]);
     }
+    deleteCloudLink(paramsObj) {
+        let str = "?extNetworkId=" + paramsObj["aaiId"] + "&resourceVersion=" + paramsObj["version"];
+        return this.http.delete<any>((this.url["deleteCloud"] + str));
+    }
+
+    //The following APIs function are not optimizable------------------------
     //Query the tp data corresponding to the specified node
     getPInterfacesData1(paramsObj) {
         return this.http.get<any>(this.url['getPInterfacesData1'] + paramsObj["pnfName"]);
@@ -114,9 +107,5 @@ export class networkHttpservice {
     deleteLink(paramsObj) {
         let str = paramsObj["logical-link"] + "/" + paramsObj["resource-version"];
         return this.http.delete<any>((this.url["deleteLink"] + str));
-    }
-    deleteCloudLink(paramsObj) {
-        let str = "?extNetworkId=" + paramsObj["aaiId"] + "&resourceVersion=" + paramsObj["version"];
-        return this.http.delete<any>((this.url["deleteCloud"] + str));
     }
 }
