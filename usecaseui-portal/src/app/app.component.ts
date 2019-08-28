@@ -17,7 +17,8 @@ import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {MyhttpService} from "./core/services/myhttp.service";
 import {HomesService} from "./core/services/homes.service";
-
+import {NavigationEnd, Router} from '@angular/router';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-root',
@@ -25,10 +26,20 @@ import {HomesService} from "./core/services/homes.service";
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
+    public url:string = 'home';
 
-    constructor(private translate: TranslateService,private myhttp: HomesService) {
+    constructor(private translate: TranslateService,private myhttp: HomesService,private router:Router,) {
         this.currentLanguageGet();
-        // translate.use('en');
+        this.getUrl();
+
+        
+    }
+    getUrl(){
+        this.router.events.map(event=> {
+            if(event instanceof NavigationEnd){
+                this.url = event['url'].slice(1)
+            }
+            }).subscribe(event=>{})
     }
 
 
@@ -57,57 +68,12 @@ export class AppComponent {
             sessionStorage.setItem("DefaultLang",this.currentLanguage);
         }
     }
-    activeMenuBar =[true,false,false,false,false];
-    activeMenuList =[false,false];
-    thisActive(item){
-        if(this.activeMenuBar[item] == true){
-            this.activeMenuBar.map((its,index) => {
-                if(item != index){
-                    this.activeMenuBar[index] = false;
-                }
-            })
-        }else {
-            this.activeMenuBar.map((its,index) => {
-                if(item == index){
-                    this.activeMenuBar[item] = true;
-                }else {
-                    this.activeMenuBar[index] = false;
-                }
-            })
-            this.activeMenuList.map((its,index) => {
-                this.activeMenuList[index] = false;
-            })
+    get flag () {
+        if(!this.url.indexOf('services')){
+            return true
+        }else{
+            return false
         }
     }
-    thisListActive(item){
-        if(this.activeMenuBar[3] = true){
-            if(this.activeMenuList[item] == true){
-                this.activeMenuList.map((its,index) => {
-                    if(item != index){
-                        this.activeMenuList[index] = false;
-                    }
-                })
-            }else {
-                this.activeMenuList.map((its,index) => {
-                    if(item == index){
-                        this.activeMenuList[item] = true;
-                    }else {
-                        this.activeMenuList[index] = false;
-                    }
-                })
-
-            }
-        }else {
-            this.activeMenuList.map((its,index) => {
-                this.activeMenuList[index] = false;
-            })
-        }
-    }
-    //
-    // selectLanguage = "en";
-
-  // changeLanguage(item){
-  //   this.selectLanguage = item;
-  //   this.translate.use(item);
-  // }
+  
 }
