@@ -50,22 +50,21 @@ export class CustomerComponent implements OnInit {
     //2019.08.14 add
     notificationAttributes = {
         "title": "Customer",
-        "imgPath": "../../../../assets/images/execute-inproess.png",
+        "imgPath": "assets/images/execute-inproess.png",
         "action": "Create",
         "status": "InProgress",
         "name": ""
     };
     notificationModelShow(template: TemplateRef<{}>): void {
-        console.log(this.notificationAttributes, "notificationModelShow show");
         this.notification.template(template);
     }
     notificationSuccess(notificationModel) {
-        this.notificationAttributes.imgPath = "../../../../assets/images/execute-success.png";
+        this.notificationAttributes.imgPath = "assets/images/execute-success.png";
         this.notificationAttributes.status = "Success";
         this.notificationModelShow(notificationModel);
     }
     notificationFailed(notificationModel) {
-        this.notificationAttributes.imgPath = "../../../../assets/images/execute-faild.png";
+        this.notificationAttributes.imgPath = "assets/images/execute-faild.png";
         this.notificationAttributes.status = "Failed";
         this.notificationModelShow(notificationModel);
     }
@@ -189,7 +188,6 @@ export class CustomerComponent implements OnInit {
                     data: data.customerServiceList
                 }]
             }
-            console.log(this.CUChartData)
         }, (err) => {
             console.log(err);
         });
@@ -380,7 +378,6 @@ export class CustomerComponent implements OnInit {
                     data: this.value_s
                 }]
             }
-            console.log(this.serviceData)
         })
     }
 
@@ -393,7 +390,7 @@ export class CustomerComponent implements OnInit {
         };
         this.notificationAttributes = {
             "title": "Customer",
-            "imgPath": "../../../../assets/images/execute-inproess.png",
+            "imgPath": "assets/images/execute-inproess.png",
             "action": "Create",
             "status": "InProgress",
             "name": this.addNewCustomer
@@ -403,7 +400,6 @@ export class CustomerComponent implements OnInit {
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
                 this.getAllCustomers();
-                console.log(data, "Interface returned success")
             } else {
                 this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
@@ -428,7 +424,7 @@ export class CustomerComponent implements OnInit {
         this.getCustomerVersion(this.thisdeleteCustomer, notificationModel);
         this.notificationAttributes = {
             "title": "Customer",
-            "imgPath": "../../../../assets/images/execute-inproess.png",
+            "imgPath": "assets/images/execute-inproess.png",
             "action": "delete",
             "status": "InProgress",
             "name": this.thisdeleteCustomer.name
@@ -443,7 +439,6 @@ export class CustomerComponent implements OnInit {
                     version: data["result"]["resource-version"]
                 };
                 this.deleteCustomer(params, notificationModel);
-                console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")
             }
@@ -454,7 +449,6 @@ export class CustomerComponent implements OnInit {
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
                 this.getAllCustomers();
-                console.log(data, "Interface returned success")
             } else {
                 this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
@@ -471,7 +465,7 @@ export class CustomerComponent implements OnInit {
         };
         this.notificationAttributes = {
             "title": "ServiceType",
-            "imgPath": "../../../../assets/images/execute-inproess.png",
+            "imgPath": "assets/images/execute-inproess.png",
             "action": "Create",
             "status": "InProgress",
             "name": this.addNewServiceType
@@ -482,7 +476,6 @@ export class CustomerComponent implements OnInit {
                 this.notificationSuccess(notificationModel);
                 this.getCustomersColumn(this.selectCustomer);
                 this.getAllCustomers();
-                console.log(data, "Interface returned success")
             } else {
                 this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
@@ -512,14 +505,13 @@ export class CustomerComponent implements OnInit {
         };
         this.notificationAttributes = {
             "title": "ServiceType",
-            "imgPath": "../../../../assets/images/execute-inproess.png",
+            "imgPath": "assets/images/execute-inproess.png",
             "action": "delete",
             "status": "InProgress",
             "name": this.thisdeleteServiceType["type"]
         };
         this.notificationModelShow(notificationModel);
         this.managemencs.getdeleteServiceTypeVersion(paramss).subscribe((data) => {
-            console.log(data)
             if (data["status"] == 'SUCCESS') {
                 let params = {
                     customerId: this.selectCustomer,
@@ -527,7 +519,6 @@ export class CustomerComponent implements OnInit {
                     version: data["result"]["resource-version"]
                 };
                 this.deleteServiceType(params, notificationModel);
-                console.log(data, "Interface returned success")
             } else {
                 console.log(data, "Interface returned error")
             }
@@ -540,7 +531,6 @@ export class CustomerComponent implements OnInit {
                 this.getServiceTypes(params.customerId);
                 this.getCustomersColumn(params.customerId);
                 this.getAllCustomers();
-                console.log(data, "Interface returned success")
             } else {
                 this.notificationFailed(notificationModel);
                 console.log(data, "Interface returned error")
