@@ -20,58 +20,58 @@ import { baseUrl } from '../models/dataInterface';
 
 @Injectable()
 export class onboardService {
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
-  baseUrl = baseUrl.baseUrl + "/uui-lcm/";
-  url = {
-    //The following APIs are optimizable------------------------
-    // list Data
-    onboardTableData: this.baseUrl + "ns-packages",
-    onboardDataVNF: this.baseUrl + "vnf-packages",
-    onboardDataPNF: this.baseUrl + "pnf-packages",
-    //ns sdc
-    sdc_nsListData: this.baseUrl + "sdc-ns-packages", // GET
-    // vnf sdc
-    sdc_vnfListData: this.baseUrl + "sdc-vf-packages", // GET
-    // onboard ns sdc data
-    onboardNs: this.baseUrl + "ns-packages", //POST
-    //onboard VNF sdc data
-    onboardVNF: this.baseUrl + "vf-packages", //POST
-    //Delete ns package
-    deleteNspack: this.baseUrl + "deleteNsdPackage?nsdInfoId=",
-    // Delete Vnf vfc package
-    deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",
-    // Delete Pnf package
-    deletePnfPack: this.baseUrl + "deletePnfPackage?pnfdInfoId=",
-    // The following APIs are not optimizable-------------------
-    // createnspackages
-    creatensData: this.baseUrl + "_jsonData", //POST
-    //Progress interface
-    progress: this.baseUrl + "jobs/" + "_jobId" + "?responseId="
-  };
+    baseUrl = baseUrl.baseUrl + "/uui-lcm/";
+    url = {
+        //The following APIs are optimizable------------------------
+        // list Data
+        onboardTableData: this.baseUrl + "ns-packages",
+        onboardDataVNF: this.baseUrl + "vnf-packages",
+        onboardDataPNF: this.baseUrl + "pnf-packages",
+        //ns sdc
+        sdc_nsListData: this.baseUrl + "sdc-ns-packages", // GET
+        // vnf sdc
+        sdc_vnfListData: this.baseUrl + "sdc-vf-packages", // GET
+        // onboard ns sdc data
+        onboardNs: this.baseUrl + "ns-packages", //POST
+        //onboard VNF sdc data
+        onboardVNF: this.baseUrl + "vf-packages", //POST
+        //Delete ns package
+        deleteNspack: this.baseUrl + "deleteNsdPackage?nsdInfoId=",
+        // Delete Vnf vfc package
+        deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",
+        // Delete Pnf package
+        deletePnfPack: this.baseUrl + "deletePnfPackage?pnfdInfoId=",
+        // The following APIs are not optimizable-------------------
+        // createnspackages
+        creatensData: this.baseUrl + "_jsonData", //POST
+        //Progress interface
+        progress: this.baseUrl + "jobs/" + "_jobId" + "?responseId="
+    };
 
-  //The following APIs function are optimizable------------------------
+    //The following APIs function are optimizable------------------------
 
     /* Query data list */
     // NS Data
     getOnboardTableData() {
-    return this.http.get<any>(this.url["onboardTableData"]);
+        return this.http.get<any>(this.url["onboardTableData"]);
     }
     // NS SDC Data
     getSDC_NSTableData() {
-    return this.http.get<any>(this.url["sdc_nsListData"]);
+        return this.http.get<any>(this.url["sdc_nsListData"]);
     }
     // VNF Data
     getOnboardTableVnfData() {
-    return this.http.get<any>(this.url.onboardDataVNF);
+        return this.http.get<any>(this.url.onboardDataVNF);
     }
     // onboard VNF sdc Data
     getSDC_VNFTableData() {
-    return this.http.get<any>(this.url["sdc_vnfListData"]);
+        return this.http.get<any>(this.url["sdc_vnfListData"]);
     }
     // PNF Data
     getOnboardTablePnfData() {
-    return this.http.get<any>(this.url.onboardDataPNF);
+        return this.http.get<any>(this.url.onboardDataPNF);
     }
     //onboard sdc ns
     getNsonboard(requestBody) {
@@ -98,12 +98,12 @@ export class onboardService {
 
     //create--Get the id after dragging the file before uploading
     getCreatensData(url_upId, requestBody) {
-    return this.http.post<any>(this.url.creatensData.replace("_jsonData", url_upId), requestBody);
+        return this.http.post<any>(this.url.creatensData.replace("_jsonData", url_upId), requestBody);
     }
     //onboard progress
     getProgress(jobid, responseId) {
-    let url = this.url.progress.replace("_jobId", jobid) + responseId;
-    return this.http.get<any>(url);
+        let url = this.url.progress.replace("_jobId", jobid) + responseId;
+        return this.http.get<any>(url);
     }
 
 }

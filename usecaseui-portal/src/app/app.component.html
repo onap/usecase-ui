@@ -23,7 +23,8 @@
         <a routerLink="home">
           <span title>
             <i>
-              <img src="{{ url === 'home' ? 'assets/images/home-icon-active.png':'assets/images/home-icon.png'}}" alt="home">
+              <img src="{{ url === 'home' ? 'assets/images/home-icon-active.png':'assets/images/home-icon.png'}}"
+                alt="home">
             </i>
             <span> {{"i18nTextDefine_Home" | translate}} </span>
           </span>
@@ -33,8 +34,10 @@
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'management'}">
         <a routerLink="management">
           <span title>
-           <i>
-              <img src="{{url === 'management' ? 'assets/images/customer-icon-active.png':'assets/images/customer-icon.png'}}" alt="home">
+            <i>
+              <img
+                src="{{url === 'management' ? 'assets/images/customer-icon-active.png':'assets/images/customer-icon.png'}}"
+                alt="home">
             </i>
             <span> {{"i18nTextDefine_Customer" | translate}} </span>
           </span>
@@ -45,7 +48,8 @@
         <a routerLink="fcaps">
           <span title>
             <i>
-              <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}" alt="home">
+              <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}"
+                alt="home">
             </i>
             <span> {{"i18nTextDefine_Monitor" | translate}} </span>
           </span>
@@ -53,11 +57,13 @@
       </li>
       <hr>
       <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('services') === 0}" [nzOpen]="flag">
-        <span title>  
+        <span title>
           <i>
-            <img src="{{url.indexOf('services') === 0 ? 'assets/images/Services-icon-active.png':'assets/images/Services-icon.png'}}" alt="home">
-          </i> 
-          {{"i18nTextDefine_Services" | translate}} 
+            <img
+              src="{{url.indexOf('services') === 0 ? 'assets/images/Services-icon-active.png':'assets/images/Services-icon.png'}}"
+              alt="home">
+          </i>
+          {{"i18nTextDefine_Services" | translate}}
         </span>
         <ul>
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/services-list'}">
@@ -72,8 +78,10 @@
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'network'}">
         <a routerLink="network">
           <span title>
-             <i>
-              <img src="{{url === 'network' ? 'assets/images/network-icon-active.png':'assets/images/network-icon.png'}}" alt="home">
+            <i>
+              <img
+                src="{{url === 'network' ? 'assets/images/network-icon-active.png':'assets/images/network-icon.png'}}"
+                alt="home">
             </i>
             <span> {{"i18nTextDefine_NetworkTopology" | translate}} </span>
           </span>
