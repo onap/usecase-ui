@@ -85,14 +85,12 @@ export class CcvpnDetailComponent implements OnInit {
     }
     //tabBarStyle
     dataInit() {
-        console.log(this.detailParams);
         // this.input_parameters = JSON.stringify(this.detailParams['input-parameters'])
         if (this.detailParams['input-parameters']) {
             this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
         } else {
             return false;
         }
-        console.log(this.input_parameters);
         this.templateParameters.service = {
             name: this.input_parameters.service.name,
             description: this.input_parameters.service.description,
@@ -156,9 +154,6 @@ export class CcvpnDetailComponent implements OnInit {
 
             }
         });
-
-        console.log(this.templateParameters.site);
-        console.log(this.siteTableData);
 
         this.showTemParametersSotnVpn();
         this.showTemParametersSite();
@@ -269,7 +264,6 @@ export class CcvpnDetailComponent implements OnInit {
     showSiteDetail(num) {
         this.siteDetail = true;
         this.isEditSite = num;
-        console.log(this.siteTableData[num - 1]);
         Object.keys(this.siteBaseData).forEach((item) => {
             this.siteBaseData[item] = this.siteTableData[num - 1][item];
         });
@@ -523,7 +517,6 @@ export class CcvpnDetailComponent implements OnInit {
         this.siteWanData[addNum] = inputsData;
         this.tabInputShowWanPort[addNum] = true;
         this.siteWanData = [...this.siteWanData]; //Table refresh
-        console.log(this.siteWanData)
     }
 
     editUpdateWanPort(num, item, siteWanData) {
@@ -541,10 +534,10 @@ export class CcvpnDetailComponent implements OnInit {
         this.siteWanData = this.siteWanData.filter((d, i) => i !== num - 1);
     }
 
-    // site节点图形描绘
-    // site分类，根据site查tp pnf --> allotted-resource
-    localSite = [];//本地site
-    outerSite = [];//外部site
+    // site node graphic depiction
+    // site sort，Check tp add pnf according to site  --> allotted-resource
+    localSite = [];//local site
+    outerSite = [];//outer site
 
     getSiteAResource() {
         return new Promise((res, rej) => {
@@ -605,7 +598,6 @@ export class CcvpnDetailComponent implements OnInit {
                                 return item3["relationship-key"] == "vpn-binding.vpn-id"
                             })["relationship-value"]
                         });
-                    console.log(vpns);
                     this.detailParams.vpns = vpns.map((item) => {
                         return { name: item }
                     });
@@ -642,8 +634,6 @@ export class CcvpnDetailComponent implements OnInit {
                                             vpn.sitetpname = this.localSite.find((site) => {
                                                 return tpnames.includes(site.tpsitename)
                                             }).tpsitename;
-                                            console.log(tpnames);
-                                            console.log(vpn.sitetpname);
                                             vpn.othertpname = tpnames.find((name) => {
                                                 return name != vpn.sitetpname
                                             });
@@ -653,12 +643,9 @@ export class CcvpnDetailComponent implements OnInit {
                                                 return name != vpn.sitetpname
                                             });
                                         }
-
                                         this.vpns = this.detailParams.vpns;
-                                        console.log(this.vpns)
                                         res(this.detailParams.vpns)
-                                    })
-                                console.log(this.detailParams.vpns)
+                                    });
                             })
                     })
                 })
@@ -680,7 +667,7 @@ export class CcvpnDetailComponent implements OnInit {
                 if (this.localSite.length == 2) {
                     let line = {
                         "x1": "30%", "y1": "55%", "x2": "42%", "y2": "55%"//tp2--tp3
-                    }
+                    };
                     this.detailLines.push(line);
                 }
                 // when cloud site have 2
@@ -691,13 +678,9 @@ export class CcvpnDetailComponent implements OnInit {
                     this.detailLines.push(line);
                 }
             }
-        })
+        });
         let allnodes = [this.getSiteAResource(), this.getSotnAresource()];
         Promise.all(allnodes).then((data) => {
-            console.log(data);
-            console.log(this.localSite);
-
-
         })
     }
 
@@ -799,7 +782,6 @@ export class CcvpnDetailComponent implements OnInit {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
             }
         });
-        console.log(servicebody);
         this.closeUpdate.emit(servicebody);
     }
 
