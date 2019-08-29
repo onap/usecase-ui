@@ -15,6 +15,7 @@
 -->
 
 <div class="content">
+  <!-- left-content -->
   <div class="left-content">
     <div class="services">
       <h4>{{"i18nTextDefine_SERVICES" | translate}}</h4>
@@ -25,7 +26,7 @@
           <span>{{"i18nTextDefine_service_instance" | translate}}</span></h5>
       </div>
       <p class="tip">
-        <span  style="color:#3C4F8C"  (click) = "goback_services()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
+        <span (click) = "goback_services()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
       </p>
     </div>
     <div class="PACKAGE">
@@ -60,11 +61,12 @@
             </li>
       </div>
       <p class="tip">
-        <span style="color:#3C4F8C" (click) = "goback_onboard()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
+        <span (click) = "goback_onboard()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
       </p>
     </div>
   </div>
-  <div class="rightcontent" style="height: 96vh">
+  <!-- right-contnet -->
+  <div class="right-content">
     <div class="rt-content">
       <div class="alarm">
         <h4>{{"i18nTextDefine_ALARM" | translate}}</h4>
@@ -75,7 +77,7 @@
         <app-pie [initData]="VMAlarmChartInit" [chartData]="VMAlarmChartData"></app-pie>
         <p class="alarm-name"> {{"i18nTextDefine_VM_Alarm" | translate}} </p>
         <p class="tip">
-          <a href="#" style="color:#3C4F8C">{{"i18nTextDefine_ViewDetails" | translate}}</a>
+          <a href="#">{{"i18nTextDefine_ViewDetails" | translate}}</a>
         </p>
       </div>
     </div>
