@@ -60,6 +60,8 @@ import { LineComponent } from './shared/components/charts/line/line.component';
 import { PieComponent } from './shared/components/charts/pie/pie.component';
 
 import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
+// common function util
+import { Util } from './shared/utils/utils';
 // Custom service
 import { MyhttpService } from './core/services/myhttp.service';
 import { HomesService } from './core/services/homes.service';
@@ -77,6 +79,7 @@ import { TextService } from './core/services/text.service';
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: NZ_I18N, useValue: en_US },
+    Util,
     MyhttpService,
     HomesService,
     onboardService,
