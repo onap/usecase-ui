@@ -1,0 +1,8 @@
+{
+    "esr-system-info-id": "xuran",
+    "service-url": "http://10.10.10.10:8080/",
+    "user-name": "demo",
+    "password": "demo123456!",
+    "system-type": "ONAP",
+    "resource-version": "1536221798873"
+}

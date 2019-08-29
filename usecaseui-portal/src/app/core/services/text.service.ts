@@ -20,14 +20,16 @@ import { HttpClient } from '@angular/common/http';
 export class TextService {
   constructor(private http: HttpClient) { }
   //---------------------------------------------------------------------------------------
-  /* line up*/
   baseUrl = "/api";
+
   url = {
     textInterface: this.baseUrl + "/user/login",
     singleInterface: this.baseUrl + "/home",
     doubleInterface: this.baseUrl + "/customer/info",
-    multipleInterface: this.baseUrl + "/alarm/formdata/multiple",
+    multipleInterface: this.baseUrl + "/alarm/form/data",
     jsonInterface: this.baseUrl + "/xuran/test/data",
+    currentLanguage: "/api/portal-auxapi/languageSetting/user/",
+    creatensData: this.baseUrl + "_jsonData", //POST
   }
 
   //-----------------------------------Function-local-start------------------------------------------------------
@@ -35,8 +37,15 @@ export class TextService {
   getfakeData() {
     return this.http.get<any>(this.url["singleInterface"]);
   }
-  getjsonData() {
-    return this.http.get<any>(this.url["multipleInterface"]);
+  getjsonData(user) {
+    return this.http.get<any>(this.url["multipleInterface"], user);
+  }
+  getCurrentLanguage(currentloginId) {
+    let url = this.url.currentLanguage + currentloginId;
+    return this.http.get<any>(url);
+  }
+  getCreatensData(url_upId: string, requestBody: object) {
+    return this.http.post<any>(this.url.creatensData.replace("_jsonData", url_upId), requestBody);
   }
   //-------------------------------------------------------------------------------------
 
