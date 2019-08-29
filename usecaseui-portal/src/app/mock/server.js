@@ -1,7 +1,7 @@
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
-// const customersRouters = require('./routes');
+const customersRouters = require('./routes');
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -19,8 +19,8 @@ fileDisplay(filePath);
 
 function fileDisplay(filePath) {
     let fileList = [];
-    let originPath = [];
-    let rewriter = {};
+    // let originPath = [];
+    // let rewriter = {};
     // Return filelist on based of filePath
     const files = fs.readdirSync(filePath);
     files.forEach((filename) => {
@@ -36,11 +36,11 @@ function fileDisplay(filePath) {
                 if (isFile) {
                     fileList.push(path.basename(filedir, '.json'));
                     fileList.forEach(item => {
-                        let paser = item.split("_").join("/");
-                        originPath.push({ route: `/${paser}`, origin: `/${item}` })
-                        originPath.map(route => {
-                            rewriter[route.route] = route.origin;
-                        })
+                        // let paser = item.split("_").join("/");
+                        // originPath.push({ route: `/${paser}`, origin: `/${item}` })
+                        // originPath.map(route => {
+                        //     rewriter[route.route] = route.origin;
+                        // })
                         localJsonDb[item] = getjsonContent(item);
                     })
                 }
@@ -55,7 +55,8 @@ function fileDisplay(filePath) {
         })
     })
     setTimeout(() => {
-        serverRewrite(rewriter);
+        // serverRewrite(rewriter);
+        serverRewrite();
         runServer(localJsonDb);
     }, 100)
 }
@@ -66,23 +67,22 @@ function getjsonContent(path) {
 }
 
 //only multi router data needs jsonServer.rewriter
-function serverRewrite(routerpath) {
-    let routerpathArr = routerpath;
-    //rewrite mock multiple routers here
-    Object.keys(fakeoriginalData).map(item => {
-        let newPath = item.split("_").join("/")
-        routerpathArr[`/${newPath}`] = `/${item}`;
-    })
+function serverRewrite() {
+    // let routerpathArr = routerpath;
+    // rewrite mock multiple routers here
+    // Object.keys(fakeoriginalData).map(item => {
+    //     let newPath = item.split("_").join("/")
+    //     routerpathArr[`/${newPath}`] = `/${item}`;
+    // })
     //start to rewrite routers
-    // console.log(customersRouters, "===customersRouters")
-    // server.use(jsonServer.rewriter(customersRouters))
-    server.use(jsonServer.rewriter(routerpathArr));
+    server.use(jsonServer.rewriter(customersRouters))
+    // server.use(jsonServer.rewriter(routerpathArr));
 }
 
 function runServer(db) {
     server.use(jsonServer.router(db));
 }
 
-server.listen(3004, () => {
-    console.log('Mock Server is successfully running on port 3004 😁')
+server.listen(3002, () => {
+    console.log('Mock Server is successfully running on port 3002 😁')
 });
