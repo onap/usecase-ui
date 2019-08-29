@@ -15,6 +15,8 @@ export class TestComponent implements OnInit {
   ngOnInit() {
     this.getMockData();
     this.getjsonData();
+    this.getCurrentLanguage();
+    this.createPostData();
 
   }
   tableData = []
@@ -25,10 +27,21 @@ export class TestComponent implements OnInit {
     })
   }
   getjsonData() {
-    this.TextService.getjsonData().subscribe(res => {
+    this.TextService.getjsonData("xuran").subscribe(res => {
       console.log(res, "======json data")
     })
   }
+  getCurrentLanguage() {
+    this.TextService.getCurrentLanguage(10).subscribe(res => {
+      console.log(res, "======> current language")
+    })
+  }
+  createPostData() {
+    this.TextService.getCreatensData("/upload/name", { user: "xuran" }).subscribe(res => {
+      console.log(res, "======> post data")
+    })
+  }
+
 
 
 }

@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "mockproxy": "ng serve --host='0.0.0.0' --proxy-config localproxy.conf.json",
-    "mockconfig": "node ./src/app/mock/server.js --port 3004",
+    "mockconfig": "node ./src/app/mock/server.js --port 3002",
     "mock": "npm run mockconfig & npm run mockproxy",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },

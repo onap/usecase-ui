@@ -88,7 +88,11 @@ npm run changelog
 └── README.md   
 ```
 
-### [Change log](./CHANGELOG.md)
+
+### Mock data
+
+This project allows developers to develop in mock data with `npm run mock`, which means FEers can develop independently in the beginning of the project developing period. Developers can set mock data in `mock/fake/mock.js`, where supports two methods of creating mock data. The remote method relies on [faker.js](https://github.com/marak/Faker.js/).
+
 
 ### Git commit message rules
 
@@ -138,6 +142,10 @@ When there is breaking changes in the project, please write the commit message i
     The removed `inject` wasn't generaly useful for directives so there should be no code using it.
 ```
 Also, run the script `npm run changelog` can generate all the `feat` and `fix` commits. Click [CHANGELOG.md](./CHANGELOG.md) shows all these commit histories. 
+
+
+### [Change log](./CHANGELOG.md)
+
 
 ### Contributor
 

@@ -21,4 +21,5 @@ module.exports = {
             avatar: faker.internet.avatar()
         }
     }),
+    language: { language: faker.random.locale() }
 }
