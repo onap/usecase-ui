@@ -13,6 +13,52 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+@media screen and (min-width: 1050px){
+    .action{
+        span:nth-of-type(2){
+            margin-left: 40px;
+        }
+    }
+    
+}
+@media screen and (max-width: 1050px){
+    .action{
+        span:nth-of-type(2){
+            margin-left: 20px;
+        }
+    }
+    
+}
+@media screen and (max-width: 1300px){
+    .top-list-text{
+        p{
+            width: 200px;
+        }
+    }
+}
+@media screen and (min-width: 1200px){
+    .round{
+        top:45%;
+        left: 50px;
+        margin-top: -40px;
+    }
+    
+}
+
+@media screen and (max-width: 1200px){
+    .round{
+        top:12%;
+        left: 12%;
+    }
+    .top-list-text{
+        p{
+            width: 170px;
+        }
+    }
+    
+}
+
+
 .title {
     font: 700 18px/18px "思源黑体";
     color: #4c5e70;
@@ -26,6 +72,18 @@ hr {
 }
 .ant-tabs-bar{
     margin-bottom: 0!important;
+}
+.ant-dropdown-menu{
+    min-height:40px;
+    max-height: 200px;
+    overflow: auto;
+}
+.ant-dropdown-menu-item{
+    a{
+        max-width: 165px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 .mask{
     width: 100%;
@@ -77,15 +135,20 @@ hr {
         font: 700 14px "Arial";
         color: #3C4F8C;
         margin-right: 5px;
+        .icon{
+            margin-right: 10px;
+        }
     }
     nz-dropdown {
+        width: 20%;
         vertical-align: middle;
         background-color:#ffffff;
         :hover{
             border-color: #48C6EF;
         }
         button {
-            width: 165px;
+            width: 100%;
+            max-width:165px;
             height: 42px;
             background-color:#ffffff;
             text-align: left;
@@ -111,11 +174,15 @@ hr {
         position: absolute;
         right: 3%;
         top:50%;
-        width:116px;
         height:42px;
         background:#0DA9E2;
         border-radius:6px;
         margin-top: -15px;
+        i{
+            transform: scale(1.5);
+            line-height: 15px;
+            margin-right: 5px;
+        }
         span {
             color: #fff;
             font-weight: 400;
@@ -133,90 +200,76 @@ hr {
     }
 
 }
-.top-num{
-    overflow: auto;
-    width: 100%;
-}
-.top-list{
-    position: relative;
-    width:29%;
-    height:170px;
-    margin: 10px 1%;
-    float: left;
-    background:url("../../../../assets/images/servicelist-e2e.png") no-repeat;
-    background-size: 100% 100%;
-    border-radius:2px;
-}
-.top-num .top-list:nth-child(2){
-    background:url("../../../../assets/images/servicelist-e2e.png") no-repeat;
-    background-size: 100% 100%;
-}
-.top-num .top-list:nth-child(3){
-    background:url("../../../../assets/images/servicelist-e2e.png") no-repeat;
-    background-size: 100% 100%;
-}
-.top-num .top-list:nth-child(4){
-    background:url("../../../../assets/images/servicelist-sotn.png") no-repeat;
-    background-size: 100% 100%;
-}
-.top-list .round{
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-  text-align: center;
-    top:45%;
-    left: 50px;
-    margin-top: -30px;
-    background:#E0EDFF;
-    border:2px solid rgba(224,237,255,1);
-    border-radius: 50%;
-    font-size:16px;
-    font-family:ArialMT;
-    color:#3C4F8C;
-}
-.top-list {
-    .top-list-text {
-        position: absolute;
-        text-align: right;
-        height: 40px;
-        line-height: 20px;
-        right: 50px;
-        color: #fff;
-        p {
-            font-size: 14px;
-            width: 250px;
-            margin: 15px 0 0 0;
-            height: 13px;
-            clear: both;
-            span {
-                display: inline-block;
-                font-weight: 500;
+nz-layout{
+    padding: 20px 32px;
+    .top-num{
+
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        .top-list{
+            position: relative;
+            width:32%;
+            max-width:400px;
+            height:170px;
+            background:url("/assets/images/servicelist-e2e.png") no-repeat;
+            background-size: 100% 100%;
+            border-radius:2px;
+            .round{
+                position: absolute;
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                text-align: center;               
+                background:#E0EDFF;
+                border:2px solid rgba(224,237,255,1);
+                border-radius: 50%;
+                font-size:16px;
+                font-family:ArialMT;
+                color:#3C4F8C;
+                transition: .5s;    
+            }
+            .top-list-text{
+                position: absolute;
                 text-align: right;
-                float: right;
-            }
-            span:nth-child(1) {
-                font-size: 18px;
-                width: 40px;
-                min-width: 40px;
-            }
-            span:nth-child(2) {
-                width: 85px;
-                font-size: 16px;
+                line-height: 20px;
+                right: 12%;
+                color: #fff;
+                p{
+                    height: 28px;
+                    margin-bottom: 0;
+                    padding-left: 5px;
+                    font-size: 14px;
+                    clear: both;
+                    span{
+                        display: inline-block;
+                        float: right;
+                        font-weight: 500;
+                        text-align: right;
+                    }
+                    span:nth-child(1){
+                        font-size: 18px;
+                        margin-left: 15px;
+                    }
+                    span:nth-child(2){
+                        width: 85px;
+                        font-size: 16px;
+                    }
+                }
+                p:nth-child(1){
+                    margin-top: 25px;
+                }
+                .service-description{
+                    
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: #3C4F8C;
+
+                }
             }
         }
-        p:nth-child(1) {
-            margin-top: 25px;
-        }
-    }
-    .service-description{
-        font-size: 14px;
-        width: 250px;
-        height: 13px;
-        position: absolute;
-        bottom: 30px;
-        left: 50px;
-        color: #3C4F8C;
+        
     }
 }
 .list {
@@ -290,10 +343,10 @@ hr {
                         .anticon{
                             width: 18px;
                             height: 18px;
-                            background: url("../../../../assets/images/scale.png") no-repeat;
+                            background: url("/assets/images/scale.png") no-repeat;
                         }
                         .anticon.anticon-update{
-                            background: url("../../../../assets/images/update.png") no-repeat;
+                            background: url("/assets/images/update.png") no-repeat;
                         }
                         span{
                             margin-left: 5px;
@@ -302,10 +355,10 @@ hr {
                     li:hover{
                         color: #0DA9E2;
                         .anticon{
-                            background: url("../../../../assets/images/scale-active.png") no-repeat;
+                            background: url("/assets/images/scale-active.png") no-repeat;
                         }
                         .anticon.anticon-update{
-                            background: url("../../../../assets/images/update-active.png") no-repeat;
+                            background: url("/assets/images/update-active.png") no-repeat;
                         }
                     }
                 }
