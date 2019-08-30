@@ -6,7 +6,6 @@ export default function http (url:string,data:object = {},method:any = 'get',que
     method = method.trim().toLocaleLowerCase()
     let promise:any;
     if(method === 'get' || method === 'delete'){
-      // 若无参数则不传递data
       let options:object;
       if(JSON.stringify(data) === '{}'){
         options = { method, url };
@@ -14,7 +13,6 @@ export default function http (url:string,data:object = {},method:any = 'get',que
         options = { method, url, params: data};
       }
 
-      // 若请求方式为delete请求，则携带请求头
       if(method === 'delete'){
 
       }
@@ -23,13 +21,13 @@ export default function http (url:string,data:object = {},method:any = 'get',que
 
     }else if (method === 'post' || method === 'put') {
       if(method === 'post' && query){
-        let params:string;
+        let params:string = '';
         if(<string>query){
           query = JSON.parse((<string>query));
         }
-        for(let key in <object>query){
-          params = '&' + key + '=' + query[key];
-        }
+        Object.keys(query).forEach(item => {
+          params += '&' + item + '=' + query[item]; 
+        })
         params = params.slice(1);
         url += '?' + params;
       }
@@ -41,7 +39,6 @@ export default function http (url:string,data:object = {},method:any = 'get',que
     }
     promise
       .then((response) => {
-        // 请求成功返回携带成功状态及响应数据的promise对象
         if(response.status === 200 || 304){
           resolve(response.data)
         }else{
@@ -49,12 +46,7 @@ export default function http (url:string,data:object = {},method:any = 'get',que
         }
       })
       .catch((error) => {
-        if(error.status === 404){
-          reject('请求资源不存在')
-        }else{
-          reject(error.message)
-        }
-        
+        reject(error.message)
       })
 
   })
