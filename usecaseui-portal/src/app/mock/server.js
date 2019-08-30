@@ -1,3 +1,19 @@
+/*
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
@@ -19,8 +35,6 @@ fileDisplay(filePath);
 
 function fileDisplay(filePath) {
     let fileList = [];
-    // let originPath = [];
-    // let rewriter = {};
     // Return filelist on based of filePath
     const files = fs.readdirSync(filePath);
     files.forEach((filename) => {
@@ -36,11 +50,6 @@ function fileDisplay(filePath) {
                 if (isFile) {
                     fileList.push(path.basename(filedir, '.json'));
                     fileList.forEach(item => {
-                        // let paser = item.split("_").join("/");
-                        // originPath.push({ route: `/${paser}`, origin: `/${item}` })
-                        // originPath.map(route => {
-                        //     rewriter[route.route] = route.origin;
-                        // })
                         localJsonDb[item] = getjsonContent(item);
                     })
                 }
@@ -55,7 +64,6 @@ function fileDisplay(filePath) {
         })
     })
     setTimeout(() => {
-        // serverRewrite(rewriter);
         serverRewrite();
         runServer(localJsonDb);
     }, 100)
@@ -68,15 +76,7 @@ function getjsonContent(path) {
 
 //only multi router data needs jsonServer.rewriter
 function serverRewrite() {
-    // let routerpathArr = routerpath;
-    // rewrite mock multiple routers here
-    // Object.keys(fakeoriginalData).map(item => {
-    //     let newPath = item.split("_").join("/")
-    //     routerpathArr[`/${newPath}`] = `/${item}`;
-    // })
-    //start to rewrite routers
     server.use(jsonServer.rewriter(customersRouters))
-    // server.use(jsonServer.rewriter(routerpathArr));
 }
 
 function runServer(db) {
