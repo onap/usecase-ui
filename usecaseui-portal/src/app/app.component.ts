@@ -26,14 +26,14 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-    public url:string = 'home';
 
+    public url:string = 'home';
     constructor(private translate: TranslateService,private myhttp: HomesService,private router:Router,) {
         this.currentLanguageGet();
         this.getUrl();
-
-        
     }
+
+    // Get the current routing path
     getUrl(){
         this.router.events.map(event=> {
             if(event instanceof NavigationEnd){
@@ -42,15 +42,12 @@ export class AppComponent {
             }).subscribe(event=>{})
     }
 
-
     //209.05.08 Get the currentLanguage
     currentloginId = null;
     currentLanguage = "en";
     currentLanguageGet() {
         this.currentloginId = sessionStorage.getItem("userId") || null;
-		console.log(this.currentloginId,"this.currentloginId","loginId");
         if (this.currentloginId != null) {
-            console.log(this.currentloginId,"this.currentloginId","loginId","you id");
             this.myhttp.getCurrentLanguage(this.currentloginId)
                 .subscribe(
                     (data) => {
@@ -68,6 +65,8 @@ export class AppComponent {
             sessionStorage.setItem("DefaultLang",this.currentLanguage);
         }
     }
+
+    // Whether the submenu expands the identifier
     get flag () {
         if(!this.url.indexOf('services')){
             return true
