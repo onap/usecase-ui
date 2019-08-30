@@ -59,66 +59,66 @@ export class MyhttpService {
 
   //The following APIs are optimizable
 
-    // Get all customers
-    getAllCustomers() {
-        return this.http.get<any>(this.url.customers);
+  // Get all customers
+  getAllCustomers() {
+    return this.http.get<any>(this.url.customers);
+  }
+  // Get all Orchestrators
+  getAllOrchestrators() {
+    return this.http.get<any>(this.url.orchestrators);
+  }
+  // serviceTable list
+  getServicesTableData(paramsObj): Observable<HttpResponse<servicesTableData>> {
+    let params = new HttpParams({ fromObject: paramsObj });
+    return this.http.get<servicesTableData>(this.url.servicesTableData, { observe: 'response', params });
+  }
+  // Get all template types
+  getAllServiceTemplates(type) {
+    if (type == "Network Service") {
+      let nsUrl = this.url.serviceTemplates.replace("service-templates", "listNsTemplates").replace("serviceTemplates2", "serviceTemplates-ns");
+      console.log(nsUrl);
+      return this.http.get<any>(nsUrl);
     }
-    // Get all Orchestrators
-    getAllOrchestrators() {
-        return this.http.get<any>(this.url.orchestrators);
-    }
-    // serviceTable list
-    getServicesTableData(paramsObj): Observable<HttpResponse<servicesTableData>> {
-        let params = new HttpParams({ fromObject: paramsObj });
-        return this.http.get<servicesTableData>(this.url.servicesTableData, { observe: 'response', params });
-    }
-    // Get all template types
-    getAllServiceTemplates(type) {
-        if (type == "Network Service") {
-            let nsUrl = this.url.serviceTemplates.replace("service-templates", "listNsTemplates").replace("serviceTemplates2", "serviceTemplates-ns");
-            console.log(nsUrl);
-            return this.http.get<any>(nsUrl);
-        }
-        return this.http.get<any>(this.url.serviceTemplates);
-    }
-    // Get Vim Info
-    getVimInfo() {
-        return this.http.get<any>(this.url.vimInfo);
-    };
-    //Get SdnControllers
-    getSdnControllers() {
-        return this.http.get<any>(this.url.sdnControllers);
-    }
-    // Create interface
-    createInstance(requestBody, createParams) {
-        return this.http.post<any>(this.url.createService + createParams, requestBody);
-    }
-    // NS CreateInstance step one
-    nsCreateInstance(requestBody) {
-        return this.http.post<any>(this.url.ns_createService, requestBody);
-    }
-    // NS CreateInstance step two
-    nsCreateInstance2(params, requestBody) {
-        return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
-    }
-    //Delete ns Service
-    nsDeleteInstance(id) {
-        return this.http.delete<any>(this.url.ns_deleteService + id);
-    }
-    //stop ns Service
-    stopNsService(id, requestBody) {  //You need to terminate before deleting
-        return this.http.post<any>(this.url.ns_stopService + id, requestBody);
-    }
-    //heal ns Service
-    healNsService(id, requestBody) {
-        return this.http.post<any>(this.url.ns_healService + id, requestBody);
-    }
-    //Get allotted-resource to get tp and pnf values
-    getAllottedResource(obj) {
-        let params = new HttpParams({ fromObject: obj });
-        let url = this.url.allottedResource;
-        return this.http.get<any>(url, { params });
-    }
+    return this.http.get<any>(this.url.serviceTemplates);
+  }
+  // Get Vim Info
+  getVimInfo() {
+    return this.http.get<any>(this.url.vimInfo);
+  };
+  //Get SdnControllers
+  getSdnControllers() {
+    return this.http.get<any>(this.url.sdnControllers);
+  }
+  // Create interface
+  createInstance(requestBody, createParams) {
+    return this.http.post<any>(this.url.createService + createParams, requestBody);
+  }
+  // NS CreateInstance step one
+  nsCreateInstance(requestBody) {
+    return this.http.post<any>(this.url.ns_createService, requestBody);
+  }
+  // NS CreateInstance step two
+  nsCreateInstance2(params, requestBody) {
+    return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
+  }
+  //Delete ns Service
+  nsDeleteInstance(id) {
+    return this.http.delete<any>(this.url.ns_deleteService + id);
+  }
+  //stop ns Service
+  stopNsService(id, requestBody) {  //You need to terminate before deleting
+    return this.http.post<any>(this.url.ns_stopService + id, requestBody);
+  }
+  //heal ns Service
+  healNsService(id, requestBody) {
+    return this.http.post<any>(this.url.ns_healService + id, requestBody);
+  }
+  //Get allotted-resource to get tp and pnf values
+  getAllottedResource(obj) {
+    let params = new HttpParams({ fromObject: obj });
+    let url = this.url.allottedResource;
+    return this.http.get<any>(url, { params });
+  }
 
   //The following APIs are not optimizable ---------------------------------
 
