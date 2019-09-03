@@ -24,9 +24,19 @@ module.exports =
         "/alarm/form/data": "/alarm_form_data",
         "/upload/:url_upId": "/status",
         ///////////////
+
         ///////<-------------home services--------->/////
-        "/portal-auxapi/languageSetting/user/:currentloginId": "/language",
+        "/usecaseui-server/v1/uui-lcm/serviceNumByCustomer": "/uui-lcm_serviceNumByCustomer",
+        "/usecaseui-server/v1/alarm/statusCount": "/alarm_statusCount",
+        "/usecaseui-server/v1/alarm/diagram?:param": "/alarm_diagram",
+        "/usecaseui-server/v1/uui-lcm/ns-packages": "/uui-lcm_ns-packages",
+        "/usecaseui-server/v1/uui-lcm/vnf-packages": "/uui-lcm_vnf-packages",
+        "/usecaseui-server/v1/uui-lcm/pnf-packages": "/uui-lcm_pnf-packages",
+        "/usecaseui-server/v1/alarm/getSourceNames": "/alarm_getSourceNames",
+        "/usecaseui-server/v1/listSortMasters": "/listSortMasters",
+        "/usecaseui-server/v1/portal-auxapi/languageSetting/user/:currentloginId": "/language",
         /////////////////////////
+
         ///////<-------------managemence services--------->/////
 
         /////////////////////////

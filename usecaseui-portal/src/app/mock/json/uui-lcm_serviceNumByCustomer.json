@@ -1,0 +1,8 @@
+{
+  "serviceTotalNum":200,
+  "customerServiceList":[
+    {"value":125, "name":"user1"},
+    {"value":290, "name":"user2"},
+    {"value":220, "name":"user3"}
+  ]
+}

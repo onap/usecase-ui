@@ -1,0 +1,102 @@
+{
+  "operationResults": [
+    {
+      "sortType": "operationResult",
+      "sortCode": "2001",
+      "sortValue": "Successful",
+      "language": "en"
+    },
+    {
+      "sortType": "operationResult",
+      "sortCode": "2002",
+      "sortValue": "Failed",
+      "language": "en"
+    },
+    {
+      "sortType": "operationResult",
+      "sortCode": "2003",
+      "sortValue": "In Progress",
+      "language": "en"
+    },
+    {
+      "sortType": "operationResult",
+      "sortCode": "2001",
+      "sortValue": "成功",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationResult",
+      "sortCode": "2002",
+      "sortValue": "失败",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationResult",
+      "sortCode": "2003",
+      "sortValue": "执行中",
+      "language": "cn"
+    }
+  ],
+  "operationTypes": [
+    {
+      "sortType": "operationType",
+      "sortCode": "1001",
+      "sortValue": "Creating",
+      "language": "en"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1002",
+      "sortValue": "Deleting",
+      "language": "en"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1003",
+      "sortValue": "Scaling",
+      "language": "en"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1004",
+      "sortValue": "Healing",
+      "language": "en"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1005",
+      "sortValue": "Updating",
+      "language": "en"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1001",
+      "sortValue": "创建",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1002",
+      "sortValue": "删除",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1003",
+      "sortValue": "缩扩容",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1004",
+      "sortValue": "自愈",
+      "language": "cn"
+    },
+    {
+      "sortType": "operationType",
+      "sortCode": "1005",
+      "sortValue": "更新",
+      "language": "cn"
+    }
+  ]
+}
