@@ -26,15 +26,8 @@ module.exports =
         ///////////////
 
         ///////<-------------home services--------->/////
-        "/usecaseui-server/v1/uui-lcm/serviceNumByCustomer": "/uui-lcm_serviceNumByCustomer",
-        "/usecaseui-server/v1/alarm/statusCount": "/alarm_statusCount",
-        "/usecaseui-server/v1/alarm/diagram?:param": "/alarm_diagram",
-        "/usecaseui-server/v1/uui-lcm/ns-packages": "/uui-lcm_ns-packages",
-        "/usecaseui-server/v1/uui-lcm/vnf-packages": "/uui-lcm_vnf-packages",
-        "/usecaseui-server/v1/uui-lcm/pnf-packages": "/uui-lcm_pnf-packages",
-        "/usecaseui-server/v1/alarm/getSourceNames": "/alarm_getSourceNames",
-        "/usecaseui-server/v1/listSortMasters": "/listSortMasters",
-        "/usecaseui-server/v1/portal-auxapi/languageSetting/user/:currentloginId": "/language",
+        "/usecaseui-server/v1/alarm/getSourceNames/": "/alarm_getSourceNames",
+        "/portal-auxapi/languageSetting/user/:currentloginId": "/language",
         /////////////////////////
 
         ///////<-------------managemence services--------->/////
@@ -51,6 +44,8 @@ module.exports =
         /////////////////////////
 
         ///////<-------------general interface--------->/////
+        "/usecaseui-server/v1/*": "/$1",
+        "/usecaseui-server/v1/*?:param": "/$1",
         "/api/*": "/$1",
         "/*/*": "/$1_$2",
         "/*/*/*": "/$1_$2_$3",
