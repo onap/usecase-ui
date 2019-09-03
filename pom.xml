@@ -39,7 +39,7 @@
         <snapshotNexusPath>content/repositories/snapshots/</snapshotNexusPath>
         <releaseNexusPath>content/repositories/releases/</releaseNexusPath>
         <siteNexusPath>content/sites/site/${project.groupId}/${project.artifactId}/${project.version}/</siteNexusPath>
-        <tomcat.version>9.0.19</tomcat.version>
+        <tomcat.version>9.0.24</tomcat.version>
     </properties>
 
     <!--distributionManagement>
