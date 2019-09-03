@@ -37,9 +37,9 @@ export class AppComponent {
     getUrl(){
         this.router.events.map(event=> {
             if(event instanceof NavigationEnd){
-                this.url = event['url'].slice(1)
+                this.url = event['urlAfterRedirects'].slice(1)
             }
-            }).subscribe(event=>{})
+        }).subscribe(event=>{})
     }
 
     //209.05.08 Get the currentLanguage
