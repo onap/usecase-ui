@@ -75,7 +75,6 @@
             <span style="display:inline-block;"> {{"i18nTextDefine_UseCase" | translate}} : </span>
             <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
                 (ngModelChange)="choseTemplateType()">
-                <!-- <nz-option *ngFor="let item of templateType" [nzValue]="item" [nzLabel]="item"></nz-option> -->
                 <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
                 <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
                 <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
@@ -193,9 +192,6 @@
                                     <span> {{"i18nTextDefine_Update" | translate}} </span>
                                 </li>
                             </ul>
-                            <!-- <i *ngIf="data.serviceDomain=='E2E Service'||data.serviceDomain=='Network Service' " class="anticon anticon-cloud-upload-o" (click)="updataService(data)"></i> -->
-                            <!-- <i [ngClass]="{'cannotclick':data.status == 'processing'||data.status=='Deleting'||data.status=='Creating'||data.status=='Healing'}"
-                          *ngIf="data.serviceDomain=='Network Service' " class="anticon anticon-reload" (click)="healService(data)"></i> -->
                         </td>
                     </tr>
                     <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
