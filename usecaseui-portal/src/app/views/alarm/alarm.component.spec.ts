@@ -60,7 +60,7 @@ fdescribe('AlarmComponent', () => {
         const req = httpMock.expectOne('http://.../data/contacts');
         expect(req.request.method).toEqual('GET');
         // Then we set the fake data to be returned by the mock
-        req.flush({ data: ...});
+        req.flush({ data: {pageInfo: {totalRecordCount: 21, pageNumber: 0}, data: []}});
       })
   );
 });
