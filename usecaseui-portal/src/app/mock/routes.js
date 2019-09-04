@@ -26,7 +26,7 @@ module.exports =
         ///////////////
 
         ///////<-------------home services--------->/////
-        "/usecaseui-server/v1/alarm/getSourceNames/": "/alarm_getSourceNames",
+        "/usecaseui-server/v1/alarm/getSourceNames": "/alarm_getSourceNames",
         "/portal-auxapi/languageSetting/user/:currentloginId": "/language",
         /////////////////////////
 
