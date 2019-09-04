@@ -30,19 +30,17 @@
     </nz-dropdown>
     <button class="search" nz-button [nzType]="'primary'"><i
             class="anticon anticon-search"></i><span>Search</span></button>
-    <!-- <button class="search" nz-button [nzType]="'primary'" (click)="getperformanceSsourceNames()"><i class="anticon anticon-search"></i><span>Search</span></button> -->
 </div>
 <div class="content" [@showHideAnimate]="state">
     <div class="vnfs">
         <div class="vnf" *ngFor="let item of totalRecords">
-            <img src="../../../../assets/images/vnf01.png" title="VNF" (click)="graphicShow2(item)">
-            <!-- <h3>{{item.name}}</h3> -->
+            <img src="assets/images/vnf01.png" title="VNF" (click)="graphicShow2(item)">
             <div class="intro">
                 {{item.name}}
             </div>
         </div>
         <div class="vnf" *ngFor="let item of totalpnfs">
-            <img src="../../../../assets/images/pnf01.png" alt="PNF" (click)="graphicShow2(item)">
+            <img src="assets/images/pnf01.png" alt="PNF" (click)="graphicShow2(item)">
             <div class="intro">
                 {{item.name}}
             </div>

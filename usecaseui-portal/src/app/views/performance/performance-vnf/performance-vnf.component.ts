@@ -39,7 +39,6 @@ export class PerformanceVnfComponent implements OnInit {
 
   ngOnInit() {
     this.getqueryAllSourceNames();
-    // this.getperformanceSsourceNames();
     let _this = this;
     setTimeout(function () {
       _this.totalRecords = [
@@ -88,17 +87,6 @@ export class PerformanceVnfComponent implements OnInit {
   //Fill the box
   emptys = [];
 
-  // getperformanceSsourceNames() {
-  //   this.myhttp.getperformanceSourceNames(this.currentPage, this.pageSize, this.sourceName).subscribe((data) => {
-  //     this.totalRecords = data.totalRecords;
-  //     this.vnfsdataTotal = data.names;
-  //     if (Number.isInteger(this.totalRecords.length / 5)) {
-  //       this.emptys = new Array(0);
-  //     } else {
-  //       this.emptys = new Array(5 - this.totalRecords.length % 5);
-  //     }
-  //   })
-  // }
   //Detail page title display
   isHidden = true;
   graphicshow = false;
