@@ -62,13 +62,9 @@ export class HomesService {
   }
 
   getSourceNames() {
-    return this.http.get<any>(this.baseUrl + '/alarm/getSourceNames/');
+    return this.http.get<any>(this.url.sourceNames);
   }
 
-  getstatuscount() {
-    let httpurl = this.baseUrl + '/alarm/statusCount';
-    return this.http.get<any>(httpurl);
-  }
   getAlarmDetailData(id) {
     let httpurl = this.baseUrl + '/alarm/getAlarmsHeaderDetail/' + id;
     return this.http.get<any>(httpurl);
