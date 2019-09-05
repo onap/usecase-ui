@@ -38,7 +38,6 @@ export class GraphiclistComponent implements OnInit {
     this.isVisibleMiddle = true;
   }
   handleOkMiddle(): void {
-    // console.log('click ok');
     this.isVisibleMiddle = false;
   }
   handleCancelMiddle(): void {

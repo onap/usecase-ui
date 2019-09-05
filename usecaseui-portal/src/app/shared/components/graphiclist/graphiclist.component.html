@@ -14,9 +14,6 @@
     limitations under the License.
 -->
 <div class="content">
-    <!-- <nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="isVisibleMiddle" nzTitle="Alarm Chart" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
-          <app-line [initData]="alarmChartInitBig" [chartData]="alarmChartDataBig"></app-line>
-      </nz-modal> -->
     <div class="chart">
         <div class="select">
             <span>Report Time: </span>
@@ -39,7 +36,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index"> -->
                 <tr *ngFor="let item of nzTable.data; let i = index; ">
                     <td>{{i+1}}</td>
                     <td>{{item.sourceName}}</td>
@@ -48,7 +44,6 @@
                     <td>{{item.startEpochMicrosec | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td><a class="action" (click)="detailShow(item)"><i class="details"></i></a></td>
                 </tr>
-                <!-- </ng-template> -->
             </tbody>
         </nz-table>
     </div>
