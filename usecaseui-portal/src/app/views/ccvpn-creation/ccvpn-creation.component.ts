@@ -15,9 +15,7 @@
 */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
-import * as $ from 'jquery';
 import { MyhttpService } from '../../core/services/myhttp.service';
-import { el } from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
     selector: 'app-ccvpn-creation',
@@ -82,11 +80,9 @@ export class CcvpnCreationComponent implements OnInit {
     }
 
     getccvpnTemParameters(data) { //Get template parameters
-        console.log(this.createParams);
         if (typeof data["model"] == 'string') {
             data = JSON.parse(data["model"]);
         }
-        console.log(data);
         let inputss = data["inputs"];
         let inputs = {};
         this.templateParameters.service = {
@@ -135,7 +131,6 @@ export class CcvpnCreationComponent implements OnInit {
         });
         this.showTemParametersSotnVpn();
         this.showTemParametersSite();
-        console.log(this.bodyTemplateParameter, this.templateParameters)
     }
 
     //sotnVpn data, after combining the structure, rendering the template data to the page
@@ -455,7 +450,6 @@ export class CcvpnCreationComponent implements OnInit {
                 this.tabInputShowWanPort[index] = true;
             }
         });
-        console.log(this.siteTableData);
         this.drawImage(this.siteTableData);
         this.siteModelShow = false;
     }
@@ -711,7 +705,6 @@ export class CcvpnCreationComponent implements OnInit {
                 servicebody.service.parameters.requestInputs[item] = [].concat(this.sotnVpnTableData);
             }
         });
-        console.log(servicebody);
 
         this.closeCreate.emit(servicebody);
 

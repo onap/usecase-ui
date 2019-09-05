@@ -196,7 +196,6 @@ export class CcvpnNetworkComponent implements OnInit {
                     }
                     this.networkOption.push(name2);
                 }
-                console.log(this.networkOption);
                 for (let i = 0; i < data.length; i++) {
                     let tp_length = data[i]['tps'].length;
                     for (let h = 0; h < tp_length; h++) {
@@ -244,7 +243,6 @@ export class CcvpnNetworkComponent implements OnInit {
                     this.logicalLinks.push(textval);
                     this.chose(textval);
                 }
-                console.log(this.logicalLinks);
                 if (this.dataCloudLink.length > 0) {
                     this.getcloudLine(this.dataCloudLink);
                 }
