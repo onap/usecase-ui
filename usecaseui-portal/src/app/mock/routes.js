@@ -17,6 +17,11 @@
 // proxy routers setting
 module.exports =
     {
+        ///////<-------------api proxy--------->/////
+        "/usecaseui-server/v1/*": "/$1",
+        "/usecaseui-server/v1/*?:param": "/$1",
+        ///////////////
+
         //text interface
         "/user/login/:user/test": "/user/login?user=:user",
         "/pnf/:cloudnode/p-interfaces/p-interface/:interface-name/createTerminationPoint":
@@ -26,26 +31,26 @@ module.exports =
         ///////////////
 
         ///////<-------------home services--------->/////
-        "/usecaseui-server/v1/alarm/getSourceNames/": "/alarm_getSourceNames",
         "/portal-auxapi/languageSetting/user/:currentloginId": "/language",
         /////////////////////////
 
         ///////<-------------managemence services--------->/////
-
+        "/uui-lcm/customers/:customer/service-subscriptions": "/serviceTypes?customer=:customer",
         /////////////////////////
+
         ///////<-------------myhttp services--------->/////
 
         /////////////////////////
+
         ///////<-------------networkhttp services--------->/////
 
         /////////////////////////
+
         ///////<-------------onboard services--------->/////
 
         /////////////////////////
 
         ///////<-------------general interface--------->/////
-        "/usecaseui-server/v1/*": "/$1",
-        "/usecaseui-server/v1/*?:param": "/$1",
         "/api/*": "/$1",
         "/*/*": "/$1_$2",
         "/*/*/*": "/$1_$2_$3",
