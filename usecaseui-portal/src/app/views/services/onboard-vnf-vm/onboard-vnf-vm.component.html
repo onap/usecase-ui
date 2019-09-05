@@ -17,7 +17,6 @@
     <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)">
         <!-- nsList -->
         <div class="list" *ngIf="tab === 'NS'">
-            <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
             <div style="width:100%;height: 30%;margin-bottom: 1%">
                 <div class="listupload">
                     <nz-upload nzType="drag" [(nzFileList)]="fileListNS" [nzBeforeUpload]="beforeUploadNS">
@@ -76,7 +75,6 @@
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
                             <td>{{i+1}}</td>
-                            <!--<td *ngIf="item.uuid">{{item.uuid}}</td>-->
 
                             <td *ngIf="item.nsdName">{{item.nsdName}}</td>
                             <td *ngIf="item.nsdName === null || item.nsdName === ''">&nbsp;</td>
@@ -91,10 +89,6 @@
                                 <span *ngIf="item.nsdOnboardingState === null || item.nsdOnboardingState === ''">&nbsp;</span>
                                 <span *ngIf="item.uuid">{{status}}</span>
 
-                                <!-- <span *ngIf="item.uuid" [ngClass]="{'active':data.status=='Active','closed':data.status=='Closed','onboarding':data.status=='Onboarding',
-                                    'updating':data.status=='Updating','deleting':data.status=='Deleting','creating':data.status=='Creating',
-                                    'scaling':data.status=='Scaling','healing':data.status=='Healing'}">{{data.status || "Active"}}</span>
-                                    <nz-progress  *ngIf="item.uuid"  *ngIf="data.status == 'Creating' || data.status == 'Deleting' ||  data.status == 'Scaling' || data.status == 'Healing' " [nzPercent]="data.rate"></nz-progress> -->
                             </td>
                             <td>{{item.nsdOperationalState}}</td>
                             <td>{{item.nsdUsageState}}</td>
@@ -104,31 +98,16 @@
                                     *ngIf="item.uuid"></i>
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"
                                     *ngIf="item.id"></i>
-                                <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
-                                <!--<span *ngIf="item.id && item.sameid == undefined">-->
-                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
-                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
-                                    <!--</nz-upload>-->
-                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
-                                        <!--style="margin-top: 16px" *ngIf="item.id==nsdInfoId">-->
-                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
-                                    <!--</button>-->
-                                <!--</span>-->
 
                             </td>
                         </tr>
                     </tbody>
                 </nz-table>
             </nz-spin>
-            <!-- <div style="margin-top:8px;">
-                        Loading state:
-                        <nz-switch [(ngModel)]="isSpinning"></nz-switch>
-                      </div> -->
 
         </div>
         <!-- VNFList -->
         <div class="list" *ngIf="tab === 'VNF'">
-            <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
             <div style="width:100%;height: 30%;margin-bottom: 1%">
             <div class="listupload">
                 <nz-upload nzType="drag" [(nzFileList)]="fileListVNF" [nzBeforeUpload]="beforeUploadVNF">
@@ -187,7 +166,6 @@
                     <tbody>
                         <tr *ngFor="let item of nzTable.data; let i = index; ">
                             <td>{{i+1}}</td>
-                            <!--<td *ngIf="item.uuid">{{item.uuid}}</td>-->
                             <td *ngIf="item.vnfProductName">{{item.vnfProductName}}</td>
                             <td *ngIf="item.vnfProductName === null || item.vnfProductName === ''">&nbsp;</td>
                             <td *ngIf="item.name">{{item.name}}</td>
@@ -203,20 +181,6 @@
                                     *ngIf="item.uuid"></i>
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"
                                     *ngIf="item.id"></i>
-                                <!--<span *ngIf="item.id && item.sameid == undefined">-->
-                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
-                                        <!--&lt;!&ndash; <button nz-button> &ndash;&gt;-->
-                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
-                                        <!--&lt;!&ndash; <span >upload</span> &ndash;&gt;-->
-                                        <!--&lt;!&ndash; </button> &ndash;&gt;-->
-
-                                    <!--</nz-upload>-->
-                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
-                                        <!--style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"-->
-                                        <!--*ngIf="item.id==vnfPkgId">-->
-                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
-                                    <!--</button>-->
-                                <!--</span>-->
                             </td>
                         </tr>
                     </tbody>
@@ -226,7 +190,6 @@
         </div>
         <!-- PNFList -->
         <div class="list" *ngIf="tab === 'PNF'">
-            <!-- <h3 class="title"> Onboard {{tabTitle}} </h3> -->
             <div style="width:100%;height: 30%;margin-bottom: 1%">
             <div class="listupload">
                 <nz-upload nzType="drag" [(nzFileList)]="fileListPNF" [nzBeforeUpload]="beforeUploadPNF">
@@ -290,16 +253,6 @@
                             <td>{{item.pnfdUsageState}}</td>
                             <td>
                                 <i class="anticon anticon-delete" nzType="info" (click)="showConfirm(i,item.id,tab,notificationModel)"></i>
-                                <!--<span *ngIf="item.id" [ngClass]="{'fileIcon':OnboardFile == 'disNone'}">-->
-                                    <!--<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">-->
-                                        <!--<i class="anticon anticon-file" type="upload" (click)="onClickId(item.id,tab)"></i>-->
-                                    <!--</nz-upload>-->
-                                    <!--<button nz-button [nzLoading]="nsuploading" (click)="onClick(tab)" [disabled]="fileList.length == 0"-->
-                                        <!--style="margin-top: 16px;margin-left: 55px;color: #FFFFFF;font-size: 13px;background-color: #3E9BFF;font-family: ArialMT;"-->
-                                        <!--*ngIf="item.id==vnfPkgId">-->
-                                        <!--{{ nsuploading ? 'Uploading' : 'Start Upload' }}-->
-                                    <!--</button>-->
-                                <!--</span>-->
                             </td>
                         </tr>
                     </tbody>
