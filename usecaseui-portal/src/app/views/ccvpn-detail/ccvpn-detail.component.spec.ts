@@ -1,6 +1,8 @@
 /*
     Copyright (C) 2018 CMCC, Inc. and others. All rights reserved.
 
+    Modification Copyright (C) 2019 IBM.
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -38,7 +40,6 @@ describe('CcvpnDetailComponent', () => {
 
     beforeEach(() => {
         let detailshow = false;
-        detailData: Object;
         let serviceDetail = (service) => {
             service["siteSer"] = [];
             service["sdwanSer"] = [];
