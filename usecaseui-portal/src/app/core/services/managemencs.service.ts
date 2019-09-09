@@ -12,18 +12,18 @@ export class ManagemencsService {
 
     /* line up */
     url = {
-        // The following APIs are optimizable
-        customers: this.baseUrl + "/uui-lcm/customers", /* get */
+        //mock Currently tuned api interface
+        customers: this.baseUrl + "/uui-lcm/customers", /* get or delete */
         CustomersPir: this.baseUrl + "/uui-lcm/serviceNumByCustomer", /* get */
-        deleteCustomer: this.baseUrl + "/uui-lcm/customers?customerId=*_*&resourceVersion=*+*", /* delete */
-        // The following APIs are not optimizable
-        serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions", /* get */
+        serviceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions", /* get */
         CustomersColumn: this.baseUrl + "/uui-lcm/serviceNumByServiceType/" + "*_*", /* get */
+        //mock Currently unadjustable api interface
+        deleteCustomer: this.baseUrl + "/uui-lcm/customers", /* delete */
         createCustomer: this.baseUrl + "/uui-lcm/customers/", /* put */
         createServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* put */
-        getCustomerresourceVersion: this.baseUrl + "/uui-lcm/customers/*_*", /* put */
+        getCustomerresourceVersion: this.baseUrl + "/uui-lcm/customers/*_*", /* get */
         getServiceTypeResourceVersion: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
-        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*?resourceVersion=*@*  ",
+        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
     };
 
     //The following APIs are optimizable ----------------------------------
@@ -38,11 +38,10 @@ export class ManagemencsService {
         return this.http.put(url, createParams);
     }
     // delete SelectCustomer
-    deleteSelectCustomer(params) {
-        let customerId = params.customerId,
-            version = params.version;
-        let url = this.url.deleteCustomer.replace("*_*", customerId).replace("*+*", version);
-        return this.http.delete(url);
+    deleteSelectCustomer(paramsObj) {
+        let url = this.url.deleteCustomer;
+        let params = new HttpParams({ fromObject: paramsObj });
+        return this.http.delete(url,{params});
     }
 
     //The following APIs are not optimizable ---------------------------------
@@ -81,11 +80,14 @@ export class ManagemencsService {
         return this.http.get(url);
     }
     // delete Select ServiceType
-    deleteSelectServiceType(params) {
-        let customerId = params.customerId.id,
-            ServiceType = params.ServiceType,
-            version = params.version;
-        let url = this.url.deleteServiceType.replace("*_*", customerId).replace("*+*", ServiceType).replace("*@*", version);
-        return this.http.delete(url);
+    deleteSelectServiceType(paramsObj) {
+        let customerId = paramsObj.customerId.id,
+            ServiceType = paramsObj.ServiceType,
+            version = {
+            "resourceVersion":paramsObj.version
+            };
+        let url = this.url.deleteServiceType.replace("*_*", customerId).replace("*+*", ServiceType);
+        let params = new HttpParams({ fromObject: version });
+        return this.http.delete(url,{params});
     }
 }
