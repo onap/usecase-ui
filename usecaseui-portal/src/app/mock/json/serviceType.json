@@ -1,0 +1,21 @@
+[
+  {
+    "service-type": "CCVPN",
+    "temp-ub-sub-account-id": "sotnaccount",
+    "resource-version": "1535601345780"
+  },
+  {
+    "service-type": "SOTN",
+    "temp-ub-sub-account-id": "sotnaccount",
+    "resource-version": "1535601333330"
+  },
+  {
+    "service-type": "E2E Service",
+    "temp-ub-sub-account-id": "sotnaccount",
+    "resource-version": "1536111036667"
+  },{
+  "service-type": "Network Service",
+  "temp-ub-sub-account-id": "sotnaccount",
+  "resource-version": "1536111036467"
+}
+]

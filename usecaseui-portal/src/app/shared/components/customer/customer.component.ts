@@ -436,7 +436,7 @@ export class CustomerComponent implements OnInit {
             if (data["status"] == 'SUCCESS') {
                 let params = {
                     customerId: thisdeleteCustomer.id,
-                    version: data["result"]["resource-version"]
+                    resourceVersion: data["result"]["resource-version"]
                 };
                 this.deleteCustomer(params, notificationModel);
             } else {
@@ -444,8 +444,8 @@ export class CustomerComponent implements OnInit {
             }
         })
     }
-    deleteCustomer(params, notificationModel) {
-        this.managemencs.deleteSelectCustomer(params).subscribe((data) => {
+    deleteCustomer(paramsObj, notificationModel) {
+        this.managemencs.deleteSelectCustomer(paramsObj).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
                 this.getAllCustomers();

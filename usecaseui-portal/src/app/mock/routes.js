@@ -35,7 +35,9 @@ module.exports =
         /////////////////////////
 
         ///////<-------------managemence services--------->/////
-        "/uui-lcm/customers/:customer/service-subscriptions": "/serviceTypes?customer=:customer",
+        "/uui-lcm/customers/:customer/service-subscriptions": "/serviceType",
+        "/uui-lcm/serviceNumByServiceType/:customer":"/CustomersColumn",
+
         /////////////////////////
 
         ///////<-------------myhttp services--------->/////
