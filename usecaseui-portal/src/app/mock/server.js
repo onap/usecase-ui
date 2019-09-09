@@ -21,6 +21,10 @@ const customersRouters = require('./routes');
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
+server.use((requset,response,next) => {
+    requset.method = 'GET';
+    next()
+})
 
 // Get mock data
 const fs = require('fs');
