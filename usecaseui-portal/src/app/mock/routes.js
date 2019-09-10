@@ -49,6 +49,10 @@ module.exports =
         /////////////////////////
 
         ///////<-------------onboard services--------->/////
+        "/nsd/v1/ns_descriptors/:nsdInfoId/nsd_content": "/nsd_content",
+        "/vnfpkgm/v1/vnf_packages/:vnfPkgId/package_content": "/nsd_content",
+        "/nsd/v1/pnf_descriptors/:pnfdInfoId/pnfd_content": "/nsd_content",
+        "/uui-lcm/jobs/:_jobId": "/uui-lcm_jobs_progress",
 
         /////////////////////////
 

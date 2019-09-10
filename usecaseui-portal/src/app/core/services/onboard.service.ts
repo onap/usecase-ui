@@ -22,32 +22,32 @@ import { baseUrl } from '../models/dataInterface';
 export class onboardService {
     constructor(private http: HttpClient) { }
 
-    baseUrl = baseUrl.baseUrl + "/uui-lcm/";
+    baseUrl = baseUrl.baseUrl;
     url = {
         //The following APIs are optimizable------------------------
         // list Data
-        onboardTableData: this.baseUrl + "ns-packages",
-        onboardDataVNF: this.baseUrl + "vnf-packages",
-        onboardDataPNF: this.baseUrl + "pnf-packages",
+        onboardTableData: this.baseUrl + "/uui-lcm/ns-packages",
+        onboardDataVNF: this.baseUrl + "/uui-lcm/vnf-packages",
+        onboardDataPNF: this.baseUrl + "/uui-lcm/pnf-packages",
         //ns sdc
-        sdc_nsListData: this.baseUrl + "sdc-ns-packages", // GET
+        sdc_nsListData: this.baseUrl + "/uui-lcm/sdc-ns-packages", // GET
         // vnf sdc
-        sdc_vnfListData: this.baseUrl + "sdc-vf-packages", // GET
+        sdc_vnfListData: this.baseUrl + "/uui-lcm/sdc-vf-packages", // GET
         // onboard ns sdc data
-        onboardNs: this.baseUrl + "ns-packages", //POST
+        onboardNs: this.baseUrl + "/uui-lcm/ns-packages", //POST
         //onboard VNF sdc data
-        onboardVNF: this.baseUrl + "vf-packages", //POST
+        onboardVNF: this.baseUrl + "/uui-lcm/vf-packages", //POST
         //Delete ns package
-        deleteNspack: this.baseUrl + "deleteNsdPackage?nsdInfoId=",
+        deleteNspack: this.baseUrl + "/uui-lcm/deleteNsdPackage",
         // Delete Vnf vfc package
-        deleteVnfPack: this.baseUrl + "deleteVnfPackage?vnfPkgId=",
+        deleteVnfPack: this.baseUrl + "/uui-lcm/deleteVnfPackage",
         // Delete Pnf package
-        deletePnfPack: this.baseUrl + "deletePnfPackage?pnfdInfoId=",
+        deletePnfPack: this.baseUrl + "/uui-lcm/deletePnfPackage",
         // The following APIs are not optimizable-------------------
         // createnspackages
-        creatensData: this.baseUrl + "_jsonData", //POST
+        creatensData: this.baseUrl + "/uui-lcm/_jsonData", //POST
         //Progress interface
-        progress: this.baseUrl + "jobs/" + "_jobId" + "?responseId="
+        progress: this.baseUrl + "/uui-lcm/jobs/_jobId" ,
     };
 
     //The following APIs function are optimizable------------------------
@@ -83,15 +83,18 @@ export class onboardService {
     }
     // Delete ns vfc package
     deleteNsIdData(paramsObj) {
-        return this.http.delete<any>(this.url.deleteNspack + paramsObj);
+        let params = new HttpParams({ fromObject: {"nsdInfoId":paramsObj }});
+        return this.http.delete<any>(this.url.deleteNspack,{params});
     }
     // Delete Vnf vfc package
     deleteVnfIdData(paramsObj) {
-        return this.http.delete<any>(this.url.deleteVnfPack + paramsObj);
+        let params = new HttpParams({ fromObject: {"vnfPkgId":paramsObj }});
+        return this.http.delete<any>(this.url.deleteVnfPack, {params});
     }
     // Delete Pnf package
     deletePnfIdData(paramsObj) {
-        return this.http.delete<any>(this.url.deletePnfPack + paramsObj);
+        let params = new HttpParams({ fromObject: {"pnfdInfoId":paramsObj }});
+        return this.http.delete<any>(this.url.deletePnfPack , {params});
     }
 
     // The following APIs function are not optimizable-------------------
@@ -102,8 +105,9 @@ export class onboardService {
     }
     //onboard progress
     getProgress(jobid, responseId) {
+        let params = new HttpParams({fromObject: {"responseId": responseId}})
         let url = this.url.progress.replace("_jobId", jobid) + responseId;
-        return this.http.get<any>(url);
+        return this.http.get<any>(url,{params});
     }
 
 }
