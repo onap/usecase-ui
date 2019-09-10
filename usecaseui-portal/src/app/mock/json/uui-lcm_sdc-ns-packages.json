@@ -1,0 +1,58 @@
+[
+  {
+      "uuid": "u01",
+      "invariantUUID": "01",
+      "name": "sdc",
+      "version": "v01",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u02",
+      "invariantUUID": "02",
+      "name": "sdc",
+      "version": "v02",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u03",
+      "invariantUUID": "03",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u03",
+      "invariantUUID": "04",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u03",
+      "invariantUUID": "05",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u03",
+      "invariantUUID": "06",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  },
+  {
+      "uuid": "u03",
+      "invariantUUID": "03",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_ns"
+  }
+]

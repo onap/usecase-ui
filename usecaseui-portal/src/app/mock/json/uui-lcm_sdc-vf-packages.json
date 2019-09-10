@@ -1,0 +1,26 @@
+[
+  {
+      "uuid": "vnf01",
+      "invariantUUID": "01",
+      "name": "sdc",
+      "version": "v01",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_vnf"
+  },
+  {
+      "uuid": "vnf02",
+      "invariantUUID": "02",
+      "name": "sdc",
+      "version": "v02",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_vnf"
+  },
+  {
+      "uuid": "vnf03",
+      "invariantUUID": "03",
+      "name": "sdc",
+      "version": "v03",
+      "toscaModelURL": "ssURL",
+      "category": "sdc_vnf"
+  }
+]

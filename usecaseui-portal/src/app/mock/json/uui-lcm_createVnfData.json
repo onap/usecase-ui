@@ -1,0 +1,67 @@
+{
+  "id": "002",
+  "vnfdId": "string",
+  "vnfProvider": "string",
+  "vnfProductName": "string",
+  "vnfSoftwareVersion": "string",
+  "vnfdVersion": "string",
+  "checksum": {
+  "algorithm": "string",
+  "hash": "string"
+    },
+  "softwareImages": [
+      {
+  "id": "string",
+  "name": "string",
+  "provider": "string",
+  "version": "string",
+  "checksum": {
+  "algorithm": "string",
+  "hash": "string"
+        },
+  "containerFormat": "AKI",
+  "diskFormat": "AKI",
+  "createdAt": "2018-10-18T07:07:02.734Z",
+  "minDisk": 0,
+  "minRam": 0,
+  "size": 0,
+  "userMetadata": {
+  "additionalProp1": "string",
+  "additionalProp2": "string",
+  "additionalProp3": "string"
+        },
+  "imagePath": "string"
+      }
+    ],
+  "additionalArtifacts": [
+      {
+  "artifactPath": "string",
+  "checksum": {
+  "algorithm": "string",
+  "hash": "string"
+        },
+  "metadata": {
+  "additionalProp1": "string",
+  "additionalProp2": "string",
+  "additionalProp3": "string"
+        }
+      }
+    ],
+  "onboardingState": "CREATED",
+  "operationalState": "ENABLED",
+  "usageState": "IN_USE",
+  "userDefinedData": {
+  "additionalProp1": "string",
+  "additionalProp2": "string",
+  "additionalProp3": "string"
+    },
+  "_links": {
+  "self": {
+  "href": "string"
+      },
+  "nsd_content": {
+  "href": "string"
+      }
+    }
+  }
+  
