@@ -1,0 +1,479 @@
+{
+    "inputs": {
+      "vpnresourcelist": [
+        {
+          "sdwanvpn_topology": "",
+          "required": false,
+          "type": "string",
+          "description": "full mesh, hub-spoke"
+        },
+        {
+          "sdwanvpn_name": "",
+          "required": true,
+          "type": "string",
+          "description": "the name of this VPM object"
+        },
+        {
+          "sitelanlist": [
+            {
+              "deviceName": "",
+              "required": true,
+              "type": "string",
+              "description": "The device name in the site"
+            },
+            {
+              "portSwitch": "",
+              "type": "string",
+              "description": "the port switch of the port.1 layer3-port, 2 layer2-port",
+              "required": true
+            },
+            {
+              "type": "string",
+              "required": true,
+              "role": "",
+              "description": "The role of this site that attached to the VPN. it can be hub/spoke for hub-spoke vpn or empty for full-mesh vpn"
+            },
+            {
+              "portType": "",
+              "required": true,
+              "type": "string",
+              "description": "the port type of the device.1 GE, 2 FE, 3 XGE, 4 LTE, 5 xDSL(ATM), 6 xSDL(PTM)"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "portNumber": "",
+              "description": "the port number of the device"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "ipAddress": "",
+              "description": "The subnet of the LAN Port"
+            },
+            {
+              "required": true,
+              "type": "string",
+              "description": "The vlan id of the lan",
+              "vlanId": ""
+            }
+          ]
+        }
+      ],
+      "sitereourcelist": [
+        {
+          "sitewanlist": [
+            {
+              "outputBandwidth": "",
+              "required": false,
+              "type": "string",
+              "description": "The output bandwidth of the WAN port"
+            },
+            {
+              "required": false,
+              "type": "string",
+              "name": "",
+              "description": "The name of the WAN port"
+            },
+            {
+              "required": false,
+              "type": "string",
+              "description": "The transport network of the WAN port",
+              "transportNetworkName": ""
+            },
+            {
+              "deviceName": "",
+              "required": true,
+              "type": "string",
+              "description": "The device name in the site"
+            },
+            {
+              "portType": "",
+              "required": true,
+              "type": "string",
+              "description": "the port type of the device.1 GE, 2 FE, 3 XGE, 4 LTE, 5 xDSL(ATM), 6 xSDL(PTM)"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "ipMode": "",
+              "description": "The ipMode of the WAN Port, DHCP/Static"
+            },
+            {
+              "required": true,
+              "type": "string",
+              "providerIpAddress": "",
+              "description": "The provider IP address of the provider CE"
+            },
+            {
+              "publicIP": "",
+              "required": true,
+              "type": "string",
+              "description": "The public IP of the WAN Port"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "apn": "",
+              "description": "the apn name, when the portType is LTE"
+            },
+            {
+              "inputBandwidth": "",
+              "required": false,
+              "type": "string",
+              "description": "The input bandwidth of the WAN port"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "portNumber": "",
+              "description": "the port number of the device"
+            },
+            {
+              "type": "string",
+              "required": true,
+              "ipAddress": "",
+              "description": "The customer IP of the WAN Port"
+            },
+            {
+              "required": false,
+              "type": "string",
+              "description": "The description of the WAN port"
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "required": true,
+          "site_name": "",
+          "description": "the name of this site"
+        },
+        {
+          "required": false,
+          "type": "string",
+          "site_type": "",
+          "description": "The gateway option is used for SDWAN connectivity"
+        },
+        {
+          "site_address": "",
+          "required": true,
+          "type": "string",
+          "description": "the address of this site"
+        },
+        {
+          "site_latitude": "",
+          "required": false,
+          "type": "string",
+          "description": "The latitude of the site"
+        },
+        {
+          "required": false,
+          "type": "string",
+          "site_longitude": "",
+          "description": "The longitude of the site"
+        },
+        {
+          "required": false,
+          "type": "string",
+          "description": "The control point of the site,only for sd-wan-edge",
+          "site_controlPoint": ""
+        },
+        {
+          "deviceList": [
+            {
+              "systemIp": "",
+              "required": false,
+              "type": "string",
+              "description": "The system ip of the device"
+            },
+            {
+              "version": "",
+              "type": "string",
+              "description": "The version of the device",
+              "required": false
+            },
+            {
+              "type": "string",
+              "required": false,
+              "vendor": "",
+              "description": "The vendor of the device"
+            },
+            {
+              "required": false,
+              "type": "string",
+              "name": "",
+              "description": "the name of the device"
+            },
+            {
+              "esn": "",
+              "required": false,
+              "type": "string",
+              "description": "Device serial number"
+            },
+            {
+              "required": false,
+              "type": "string",
+              "description": "The type of the device"
+            },
+            {
+              "required": true,
+              "type": "string",
+              "class": "",
+              "description": "The class should be VNF/PNF"
+            }
+          ]
+        },
+        {
+          "site_description": "",
+          "required": false,
+          "type": "string",
+          "description": "The description of the site"
+        },
+        {
+          "type": "string",
+          "required": false,
+          "site_postcode": "",
+          "description": "The postcode of the site"
+        },
+        {
+          "required": false,
+          "type": "string",
+          "site_role": "",
+          "description": "This is used for SDWAN only"
+        },
+        {
+          "type": "string",
+          "required": true,
+          "site_emails": "",
+          "description": "the emails of this site"
+        }
+      ]
+    },
+    "pnfs": [],
+    "description": "",
+    "service": {
+      "type": "org.openecomp.service.Ccvpnservice",
+      "requirements": {
+        "sdwanvpnresource.sdwanvpn.dependency": [
+          "SDWANVPNResource",
+          "sdwanvpn.dependency"
+        ],
+        "sdwanvpnresource.sitelan.device": [
+          "SDWANVPNResource",
+          "sitelan.device"
+        ],
+        "sdwanvpnresource.sitelan.dependency": [
+          "SDWANVPNResource",
+          "sitelan.dependency"
+        ],
+        "siteresource.site.device": [
+          "siteResource",
+          "site.device"
+        ],
+        "siteresource.device.dependency": [
+          "siteResource",
+          "device.dependency"
+        ],
+        "siteresource.device.device": [
+          "siteResource",
+          "device.device"
+        ],
+        "sdwanvpnresource.sdwanvpn.device": [
+          "SDWANVPNResource",
+          "sdwanvpn.device"
+        ],
+        "siteresource.site.dependency": [
+          "siteResource",
+          "site.dependency"
+        ],
+        "siteresource.sitewan.dependency": [
+          "siteResource",
+          "sitewan.dependency"
+        ],
+        "siteresource.sitewan.device": [
+          "siteResource",
+          "sitewan.device"
+        ]
+      },
+      "properties": {
+        "descriptor_id": "317887d3-a4e4-45cb-8971-2a78426fefac",
+        "designer": "",
+        "invariant_id": "e43f9b81-3035-44df-b618-a787e1c49427",
+        "name": "CCVPNService",
+        "verison": ""
+      },
+      "capabilities": {
+        "siteresource.siteresource..VfcInstanceGroup..1.vlan_assignment": [
+          "siteResource",
+          "siteresource..VfcInstanceGroup..1.vlan_assignment"
+        ],
+        "siteresource.siteresource..VfcInstanceGroup..0.vlan_assignment": [
+          "siteResource",
+          "siteresource..VfcInstanceGroup..0.vlan_assignment"
+        ],
+        "sdwanvpnresource.sdwanvpn.feature": [
+          "SDWANVPNResource",
+          "sdwanvpn.feature"
+        ],
+        "siteresource.siteresource..VfcInstanceGroup..2.vlan_assignment": [
+          "siteResource",
+          "siteresource..VfcInstanceGroup..2.vlan_assignment"
+        ],
+        "sdwanvpnresource.sdwanvpnresource..VfcInstanceGroup..0.vlan_assignment": [
+          "SDWANVPNResource",
+          "sdwanvpnresource..VfcInstanceGroup..0.vlan_assignment"
+        ],
+        "siteresource.sitewan.feature": [
+          "siteResource",
+          "sitewan.feature"
+        ],
+        "sdwanvpnresource.sitelan.feature": [
+          "SDWANVPNResource",
+          "sitelan.feature"
+        ],
+        "sdwanvpnresource.sdwanvpn.link": [
+          "SDWANVPNResource",
+          "sdwanvpn.link"
+        ],
+        "sdwanvpnresource.sdwanvpnresource..VfcInstanceGroup..1.vlan_assignment": [
+          "SDWANVPNResource",
+          "sdwanvpnresource..VfcInstanceGroup..1.vlan_assignment"
+        ],
+        "siteresource.device.feature": [
+          "siteResource",
+          "device.feature"
+        ],
+        "siteresource.site.feature": [
+          "siteResource",
+          "site.feature"
+        ]
+      },
+      "metadata": {
+        "category": "E2E Service",
+        "serviceType": "",
+        "description": "CCVPN",
+        "instantiationType": "A-la-carte",
+        "type": "Service",
+        "environmentContext": "General_Revenue-Bearing",
+        "serviceEcompNaming": true,
+        "UUID": "317887d3-a4e4-45cb-8971-2a78426fefac",
+        "ecompGeneratedNaming": true,
+        "serviceRole": "",
+        "invariantUUID": "e43f9b81-3035-44df-b618-a787e1c49427",
+        "namingPolicy": "",
+        "name": "CCVPNService"
+      }
+    },
+    "graph": {
+      "siteResource": [
+        "SDWANVPNResource"
+      ],
+      "SDWANVPNResource": []
+    },
+    "basepath": "/tmp/tmpN9XQqK/Definitions",
+    "vnfs": [
+      {
+        "vnf_id": "siteResource",
+        "description": "",
+        "properties": {
+          "sitewanlist": "",
+          "site_name": "",
+          "site_type": "",
+          "multi_stage_design": "false",
+          "site_address": "",
+          "site_latitude": "",
+          "site_longitude": "",
+          "site_controlPoint": "",
+          "vnfm_info": "",
+          "deviceList": "",
+          "site_description": "",
+          "site_postcode": "",
+          "site_role": "",
+          "nf_naming": {
+            "ecomp_generated_naming": true
+          },
+          "skip_post_instantiation_configuration": "true",
+          "site_emails": "",
+          "id": "97559f05-ede4-4965-a94e-7d96024e9cc5",
+          "availability_zone_max_count": "1",
+          "min_instances": "1"
+        },
+        "dependencies": [],
+        "networks": [],
+        "metadata": {
+          "category": "Configuration",
+          "subcategory": "Configuration",
+          "UUID": "97559f05-ede4-4965-a94e-7d96024e9cc5",
+          "invariantUUID": "5338673f-df81-483a-afa4-b9766442ebf1",
+          "name": "siteResource",
+          "customizationUUID": "e9e01777-bb2f-42f0-b825-aef0f4c37ccf",
+          "resourceVendorRelease": "1.0",
+          "version": "1.0",
+          "resourceVendor": "onap",
+          "resourceVendorModelNumber": "",
+          "type": "VF",
+          "description": "siteResource"
+        }
+      },
+      {
+        "vnf_id": "SDWANVPNResource",
+        "description": "",
+        "properties": {
+          "sdwanvpn_topology": "",
+          "multi_stage_design": "false",
+          "min_instances": "1",
+          "id": "3f4b9058-362c-49e7-8095-d9019082ab54",
+          "sdwanvpn_name": "",
+          "nf_naming": {
+            "ecomp_generated_naming": true
+          },
+          "skip_post_instantiation_configuration": "true",
+          "vnfm_info": "",
+          "sitelanlist": "",
+          "availability_zone_max_count": "1"
+        },
+        "dependencies": [
+          {
+            "key_name": "sdwanvpn.device",
+            "vl_id": "siteResource"
+          }
+        ],
+        "networks": [
+          {
+            "key_name": "sdwanvpn.device",
+            "vl_id": "siteResource"
+          }
+        ],
+        "metadata": {
+          "category": "Configuration",
+          "subcategory": "Configuration",
+          "UUID": "3f4b9058-362c-49e7-8095-d9019082ab54",
+          "invariantUUID": "5ca15886-9990-419c-a4bb-f0229eac0926",
+          "name": "SDWANVPNResource",
+          "customizationUUID": "7815f32c-bdbf-41f7-9a18-6f0e6d5a0d0e",
+          "resourceVendorRelease": "1.0",
+          "version": "1.0",
+          "resourceVendor": "onap",
+          "resourceVendorModelNumber": "",
+          "type": "VF",
+          "description": "vpn resource"
+        }
+      }
+    ],
+    "vls": [],
+    "metadata": {
+      "category": "E2E Service",
+      "serviceType": "",
+      "description": "CCVPN",
+      "instantiationType": "A-la-carte",
+      "type": "Service",
+      "environmentContext": "General_Revenue-Bearing",
+      "serviceEcompNaming": true,
+      "UUID": "317887d3-a4e4-45cb-8971-2a78426fefac",
+      "ecompGeneratedNaming": true,
+      "serviceRole": "",
+      "invariantUUID": "e43f9b81-3035-44df-b618-a787e1c49427",
+      "namingPolicy": "",
+      "name": "CCVPNService"
+    }
+}

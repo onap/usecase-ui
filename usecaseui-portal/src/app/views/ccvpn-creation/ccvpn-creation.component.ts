@@ -80,7 +80,7 @@ export class CcvpnCreationComponent implements OnInit {
     }
 
     getccvpnTemParameters(data) { //Get template parameters
-        if (typeof data["model"] == 'string') {
+        if (data.hasOwnProperty("model") && typeof data["model"] == 'string') {
             data = JSON.parse(data["model"]);
         }
         let inputss = data["inputs"];
