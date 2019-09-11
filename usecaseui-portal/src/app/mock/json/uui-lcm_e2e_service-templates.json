@@ -1,0 +1,77 @@
+
+{
+  "invariantUUID": "538e8673-4e93-4936-9f71-87b7c9b1bbf6",
+  "uuid": "5ef1e772-5c6d-4b99-a2f8-987759f922b8",
+  "name": "vIMS_E2E_v2",
+  "type": "Service",
+  "version": "null",
+  "description": "vIMS E2E",
+  "category": "E2E Service",
+  "subcategory": "null",
+  "customizationUuid": "null",
+  "inputs": [],
+  "nestedTemplates": [
+    {
+      "invariantUUID": "14c8bafd-f4bc-4bcf-a101-cc6568712c73",
+      "uuid": "679d00bd-f334-44d7-9105-ee3038865cb8",
+      "name": "vIMS_NS_v2",
+      "type": "VF",
+      "version": "1.0",
+      "description": "vIMS NS",
+      "category": "Generic",
+      "subcategory": "Abstract",
+      "customizationUuid": "5a485c18-b3f3-4904-a7ff-db64d9226f99",
+      "inputs": [
+        {
+          "name": "4563686a-a63a-457d-8232-a3d07b314028",
+          "type": "vf_location",
+          "description": "SBC Huawei",
+          "isRequired": "true",
+          "defaultValue": ""
+        },
+        {
+          "name": "8612efa5-9df9-43ef-8e76-5a3cca97a15e",
+          "type": "vf_location",
+          "description": "CSCF Nokia",
+          "isRequired": "true",
+          "defaultValue": ""
+        },
+        {
+          "name": "sdncontroller",
+          "type": "sdn_controller",
+          "description": "location for the service",
+          "isRequired": "true",
+          "defaultValue": ""
+        }
+      ],
+      "nestedTemplates": [
+        {
+          "invariantUUID": "d0d43bd0-4088-4b1c-9ac1-c6303d9f923a",
+          "uuid": "0f93d9d8-a815-4da9-820f-6cc77f670623",
+          "name": "ext ZTE VL",
+          "type": "VL",
+          "version": "2.0",
+          "description": "Ext ZTE VL",
+          "category": "Generic",
+          "subcategory": "Network Elements",
+          "customizationUuid": "4de4666a-a6bc-4a80-b1b9-f80014b4a847",
+          "inputs": [],
+          "nestedTemplates": []
+        },
+        {
+          "invariantUUID": "d0d43bd0-4088-4b1c-9ac1-c6303d9f923a",
+          "uuid": "0f93d9d8-a815-4da9-820f-6cc77f670623",
+          "name": "ext ZTE VL",
+          "type": "VL",
+          "version": "2.0",
+          "description": "Ext ZTE VL",
+          "category": "Generic",
+          "subcategory": "Network Elements",
+          "customizationUuid": "0705b47f-ad55-4a25-be6d-d90748acb4dd",
+          "inputs": [],
+          "nestedTemplates": []
+        }
+      ]
+    }
+  ]
+}

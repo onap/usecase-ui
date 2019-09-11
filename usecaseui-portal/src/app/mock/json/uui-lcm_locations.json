@@ -1,0 +1,18 @@
+[
+  {
+    "cloud-owner": "City B",
+    "cloud-region-id": "Edge_TIC01"
+  },
+  {
+    "cloud-owner": "City A",
+    "cloud-region-id": "Core_TIC01"
+  },
+  {
+    "cloud-owner": "City D",
+    "cloud-region-id": "Edge_TIC01"
+  },
+  {
+    "cloud-owner": "City C",
+    "cloud-region-id": "Edge_TIC01"
+  }
+]
