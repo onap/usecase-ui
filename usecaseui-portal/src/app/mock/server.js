@@ -18,13 +18,14 @@ const jsonServer = require('json-server');
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
 const customersRouters = require('./routes');
+const baseUrl = "/usecaseui-server/v1";
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
-server.use((requset,response,next) => {
-    requset.method = 'GET';
-    next()
-})
+// server.use((req, res, next) => {
+//     req.method = "GET";
+//     next();
+// })
 
 // Get mock data
 const fs = require('fs');
@@ -72,6 +73,7 @@ function fileDisplay(filePath) {
         runServer(localJsonDb);
     }, 100)
 }
+
 function getjsonContent(path) {
     let newpath = `./src/app/mock/json/${path}.json`;
     let result = JSON.parse(fs.readFileSync(newpath));
@@ -86,6 +88,22 @@ function serverRewrite() {
 function runServer(db) {
     server.use(jsonServer.router(db));
 }
+server.post(`${baseUrl}/*`, (req, res, next) => {
+    const prefix = req.url.replace(baseUrl, "");
+    req.url = `${baseUrl}/POST${prefix}`;
+    req.method = 'GET';
+    next();
+})
+server.put(`${baseUrl}/*`, (req, res, next) => {
+    const prefix = req.url.replace(baseUrl, "");
+    req.url = `${baseUrl}/PUT${prefix}`;
+    req.method = 'GET';
+    next();
+})
+server.delete(`${baseUrl}/*`, (req, res, next) => {
+    console.log("===delete😑")
+    next();
+})
 
 server.listen(3002, () => {
     console.log('Mock Server is successfully running on port 3002 😁')
