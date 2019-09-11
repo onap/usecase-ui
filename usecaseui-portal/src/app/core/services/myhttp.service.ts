@@ -24,32 +24,31 @@ export class MyhttpService {
   constructor(private http: HttpClient) { }
   baseUrl = baseUrl.baseUrl;
   url = {
-    // The following APIs are optimizable
-    listSortMasters: this.baseUrl + "/listSortMasters",
+    //mock Currently tuned api interface
     customers: this.baseUrl + "/uui-lcm/customers",
+    serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     orchestrators: this.baseUrl + "/uui-lcm/orchestrators",
     servicesTableData: this.baseUrl + '/uui-lcm/service-instances',
     serviceTemplates: this.baseUrl + "/uui-lcm/service-templates",
-    vimInfo: this.baseUrl + "/uui-lcm/locations/",
-    sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers/",
+    progress: this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
+    templateParameters: this.baseUrl + "/uui-lcm/fetchCCVPNTemplateData/*_*",
+    e2etemplateParameters: this.baseUrl + "/uui-lcm/service-templates/*_*",//no mock Sample Data json
+    nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
+    vimInfo: this.baseUrl + "/uui-lcm/locations",
+    sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers",
     createService: this.baseUrl + "/uui-lcm/services",
     ns_createService: this.baseUrl + "/uui-lcm/createNetworkServiceInstance",
     ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
-    ns_deleteService: this.baseUrl + "/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=",
-    ns_stopService: this.baseUrl + "/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=",
-    ns_healService: this.baseUrl + "/uui-lcm/healNetworkServiceInstance?ns_instance_id=",
-    allottedResource: this.baseUrl + "/uui-sotn/getAllottedResources",
-    // The following APIs are not optimizable
-    serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
-    templateParameters: this.baseUrl + "/uui-lcm/fetchCCVPNTemplateData/*_*",
-    e2etemplateParameters: this.baseUrl + "/uui-lcm/service-templates/" + "*_*" + "?toscaModelPath=",
-    nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
     deleteService: this.baseUrl + "/uui-lcm/services/",
+    ns_stopService: this.baseUrl + "/uui-lcm/terminateNetworkServiceInstance",
+    ns_deleteService: this.baseUrl + "/uui-lcm/deleteNetworkServiceInstance",
+    ns_healService: this.baseUrl + "/uui-lcm/healNetworkServiceInstance",
     vnfInfo: this.baseUrl + "/uui-lcm/VnfInfo/",
-    progress: this.baseUrl + "/uui-lcm/services/" + "*_*" + "/operations/",
-    nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/" + "*_*" + "?responseId=0&serviceInstanceId=",
+    nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/*_*",
     e2eScale: this.baseUrl + "/services/scaleServices/",
-    e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId/",
+    e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId",
+    //mock Currently unadjustable api interface
+    allottedResource: this.baseUrl + "/uui-sotn/getAllottedResources",
     updateccvpn: this.baseUrl + "/uui-lcm/services/updateService/",
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity: this.baseUrl + "/uui-sotn/getConnectivityInfo/",
@@ -102,16 +101,19 @@ export class MyhttpService {
     return this.http.post<any>(this.url.ns_createService2 + params, requestBody);
   }
   //Delete ns Service
-  nsDeleteInstance(id) {
-    return this.http.delete<any>(this.url.ns_deleteService + id);
+  nsDeleteInstance(paramsObj) {
+      let params = new HttpParams({ fromObject: paramsObj });
+    return this.http.delete<any>(this.url.ns_deleteService,{params});
   }
   //stop ns Service
-  stopNsService(id, requestBody) {  //You need to terminate before deleting
-    return this.http.post<any>(this.url.ns_stopService + id, requestBody);
+  stopNsService(paramsObj, requestBody) {  //You need to terminate before deleting
+    let params = new HttpParams({ fromObject: paramsObj });
+    return this.http.post<any>(this.url.ns_stopService, requestBody,{ params });
   }
   //heal ns Service
-  healNsService(id, requestBody) {
-    return this.http.post<any>(this.url.ns_healService + id, requestBody);
+  healNsService(paramsObj, requestBody) {
+    let params = new HttpParams({ fromObject: paramsObj });
+    return this.http.post<any>(this.url.ns_healService, requestBody,{params});
   }
   //Get allotted-resource to get tp and pnf values
   getAllottedResource(obj) {
@@ -136,8 +138,9 @@ export class MyhttpService {
       };
       return this.http.post<any>(this.url.nstemplateParameters, body);
     } else if (type == "e2e") {
-      let url = this.url.e2etemplateParameters.replace("*_*", template.uuid) + template.toscaModelURL;
-      return this.http.get<any>(url);
+      let params = new HttpParams({ fromObject: {"toscaModelPath":template.toscaModelURL} });
+      let url = this.url.e2etemplateParameters.replace("*_*", template.uuid);
+      return this.http.get<any>(url,{params});
     } else {
       let body = {
         csarId: template.uuid,
@@ -180,13 +183,15 @@ export class MyhttpService {
     return this.http.get<any>(this.url.e2e_nsdata, { params });
   }
   // Query progress interface
-  getProgress(obj) {
-    let url = this.url.progress.replace("*_*", obj.serviceId) + obj.operationId + "?operationType=" + obj.operationType;
-    return this.http.get<any>(url);
+  getProgress(obj,operationTypeObj) {
+    let params = new HttpParams({ fromObject: operationTypeObj });
+    let url = this.url.progress.replace("*_*", obj.serviceId) + obj.operationId;
+    return this.http.get<any>(url,{params});
   }
-  getNsProgress(jobid, serviceId, operationType) {
-    let url = this.url.nsProgress.replace("*_*", jobid) + serviceId + "&operationType=" + operationType;
-    return this.http.get<any>(url);
+  getNsProgress(jobid,paramsObj) {
+      let params = new HttpParams({ fromObject: paramsObj });
+    let url = this.url.nsProgress.replace("*_*", jobid);
+    return this.http.get<any>(url,{params});
   }
 
   //Get the corresponding domain (network-resource) by pnf value
