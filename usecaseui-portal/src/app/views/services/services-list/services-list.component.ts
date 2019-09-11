@@ -1011,7 +1011,10 @@ export class ServicesListComponent implements OnInit {
         service.tips = "";
         service.statusClass = "1004";
         let id = service.nsInstanceId || service["service-instance-id"] || service["vnfNsInstanceId"];
-        this.myhttp.healNsService(id, requestBody)
+        let paramsObj = {
+            "ns_instance_id":id
+        };
+        this.myhttp.healNsService(paramsObj, requestBody)
             .subscribe((data) => {
                 if (data.status == "FAILED") {
                     console.log("heal nsvnf service Failed :" + JSON.stringify(data));
@@ -1226,7 +1229,10 @@ export class ServicesListComponent implements OnInit {
             }
             return this.queryNsProgress(jobid, null, updata, operationType);
         }).then(() => {
-            this.myhttp.nsDeleteInstance(id)
+            let paramsObj = {
+                "ns_instance_id":id
+            };
+            this.myhttp.nsDeleteInstance(paramsObj)
                 .subscribe((data) => {
                     console.log(data);
                     service.rate = 100;
@@ -1263,8 +1269,11 @@ export class ServicesListComponent implements OnInit {
     }
 
     stopNsService(id, obj) {
+        let paramsObj = {
+            "ns_instance_id":id
+        }
         let mypromise = new Promise((res, rej) => {
-            this.myhttp.stopNsService(id, obj)
+            this.myhttp.stopNsService(paramsObj, obj)
                 .subscribe((data) => {
                     this.loadingAnimateShow = false;
                     if (data.status == "FAILED") {
@@ -1280,9 +1289,10 @@ export class ServicesListComponent implements OnInit {
 
     queryProgress(obj, callback) {
         let mypromise = new Promise((res, rej) => {
+            let operationTypeObj = {operationType:obj.operationType};
             let errorNums = 180;
             let requery = () => {
-                this.myhttp.getProgress(obj)
+                this.myhttp.getProgress(obj,operationTypeObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
                             callback({ progress: 255, status: "Failed" });
@@ -1321,8 +1331,13 @@ export class ServicesListComponent implements OnInit {
     queryNsProgress(jobid, id, callback, operationType) {
         let mypromise = new Promise((res, rej) => {
             let errorNums = 180;
+            let paramsObj = {
+                "responseId":0,
+                "serviceInstanceId":id,
+                "operationType":operationType
+            }
             let requery = () => {
-                this.myhttp.getNsProgress(jobid, id, operationType)
+                this.myhttp.getNsProgress(jobid,paramsObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
                             callback({ progress: 255, status: "Failed" });
