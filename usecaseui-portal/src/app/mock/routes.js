@@ -35,8 +35,12 @@ module.exports =
         /////////////////////////
 
         ///////<-------------managemence services--------->/////
+        "/uui-lcm/customers/:customer": "/serviceType",
+        "/PUT/uui-lcm/customers/:name/service-subscriptions/:id": "/PUT_uui-lcm_customers_service-subscriptions",
+        "/PUT/uui-lcm/customers/:customer": "/PUT_uui-lcm_customers",
+        "/uui-lcm/customers/:customer/service-subscriptions/:id": "/language",
         "/uui-lcm/customers/:customer/service-subscriptions": "/serviceType",
-        "/uui-lcm/serviceNumByServiceType/:customer":"/CustomersColumn",
+        "/uui-lcm/serviceNumByServiceType/:customer": "/CustomersColumn",
 
         /////////////////////////
 

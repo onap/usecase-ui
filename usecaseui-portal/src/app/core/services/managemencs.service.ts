@@ -20,10 +20,11 @@ export class ManagemencsService {
         //mock Currently unadjustable api interface
         deleteCustomer: this.baseUrl + "/uui-lcm/customers", /* delete */
         createCustomer: this.baseUrl + "/uui-lcm/customers/", /* put */
-        createServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* put */
         getCustomerresourceVersion: this.baseUrl + "/uui-lcm/customers/*_*", /* get */
-        getServiceTypeResourceVersion: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
-        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
+
+        createServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* put */
+        getServiceTypeResourceVersion: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* get */
+        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* delete */
     };
 
     //The following APIs are optimizable ----------------------------------
@@ -41,7 +42,7 @@ export class ManagemencsService {
     deleteSelectCustomer(paramsObj) {
         let url = this.url.deleteCustomer;
         let params = new HttpParams({ fromObject: paramsObj });
-        return this.http.delete(url,{params});
+        return this.http.delete(url, { params });
     }
 
     //The following APIs are not optimizable ---------------------------------
@@ -84,10 +85,10 @@ export class ManagemencsService {
         let customerId = paramsObj.customerId.id,
             ServiceType = paramsObj.ServiceType,
             version = {
-            "resourceVersion":paramsObj.version
+                "resourceVersion": paramsObj.version
             };
         let url = this.url.deleteServiceType.replace("*_*", customerId).replace("*+*", ServiceType);
         let params = new HttpParams({ fromObject: version });
-        return this.http.delete(url,{params});
+        return this.http.delete(url, { params });
     }
 }
