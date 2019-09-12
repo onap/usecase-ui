@@ -688,7 +688,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let params = {
             pnfName: this.selectedNode1,
         };
-        this.myhttp.getPInterfacesData1(params)
+        this.myhttp.getPInterfacesData(params)
             .subscribe((data) => {
                 this.tpOption1 = [];
                 for (let i = 0; i < data.length; i++) {
@@ -716,7 +716,7 @@ export class CcvpnNetworkComponent implements OnInit {
         let params = {
             pnfName: this.selectedNode2,
         };
-        this.myhttp.getPInterfacesData2(params)
+        this.myhttp.getPInterfacesData(params)
             .subscribe((data) => {
                 this.tpOption2 = [];
                 for (let i = 0; i < data.length; i++) {

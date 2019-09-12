@@ -1,0 +1,117 @@
+{
+  "logical-link": [
+    {
+      "link-name": "cross-link-1",
+      "in-maint": false,
+      "link-type": "cross-link",
+      "resource-version": "1536029865021",
+      "operational-status": "up",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf2000/p-interfaces/p-interface/nodeId-78.78.78.78-ltpId-1",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf2000"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "nodeId-78.78.78.78-ltpId-1"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf1000/p-interfaces/p-interface/nodeId-79.79.79.79-ltpId-1",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf1000"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "nodeId-79.79.79.79-ltpId-1"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "cross-link-2",
+      "in-maint": false,
+      "link-type": "cross-link",
+      "resource-version": "1536029865021",
+      "operational-status": "up",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf3000/p-interfaces/p-interface/nodeId-80.80.80.80-ltpId-2",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf3000"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "nodeId-80.80.80.80-ltpId-2"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v13/network/pnfs/pnf/pnf-cloud/p-interfaces/p-interface/cloud-tp",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "pnf-cloud"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "cloud-tp"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "ext-aai-network",
+            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
+            "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/gongjie666",
+            "relationship-data": [
+              {
+                "relationship-key": "ext-aai-network.aai-id",
+                "relationship-value": "gongjie666"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
