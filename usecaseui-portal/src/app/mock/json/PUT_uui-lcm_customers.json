@@ -1,6 +1,6 @@
 {
-    "global-customer-id": "Democcy",
-    "subscriber-name": "Democcy",
-    "subscriber-type": "INFRA",
-    "resource-version": "1535601196964"
+  "status":"SUCCESS",
+  "global-customer-id": "tian_test",
+  "subscriber-name": "tian_test",
+  "subscriber-type": "INFRA"
 }

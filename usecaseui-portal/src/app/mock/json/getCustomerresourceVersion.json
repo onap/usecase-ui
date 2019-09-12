@@ -1,0 +1,9 @@
+{
+  "result": {
+    "global-customer-id": "tian_test",
+    "subscriber-name": "tian_test",
+    "subscriber-type": "INFRA",
+    "resource-version": "100020202"
+  },
+  "status": "SUCCESS"
+}
