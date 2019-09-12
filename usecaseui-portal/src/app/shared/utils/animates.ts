@@ -18,17 +18,17 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 // Routing animation
 export const slideToRight = trigger('routerAnimate', [
     // Define void to indicate empty state
-    state('void', style({ position:'fixed', zIndex:'-1' })), //I don't understand why I want to add a positioning animation to take effect.
+    state('void', style({  })),
     // * Indicates any state
-    state('*', style({ })),
+    state('*', style({})),
     // Admission animation
     transition(':enter', [
-        style({transform: 'translateX(-100%)'}),
+        style({transform: 'translateX(-100%)',position: 'fixed',width: '*'}),
         animate('.5s ease-in-out')
     ]),
     // Opening animation
     transition(':leave', [
-        animate('.5s ease-in-out',  style({transform: 'translateX(100%)'}) )
+        animate('.5s ease-in-out',  style({transform: 'translateX(100%)',position: 'fixed',width:'*' }) )
     ])
 ]);
 // Detail page shows hidden animation
