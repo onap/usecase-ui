@@ -1,0 +1,19 @@
+{
+  "jobId": "string",
+  "responseDescriptor": {
+    "status": "string",
+    "progress": 90,
+    "statusDescription": "string",
+    "errorCode": "string",
+    "responseId": "string",
+    "responseHistoryList": [
+      {
+        "status": "string",
+        "progress": "string",
+        "statusDescription": "string",
+        "errorCode": "string",
+        "responseId": "string"
+      }
+    ]
+  }
+}

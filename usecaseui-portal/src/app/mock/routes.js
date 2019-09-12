@@ -35,17 +35,28 @@ module.exports =
         /////////////////////////
 
         ///////<-------------managemence services--------->/////
-        "/uui-lcm/customers/:customer": "/serviceType",
-        "/PUT/uui-lcm/customers/:name/service-subscriptions/:id": "/PUT_uui-lcm_customers_service-subscriptions",
-        "/PUT/uui-lcm/customers/:customer": "/PUT_uui-lcm_customers",
-        "/uui-lcm/customers/:customer/service-subscriptions/:id": "/language",
         "/uui-lcm/customers/:customer/service-subscriptions": "/serviceType",
-        "/uui-lcm/serviceNumByServiceType/:customer": "/CustomersColumn",
-
+        "/uui-lcm/serviceNumByServiceType/:customer":"/CustomersColumn",
+        "/PUT/uui-lcm/customers/:customer": "/PUT_uui-lcm_customers",
+        "/PUT/uui-lcm/customers/:name/service-subscriptions/:id": "/PUT_uui-lcm_customers_service-subscriptions",
+        "/uui-lcm/customers/:customer":"/getCustomerresourceVersion",
+        "/DELETE/uui-lcm/customers":"/DELETE_uui-lcm_customers",
+        "/uui-lcm/customers/:customer/service-subscriptions/:id":"/getServiceTypeResourceVersion",
+        "/DELETE/uui-lcm/customers/:customer/service-subscriptions/:id": "/DELETE_uui-lcm_customers_service-subscriptions",
         /////////////////////////
 
         ///////<-------------myhttp services--------->/////
-
+        "/uui-lcm/services/:serviceId/operations/:operations":"/uui-lcm_services_progress",
+        "/uui-lcm/fetchCCVPNTemplateData/:uuid":"/uui-lcm_fetchCCVPNTemplateData",
+        "/uui-lcm/service-templates/:uuid":"/uui-lcm_e2e_service-templates",
+        "/uui-lcm/services/:serviceInstanceId":"/uui-lcm_delete_services",
+        "/uui-lcm/VnfInfo/:id":"/uui-lcm_VnfInfo",
+        "/uui-lcm/jobs/getNsLcmJobStatus/:jobId":"/uui-lcm_jobs_getNsLcmJobStatus",
+        "/services/scaleServices/:id":"/services_scaleServices",
+        "/uui-lcm/services/updateService/:id":"/uui-lcm_services_updateService",
+        "/uui-sotn/getPnfInfo/:name":"/uui-sotn_getPnfInfo",
+        "/uui-sotn/getConnectivityInfo/:id":"/uui-sotn_getConnectivityInfo",
+        "/uui-sotn/getPinterfaceByVpnId/:id":"/uui-sotn_getPinterfaceByVpnId",
         /////////////////////////
 
         ///////<-------------networkhttp services--------->/////
