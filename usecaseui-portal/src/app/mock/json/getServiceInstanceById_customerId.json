@@ -1,0 +1,26 @@
+[
+  {
+    "netWorkServiceName": "vepc_service_addmml_vepc_ete_mml1",
+    "netWorkServiceId": "e05ac9b7-8011-438a-888c-116fe57e55bb",
+    "scaleType": "",
+    "aspectId": "",
+    "numberOfSteps": "",
+    "scalingDirection": ""
+  },
+  {
+    "netWorkServiceName": "vepc_spgw_cmri_ns_vepc_service_test9",
+    "netWorkServiceId": "c1b43312-f97f-4af1-be2d-b2506cf2ea41",
+    "scaleType": "",
+    "aspectId": "",
+    "numberOfSteps": "",
+    "scalingDirection": ""
+  },
+  {
+    "netWorkServiceName": "vepc_spgw_cmri_ns_vepc_service_test7",
+    "netWorkServiceId": "d7dc1f6c-9da0-43b3-9c51-f983ddaad707",
+    "scaleType": "",
+    "aspectId": "",
+    "numberOfSteps": "",
+    "scalingDirection": ""
+  }
+]

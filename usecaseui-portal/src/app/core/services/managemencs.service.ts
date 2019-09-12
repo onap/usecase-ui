@@ -20,11 +20,10 @@ export class ManagemencsService {
         //mock Currently unadjustable api interface
         deleteCustomer: this.baseUrl + "/uui-lcm/customers", /* delete */
         createCustomer: this.baseUrl + "/uui-lcm/customers/", /* put */
-        getCustomerresourceVersion: this.baseUrl + "/uui-lcm/customers/*_*", /* get */
-
         createServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* put */
-        getServiceTypeResourceVersion: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* get */
-        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* delete */
+        getCustomerresourceVersion: this.baseUrl + "/uui-lcm/customers/*_*", /* get */
+        getServiceTypeResourceVersion: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
+        deleteServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*",
     };
 
     //The following APIs are optimizable ----------------------------------

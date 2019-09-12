@@ -1,0 +1,12 @@
+
+{
+  "vnfInstId":"xxxxxxx",
+  "vnfName":"vnf1",
+  "vnfStatus":"ACTIVE",
+  "vnfVms":[
+    {"vmId":"1","vmName":"vm1"},
+    {"vmId":"2","vmName":"vm2"},
+    {"vmId":"3","vmName":"vm3"},
+    {"vmId":"4","vmName":"vm4"}
+  ]
+}
