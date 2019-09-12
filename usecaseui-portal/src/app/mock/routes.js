@@ -68,6 +68,9 @@ module.exports =
         "/vnfpkgm/v1/vnf_packages/:vnfPkgId/package_content": "/nsd_content",
         "/nsd/v1/pnf_descriptors/:pnfdInfoId/pnfd_content": "/nsd_content",
         "/uui-lcm/jobs/:_jobId": "/uui-lcm_jobs_progress",
+        "/DELETE/uui-lcm/deleteNsdPackage?nsdInfoId:id": "/DELETE_uui-lcm_deleteNsdPackage",
+        "/DELETE/uui-lcm/deleteVnfPackage?vnfPkgId:id": "/DELETE_uui-lcm_deleteVnfPackage",
+        "/DELETE/uui-lcm/deletePnfPackage?pnfdInfoId:id": "/DELETE_uui-lcm_deletePnfPackage",
 
         /////////////////////////
 

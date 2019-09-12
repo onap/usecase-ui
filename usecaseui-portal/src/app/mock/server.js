@@ -101,7 +101,9 @@ server.put(`${baseUrl}/*`, (req, res, next) => {
     next();
 })
 server.delete(`${baseUrl}/*`, (req, res, next) => {
-    console.log("===delete😑")
+    const prefix = req.url.replace(baseUrl, "");
+    req.url = `${baseUrl}/DELETE${prefix}`;
+    req.method = 'GET';
     next();
 })
 
