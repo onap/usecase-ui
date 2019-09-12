@@ -1,0 +1,198 @@
+[
+  {
+    "networkId": "1000",
+    "pnfs": [
+      {
+        "pnfName": "pnf1000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-78.78.78.78-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-78.78.78.78-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-78.78.78.78-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-78.78.78.78-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-78.78.78.78-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "2000",
+    "pnfs": [
+      {
+        "pnfName": "pnf2000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-79.79.79.79-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-79.79.79.79-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-79.79.79.79-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-79.79.79.79-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-79.79.79.79-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "3000",
+    "pnfs": [
+      {
+        "pnfName": "pnf3000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-80.80.80.80-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-80.80.80.80-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-80.80.80.80-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-80.80.80.80-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-80.80.80.80-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "4000",
+    "pnfs": [
+      {
+        "pnfName": "pnf4000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-81.81.81.81-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-81.81.81.81-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-81.81.81.81-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-81.81.81.81-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-81.81.81.81-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "5000",
+    "pnfs": [
+      {
+        "pnfName": "pnf5000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "5000",
+    "pnfs": [
+      {
+        "pnfName": "pnf5000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "5000",
+    "pnfs": [
+      {
+        "pnfName": "pnf5000"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-5"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-4"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-1"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-3"
+      },
+      {
+        "interface-name": "nodeId-82.82.82.82-ltpId-2"
+      }
+    ],
+    "aaiId":""
+  },
+  {
+    "networkId": "cloud-network",
+    "pnfs": [
+      {
+        "pnfName": "pnf-cloud"
+      }
+    ],
+    "tps": [
+      {
+        "interface-name": "cloud-tp"
+      }
+    ],
+    "aaiId":"gongjie666"
+  }
+]
