@@ -74,8 +74,6 @@ module.exports =
         "/POST/uui-lcm/ns-packages": "/uui-lcm/ns-packages",
         "/POST/uui-lcm/vf-packages": "/uui-lcm/vf-packages",
 
-        /////////////////////////
-
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",
