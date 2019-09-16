@@ -1,0 +1,94 @@
+{
+  "connectivity": [
+    {
+      "connectivity-id": "4424ea5a-3603-4040-baa9-4046ed533fe5",
+      "bandwidth-profile-name": "vpn1",
+      "vpn-type": "ethernet",
+      "color-aware": "true",
+      "coupling-flag": "true",
+      "etht-svc-name": "vpn1",
+      "access-provider-id": "",
+      "access-client-id": "",
+      "access-topology-id": "",
+      "access-node-id": "",
+      "access-ltp-id": "",
+      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0/service-data/networks/network/4424ea5a-3603-4040-baa9-4046ed533fe5/network-data/",
+      "operational-status": "Active",
+      "model-customization-id": "2bafc8aa-c60c-4a17-a658-db4cbca07fac",
+      "model-invariant-id": "5d0ada6b-de04-4624-9410-3baab839cd6f",
+      "model-version-id": "15e21930-3248-4148-b071-a2a9be1f9889",
+      "resource-version": "1537623789475",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "vpn-binding",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/vpn-bindings/vpn-binding/11.11.11.11-vpn1",
+            "relationship-data": [
+              {
+                "relationship-key": "vpn-binding.vpn-id",
+                "relationship-value": "11.11.11.11-vpn1"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "vpn-binding.vpn-name",
+                "property-value": "11.11.11.11-vpn1"
+              },
+              {
+                "property-key": "vpn-binding.vpn-type",
+                "property-value": "ethernet"
+              }
+            ]
+          },
+          {
+            "related-to": "service-instance",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/business/customers/customer/demo/service-subscriptions/service-subscription/ccvpn/service-instances/service-instance/32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0",
+            "relationship-data": [
+              {
+                "relationship-key": "customer.global-customer-id",
+                "relationship-value": "demo"
+              },
+              {
+                "relationship-key": "service-subscription.service-type",
+                "relationship-value": "ccvpn"
+              },
+              {
+                "relationship-key": "service-instance.service-instance-id",
+                "relationship-value": "32cd906f-ee7a-4ecf-b1c3-2fce4d59f8c0"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "service-instance.service-instance-name",
+                "property-value": "SOTNVPNInfra"
+              }
+            ]
+          },
+          {
+            "related-to": "vpn-binding",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v13/network/vpn-bindings/vpn-binding/12.12.12.12-vpn1",
+            "relationship-data": [
+              {
+                "relationship-key": "vpn-binding.vpn-id",
+                "relationship-value": "12.12.12.12-vpn1"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "vpn-binding.vpn-name",
+                "property-value": "12.12.12.12-vpn1"
+              },
+              {
+                "property-key": "vpn-binding.vpn-type",
+                "property-value": "ethernet"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
