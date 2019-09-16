@@ -40,7 +40,7 @@ module.exports =
         "/PUT/uui-lcm/customers/:customer": "/PUT_uui-lcm_customers",
         "/PUT/uui-lcm/customers/:name/service-subscriptions/:id": "/PUT_uui-lcm_customers_service-subscriptions",
         "/uui-lcm/customers/:customer":"/getCustomerresourceVersion",
-        "/DELETE/uui-lcm/customers":"/DELETE_uui-lcm_customers",
+        "/DELETE/uui-lcm/customers?customerId=:customerId&resourceVersion=:resourceVersion":"/DELETE_uui-lcm_customers",
         "/uui-lcm/customers/:customer/service-subscriptions/:id":"/getServiceTypeResourceVersion",
         "/DELETE/uui-lcm/customers/:customer/service-subscriptions/:id": "/DELETE_uui-lcm_customers_service-subscriptions",
         /////////////////////////
@@ -49,18 +49,29 @@ module.exports =
         "/uui-lcm/services/:serviceId/operations/:operations":"/uui-lcm_services_progress",
         "/uui-lcm/fetchCCVPNTemplateData/:uuid":"/uui-lcm_fetchCCVPNTemplateData",
         "/uui-lcm/service-templates/:uuid":"/uui-lcm_e2e_service-templates",
-        "/uui-lcm/services/:serviceInstanceId":"/uui-lcm_delete_services",
+        "/DELETE/uui-lcm/services/:serviceInstanceId":"/uui-lcm_delete_services",
         "/uui-lcm/VnfInfo/:id":"/uui-lcm_VnfInfo",
         "/uui-lcm/jobs/getNsLcmJobStatus/:jobId":"/uui-lcm_jobs_getNsLcmJobStatus",
         "/services/scaleServices/:id":"/services_scaleServices",
-        "/uui-lcm/services/updateService/:id":"/uui-lcm_services_updateService",
+        "/PUT/uui-lcm/services/updateService/:id":"/uui-lcm_services_updateService",
         "/uui-sotn/getPnfInfo/:name":"/uui-sotn_getPnfInfo",
         "/uui-sotn/getConnectivityInfo/:id":"/uui-sotn_getConnectivityInfo",
         "/uui-sotn/getPinterfaceByVpnId/:id":"/uui-sotn_getPinterfaceByVpnId",
+        "/POST/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=:ns_instance_id":"/uui-lcm_terminateNetworkServiceInstance",
+        "/DELETE/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=:ns_instance_id":"/uui-lcm_deleteNetworkServiceInstance",
         /////////////////////////
 
         ///////<-------------networkhttp services--------->/////
-
+        "/DELETE/uui-sotn/deleteExtNetWork":"/status",
+        "/uui-sotn/getPinterfaceByPnfName/:pnfName":"/uui-sotn_getPinterfaceByPnfName",
+        "/PUT/uui-sotn/createLink/:linkName":"/status",
+        "/uui-sotn/getSpecificLogicalLink/:linkName":"/uui-sotn_getSpecificLogicalLink",
+        "/uui-sotn/getHostUrl/:aaiId":"/uui-sotn_getHostUrl",
+        "/uui-sotn/getExtAaiId/:aaiId":"/uui-sotn_getExtAaiId",
+        "/PUT/uui-sotn/createTopoNetwork/:networkId":"/status",
+        "/PUT/uui-sotn/createPnf/:nodeName":"/status",
+        "/PUT/uui-sotn/pnf/:nodeName/p-interfaces/p-interface/:interfaceName/createTerminationPoint":"/status",
+        "/PUT/uui-sotn/createHostUrl/:aaiId":"/status",
         /////////////////////////
 
         ///////<-------------onboard services--------->/////
