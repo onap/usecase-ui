@@ -72,8 +72,6 @@ module.exports =
         "/DELETE/uui-lcm/deleteVnfPackage?vnfPkgId:id": "/DELETE_uui-lcm_deleteVnfPackage",
         "/DELETE/uui-lcm/deletePnfPackage?pnfdInfoId:id": "/DELETE_uui-lcm_deletePnfPackage",
 
-        /////////////////////////
-
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",

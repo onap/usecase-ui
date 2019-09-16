@@ -22,10 +22,6 @@ const baseUrl = "/usecaseui-server/v1";
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
-// server.use((req, res, next) => {
-//     req.method = "GET";
-//     next();
-// })
 
 // Get mock data
 const fs = require('fs');
