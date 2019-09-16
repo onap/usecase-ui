@@ -71,6 +71,8 @@ module.exports =
         "/DELETE/uui-lcm/deleteNsdPackage?nsdInfoId:id": "/DELETE_uui-lcm_deleteNsdPackage",
         "/DELETE/uui-lcm/deleteVnfPackage?vnfPkgId:id": "/DELETE_uui-lcm_deleteVnfPackage",
         "/DELETE/uui-lcm/deletePnfPackage?pnfdInfoId:id": "/DELETE_uui-lcm_deletePnfPackage",
+        "/POST/uui-lcm/ns-packages": "/uui-lcm/ns-packages",
+        "/POST/uui-lcm/vf-packages": "/uui-lcm/vf-packages",
 
         /////////////////////////
 
