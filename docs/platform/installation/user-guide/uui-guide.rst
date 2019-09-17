@@ -29,7 +29,7 @@ Please open Usecase-UI dashboard page through your browser.
 **4. Specific Pages Function**
 ==============================
 
-Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*, *Services*, *Network Topology*. 
+Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*, *Services* and *Network Topology*. 
 
 *4.1. Home Module*
 
@@ -44,6 +44,24 @@ Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*,
 *4.3. Monitor Module*
 
 *4.4. Services Module*
+
+This module consists of two parts. One is lifecycle management, the other is package management.
+
+* Lifecycle Management
+
+|lifecycle|
+
+.. |lifecycle| image:: ../../images/lifecycle-manage.png
+   :width: 5.97047in
+   :height: 3.63208in
+
+* Package Management
+
+|package|
+
+.. |package| image:: ../../images/package-manage.png
+   :width: 5.97047in
+   :height: 3.63208in
 
 *4.5. Network Topology Module*
 
