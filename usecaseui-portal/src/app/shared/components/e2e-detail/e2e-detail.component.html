@@ -50,7 +50,7 @@
         <h3>{{template.name}}</h3>
         <ul class="clearfix">
           <li *ngFor="let input of template.vnfs; let i = index;">
-            <span style="width: 26%"> vf_location: </span>
+            <span style="width: 26%;min-width: 80px!important"> vf_location: </span>
             <span class="input-content">{{input["vf_location"]}}</span>
           </li>
         </ul>
@@ -84,9 +84,14 @@
         <h4>vnfs Inputs</h4>
         <ul>
           <li *ngFor="let vnf of ns_nestedTemplates;">
-            <h5>id: {{vnf.vnfInstanceId}}</h5>
-            <span style="width: 26%"> vf_location: </span>
-            <span class="input-content">{{vnf["vnfInstanceName"]}}</span>
+            <h5>
+              <span style="width: 26%;min-width: 80px!important"> id: </span>
+              <span class="input-content"> {{vnf.vnfInstanceId}}</span>
+            </h5>
+           <h5>
+             <span style="width: 26%;min-width: 80px!important"> vf_location: </span>
+             <span class="input-content">{{vnf["vnfInstanceName"]}}</span>
+           </h5>
           </li>
         </ul>
       </div>
