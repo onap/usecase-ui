@@ -7,7 +7,7 @@ Usecase-UI Architecture
 
 |image0|
 
-.. |image0| image:: images/usecaseui-architecture.png
+.. |image0| image:: ../../images/usecaseui-architecture.png
    :width: 6.97047in
    :height: 4.63208in
 
