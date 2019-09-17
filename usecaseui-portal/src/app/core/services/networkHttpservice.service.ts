@@ -25,11 +25,9 @@ export class networkHttpservice {
 
     baseUrl = baseUrl.baseUrl;//Online environment
     url = {
-        // The following APIs are optimizable
         "getNetworkD3Data": "/uui-sotn/getNetWorkResources",
         "getLogicalLinksData": "/uui-sotn/getLogicalLinks",
         "deleteCloud": "/uui-sotn/deleteExtNetWork",
-        // The following APIs are not optimizable
         "getPInterfacesData": "/uui-sotn/getPinterfaceByPnfName/",
         "createLink": "/uui-sotn/createLink/",
         "querySpecificLinkInfo": "/uui-sotn/getSpecificLogicalLink/",

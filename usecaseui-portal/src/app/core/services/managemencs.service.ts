@@ -12,12 +12,10 @@ export class ManagemencsService {
 
     /* line up */
     url = {
-        //mock Currently tuned api interface
         customers: this.baseUrl + "/uui-lcm/customers", /* get or delete */
         CustomersPir: this.baseUrl + "/uui-lcm/serviceNumByCustomer", /* get */
         serviceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions", /* get */
         CustomersColumn: this.baseUrl + "/uui-lcm/serviceNumByServiceType/" + "*_*", /* get */
-        //mock Currently unadjustable api interface
         deleteCustomer: this.baseUrl + "/uui-lcm/customers", /* delete */
         createCustomer: this.baseUrl + "/uui-lcm/customers/", /* put */
         createServiceType: this.baseUrl + "/uui-lcm/customers/*_*/service-subscriptions/*+*", /* put */

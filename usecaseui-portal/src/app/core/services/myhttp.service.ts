@@ -24,7 +24,6 @@ export class MyhttpService {
   constructor(private http: HttpClient) { }
   baseUrl = baseUrl.baseUrl;
   url = {
-    //mock Currently tuned api interface
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
     orchestrators: this.baseUrl + "/uui-lcm/orchestrators",
@@ -47,7 +46,6 @@ export class MyhttpService {
     nsProgress: this.baseUrl + "/uui-lcm/jobs/getNsLcmJobStatus/*_*",
     e2eScale: this.baseUrl + "/services/scaleServices/",
     e2e_nsdata: this.baseUrl + "/getServiceInstanceById/customerId",
-    //mock Currently unadjustable api interface
     allottedResource: this.baseUrl + "/uui-sotn/getAllottedResources",
     updateccvpn: this.baseUrl + "/uui-lcm/services/updateService/",
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",

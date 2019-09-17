@@ -24,29 +24,20 @@ export class onboardService {
 
     baseUrl = baseUrl.baseUrl;
     url = {
-        //The following APIs are optimizable------------------------
-        // list Data
         onboardTableData: this.baseUrl + "/uui-lcm/ns-packages",
         onboardDataVNF: this.baseUrl + "/uui-lcm/vnf-packages",
         onboardDataPNF: this.baseUrl + "/uui-lcm/pnf-packages",
-        //ns sdc
         sdc_nsListData: this.baseUrl + "/uui-lcm/sdc-ns-packages", // GET
-        // vnf sdc
         sdc_vnfListData: this.baseUrl + "/uui-lcm/sdc-vf-packages", // GET
-        // onboard ns sdc data
         onboardNs: this.baseUrl + "/uui-lcm/ns-packages", //POST
-        //onboard VNF sdc data
+     
         onboardVNF: this.baseUrl + "/uui-lcm/vf-packages", //POST
-        //Delete ns package
         deleteNspack: this.baseUrl + "/uui-lcm/deleteNsdPackage",
         // Delete Vnf vfc package
         deleteVnfPack: this.baseUrl + "/uui-lcm/deleteVnfPackage",
         // Delete Pnf package
         deletePnfPack: this.baseUrl + "/uui-lcm/deletePnfPackage",
-        // The following APIs are not optimizable-------------------
-        // createnspackages
         creatensData: this.baseUrl + "/uui-lcm/_jsonData", //POST
-        //Progress interface
         progress: this.baseUrl + "/uui-lcm/jobs/_jobId" ,
     };
 
