@@ -32,23 +32,18 @@ Please open Usecase-UI dashboard page through your browser.
 Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*, *Services*, *Network Topology*. 
 
 *4.1. Home Module*
-==================
 
-|image0|
+|homepage|
 
-.. |image0| image:: images/usecaseui-architecture-homepage.png
+.. |homepage| image:: ../../images/usecaseui-architecture-homepage.png
    :width: 5.97047in
    :height: 3.63208in
 
 *4.2. Cusomer Module*
-=====================
 
 *4.3. Monitor Module*
-=====================
 
 *4.4. Services Module*
-======================
 
 *4.5. Network Topology Module*
-==============================
 
