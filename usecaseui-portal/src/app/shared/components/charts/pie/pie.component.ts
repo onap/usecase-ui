@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -110,5 +110,10 @@ export class PieComponent implements OnInit {
     })
   }
 
+  resize(size: number){
+    this.chartIntance.resize( {
+      height: size - 250
+    })
+  }
 
 }

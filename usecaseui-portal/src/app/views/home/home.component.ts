@@ -13,12 +13,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, OnInit,  HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
 import { slideToRight } from '../../shared/utils/animates';
 import { Util } from '../../shared/utils/utils';
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'app-home',
@@ -28,12 +29,16 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
+  @ViewChild('seriverChart') seriverChart;
+  @ViewChild('services') services: ElementRef;
+  
 
   constructor(
-      private myhttp: HomesService,
-      private router: Router,
-      private Util: Util
-      ) { }
+    private myhttp: HomesService,
+    private router: Router,
+    private Util: Util
+  ) { 
+  }
 
   ngOnInit() {
     this.getListSortMasters();
@@ -44,6 +49,16 @@ export class HomeComponent implements OnInit {
     this.getHomeServiceBarNsData();
     this.getHomeServiceBarVnfData();
     this.getHomeServiceBarPnfData();
+    Observable.fromEvent(window,'resize')
+      .subscribe((event) => {
+        this.seriverChart.resize(this.services.nativeElement.offsetHeight)
+      })
+  }
+  
+  ngAfterViewInit(){
+    this.seriverChart.resize(this.services.nativeElement.offsetHeight)
+    
+
   }
 
 
@@ -51,9 +66,9 @@ export class HomeComponent implements OnInit {
   serviceNumber: number = 0;
   serviceChartData: Object;
   serviceChartInit: Object = {
-    backgroundColor: '#fff',
-    height: 200,
+    height: 280,
     option: {
+      backgroundColor: '#fff',
       legend: {
         orient: 'vertical',
         left: '0px',
@@ -100,17 +115,11 @@ export class HomeComponent implements OnInit {
     }
   };
   // gethomeServiceData
-  serviceChart = true;
   getHomeServiceData() {
     this.myhttp.getHomeServiceData()
       .subscribe(
         (data) => {
           this.serviceNumber = data.serviceTotalNum;
-          if (this.serviceNumber > 0) {
-            this.serviceChart = true;
-          } else {
-            this.serviceChart = false;
-          }
           this.serviceChartData = {
             series: [{ data: data.customerServiceList }]
           };
@@ -165,7 +174,7 @@ export class HomeComponent implements OnInit {
             show: false,
           },
           emphasis: {
-            show: true,
+            show: false,
             formatter: '{b}\n{c},{d}%',
             color: "#3C4F8C"
           }
@@ -230,7 +239,7 @@ export class HomeComponent implements OnInit {
             show: false,
           },
           emphasis: {
-            show: true,
+            show: false,
             formatter: '{b}\n{c},{d}%',
             color: "#3C4F8C"
           }
@@ -301,7 +310,7 @@ export class HomeComponent implements OnInit {
   servicesBarChartData1: Object;
   servicesBarChartData2: Object;
   serviceBarChartInit: Object = {
-    height: 40,
+    height: 58,
     width: 160,
     option: {
       tooltip: {

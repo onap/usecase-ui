@@ -17,9 +17,9 @@
 <div class="content">
   <!-- left-content -->
   <div class="left-content">
-    <div class="services">
+    <div class="services" #services>
       <h4>{{"i18nTextDefine_SERVICES" | translate}}</h4>
-      <app-pie [initData]="serviceChartInit" [chartData]="serviceChartData"></app-pie>
+      <app-pie [initData]="serviceChartInit" [chartData]="serviceChartData" #seriverChart></app-pie>
       <div>
         <h5><span>{{"i18nTextDefine_Total" | translate}}:</span> {{serviceNumber}}
           <span>{{"i18nTextDefine_cutomers_and" | translate}}</span> {{serviceNumber}}
@@ -34,7 +34,7 @@
       <div class="details">
         <li class="detailstoplinContent">
           <div class="detailstoplin">
-            <div><span></span> NS</div>
+            <div>NS</div>
             <div>
               <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData"></app-bar>
             </div>
@@ -43,7 +43,7 @@
         </li>
         <li class="detailstoplinContent">
             <div class="detailstoplin">
-              <div><span style="background-color:#BCECB8;"></span> VNF</div>
+              <div>VNF</div>
               <div>
                 <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData1"></app-bar>
               </div>
@@ -52,7 +52,7 @@
           </li>
           <li class="detailstoplinContent">
               <div class="detailstoplin">
-                <div><span style="background-color:#ACCAF4;"></span> PNF</div>
+                <div>PNF</div>
                 <div>
                   <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData2"></app-bar>
                 </div>
