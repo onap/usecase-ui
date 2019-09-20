@@ -48,27 +48,17 @@ export class CustomerComponent implements OnInit {
     deleteServiceTypeModelVisible = false;
     //2019.08.14 add
     notificationAttributes = null;
-    key: string = 'notigication'
+    setNotification({ title, imgPath, action, status, name }):void{
+        this.notificationAttributes = { title, imgPath, action, status, name }
+    }
     notificationSuccess(notificationModel,title,action,name) {
         this.notification.remove()
-        this.notificationAttributes = {
-            title: title,
-            imgPath: "assets/images/execute-success.png",
-            action: action,
-            status: 'Success',
-            name: name
-        }
+        this.setNotification({ title, imgPath: "assets/images/execute-success.png", action, status: 'Success', name })
         this.notification.template(notificationModel);
     }
     notificationFailed(notificationModel,title,action,name) {
         this.notification.remove()
-        this.notificationAttributes = {
-            title: title,
-            imgPath: "assets/images/execute-faild.png",
-            action: action,
-            status: 'Failed',
-            name: name
-        }
+        this.setNotification({ title, imgPath: "assets/images/execute-faild.png", action, status: 'Failed', name })
         this.notification.template(notificationModel)
     }
     getAllCustomers() {
