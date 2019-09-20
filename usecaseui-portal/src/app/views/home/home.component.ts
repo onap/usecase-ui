@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
   @ViewChild('seriverChart') seriverChart;
   @ViewChild('services') services: ElementRef;
-  
+  resizeMark  
 
   constructor(
     private myhttp: HomesService,
@@ -49,18 +49,19 @@ export class HomeComponent implements OnInit {
     this.getHomeServiceBarNsData();
     this.getHomeServiceBarVnfData();
     this.getHomeServiceBarPnfData();
-    Observable.fromEvent(window,'resize')
+    this.resizeMark = Observable.fromEvent(window,'resize')
       .subscribe((event) => {
-        this.seriverChart.resize(this.services.nativeElement.offsetHeight)
+        this.seriverChart.resize(this.services.nativeElement.offsetHeight,250)
       })
   }
   
   ngAfterViewInit(){
-    this.seriverChart.resize(this.services.nativeElement.offsetHeight)
-    
-
+    this.seriverChart.resize(this.services.nativeElement.offsetHeight,250)
   }
 
+  ngOnDestroy(){
+    this.resizeMark.unsubscribe()
+  }
 
   // services
   serviceNumber: number = 0;

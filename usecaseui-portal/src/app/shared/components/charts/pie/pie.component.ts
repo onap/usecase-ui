@@ -110,9 +110,9 @@ export class PieComponent implements OnInit {
     })
   }
 
-  resize(size: number){
+  resize(parentHeight: number, size: number){
     this.chartIntance.resize( {
-      height: size - 250
+      height: parentHeight - size
     })
   }
 
