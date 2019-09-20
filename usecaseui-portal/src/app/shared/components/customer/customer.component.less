@@ -56,7 +56,10 @@
             }
         }
         .Cu {
-            margin-bottom: 7%;
+            margin-bottom: 20px;
+            p{
+                margin-bottom: 60px;
+            }
             div:last-child{
                 color: #ddd; 
                 font-weight: 700;
@@ -67,7 +70,13 @@
             }
         }
         .type {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             app-bar{
+                position: relative;
+                left: 0px;
+                top: -6%;
                 width: 100%;
             }
             .footname{
@@ -80,12 +89,18 @@
                 line-height: 40px;
                 text-align: center;
                 color: #3C4F8C;
-                margin-top: 20px;
+                margin-bottom: 20px;
+                
                 img{
                     margin-right: 5px;
                     margin-bottom: 3px;
                 }
             }
+            // &::after{
+            //     display: block;
+            //     content: '';
+            //     height: 1px;
+            // }
 
         }
     }
