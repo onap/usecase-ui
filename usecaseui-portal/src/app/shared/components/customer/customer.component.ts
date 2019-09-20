@@ -38,7 +38,6 @@ export class CustomerComponent implements OnInit {
     AllServiceTypes = [];
     customerber = [];
     // Get all customers
-    active;
     selectCustomer = {
         name: null,
         id: null
@@ -55,29 +54,26 @@ export class CustomerComponent implements OnInit {
         "status": "InProgress",
         "name": ""
     };
-    notificationModelShow(template: TemplateRef<{}>): void {
-        this.notification.template(template);
-    }
     notificationSuccess(notificationModel) {
         this.notificationAttributes.imgPath = "assets/images/execute-success.png";
         this.notificationAttributes.status = "Success";
-        this.notificationModelShow(notificationModel);
+        this.notification.template(notificationModel);
     }
     notificationFailed(notificationModel) {
         this.notificationAttributes.imgPath = "assets/images/execute-faild.png";
         this.notificationAttributes.status = "Failed";
-        this.notificationModelShow(notificationModel);
+        this.notification.template(notificationModel);
     }
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
             this.AllCustomersdata = data.map((item) => {
                 return { name: item["subscriber-name"], id: item["global-customer-id"] }
             });
-            this.active = this.selectCustomer = this.AllCustomersdata[0];
+            this.selectCustomer = this.AllCustomersdata[0];
             this.serviceInit["customer"] = this.AllCustomersdata[0].name;
             this.getCustomersPie();
-            this.getServiceTypes(this.active);
-            this.getCustomersColumn(this.active);
+            this.getServiceTypes(this.selectCustomer);
+            this.getCustomersColumn(this.selectCustomer);
         })
 
     }
@@ -174,15 +170,9 @@ export class CustomerComponent implements OnInit {
     Pie_name = [];
     Pie_value = [];
     serviceChart = true;
-    serviceNumber;
     getCustomersPie() {
         this.managemencs.getCustomersPie().subscribe((data) => {
-            this.serviceNumber = data.serviceTotalNum;
-            if (this.serviceNumber > 0) {
-                this.serviceChart = true;
-            } else {
-                this.serviceChart = false;
-            }
+            this.serviceChart =data.serviceTotalNum > 0 ? true : false
             this.CUChartData = {
                 series: [{
                     data: data.customerServiceList
@@ -197,17 +187,16 @@ export class CustomerComponent implements OnInit {
     serviceData: Object;
     serviceInit: Object = {
         customer: '',
-        width: 280,
         height: 190,
         option: {
             tooltip: {
                 show: true,
                 trigger: 'item',
-                formatter: "{c}"
+                formatter: "{b}:\n{c}"
             },
             grid: {
                 top: '5%',
-                left: '5%',
+                left: '0%',
                 bottom: '3%',
                 containLabel: true
             },
@@ -361,7 +350,6 @@ export class CustomerComponent implements OnInit {
     };
     name_s = [];
     value_s = [];
-
     getCustomersColumn(item) {
         this.name_s = [];
         this.value_s = [];
@@ -388,21 +376,15 @@ export class CustomerComponent implements OnInit {
             'subscriber-name': this.addNewCustomer,
             'subscriber-type': 'INFRA'
         };
-        this.notificationAttributes = {
-            "title": "Customer",
-            "imgPath": "assets/images/execute-inproess.png",
-            "action": "Create",
-            "status": "InProgress",
-            "name": this.addNewCustomer
-        };
-        this.notificationModelShow(notificationModel);
+        this.notificationAttributes.title = 'Customer';
+        this.notificationAttributes.action = 'Create';
+        this.notificationAttributes.name = this.addNewCustomer;
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
                 this.getAllCustomers();
             } else {
                 this.notificationFailed(notificationModel);
-                console.log(data, "Interface returned error")
             }
         })
     }
@@ -422,14 +404,9 @@ export class CustomerComponent implements OnInit {
     deleteCustomerOk(notificationModel) {
         this.deleteCustomerModelVisible = false;
         this.getCustomerVersion(this.thisdeleteCustomer, notificationModel);
-        this.notificationAttributes = {
-            "title": "Customer",
-            "imgPath": "assets/images/execute-inproess.png",
-            "action": "delete",
-            "status": "InProgress",
-            "name": this.thisdeleteCustomer.name
-        };
-        this.notificationModelShow(notificationModel);
+        this.notificationAttributes.title = 'Customer';
+        this.notificationAttributes.action = 'delete';
+        this.notificationAttributes.name = this.thisdeleteCustomer.name;
     }
     getCustomerVersion(thisdeleteCustomer, notificationModel) {
         this.managemencs.getdeleteCustomerVersion(thisdeleteCustomer).subscribe((data) => {
@@ -438,9 +415,9 @@ export class CustomerComponent implements OnInit {
                     customerId: thisdeleteCustomer.id,
                     resourceVersion: data["result"]["resource-version"]
                 };
-                this.deleteCustomer(params, notificationModel);
+                this.deleteCustomer(params, notificationModel)
             } else {
-                console.log(data, "Interface returned error")
+                console.error(data, "Interface returned error")
             }
         })
     }
@@ -451,7 +428,6 @@ export class CustomerComponent implements OnInit {
                 this.getAllCustomers();
             } else {
                 this.notificationFailed(notificationModel);
-                console.log(data, "Interface returned error")
             }
         })
     }
@@ -463,22 +439,15 @@ export class CustomerComponent implements OnInit {
             "service-type": this.addNewServiceType,
             "temp-ub-sub-account-id": "sotnaccount"
         };
-        this.notificationAttributes = {
-            "title": "ServiceType",
-            "imgPath": "assets/images/execute-inproess.png",
-            "action": "Create",
-            "status": "InProgress",
-            "name": this.addNewServiceType
-        };
-        this.notificationModelShow(notificationModel);
+        this.notificationAttributes.title = 'ServiceType';
+        this.notificationAttributes.action = 'Create';
+        this.notificationAttributes.name = this.addNewServiceType;
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
-                this.getCustomersColumn(this.selectCustomer);
                 this.getAllCustomers();
             } else {
                 this.notificationFailed(notificationModel);
-                console.log(data, "Interface returned error")
             }
         })
     }
@@ -503,14 +472,9 @@ export class CustomerComponent implements OnInit {
             customerId: this.selectCustomer,
             ServiceType: this.thisdeleteServiceType["type"]
         };
-        this.notificationAttributes = {
-            "title": "ServiceType",
-            "imgPath": "assets/images/execute-inproess.png",
-            "action": "delete",
-            "status": "InProgress",
-            "name": this.thisdeleteServiceType["type"]
-        };
-        this.notificationModelShow(notificationModel);
+        this.notificationAttributes.title = 'ServiceType';
+        this.notificationAttributes.action = 'delete';
+        this.notificationAttributes.name = this.thisdeleteServiceType["type"];
         this.managemencs.getdeleteServiceTypeVersion(paramss).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 let params = {
@@ -520,20 +484,18 @@ export class CustomerComponent implements OnInit {
                 };
                 this.deleteServiceType(params, notificationModel);
             } else {
-                console.log(data, "Interface returned error")
+                console.error(data, "Interface returned error")
             }
         })
     }
     deleteServiceType(params, notificationModel) {
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
+            console.log(data)
             if (data["status"] == 'SUCCESS') {
                 this.notificationSuccess(notificationModel);
-                this.getServiceTypes(params.customerId);
-                this.getCustomersColumn(params.customerId);
                 this.getAllCustomers();
             } else {
                 this.notificationFailed(notificationModel);
-                console.log(data, "Interface returned error")
             }
         })
     }

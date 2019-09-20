@@ -49,7 +49,7 @@
             (click)="choseCustomer(i,item)">
             <img src="assets/images/customer05.png" alt="">
             <span>{{item.name}}</span>
-            <i class="anticon anticon-delete" nzType="info" (click)="deleteCustomerModel(item)"></i>
+            <i class="anticon anticon-delete" (click)="deleteCustomerModel(item)"></i>
           </li>
         </ul>
       </div>
@@ -75,7 +75,7 @@
           <ul>
             <li *ngFor="let item of AllServiceTypes">
               <span>{{item.type}}</span>
-              <i class="anticon anticon-delete" nzType="info" (click)="deleteServiceTypeModel(item)"></i>
+              <i class="anticon anticon-delete" (click)="deleteServiceTypeModel(item)"></i>
             </li>
           </ul>
         </div>
