@@ -13,17 +13,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ManagemencsService } from '../../../core/services/managemencs.service';
 import { NzNotificationService } from 'ng-zorro-antd';
+import { Observable } from 'rxjs';
+
 @Component({
     selector: 'app-customer',
     templateUrl: './customer.component.html',
     styleUrls: ['./customer.component.less']
 })
 export class CustomerComponent implements OnInit {
+    @ViewChild('chart') chart;
+    @ViewChild('pie') pie;
     public chose = '';
 
+    resizeMark;
     constructor(
         private managemencs: ManagemencsService,
         private notification: NzNotificationService
@@ -32,7 +37,19 @@ export class CustomerComponent implements OnInit {
 
     ngOnInit() {
         this.getAllCustomers();
+        this.resizeMark = Observable.fromEvent(window,'resize')
+            .subscribe((event) => {
+                this.pie.resize(this.chart.nativeElement.offsetHeight,210)
+            })
     }
+
+    ngAfterViewInit(){
+        this.pie.resize(this.chart.nativeElement.offsetHeight,210)
+    }
+
+    ngOnDestroy(){
+        this.resizeMark.unsubscribe()
+      }
 
     AllCustomersdata = [];
     AllServiceTypes = [];

@@ -15,9 +15,9 @@
 -->
 <div class="content">
   <div class="chearts">
-    <div class="Cu">
+    <div class="Cu" #chart>
       <p> {{"i18nTextDefine_Instance_Count_of_Customer" | translate}} </p>
-      <app-pie [initData]="CUChartInit" [chartData]="CUChartData" *ngIf="serviceChart"></app-pie>
+      <app-pie [initData]="CUChartInit" [chartData]="CUChartData" *ngIf="serviceChart" #pie></app-pie>
       <div *ngIf="!serviceChart">No Service Instances </div>
     </div>
     <div class="type">
