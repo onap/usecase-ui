@@ -47,22 +47,29 @@ export class CustomerComponent implements OnInit {
     deleteCustomerModelVisible = false;
     deleteServiceTypeModelVisible = false;
     //2019.08.14 add
-    notificationAttributes = {
-        "title": "Customer",
-        "imgPath": "assets/images/execute-inproess.png",
-        "action": "Create",
-        "status": "InProgress",
-        "name": ""
-    };
-    notificationSuccess(notificationModel) {
-        this.notificationAttributes.imgPath = "assets/images/execute-success.png";
-        this.notificationAttributes.status = "Success";
+    notificationAttributes = null;
+    key: string = 'notigication'
+    notificationSuccess(notificationModel,title,action,name) {
+        this.notification.remove()
+        this.notificationAttributes = {
+            title: title,
+            imgPath: "assets/images/execute-success.png",
+            action: action,
+            status: 'Success',
+            name: name
+        }
         this.notification.template(notificationModel);
     }
-    notificationFailed(notificationModel) {
-        this.notificationAttributes.imgPath = "assets/images/execute-faild.png";
-        this.notificationAttributes.status = "Failed";
-        this.notification.template(notificationModel);
+    notificationFailed(notificationModel,title,action,name) {
+        this.notification.remove()
+        this.notificationAttributes = {
+            title: title,
+            imgPath: "assets/images/execute-faild.png",
+            action: action,
+            status: 'Failed',
+            name: name
+        }
+        this.notification.template(notificationModel)
     }
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
@@ -376,15 +383,12 @@ export class CustomerComponent implements OnInit {
             'subscriber-name': this.addNewCustomer,
             'subscriber-type': 'INFRA'
         };
-        this.notificationAttributes.title = 'Customer';
-        this.notificationAttributes.action = 'Create';
-        this.notificationAttributes.name = this.addNewCustomer;
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel);
+                this.notificationSuccess(notificationModel,'Customer','Create',this.addNewCustomer);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel);
+                this.notificationFailed(notificationModel,'Customer','Create',this.addNewCustomer);
             }
         })
     }
@@ -404,9 +408,6 @@ export class CustomerComponent implements OnInit {
     deleteCustomerOk(notificationModel) {
         this.deleteCustomerModelVisible = false;
         this.getCustomerVersion(this.thisdeleteCustomer, notificationModel);
-        this.notificationAttributes.title = 'Customer';
-        this.notificationAttributes.action = 'delete';
-        this.notificationAttributes.name = this.thisdeleteCustomer.name;
     }
     getCustomerVersion(thisdeleteCustomer, notificationModel) {
         this.managemencs.getdeleteCustomerVersion(thisdeleteCustomer).subscribe((data) => {
@@ -424,10 +425,10 @@ export class CustomerComponent implements OnInit {
     deleteCustomer(paramsObj, notificationModel) {
         this.managemencs.deleteSelectCustomer(paramsObj).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel);
+                this.notificationSuccess(notificationModel,'Customer','delete',this.thisdeleteCustomer.name);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel);
+                this.notificationFailed(notificationModel,'Customer','delete',this.thisdeleteCustomer.name);
             }
         })
     }
@@ -439,15 +440,12 @@ export class CustomerComponent implements OnInit {
             "service-type": this.addNewServiceType,
             "temp-ub-sub-account-id": "sotnaccount"
         };
-        this.notificationAttributes.title = 'ServiceType';
-        this.notificationAttributes.action = 'Create';
-        this.notificationAttributes.name = this.addNewServiceType;
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel);
+                this.notificationSuccess(notificationModel,'ServiceType','Create',this.addNewServiceType);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel);
+                this.notificationFailed(notificationModel,'ServiceType','Create',this.addNewServiceType);
             }
         })
     }
@@ -472,9 +470,6 @@ export class CustomerComponent implements OnInit {
             customerId: this.selectCustomer,
             ServiceType: this.thisdeleteServiceType["type"]
         };
-        this.notificationAttributes.title = 'ServiceType';
-        this.notificationAttributes.action = 'delete';
-        this.notificationAttributes.name = this.thisdeleteServiceType["type"];
         this.managemencs.getdeleteServiceTypeVersion(paramss).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 let params = {
@@ -490,12 +485,11 @@ export class CustomerComponent implements OnInit {
     }
     deleteServiceType(params, notificationModel) {
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
-            console.log(data)
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel);
+                this.notificationSuccess(notificationModel,'ServiceType','delete',this.thisdeleteServiceType["type"]);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel);
+                this.notificationFailed(notificationModel,'ServiceType','delete',this.thisdeleteServiceType["type"]);
             }
         })
     }
