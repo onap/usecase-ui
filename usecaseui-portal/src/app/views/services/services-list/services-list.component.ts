@@ -41,7 +41,10 @@ export class ServicesListComponent implements OnInit {
             this.width = document.documentElement.clientWidth
         });
     }
-
+    ngOnDestroy() {
+        clearInterval(this.progressOutTimer);
+        clearInterval(this.progressingTimer);
+    }
     // customer servicetype
     isSol005Interface = false;
     orchestratorList = [];
@@ -83,6 +86,14 @@ export class ServicesListComponent implements OnInit {
             "detailName": "i18nTextDefine_Cross_Domain_and_Cross_Layer_VPN"
         }
     ];
+
+    requery;
+    progressOutTimer = setTimeout(() => {
+        this.requery();
+    }, 10000);
+    progressingTimer = setTimeout(() => {
+        this.requery();
+    }, 5000);
 
     //The icon behind each row of data in the table expands
     iconMoreShow(data, tableData) {
@@ -1291,7 +1302,7 @@ export class ServicesListComponent implements OnInit {
         let mypromise = new Promise((res, rej) => {
             let operationTypeObj = {operationType:obj.operationType};
             let errorNums = 180;
-            let requery = () => {
+             this.requery = () => {
                 this.myhttp.getProgress(obj,operationTypeObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
@@ -1304,9 +1315,7 @@ export class ServicesListComponent implements OnInit {
                                 callback({ progress: 255, status: "time over" });
                                 return false;
                             }
-                            setTimeout(() => {
-                                requery();
-                            }, 10000)
+                            this.progressOutTimer;
                             return false;
                         }
                         if (data.operationStatus.progress > 100) {
@@ -1315,15 +1324,13 @@ export class ServicesListComponent implements OnInit {
                         }
                         if (data.operationStatus.progress < 100) {
                             callback(data.operationStatus);
-                            setTimeout(() => {
-                                requery();
-                            }, 5000)
+                            this.progressingTimer;
                         } else {
                             res(data.operationStatus);
                         }
                     })
             }
-            requery();
+            this.requery();
         })
         return mypromise;
     }
@@ -1336,7 +1343,7 @@ export class ServicesListComponent implements OnInit {
                 "serviceInstanceId":id,
                 "operationType":operationType
             }
-            let requery = () => {
+             this.requery = () => {
                 this.myhttp.getNsProgress(jobid,paramsObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
@@ -1349,9 +1356,7 @@ export class ServicesListComponent implements OnInit {
                                 callback({ progress: 255, status: "time over" });
                                 return false;
                             }
-                            setTimeout(() => {
-                                requery();
-                            }, 10000)
+                            this.progressOutTimer;
                             return false;
                         }
                         if (data.responseDescriptor.progress > 100 && data.responseDescriptor.status == "error") {
@@ -1360,17 +1365,14 @@ export class ServicesListComponent implements OnInit {
                         }
                         if (data.responseDescriptor.progress < 100) {
                             callback(data.responseDescriptor);
-                            setTimeout(() => {
-                                requery();
-                            }, 5000)
+                            this.progressingTimer;
                         } else {
                             res(data);
                         }
                     })
             };
-            requery();
+            this.requery();
         });
         return mypromise;
     }
-
 }
