@@ -41,6 +41,12 @@ Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*,
 
 *4.2. Cusomer Module*
 
+|customer|
+
+.. |customer| image:: ../../images/usecaseui-architecture-customer.png
+   :width: 5.97047in
+   :height: 3.63208in
+
 *4.3. Monitor Module*
 
 *4.4. Services Module*
