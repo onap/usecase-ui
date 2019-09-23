@@ -129,20 +129,14 @@ hr {
 .model .sitemodel,.model .sotnnpnmodel{
     position: absolute;
     z-index: 1001;
-    left: 50px;
-    top: 60px;
+    left: 50%;
+    top: 50%;
     background-color: #fff;
-    width:1500px;   
-    height: 81%;
+    width:90%;
+    min-width: 725px;
     border-radius:2px;
     overflow:auto;
-}
-.model .sotnnpnmodel{
-    width: 1000px;
-    height: 53%;
-    top:200px;
-    left: 50%;
-    margin-left: -500px;
+    transform: translate(-50%, -50%);
 }
 .model .sitemodel h3,.model .sotnnpnmodel h3{
     width: 96%;
@@ -182,14 +176,14 @@ hr {
     float: left;
 }
 .model .sitemodel .inputs input,.model .sitemodel .inputs nz-select {
-    width: 186px;
+    width: 42%;
     float: right;
-    margin-right: 60px;
+    margin-right: 2%;
 }
 .model .sotnnpnmodel .inputs input{
-    width: 186px;
-    float: left;
-    margin-left: 20px;
+    width: 42%;
+    float: right;
+    margin-right: 2%;
 }
 .model .sitemodel .action,.model .sotnnpnmodel .action {
     text-align: center;
