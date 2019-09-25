@@ -34,11 +34,11 @@ export class OnboardVnfVmComponent implements OnInit {
 
   // delete Modal
   confirmModal: NzModalRef;
-  nsdInfoId = '';
+  nsdInfoId: string;
   vnfPkgId = '';
   pnfdInfoId = '';
   tabTitle = "NS";
-  nsuploading = false;
+  nsuploading:boolean = false;
   vnfuploading = false;
   pnfloading = false;
   fileList: UploadFile[] = [];
@@ -54,10 +54,6 @@ export class OnboardVnfVmComponent implements OnInit {
     ns: '/api/nsd/v1/ns_descriptors/*_*/nsd_content',
     vnf: '/api/vnfpkgm/v1/vnf_packages/*_*/package_content',
     pnf: '/api/nsd/v1/pnf_descriptors/*_*/pnfd_content'
-    // line local
-    //ns: 'https://jsonplaceholder.typicode.com/posts/',
-    //vnf: 'https://jsonplaceholder.typicode.com/posts/',
-    //pnf: 'https://jsonplaceholder.typicode.com/posts/',
   };
   constructor(
     private myhttp: onboardService,
@@ -78,22 +74,22 @@ export class OnboardVnfVmComponent implements OnInit {
   vnftableData: any;
   pnftableData: any;
   nssdcData: any;
-  nsvfcData: any;
 
   vnfsdcData: any;
-  vnfvfcData: any;
-  nspageIndex = 1;
-  nspageSize = 10;
+  nspageIndex: number = 1;
+  nspageSize: number = 10;
   vnfpageIndex = 1;
   vnfpageSize = 10;
   pnfpageIndex = 1;
   pnfpageSize = 10;
+
   total;
   nsloading = false;
   sortName = null;
   sortValue = null;
   tabs = ['NS', 'VNF', 'PNF'];
-  isSpinning = false;
+  isSpinning: boolean = false;
+  isNone: string = 'block';
 
   //2019.08.14 add
   notificationAttributes = {
@@ -118,7 +114,6 @@ export class OnboardVnfVmComponent implements OnInit {
   }
   // Handling tab switching request data
   handleTabChange(tab) {
-    this.tabTitle = tab;
     switch (tab) {
       case 'NS':
         this.nstableData = [];
@@ -156,9 +151,8 @@ export class OnboardVnfVmComponent implements OnInit {
 
   // ns  beforeUpload
   beforeUploadNS = (file: UploadFile): boolean => {
-    this.fileListNS.push(file);
+    this.fileListNS.splice(0,1,file);
     this.myhttp.getCreatensData("createNetworkServiceData", this.requestBody)//on-line
-      // this.myhttp.getCreatensData("creatensDataNS")  //local
       .subscribe((data) => {
         this.nsdInfoId = data["id"];
       }, (err) => {
@@ -210,27 +204,30 @@ export class OnboardVnfVmComponent implements OnInit {
 
   //Drag and drop and click the upload button
   onClick(tab) {
+    this.isNone = 'none';
     switch (tab) {
       case 'NS':
-        // this.handleUpload('/api/nsd/v1/ns_descriptors/'+this.nsdInfoId+'/nsd_content',tab);
         this.handleUpload(this.url.ns.replace("*_*", this.nsdInfoId), tab);
         this.getTableData();
         break
       case 'VNF':
-        // this.handleUpload('/api/vnfpkgm/v1/vnf_packages/'+this.vnfPkgId+'/package_content',tab); 
         this.handleUpload(this.url.vnf.replace("*_*", this.vnfPkgId), tab);
         this.getTableVnfData()
         break
       case 'PNF':
-        // this.handleUpload('/api/nsd/v1/pnf_descriptors/'+this.pnfdInfoId+'/pnfd_content',tab);
         this.handleUpload(this.url.pnf.replace("*_*", this.pnfdInfoId), tab);
         this.getTablePnfData();
         break
     }
   }
 
-  nsRightList = [];
-  nsNum = 0;
+  nsfile: {
+    name: string,
+    uid: string,
+    progress: number,
+    status: boolean,
+    success: number
+  };
   vnfRightList = [];
   vnfNum = 0;
   pnfRightList = [];
@@ -242,31 +239,25 @@ export class OnboardVnfVmComponent implements OnInit {
     switch (tab) {
       case "NS":
         this.fileListNS.forEach((file: any) => {
-          formData.append('file', file);
+          formData.set('file', file);
         });
         this.nsuploading = true;
-        let lastNs = this.fileListNS[this.fileListNS.length - 1];
-        let nsfile = {
-          name: lastNs.name,
-          uid: lastNs.uid,
+        this.nsfile = {
+          name: this.fileListNS[0].name,
+          uid: this.fileListNS[0].uid,
           progress: 0,
           status: true,
           success: 0
         };
-        this.nsNum += 1;
-        this.nsRightList.push(nsfile);
-        let requeryNs = (nsfile) => {
+        let requeryNS = (nsfile) => {
+          nsfile.progress += 3;
           setTimeout(() => {
-            nsfile.progress += 2;
             if (nsfile.progress < 100) {
-              requeryNs(nsfile)
-            } else {
-              nsfile.progress = 100;
-              nsfile.status = false;
+              requeryNS(nsfile)
             }
           }, 100)
         };
-        requeryNs(nsfile);
+        requeryNS(this.nsfile);
         break
       case "VNF":
         this.fileListVNF.forEach((file: any) => {
@@ -340,9 +331,9 @@ export class OnboardVnfVmComponent implements OnInit {
       .subscribe(
         (event: {}) => {
           if (tab == "NS") {
-            this.nsRightList[this.nsNum - 1].progress = 100;
-            this.nsRightList[this.nsNum - 1].status = false;
-            this.nsRightList[this.nsNum - 1].success = 0;
+            this.nsfile.progress = 100;
+            this.nsfile.status = false;
+            this.isNone = 'block';
           }
           if (tab == "VNF") {
             this.vnfRightList[this.vnfNum - 1].progress = 100;
@@ -359,9 +350,9 @@ export class OnboardVnfVmComponent implements OnInit {
         },
         err => {
           if (tab == "NS") {
-            this.nsRightList[this.nsNum - 1].progress = 100;
-            this.nsRightList[this.nsNum - 1].status = false;
-            this.nsRightList[this.nsNum - 1].success = 1;
+            this.nsfile.progress = 100;
+            this.nsfile.status = false;
+            this.nsfile.success = 1;
           }
           if (tab == "VNF") {
             this.vnfRightList[this.vnfNum - 1].progress = 100;
@@ -401,22 +392,21 @@ export class OnboardVnfVmComponent implements OnInit {
     //ns vfc lists 
     this.myhttp.getOnboardTableData()
       .subscribe((data) => {
-        this.nsvfcData = data;
-        this.nstableData = this.nsvfcData;
+        this.nstableData = data;
         //ns sdc list
         this.myhttp.getSDC_NSTableData()
           .subscribe((data) => {
             this.isSpinning = false; //loading hide
             this.nssdcData = data;
-            this.nsvfcData.map((nsvfc) => { nsvfc.sameid = this.nssdcData.find((nssdc) => { return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc; });
-            let sameData = this.nssdcData.filter((nssdc) => { return !this.nsvfcData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
+            this.nstableData.map((nsvfc) => { nsvfc.sameid = this.nssdcData.find((nssdc) => { return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc; });
+            let sameData = this.nssdcData.filter((nssdc) => { return !this.nstableData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
             this.nstableData = this.nstableData.concat(sameData);
           }, (err) => {
-            console.log(err);
+            console.error(err);
             this.isSpinning = false;
           })
       }, (err) => {
-        console.log(err);
+        console.error(err);
         this.isSpinning = false;
       })
 
@@ -428,22 +418,23 @@ export class OnboardVnfVmComponent implements OnInit {
     //vnf vfc lists
     this.myhttp.getOnboardTableVnfData()
       .subscribe((data) => {
-        this.vnfvfcData = data;
-        this.vnftableData = this.vnfvfcData;
+        this.vnftableData = data;
         //vnf sdc lists
         this.myhttp.getSDC_VNFTableData()
           .subscribe((data) => {
             this.isSpinning = false; //loading hide
             this.vnfsdcData = data;
-            this.vnfvfcData.map((vnfvfc) => { vnfvfc.sameid = this.vnfsdcData.find((nssdc) => { return vnfvfc.id == nssdc.uuid }) && vnfvfc.id; return vnfvfc; });
-            let sameData = this.vnfsdcData.filter((vnfsdc) => { return !this.vnfvfcData.find((vnfvfc) => { return vnfvfc.id == vnfsdc.uuid }) });
+            this.vnftableData.map((vnfvfc) => { vnfvfc.sameid = this.vnfsdcData.find((nssdc) => { return vnfvfc.id == nssdc.uuid }) && vnfvfc.id; return vnfvfc; });
+            let sameData = this.vnfsdcData.filter((vnfsdc) => { return !this.vnftableData.find((vnfvfc) => { return vnfvfc.id == vnfsdc.uuid }) });
             this.vnftableData = this.vnftableData.concat(sameData);
           }, (err) => {
-            console.log(err);
+            console.error(err);
+            this.isSpinning = false;
           })
 
       }, (err) => {
-        console.log(err);
+        console.error(err);
+        this.isSpinning = false;
       })
   }
 
@@ -455,7 +446,8 @@ export class OnboardVnfVmComponent implements OnInit {
         this.pnftableData = data;
         this.isSpinning = false;   //loading hide
       }, (err) => {
-        console.log(err);
+        console.error(err);
+        this.isSpinning = false; 
       })
   }
 
