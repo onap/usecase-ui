@@ -46,19 +46,24 @@ module.exports =
         /////////////////////////
 
         ///////<-------------myhttp services--------->/////
-        "/uui-lcm/services/:serviceId/operations/:operations": "/uui-lcm_services_progress",
-        "/uui-lcm/fetchCCVPNTemplateData/:uuid": "/uui-lcm_fetchCCVPNTemplateData",
-        "/uui-lcm/service-templates/:uuid": "/uui-lcm_e2e_service-templates",
-        "/DELETE/uui-lcm/services/:serviceInstanceId": "/uui-lcm_delete_services",
-        "/uui-lcm/VnfInfo/:id": "/uui-lcm_VnfInfo",
-        "/uui-lcm/jobs/getNsLcmJobStatus/:jobId": "/uui-lcm_jobs_getNsLcmJobStatus",
-        "/services/scaleServices/:id": "/services_scaleServices",
-        "/PUT/uui-lcm/services/updateService/:id": "/uui-lcm_services_updateService",
-        "/uui-sotn/getPnfInfo/:name": "/uui-sotn_getPnfInfo",
-        "/uui-sotn/getConnectivityInfo/:id": "/uui-sotn_getConnectivityInfo",
-        "/uui-sotn/getPinterfaceByVpnId/:id": "/uui-sotn_getPinterfaceByVpnId",
-        "/POST/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=:ns_instance_id": "/uui-lcm_terminateNetworkServiceInstance",
-        "/DELETE/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=:ns_instance_id": "/uui-lcm_deleteNetworkServiceInstance",
+        "/uui-lcm/services/:serviceId/operations/:operations":"/uui-lcm_services_progress",
+        "/POST/uui-lcm/fetchCCVPNTemplateData/:uuid":"/uui-lcm_fetchCCVPNTemplateData",
+        "/POST/uui-lcm/service-templates/:uuid":"/uui-lcm_e2e_service-templates",
+        "/POST/uui-lcm/fetchNsTemplateData":"/uui-lcm_fetchNsTemplateData",
+        "/DELETE/uui-lcm/services/:serviceInstanceId":"/uui-lcm_delete_services",
+        "/uui-lcm/VnfInfo/:id":"/uui-lcm_VnfInfo",
+        "/uui-lcm/jobs/getNsLcmJobStatus/:jobId":"/uui-lcm_jobs_getNsLcmJobStatus",
+        "/services/scaleServices/:id":"/services_scaleServices",
+        "/PUT/uui-lcm/services/updateService/:id":"/uui-lcm_services_updateService",
+        "/uui-sotn/getPnfInfo/:name":"/uui-sotn_getPnfInfo",
+        "/uui-sotn/getConnectivityInfo/:id":"/uui-sotn_getConnectivityInfo",
+        "/uui-sotn/getPinterfaceByVpnId/:id":"/uui-sotn_getPinterfaceByVpnId",
+        "/POST/uui-lcm/healNetworkServiceInstance?ns_instance_id=:ns_instance_id":"/uui-lcm_healNetworkServiceInstance",
+        "/POST/uui-lcm/services?customerId=:customerId&serviceType=:serviceType&serviceDomain=:serviceDomain":"/uui-lcm_services",
+        "/POST/uui-lcm/createNetworkServiceInstance":"/uui-lcm_createNetworkServiceInstance",
+        "/POST/uui-lcm/instantiateNetworkServiceInstance?ns_instance_id=:ns_instance_id&customerId=:customerId&serviceType=:serviceType&serviceDomain=:serviceDomain&parentServiceInstanceId=":"/uui-lcm_instantiateNetworkServiceInstance",
+        "/POST/uui-lcm/terminateNetworkServiceInstance?ns_instance_id=:ns_instance_id":"/uui-lcm_terminateNetworkServiceInstance",
+        "/DELETE/uui-lcm/deleteNetworkServiceInstance?ns_instance_id=:ns_instance_id":"/uui-lcm_deleteNetworkServiceInstance",
         /////////////////////////
 
         ///////<-------------networkhttp services--------->/////
