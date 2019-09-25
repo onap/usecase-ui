@@ -1,0 +1,44 @@
+{
+  "id": "001",
+  "nsdId": "string",
+  "nsdName": "string",
+  "nsdVersion": "string",
+  "nsdDesigner": "string",
+  "nsdInvariantId": "string",
+  "vnfPkgIds": [
+    "string"
+  ],
+  "pnfdInfoIds": [
+    "string"
+  ],
+  "nestedNsdInfoIds": [
+    "string"
+  ],
+  "nsdOnboardingState": "CREATED",
+  "onboardingFailureDetails": {
+    "type": "string",
+    "title": 0,
+    "detail": "string",
+    "instance": "string",
+    "additional_attributes": {
+      "additionalProp1": "string",
+      "additionalProp2": "string",
+      "additionalProp3": "string"
+    }
+  },
+  "nsdOperationalState": "ENABLED",
+  "nsdUsageState": "IN_USE",
+  "userDefinedData": {
+    "additionalProp1": "string",
+    "additionalProp2": "string",
+    "additionalProp3": "string"
+  },
+  "_links": {
+    "self": {
+      "href": "string"
+    },
+    "nsd_content": {
+      "href": "string"
+    }
+  }
+}
