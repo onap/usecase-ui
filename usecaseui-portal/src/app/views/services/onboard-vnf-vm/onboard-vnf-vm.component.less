@@ -13,6 +13,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+th{
+    background-color: rgba(241,243,244,.9) !important;
+}
 .title {
     font: 700 18px/18px "思源黑体";
     color: #4c5e70;
@@ -55,76 +58,109 @@ hr {
         background: #3fa8eb;
     }
 }
-  
 .list {
     border-radius: 5px;
-    .listupload {
-        width: 22%;
-        vertical-align: top;
-        display: inline-block;
-        margin-left: 13%;
+    .listUploadContainer{
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        height: 30%;
+        margin-bottom: 1%;
+        .listupload {
+            position: relative;
+            width: 22%;
+            margin-left: 13%;
+            .upload{
+                position: absolute;
+                left: 50%;
+                bottom: -48px;
+                transform: translateX(-50%);
+                color: #FFFFFF;
+                font-size: 13px;
+                background-color: #3E9BFF;
+                font-family: ArialMT;
+            }
+        }
+        .listlin {
+            width: 1%;
+            margin-left: 10%;
+            height: 177px;
+            margin-bottom: 30px;
+            border-right: 2px solid #EEEEEE;
+        }
+        .listfile {
+            width: 43%;
+            height: 100%;
+            margin-left: 10%;
+            .listFileTitle{
+                height: 15%;
+                padding-bottom: 15px;
+                color: rgba(66,84,143,1);
+                font-family: ArialMT;
+            }
+            .nouploadfile{
+                height: 80%;
+                width: 100%;
+                text-align: center;
+                font-size: 22px;
+                margin: 5% 0 10px;
+            }
+            .listfilebgc {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                width:100%;
+                height: 80%;
+                padding: 5px;
+                background-color: #fff;
+                border-radius: 2px;
+                color: #42548F;
+                .icon{
+                    width: 15px;
+                }
+                :nth-child(3){
+                    width: 50%;
+                }
+                :nth-child(4){
+                    width: 5%;
+                }
+                .color {
+                    color:rgba(66,84,143,1);
+                    span{
+                        color:rgba(66,84,143,0.7);
+                    }
+                    .progress{
+                        color:rgba(66,84,143,0.7);
+                    }
+                }
+                .success{
+                    color:#7BC7F3!important;
+                }
+                .fail{
+                    color:#fb5c5c!important;
+                }
+                
+            }
+            
+        }
+        
     }
-    .listlin {
-        vertical-align: top;
-        display: inline-block;
-        width: 1%;
-        margin-left: 10%;
-        height: 177px;
-        margin-bottom: 30px;
-        border-right: 2px solid #EEEEEE;
-    }
-    .listfile {
-        width: 43%;
-        height: 100%;
-        vertical-align: top;
-        display: inline-block;
-        margin-left: 10%;
-        .nouploadfile{
-            height: 80%;
+    .listContainer{
+        height: 69%;
+        .mask {
+            top: 0;
+            left: 0;
+            position: fixed;
             width: 100%;
-            text-align: center;
-            font-size: 22px;
-            margin-top: 5%;
-        }
-        .listfilebgc { 
-        background-color: #fff;
-        border-bottom: 8px solid #F7F8FC;
-        }
-        .listfilebgc {
-            background-color: #fff;
-            height: 30px;
-            border-radius: 2px;
-            line-height: 2;
-            color: #42548F;
-            border-bottom: 4px solid #F7F8FC;
-            >div {
-                float: left;
-            }
-           :first-child {
-               width: 6%;
-               margin-left: 5px;
-           }
-           :nth-child(2){
-                width:20%;
-           }
-           :nth-child(3){
-               width: 60%;
-               text-align: center;
-           }
-           :nth-child(4){
-            padding-left: 4%;
-           }
-           .color {
-               color:rgba(66,84,143,1);
-               span{
-                   color:rgba(66,84,143,0.7);
-               }
-           }
-            .progress{
-                color:rgba(66,84,143,0.7);
-            }
+            height: 100%;
+            opacity: 0.1;
+            background: black;
+            z-index: 1049;
         }
     }
+    
+    
+    
     nz-table {
         tbody {
             td {
@@ -167,14 +203,4 @@ hr {
             }
         }
     }
-}
-.mask {
-    top: 0;
-    left: 0;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    background: black;
-    z-index: 1049;
 }
