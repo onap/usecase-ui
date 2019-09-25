@@ -109,16 +109,16 @@ hr {
 }
 .model .creation .service-title .lable{
     display: inline-block;
-    width: 100px;
     font: 700 14px "Arial";
     color: #3C4F8C;
     height: 42px;
     line-height: 42px;
     vertical-align: middle;
     margin-left: 5px;
+    margin-right: 10px;
 }
 .model .creation .service-title  input {
-    width: 230px;
+    width: 20%;
     height: 42px;
     border-radius:4px;
     outline: none;
