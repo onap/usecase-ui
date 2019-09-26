@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ServiceListService } from '../../../core/services/serviceList.service';
+import { ServiceListService } from '../../../../core/services/serviceList.service';
 import * as d3 from 'd3';
 
 @Component({

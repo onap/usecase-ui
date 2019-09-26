@@ -48,12 +48,12 @@ import { PerformanceComponent } from './views/performance/performance.component'
 import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
 import { PerformanceVmComponent } from './views/performance/performance-vm/performance-vm.component';
 import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
-import { CcvpnDetailComponent } from './views/ccvpn-detail/ccvpn-detail.component';
-import { CcvpnCreationComponent } from './views/ccvpn-creation/ccvpn-creation.component';
+import { CcvpnDetailComponent } from './views/services/services-list/ccvpn-detail/ccvpn-detail.component';
+import { CcvpnCreationComponent } from './views/services/services-list/ccvpn-creation/ccvpn-creation.component';
 
 import { DetailsComponent } from './shared/components/details/details.component';
 import { GraphiclistComponent } from './shared/components/graphiclist/graphiclist.component';
-import { E2eCreationComponent } from './shared/components/e2e-creation/e2e-creation.component';
+import { E2eCreationComponent } from './views/services/services-list/e2e-creation/e2e-creation.component';
 
 import { BarComponent } from './shared/components/charts/bar/bar.component';
 import { LineComponent } from './shared/components/charts/line/line.component';
@@ -68,7 +68,7 @@ import { HomesService } from './core/services/homes.service';
 import { onboardService } from './core/services/onboard.service';
 import { networkHttpservice } from './core/services/networkHttpservice.service';
 import { PerformanceDetailsComponent } from './shared/components/performance-details/performance-details.component';
-import { E2eDetailComponent } from './shared/components/e2e-detail/e2e-detail.component';
+import { E2eDetailComponent } from './views/services/services-list/e2e-detail/e2e-detail.component';
 import { CustomerComponent } from './shared/components/customer/customer.component';
 import { ManagemencsService } from './core/services/managemencs.service';
 import { FcapsComponent } from './views/fcaps/fcaps.component';
