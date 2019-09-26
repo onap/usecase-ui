@@ -39,6 +39,8 @@ Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*,
    :width: 5.97047in
    :height: 3.63208in
 
+*Home* module is the entrance of the whole project. In this module, users can have a glimpse of the general infomation of specific modules. e.g. the **SERVICES** block shows the general statistic data of *Lifecycle management* module and the **PACKAGE** block shows the total numbers of NS, VNF and PNF which are shown in *Package Management* module. Also, the **ALARM** and **VM PERFORMANCE** block show the infomation of system alarm. If the users need more, the ``View Details`` button will help.
+
 *4.2. Cusomer Module*
 
 |customer|
