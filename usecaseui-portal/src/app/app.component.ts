@@ -15,7 +15,7 @@
 */
 import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MyhttpService} from "./core/services/myhttp.service";
+import {ServiceListService} from "./core/services/serviceList.service";
 import {HomesService} from "./core/services/homes.service";
 import {NavigationEnd, Router} from '@angular/router';
 import 'rxjs/add/operator/map';

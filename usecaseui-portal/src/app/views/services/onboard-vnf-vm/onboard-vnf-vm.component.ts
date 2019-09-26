@@ -16,7 +16,6 @@
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd';
-// import { MyhttpService } from '../../myhttp.service';
 import { onboardService } from '../../../core/services/onboard.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
