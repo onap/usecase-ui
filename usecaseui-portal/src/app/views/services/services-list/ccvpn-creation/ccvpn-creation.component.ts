@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
-import { ServiceListService } from '../../core/services/serviceList.service';
+import { ServiceListService } from '../../../../core/services/serviceList.service';
 
 @Component({
     selector: 'app-ccvpn-creation',
