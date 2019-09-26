@@ -15,7 +15,7 @@
 */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
-import { MyhttpService } from '../../core/services/myhttp.service';
+import { ServiceListService } from '../../core/services/serviceList.service';
 
 @Component({
     selector: 'app-ccvpn-creation',
@@ -24,7 +24,7 @@ import { MyhttpService } from '../../core/services/myhttp.service';
 })
 export class CcvpnCreationComponent implements OnInit {
 
-    constructor(private myhttp: MyhttpService) { }
+    constructor(private myhttp: ServiceListService) { }
     @Input() createParams;
     @Input() ccvpn_temParametersContent;
     @Output() closeCreate = new EventEmitter();

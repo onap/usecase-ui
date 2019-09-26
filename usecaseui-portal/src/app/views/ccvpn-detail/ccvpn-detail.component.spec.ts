@@ -20,7 +20,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { TranslateModule, TranslateLoader, TranslateService, TranslateFakeLoader } from '@ngx-translate/core';
 
 import { CcvpnDetailComponent } from './ccvpn-detail.component';
-import { MyhttpService } from '../../core/services/myhttp.service';
+import { ServiceListService } from '../../core/services/serviceList.service';
 
 describe('CcvpnDetailComponent', () => {
     let component: CcvpnDetailComponent;
@@ -31,7 +31,7 @@ describe('CcvpnDetailComponent', () => {
             declarations: [CcvpnDetailComponent],
             imports: [TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: TranslateFakeLoader } }),
             NgZorroAntdModule.forRoot(), HttpClientModule],
-            providers: [MyhttpService, { provide: NZ_I18N, useValue: en_US }]
+            providers: [ServiceListService, { provide: NZ_I18N, useValue: en_US }]
         })
             .compileComponents();
     }));

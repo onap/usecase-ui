@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
-import { MyhttpService } from '../../../core/services/myhttp.service';
+import { ServiceListService } from '../../../core/services/serviceList.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzModalService } from 'ng-zorro-antd';
 import { NzNotificationService } from 'ng-zorro-antd';
@@ -31,7 +31,7 @@ export class ServicesListComponent implements OnInit {
 
     public width:number = document.documentElement.clientWidth;
 
-    constructor(private myhttp: MyhttpService, private modalService: NzModalService, private notification: NzNotificationService) {
+    constructor(private myhttp: ServiceListService, private modalService: NzModalService, private notification: NzNotificationService) {
     }
 
     ngOnInit() {

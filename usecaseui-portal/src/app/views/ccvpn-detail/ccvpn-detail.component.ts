@@ -14,7 +14,7 @@
     limitations under the License.
 */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MyhttpService } from '../../core/services/myhttp.service';
+import { ServiceListService } from '../../core/services/serviceList.service';
 import * as d3 from 'd3';
 
 @Component({
@@ -24,7 +24,7 @@ import * as d3 from 'd3';
 })
 export class CcvpnDetailComponent implements OnInit {
 
-    constructor(private myhttp: MyhttpService) { }
+    constructor(private myhttp: ServiceListService) { }
 
     ngOnInit() {
         this.dataInit();

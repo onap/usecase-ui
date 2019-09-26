@@ -63,7 +63,7 @@ import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@a
 // common function util
 import { Util } from './shared/utils/utils';
 // Custom service
-import { MyhttpService } from './core/services/myhttp.service';
+import { ServiceListService } from './core/services/serviceList.service';
 import { HomesService } from './core/services/homes.service';
 import { onboardService } from './core/services/onboard.service';
 import { networkHttpservice } from './core/services/networkHttpservice.service';
@@ -80,7 +80,7 @@ import { TextService } from './core/services/text.service';
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: NZ_I18N, useValue: en_US },
     Util,
-    MyhttpService,
+    ServiceListService,
     HomesService,
     onboardService,
     networkHttpservice,

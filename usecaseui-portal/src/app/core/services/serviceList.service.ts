@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from '../models/dataInterface';
 
 @Injectable()
-export class MyhttpService {
+export class ServiceListService {
 
   constructor(private http: HttpClient) { }
   baseUrl = baseUrl.baseUrl;
