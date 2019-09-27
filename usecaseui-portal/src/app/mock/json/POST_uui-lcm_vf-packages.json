@@ -1,5 +1,6 @@
 {
-    "status": "200",
+    "status": "success",
     "statusDescription": "onboard vnf sdc successfully",
-    "errorCode": "0"
+    "errorCode": "0",
+    "jobId": 1.0
 }
