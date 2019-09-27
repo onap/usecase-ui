@@ -20,7 +20,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { ManagementComponent } from './views/management/management.component';
 import { FcapsComponent } from './views/fcaps/fcaps.component';
-import { ServicesComponent } from './views/services/services.component';
 import { ServicesListComponent } from './views/services/services-list/services-list.component';
 import { OnboardVnfVmComponent } from './views/services/onboard-vnf-vm/onboard-vnf-vm.component';
 import { AlarmComponent } from './views/alarm/alarm.component';
@@ -46,7 +45,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'management', component: ManagementComponent },
   { path: 'fcaps', component: FcapsComponent },
-  // { path: 'services', component: ServicesComponent, children:ServicesChildRoutes}, //Temporarily not a sub-routing structure
   { path: 'services/services-list', component: ServicesListComponent },
   { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent },
   { path: 'alarm', component: AlarmComponent },

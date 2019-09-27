@@ -40,7 +40,6 @@ registerLocaleData(en);
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { ManagementComponent } from './views/management/management.component';
-import { ServicesComponent } from './views/services/services.component';
 import { ServicesListComponent } from './views/services/services-list/services-list.component';
 import { OnboardVnfVmComponent } from './views/services/onboard-vnf-vm/onboard-vnf-vm.component';
 import { AlarmComponent } from './views/alarm/alarm.component';
@@ -91,7 +90,6 @@ import { TextService } from './core/services/text.service';
     AppComponent,
     HomeComponent,
     ManagementComponent,
-    ServicesComponent,
     ServicesListComponent,
     OnboardVnfVmComponent,
 
