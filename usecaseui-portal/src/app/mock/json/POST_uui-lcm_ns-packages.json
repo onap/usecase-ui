@@ -1,5 +1,5 @@
 {
-  "status": "200",
+  "status": "success",
   "statusDescription": "onboard ns sdc successfully",
   "errorCode": "0"
 }
