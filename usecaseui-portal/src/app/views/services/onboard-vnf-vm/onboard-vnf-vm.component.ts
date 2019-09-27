@@ -15,12 +15,11 @@
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd';
+import { NzNotificationService, NzCollapseModule } from 'ng-zorro-antd';
 import { onboardService } from '../../../core/services/onboard.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-onboard-vnf-vm',
@@ -34,19 +33,17 @@ export class OnboardVnfVmComponent implements OnInit {
   // delete Modal
   confirmModal: NzModalRef;
   nsdInfoId: string;
-  vnfPkgId = '';
-  pnfdInfoId = '';
-  tabTitle = "NS";
+  vnfPkgId: string;
+  pnfdInfoId: string;
   nsuploading:boolean = false;
-  vnfuploading = false;
-  pnfloading = false;
-  fileList: UploadFile[] = [];
+  vnfuploading:boolean = false;
+  pnfloading: boolean = false;
   fileListNS: UploadFile[] = [];
   fileListVNF: UploadFile[] = [];
   fileListPNF: UploadFile[] = [];
   // onboard initial value
-  status = "Onboard Available";
-  jobId = '';
+  status: string = "Onboard Available";
+  jobId: string;
   //url
   url = {
     // line up
@@ -58,8 +55,6 @@ export class OnboardVnfVmComponent implements OnInit {
     private myhttp: onboardService,
     private http: HttpClient,
     private msg: NzMessageService,
-    private titleService: Title,
-    private modal: NzModalService,
     private modalService: NzModalService,
     private notification: NzNotificationService
   ) { }
@@ -72,62 +67,54 @@ export class OnboardVnfVmComponent implements OnInit {
   nstableData: any;
   vnftableData: any;
   pnftableData: any;
-  nssdcData: any;
-
-  vnfsdcData: any;
   nspageIndex: number = 1;
   nspageSize: number = 10;
-  vnfpageIndex = 1;
-  vnfpageSize = 10;
-  pnfpageIndex = 1;
-  pnfpageSize = 10;
+  vnfpageIndex: number = 1;
+  vnfpageSize: number = 10;
+  pnfpageIndex: number = 1;
+  pnfpageSize: number = 10;
 
-  total;
-  nsloading = false;
-  sortName = null;
-  sortValue = null;
-  tabs = ['NS', 'VNF', 'PNF'];
+  nsloading: boolean = false;
+  tabs: string[] = ['NS', 'VNF', 'PNF'];
   isSpinning: boolean = false;
   isNone: string = 'block';
 
   //2019.08.14 add
-  notificationAttributes = {
-    "title": this.tabs[0],
-    "imgPath": "../../../../assets/images/execute-inproess.png",
-    "action": "OnboardingState",
-    "status": "InProgress",
-    "id": null
-  };
-  notificationModelShow(template: TemplateRef<{}>): void {
-    this.notification.template(template);
+  notificationAttributes: {
+    title: string,
+    imgPath: string,
+    action: string,
+    status: string,
+    id: string
   }
-  notificationSuccess(notificationModel) {
-    this.notificationAttributes.imgPath = "../../../../assets/images/execute-success.png";
-    this.notificationAttributes.status = "Success";
-    this.notificationModelShow(notificationModel);
+  setNotification({ title, imgPath, action, status, id }):void{
+    this.notificationAttributes = { title, imgPath, action, status, id }
   }
-  notificationFailed(notificationModel) {
-    this.notificationAttributes.imgPath = "../../../../assets/images/execute-faild.png";
-    this.notificationAttributes.status = "Failed";
-    this.notificationModelShow(notificationModel);
+
+  notificationSuccess(notificationModel,title,action,id) {
+    this.setNotification({ title, imgPath:"assets/images/execute-success.png", action, status:"Success", id })
+    this.notification.template(notificationModel);
   }
+  notificationFailed(notificationModel,title,action,id) {
+    this.setNotification({ title, imgPath:"assets/images/execute-faild.png", action, status:"Failed", id })    
+    this.notification.template(notificationModel);
+  }
+
+
   // Handling tab switching request data
   handleTabChange(tab) {
     switch (tab) {
       case 'NS':
         this.nstableData = [];
         this.getTableData();
-        this.fileList = []; //Empty uploaded files when switching
         break
       case 'VNF':
         this.vnftableData = [];
         this.getTableVnfData()
-        this.fileList = [];
         break
       case 'PNF':
         this.pnftableData = [];
         this.getTablePnfData()
-        this.fileList = [];
         break
     }
   }
@@ -142,17 +129,13 @@ export class OnboardVnfVmComponent implements OnInit {
     }
   }
 
-  //NS/VNF List add file
-  beforeUpload = (file: UploadFile): boolean => {
-    this.fileList.push(file);
-    return false;
-  }
 
   // ns  beforeUpload
   beforeUploadNS = (file: UploadFile): boolean => {
     this.fileListNS.splice(0,1,file);
     this.myhttp.getCreatensData("createNetworkServiceData", this.requestBody)//on-line
       .subscribe((data) => {
+        console.log(data)
         this.nsdInfoId = data["id"];
       }, (err) => {
         console.log(err);
@@ -162,9 +145,8 @@ export class OnboardVnfVmComponent implements OnInit {
 
   //vnf  beforeUpload
   beforeUploadVNF = (file: UploadFile): boolean => {
-    this.fileListVNF.push(file);
+    this.fileListVNF.splice(0,1,file);
     this.myhttp.getCreatensData("createVnfData", this.requestBody)//on-line
-      // this.myhttp.getCreatensData("creatensDataVNF") //local
       .subscribe((data) => {
         this.vnfPkgId = data["id"];
       }, (err) => {
@@ -175,30 +157,14 @@ export class OnboardVnfVmComponent implements OnInit {
 
   // //pnf eforeUpload
   beforeUploadPNF = (file: UploadFile): boolean => {
-    this.fileListPNF.push(file);
+    this.fileListPNF.splice(0,1,file)
     this.myhttp.getCreatensData("createPnfData", this.requestBody)  //on-line
-      // this.myhttp.getCreatensData("creatensDataPNF")  //local
       .subscribe((data) => {
         this.pnfdInfoId = data["id"];
       }, (err) => {
         console.log(err);
       })
     return false;
-  }
-
-  //Get list list id
-  onClickId(id, tab) {
-    switch (tab) {
-      case 'NS':
-        this.nsdInfoId = id;
-        break
-      case 'VNF':
-        this.vnfPkgId = id;
-        break
-      case 'PNF':
-        this.pnfdInfoId = id;
-        break
-    }
   }
 
   //Drag and drop and click the upload button
@@ -227,10 +193,20 @@ export class OnboardVnfVmComponent implements OnInit {
     status: boolean,
     success: number
   };
-  vnfRightList = [];
-  vnfNum = 0;
-  pnfRightList = [];
-  pnfNum = 0;
+  vnffile: {
+    name: string,
+    uid: string,
+    progress: number,
+    status: boolean,
+    success: number
+  };
+  pnffile:{
+    name: string,
+    uid: string,
+    progress: number,
+    status: boolean,
+    success: number
+  }
   //put Upload Upload
   handleUpload(url, tab): void {
     const formData = new FormData();
@@ -260,59 +236,47 @@ export class OnboardVnfVmComponent implements OnInit {
         break
       case "VNF":
         this.fileListVNF.forEach((file: any) => {
-          formData.append('file', file);
+          formData.set('file', file);
         });
         this.vnfuploading = true;
-        let lastVnf = this.fileListVNF[this.fileListVNF.length - 1];
-        let vnffile = {
-          name: lastVnf.name,
-          uid: lastVnf.uid,
+        this.vnffile = {
+          name: this.fileListVNF[0].name,
+          uid: this.fileListVNF[0].uid,
           progress: 0,
           status: true,
           success: 0
         };
-        this.vnfNum += 1;
-        this.vnfRightList.push(vnffile);
         let requeryVnf = (vnffile) => {
           setTimeout(() => {
-            vnffile.progress += 2;
+            vnffile.progress += 3;
             if (vnffile.progress < 100) {
               requeryVnf(vnffile)
-            } else {
-              vnffile.progress = 100;
-              vnffile.status = false;
             }
           }, 100)
         };
-        requeryVnf(vnffile);
+        requeryVnf(this.vnffile);
         break
       case "PNF":
         this.fileListPNF.forEach((file: any) => {
-          formData.append('file', file);
+          formData.set('file', file);
         });
         this.pnfloading = true;
-        let lastPnf = this.fileListPNF[this.fileListPNF.length - 1];
-        let pnffile = {
-          name: lastPnf.name,
-          uid: lastPnf.uid,
+        this.pnffile = {
+          name: this.fileListPNF[0].name,
+          uid: this.fileListPNF[0].uid,
           progress: 0,
           status: true,
           success: 0
         };
-        this.pnfNum += 1;
-        this.pnfRightList.push(pnffile);
         let requeryPnf = (pnffile) => {
           setTimeout(() => {
-            pnffile.progress += 2;
+            pnffile.progress += 3;
             if (pnffile.progress < 100) {
               requeryPnf(pnffile)
-            } else {
-              pnffile.progress = 100;
-              pnffile.status = false;
             }
           }, 100)
         };
-        requeryPnf(pnffile);
+        requeryPnf(this.pnffile);
         break
     }
     // line PUT
@@ -321,7 +285,6 @@ export class OnboardVnfVmComponent implements OnInit {
       withCredentials: true
     });
     //Upload pre-empty array
-    this.fileList = [];
     this.fileListNS = [];
     this.fileListVNF = [];
     this.fileListPNF = [];
@@ -332,19 +295,17 @@ export class OnboardVnfVmComponent implements OnInit {
           if (tab == "NS") {
             this.nsfile.progress = 100;
             this.nsfile.status = false;
-            this.isNone = 'block';
           }
           if (tab == "VNF") {
-            this.vnfRightList[this.vnfNum - 1].progress = 100;
-            this.vnfRightList[this.vnfNum - 1].status = false;
-            this.vnfRightList[this.vnfNum - 1].success = 0;
+            this.vnffile.progress = 100;
+            this.vnffile.status = false;
           }
           if (tab == "PNF") {
-            this.pnfRightList[this.pnfNum - 1].progress = 100;
-            this.pnfRightList[this.pnfNum - 1].status = false;
-            this.pnfRightList[this.pnfNum - 1].success = 0;
+            this.pnffile.progress = 100;
+            this.pnffile.status = false;
           }
           this.changeUploadingSta(tab);
+          this.isNone = 'block';
           this.msg.success('upload successfully.');
         },
         err => {
@@ -354,16 +315,17 @@ export class OnboardVnfVmComponent implements OnInit {
             this.nsfile.success = 1;
           }
           if (tab == "VNF") {
-            this.vnfRightList[this.vnfNum - 1].progress = 100;
-            this.vnfRightList[this.vnfNum - 1].status = false;
-            this.vnfRightList[this.vnfNum - 1].success = 1;
+            this.vnffile.progress = 100;
+            this.vnffile.status = false;
+            this.vnffile.success = 1;
           }
           if (tab == "PNF") {
-            this.pnfRightList[this.pnfNum - 1].progress = 100;
-            this.pnfRightList[this.pnfNum - 1].status = false;
-            this.pnfRightList[this.pnfNum - 1].success = 1;
+            this.pnffile.progress = 100;
+            this.pnffile.status = false;
+            this.pnffile.success = 1;
           }
           this.changeUploadingSta(tab);
+          this.isNone = 'block';
           this.msg.error('upload failed.');
         }
       );
@@ -396,9 +358,9 @@ export class OnboardVnfVmComponent implements OnInit {
         this.myhttp.getSDC_NSTableData()
           .subscribe((data) => {
             this.isSpinning = false; //loading hide
-            this.nssdcData = data;
-            this.nstableData.map((nsvfc) => { nsvfc.sameid = this.nssdcData.find((nssdc) => { return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc; });
-            let sameData = this.nssdcData.filter((nssdc) => { return !this.nstableData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
+            let nssdcData = data;
+            this.nstableData.map((nsvfc) => { nsvfc.sameid = nssdcData.find((nssdc) => { return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc; });
+            let sameData = nssdcData.filter((nssdc) => { return !this.nstableData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
             this.nstableData = this.nstableData.concat(sameData);
           }, (err) => {
             console.error(err);
@@ -408,7 +370,7 @@ export class OnboardVnfVmComponent implements OnInit {
         console.error(err);
         this.isSpinning = false;
       })
-
+    
   }
 
   // Get the vnf list
@@ -422,9 +384,9 @@ export class OnboardVnfVmComponent implements OnInit {
         this.myhttp.getSDC_VNFTableData()
           .subscribe((data) => {
             this.isSpinning = false; //loading hide
-            this.vnfsdcData = data;
-            this.vnftableData.map((vnfvfc) => { vnfvfc.sameid = this.vnfsdcData.find((nssdc) => { return vnfvfc.id == nssdc.uuid }) && vnfvfc.id; return vnfvfc; });
-            let sameData = this.vnfsdcData.filter((vnfsdc) => { return !this.vnftableData.find((vnfvfc) => { return vnfvfc.id == vnfsdc.uuid }) });
+            let vnfsdcData = data;
+            this.vnftableData.map((vnfvfc) => { vnfvfc.sameid = vnfsdcData.find((nssdc) => { return vnfvfc.id == nssdc.uuid }) && vnfvfc.id; return vnfvfc; });
+            let sameData = vnfsdcData.filter((vnfsdc) => { return !this.vnftableData.find((vnfvfc) => { return vnfvfc.id == vnfsdc.uuid }) });
             this.vnftableData = this.vnftableData.concat(sameData);
           }, (err) => {
             console.error(err);
@@ -451,29 +413,36 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   //-----------------------------------------------------------------------------------
-  /* onboard */
-  //Successful frame
-  success(tab): void {
-    const modal = this.modalService.success({
-      nzTitle: 'This is an success message',
-      nzContent: 'Package Onboard Completed.'
-    });
-    switch (tab) {
-      case "NS":
-        this.getTableData();
-        break
-      case "VNF":
-        this.getTableVnfData();
-        break
-    }
-  }
 
-  //Failure frame
-  error(): void {
-    this.modalService.error({
-      nzTitle: 'This is an error message',
-      nzContent: 'Package Onboard Failed!'
-    });
+  // modal
+  showConfirm(requestBody, notificationModel, id, type): void{
+    let API = type === 'NS'? 'getNsonboard' : 'getVnfonboard';
+    this.modalService.confirm({
+      nzTitle: '<p>Are you sure you want to do this?</p>',
+      nzContent: '<b>Some descriptions</b>',
+      nzOnOk: () => {
+        this.myhttp[API](requestBody)
+          .subscribe((data) => {
+            if (data.status == "success") {
+              if(type === 'NS'){
+                this.onboardData.status = "onboarded";
+                this.notificationSuccess(notificationModel, this.tabs[0],"OnboardingState",id);
+                this.getTableData();
+              }else{
+                this.jobId = data.jobId;
+                this.queryProgress(this.jobId, notificationModel,id);
+                this.getTableVnfData();
+              }
+            } else {
+              this.onboardData.status = "Failed";
+              this.notificationFailed(notificationModel,this.tabs[0],"OnboardingState",id);
+              return false
+            } 
+          }, (err) => {
+            console.log(err);
+          })
+      }
+    })
   }
 
   //onboard status
@@ -487,32 +456,8 @@ export class OnboardVnfVmComponent implements OnInit {
     this.currentIndex = index;
     this.onboardData.status = "onboarding"; //Disabled
     this.onboardData.progress = 0;
-    let requestBody = {
-      "csarId": id
-    };
-    this.notificationAttributes = {
-      "title": this.tabs[0],
-      "imgPath": "../../../../assets/images/execute-inproess.png",
-      "action": "OnboardingState",
-      "status": "InProgress",
-      "id": id
-    };
-    this.notificationModelShow(notificationModel);
-    this.myhttp.getNsonboard(requestBody)
-      .subscribe((data) => {
-        if (data.status == "failed") {
-          this.onboardData.status = "Failed";
-          this.notificationFailed(notificationModel);
-          this.error();
-          return false
-        } else if (data.status == "success") {
-          this.success("NS");
-          this.onboardData.status = "onboarded";
-          this.notificationSuccess(notificationModel);
-        }
-      }, (err) => {
-        console.log(err);
-      })
+    let requestBody = { "csarId": id };
+    this.showConfirm(requestBody,notificationModel,id,'NS')
   }
 
   // vnf onboard Upload button
@@ -520,56 +465,34 @@ export class OnboardVnfVmComponent implements OnInit {
     this.currentIndex = index;
     this.onboardData.status = "onboarding";  //Disabled button
     this.onboardData.progress = 0;
-
-
-    let requestBody = {
-      "csarId": id
-    };
-    this.notificationAttributes = {
-      "title": this.tabs[1],
-      "imgPath": "../../../../assets/images/execute-inproess.png",
-      "action": "OnboardingState",
-      "status": "InProgress",
-      "id": id
-    };
-    this.notificationModelShow(notificationModel);
-    this.myhttp.getVnfonboard(requestBody)
-      .subscribe((data) => {
-        this.jobId = data.jobId;
-        this.queryProgress(this.jobId, 0, notificationModel);   //vnf Need to query progress interface
-      }, (err) => {
-        console.log(err);
-      })
+    let requestBody = { "csarId": id };
+    this.showConfirm(requestBody,notificationModel,id,'VNF')
   }
 
   //Progress Progress inquiry
-  queryProgress(jobId, responseId, notificationModel) {
+  queryProgress(jobId, notificationModel,id) {
     let mypromise = new Promise((res) => {
-      this.myhttp.getProgress(jobId, responseId)
+      this.myhttp.getProgress(jobId, 0)
         .subscribe((data) => {
-          if (data.responseDescriptor == null || data.responseDescriptor == "null" || data.responseDescriptor.progress == undefined || data.responseDescriptor.progress == null) {
+          if (data.responseDescriptor === null ||data.responseDescriptor ===  "null" || data.responseDescriptor.progress == undefined ||  data.responseDescriptor.progress === null) {
             this.onboardData.status = "onboarding";
             setTimeout(() => {
-              this.queryProgress(this.jobId, 0, notificationModel);
+              this.queryProgress(this.jobId, notificationModel,id);
             }, 10000)
             return false
           }
           if (data.responseDescriptor.progress > 100) {
             this.onboardData.status = "Failed";
-            this.notificationFailed(notificationModel);
-            this.error();
-            return false
-          }
-          if (data.responseDescriptor.progress < 100) {
+            this.notificationFailed(notificationModel,'VNS','OnboardingState',id);
+          }else if (data.responseDescriptor.progress < 100) {
             this.onboardData.status = "onboarding";
             setTimeout(() => {
-              this.queryProgress(this.jobId, 0, notificationModel);
+              this.queryProgress(this.jobId, notificationModel,id);
             }, 5000)
-          } else if (data.responseDescriptor.progress == 100) {
+          } else {
             res(data);
-            this.success("VNF");
             this.onboardData.status = "onboarded";
-            this.notificationSuccess(notificationModel);
+            this.notificationSuccess(notificationModel,'VNS','OnboardingState',id);
           }
           return false
         })
@@ -579,38 +502,22 @@ export class OnboardVnfVmComponent implements OnInit {
 
   //--------------------------------------------------------------------------------
   /* delete button */
-  showConfirm(index, pkgid, tab, notificationModel): void {
-    this.notificationAttributes = {
-      "title": this.tabs[0],
-      "imgPath": "../../../../assets/images/execute-inproess.png",
-      "action": "OnboardingState",
-      "status": "InProgress",
-      "id": pkgid
-    };
-    this.confirmModal = this.modal.confirm({
+  showDeleteConfirm(pkgid, tab, notificationModel): void {
+    this.confirmModal = this.modalService.confirm({
       nzTitle: 'Do you Want to delete these items?',
       nzContent: 'Do you Want to delete these items?',
       nzOkText: 'Yes',
       nzCancelText: 'No',
-      nzOnOk: () => new Promise((resolve, reject) => {
+      nzOnOk: () => new Promise((resolve) => {
         switch (tab) {
           case 'NS':
-            this.notificationAttributes.title = this.tabs[0];
-            this.notificationModelShow(notificationModel);
-            this.deleteNsService(index, pkgid, notificationModel);
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
+            this.deleteNsService(pkgid, notificationModel,resolve);
             break
           case 'VNF':
-            this.notificationAttributes.title = this.tabs[1];
-            this.notificationModelShow(notificationModel);
-            this.deleteVnfService(index, pkgid, notificationModel);
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
+            this.deleteVnfService(pkgid, notificationModel,resolve);
             break
           case 'PNF':
-            this.notificationAttributes.title = this.tabs[2];
-            this.notificationModelShow(notificationModel);
-            this.deletePnfService(index, pkgid, notificationModel);
-            setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
+            this.deletePnfService(pkgid, notificationModel,resolve);
             break
         }
       }).catch(() => console.log('Oops errors!'))
@@ -618,41 +525,44 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   //delete nsItem
-  deleteNsService(index, pkgid, notificationModel) {
+  deleteNsService(pkgid, notificationModel,resolve) {
     this.myhttp.deleteNsIdData(pkgid)
       .subscribe((data) => {
-        this.notificationSuccess(notificationModel);
+        this.notificationSuccess(notificationModel,'NS','OnboardingState',pkgid);
+        resolve()
         //refresh list after successful deletion
         this.getTableData();
       }, (err) => {
         console.log(err);
-        this.notificationFailed(notificationModel);
+        this.notificationFailed(notificationModel,'NS','OnboardingState',pkgid);
       })
   }
 
   //delete vnfItem
-  deleteVnfService(index, pkgid, notificationModel) {
+  deleteVnfService(pkgid, notificationModel,resolve) {
     this.myhttp.deleteVnfIdData(pkgid)
       .subscribe((data) => {
-        this.notificationSuccess(notificationModel);
+        this.notificationSuccess(notificationModel,'VNF','OnboardingState',pkgid);
+        resolve()
         //refresh list after successful deletion
         this.getTableVnfData()
       }, (err) => {
         console.log(err);
-        this.notificationFailed(notificationModel);
+        this.notificationFailed(notificationModel,'VNF','OnboardingState',pkgid);
       })
   }
 
   //delete PnfItem
-  deletePnfService(index, pkgid, notificationModel) {
+  deletePnfService(pkgid, notificationModel,resolve) {
     this.myhttp.deletePnfIdData(pkgid)
       .subscribe((data) => {
+        this.notificationSuccess(notificationModel,'PNF','OnboardingState',pkgid);
+        resolve()
         //refresh list after successful deletion
-        this.notificationSuccess(notificationModel);
         this.getTablePnfData()
       }, (err) => {
         console.log(err);
-        this.notificationFailed(notificationModel);
+        this.notificationFailed(notificationModel,'PNF','OnboardingState',pkgid);
       })
   }
 
