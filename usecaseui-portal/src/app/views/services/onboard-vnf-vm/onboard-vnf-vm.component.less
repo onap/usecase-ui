@@ -123,6 +123,13 @@ hr {
                 }
                 :nth-child(4){
                     width: 5%;
+                    height:100%;
+                    .success{
+                        color:#7BC7F3!important;
+                    }
+                    .fail{
+                        color:#fb5c5c!important;
+                    }
                 }
                 .color {
                     color:rgba(66,84,143,1);
@@ -133,13 +140,6 @@ hr {
                         color:rgba(66,84,143,0.7);
                     }
                 }
-                .success{
-                    color:#7BC7F3!important;
-                }
-                .fail{
-                    color:#fb5c5c!important;
-                }
-                
             }
             
         }
@@ -158,32 +158,9 @@ hr {
             z-index: 1049;
         }
     }
-    
-    
-    
     nz-table {
         tbody {
             td {
-                span.onboarding {
-                    font-size: 12px;
-                    color: #147dc2;
-                }
-                span.onboarded {
-                    font-size: 14px;
-                    color: #147dc2;
-                }
-                span.updating {
-                    font-size: 12px;
-                    color: blue;
-                }
-                span.deleting {
-                    font-size: 12px;
-                    color: red;
-                }
-                span.invalid {
-                    font-size: 14px;
-                    color: purple;
-                }
                 i.anticon {
                     cursor: pointer;
                     font-size: 18px;
@@ -196,9 +173,6 @@ hr {
                     pointer-events: none;
                     color: #aaa;
                     opacity: 0.6;
-                }
-                .fileIcon{
-                    display: none;
                 }
             }
         }
