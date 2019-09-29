@@ -39,28 +39,28 @@ Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*,
    :width: 5.97047in
    :height: 3.63208in
 
-*Home* module is the entrance of the whole project. In this module, users can have a glimpse of the general infomation of specific modules. e.g. the **SERVICES** block shows the general statistic data of *Lifecycle management* module and the **PACKAGE** block shows the total numbers of NS, VNF and PNF which are shown in *Package Management* module. Also, the **ALARM** and **VM PERFORMANCE** block show the infomation of system alarm. If the users need more, the ``View Details`` button will help.
+*Home* module is the entrance of the whole project. In this module, users can have a glimpse of the general infomation of specific modules. e.g. the **SERVICES** block shows the general statistic data of *Lifecycle management* module and the **PACKAGE** block shows the total numbers of NS, VNF and PNF which are shown in *Package Management* module. Also, the **ALARM** and **VM PERFORMANCE** block show the infomation of system alarm. If users need more, the ``View Details`` button will help.
 
 *4.2. Cusomer Module*
 
 |customer|
 
 .. |customer| image:: ../../images/usecaseui-architecture-customer.png
-   :width: 5.97047in
+   :width: 7.97047in
    :height: 3.63208in
 
 *4.3. Monitor Module*
 
 *4.4. Services Module*
 
-This module consists of two parts. One is lifecycle management, the other is package management.
+This module consists of two parts. One is Lifecycle Management, the other is Package Management.
 
 * Lifecycle Management
 
 |lifecycle|
 
 .. |lifecycle| image:: ../../images/lifecycle-manage.png
-   :width: 5.97047in
+   :width: 7.97047in
    :height: 3.63208in
 
 * Package Management
@@ -68,7 +68,7 @@ This module consists of two parts. One is lifecycle management, the other is pac
 |package|
 
 .. |package| image:: ../../images/package-manage.png
-   :width: 5.97047in
+   :width: 7.97047in
    :height: 3.63208in
 
 *4.5. Network Topology Module*
