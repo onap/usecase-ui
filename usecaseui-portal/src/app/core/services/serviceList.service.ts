@@ -16,7 +16,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { homeData, homeVmLineData, servicesSelectData, servicesTableData, creatensData, onboardTableData, onboardDataVNF, onboardDataPNF, baseUrl } from '../models/dataInterface';
+import {  servicesTableData,baseUrl } from '../models/dataInterface';
 
 @Injectable()
 export class ServiceListService {
