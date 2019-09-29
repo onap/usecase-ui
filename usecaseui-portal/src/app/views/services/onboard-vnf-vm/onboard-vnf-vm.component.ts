@@ -20,7 +20,6 @@ import { onboardService } from '../../../core/services/onboard.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-onboard-vnf-vm',
@@ -104,6 +103,7 @@ export class OnboardVnfVmComponent implements OnInit {
   handleTabChange(tab: string): void {
     this.currentTab = tab;
     this.fileList = [];
+    this.display = 'block';
     delete this.file;
     switch (tab) {
       case 'NS':
@@ -149,20 +149,8 @@ export class OnboardVnfVmComponent implements OnInit {
   // Drag and drop and click the upload button
   onClick(): void {
     this.display = 'none';
-    switch (this.currentTab) {
-      case 'NS':
-        this.handleUpload(this.url.ns.replace("*_*", this.infoId));
-        this.getTableData();
-        break
-      case 'VNF':
-        this.handleUpload(this.url.vnf.replace("*_*", this.infoId));
-        this.getTableVnfData()
-        break
-      case 'PNF':
-        this.handleUpload(this.url.pnf.replace("*_*", this.infoId));
-        this.getTablePnfData();
-        break
-    }
+    let tab = this.currentTab === 'NS' ? 'ns' : (this.currentTab === 'VNF' ? 'vnf' : 'pnf')
+    this.handleUpload(this.url[tab].replace("*_*", this.infoId));
   }
 
   handleUpload(url: string): void {
@@ -200,9 +188,9 @@ export class OnboardVnfVmComponent implements OnInit {
         (event: {}) => {
           this.file.progress = 100;
           this.file.status = false;
-          this.display = 'block';
           this.uploading = false;
           this.msg.success('upload successfully.');
+          this.currentTab === 'NS' ? this.getTableData() : (this.currentTab === 'VNF' ? this.getTableVnfData() : this.getTablePnfData());
         },
         err => {
           this.file.progress = 100;
