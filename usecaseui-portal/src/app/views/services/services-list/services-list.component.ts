@@ -42,8 +42,10 @@ export class ServicesListComponent implements OnInit {
         });
     }
     ngOnDestroy() {
-        clearInterval(this.progressOutTimer);
-        clearInterval(this.progressingTimer);
+        clearInterval(this.progressCcvpnOutTimer);
+        clearInterval(this.progressingCcvpnTimer);
+        clearInterval(this.progressNsOutTimer);
+        clearInterval(this.progressingNsTimer);
     }
     // customer servicetype
     isSol005Interface = false;
@@ -87,13 +89,10 @@ export class ServicesListComponent implements OnInit {
         }
     ];
 
-    requery;
-    progressOutTimer = setTimeout(() => {
-        this.requery();
-    }, 10000);
-    progressingTimer = setTimeout(() => {
-        this.requery();
-    }, 5000);
+    progressCcvpnOutTimer :any; // ccvpn¡¢NS progress Timer
+    progressingCcvpnTimer :any;
+    progressNsOutTimer :any;
+    progressingNsTimer :any;
 
     //The icon behind each row of data in the table expands
     iconMoreShow(data, tableData) {
@@ -1302,7 +1301,7 @@ export class ServicesListComponent implements OnInit {
         let mypromise = new Promise((res, rej) => {
             let operationTypeObj = {operationType:obj.operationType};
             let errorNums = 180;
-             this.requery = () => {
+             let requeryCcvpn = () => {
                 this.myhttp.getProgress(obj,operationTypeObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
@@ -1315,7 +1314,9 @@ export class ServicesListComponent implements OnInit {
                                 callback({ progress: 255, status: "time over" });
                                 return false;
                             }
-                            this.progressOutTimer;
+                            this.progressCcvpnOutTimer = setTimeout(()=>{
+                                requeryCcvpn();
+                            },10000);
                             return false;
                         }
                         if (data.operationStatus.progress > 100) {
@@ -1324,13 +1325,15 @@ export class ServicesListComponent implements OnInit {
                         }
                         if (data.operationStatus.progress < 100) {
                             callback(data.operationStatus);
-                            this.progressingTimer;
+                            this.progressingCcvpnTimer = setTimeout(()=>{
+                                requeryCcvpn();
+                            },5000);
                         } else {
                             res(data.operationStatus);
                         }
                     })
             }
-            this.requery();
+            requeryCcvpn();
         })
         return mypromise;
     }
@@ -1343,7 +1346,7 @@ export class ServicesListComponent implements OnInit {
                 "serviceInstanceId":id,
                 "operationType":operationType
             }
-             this.requery = () => {
+             let requeryNs = () => {
                 this.myhttp.getNsProgress(jobid,paramsObj)
                     .subscribe((data) => {
                         if (data.status == "FAILED") {
@@ -1356,7 +1359,9 @@ export class ServicesListComponent implements OnInit {
                                 callback({ progress: 255, status: "time over" });
                                 return false;
                             }
-                            this.progressOutTimer;
+                            this.progressNsOutTimer = setTimeout(()=>{
+                                requeryNs();
+                            },10000);
                             return false;
                         }
                         if (data.responseDescriptor.progress > 100 && data.responseDescriptor.status == "error") {
@@ -1365,13 +1370,15 @@ export class ServicesListComponent implements OnInit {
                         }
                         if (data.responseDescriptor.progress < 100) {
                             callback(data.responseDescriptor);
-                            this.progressingTimer;
+                            this.progressingNsTimer = setTimeout(()=>{
+                                requeryNs();
+                            },5000);
                         } else {
                             res(data);
                         }
                     })
             };
-            this.requery();
+            requeryNs();
         });
         return mypromise;
     }
