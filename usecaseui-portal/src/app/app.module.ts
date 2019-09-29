@@ -73,6 +73,7 @@ import { ManagemencsService } from './core/services/managemencs.service';
 import { FcapsComponent } from './views/fcaps/fcaps.component';
 import { TestComponent } from './test/test.component';
 import { TextService } from './core/services/text.service';
+import { TopCardComponent } from './views/services/services-list/top-card/top-card.component';
 
 @NgModule({
   providers: [
@@ -112,7 +113,8 @@ import { TextService } from './core/services/text.service';
     CustomerComponent,
     PerformanceDetailsComponent,
     FcapsComponent,
-    TestComponent
+    TestComponent,
+    TopCardComponent
   ],
   imports: [
     BrowserModule,

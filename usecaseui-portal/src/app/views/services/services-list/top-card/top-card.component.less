@@ -1,0 +1,65 @@
+.top-list{
+  position: relative;
+  width:100%;
+  max-width:400px;
+  height:170px;
+  background:url("/assets/images/servicelist-e2e.png") no-repeat;
+  background-size: 100% 100%;
+  border-radius:2px;
+  .round{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background:#E0EDFF;
+    border:2px solid rgba(224,237,255,1);
+    border-radius: 50%;
+    font-size:16px;
+    font-family:ArialMT;
+    color:#3C4F8C;
+    transition: .5s;
+    top: 42%;
+    margin-top: -30px;
+    left: 15%;
+  }
+  .top-list-text{
+    position: absolute;
+    text-align: right;
+    line-height: 20px;
+    right: 12%;
+    color: #fff;
+    p{
+      height: 28px;
+      margin-bottom: 0;
+      padding-left: 5px;
+      font-size: 14px;
+      clear: both;
+      span{
+        display: inline-block;
+        float: right;
+        font-weight: 500;
+        text-align: right;
+      }
+      span:nth-child(1){
+        font-size: 18px;
+        margin-left: 15px;
+      }
+      span:nth-child(2){
+        width: 85px;
+        font-size: 16px;
+      }
+    }
+    p:nth-child(1){
+      margin-top: 25px;
+    }
+    .service-description{
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #3C4F8C;
+
+    }
+  }
+}
