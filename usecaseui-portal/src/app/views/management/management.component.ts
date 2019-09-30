@@ -28,27 +28,21 @@ import { ManagemencsService } from '../../core/services/managemencs.service';
 export class ManagementComponent implements OnInit {
     @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
 
+    nocuster: boolean;
+    firstCustomer: string;
+
     constructor(private managemencs: ManagemencsService) { }
 
     ngOnInit() {
         this.getAllCustomers();
     }
-
-    nocuster = true;
-    firstCustomer = null;
-    AllCustomersdata = [];
-
+   
     // Get all customers
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
-            if (data.length > 0) {
-                this.nocuster = false;
-            } else {
-                this.nocuster = true;
-            }
+            this.nocuster = data.length > 0 ? false : true;
         })
     }
-
     createNewCustomer(customer) {
         let createParams = {
             customerId: customer
@@ -63,6 +57,6 @@ export class ManagementComponent implements OnInit {
         })
     }
     clearCustomerInput() {
-        this.firstCustomer = null;
+        this.firstCustomer = '';
     }
 }
