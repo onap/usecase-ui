@@ -68,7 +68,7 @@ import { onboardService } from './core/services/onboard.service';
 import { networkHttpservice } from './core/services/networkHttpservice.service';
 import { PerformanceDetailsComponent } from './shared/components/performance-details/performance-details.component';
 import { E2eDetailComponent } from './views/services/services-list/e2e-detail/e2e-detail.component';
-import { CustomerComponent } from './shared/components/customer/customer.component';
+import { CustomerComponent } from './views/management/customer/customer.component';
 import { ManagemencsService } from './core/services/managemencs.service';
 import { FcapsComponent } from './views/fcaps/fcaps.component';
 import { TestComponent } from './test/test.component';
