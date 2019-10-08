@@ -10,6 +10,50 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 2.0.2
+--------------
+
+:Release Date: 2019-10-10
+
+**New Features**
+ - Adaptive Pages : change the Home, Customer, Lifecycle Management and Package Management modules to adaptive pages that can be normally displayed in all screen sizes
+ - Mock Data Scheme : build mock data scheme to support the development and preview in local environment in case of lack of server environment
+ - Document Enhancement : enrich README.md to introduce the general situation and add CHANGELOG.md to record the commit messages
+ - Structure Optimization : restructure the project to increase the development efficiency and improve the performance
+ - Function Optimization : delete useless modules and simplify some apis to improve loading speed of the project
+ 
+
+**Released Components**
+ - usecase-ui  2.0.2
+ - usecase-ui-server  2.0.2
+
+**Bug Fixes**
+ - Invalid Image Path : change the invalid image path in CSS and HTML files
+ - Error in Document : fix all errors in project document
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
+
+**Quick Links**
+ - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+ - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
 
 Version: 2.0.1
 --------------
