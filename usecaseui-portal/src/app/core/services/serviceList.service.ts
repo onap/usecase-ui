@@ -72,7 +72,7 @@ export class ServiceListService {
   // Get all template types
   getAllServiceTemplates(type) {
     if (type == "Network Service") {
-      let nsUrl = this.url.serviceTemplates.replace("service-templates", "listNsTemplates").replace("serviceTemplates2", "serviceTemplates-ns");
+      let nsUrl = this.url.serviceTemplates.replace("service-templates", "listNsTemplates");
       console.log(nsUrl);
       return this.http.get<any>(nsUrl);
     }
