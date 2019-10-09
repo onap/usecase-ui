@@ -14,7 +14,6 @@
     limitations under the License.
 -->
 <div class="action ant-tabs-bar">
-
     <span>
         <i class="icon">
             <img src="assets/images/customer.png" alt="">
@@ -51,67 +50,15 @@
         <i *ngIf="width>1200" class="anticon anticon-plus"></i>
         <span> {{"i18nTextDefine_Create" | translate}} </span>
     </button>
-    <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle=" {{'i18nTextDefine_ServiceCreation' | translate}} "
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()" nzClassName="serviceCreationModel"
-        nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
-        nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
-        <div class="select-list">
-            <span style="display:inline-block;"> {{"i18nTextDefine_Customer" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="customerSelected2.name" nzAllowClear
-                (ngModelChange)="customerChange()">
-                <nz-option *ngFor="let item of customerList2" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
-            </nz-select>
-        </div>
-        <div class="select-list">
-            <span style="display:inline-block;"> {{"i18nTextDefine_ServiceType" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="serviceTypeSelectedName" nzAllowClear
-                (ngModelChange)="serviceTypeChange()">
-                <nz-option *ngFor="let item of serviceTypeList2" [nzValue]="item.name" [nzLabel]="item.name">
-                </nz-option>
-            </nz-select>
-        </div>
-        <div class="select-list">
-            <span style="display:inline-block;"> {{"i18nTextDefine_UseCase" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
-                (ngModelChange)="choseTemplateType()">
-                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
-                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
-                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
-                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
-            </nz-select>
-        </div>
-
-        <div class="select-list">
-            <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Template" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="template1" nzAllowClear>
-                <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-            </nz-select>
-        </div>
-        <div *ngIf="templateTypeSelected == 'E2E Service'">
-            <div class="select-list">
-                <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Orchestrator" | translate}} : </span>
-                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
-                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                </nz-select>
-            </div>
-        </div>
-        <div *ngIf="templateTypeSelected == 'E2E Service'">
-            <div class="check-box" style="margin:30px; height: 50px">
-                <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox"
-                    [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
-                <label class="label" style="font-size: 20px; color: rgb(60,79,140,0.5)">Sol005</label>
-            </div>
-        </div>
-        <div class="select-list" style="color: red;margin-left: 66px;" *ngIf="temParametersTips">
-            {{"i18nTextDefine_Templateparsingfailed" | translate}}
-        </div>
-    </nz-modal>
+    <app-create-model *ngIf="isVisible" [isVisible]="isVisible" (cancel)="isVisible=$event" (createdModalShow)="createdModalShow($event)"
+        [customerList]="customerList" [serviceTypeList]="serviceTypeList" [customerSelected]="customerSelected" [serviceTypeSelected]="serviceTypeSelected">
+    </app-create-model>
+    
 </div>
 <nz-layout style=" padding: 20px 32px; ">
     <div class="top-num">
         <app-top-card
-            *ngFor="let item of serviceMunber"
+            *ngFor="let item of serviceNunber"
             [serviceDomain]="item.serviceDomain"
             [successNum]="item.Success"
             [failedNum]="item.failed"
@@ -733,7 +680,7 @@
     </div>
     <!--</div>-->
 </nz-layout>
-<div class="loading" *ngIf="loadingAnimateShow">
+<!-- <div class="loading" *ngIf="loadingAnimateShow">
     <img src="assets/images/loading-animate2.gif" alt="loading">
     <p>Please wating……</p>
-</div>
+</div> -->
