@@ -74,6 +74,8 @@ import { FcapsComponent } from './views/fcaps/fcaps.component';
 import { TestComponent } from './test/test.component';
 import { TextService } from './core/services/text.service';
 import { TopCardComponent } from './views/services/services-list/top-card/top-card.component';
+import { CreateModelComponent } from './views/services/services-list/create-model/create-model.component';
+
 
 @NgModule({
   providers: [
@@ -114,7 +116,8 @@ import { TopCardComponent } from './views/services/services-list/top-card/top-ca
     PerformanceDetailsComponent,
     FcapsComponent,
     TestComponent,
-    TopCardComponent
+    TopCardComponent,
+    CreateModelComponent
   ],
   imports: [
     BrowserModule,
