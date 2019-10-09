@@ -65,7 +65,7 @@ export class ServicesListComponent implements OnInit {
     language = sessionStorage.getItem("DefaultLang");
     iconMore = false;
     loadingAnimateShow = false;
-    serviceMunber = [ // top: E2E/NS/CCVPN data
+    serviceNunber = [ // top: E2E/NS/CCVPN data
         {
             "serviceDomain": "E2E",
             "Success": 0,
@@ -114,59 +114,41 @@ export class ServicesListComponent implements OnInit {
         console.log(this.language, "this.language");
         this.myhttp.getAllCustomers()
             .subscribe((data) => {
-                this.customerList = data.map((item) => {
-                    return { name: item["subscriber-name"], id: item["global-customer-id"] }
-                });
-                if (this.customerList.length == 0) {
-                    console.log("customerList.length == 0", this.customerList);
-                    return false;
+                this.customerList = data.map(item => ({ name: item["subscriber-name"], id: item["global-customer-id"] }) );
+                if(data.length !== 0){
+                    // this.customerList2 = data.map(item => ({ name: item["subscriber-name"], id: item["global-customer-id"] }) );
+                    this.customerSelected = this.customerList[0];
+                    this.choseCustomer();
                 }
-                this.customerList2 = data.map((item) => {
-                    return { name: item["subscriber-name"], id: item["global-customer-id"] }
-                });
-                if (this.customerList2.length == 0) {
-                    return false;
-                }
-                this.customerSelected = this.customerList[0];
-                this.choseCustomer(this.customerSelected);
             })
     }
 
     getallOrchestrators() {
         this.myhttp.getAllOrchestrators()
             .subscribe((data) => {
-                this.orchestratorList = data.map((item) => {
-                    return { name: item["name"], id: item["name"] }
-                });
-                if (this.orchestratorList.length == 0) {
-                    console.log("orchestratorList.length == 0", this.orchestratorList);
-                    return false;
+                if(data.length > 0){
+                    this.orchestratorList = data.map((item) => {
+                        return { name: item["name"], id: item["name"] }
+                    });
+                    this.orchestratorSelected = this.orchestratorList[0];
                 }
-                this.orchestratorSelected = this.orchestratorList[0];
             })
     }
 
-    choseCustomer(item) {
-        this.customerSelected = item;
+    choseCustomer(item = this.customerSelected) {
+        if(this.customerSelected !== item) this.customerSelected = item;
         this.myhttp.getServiceTypes(this.customerSelected)
             .subscribe((data) => {
-                this.serviceTypeList = data.map((item) => {
-                    return { name: item["service-type"] }
-                });
-
-                if (this.serviceTypeList.length == 0) {
-                    console.log("serviceTypeList.length == 0", this.serviceTypeList);
-                    return false;
+                this.serviceTypeList = data.map( item => ({ name: item["service-type"] }));
+                if(data.length !== 0){
+                    this.serviceTypeSelected = this.serviceTypeList[0];
+                    this.choseServiceType();
                 }
-
-                this.serviceTypeSelected = this.serviceTypeList[0];
-
-                this.choseServiceType(this.serviceTypeSelected);
             })
     }
 
-    choseServiceType(item) {
-        this.serviceTypeSelected = item;
+    choseServiceType(item = this.serviceTypeSelected) {
+        if(this.serviceTypeSelected !== item) this.serviceTypeSelected = item;
         this.getTableData();
     }
 
@@ -174,131 +156,31 @@ export class ServicesListComponent implements OnInit {
     // Create modal box 2 (dialog box) create -------------------------------
     isVisible = false;
 
-    customerChange(): void {
-        this.getServiceType(this.customerSelected2);
-    }
 
-    getServiceType(customerSelected2) {
-        this.myhttp.getServiceTypes(customerSelected2)
-            .subscribe((data) => {
-                this.serviceTypeList2 = data.map((item) => {
-                    return { name: item["service-type"] }
-                });
-                if (this.serviceTypeList2.length == 0) {
-                    console.log("serviceTypeList.length == 0", this.serviceTypeList2);
-                    return false;
-                }
-                this.getAlltemplates();
-            })
-    }
 
-    serviceTypeChange(): void {
-        this.serviceTypeSelected2.name = this.serviceTypeSelectedName
-    }
 
     createModal(): void {
         this.isVisible = true;
-        this.getallOrchestrators();
-        this.customerSelected2 = this.customerSelected;
-        this.serviceTypeSelectedName = this.serviceTypeSelected.name;
-        this.serviceTypeSelected2 = Object.assign({}, this.serviceTypeSelected);
-        this.getServiceType(this.customerSelected2);
     }
 
-    choseTemplateType() {
-        this.getallOrchestrators();
-        this.getAlltemplates();
-    }
-
-    templates = [];
-    template1 = { name: null };
-
-    getAlltemplates() {
-        this.myhttp.getAllServiceTemplates(this.templateTypeSelected)
-            .subscribe((data) => {
-                this.templates = data;
-                if (this.templateTypeSelected == "Network Service") {
-                    this.templates = data.filter((d) => {
-                        return typeof d.packageInfo.csarName == "string";
-                    }).map((item) => {
-                        let cName = item.packageInfo.csarName.split("/").reverse()[0];
-                        return { name: cName, id: item.csarId, packageInfo: item.packageInfo }
-                    });
-                }
-                this.template1 = this.templates[0];
-            }, (err) => {
-                console.log(err);
-            })
-    }
-
-    createshow = false;
-    createshow2 = false;
-    listDisplay = false;
+    createshow: boolean = false;
+    createshow2: boolean = false;
+    listDisplay: boolean = false;
     createData: Object = {};
-
-    handleOk(): void {
-        if (this.templateTypeSelected == "SOTN" || this.templateTypeSelected == "CCVPN") {
-            this.createData = {
-                commonParams: {
-                    customer: this.customerSelected,
-                    serviceType: this.serviceTypeSelected2,
-                    templateType: this.templateTypeSelected
-                }, template: this.template1
-            };
-        } else if (this.templateTypeSelected == "E2E Service" || this.templateTypeSelected == "Network Service") {
-            this.createData = {
-                commonParams: {
-                    customer: this.customerSelected,
-                    serviceType: this.serviceTypeSelected2,
-                    templateType: this.templateTypeSelected
-                },
-                template: this.template1,
-                orchestrator: this.orchestratorSelected,
-                isSol005Interface: this.isSol005Interface
-            };
-        }
-        this.getTemParameters();
-    }
-
-    handleCancel(): void {
-        this.isVisible = false;
-        this.loadingAnimateShow = false;
-    }
-
-    temParametersTips = false;
     ccvpn_temParametersContent: any;
     e2e_ns_temParametersContent: any;
 
-    getTemParameters() {
-        let chosedtemplates = this.createData["template"];
-        let types = this.createData["commonParams"].templateType;
-        if (types == "E2E Service") {
-            types = "e2e";
-        } else if (types == "Network Service") {
-            types = "ns";
+    createdModalShow(obj: any): void{
+        this.createData = obj.createData;
+        console.log(obj.createData)
+        if (obj.templateType === "SOTN" || obj.templateType === "CCVPN") {
+            this.ccvpn_temParametersContent = obj.data;
+            this.createshow = true;
+        } else if (obj.templateType === "E2E Service" || obj.templateType === "Network Service") {
+            this.e2e_ns_temParametersContent = obj.data;
+            this.createshow2 = true;
         }
-        this.loadingAnimateShow = true;
-        this.myhttp.getTemplateParameters(types, chosedtemplates)
-            .subscribe((data) => {
-                this.loadingAnimateShow = false;
-                if (data.status == "FAILED") {
-                    this.temParametersTips = true;
-                    this.isVisible = true;
-                    console.log("Template parsing Failed");
-                } else {
-                    this.isVisible = false;
-                    this.temParametersTips = false;
-                    if (this.templateTypeSelected == "SOTN" || this.templateTypeSelected == "CCVPN") {
-                        this.ccvpn_temParametersContent = data;
-                        this.createshow = true;
-                        this.listDisplay = true;
-                    } else if (this.templateTypeSelected == "E2E Service" || this.templateTypeSelected == "Network Service") {
-                        this.e2e_ns_temParametersContent = data;
-                        this.createshow2 = true;
-                        this.listDisplay = true;
-                    }
-                }
-            })
+           this.listDisplay = true;
     }
 
     //tableData
@@ -326,7 +208,7 @@ export class ServicesListComponent implements OnInit {
                     }
 
                     item["iconMore"] = this.iconMore;
-                    if (item["serviceDomain"] == "Network Service") {
+                    if (item["serviceDomain"] === "Network Service") {
                         if (item["vnfInfo"]) {
                             item["childServiceInstances"] = item["vnfInfo"].map((vnf) => {
                                 vnf["serviceDomain"] = "vnf";
@@ -344,10 +226,10 @@ export class ServicesListComponent implements OnInit {
                                 };
                                 vnfInfo.vnfNsInstanceId = item["nsInstanceId"] || item["service-instance-id"];
                                 vnfInfo.vnfInstanceId = vnf["relationship-data"].find((vnfid) => {
-                                    return vnfid["relationship-key"] == "generic-vnf.vnf-id"
+                                    return vnfid["relationship-key"] === "generic-vnf.vnf-id"
                                 })["relationship-value"];
                                 vnfInfo.vnfInstanceName = vnf["related-to-property"].find((vnfname) => {
-                                    return vnfname["property-key"] == "generic-vnf.vnf-name"
+                                    return vnfname["property-key"] === "generic-vnf.vnf-name"
                                 })["property-value"];
                                 return vnfInfo;
                             })
@@ -357,32 +239,30 @@ export class ServicesListComponent implements OnInit {
                     }
 
                     //
-                    if (item["operationResult"] == "2001") { //operationResult==2001
+                    if (item["operationResult"] === "2001") { 
                         item["status"] = "Available";
                         item["tips"] = "Available";
                         item["statusClass"] = item["operationResult"];
                     }
                     // 2018.12.13
-                    else if (item["operationResult"] == "2002") { //operationResult==2002
-                        if (item["operationType"] == "1001" || item["operationType"] == "1002") {
+                    else if (item["operationResult"] === "2002") { 
+                        if (item["operationType"] === "1001" || item["operationType"] === "1002") {
                             // item["status"] = this.accordingState["operationResult"][item["operationResult"]];
                             item["status"] = this.listSortMasters["operationResults"].find((its) => {
-                                return its["sortCode"] == item["operationResult"] && its["language"] == this.language
+                                return its["sortCode"] === item["operationResult"] && its["language"] === this.language
                             })["sortValue"];
                             item["tips"] = "Unavailable";
                             item["statusClass"] = item["operationType"];
-                        } else if (item["operationType"] != "1001" && item["operationType"] != "1002") {
-                            // item["status"] = this.accordingState["operationResult"][item["operationResult"]];
+                        } else {
                             item["status"] = this.listSortMasters["operationResults"].find((its) => {
-                                return its["sortCode"] == item["operationResult"] && its["language"] == this.language
+                                return its["sortCode"] === item["operationResult"] && its["language"] === this.language
                             })["sortValue"];
                             item["tips"] = "Available";
                             item["statusClass"] = item["operationType"];
                         }
 
                     }
-                    else if (item["operationResult"] == "2003") { //operationResult==2003
-                        // item["status"] = this.accordingState["operationResult"][item["operationResult"]];
+                    else if (item["operationResult"] === "2003") { 
                         item["status"] = this.listSortMasters["operationResults"].find((its) => {
                             return its["sortCode"] == item["operationResult"] && its["language"] == this.language
                         })["sortValue"];
@@ -414,16 +294,11 @@ export class ServicesListComponent implements OnInit {
                             })
                         } else {
                             let updata = (prodata) => {
-                                item["rate"] = prodata.progress || item["rate"];
+                                item["rate"] = prodata.progress || 0;
+                                if(item["rate"] > 100) item["status"] = prodata.status;
                                 item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
-                                    return its["sortCode"] == item["operationType"] && its["language"] == this.language
-                                })["sortValue"] + '\xa0\xa0\xa0' + prodata.progress + "%";
-                                if (item["rate"] > 100) {
-                                    item["status"] = prodata.status;
-                                    item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
-                                        return its["sortCode"] == item["operationType"] && its["language"] == this.language
-                                    })["sortValue"] + '\xa0\xa0\xa0' + item["status"];
-                                }
+                                    return its["sortCode"] === item["operationType"] && its["language"] === this.language
+                                })["sortValue"] + '\xa0\xa0\xa0' + (item["rate"] > 100? item["status"] : prodata.progress + '%');
                             }
                             let obj = {
                                 serviceId: item["service-instance-id"],
@@ -443,32 +318,32 @@ export class ServicesListComponent implements OnInit {
                     }
                     return item;
                 })
-                this.tableData.map((item, index) => {
-                    if (item.serviceDomain == 'E2E Service') {
-                        if (item.operationResult == 2001) {
-                            this.serviceMunber[0]["Success"] += 1;
-                        } else if (item.operationResult == 2002) {
-                            this.serviceMunber[0]["failed"] += 1;
-                        } else if (item.operationResult == 2003) {
-                            this.serviceMunber[0]["InProgress"] += 1;
+                this.tableData.forEach( item => {
+                    if (item.serviceDomain === 'E2E Service') {
+                        if (item.operationResult === 2001) {
+                            this.serviceNunber[0]["Success"] += 1;
+                        } else if (item.operationResult === 2002) {
+                            this.serviceNunber[0]["failed"] += 1;
+                        } else if (item.operationResult === 2003) {
+                            this.serviceNunber[0]["InProgress"] += 1;
                         }
                     }
-                    else if (item.serviceDomain == 'Network Service') {
-                        if (item.operationResult == 2001) {
-                            this.serviceMunber[1]["Success"] += 1;
-                        } else if (item.operationResult == 2002) {
-                            this.serviceMunber[1]["failed"] += 1;
-                        } else if (item.operationResult == 2003) {
-                            this.serviceMunber[1]["InProgress"] += 1;
+                    else if (item.serviceDomain === 'Network Service') {
+                        if (item.operationResult === 2001) {
+                            this.serviceNunber[1]["Success"] += 1;
+                        } else if (item.operationResult === 2002) {
+                            this.serviceNunber[1]["failed"] += 1;
+                        } else if (item.operationResult === 2003) {
+                            this.serviceNunber[1]["InProgress"] += 1;
                         }
                     }
-                    else if (item.serviceDomain == 'CCVPN') {
-                        if (item.operationResult == 2001) {
-                            this.serviceMunber[2]["Success"] += 1;
-                        } else if (item.operationResult == 2002) {
-                            this.serviceMunber[2]["failed"] += 1;
-                        } else if (item.operationResult == 2003) {
-                            this.serviceMunber[2]["InProgress"] += 1;
+                    else if (item.serviceDomain === 'CCVPN') {
+                        if (item.operationResult === 2001) {
+                            this.serviceNunber[2]["Success"] += 1;
+                        } else if (item.operationResult === 2002) {
+                            this.serviceNunber[2]["failed"] += 1;
+                        } else if (item.operationResult === 2003) {
+                            this.serviceNunber[2]["InProgress"] += 1;
                         }
                     }
                 })
@@ -1298,32 +1173,26 @@ export class ServicesListComponent implements OnInit {
     }
 
     queryProgress(obj, callback) {
-        let mypromise = new Promise((res, rej) => {
+        return new Promise( res => {
             let operationTypeObj = {operationType:obj.operationType};
             let errorNums = 180;
              let requeryCcvpn = () => {
                 this.myhttp.getProgress(obj,operationTypeObj)
                     .subscribe((data) => {
-                        if (data.status == "FAILED") {
+                        if (data.status === "FAILED") {
                             callback({ progress: 255, status: "Failed" });
-                            return false;
-                        }
-                        if (data.operationStatus == null || data.operationStatus.progress == undefined) {
+                        }else if (data.operationStatus === null || data.operationStatus.progress === undefined) {
                             errorNums--;
-                            if (errorNums == 0) {
+                            if (errorNums === 0) {
                                 callback({ progress: 255, status: "time over" });
                                 return false;
                             }
                             this.progressCcvpnOutTimer = setTimeout(()=>{
                                 requeryCcvpn();
                             },10000);
-                            return false;
-                        }
-                        if (data.operationStatus.progress > 100) {
+                        }else if (data.operationStatus.progress > 100) {
                             callback({ progress: 255, status: "time over" });
-                            return false;
-                        }
-                        if (data.operationStatus.progress < 100) {
+                        }else if (data.operationStatus.progress < 100) {
                             callback(data.operationStatus);
                             this.progressingCcvpnTimer = setTimeout(()=>{
                                 requeryCcvpn();
@@ -1335,7 +1204,6 @@ export class ServicesListComponent implements OnInit {
             }
             requeryCcvpn();
         })
-        return mypromise;
     }
 
     queryNsProgress(jobid, id, callback, operationType) {
