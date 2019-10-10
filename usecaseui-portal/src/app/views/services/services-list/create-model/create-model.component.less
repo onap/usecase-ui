@@ -1,14 +1,30 @@
-select-list{
+.select-list{
   width: 320px;
   height: 32px;
   line-height: 32px;
   margin: 35px auto;
   .select-list>span{
+    display:inline-block;
     text-align: right;
-    width: 110px!important;
     line-height: 32px;
   }
+  nz-select{
+    width: 176px;
+    float: right;
+  }
+  &.checkbox{ 
+    margin: 0 auto;
+    line-height: 32px;
+    input[type="checkbox"]{
+      zoom: 1.3; 
+      width: 140px;
+    }
+  }
 }
+::ng-deep nz-modal button.ant-btn {
+  margin-top:20px !important;
+}
+
 .loading{
   width: 100%;
   height: 100%;

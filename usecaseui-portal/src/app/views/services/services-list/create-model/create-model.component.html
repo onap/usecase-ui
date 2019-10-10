@@ -1,60 +1,59 @@
 <nz-modal nzWidth="428" [(nzVisible)]="isVisible" nzTitle=" {{'i18nTextDefine_ServiceCreation' | translate}} "
-        (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()" nzClassName="serviceCreationModel"
-        nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
-        nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" nzClassName="serviceCreationModel"
+    nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+    nzOkText=" {{'i18nTextDefine_modelOk' | translate}} "
+>
+    <div class="select-list">
+        <span> {{"i18nTextDefine_Customer" | translate}} : </span>
+        <nz-select [(ngModel)]="currentCustomer.name" nzAllowClear
+            (ngModelChange)="customerChange()">
+            <nz-option *ngFor="let item of customerList" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+    </div>
+    <div class="select-list">
+        <span> {{"i18nTextDefine_ServiceType" | translate}} : </span>
+        <nz-select [(ngModel)]="currentServiceType.name" nzAllowClear>
+            <nz-option *ngFor="let item of serviceTypes" [nzValue]="item.name" [nzLabel]="item.name">
+            </nz-option>
+        </nz-select>
+    </div>
+    <div class="select-list">
+        <span> {{"i18nTextDefine_UseCase" | translate}} : </span>
+        <nz-select [(ngModel)]="templateTypeSelected" nzAllowClear
+            (ngModelChange)="choseTemplateType()">
+            <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
+            <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
+            <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
+            <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
+        </nz-select>
+    </div>
+    <div class="select-list">
+        <span> {{"i18nTextDefine_Template" | translate}} : </span>
+        <nz-select [(ngModel)]="currentTemplate" nzAllowClear>
+            <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
+        </nz-select>
+    </div>
+    <div *ngIf="templateTypeSelected === 'E2E Service'">
         <div class="select-list">
-            <span style="display:inline-block;" class="label"> {{"i18nTextDefine_Customer" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="currentCustomer.name" nzAllowClear
-                (ngModelChange)="customerChange()">
-                <nz-option *ngFor="let item of customerList" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+            <span> {{"i18nTextDefine_Orchestrator" | translate}} : </span>
+            <nz-select [(ngModel)]="orchestratorSelected" nzAllowClear>
+                <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
             </nz-select>
         </div>
-        <div class="select-list">
-            <span style="display:inline-block;"> {{"i18nTextDefine_ServiceType" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="currentServiceType.name" nzAllowClear>
-              <nz-option *ngFor="let item of serviceTypes" [nzValue]="item.name" [nzLabel]="item.name">
-              </nz-option>
-            </nz-select>
+        <div class="checkbox select-list">
+            <span>Sol005 :</span>
+            <input type="checkbox"
+                [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
+            
         </div>
-        <div class="select-list">
-            <span style="display:inline-block;"> {{"i18nTextDefine_UseCase" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="templateTypeSelected" nzAllowClear
-                (ngModelChange)="choseTemplateType()">
-                <nz-option nzValue="SOTN" nzLabel="SOTN"></nz-option>
-                <nz-option nzValue="CCVPN" nzLabel="CCVPN"></nz-option>
-                <nz-option nzValue="E2E Service" nzLabel="E2E Service"></nz-option>
-                <nz-option nzValue="Network Service" nzLabel="Network Service"></nz-option>
-            </nz-select>
-        </div>
-        <div class="select-list">
-            <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Template" | translate}} : </span>
-            <nz-select style="width: 176px;float: right;" [(ngModel)]="currentTemplate" nzAllowClear>
-                <nz-option *ngFor="let item of templates" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-            </nz-select>
-        </div>
-        <div *ngIf="templateTypeSelected === 'E2E Service'">
-            <div class="select-list">
-                <span style="display:inline-block;width:70px;"> {{"i18nTextDefine_Orchestrator" | translate}} : </span>
-                <nz-select style="width: 176px;float: right;" [(ngModel)]="orchestratorSelected" nzAllowClear>
-                    <nz-option *ngFor="let item of orchestratorList" [nzValue]="item" [nzLabel]="item.name"></nz-option>
-                </nz-select>
-            </div>
-        </div>
-        <div *ngIf="templateTypeSelected === 'E2E Service'">
-            <div class="check-box" style="margin:30px; height: 50px">
-                <input class="check-box-style" style="zoom: 1.8; width: 70px" type="checkbox"
-                    [(ngModel)]="isSol005Interface" value="true" nzAllowClear>
-                <label class="label" style="font-size: 20px; color: rgb(60,79,140,0.5)">Sol005</label>
-            </div>
-        </div>
-        <div class="select-list" style="color: red;margin-left: 66px;" *ngIf="temParametersTips">
-            {{"i18nTextDefine_Templateparsingfailed" | translate}}
-        </div>
-        
-    </nz-modal>
-    <div class="loading" *ngIf="loadingAnimateShow">
-      <img src="assets/images/loading-animate2.gif" alt="loading">
-      <p>Please wating……</p>
-  </div>
+    </div>
+    <div class="select-list" *ngIf="temParametersTips">
+        {{"i18nTextDefine_Templateparsingfailed" | translate}}
+    </div>
+</nz-modal>
+<div class="loading" *ngIf="loadingAnimateShow">
+    <img src="assets/images/loading-animate2.gif" alt="loading">
+    <p>Please wating……</p>
+</div>
 
