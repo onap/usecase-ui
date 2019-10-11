@@ -55,7 +55,7 @@
     </app-create-model>
     
 </div>
-<nz-layout style=" padding: 20px 32px; ">
+<nz-layout>
     <div class="top-num">
         <app-top-card
             *ngFor="let item of serviceNunber"
@@ -67,9 +67,9 @@
         </app-top-card>
     </div>
     <div class="list" id="services-list" [ngClass]="{'listdisplay':listDisplay == true}">
-        <nz-table *ngIf="1" #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="false"
+        <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="false"
             [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize"
-            [(nzPageIndex)]='pageIndex' [nzLoading]="loading" [nzSize]="'middle'" [nzScroll]="{ y: '58vh' }"
+            [(nzPageIndex)]='pageIndex' [nzLoading]="loading" [nzSize]="'middle'"
             (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
             <thead>
                 <tr>
@@ -90,31 +90,30 @@
                         <td>{{data["service-instance-name"] || data.nsName}}</td>
                         <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
                         <td>
-                            <p
-                                [ngClass]="{'e2eColor':data.serviceDomain=='E2E Service','nsColor':data.serviceDomain=='Network Service','ccvpnColor':data.serviceDomain=='CCVPN','sotnColor':data.serviceDomain=='SOTN','voLTEColor':data.serviceDomain=='voLTE type'}">
+                            <p class="usecase">
                                 {{data.serviceDomain}}
                             </p>
                         </td>
                         <td>
-                            <span [ngClass]="{'active':data.statusClass=='2001','closed':data.statusClass=='Closed','onboarding':data.statusClass=='Onboarding',
-                    'updating':data.statusClass=='Updating','deleting':data.statusClass=='1002','creating':data.statusClass=='1001',
-                    'scaling':data.statusClass=='1003','healing':data.statusClass=='1004'}"
-                                *ngIf="data.tips != 'Available' && data.tips != 'Unavailable'">{{data.tips}}</span>
-                            <span *ngIf="data.tips == 'Available' " style="margin-left: 10px">
+                            <span [ngClass]="{'active':data.statusClass==='2001','closed':data.statusClass==='Closed','onboarding':data.statusClass==='Onboarding',
+                    'updating':data.statusClass==='Updating','deleting':data.statusClass==='1002','creating':data.statusClass==='1001',
+                    'scaling':data.statusClass==='1003','healing':data.statusClass==='1004'}"
+                                *ngIf="data.tips !== 'Available' && data.tips !== 'Unavailable'">{{data.tips}}</span>
+                            <span *ngIf="data.tips === 'Available' " class="marginLeft10">
                                 <img src="assets/images/wancheng-icon.png" alt="Available">
                             </span>
-                            <span *ngIf="data.tips == 'Unavailable' " style="margin-left: 10px">
+                            <span *ngIf="data.tips === 'Unavailable' " class="marginLeft10">
                                 <img src="assets/images/shibai-icon.png" alt="Unavailable">
                             </span>
-                            <nz-progress *ngIf="data.status == 'In Progress'" [nzPercent]="data.rate"
+                            <nz-progress *ngIf="data.status === 'In Progress'" [nzPercent]="data.rate"
                                 [nzShowInfo]="false" nzStatus="active"></nz-progress>
                         </td>
                         <td>
-                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status=='Failed' && data.operationType=='1002')}"
+                            <i [ngClass]="{'cannotclick':data.status === 'In Progress'||(data.status=='Failed' && data.operationType=='1001')||(data.status==='Failed' && data.operationType=='1002')}"
                                 class="anticon anticon-bars" (click)="serviceDetail(data,1)"></i>
-                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-delete"
+                            <i [ngClass]="{'cannotclick':data.status === 'In Progress'}" class="anticon anticon-delete"
                                 (click)="deleteModel(data)"></i>
-                            <i [ngClass]="{'cannotclick':data.status == 'In Progress'}" class="anticon anticon-ellipsis"
+                            <i [ngClass]="{'cannotclick':data.status === 'In Progress'}" class="anticon anticon-ellipsis"
                                 (click)="iconMoreShow(data,tableData)" style="transform: rotate(90deg);"></i>
 
                             <ul *ngIf="data.iconMore==true " class="icon-more">
@@ -154,7 +153,6 @@
                 </ng-template>
             </tbody>
         </nz-table>
-
         <nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} "
             (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk(templatescalestarting,templateScaleSuccessFaild)"
             nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
@@ -224,8 +222,8 @@
                 </div>
             </ng-template>
         </nz-modal>
-
-        <nz-modal nzWidth="428" [(nzVisible)]="deleteModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} "
+        <!-- <app-delete-modal *ngIf="deleteModalVisible" [deleteModalVisible]="deleteModalVisible"></app-delete-modal> -->
+        <nz-modal nzWidth="428" [(nzVisible)]="deleteModalVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}}"
             (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk(templatedeletestarting,templateDeleteSuccessFaild)"
             nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}"
             nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
@@ -665,7 +663,7 @@
     </div>
     <div class="detailComponent" *ngIf="detailshow2">
         <app-e2e-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
-        </app-e2e-detail>
+        </app-e2e-detail> 
     </div>
     <div class="createComponent" *ngIf="createshow">
         <app-ccvpn-creation [createParams]="createData" [ccvpn_temParametersContent]="ccvpn_temParametersContent"

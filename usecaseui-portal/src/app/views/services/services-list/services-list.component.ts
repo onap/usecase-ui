@@ -51,11 +51,9 @@ export class ServicesListComponent implements OnInit {
     isSol005Interface = false;
     orchestratorList = [];
     customerList = [];
-    customerList2 = [];
     customerSelected = { name: null, id: null };
     customerSelected2 = { name: null, id: null };
     serviceTypeList = [];
-    serviceTypeList2 = [];
     serviceTypeSelected = { name: '' };
     serviceTypeSelected2 = { name: '' };
     serviceTypeSelectedName = "";
@@ -89,7 +87,7 @@ export class ServicesListComponent implements OnInit {
         }
     ];
 
-    progressCcvpnOutTimer :any; // ccvpn¡¢NS progress Timer
+    progressCcvpnOutTimer :any; // ccvpnï¿½ï¿½NS progress Timer
     progressingCcvpnTimer :any;
     progressNsOutTimer :any;
     progressingNsTimer :any;
@@ -116,7 +114,6 @@ export class ServicesListComponent implements OnInit {
             .subscribe((data) => {
                 this.customerList = data.map(item => ({ name: item["subscriber-name"], id: item["global-customer-id"] }) );
                 if(data.length !== 0){
-                    // this.customerList2 = data.map(item => ({ name: item["subscriber-name"], id: item["global-customer-id"] }) );
                     this.customerSelected = this.customerList[0];
                     this.choseCustomer();
                 }
@@ -155,9 +152,6 @@ export class ServicesListComponent implements OnInit {
 
     // Create modal box 2 (dialog box) create -------------------------------
     isVisible = false;
-
-
-
 
     createModal(): void {
         this.isVisible = true;
@@ -347,6 +341,7 @@ export class ServicesListComponent implements OnInit {
                         }
                     }
                 })
+                console.log(this.tableData)
                 this.loading = false;
             }, (err) => {
                 console.log(err);
@@ -513,39 +508,38 @@ export class ServicesListComponent implements OnInit {
         service["serviceType"] = this.serviceTypeSelected;
 
         service.childServiceInstances.forEach((item) => {
-            if (item.serviceDomain == "SITE") {
+            if (item.serviceDomain === "SITE") {
                 service.siteSer.push(item);
-            } else if (item.serviceDomain == "SDWAN") {
+            } else if (item.serviceDomain === "SDWAN") {
                 service.sdwanSer.push(item);
             }
         })
-        if (service["serviceDomain"] == 'CCVPN' || service["serviceDomain"] == 'SOTN') {
+        if (service["serviceDomain"] === 'CCVPN' || service["serviceDomain"] === 'SOTN') {
             this.detailshow = true;
             if (typeNum == 1) {
                 this.upDateShow = false;
             } else {
                 this.upDateShow = true;
             }
-        } else if (service["serviceDomain"] == 'E2E Service' || service["serviceDomain"] == 'Network Service') {
+        } else if (service["serviceDomain"] === 'E2E Service' || service["serviceDomain"] === 'Network Service') {
             this.detailshow2 = true;
         }
         this.listDisplay = true;
         this.detailData = service;
-        console.log(service);
     }
 
-    deleteModelVisible = false;
+    deleteModalVisible = false;
     terminationType = "graceful";
     gracefulTerminationTimeout = 120;
 
     // delete Model show
     deleteModel(service) {
         this.thisService = service;
-        this.deleteModelVisible = true;
+        this.deleteModalVisible = true;
     }
 
     deleteOk(templatedeletestarting, templateDeleteSuccessFaild) {
-        this.deleteModelVisible = false;
+        this.deleteModalVisible = false;
         this.loadingAnimateShow = true;
         if (this.thisService["serviceDomain"] == "Network Service") {
             this.deleteNsService(this.thisService, templateDeleteSuccessFaild);
@@ -556,7 +550,7 @@ export class ServicesListComponent implements OnInit {
     }
 
     deleteCancel() {
-        this.deleteModelVisible = false;
+        this.deleteModalVisible = false;
     }
 
     deleteNotification(template: TemplateRef<{}>): void {
