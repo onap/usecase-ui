@@ -75,6 +75,8 @@ import { TestComponent } from './test/test.component';
 import { TextService } from './core/services/text.service';
 import { TopCardComponent } from './views/services/services-list/top-card/top-card.component';
 import { CreateModelComponent } from './views/services/services-list/create-model/create-model.component';
+// import { DeleteModalComponent } from './views/services/services-list/delete-modal/delete-modal.component';
+import { NotificationComponent } from './shared/components/notification/notification.component';
 
 @NgModule({
   providers: [
@@ -116,7 +118,9 @@ import { CreateModelComponent } from './views/services/services-list/create-mode
     FcapsComponent,
     TestComponent,
     TopCardComponent,
-    CreateModelComponent
+    CreateModelComponent,
+    // DeleteModalComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

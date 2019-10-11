@@ -41,7 +41,7 @@
         <input nz-input placeholder=" {{'i18nTextDefine_Input_customerName' | translate}} " class="customer_name"
           nzSize="default" [(ngModel)]="addNewCustomer">
         <button nz-button nzType="primary" class="customer_addbut"
-          (click)="createNewCustomer(notificationModel)">{{"i18nTextDefine_Add" | translate}}</button>
+          (click)="createNewCustomer()">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
       <div class="customer_list">
         <ul>
@@ -67,7 +67,7 @@
         <input nz-input placeholder=" {{'i18nTextDefine_Input_ServicesType' | translate}} " class="services_name"
           nzSize="default" [(ngModel)]="addNewServiceType">
         <button nz-button nzType="primary" class="services_addbut"
-          (click)="createNewServiceType(notificationModel)">{{"i18nTextDefine_Add" | translate}}</button>
+          (click)="createNewServiceType()">{{"i18nTextDefine_Add" | translate}}</button>
       </div>
       <div class="services_list_content">
         <div class="border_size"></div>
@@ -84,7 +84,7 @@
   </div>
 
   <nz-modal nzWidth="428" [(nzVisible)]="deleteCustomerModelVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}} "
-    (nzOnCancel)="deleteCustomerCancel()" (nzOnOk)="deleteCustomerOk(notificationModel)" nzClassName="deleteModel"
+    (nzOnCancel)="deleteCustomerCancel()" (nzOnOk)="deleteCustomerOk()" nzClassName="deleteModel"
     nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
     <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_Input_Sure_deleteCustomer" | translate}} </h3>
     <div class="question">
@@ -98,7 +98,7 @@
   </nz-modal>
   <nz-modal nzWidth="428" [(nzVisible)]="deleteServiceTypeModelVisible"
     nzTitle=" {{'i18nTextDefine_delete' | translate}} " (nzOnCancel)="deleteServiceTypeCancel()"
-    (nzOnOk)="deleteServiceTypeOk(notificationModel)" nzClassName="deleteModel deleteServiceTypeModel"
+    (nzOnOk)="deleteServiceTypeOk()" nzClassName="deleteModel deleteServiceTypeModel"
     nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} " nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
     <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_Input_Sure_deleteServiceType" | translate}} </h3>
     <div class="question">
@@ -114,25 +114,5 @@
       <div class="deleteModelContent">{{thisdeleteServiceType["type"]}}</div>
     </div>
   </nz-modal>
-  <!--2019.08.14 add notification-->
-  <ng-template #notificationModel>
-    <div class="ant-notification-notice-content">
-      <div class="ant-notification-notice-with-icon">
-        <span class="ant-notification-notice-icon">
-          <img src="{{this.notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
-        </span>
-        <div class="ant-notification-notice-message" *ngIf="notificationAttributes.title == 'Customer'">
-          {{"i18nTextDefine_"+notificationAttributes.title | translate}}&nbsp;
-          {{"i18nTextDefine_"+notificationAttributes.action | translate}}&nbsp;&nbsp;{{"i18nTextDefine_"+notificationAttributes.status | translate}}
-        </div>
-        <div class="ant-notification-notice-description">
-          <div class="notificationlist">
-            <p>{{"i18nTextDefine_"+notificationAttributes.title | translate}}:</p>
-            <span>{{ notificationAttributes.name }}</span>
-          </div>
-        </div>
-        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-      </div>
-    </div>
-  </ng-template>
+  <app-notification #notification></app-notification> 
 </div>

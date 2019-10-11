@@ -15,7 +15,6 @@
 */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ManagemencsService } from '../../../core/services/managemencs.service';
-import { NzNotificationService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,12 +25,12 @@ import { Observable } from 'rxjs';
 export class CustomerComponent implements OnInit {
     @ViewChild('chart') chart;
     @ViewChild('pie') pie;
+    @ViewChild('notification')notification:any;
     public chose = '';
 
     resizeMark;
     constructor(
         private managemencs: ManagemencsService,
-        private notification: NzNotificationService
     ) {
     }
 
@@ -63,21 +62,6 @@ export class CustomerComponent implements OnInit {
     addNewServiceType = null;
     deleteCustomerModelVisible = false;
     deleteServiceTypeModelVisible = false;
-    //2019.08.14 add
-    notificationAttributes = null;
-    setNotification({ title, imgPath, action, status, name }):void{
-        this.notificationAttributes = { title, imgPath, action, status, name }
-    }
-    notificationSuccess(notificationModel,title,action,name) {
-        this.notification.remove()
-        this.setNotification({ title, imgPath: "assets/images/execute-success.png", action, status: 'Success', name })
-        this.notification.template(notificationModel);
-    }
-    notificationFailed(notificationModel,title,action,name) {
-        this.notification.remove()
-        this.setNotification({ title, imgPath: "assets/images/execute-faild.png", action, status: 'Failed', name })
-        this.notification.template(notificationModel)
-    }
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
             this.AllCustomersdata = data.map((item) => {
@@ -383,7 +367,7 @@ export class CustomerComponent implements OnInit {
         })
     }
 
-    createNewCustomer(notificationModel) {
+    createNewCustomer(): void {
         let createParams = {
             customerId: this.addNewCustomer,
             'global-customer-id': this.addNewCustomer,
@@ -392,10 +376,10 @@ export class CustomerComponent implements OnInit {
         };
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel,'Customer','Create',this.addNewCustomer);
+                this.notification.notificationSuccess('Customer','Create',this.addNewCustomer);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel,'Customer','Create',this.addNewCustomer);
+                this.notification.notificationFailed('Customer','Create',this.addNewCustomer);
             }
         })
     }
@@ -412,35 +396,35 @@ export class CustomerComponent implements OnInit {
     deleteCustomerCancel() {
         this.deleteCustomerModelVisible = false;
     }
-    deleteCustomerOk(notificationModel) {
+    deleteCustomerOk() {
         this.deleteCustomerModelVisible = false;
-        this.getCustomerVersion(this.thisdeleteCustomer, notificationModel);
+        this.getCustomerVersion(this.thisdeleteCustomer,);
     }
-    getCustomerVersion(thisdeleteCustomer, notificationModel) {
+    getCustomerVersion(thisdeleteCustomer) {
         this.managemencs.getdeleteCustomerVersion(thisdeleteCustomer).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
                 let params = {
                     customerId: thisdeleteCustomer.id,
                     resourceVersion: data["result"]["resource-version"]
                 };
-                this.deleteCustomer(params, notificationModel)
+                this.deleteCustomer(params)
             } else {
                 console.error(data, "Interface returned error")
             }
         })
     }
-    deleteCustomer(paramsObj, notificationModel) {
+    deleteCustomer(paramsObj) {
         this.managemencs.deleteSelectCustomer(paramsObj).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel,'Customer','delete',this.thisdeleteCustomer.name);
+                this.notification.notificationSuccess('Customer','delete',this.thisdeleteCustomer.name);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel,'Customer','delete',this.thisdeleteCustomer.name);
+                this.notification.notificationFailed('Customer','delete',this.thisdeleteCustomer.name);
             }
         })
     }
 
-    createNewServiceType(notificationModel) {
+    createNewServiceType() {
         let createParams = {
             customer: this.selectCustomer,
             ServiceType: this.addNewServiceType,
@@ -449,10 +433,10 @@ export class CustomerComponent implements OnInit {
         };
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel,'ServiceType','Create',this.addNewServiceType);
+                this.notification.notificationSuccess('ServiceType','Create',this.addNewServiceType);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel,'ServiceType','Create',this.addNewServiceType);
+                this.notification.notificationFailed('ServiceType','Create',this.addNewServiceType);
             }
         })
     }
@@ -468,11 +452,11 @@ export class CustomerComponent implements OnInit {
     deleteServiceTypeCancel() {
         this.deleteServiceTypeModelVisible = false;
     }
-    deleteServiceTypeOk(notificationModel) {
+    deleteServiceTypeOk() {
         this.deleteServiceTypeModelVisible = false;
-        this.getServiceTypeVersion(notificationModel);
+        this.getServiceTypeVersion();
     }
-    getServiceTypeVersion(notificationModel) {
+    getServiceTypeVersion() {
         let paramss = {
             customerId: this.selectCustomer,
             ServiceType: this.thisdeleteServiceType["type"]
@@ -484,19 +468,19 @@ export class CustomerComponent implements OnInit {
                     ServiceType: this.thisdeleteServiceType["type"],
                     version: data["result"]["resource-version"]
                 };
-                this.deleteServiceType(params, notificationModel);
+                this.deleteServiceType(params);
             } else {
                 console.error(data, "Interface returned error")
             }
         })
     }
-    deleteServiceType(params, notificationModel) {
+    deleteServiceType(params) {
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notificationSuccess(notificationModel,'ServiceType','delete',this.thisdeleteServiceType["type"]);
+                this.notification.notificationSuccess('ServiceType','delete',this.thisdeleteServiceType["type"]);
                 this.getAllCustomers();
             } else {
-                this.notificationFailed(notificationModel,'ServiceType','delete',this.thisdeleteServiceType["type"]);
+                this.notification.notificationFailed('ServiceType','delete',this.thisdeleteServiceType["type"]);
             }
         })
     }
