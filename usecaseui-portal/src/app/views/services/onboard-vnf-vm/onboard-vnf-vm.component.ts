@@ -14,8 +14,7 @@
     limitations under the License.
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, HostBinding, TemplateRef } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd';
+import { Component, OnInit, HostBinding, TemplateRef, ViewChild } from '@angular/core';
 import { onboardService } from '../../../core/services/onboard.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
@@ -29,6 +28,7 @@ import { filter } from 'rxjs/operators';
 })
 export class OnboardVnfVmComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
+  @ViewChild('notification') notification: any;
 
   // upload
   tabs: string[] = ['NS', 'VNF', 'PNF'];
@@ -70,33 +70,12 @@ export class OnboardVnfVmComponent implements OnInit {
     private myhttp: onboardService,
     private http: HttpClient,
     private msg: NzMessageService,
-    private modalService: NzModalService,
-    private notification: NzNotificationService
+    private modalService: NzModalService
   ) { }
 
   //default Call ns data by default
   ngOnInit() {
     this.getTableData();
-  }
-
-  notificationAttributes: {
-    title: string,
-    imgPath: string,
-    action: string,
-    status: string,
-    id: string
-  }
-  setNotification({ imgPath, action, status, id }):void{
-    this.notificationAttributes = { title: this.currentTab, imgPath, action, status, id }
-  }
-
-  notificationSuccess(notificationModel: TemplateRef<{}>, action: string, id: string): void {
-    this.setNotification({ imgPath:"assets/images/execute-success.png", action, status:"Success", id })
-    this.notification.template(notificationModel);
-  }
-  notificationFailed(notificationModel: TemplateRef<{}>, action: string ,id: string): void{
-    this.setNotification({ imgPath:"assets/images/execute-faild.png", action, status:"Failed", id })    
-    this.notification.template(notificationModel);
   }
 
   // Handling tab switching request data
@@ -266,7 +245,7 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   // confirm
-  showConfirm(requestBody: object, notificationModel: TemplateRef<{}>, id: string): void{
+  showConfirm(requestBody: object, id: string): void{
     let API = this.currentTab === 'NS'? 'getNsonboard' : 'getVnfonboard';
     this.modalService.confirm({
       nzTitle: '<p>Are you sure you want to do this?</p>',
@@ -276,16 +255,16 @@ export class OnboardVnfVmComponent implements OnInit {
             if (data.status == "success") {
               if(this.currentTab === 'NS'){
                 this.isUpdate = false;
-                this.notificationSuccess(notificationModel, "OnboardingState", id);
+                this.notification.notificationSuccess(this.currentTab, "OnboardingState", id);
                 this.getTableData();
               }else{
                 this.jobId = data.jobId;
-                this.queryProgress(this.jobId, notificationModel,id);
+                this.queryProgress(this.jobId, id);
                 this.getTableVnfData();
               }
             } else {
               this.isUpdate = false;
-              this.notificationFailed(notificationModel, "OnboardingState", id);
+              this.notification.notificationFailed(this.currentTab, "OnboardingState", id);
               return false
             } 
           }, (err) => {
@@ -297,36 +276,36 @@ export class OnboardVnfVmComponent implements OnInit {
 
 
   // ns onboard Upload button
-  updataService(id: string, notificationModel: TemplateRef<{}>) {
+  updataService(id: string) {
     this.isUpdate = true;
     let requestBody = { "csarId": id };
-    this.showConfirm(requestBody, notificationModel, id)
+    this.showConfirm(requestBody, id)
   } 
 
   //Progress Progress inquiry
-  queryProgress(jobId: string,  notificationModel: TemplateRef<{}>, id: string): any{
+  queryProgress(jobId: string, id: string): any{
     let mypromise = new Promise((res) => {
       this.myhttp.getProgress(jobId, 0)
         .subscribe((data) => {
           if (data.responseDescriptor == null || data.responseDescriptor == "null" || data.responseDescriptor.progress == undefined || data.responseDescriptor.progress == null) {
             this.isUpdate = true;
             setTimeout(() => {
-              this.queryProgress(this.jobId, notificationModel, id);
+              this.queryProgress(this.jobId, id);
             }, 10000)
             return false
           }
           if (data.responseDescriptor.progress > 100) {
             this.isUpdate = false;
-            this.notificationFailed(notificationModel, 'OnboardingState', id);
+            this.notification.notificationFailed(this.currentTab, 'OnboardingState', id);
           }else if (data.responseDescriptor.progress < 100) {
             this.isUpdate = true;
             setTimeout(() => {
-              this.queryProgress(this.jobId, notificationModel,id);
+              this.queryProgress(this.jobId, id);
             }, 5000)
           } else {
             res(data);
             this.isUpdate = false;
-            this.notificationSuccess(notificationModel, 'OnboardingState', id);
+            this.notification.notificationSuccess(this.currentTab, 'OnboardingState', id);
           }
           return false
         })
@@ -335,20 +314,20 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   /* delete button */
-  showDeleteConfirm(pkgid: string, notificationModel: TemplateRef<{}>): void {
+  showDeleteConfirm(pkgid: string): void {
     this.modalService.confirm({
       nzTitle: 'Do you Want to delete these items?',
       nzContent: 'Do you Want to delete these items?',
       nzOkText: 'Yes',
       nzCancelText: 'No',
       nzOnOk: () => new Promise((resolve) => {
-        this.deleteService(pkgid, notificationModel,resolve);
+        this.deleteService(pkgid, resolve);
       }).catch(() => console.log('Oops errors!'))
     });
   }
 
   //delete nsItem
-  deleteService(pkgid, notificationModel,resolve) {
+  deleteService(pkgid, resolve) {
     let API: string;
     if(this.currentTab === 'NS'){
       API = 'deleteNsIdData';
@@ -359,7 +338,7 @@ export class OnboardVnfVmComponent implements OnInit {
     }
     this.myhttp[API](pkgid)
       .subscribe((data) => {
-        this.notificationSuccess(notificationModel, 'OnboardingState', pkgid);
+        this.notification.notificationSuccess(this.currentTab, 'OnboardingState', pkgid);
         resolve()
         //refresh list after successful deletion
         switch(this.currentTab){
@@ -375,7 +354,7 @@ export class OnboardVnfVmComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
-        this.notificationFailed(notificationModel, 'OnboardingState', pkgid);
+        this.notification.notificationFailed(this.currentTab, 'OnboardingState', pkgid);
       })
   }
 }

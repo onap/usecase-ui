@@ -9,7 +9,13 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class NotificationComponent implements OnInit {
   @ViewChild('notificationModel')notificationModel: any;
 
-  notificationAttributes: object = null;
+  notificationAttributes: {
+    title: string,
+    imgPath: string,
+    action: string,
+    status: string,
+    name: string
+  };
 
   constructor(private notification: NzNotificationService) { }
 

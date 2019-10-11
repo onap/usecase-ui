@@ -81,9 +81,9 @@
                     <td>{{item.nsdUsageState}}</td>
                     <td>
                         <i [ngClass]="{'cannotclick': isUpdate}"
-                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid,notificationModel)"
+                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
                             *ngIf="item.uuid"></i>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id,notificationModel)"
+                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
                             *ngIf="item.id"></i>
                     </td>
                 </tr>
@@ -98,9 +98,9 @@
                     <td>{{item.usageState}}</td>
                     <td>
                         <i [ngClass]="{'cannotclick': isUpdate}"
-                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid,notificationModel)"
+                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
                             *ngIf="item.uuid"></i>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id,notificationModel)"
+                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
                             *ngIf="item.id"></i>
                     </td>
                 </tr>
@@ -113,31 +113,11 @@
                     <td>{{item.pnfdOnboardingState}}</td>
                     <td>{{item.pnfdUsageState}}</td>
                     <td>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id,notificationModel)"></i>
+                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"></i>
                     </td>
                 </tr> 
             </tbody>
         </nz-table>
     </nz-spin>
 </div>
-<ng-template #notificationModel >
-    <div class="ant-notification-notice-content">
-        <div class="ant-notification-notice-with-icon">
-                    <span class="ant-notification-notice-icon">
-                        <img src="{{notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
-                    </span>
-            <div class="ant-notification-notice-message">
-                {{notificationAttributes.title}}&nbsp;
-                {{"i18nTextDefine_"+notificationAttributes.action | translate}}&nbsp;&nbsp;{{"i18nTextDefine_"+notificationAttributes.status | translate}}
-            </div>
-            <div class="ant-notification-notice-description">
-                <div class="notificationlist">
-                    <p>{{notificationAttributes.title}} id:&nbsp;</p>
-                    <span>{{ notificationAttributes.id }}</span>
-                </div>
-            </div>
-            <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-        </div>
-    </div>
-</ng-template>
-
+<app-notification #notification></app-notification>

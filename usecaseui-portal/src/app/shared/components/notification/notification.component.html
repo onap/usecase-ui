@@ -2,15 +2,16 @@
   <div class="ant-notification-notice-content">
     <div class="ant-notification-notice-with-icon">
       <span class="ant-notification-notice-icon">
-        <img src="{{this.notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
+        <img src="{{notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
       </span>
-      <div class="ant-notification-notice-message" *ngIf="notificationAttributes.title == 'Customer'">
-        {{"i18nTextDefine_"+notificationAttributes.title | translate}}&nbsp;
+      <div class="ant-notification-notice-message">
+        {{(notificationAttributes.action === 'OnboardingState'? notificationAttributes.title : "i18nTextDefine_"+notificationAttributes.title) | translate}}&nbsp;
         {{"i18nTextDefine_"+notificationAttributes.action | translate}}&nbsp;&nbsp;{{"i18nTextDefine_"+notificationAttributes.status | translate}}
       </div>
       <div class="ant-notification-notice-description">
         <div class="notificationlist">
-          <p>{{"i18nTextDefine_"+notificationAttributes.title | translate}}:</p>
+          <p *ngIf="notificationAttributes.action !== 'OnboardingState'">{{"i18nTextDefine_"+notificationAttributes.title | translate}}:</p>
+          <p *ngIf="notificationAttributes.action === 'OnboardingState'">{{notificationAttributes.title}} id:&nbsp;</p>
           <span>{{ notificationAttributes.name }}</span>
         </div>
       </div>
