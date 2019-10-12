@@ -16,6 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
 import { ServiceListService } from '../../../../core/services/serviceList.service';
+import {Observable} from "../../../../../../node_modules/rxjs";
 
 @Component({
     selector: 'app-ccvpn-creation',
@@ -29,19 +30,26 @@ export class CcvpnCreationComponent implements OnInit {
     @Input() ccvpn_temParametersContent;
     @Output() closeCreate = new EventEmitter();
 
+
     ngOnInit() {
         this.getccvpnTemParameters(this.ccvpn_temParametersContent);
+        Observable.fromEvent(window, 'resize').subscribe((event) => {
+            this.siteTableWidth["x"] = document.documentElement.clientWidth > 1400 ?"78%":"961px";
+        });
     }
 
     //tabBarStyle
-    tabBarStyle = {
+    tabBarStyle: object = {
         "height": "58px",
         "width": "694px",
         "box-shadow": "none",
         "margin": "0",
         "border-radius": "4px 4px 0px 0px"
     };
-    templateParameters = {
+    siteTableWidth: object = {
+        x:""
+    };
+    templateParameters: any = {
         service: {},
         sotnvpn: {
             info: {},
@@ -56,25 +64,25 @@ export class CcvpnCreationComponent implements OnInit {
         }
     };
 
-    bodyTemplateParameter = {};
+    bodyTemplateParameter: object = {};
 
     // SOTN VPN List
-    sotnVpnTableData = [];
-    sotnInfo = {};//sotnmodel  The first part of sotnInfo
-    sotnSdwansitelanData = [];//sotnmodel The second part of the data  sdwansitelan Table
-    sotnSdwansitelanParams = {};//sdwansitelan Table  Detailed parameters of each line of data
-    tabInputShowSdwansitelan = [];//sdwansitelan Table input&span The status identifier of the label switching display
+    sotnVpnTableData: any[] = [];
+    sotnInfo: object  = {};//sotnmodel  The first part of sotnInfo
+    sotnSdwansitelanData: any[] = [];//sotnmodel The second part of the data  sdwansitelan Table
+    sotnSdwansitelanParams: any[] = {};//sdwansitelan Table  Detailed parameters of each line of data
+    tabInputShowSdwansitelan: any[] = [];//sdwansitelan Table input&span The status identifier of the label switching display
     // Site List
-    siteTableData = [];
-    siteBaseData = {}; //sitemodel one sdwansiteresource_list
+    siteTableData: any[] = [];
+    siteBaseData: object  = {}; //sitemodel one sdwansiteresource_list
     // cpe
-    siteSdwanDevice = []; //sitemodel  SdwanDevice port Table data
-    siteCpeData = {}; //sitemodel two sdwandevice_list
-    tabInputShowDevice = [];//Device port Table input和span The status identifier of the label switching display
+    siteSdwanDevice: any[] = []; //sitemodel  SdwanDevice port Table data
+    siteCpeData: object  = {}; //sitemodel two sdwandevice_list
+    tabInputShowDevice: any[] = [];//Device port Table input和span The status identifier of the label switching display
     // Wan Port
-    siteWanData = [];  //sitemodel three wan port Table data
-    siteWanParams = {}; //wan port Table Detailed parameters of each line of data
-    tabInputShowWanPort = [];//wan port Table input和span The status identifier of the label switching display
+    siteWanData: any[] = [];  //sitemodel three wan port Table data
+    siteWanParams: object  = {}; //wan port Table Detailed parameters of each line of data
+    tabInputShowWanPort: any[] = [];//wan port Table input和span The status identifier of the label switching display
     getKeys(item) {
         return Object.keys(item);
     }
@@ -260,19 +268,19 @@ export class CcvpnCreationComponent implements OnInit {
 
     //add,edit,delete SdwanDevice
     addSdwanDevice() {
-        if (this.tabInputShowDevice.indexOf(true) > -1) {//当有正在编辑的一行数据时，不允许添加新的行
+        if (this.tabInputShowDevice.indexOf(true) > -1) {//Adding new rows is not allowed when there is a row of data being edited
             return false;
         }
         let addNum = this.siteSdwanDevice.length;
         let inputsData = Object.assign({}, this.siteCpeData);
-        Object.keys(inputsData).forEach((item) => {//新增一行空数据
+        Object.keys(inputsData).forEach((item) => {//Add a new line of empty data
             if (item != "description") {
                 inputsData[item] = null;
             }
         });
         this.siteSdwanDevice[addNum] = inputsData;
         this.tabInputShowDevice[addNum] = true;
-        this.siteSdwanDevice = [...this.siteSdwanDevice]; //表格刷新
+        this.siteSdwanDevice = [...this.siteSdwanDevice]; //Table refresh
     }
 
     editDevicePort(num, item, siteSdwanDevice) {
