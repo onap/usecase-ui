@@ -66,7 +66,7 @@
             [serviceDetailName]="item.detailName">
         </app-top-card>
     </div>
-    <div class="list" id="services-list" [ngClass]="{'listdisplay':listDisplay == true}">
+    <div class="list" id="services-list" [ngClass]="{'listdisplay':listDisplay === true}">
         <nz-table #nzTable [nzData]="tableData" nzShowSizeChanger [nzFrontPagination]="false"
             [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize"
             [(nzPageIndex)]='pageIndex' [nzLoading]="loading" [nzSize]="'middle'"
@@ -224,7 +224,7 @@
         </nz-modal>
         <!-- <app-delete-modal *ngIf="deleteModalVisible" [deleteModalVisible]="deleteModalVisible"></app-delete-modal> -->
         <nz-modal nzWidth="428" [(nzVisible)]="deleteModalVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}}"
-            (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk(templatedeletestarting,templateDeleteSuccessFaild)"
+            (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk(templateDeleteSuccessFaild)"
             nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}"
             nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
             nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
@@ -256,46 +256,6 @@
                         [(ngModel)]="gracefulTerminationTimeout">
                 </div>
             </div>
-
-            <ng-template #templatedeletestarting>
-                <div class="ant-notification-notice-content">
-                    <div class="ant-notification-notice-with-icon">
-                        <span class="ant-notification-notice-icon">
-                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
-                        </span>
-                        <div class="ant-notification-notice-message"
-                            *ngIf="thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">
-                            {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationStarting" |
-                            translate}}
-                        </div>
-                        <div class="ant-notification-notice-message"
-                            *ngIf="thisService['serviceDomain'] == 'E2E Service'">E2E &nbsp;
-                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
-                        </div>
-                        <div class="ant-notification-notice-message"
-                            *ngIf="thisService['serviceDomain'] == 'Network Service'">NS &nbsp;
-                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
-                        </div>
-                        <div class="ant-notification-notice-description">
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
-                                <span>{{ thisService["service-instance-name"] ||
-                                    thisService["nsInstanceName"] }}
-                                </span>
-                            </div>
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
-                                <span>{{ customerSelected.name }}</span>
-                            </div>
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
-                                <span>{{ thisService["serviceDomain"] }}</span>
-                            </div>
-                        </div>
-                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-                    </div>
-                </div>
-            </ng-template>
         </nz-modal>
 
         <nz-modal nzWidth="428" [nzVisible]="healModelVisible" nzTitle=" {{'i18nTextDefine_Heal' | translate}} "
@@ -401,6 +361,7 @@
             </ng-template>
         </nz-modal>
 
+        <app-notification #notification [isServicesList]="true" [customerSelected]="customerSelected"></app-notification>
         <!-- add notification-->
         <ng-template #templateCreatestarting>
             <div class="ant-notification-notice-content">
@@ -409,7 +370,7 @@
                         <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                     </span>
                     <div class="ant-notification-notice-message"
-                        *ngIf="thisCreateService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN'">
+                        *ngIf="thisCreateService['serviceDomain'] === 'CCVPN' || thisService['serviceDomain'] === 'SOTN'">
                         {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" |
                         translate}}
                     </div>
@@ -517,6 +478,7 @@
                         *ngIf="(thisService['serviceDomain'] == 'Network Service') && thisService.status == 'Successful'">
                         NS &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" | translate}}
                     </div>
+                    
                     <div class="ant-notification-notice-message"
                         *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Failed'">
                         {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" |
@@ -678,7 +640,7 @@
     </div>
     <!--</div>-->
 </nz-layout>
-<!-- <div class="loading" *ngIf="loadingAnimateShow">
+<div class="loading" *ngIf="loadingAnimateShow">
     <img src="assets/images/loading-animate2.gif" alt="loading">
     <p>Please wating……</p>
-</div> -->
+</div>
