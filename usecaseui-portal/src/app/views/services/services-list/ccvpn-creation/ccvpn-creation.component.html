@@ -81,7 +81,7 @@
                     </nz-table>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="Sdwansiteresource List">
+            <nz-tab nzTitle="Sdwansiteresource List" nzVirtualScroll>
                 <div class="site">
                     <div style="height: 10px">
                         <h3 style="float: left;color: #3C4F8C">Site List</h3>
@@ -90,12 +90,12 @@
                                 style="transform: scale(1.2);font-weight: 700"></i>{{"i18nTextDefine_Add" | translate}}
                         </button>
                     </div>
-                    <nz-table #siteTable [nzData]="siteTableData" [nzShowPagination]="false" nzSize="small">
+                    <nz-table #siteTable [nzData]="siteTableData" [nzShowPagination]="false" nzSize="small" nzVirtualScroll [nzScroll]="siteTableWidth">
                         <thead>
                             <tr>
-                                <th nzWidth="10%"> NO.</th>
+                                <th nzWidth="10%" nzLeft="0px"> NO.</th>
                                 <th *ngFor="let key of getKeys(this.siteBaseData)">{{key.split("_")[1] || key}}</th>
-                                <th nzWidth="20%" style="text-align: center"> Action</th>
+                                <th nzWidth="20%" style="text-align: center" nzRight="0px"> Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -234,17 +234,17 @@
                             style="transform: scale(1.2);font-weight: 700;"></i>{{"i18nTextDefine_Add" | translate}}
                     </button>
                 </div>
-                <table class="siteWanTab">
+                <nz-table class="siteWanTab"  nzVirtualScroll #nzTable [nzData]="siteWanData"  [nzScroll]="{ x: '2500px'}">
                     <thead>
                         <tr>
-                            <th width="4%"> NO.</th>
+                            <th width="4%" nzLeft="0px"> NO.</th>
                             <th *ngFor="let key of getKeys(this.siteWanParams)">{{key}}</th>
-                            <th width="7%"> Action</th>
+                            <th width="7%" nzRight="0px"> Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of siteWanData; let i = index;"
-                            [ngClass]="{'tr-border':item.tabInputShowWanPort ==false}">
+                    <ng-template ngFor let-item [ngForOf]="nzTable.data" let-i="index">
+                        <tr [ngClass]="{'tr-border':item.tabInputShowWanPort ==false}">
                             <td>{{i+1}}</td>
                             <td *ngFor="let key of getKeys(item);let a = index;">
                                 <span *ngIf="!tabInputShowWanPort[i]"
@@ -260,8 +260,9 @@
                                         class="anticon anticon-delete"></i></span>
                             </td>
                         </tr>
+                        </ng-template>
                     </tbody>
-                </table>
+                </nz-table>
             </div>
         </div>
 
