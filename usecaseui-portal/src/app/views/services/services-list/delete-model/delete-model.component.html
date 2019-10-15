@@ -1,0 +1,34 @@
+<nz-modal nzWidth="428" [(nzVisible)]="deleteModalVisible" nzTitle=" {{'i18nTextDefine_delete' | translate}}"
+          (nzOnCancel)="deleteCancel()" (nzOnOk)="deleteOk()"
+          nzClassName="{{thisService['serviceDomain'] == 'Network Service'?'nsdeleteModel':'deleteModel'}}"
+          nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+          nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+  <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureDelete" | translate}} </h3>
+  <div class="question">
+    <h4> {{"i18nTextDefine_InstanceName" | translate}} :</h4>
+    <div class="deleteModelContent">{{ thisService["service-instance-name"] ||
+      thisService["nsInstanceName"] }}
+    </div>
+  </div>
+  <div class="question">
+    <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
+    <div class="deleteModelContent">{{ thisService["service-instance-id"] ||
+      thisService["nsInstanceId"] }}
+    </div>
+  </div>
+  <div *ngIf="thisService['serviceDomain'] == 'Network Service'">
+    <div class="question">
+      <h4> {{"i18nTextDefine_terminationType" | translate}} :</h4>
+      <nz-select style="width: 306px;" [(ngModel)]="terminationType">
+        <nz-option nzValue="graceful" nzLabel=" {{'i18nTextDefine_graceful' | translate}} "></nz-option>
+        <nz-option nzValue="forceful" nzLabel=" {{'i18nTextDefine_forceful' | translate}} "></nz-option>
+      </nz-select>
+    </div>
+    <div class="question">
+      <h4 *ngIf="terminationType=='graceful'"> {{"i18nTextDefine_gracefulTerminationTimeout" | translate}}
+        :</h4>
+      <input *ngIf="terminationType=='graceful'" style="width: 306px;" nz-input
+             [(ngModel)]="gracefulTerminationTimeout">
+    </div>
+  </div>
+</nz-modal>

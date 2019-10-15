@@ -539,19 +539,15 @@ export class ServicesListComponent implements OnInit {
         this.deleteModalVisible = true;
     }
 
-    deleteOk(templateDeleteSuccessFaild) {
+    deleteModalOK(obj: any,templateDeleteSuccessFaild) :void{
         this.deleteModalVisible = false;
         this.loadingAnimateShow = true;
         if (this.thisService["serviceDomain"] === "Network Service") {
-            this.deleteNsService(this.thisService);
+            this.deleteNsService(obj,this.thisService);
         } else {
             this.deleteService(this.thisService, templateDeleteSuccessFaild);
         }
         this.notification1.notificationStart(this.thisService['serviceDomain'],'deleteStarting',this.thisService["service-instance-name"] ||this.thisService["nsInstanceName"])
-    }
-
-    deleteCancel() {
-        this.deleteModalVisible = false;
     }
 
     deleteSuccessNotification(template: TemplateRef<{}>): void {
@@ -992,7 +988,7 @@ export class ServicesListComponent implements OnInit {
             })
     }
 
-    deleteService(service, templateDeleteSuccessFaild) {
+    deleteService(service:any, templateDeleteSuccessFaild) {
         let allprogress = {};  
         let querypros = [];  
         service.rate = 0;
@@ -1069,18 +1065,14 @@ export class ServicesListComponent implements OnInit {
         })
     }
 
-    deleteNsService(service) {
+    deleteNsService(obj:any,service:any) {
         service.rate = 0;
         service.status = "In Progress";
         service.tips = "";
         service.statusClass = "1002";
         let id = service.nsInstanceId || service["service-instance-id"];
         let operationType = "1002";
-        let requestBody = {
-            terminationType: this.terminationType,
-            gracefulTerminationTimeout: this.gracefulTerminationTimeout
-        }
-        this.stopNsService(id, requestBody).then((jobid) => {
+        this.stopNsService(id, obj).then((jobid) => {
             if (jobid === "Failed") {
                 service.status = "Failed";
                 this.notification1.notificationFailed(service.serviceDomain,'deleteStarting',service["service-instance-name"] ||service["nsInstanceName"])

@@ -75,7 +75,7 @@ import { TestComponent } from './test/test.component';
 import { TextService } from './core/services/text.service';
 import { TopCardComponent } from './views/services/services-list/top-card/top-card.component';
 import { CreateModelComponent } from './views/services/services-list/create-model/create-model.component';
-// import { DeleteModalComponent } from './views/services/services-list/delete-modal/delete-modal.component';
+import { DeleteModelComponent } from './views/services/services-list/delete-model/delete-model.component';
 import { NotificationComponent } from './shared/components/notification/notification.component';
 
 @NgModule({
@@ -119,7 +119,7 @@ import { NotificationComponent } from './shared/components/notification/notifica
     TestComponent,
     TopCardComponent,
     CreateModelComponent,
-    // DeleteModalComponent,
+    DeleteModelComponent,
     NotificationComponent
   ],
   imports: [
