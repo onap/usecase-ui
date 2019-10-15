@@ -78,6 +78,7 @@ import { CreateModelComponent } from './views/services/services-list/create-mode
 import { DeleteModelComponent } from './views/services/services-list/delete-model/delete-model.component';
 import { NotificationComponent } from './shared/components/notification/notification.component';
 import { ScaleModelComponent } from './views/services/services-list/scale-model/scale-model.component';
+import { HealModelComponent } from './views/services/services-list/heal-model/heal-model.component';
 
 @NgModule({
   providers: [
@@ -123,6 +124,7 @@ import { ScaleModelComponent } from './views/services/services-list/scale-model/
     DeleteModelComponent,
     NotificationComponent,
     ScaleModelComponent,
+    HealModelComponent
   ],
   imports: [
     BrowserModule,

@@ -408,23 +408,7 @@ export class ServicesListComponent implements OnInit {
                 vmname: ""
             }
         }
-    }
-
-    addActionsHealing() {
-        this.healActions.push({ value: "" })
-    }
-
-    minusActionsHealing(index) {
-        this.healActions.splice(index, 1);
-    }
-
-    addNsAdditional() {
-        this.nsAdditional.push({ key: "", value: "" })
-    }
-
-    minusNsAdditional(index) {
-        this.nsAdditional.splice(index, 1);
-    }
+    };
 
     healService(service) {
         this.thisService = service;
@@ -439,28 +423,9 @@ export class ServicesListComponent implements OnInit {
         }
     }
 
-    healOk(templatehealstarting, templatehealSuccessFaild) {
-        this.healModelVisible = false;
-        // nsParams
-        this.nsParams.actionsHealing = this.healActions.map((item) => {
-            return item.value
-        });
-        let additional = {};
-        this.nsAdditional.forEach((item) => {
-            additional[item.key] = item.value;
-        });
-        this.nsParams.additionalParamsforNs = JSON.stringify(additional);
-        // vnfParams
-        this.vnfParams.additionalParams.actionvminfo.vmid = this.vmSelected["vmId"];
-        this.vnfParams.additionalParams.actionvminfo.vmname = this.vmSelected["vmName"];
-
-        let requestBody = this.thisService["serviceDomain"] == "Network Service" ? { healNsData: this.nsParams } : { healVnfData: this.vnfParams };
-        this.healNsVnfService(this.thisService, requestBody, templatehealSuccessFaild);
+    healModalOK(obj: any,templatehealstarting,templatehealSuccessFaild) :void{
+        this.healNsVnfService(this.thisService, obj, templatehealSuccessFaild);
         this.healNotification(templatehealstarting);
-    }
-
-    healCancel() {
-        this.healModelVisible = false;
     }
 
     healNotification(template: TemplateRef<{}>): void {
