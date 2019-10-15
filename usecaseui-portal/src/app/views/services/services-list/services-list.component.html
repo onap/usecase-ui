@@ -153,76 +153,8 @@
                 </ng-template>
             </tbody>
         </nz-table>
-        <nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} "
-            (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk(templatescalestarting,templateScaleSuccessFaild)"
-            nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
-            nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
-            <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureScale" | translate}} </h3>
-            <div class="question">
-                <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
-                <div class="scaleModelContent" style="width: 100%">{{ thisService["service-instance-id"] ||
-                    thisService["nsInstanceId"] ||
-                    thisService["vnfInstanceId"]}}
-                </div>
-            </div>
-            <div *ngFor="let item of e2e_nsData" style="margin-top: 20px">
-                <h3>{{ item.netWorkServiceName }}</h3>
-                <div class="e2eScaleContent">
-                    <span class="e2eScaleLable"> {{"i18nTextDefine_ScaleType" | translate}} :</span>
-                    <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
-                        <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
-                        <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
-                    </nz-select>
-                </div>
-                <div class="e2eScaleContent">
-                    <span class="e2eScaleLable"> {{"i18nTextDefine_AspectId" | translate}} :</span>
-                    <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
-                </div>
-                <div class="e2eScaleContent">
-                    <span class="e2eScaleLable"> {{"i18nTextDefine_Number_Of_Steps" | translate}} :</span>
-                    <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100"
-                        nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
-                </div>
-                <div class="e2eScaleContent">
-                    <span class="e2eScaleLable"> {{"i18nTextDefine_ScalingDirection" | translate}} :</span>
-                    <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
-                        <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
-                        <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
-                    </nz-select>
-                </div>
-            </div>
 
-            <ng-template #templatescalestarting>
-                <div class="ant-notification-notice-content">
-                    <div class="ant-notification-notice-with-icon">
-                        <span class="ant-notification-notice-icon">
-                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
-                        </span>
-                        <div class="ant-notification-notice-message">E2E &nbsp;
-                            {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
-                        </div>
-                        <div class="ant-notification-notice-description">
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
-                                <span>{{ thisService["service-instance-name"] ||
-                                    thisService["nsInstanceName"] }}
-                                </span>
-                            </div>
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_Customer" | translate}} :</p>
-                                <span>{{ customerSelected.name }}</span>
-                            </div>
-                            <div class="notificationlist">
-                                <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
-                                <span>{{ thisService["serviceDomain"] }}</span>
-                            </div>
-                        </div>
-                        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-                    </div>
-                </div>
-            </ng-template>
-        </nz-modal>
-         <app-delete-model
+        <app-delete-model
                  *ngIf="deleteModalVisible"
                  [deleteModalVisible]="deleteModalVisible"
                  [thisService]="thisService"
@@ -234,8 +166,19 @@
                  (deleteModalOK)="deleteModalOK($event,templateDeleteSuccessFaild)"
          >
          </app-delete-model>
-
-
+        <app-scale-model
+                *ngIf="scaleModelVisible"
+                [scaleModelVisible]="scaleModelVisible"
+                [thisService]="thisService"
+                [e2e_nsData]="e2e_nsData"
+                [customerSelected]="customerSelected"
+                [serviceTypeSelected]="serviceTypeSelected"
+                [templatescalestarting]="templatescalestarting"
+                [templateScaleSuccessFaild]="templateScaleSuccessFaild"
+                (cancel)="scaleModelVisible=$event"
+                (scaleModalOK)="scaleModalOK($event,templatescalestarting,templateScaleSuccessFaild)"
+        >
+        </app-scale-model>
         <nz-modal nzWidth="428" [nzVisible]="healModelVisible" nzTitle=" {{'i18nTextDefine_Heal' | translate}} "
             (nzOnCancel)="healCancel()" (nzOnOk)="healOk(templatehealstarting,templatehealSuccessFaild)"
             nzClassName="healModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
@@ -341,6 +284,7 @@
 
         <app-notification #notification [isServicesList]="true" [customerSelected]="customerSelected"></app-notification>
         <!-- add notification-->
+
         <ng-template #templateCreatestarting>
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
@@ -476,6 +420,35 @@
                             <span>{{ thisService["service-instance-name"] ||
                                     thisService["nsInstanceName"] }}
                             </span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
+                            <span>{{ customerSelected.name }}</span>
+                        </div>
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
+                            <span>{{ thisService["serviceDomain"] }}</span>
+                        </div>
+                    </div>
+                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #templatescalestarting>
+            <div class="ant-notification-notice-content">
+                <div class="ant-notification-notice-with-icon">
+                        <span class="ant-notification-notice-icon">
+                            <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
+                        </span>
+                    <div class="ant-notification-notice-message">E2E &nbsp;
+                        {{"i18nTextDefine_InstanceTeminationStarting" | translate}}
+                    </div>
+                    <div class="ant-notification-notice-description">
+                        <div class="notificationlist">
+                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
+                            <span>{{ thisService["service-instance-name"] ||
+                                    thisService["nsInstanceName"] }}
+                                </span>
                         </div>
                         <div class="notificationlist">
                             <p> {{"i18nTextDefine_Customer" | translate}} :</p>

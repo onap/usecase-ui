@@ -1,0 +1,40 @@
+<nz-modal nzWidth="428" [nzVisible]="scaleModelVisible" nzTitle=" {{'i18nTextDefine_Scale' | translate}} "
+          (nzOnCancel)="scaleCancel()" (nzOnOk)="scaleOk()"
+          nzClassName="scaleModel" nzCancelText=" {{'i18nTextDefine_Cancel' | translate}} "
+          nzOkText=" {{'i18nTextDefine_modelOk' | translate}} ">
+  <h3><span style="color: red">*&nbsp;</span> {{"i18nTextDefine_SureScale" | translate}} </h3>
+  <div class="question">
+    <h4> {{"i18nTextDefine_InstanceID" | translate}} :</h4>
+    <div class="scaleModelContent" style="width: 100%">{{ thisService["service-instance-id"] ||
+      thisService["nsInstanceId"] ||
+      thisService["vnfInstanceId"]}}
+    </div>
+  </div>
+  <div *ngFor="let item of e2e_nsData" style="margin-top: 20px">
+    <h3>{{ item.netWorkServiceName }}</h3>
+    <div class="e2eScaleContent">
+      <span class="e2eScaleLable"> {{"i18nTextDefine_ScaleType" | translate}} :</span>
+      <nz-select style="width: 165px;" [(ngModel)]="item.scaleType">
+        <nz-option nzValue="SCALE_NS" nzLabel="SCALE_NS"></nz-option>
+        <nz-option nzValue="SCALE_VNF" nzLabel="SCALE_VNF"></nz-option>
+      </nz-select>
+    </div>
+    <div class="e2eScaleContent">
+      <span class="e2eScaleLable"> {{"i18nTextDefine_AspectId" | translate}} :</span>
+      <input style="width: 165px;" nz-input [(ngModel)]="item.aspectId" placeholder="string">
+    </div>
+    <div class="e2eScaleContent">
+      <span class="e2eScaleLable"> {{"i18nTextDefine_Number_Of_Steps" | translate}} :</span>
+      <nz-input-number style="width: 165px;" [(ngModel)]="item.numberOfSteps" [nzMin]="1" [nzMax]="100"
+                       nzPrecision=0 [nzStep]="1" nzPlaceHolder="number"></nz-input-number>
+    </div>
+    <div class="e2eScaleContent">
+      <span class="e2eScaleLable"> {{"i18nTextDefine_ScalingDirection" | translate}} :</span>
+      <nz-select style="width: 165px;" nzPlaceHolder="Chose" [(ngModel)]="item.scalingDirection">
+        <nz-option nzValue="SCALE_IN" nzLabel="SCALE_IN"></nz-option>
+        <nz-option nzValue="SCALE_OUT" nzLabel="SCALE_OUT"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+</nz-modal>

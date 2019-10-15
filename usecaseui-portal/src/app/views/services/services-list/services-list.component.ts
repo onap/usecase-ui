@@ -365,41 +365,16 @@ export class ServicesListComponent implements OnInit {
             customerId: this.customerSelected.id,
             serviceType: this.serviceTypeSelected.name,
             serviceId: service["service-instance-id"]
-        }
+        };
         this.myhttp.getE2e_nsData(paramsObj)
             .subscribe((data) => {
                 this.e2e_nsData = data;
             })
     }
 
-    scaleOk(templatescalestarting, templateScaleSuccessFaild) {
-        this.scaleModelVisible = false;
-        let requestBody = {
-            "service": {
-                "serviceInstanceName": this.thisService["service-instance-name"],
-                "serviceType": this.serviceTypeSelected.name,
-                "globalSubscriberId": this.customerSelected.id,
-                "resources": this.e2e_nsData.map((item) => {
-                    return {
-                        "resourceInstanceId": item["netWorkServiceId"],
-                        "scaleType": item["scaleType"],
-                        "scaleNsData": {
-                            "scaleNsByStepsData": {
-                                "aspectId": item["aspectId"],
-                                "numberOfSteps": item["numberOfSteps"],
-                                "scalingDirection": item["scalingDirection"]
-                            }
-                        }
-                    }
-                })
-            }
-        }
-        this.scaleE2eService(this.thisService, requestBody, templateScaleSuccessFaild);
+    scaleModalOK(obj: any,templatescalestarting,templateScaleSuccessFaild) :void{
+        this.scaleE2eService(this.thisService, obj, templateScaleSuccessFaild);
         this.scaleNotification(templatescalestarting);
-    }
-
-    scaleCancel() {
-        this.scaleModelVisible = false;
     }
 
     scaleNotification(template: TemplateRef<{}>): void {

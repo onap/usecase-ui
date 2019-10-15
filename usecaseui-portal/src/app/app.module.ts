@@ -77,6 +77,7 @@ import { TopCardComponent } from './views/services/services-list/top-card/top-ca
 import { CreateModelComponent } from './views/services/services-list/create-model/create-model.component';
 import { DeleteModelComponent } from './views/services/services-list/delete-model/delete-model.component';
 import { NotificationComponent } from './shared/components/notification/notification.component';
+import { ScaleModelComponent } from './views/services/services-list/scale-model/scale-model.component';
 
 @NgModule({
   providers: [
@@ -120,7 +121,8 @@ import { NotificationComponent } from './shared/components/notification/notifica
     TopCardComponent,
     CreateModelComponent,
     DeleteModelComponent,
-    NotificationComponent
+    NotificationComponent,
+    ScaleModelComponent,
   ],
   imports: [
     BrowserModule,
