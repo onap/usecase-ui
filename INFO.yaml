@@ -61,5 +61,10 @@ committers:
       company: 'CMCC'
       id: 'zhangab'
       timezone: 'China/Beijing'
+    - name: 'Ran Xu'
+      email: 'xuranyjy@chinamobile.com'
+      company: 'CMCC'
+      id: 'cyuamber'
+      timezone: 'China/Beijing'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
