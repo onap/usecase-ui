@@ -20,7 +20,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { TranslateModule, TranslateLoader, TranslateService, TranslateFakeLoader } from '@ngx-translate/core';
 
 import { CcvpnDetailComponent } from './ccvpn-detail.component';
-import { ServiceListService } from '../../core/services/serviceList.service';
+import { ServiceListService } from '../../../../core/services/serviceList.service';
 
 describe('CcvpnDetailComponent', () => {
     let component: CcvpnDetailComponent;
@@ -38,7 +38,7 @@ describe('CcvpnDetailComponent', () => {
 
     beforeEach(() => {
         let detailshow = false;
-        detailData: Object;
+        // detailData: Object;
         let serviceDetail = (service) => {
             service["siteSer"] = [];
             service["sdwanSer"] = [];
