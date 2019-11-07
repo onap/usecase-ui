@@ -12,8 +12,9 @@ import { AlarmComponent } from './alarm.component';
 import { DetailsComponent } from '../../shared/components/details/details.component';
 import { LineComponent } from '../../shared/components/charts/line/line.component';
 import { HomesService } from '../../core/services/homes.service';
+import { Util } from '../../shared/utils/utils';
 
-fdescribe('AlarmComponent', () => {
+describe('AlarmComponent', () => {
   let component: AlarmComponent;
   let fixture: ComponentFixture<AlarmComponent>;
 
@@ -26,7 +27,7 @@ fdescribe('AlarmComponent', () => {
         HttpClientModule,
         BrowserAnimationsModule,
         HttpClientTestingModule],
-      providers: [TranslateService, HomesService,
+      providers: [TranslateService, HomesService, Util,
         { provide: NZ_I18N, useValue: en_US }],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
