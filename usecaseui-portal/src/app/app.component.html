@@ -19,6 +19,7 @@
       <img src="assets/images/uui-logo130.png" alt="">
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
+      <!-- home page -->
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'home'}">
         <a routerLink="home">
           <span title>
@@ -31,6 +32,7 @@
         </a>
       </li>
       <hr>
+      <!-- customer page -->
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'management'}">
         <a routerLink="management">
           <span title>
@@ -44,18 +46,7 @@
         </a>
       </li>
       <hr>
-      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'fcaps'}">
-        <a routerLink="fcaps">
-          <span title>
-            <i>
-              <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}"
-                alt="home">
-            </i>
-            <span> {{"i18nTextDefine_Monitor" | translate}} </span>
-          </span>
-        </a>
-      </li>
-      <hr>
+      <!-- service page -->
       <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('services') === 0}" [nzOpen]="flag">
         <span title>
           <i>
@@ -75,6 +66,8 @@
         </ul>
       </li>
       <hr>
+      <!-- package page -->
+      <!-- network page -->
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'network'}">
         <a routerLink="network">
           <span title>
@@ -87,6 +80,20 @@
           </span>
         </a>
       </li>
+      <hr>
+      <!-- monitor page -->
+      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'fcaps'}">
+        <a routerLink="fcaps">
+          <span title>
+            <i>
+              <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}"
+                alt="home">
+            </i>
+            <span> {{"i18nTextDefine_Monitor" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr>
     </ul>
   </nz-sider>
   <nz-layout class="main">
