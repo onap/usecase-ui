@@ -41,7 +41,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { ManagementComponent } from './views/management/management.component';
 import { ServicesListComponent } from './views/services/services-list/services-list.component';
-import { OnboardVnfVmComponent } from './views/services/onboard-vnf-vm/onboard-vnf-vm.component';
+import { OnboardVnfVmComponent } from './views/onboard-vnf-vm/onboard-vnf-vm.component';
 import { AlarmComponent } from './views/alarm/alarm.component';
 import { PerformanceComponent } from './views/performance/performance.component';
 import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
@@ -79,6 +79,8 @@ import { DeleteModelComponent } from './views/services/services-list/delete-mode
 import { NotificationComponent } from './shared/components/notification/notification.component';
 import { ScaleModelComponent } from './views/services/services-list/scale-model/scale-model.component';
 import { HealModelComponent } from './views/services/services-list/heal-model/heal-model.component';
+import { Monitor5gComponent } from './views/fcaps/monitor-5g/monitor-5g.component';
+import { SlicingManagementComponent } from './views/services/slicing-management/slicing-management.component';
 
 @NgModule({
   providers: [
@@ -124,7 +126,9 @@ import { HealModelComponent } from './views/services/services-list/heal-model/he
     DeleteModelComponent,
     NotificationComponent,
     ScaleModelComponent,
-    HealModelComponent
+    HealModelComponent,
+    Monitor5gComponent,
+    SlicingManagementComponent
   ],
   imports: [
     BrowserModule,

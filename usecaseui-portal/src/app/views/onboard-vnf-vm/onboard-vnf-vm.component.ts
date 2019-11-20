@@ -15,8 +15,8 @@
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, HostBinding, TemplateRef, ViewChild } from '@angular/core';
-import { onboardService } from '../../../core/services/onboard.service';
-import { slideToRight } from '../../../shared/utils/animates';
+import { onboardService } from '../../core/services/onboard.service';
+import { slideToRight } from '../../shared/utils/animates';
 import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
 
@@ -34,7 +34,7 @@ export class OnboardVnfVmComponent implements OnInit {
   tabs: string[] = ['NS', 'VNF', 'PNF'];
   currentTab: string = 'NS'
   fileList: UploadFile[] = [];
-  uploading:boolean = false;
+  uploading: boolean = false;
   infoId: string;
   display: string = 'block';
 
@@ -107,13 +107,13 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   beforeUpload = (file: UploadFile): boolean => {
-    this.fileList.splice(0,1,file);
+    this.fileList.splice(0, 1, file);
     let API: string;
-    if(this.currentTab === 'NS'){
+    if (this.currentTab === 'NS') {
       API = 'createNetworkServiceData';
-    }else if(this.currentTab === 'VNF'){
+    } else if (this.currentTab === 'VNF') {
       API = 'createVnfData';
-    }else {
+    } else {
       API = 'createPnfData';
     }
     this.myhttp.getCreatensData(API, this.requestBody)//on-line
@@ -182,7 +182,7 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   // Get the NS list
-  getTableData(): void{
+  getTableData(): void {
     this.isSpinning = true;
     //ns vfc lists 
     this.myhttp.getOnboardTableData()
@@ -207,7 +207,7 @@ export class OnboardVnfVmComponent implements OnInit {
   }
 
   // Get the vnf list
-  getTableVnfData(): void{
+  getTableVnfData(): void {
     this.isSpinning = true;
     //vnf vfc lists
     this.myhttp.getOnboardTableVnfData()
@@ -240,24 +240,24 @@ export class OnboardVnfVmComponent implements OnInit {
         this.isSpinning = false;   //loading hide
       }, (err) => {
         console.error(err);
-        this.isSpinning = false; 
+        this.isSpinning = false;
       })
   }
 
   // confirm
-  showConfirm(requestBody: object, id: string): void{
-    let API = this.currentTab === 'NS'? 'getNsonboard' : 'getVnfonboard';
+  showConfirm(requestBody: object, id: string): void {
+    let API = this.currentTab === 'NS' ? 'getNsonboard' : 'getVnfonboard';
     this.modalService.confirm({
       nzTitle: '<p>Are you sure you want to do this?</p>',
       nzOnOk: () => {
         this.myhttp[API](requestBody)
           .subscribe((data) => {
             if (data.status == "success") {
-              if(this.currentTab === 'NS'){
+              if (this.currentTab === 'NS') {
                 this.isUpdate = false;
                 this.notification.notificationSuccess(this.currentTab, "OnboardingState", id);
                 this.getTableData();
-              }else{
+              } else {
                 this.jobId = data.jobId;
                 this.queryProgress(this.jobId, id);
                 this.getTableVnfData();
@@ -266,7 +266,7 @@ export class OnboardVnfVmComponent implements OnInit {
               this.isUpdate = false;
               this.notification.notificationFailed(this.currentTab, "OnboardingState", id);
               return false
-            } 
+            }
           }, (err) => {
             console.log(err);
           })
@@ -280,10 +280,10 @@ export class OnboardVnfVmComponent implements OnInit {
     this.isUpdate = true;
     let requestBody = { "csarId": id };
     this.showConfirm(requestBody, id)
-  } 
+  }
 
   //Progress Progress inquiry
-  queryProgress(jobId: string, id: string): any{
+  queryProgress(jobId: string, id: string): any {
     let mypromise = new Promise((res) => {
       this.myhttp.getProgress(jobId, 0)
         .subscribe((data) => {
@@ -297,7 +297,7 @@ export class OnboardVnfVmComponent implements OnInit {
           if (data.responseDescriptor.progress > 100) {
             this.isUpdate = false;
             this.notification.notificationFailed(this.currentTab, 'OnboardingState', id);
-          }else if (data.responseDescriptor.progress < 100) {
+          } else if (data.responseDescriptor.progress < 100) {
             this.isUpdate = true;
             setTimeout(() => {
               this.queryProgress(this.jobId, id);
@@ -329,11 +329,11 @@ export class OnboardVnfVmComponent implements OnInit {
   //delete nsItem
   deleteService(pkgid, resolve) {
     let API: string;
-    if(this.currentTab === 'NS'){
+    if (this.currentTab === 'NS') {
       API = 'deleteNsIdData';
-    }else if(this.currentTab === 'VNF'){
+    } else if (this.currentTab === 'VNF') {
       API = 'deleteVnfIdData';
-    }else{
+    } else {
       API = 'deletePnfIdData';
     }
     this.myhttp[API](pkgid)
@@ -341,7 +341,7 @@ export class OnboardVnfVmComponent implements OnInit {
         this.notification.notificationSuccess(this.currentTab, 'OnboardingState', pkgid);
         resolve()
         //refresh list after successful deletion
-        switch(this.currentTab){
+        switch (this.currentTab) {
           case 'NS':
             this.getTableData();
             break

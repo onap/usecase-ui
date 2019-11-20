@@ -20,8 +20,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { ManagementComponent } from './views/management/management.component';
 import { FcapsComponent } from './views/fcaps/fcaps.component';
+import { Monitor5gComponent } from './views/fcaps/monitor-5g/monitor-5g.component';
 import { ServicesListComponent } from './views/services/services-list/services-list.component';
-import { OnboardVnfVmComponent } from './views/services/onboard-vnf-vm/onboard-vnf-vm.component';
+import { SlicingManagementComponent } from './views/services/slicing-management/slicing-management.component';
+import { OnboardVnfVmComponent } from './views/onboard-vnf-vm/onboard-vnf-vm.component';
 import { AlarmComponent } from './views/alarm/alarm.component';
 import { PerformanceComponent } from './views/performance/performance.component';
 import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
@@ -45,8 +47,11 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'management', component: ManagementComponent },
   { path: 'fcaps', component: FcapsComponent },
+  { path: 'fcaps/5gslicing', component: Monitor5gComponent },
   { path: 'services/services-list', component: ServicesListComponent },
-  { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent },
+  { path: 'services/slicing-management', component: SlicingManagementComponent },
+  // { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent },
+  { path: 'onboard-vnf-vm', component: OnboardVnfVmComponent },
   { path: 'alarm', component: AlarmComponent },
   { path: 'performance', component: PerformanceComponent },
   { path: 'performance/performance-vnf', component: PerformanceVnfComponent },

@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 
 import { OnboardVnfVmComponent } from './onboard-vnf-vm.component';
-import { onboardService } from '../../../core/services/onboard.service';
+import { onboardService } from '../../core/services/onboard.service';
 
 describe('OnboardVnfVmComponent', () => {
   let component: OnboardVnfVmComponent;
@@ -18,10 +18,10 @@ describe('OnboardVnfVmComponent', () => {
         NO_ERRORS_SCHEMA
       ],
       imports: [TranslateModule, HttpClientModule],
-      declarations: [ OnboardVnfVmComponent ],
+      declarations: [OnboardVnfVmComponent],
       providers: [onboardService, NzMessageService, NzModalService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

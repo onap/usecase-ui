@@ -13,33 +13,33 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import {Component} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {ServiceListService} from "./core/services/serviceList.service";
-import {HomesService} from "./core/services/homes.service";
-import {NavigationEnd, Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ServiceListService } from "./core/services/serviceList.service";
+import { HomesService } from "./core/services/homes.service";
+import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.less']
 })
 export class AppComponent {
 
-    public url:string = 'home';
-    constructor(private translate: TranslateService,private myhttp: HomesService,private router:Router,) {
+    public url: string = 'home';
+    constructor(private translate: TranslateService, private myhttp: HomesService, private router: Router, ) {
         this.currentLanguageGet();
         this.getUrl();
     }
 
     // Get the current routing path
-    getUrl(){
-        this.router.events.map(event=> {
-            if(event instanceof NavigationEnd){
+    getUrl() {
+        this.router.events.map(event => {
+            if (event instanceof NavigationEnd) {
                 this.url = event['urlAfterRedirects'].slice(1)
             }
-        }).subscribe(event=>{})
+        }).subscribe(event => { })
     }
 
     //209.05.08 Get the currentLanguage
@@ -51,28 +51,35 @@ export class AppComponent {
             this.myhttp.getCurrentLanguage(this.currentloginId)
                 .subscribe(
                     (data) => {
-                        console.log(data,"-------------getCurrentLanguage");
+                        console.log(data, "-------------getCurrentLanguage");
                         this.currentLanguage = data.languageAlias.toLowerCase();
                         this.translate.use(this.currentLanguage);
-                        sessionStorage.setItem("DefaultLang",this.currentLanguage);
+                        sessionStorage.setItem("DefaultLang", this.currentLanguage);
                     },
                     (err) => {
                         console.log(err);
                     }
                 )
-        }else {
+        } else {
             this.translate.setDefaultLang(this.currentLanguage);
-            sessionStorage.setItem("DefaultLang",this.currentLanguage);
+            sessionStorage.setItem("DefaultLang", this.currentLanguage);
         }
     }
 
     // Whether the submenu expands the identifier
-    get flag () {
-        if(!this.url.indexOf('services')){
+    get flag() {
+        if (!this.url.indexOf('services')) {
             return true
-        }else{
+        } else {
             return false
         }
     }
-  
+    get monitorflag() {
+        if (!this.url.indexOf('fcaps')) {
+            return true
+        } else {
+            return false
+        }
+    }
+
 }

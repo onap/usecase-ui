@@ -57,16 +57,31 @@
           {{"i18nTextDefine_Services" | translate}}
         </span>
         <ul>
+          <!-- all kinds of package management -->
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/services-list'}">
             <a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a>
           </li>
-          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/onboard-vnf-vm'}">
-            <a routerLink='services/onboard-vnf-vm'> {{"i18nTextDefine_PackageManagement" | translate}} </a>
+          <!-- 5g slicing management -->
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/slicing-management'}">
+            <a routerLink='services/slicing-management'> {{"i18nTextDefine_Mangement_5g" | translate}} </a>
           </li>
         </ul>
       </li>
       <hr>
       <!-- package page -->
+      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'onboard-vnf-vm'}">
+        <a routerLink="onboard-vnf-vm">
+          <span title>
+            <i>
+              <img
+                src="{{url === 'onboard-vnf-vm' ? 'assets/images/customer-icon-active.png':'assets/images/customer-icon.png'}}"
+                alt="home">
+            </i>
+            <span>{{"i18nTextDefine_PackageManagement" | translate}} </span>
+          </span>
+        </a>
+      </li>
+      <hr>
       <!-- network page -->
       <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'network'}">
         <a routerLink="network">
@@ -82,16 +97,20 @@
       </li>
       <hr>
       <!-- monitor page -->
-      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'fcaps'}">
-        <a routerLink="fcaps">
-          <span title>
-            <i>
-              <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}"
-                alt="home">
-            </i>
-            <span> {{"i18nTextDefine_Monitor" | translate}} </span>
-          </span>
-        </a>
+      <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('fcaps') === 0}" [nzOpen]="monitorflag">
+        <span title>
+          <i>
+            <img src="{{ url === 'fcaps' ? 'assets/images/monitor-icon-active.png':'assets/images/monitor-icon.png'}}"
+              alt="home">
+          </i>
+          <span> {{"i18nTextDefine_Monitor" | translate}} </span>
+        </span>
+        <ul>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'fcaps/5gslicing'}">
+            <a routerLink='fcaps/5gslicing'> {{"i18nTextDefine_Monitor_5g" | translate}} </a>
+          </li>
+        </ul>
+
       </li>
       <hr>
     </ul>
