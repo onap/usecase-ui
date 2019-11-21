@@ -1,0 +1,37 @@
+<div>
+  <div nz-row>
+    <div nz-col nzSpan="6">
+      <span>Status：</span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
+        <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+        <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+        <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div>
+    <nz-table #basicTable [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.age }}</td>
+          <td>{{ data.status===0?"Checking Configuration":"Creating Slicing" }}</td>
+          <td>
+            <a (click)="showdetail(data)">Show Detail</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <app-slicing-task-model [moduleTitle]="moduleTitle" [showDetail]="showDetail" [modelData]="detailData"
+    (cancel)="showDetail=$event">
+  </app-slicing-task-model>
+</div>

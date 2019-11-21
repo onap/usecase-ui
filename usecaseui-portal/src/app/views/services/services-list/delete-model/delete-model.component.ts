@@ -1,25 +1,25 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-delete-model',
-  templateUrl: './delete-model.component.html',
-  styleUrls: ['./delete-model.component.less']
+    selector: 'app-delete-model',
+    templateUrl: './delete-model.component.html',
+    styleUrls: ['./delete-model.component.less']
 })
 export class DeleteModelComponent implements OnInit {
-  @Input()deleteModalVisible: boolean;
-  @Input()thisService;
-  @Input()terminationType;
-  @Input()loadingAnimateShow;
-  @Input()templateDeleteSuccessFaild;
-  @Input()gracefulTerminationTimeout;
+    @Input() deleteModalVisible: boolean;
+    @Input() thisService;
+    @Input() terminationType;
+    @Input() loadingAnimateShow;
+    @Input() templateDeleteSuccessFaild;
+    @Input() gracefulTerminationTimeout;
 
-  @Output() cancel = new EventEmitter<boolean>();
-  @Output() deleteModalOK = new EventEmitter<any>();
+    @Output() cancel = new EventEmitter<boolean>();
+    @Output() deleteModalOK = new EventEmitter<any>();
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
     deleteOk() {
         this.deleteModalVisible = false;

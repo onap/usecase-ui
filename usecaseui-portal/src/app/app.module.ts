@@ -81,6 +81,9 @@ import { ScaleModelComponent } from './views/services/services-list/scale-model/
 import { HealModelComponent } from './views/services/services-list/heal-model/heal-model.component';
 import { Monitor5gComponent } from './views/fcaps/monitor-5g/monitor-5g.component';
 import { SlicingManagementComponent } from './views/services/slicing-management/slicing-management.component';
+import { SlicingTaskManagementComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-management.component';
+import { SlicingResourceManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-resource-management.component';
+import { SlicingTaskModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component';
 
 @NgModule({
   providers: [
@@ -128,7 +131,10 @@ import { SlicingManagementComponent } from './views/services/slicing-management/
     ScaleModelComponent,
     HealModelComponent,
     Monitor5gComponent,
-    SlicingManagementComponent
+    SlicingManagementComponent,
+    SlicingTaskManagementComponent,
+    SlicingResourceManagementComponent,
+    SlicingTaskModelComponent
   ],
   imports: [
     BrowserModule,
