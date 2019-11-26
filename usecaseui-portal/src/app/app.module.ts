@@ -84,6 +84,9 @@ import { SlicingManagementComponent } from './views/services/slicing-management/
 import { SlicingTaskManagementComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-management.component';
 import { SlicingResourceManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-resource-management.component';
 import { SlicingTaskModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component';
+import { SlicingBusinessManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-management.component';
+import { NsiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-management.component';
+import { NssiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-management.component';
 
 @NgModule({
   providers: [
@@ -134,7 +137,10 @@ import { SlicingTaskModelComponent } from './views/services/slicing-management/s
     SlicingManagementComponent,
     SlicingTaskManagementComponent,
     SlicingResourceManagementComponent,
-    SlicingTaskModelComponent
+    SlicingTaskModelComponent,
+    SlicingBusinessManagementComponent,
+    NsiManagementComponent,
+    NssiManagementComponent
   ],
   imports: [
     BrowserModule,
