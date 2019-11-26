@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { NzNotificationService } from 'ng-zorro-antd';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { NotificationComponent } from './notification.component';
 
@@ -8,7 +11,9 @@ describe('NotificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotificationComponent ]
+      declarations: [ NotificationComponent ],
+      imports: [ TranslateModule, NgZorroAntdModule ],
+      providers: [ NzNotificationService ]
     })
     .compileComponents();
   }));
