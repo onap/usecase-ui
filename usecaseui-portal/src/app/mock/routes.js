@@ -91,6 +91,9 @@ module.exports =
         "/POST/uui-lcm/vf-packages": "/POST_uui-lcm_vf-packages",
         "/POST/uui-lcm/:jsonData": "/POST_uui-lcm_create",
 
+        ///////<-------------slicing-tesk-management--------->/////
+        "/uui-slicing/nsmf/task/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_list",
+
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",

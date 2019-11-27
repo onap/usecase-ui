@@ -1,0 +1,43 @@
+{
+    "result_header": {
+    "result_code": "200",
+        "result_message": "5G slicing task query result."
+    },
+    "result_body": {
+        "record_number": 2,
+        "slicing_task_list": [
+            {
+                "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d70a1177",
+                "task_name": "5G Slice service eMMB",
+                "service_snssai": "1-010101",
+                "service_type": "eMMB",
+                "arrival_time": "1454171445000",
+                "processing_status": "Waiting to Confirm"
+            },
+            {
+                "task_id": "6965-8758-5468-2548-457896541236",
+                "task_name": "5G Slice service eMMB",
+                "service_snssai": "1-010101",
+                "service_type": "eMMB",
+                "arrival_time": "1454171445500",
+                "processing_status": "Creating"
+            },
+            {
+                "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d7041177",
+                "task_name": "5G Slice service eMMB",
+                "service_snssai": "1-010101",
+                "service_type": "eMMB",
+                "arrival_time": "1454471445000",
+                "processing_status": "Planning"
+            },
+            {
+                "task_id": "b1bb0de7-ebca-4fa7-95ed-4840d7041177",
+                "task_name": "5G Slice service eMMB",
+                "service_snssai": "1-010101",
+                "service_type": "eMMB",
+                "arrival_time": "1544471445000",
+                "processing_status": "Completed"
+            }
+        ]
+    }
+}
