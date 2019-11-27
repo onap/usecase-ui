@@ -23,6 +23,7 @@ export class ServiceListService {
 
   constructor(private http: HttpClient) { }
   baseUrl = baseUrl.baseUrl;
+  nsmfBaseUrl = '/api/uui-slicing/nsmf'
   url = {
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
@@ -51,6 +52,7 @@ export class ServiceListService {
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity: this.baseUrl + "/uui-sotn/getConnectivityInfo/",
     vpnBinding: this.baseUrl + "/uui-sotn/getPinterfaceByVpnId/",
+    slicingTaskList: this.nsmfBaseUrl + "/task/business/pageNo/{pageNo}/pageSize/{pageSize}"
   };
 
 
@@ -207,4 +209,11 @@ export class ServiceListService {
     let url = this.url.vpnBinding + id;
     return this.http.get<any>(url);
   }
+
+  // Get slicing order task list
+  getSlicingTaskList (pageNo, pageSize) {
+    const url = this.url.slicingTaskList.replace("{pageNo}", pageNo).replace("{pageSize}", pageSize)
+    return this.http.get<any>(url);
+  }
+
 }
