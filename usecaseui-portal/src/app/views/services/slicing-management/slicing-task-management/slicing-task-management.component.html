@@ -13,19 +13,28 @@
     <nz-table #basicTable [nzData]="listOfData">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Status</th>
-          <th>Action</th>
+          <th>任务ID</th>
+          <th>任务名称</th>
+          <th>S-NSSAI</th>
+          <th>切片业务类型</th>
+          <th>到达时间</th>
+          <th>处理环节</th>
+          <th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data">
-          <td>{{ data.name }}</td>
-          <td>{{ data.age }}</td>
-          <td>{{ data.status===0?"Checking Configuration":"Creating Slicing" }}</td>
+          <td>{{ data.task_id }}</td>
+          <td>{{ data.task_name }}</td>
+          <td>{{ data.service_snssai }}</td>
+          <td>{{ data.service_type }}</td>
+          <td>{{ data.arrival_time }}</td>
+          <td>{{ data.status }}</td>
           <td>
-            <a (click)="showdetail(data)">Show Detail</a>
+            <span *ngIf="data.processing_status === 'Planning'">任务处理</span>
+            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Waiting to Confirm'">任务处理</a>
+            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Creating'">查看进度</a>
+            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Creating'">查看结果</a>
           </td>
         </tr>
       </tbody>
