@@ -1,0 +1,57 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "5G slicing task configure audit information result."
+    },
+    "result_body": {
+        "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d70a1177",
+        "task_name": "5G Slice service eMMB",
+        "create_timer": "1454171445000",
+        "processing_status": "Waiting to Confirm",
+        "business_demand_info": {
+            "service_name": "5G Slice eMMB",
+            "service_snssai": "1-010101",
+            "exp_data_rate_dl": "300",
+            "exp_data_rate_ul": "300",
+            "ue_mobility_level": "stageary",
+            "latency": "20",
+            "use_interval": "12",
+            "coverage_area_ta_list": [" xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx "],
+            "activity_factor": "60",
+            "resource_sharing_level": "shared",
+            "area_traffic_cap_ul": "300",
+            "area_traffic_cap_dl": "300",
+            "max_number_of_ues": "10000"
+        },
+        "nst_info": {
+            "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "nst_name": "eMBBNST"
+        },
+        "nsi_nssi_info": {
+            "suggest_nsi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "suggest_nsi_name": "eMBB instance1",
+            "an_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "an_suggest_nssi_name": "eMBB ANinstance1",
+            "an_latency": "10",
+            "an_5qi": "8",
+            "an_coverage_area_ta_list": [" xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx "],
+            "tn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "tn_suggest_nssi_name": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "tn_latency": "10",
+            "tn_bandwidth": "300",
+            "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "cn_suggest_nssi_name": "eMBB CNinstance1",
+            "cn_service_snssai": "1-010101",
+            "cn_resource_sharing_level": "shared",
+            "cn_ue_mobility_level": "stageary",
+            "cn_latency": "10",
+            "cn_max_number_of_ues": "10000",
+            "cn_activity_factor": "60",
+            "cn_exp_data_rate_dl": "300",
+            "cn_exp_data_rate_ul": "300",
+            "cn_area_traffic_cap_dl": "300",
+            "cn_area_traffic_cap_ul": "300"
+        }
+
+    }
+}

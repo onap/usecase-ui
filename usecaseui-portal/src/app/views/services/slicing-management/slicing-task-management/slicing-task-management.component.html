@@ -1,11 +1,9 @@
 <div>
   <div nz-row>
-    <div nz-col nzSpan="6">
-      <span>Status：</span>
-      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
-        <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-        <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-        <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+    <div nz-col nzSpan="12" class="task_status">
+      <span>Status : </span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue" (ngModelChange)="getListOfProcessingStatus()">
+        <nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
       </nz-select>
     </div>
   </div>
@@ -31,10 +29,8 @@
           <td>{{ data.arrival_time }}</td>
           <td>{{ data.status }}</td>
           <td>
-            <span *ngIf="data.processing_status === 'Planning'">任务处理</span>
-            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Waiting to Confirm'">任务处理</a>
-            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Creating'">查看进度</a>
-            <a (click)="showdetail(data)" *ngIf="data.processing_status === 'Completed'">查看结果</a>
+            <span *ngIf="data.processing_status === 'Planning'" class="task_operation_disabled">{{ data.operation }}</span>
+            <a (click)="showdetail(data)" *ngIf="data.processing_status !== 'Planning'">{{ data.operation }}</a>
           </td>
         </tr>
       </tbody>

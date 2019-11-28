@@ -66,6 +66,9 @@ import { ServiceListService } from './core/services/serviceList.service';
 import { HomesService } from './core/services/homes.service';
 import { onboardService } from './core/services/onboard.service';
 import { networkHttpservice } from './core/services/networkHttpservice.service';
+// slicingTask service
+import { SlicingTaskServices } from './core/services/slicingTaskServices'
+
 import { PerformanceDetailsComponent } from './shared/components/performance-details/performance-details.component';
 import { E2eDetailComponent } from './views/services/services-list/e2e-detail/e2e-detail.component';
 import { CustomerComponent } from './views/management/customer/customer.component';
@@ -84,9 +87,9 @@ import { SlicingManagementComponent } from './views/services/slicing-management/
 import { SlicingTaskManagementComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-management.component';
 import { SlicingResourceManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-resource-management.component';
 import { SlicingTaskModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component';
-import { SlicingBusinessManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-management.component';
-import { NsiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-management.component';
-import { NssiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-management.component';
+import { SlicingBusinessManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-management.component'
+import { NsiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-management.component'
+import { NssiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-management.component'
 
 @NgModule({
   providers: [
@@ -98,7 +101,8 @@ import { NssiManagementComponent } from './views/services/slicing-management/sli
     onboardService,
     networkHttpservice,
     ManagemencsService,
-    TextService
+    TextService,
+    SlicingTaskServices
   ],
   declarations: [
     AppComponent,

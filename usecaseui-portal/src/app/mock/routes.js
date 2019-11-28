@@ -93,6 +93,8 @@ module.exports =
 
         ///////<-------------slicing-tesk-management--------->/////
         "/uui-slicing/nsmf/task/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_list",
+        "/uui-slicing/nsmf/task/:processingStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_processing_status",
+        "/uui-slicing/nsmf/task/:taskId/auditInfo": "/slicing_task_auditInfo",
 
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
