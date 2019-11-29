@@ -5,21 +5,21 @@
     <ng-template #checkItem let-check>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="10">
-          <span>Task ID： {{ check.id }}</span>
+          <span>Task ID： {{ check.task_id }}</span>
         </div>
         <div nz-col nzSpan="8">
-          <span>Task Name： {{ check.name }}</span>
+          <span>Task Name： {{ check.task_name }}</span>
         </div>
         <div nz-col nzSpan="6">
-          <span>S-NSSAI：{{ check.snssai }}</span>
+          <span>S-NSSAI：{{ check.cn_service_snssai }}</span>
         </div>
       </nz-list-item>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="10">
-          <span>Arrived Time： {{ check.arrivedtime }}</span>
+          <span>Arrived Time： {{ check.create_timer }}</span>
         </div>
         <div nz-col nzSpan="8">
-          <span>Status： {{ check.status }}</span>
+          <span>Status： {{ check.processing_status }}</span>
         </div>
       </nz-list-item>
     </ng-template>
@@ -28,21 +28,10 @@
   <nz-list class="taskmodel_list" [nzDataSource]="businessRequirement" nzBordered [nzHeader]="'业务需求信息：'"
     [nzFooter]="null" [nzRenderItem]="businessItem">
     <ng-template #businessItem let-item>
-      <nz-list-item>
-        <span class="ant-typography">Name：</span>
-        {{ item.name }}
-      </nz-list-item>
-      <nz-list-item>
-        <span class="ant-typography">S-NSSAI： </span>
-        {{ item.snssai }}
-      </nz-list-item>
-      <nz-list-item>
-        <span class="ant-typography">Time： </span>
-        {{ item.expiretime }}
-      </nz-list-item>
-      <nz-list-item>
-        <span class="ant-typography">Area： </span>
-        {{ item. area }}
+      <nz-list-item *ngFor="let ite of businessList " nz-row>
+        <div nz-col nz-Span='10'>
+          <span class="ant-typography">{{ ite.title }} : &nbsp;{{ item[ite.key] }}</span>
+        </div>
       </nz-list-item>
     </ng-template>
   </nz-list>
@@ -52,15 +41,14 @@
     <ng-template #taskItem let-item>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="12">
-          <span>NST ID： {{ item.id }}</span>
+          <span>NST ID： {{ item.nst_id }}</span>
         </div>
         <div nz-col nzSpan="12">
-          <span>NST Name： {{ item.name }}</span>
+          <span>NST Name： {{ item.nst_name }}</span>
         </div>
       </nz-list-item>
     </ng-template>
-  </nz-list>
-
+  </nz-list> 
 
   <div>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'匹配共享切片实例：'" [nzFooter]="null">
@@ -82,63 +70,22 @@
       </nz-list-item>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <p class="listitem_subtitle" nz-col nzSpan="24">匹配的共享切片子网实例：</p>
-        <nz-card nzType="inner" nz-col nzSpan="24" nzTitle="无线域：">
+        <nz-card *ngFor="let item of slicingSubnet" nzType="inner" nz-col nzSpan="24" [nzTitle]="item.title">
           <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="12">
               切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (ngModelChange)="serviceIdChange($event)">
+              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="serviceIdChange($event)">
                 <nz-option *ngFor="let p of serviceId" [nzValue]="p" [nzLabel]="p"></nz-option>
               </nz-select>
             </div>
             <div nz-col nzSpan="8">
-              切片子网实例名称：{{selectedServiceName}}
+              切片子网实例名称：{{item.slicingName}}
             </div>
             <div nz-col nzSpan="4">
               <button nz-button nzType="primary" (click)="resetService()"> <i nz-icon
                   class="anticon anticon-plus"></i></button>
               <button nz-button nzType="primary"> <i nz-icon class="anticon anticon-setting"
                   nzTheme="outline"></i></button>
-            </div>
-          </div>
-        </nz-card>
-        <nz-card nzType="inner" nz-col nzSpan="24" style="margin-top:16px;" nzTitle="传输域：">
-          <div nz-row [nzGutter]="8">
-            <div nz-col nzSpan="12">
-              切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (ngModelChange)="serviceIdChange($event)">
-                <nz-option *ngFor="let p of serviceId" [nzValue]="p" [nzLabel]="p"></nz-option>
-              </nz-select>
-            </div>
-            <div nz-col nzSpan="8">
-              切片子网实例名称：{{selectedServiceName}}
-            </div>
-            <div nz-col nzSpan="4">
-              <button nz-button nzType="primary" (click)="resetService()"> <i nz-icon
-                  class="anticon anticon-plus"></i></button>
-              <button nz-button nzType="primary"> <i nz-icon class="anticon anticon-setting"
-                  nzTheme="outline"></i></button>
-            </div>
-          </div>
-        </nz-card>
-        <nz-card nzType="inner" nz-col nzSpan="24" style="margin-top:16px;" nzTitle="核心网域：">
-
-          <div nz-row [nzGutter]="12" nzType="flex" nzAlign="middle">
-            <div nz-col nzSpan="12">
-              切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (ngModelChange)="serviceIdChange($event)">
-                <nz-option *ngFor="let p of serviceId" [nzValue]="p" [nzLabel]="p"></nz-option>
-              </nz-select>
-            </div>
-            <div nz-col nzSpan="8">
-              切片子网实例名称：{{selectedServiceName}}
-            </div>
-            <div nz-col nzSpan="4">
-              <button nz-button nzType="primary" (click)="resetService()">
-                <i nz-icon class="anticon anticon-plus"></i>
-              </button>
-              <button nz-button nzType="primary">
-                <i nz-icon class="anticon anticon-setting" nzTheme="outline"></i>
-              </button>
             </div>
           </div>
         </nz-card>

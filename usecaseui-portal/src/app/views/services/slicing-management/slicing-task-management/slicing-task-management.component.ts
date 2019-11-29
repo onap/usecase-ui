@@ -17,10 +17,11 @@ export class SlicingTaskManagementComponent implements OnInit {
   }
   showDetail: boolean = false;
   selectedValue = null;
-  detailData: object = {};
+  // detailData: object = {};
+  taskId: string;
   moduleTitle: string = "";
-  listOfData = []; 
-  statusOptions = TASK_PROCESSING_STATUS;
+  listOfData: any[] = []; 
+  statusOptions: any[] = TASK_PROCESSING_STATUS;
 
   getTaskList (): void{
     this.myhttp.getSlicingTaskList('1', '10').subscribe (res => {
@@ -64,8 +65,8 @@ export class SlicingTaskManagementComponent implements OnInit {
     })
   }
 
-  showdetail(data: any) {
-    this.detailData = data;
+  showdetail(data: any): void {
+    this.taskId = data.task_id;
     this.showDetail = true;
     this.moduleTitle = data.status;
   }
