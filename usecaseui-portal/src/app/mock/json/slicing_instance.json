@@ -1,0 +1,22 @@
+{
+	"result_header": {
+		"result_code": "200",
+		"result_message": "5G slicing NSI service instances result."
+	},
+	"result_body": {
+		"record_number": 2,
+		"nsi_service_instances": [
+			{
+				"service_instance_order": "1",
+				"service_instance_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+				"service_instance_name": "eMBB instancel"
+			},
+			{
+				"service_instance_order": "2",
+				"service_instance_id": "46da8cf8-0878-48bc-bea3-f2200959411a",
+				"service_instance_name": "eMBB instance2"
+			}
+		]
+	}
+}
+

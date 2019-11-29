@@ -55,15 +55,19 @@
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="12">
           切片实例 ID：
-          <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (ngModelChange)="serviceIdChange($event)">
-            <nz-option *ngFor="let p of serviceId" [nzValue]="p" [nzLabel]="p"></nz-option>
+          <nz-select nzShowSearch 
+            [(ngModel)]="selectedServiceId" 
+            (ngModelChange)="slicingInstanceChange()" 
+            (nzOpenChange)="getSlicingData($event)" 
+          >
+            <nz-option *ngFor="let item of slicingInstances" [nzValue]="item.service_instance_id" [nzLabel]="item.service_instance_id"></nz-option>
           </nz-select>
         </div>
         <div nz-col nzSpan="8">
-          切片实例名称：{{selectedServiceName}}
+          切片实例名称：{{ selectedServiceName }}
         </div>
         <div nz-col nzSpan="4">
-          <button nz-button nzType="primary" (click)="resetService()">
+          <button nz-button nzType="primary" (click)="resetSlicingInstance()">
             <i nz-icon class="anticon anticon-plus"></i>
           </button>
         </div>
@@ -74,23 +78,26 @@
           <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="12">
               切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="serviceIdChange($event)">
-                <nz-option *ngFor="let p of serviceId" [nzValue]="p" [nzLabel]="p"></nz-option>
+              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="getSubnetInstances($event, item)">
+                <nz-option *ngFor="let item of item.instances" [nzValue]="item.service_instance_id" [nzLabel]="item.service_instance_id"></nz-option>
               </nz-select>
             </div>
             <div nz-col nzSpan="8">
               切片子网实例名称：{{item.slicingName}}
             </div>
             <div nz-col nzSpan="4">
-              <button nz-button nzType="primary" (click)="resetService()"> <i nz-icon
-                  class="anticon anticon-plus"></i></button>
-              <button nz-button nzType="primary"> <i nz-icon class="anticon anticon-setting"
-                  nzTheme="outline"></i></button>
+              <button nz-button nzType="primary" (click)="restSubnetInstance(item)"> 
+                <i nz-icon class="anticon anticon-plus"></i>
+              </button>
+              <button nz-button nzType="primary" (click)="showParamsModel(item)"> 
+                <i nz-icon class="anticon anticon-setting" nzTheme="outline"></i>
+              </button>
             </div>
           </div>
         </nz-card>
       </nz-list-item>
     </nz-list>
   </div>
+  <app-subnet-params-model [showModel]="isShowParams" [detailData]="params" [title]="paramsTitle" (cancel)="isShowParams=$event"></app-subnet-params-model>
 
 </nz-modal>

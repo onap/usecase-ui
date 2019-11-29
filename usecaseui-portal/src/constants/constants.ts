@@ -70,5 +70,30 @@ export const BUSINESS_REQUIREMENT = [
 		title: '下行区域流量密度（Mbps/km ）',
 		key: 'area_traffic_cap_dl'
 	}
-	
 ] 
+
+export const WIRELESS_FORM_ITEMS = [
+	{
+		title: '时延（ms）',
+		key: 'an_latency'
+	},
+	{
+		title: '5QI',
+		key: 'an_5qi'
+	},
+	{
+		title: '覆盖小区列表',
+		key: 'an_coverage_area_ta_list'
+	}
+]
+
+export const TRANSFRER_FORM_ITEMS = [
+	{
+		title: '时延（ms）',
+		key: 'tn_latency'
+	},
+	{
+		title: '带宽',
+		key: 'tn_bandwidth'
+	},
+]

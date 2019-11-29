@@ -1,0 +1,14 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "NSSI associated with NSI result."
+    },
+    "result_body": {
+            "an_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "an_suggest_nssi_name": "eMBBANinstance1",
+            "tn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "tn_suggest_nssi_name": "eMBBTNinstance1",
+            "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "cn_suggest_nssi_name": "eMBBCNinstance1"
+    }
+}

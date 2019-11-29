@@ -24,7 +24,10 @@ export class SlicingTaskServices {
     url = {
         slicingTaskList: this.baseUrl + "/task/business/pageNo/{pageNo}/pageSize/{pageSize}",
         taskProcessingStatus: this.baseUrl + '/task/{processingStatus}/business/pageNo/{pageNo}/pageSize/{pageSize}',
-        auditInfo: this.baseUrl + '/task/{taskId}/auditInfo'
+        auditInfo: this.baseUrl + '/task/{taskId}/auditInfo',
+        slicingInstance: this.baseUrl + '/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}',
+        slicingSubnetInstance: this.baseUrl + '/resource/nsi/{nsiId}/nssiInstances',
+        subnetInContext: this.baseUrl + '/resource/nssi/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
     }
 
 
@@ -47,6 +50,23 @@ export class SlicingTaskServices {
     // Get 
     getAuditInfo (taskId: string){
         const url = this.url.auditInfo.replace('{taskId}', taskId);
+        return this.http.get<any>(url);
+    }
+    getSlicingInstance (pageNo: string, pageSize: string){
+        const url = this.url.slicingInstance
+                        .replace("{pageNo}", pageNo)
+                        .replace("{pageSize}", pageSize);
+        return this.http.get<any>(url);
+    }
+    getSlicingSubnetInstance(nsiId: string){
+        const url = this.url.slicingSubnetInstance.replace('{nsiId}', nsiId);
+        return this.http.get<any>(url);
+    }
+    getSubnetInContext (context: string, pageNo: string, pageSize: string) {
+        const url = this.url.subnetInContext
+                        .replace('{environmentContext}', context)
+                        .replace('{pageNo', pageNo)
+                        .replace('{pageSize}', pageSize);
         return this.http.get<any>(url);
     }
 }

@@ -1,0 +1,27 @@
+{
+	"result_header":{
+		"result_code":"200",
+		"result_message":"5G slicing NSSI query based on environment context result."
+	},
+	"result_body":{
+		"record_number":2,
+		"nssi_service_instances":[
+			{
+				"service_instance_order":"1",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
+				"service_instance_name":"slicing_core_notwork",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"2",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
+				"service_instance_name":"slicing_core_notwork",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			}
+		]
+	}
+}

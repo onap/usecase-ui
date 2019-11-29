@@ -91,10 +91,13 @@ module.exports =
         "/POST/uui-lcm/vf-packages": "/POST_uui-lcm_vf-packages",
         "/POST/uui-lcm/:jsonData": "/POST_uui-lcm_create",
 
-        ///////<-------------slicing-tesk-management--------->/////
+        ///////<-------------slicing--------->/////
         "/uui-slicing/nsmf/task/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_list",
         "/uui-slicing/nsmf/task/:processingStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_processing_status",
         "/uui-slicing/nsmf/task/:taskId/auditInfo": "/slicing_task_auditInfo",
+        "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_instance",
+        "/uui-slicing/nsmf/resource/nsi/:nsiId/nssiInstances": "/slicing_subnet_instance",
+        "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
 
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
