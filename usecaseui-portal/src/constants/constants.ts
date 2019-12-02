@@ -95,5 +95,191 @@ export const TRANSFRER_FORM_ITEMS = [
 	{
 		title: '带宽',
 		key: 'tn_bandwidth'
-	},
+	}
 ]
+
+export const CORE_FORM_ITEMS = 	[
+	{
+		title: 'S-NSSAI',
+		key: 'cn_service_snssai'
+	},
+	{
+		title: '共享等级',
+		key: 'cn_resource_sharing_level'
+	},
+	{
+		title: '游牧性',
+		key: 'cn_ue_mobility_level'
+	},
+	{
+		title: '时延（ms）',
+		key: 'cn_latency'
+	},
+	{
+		title: '连接规模数',
+		key: 'cn_max_number_of_ues'
+	},
+	{
+		title: '活动因子（%）',
+		key: 'cn_activity_factor'
+	},
+	{
+		title: '用户下行体验速率（Mbps）',
+		key: 'cn_exp_data_rate_dl'
+	},
+	{
+		title: '用户上行体验速率（Mbps）',
+		key: 'cn_exp_data_rate_ul'
+	},
+	{
+		title: '下行区域流量密度（Mbps/km ）',
+		key: 'cn_area_traffic_cap_dl'
+	},
+	{
+		title: '下行区域流量密度（Mbps/km ）',
+		key: 'cn_area_traffic_cap_ul'
+	}
+]
+
+export const ADDRESS = {
+    "result_header": {
+        "result_code": 200,
+        "result_message": "Successfully"
+    },
+    
+    "result_body": {
+        "province": [
+            {
+                "id": "1",
+                "name": "北京",
+                "city": [
+                    {
+                        "id": "101",
+                        "name": "北京市",
+                        "county": [
+                            {
+                                "id": "1001",
+                                "name": "海淀区",
+                                "street": [
+                                    {
+                                        "id": "100101",
+                                        "name": "万寿路街道"
+                                    },
+                                    {
+                                        "id": "100102",
+                                        "name": "中关村街道"
+                                    },
+                                    {
+                                        "id": "100103",
+                                        "name": "海淀街道"
+                                    },
+                                    {
+                                        "id": "100104",
+                                        "name": "西三旗街道"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "1002",
+                                "name": "西城区",
+                                "street": [
+                                    {
+                                        "id": "100201",
+                                        "name": "广安门内街道"
+                                    },
+                                    {
+                                        "id": "100202",
+                                        "name": "广安门外街道"
+                                    },
+                                    {
+                                        "id": "100203",
+                                        "name": "西长安街街道"
+                                    },
+                                    {
+                                        "id": "100204",
+                                        "name": "金融街街道"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "1003",
+                                "name": "昌平区",
+                                "street": [
+                                    {
+                                        "id": "100301",
+                                        "name": "城北街道"
+                                    },
+                                    {
+                                        "id": "100302",
+                                        "name": "城南街道"
+                                    },
+                                    {
+                                        "id": "100303",
+                                        "name": "天通苑北街道"
+                                    },
+                                    {
+                                        "id": "100304",
+                                        "name": "天通苑南街道"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "name": "上海",
+                "city": [{
+                    "id": "201",
+                    "name": "上海市",
+                    "county": [{
+                            "id": "2001",
+                            "name": "浦东新区",
+                            "street": [
+                                {
+                                    "id": "200101",
+                                    "name": "陆家嘴街道"
+                                },
+                                {
+                                    "id": "200102",
+                                    "name": "周家渡街道"
+                                },
+                                {
+                                    "id": "200103",
+                                    "name": "塘桥街道"
+                                },
+                                {
+                                    "id": "200104",
+                                    "name": "南码头路街道"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "2002",
+                            "name": "静安区",
+                            "street": [
+                                {
+                                    "id": "200201",
+                                    "name": "江宁路街道"
+                                },
+                                {
+                                    "id": "200202",
+                                    "name": "静安寺街道"
+                                },
+                                {
+                                    "id": "200203",
+                                    "name": "南京西路街道"
+                                },
+                                {
+                                    "id": "200204",
+                                    "name": "曹家渡街道"
+                                }
+                            ]
+                        }
+                    ]
+                }]
+            }
+        ]
+    }
+}

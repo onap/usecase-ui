@@ -109,14 +109,10 @@ export class SlicingTaskModelComponent implements OnInit {
           service_instance_name: this.selectedServiceName
         }];
         // 子网实例
-       
         let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name};
         this.subnetDataFormatting(subnetData);
         this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
-       
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth };
-
-       
         this.slicingSubnet[2].params = { 
           cn_service_snssai,
           cn_resource_sharing_level,
