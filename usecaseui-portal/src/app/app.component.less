@@ -16,28 +16,33 @@
 
 
 // left menu bar adaptation
-@media screen and (min-width: 1200px){
-    .siderContent{
-        height:240px;
-        img{
+@media screen and (min-width: 1200px) {
+    .siderContent {
+        height: 180px;
+
+        img {
             margin-top: 40px;
         }
     }
-    .main{
+
+    .main {
         margin-left: 330px
     }
 }
-@media screen and (max-width: 1200px){
-    .siderContent{
-        height:180px;
-        img{
+
+@media screen and (max-width: 1200px) {
+    .siderContent {
+        height: 140px;
+
+        img {
             transform: scale(0.8);
             margin-top: 26px;
-        } 
+        }
     }
-    .main{
+
+    .main {
         margin-left: 260px
-    }  
+    }
 }
 
 nz-layout {
@@ -45,61 +50,84 @@ nz-layout {
         position: fixed;
         left: 0;
         z-index: 100;
-        min-height: 937px;
-        height: 100vh; 
-        background: #313449 url('assets/images/UUIMenuBar.png') no-repeat;
-        background-size: 100%;
-        .siderContent{
+        // min-height: 937px;
+        height: 100vh;
+        background: #313449;
+        // background: #313449 url('assets/images/UUIMenuBar.png') no-repeat;
+        // background-size: 100%;
+        overflow: scroll;
+
+        .siderContent {
             width: 100%;
             text-align: center;
-            img{
+            background: #313449 url('assets/images/UUIMenuBar.png') no-repeat;
+            background-size: cover;
+
+            img {
                 transition: .5s;
             }
         }
+
         ul {
             background: transparent;
+            background: #313449;
             width: 100%;
+
             li {
                 margin: 0;
                 font-size: 16px;
-                color: #ffffff!important;
+                color: #ffffff !important;
                 background: transparent;
-                a{
+
+                a {
                     color: #ffffff;
                 }
+
                 span {
                     font-size: 16px;
                 }
+
                 i {
                     width: 16px;
                     height: 16px;
                     margin-right: 12px;
-                    img{
+
+                    img {
                         width: 20px;
                     }
                 }
+
                 ul {
-                    background: transparent!important;
-                    li{
+                    background: transparent !important;
+
+                    li {
                         font-size: 12px;
-                        color: #ffffff!important;
-                        background: transparent!important;
+                        color: #ffffff !important;
+                        background: transparent !important;
                     }
-                    li:hover,li a:hover{
-                        color: #ffffff!important;
+
+                    li:hover,
+                    li a:hover {
+                        color: #ffffff !important;
                     }
-                    li.activeMenuList,li.activeMenuList a{
-                        color: #0DA9E2!important;
+
+                    li.activeMenuList,
+                    li.activeMenuList a {
+                        color: #0DA9E2 !important;
                     }
                 }
             }
-            li:hover,li a:hover{
-                color: #ffffff!important;
+
+            li:hover,
+            li a:hover {
+                color: #ffffff !important;
             }
-            li.activeMenuBar{
-                color: #ffffff!important;
-                background:linear-gradient(90deg,rgba(7,169,225,1) 0%,rgba(48,217,196,1) 100%);
+
+            li.activeMenuBar {
+                color: #ffffff !important;
+                background: linear-gradient(90deg, rgba(7, 169, 225, 1) 0%, rgba(48, 217, 196, 1) 100%);
             }
+
             hr {
                 margin: 0 auto;
                 background-color: #39434f;
@@ -109,8 +137,9 @@ nz-layout {
             }
         }
     }
-    .main{
-        height:100vh;
-        position:relative; 
+
+    .main {
+        height: 100vh;
+        position: relative;
     }
 }
