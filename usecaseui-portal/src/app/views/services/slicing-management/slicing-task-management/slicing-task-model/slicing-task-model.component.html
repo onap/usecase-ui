@@ -11,7 +11,7 @@
           <span>Task Name： {{ check.task_name }}</span>
         </div>
         <div nz-col nzSpan="6">
-          <span>S-NSSAI：{{ check.cn_service_snssai }}</span>
+          <span>S-NSSAI：{{ check.service_snssai }}</span>
         </div>
       </nz-list-item>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
@@ -78,7 +78,7 @@
           <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="12">
               切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="getSubnetInstances($event, item)">
+              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="getSubnetInstances($event, item)" [nzDisabled]="isDisabled">
                 <nz-option *ngFor="let item of item.instances" [nzValue]="item.service_instance_id" [nzLabel]="item.service_instance_id"></nz-option>
               </nz-select>
             </div>
@@ -86,7 +86,7 @@
               切片子网实例名称：{{item.slicingName}}
             </div>
             <div nz-col nzSpan="4">
-              <button nz-button nzType="primary" (click)="restSubnetInstance(item)"> 
+              <button nz-button nzType="primary" (click)="restSubnetInstance(item)" [disabled]='isDisabled' [attr.disabled] ='isDisabled?true:undefined'> 
                 <i nz-icon class="anticon anticon-plus"></i>
               </button>
               <button nz-button nzType="primary" (click)="showParamsModel(item)"> 

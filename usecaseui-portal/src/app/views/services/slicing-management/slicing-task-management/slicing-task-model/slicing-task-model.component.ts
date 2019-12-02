@@ -45,7 +45,7 @@ export class SlicingTaskModelComponent implements OnInit {
       instances: []
     },
     {
-      title: '核心网域',
+      title: '核心域',
       context: 'cn',
       slicingId: '',
       slicingName: '',
@@ -56,6 +56,7 @@ export class SlicingTaskModelComponent implements OnInit {
   isShowParams: boolean;
   paramsTitle: string;
   params: any;
+  isDisabled: boolean = true;
 
   ngOnInit() { }
   
@@ -108,28 +109,14 @@ export class SlicingTaskModelComponent implements OnInit {
           service_instance_name: this.selectedServiceName
         }];
         // 子网实例
-        this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
-        this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
-        this.slicingSubnet[0].instances = [{
-          service_instance_id: an_suggest_nssi_id,
-          service_instance_name: an_suggest_nssi_name
-        }];
+       
+        let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name};
+        this.subnetDataFormatting(subnetData);
         this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
-
-        this.slicingSubnet[1].slicingId = tn_suggest_nssi_id;
-        this.slicingSubnet[1].slicingName = tn_suggest_nssi_name;
-        this.slicingSubnet[1].instances = [{
-          service_instance_id: tn_suggest_nssi_id,
-          service_instance_name: tn_suggest_nssi_name
-        }]; 
+       
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth };
 
-        this.slicingSubnet[2].slicingId = cn_suggest_nssi_id;
-        this.slicingSubnet[2].slicingName = cn_suggest_nssi_name;
-        this.slicingSubnet[2].instances = [{
-          service_instance_id: cn_suggest_nssi_id,
-          service_instance_name: cn_suggest_nssi_name
-        }];
+       
         this.slicingSubnet[2].params = { 
           cn_service_snssai,
           cn_resource_sharing_level,
@@ -147,7 +134,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   getSlicingData ( bool: boolean): void {
-    this.loading = true
+    this.loading = true;
     if (bool && this.slicingInstances.length === 1) {
       this.http.getSlicingInstance('1', '10').subscribe ( res => {
         this.loading = false;
@@ -160,17 +147,12 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   slicingInstanceChange ():void {
+    this.isDisabled = true;
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe( res => {
       const { result_header: { result_code }, result_body} = res;
       if (+result_code === 200) {
-        const { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = result_body;
-        this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
-        this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
-        this.slicingSubnet[1].slicingId = tn_suggest_nssi_id;
-        this.slicingSubnet[1].slicingName = tn_suggest_nssi_name;
-        this.slicingSubnet[2].slicingId = cn_suggest_nssi_id;
-        this.slicingSubnet[2].slicingName = cn_suggest_nssi_name;
+        this.subnetDataFormatting(result_body)
       }
     }) 
     this.slicingInstances.forEach (item => {
@@ -180,6 +162,30 @@ export class SlicingTaskModelComponent implements OnInit {
     })
   }
 
+  subnetDataFormatting ( subnetData: any): void{
+    const { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = subnetData;
+    this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
+    this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
+    this.slicingSubnet[0].instances = [{
+      service_instance_id: an_suggest_nssi_id,
+      service_instance_name: an_suggest_nssi_name
+    }];
+
+    this.slicingSubnet[1].slicingId = tn_suggest_nssi_id;
+    this.slicingSubnet[1].slicingName = tn_suggest_nssi_name;
+    this.slicingSubnet[1].instances = [{
+      service_instance_id: tn_suggest_nssi_id,
+      service_instance_name: tn_suggest_nssi_name
+    }]; 
+
+    this.slicingSubnet[2].slicingId = cn_suggest_nssi_id;
+    this.slicingSubnet[2].slicingName = cn_suggest_nssi_name;
+    this.slicingSubnet[2].instances = [{
+      service_instance_id: cn_suggest_nssi_id,
+      service_instance_name: cn_suggest_nssi_name
+    }];
+  }
+
   resetSlicingInstance (): void {
     this.selectedServiceId = '';
     this.selectedServiceName = '';
@@ -187,6 +193,7 @@ export class SlicingTaskModelComponent implements OnInit {
       item.slicingId = '';
       item.slicingName = '';
     })
+    this.isDisabled = false;
   }
 
   getSubnetInstances (bool: boolean, instance: any): void {
@@ -213,6 +220,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   restSubnetInstance (instance: any): void {
+    if (!this.isDisabled) return;
     instance.slicingId = '';
     instance.slicingName = '';
   }
