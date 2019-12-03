@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60cff33f_903e78d8",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2019-12-03T23:34:24Z",
+      "side": 1,
+      "message": "These needs to be corrected.. the link line needs to be one line please.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "bc518531428f1821280832f80afb96fd7b004eed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
