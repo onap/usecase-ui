@@ -1,0 +1,9 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing service has been deactivated."
+  },
+  "result_body": {
+    "operation_id": "123456"
+  }
+}
