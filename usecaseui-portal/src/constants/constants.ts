@@ -283,3 +283,6 @@ export const ADDRESS = {
         ]
     }
 }
+export const BUSINESS_STATUS = [
+    "All","activated","deactivated"
+]

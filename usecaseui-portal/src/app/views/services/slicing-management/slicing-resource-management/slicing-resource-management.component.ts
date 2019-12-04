@@ -11,5 +11,9 @@ export class SlicingResourceManagementComponent implements OnInit {
 
   ngOnInit() {
   }
-
+    currentTab = 'Slicing Business Management';
+    handleTabChange($event): void {
+       console.log($event,"$event");
+       this.currentTab = $event.tab._title;
+    }
 }
