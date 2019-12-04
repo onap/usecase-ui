@@ -28,6 +28,13 @@ export class SlicingTaskServices {
         slicingInstance: this.baseUrl + '/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}',
         slicingSubnetInstance: this.baseUrl + '/resource/nsi/{nsiId}/nssiInstances',
         subnetInContext: this.baseUrl + '/resource/nssi/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
+        //slicing-business-management
+        slicingBusinessList:this.baseUrl+"/resource/business/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingBusinesQueryOfStatus:this.baseUrl+"/resource/{businessStatus}/business/pageNo/{pageNo}/pageSize/{pageSize}",
+        activateSlicingService:this.baseUrl+"/resource/{serviceId}/activate",
+        deactivateSlicingService:this.baseUrl+"/resource/{serviceId}/deactivate",
+        terminateSlicingService:this.baseUrl+"/resource/{serviceId}",
+        queryOperationProgress:this.baseUrl+"resource/{serviceId}/progress",
     }
 
 
@@ -68,6 +75,21 @@ export class SlicingTaskServices {
                         .replace('{pageNo', pageNo)
                         .replace('{pageSize}', pageSize);
         return this.http.get<any>(url);
+    }
+
+    // Get slicing business list
+    getSlicingBusinessList (paramsObj) {
+        const url = this.url.slicingBusinessList
+            .replace("{pageNo}", paramsObj.pageNo)
+            .replace("{pageSize}", paramsObj.pageSize);
+        return this.http.get<any>(url);
+    }
+    changeActivateSlicingService(paramsObj, activate: boolean){
+        let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
+        if(activate){
+            url = this.url.deactivateSlicingService.replace("{serviceId}", paramsObj.serviceId)
+        }
+        return this.http.put<any>(url,paramsObj);
     }
 }
 

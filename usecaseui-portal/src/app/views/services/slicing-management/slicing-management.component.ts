@@ -11,5 +11,9 @@ export class SlicingManagementComponent implements OnInit {
 
   ngOnInit() {
   }
-
+    currentTab = 'Slicing Task Management';
+    handleTabChange($event): void {
+        console.log($event,"$event");
+        this.currentTab = $event.tab._title;
+    }
 }

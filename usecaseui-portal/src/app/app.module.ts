@@ -90,7 +90,8 @@ import { SlicingTaskModelComponent } from './views/services/slicing-management/s
 import { SlicingBusinessManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-management.component'
 import { NsiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-management.component'
 import { NssiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-management.component';
-import { SubnetParamsModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component'
+import { SubnetParamsModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component';
+import { SlicingBusinessTableComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-table/slicing-business-table.component'
 
 @NgModule({
   providers: [
@@ -146,7 +147,8 @@ import { SubnetParamsModelComponent } from './views/services/slicing-management/
     SlicingBusinessManagementComponent,
     NsiManagementComponent,
     NssiManagementComponent,
-    SubnetParamsModelComponent
+    SubnetParamsModelComponent,
+    SlicingBusinessTableComponent
   ],
   imports: [
     BrowserModule,

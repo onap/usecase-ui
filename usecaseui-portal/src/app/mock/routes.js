@@ -98,7 +98,8 @@ module.exports =
         "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_instance",
         "/uui-slicing/nsmf/resource/nsi/:nsiId/nssiInstances": "/slicing_subnet_instance",
         "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
-
+        ///////<-------------slicing_business--------->/////
+        "/uui-slicing/nsmf/resource/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list",
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",
