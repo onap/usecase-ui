@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit,  HostBinding, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { HomesService } from '../../core/services/homes.service';
 import { slideToRight } from '../../shared/utils/animates';
 import { Util } from '../../shared/utils/utils';
@@ -31,13 +31,13 @@ export class HomeComponent implements OnInit {
   @HostBinding('@routerAnimate') routerAnimateState;
   @ViewChild('seriverChart') seriverChart;
   @ViewChild('services') services: ElementRef;
-  resizeMark  
+  resizeMark
 
   constructor(
     private myhttp: HomesService,
     private router: Router,
     private Util: Util
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -49,17 +49,17 @@ export class HomeComponent implements OnInit {
     this.getHomeServiceBarNsData();
     this.getHomeServiceBarVnfData();
     this.getHomeServiceBarPnfData();
-    this.resizeMark = Observable.fromEvent(window,'resize')
+    this.resizeMark = Observable.fromEvent(window, 'resize')
       .subscribe((event) => {
-        this.seriverChart.resize(this.services.nativeElement.offsetHeight,250)
+        this.seriverChart.resize(this.services.nativeElement.offsetHeight, 250)
       })
   }
-  
-  ngAfterViewInit(){
-    this.seriverChart.resize(this.services.nativeElement.offsetHeight,250)
+
+  ngAfterViewInit() {
+    this.seriverChart.resize(this.services.nativeElement.offsetHeight, 250)
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.resizeMark.unsubscribe()
   }
 
@@ -540,7 +540,7 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('/services/services-list');
   }
   goback_onboard() {
-    this.router.navigateByUrl('/services/onboard-vnf-vm');
+    this.router.navigateByUrl('/onboard-vnf-vm');
   }
 
 }

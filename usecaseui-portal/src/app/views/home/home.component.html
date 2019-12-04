@@ -26,7 +26,7 @@
           <span>{{"i18nTextDefine_service_instance" | translate}}</span></h5>
       </div>
       <p class="tip">
-        <span (click) = "goback_services()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
+        <span (click)="goback_services()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
       </p>
     </div>
     <div class="PACKAGE">
@@ -42,26 +42,26 @@
           </div>
         </li>
         <li class="detailstoplinContent">
-            <div class="detailstoplin">
-              <div>VNF</div>
-              <div>
-                <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData1"></app-bar>
-              </div>
-              <div>{{Vnfdata}}</div>
+          <div class="detailstoplin">
+            <div>VNF</div>
+            <div>
+              <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData1"></app-bar>
             </div>
-          </li>
-          <li class="detailstoplinContent">
-              <div class="detailstoplin">
-                <div>PNF</div>
-                <div>
-                  <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData2"></app-bar>
-                </div>
-                <div>{{PnfData}}</div>
-              </div>
-            </li>
+            <div>{{Vnfdata}}</div>
+          </div>
+        </li>
+        <li class="detailstoplinContent">
+          <div class="detailstoplin">
+            <div>PNF</div>
+            <div>
+              <app-bar [initData]="serviceBarChartInit" [chartData]="servicesBarChartData2"></app-bar>
+            </div>
+            <div>{{PnfData}}</div>
+          </div>
+        </li>
       </div>
       <p class="tip">
-        <span (click) = "goback_onboard()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
+        <span (click)="goback_onboard()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
       </p>
     </div>
   </div>
@@ -76,9 +76,9 @@
       <div class="poerformance">
         <app-pie [initData]="VMAlarmChartInit" [chartData]="VMAlarmChartData"></app-pie>
         <p class="alarm-name"> {{"i18nTextDefine_VM_Alarm" | translate}} </p>
-        <p class="tip">
+        <!-- <p class="tip">
           <a href="#">{{"i18nTextDefine_ViewDetails" | translate}}</a>
-        </p>
+        </p> -->
       </div>
     </div>
     <div class="rb-content">

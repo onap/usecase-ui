@@ -48,19 +48,17 @@
         </div>
       </nz-list-item>
     </ng-template>
-  </nz-list> 
+  </nz-list>
 
   <div>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'匹配共享切片实例：'" [nzFooter]="null">
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="12">
           切片实例 ID：
-          <nz-select nzShowSearch 
-            [(ngModel)]="selectedServiceId" 
-            (ngModelChange)="slicingInstanceChange()" 
-            (nzOpenChange)="getSlicingData($event)" 
-          >
-            <nz-option *ngFor="let item of slicingInstances" [nzValue]="item.service_instance_id" [nzLabel]="item.service_instance_id"></nz-option>
+          <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (ngModelChange)="slicingInstanceChange()"
+            (nzOpenChange)="getSlicingData($event)">
+            <nz-option *ngFor="let item of slicingInstances" [nzValue]="item.service_instance_id"
+              [nzLabel]="item.service_instance_id"></nz-option>
           </nz-select>
         </div>
         <div nz-col nzSpan="8">
@@ -68,7 +66,7 @@
         </div>
         <div nz-col nzSpan="4">
           <button nz-button nzType="primary" (click)="resetSlicingInstance()">
-            <i nz-icon class="anticon anticon-plus"></i>
+            <i nz-icon class="anticon anticon-delete"></i>
           </button>
         </div>
       </nz-list-item>
@@ -78,18 +76,21 @@
           <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="12">
               切片子网实例 ID：
-              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="getSubnetInstances($event, item)" [nzDisabled]="isDisabled">
-                <nz-option *ngFor="let item of item.instances" [nzValue]="item.service_instance_id" [nzLabel]="item.service_instance_id"></nz-option>
+              <nz-select nzShowSearch [(ngModel)]="item.slicingId" (ngModelChange)="slicingSubnetChange(item)"
+                (nzOpenChange)="getSubnetInstances($event, item)" [nzDisabled]="isDisabled">
+                <nz-option *ngFor="let item of item.instances" [nzValue]="item.service_instance_id"
+                  [nzLabel]="item.service_instance_id"></nz-option>
               </nz-select>
             </div>
             <div nz-col nzSpan="8">
               切片子网实例名称：{{item.slicingName}}
             </div>
             <div nz-col nzSpan="4">
-              <button nz-button nzType="primary" (click)="restSubnetInstance(item)" [disabled]='isDisabled' [attr.disabled] ='isDisabled?true:undefined'> 
-                <i nz-icon class="anticon anticon-plus"></i>
+              <button nz-button nzType="primary" (click)="restSubnetInstance(item)" [disabled]='isDisabled'
+                [attr.disabled]='isDisabled?true:undefined'>
+                <i nz-icon class="anticon anticon-delete"></i>
               </button>
-              <button nz-button nzType="primary" (click)="showParamsModel(item)"> 
+              <button nz-button nzType="primary" (click)="showParamsModel(item)">
                 <i nz-icon class="anticon anticon-setting" nzTheme="outline"></i>
               </button>
             </div>
@@ -98,6 +99,7 @@
       </nz-list-item>
     </nz-list>
   </div>
-  <app-subnet-params-model [showModel]="isShowParams" [detailData]="params" [title]="paramsTitle" (cancel)="isShowParams=$event"></app-subnet-params-model>
+  <app-subnet-params-model [showModel]="isShowParams" [detailData]="params" [title]="paramsTitle"
+    (cancel)="isShowParams=$event"></app-subnet-params-model>
 
 </nz-modal>
