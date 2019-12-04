@@ -100,6 +100,11 @@ module.exports =
         "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
         ///////<-------------slicing_business--------->/////
         "/uui-slicing/nsmf/resource/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list",
+        "/uui-slicing/nsmf/resource/:businessStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list_activated",
+        "/PUT/uui-slicing/nsmf/resource/:serviceId/activate": "/slicing_business_activate",
+        "/PUT/uui-slicing/nsmf/resource/:serviceId/deactivate": "/slicing_business_activate",
+        "/DELETE/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
+        "/uui-slicing/nsmf/resource/:serviceId/progress":"/getSlicingBusinessProgress",
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",

@@ -78,11 +78,15 @@ export class SlicingTaskServices {
     }
 
     // Get slicing business list
-    getSlicingBusinessList (paramsObj) {
-        const url = this.url.slicingBusinessList
-            .replace("{pageNo}", paramsObj.pageNo)
+    getSlicingBusinessList (paramsObj,isSelect: boolean) {
+        let url = this.url.slicingBusinessList .replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
-        return this.http.get<any>(url);
+        if(isSelect){
+            url = this.url.slicingBusinesQueryOfStatus.replace("{businessStatus}", paramsObj.businessStatus).replace("{pageNo}", paramsObj.pageNo)
+                .replace("{pageSize}", paramsObj.pageSize);
+        }
+        let params = new HttpParams({ fromObject: paramsObj });
+        return this.http.get<any>(url,{params});
     }
     changeActivateSlicingService(paramsObj, activate: boolean){
         let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
@@ -90,6 +94,15 @@ export class SlicingTaskServices {
             url = this.url.deactivateSlicingService.replace("{serviceId}", paramsObj.serviceId)
         }
         return this.http.put<any>(url,paramsObj);
+    }
+    terminateSlicingService(paramsObj){
+        const url = this.url.terminateSlicingService.replace('{serviceId}', paramsObj.serviceId);
+        return this.http.delete<any>(url);
+    }
+    getSlicingBusinessProgress(paramsObj) {
+        let params = new HttpParams({ fromObject: paramsObj });
+        let url = this.url.queryOperationProgress.replace("{serviceId}", paramsObj.serviceId);
+        return this.http.get<any>(url,{params});
     }
 }
 

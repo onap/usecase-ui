@@ -1,0 +1,10 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing service operation progress."
+  },
+  "result_body": {
+    "operation_type": "activate",
+    "operation_progress": 99
+  }
+}
