@@ -99,46 +99,69 @@ export const TRANSFRER_FORM_ITEMS = [
 ]
 
 export const CORE_FORM_ITEMS = 	[
-	{
-		title: 'S-NSSAI',
-		key: 'cn_service_snssai'
-	},
-	{
-		title: '共享等级',
-		key: 'cn_resource_sharing_level'
-	},
-	{
-		title: '游牧性',
-		key: 'cn_ue_mobility_level'
-	},
-	{
-		title: '时延（ms）',
-		key: 'cn_latency'
-	},
-	{
-		title: '连接规模数',
-		key: 'cn_max_number_of_ues'
-	},
-	{
-		title: '活动因子（%）',
-		key: 'cn_activity_factor'
-	},
-	{
-		title: '用户下行体验速率（Mbps）',
-		key: 'cn_exp_data_rate_dl'
-	},
-	{
-		title: '用户上行体验速率（Mbps）',
-		key: 'cn_exp_data_rate_ul'
-	},
-	{
-		title: '下行区域流量密度（Mbps/km ）',
-		key: 'cn_area_traffic_cap_dl'
-	},
-	{
-		title: '下行区域流量密度（Mbps/km ）',
-		key: 'cn_area_traffic_cap_ul'
-	}
+	[
+		{
+			title: '切片业务名称',
+			key: 'service_name'
+		},
+		{
+			title: 'S-NSSAI',
+			key: 'service_snssai'
+		},
+		{
+			title: '用户下行带宽（Mbps）',
+			key: 'exp_data_rate_dl'
+		},
+	],
+	[
+		{
+			title: '用户上行带宽（Mbps）',
+			key: 'exp_data_rate_ul'
+		},
+		{
+			title: '游牧性',
+			key: 'ue_mobility_level'
+		},
+		{
+			title: '时延（ms）',
+			key: 'latency'
+		},
+	],
+	[
+		{
+			title: '使用期限（月）',
+			key: 'use_interval'
+		},
+		
+		{
+			title: '激活因子（%）',
+			key: 'activity_factor'
+		},
+		{
+			title: '共享等级',
+			key: 'resource_sharing_level'
+		},
+	],
+	[
+		{
+			title: '连接规模数',
+			key: 'max_number_of_ues'
+		},
+		{
+			title: '上行区域流量密度（Mbps/km ）',
+			key: 'area_traffic_cap_ul'
+		},
+		{
+			title: '下行区域流量密度（Mbps/km ）',
+			key: 'area_traffic_cap_dl'
+		}
+	],
+	[
+		{
+			title: '区域',
+			key: 'coverage_area_ta_list'
+		},
+	]
 ]
 
 export const ADDRESS = {
