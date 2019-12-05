@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SlicingTaskServices } from '../../../../../core/services/slicingTaskServices';
-import { BUSINESS_REQUIREMENT } from '../../../../../../constants/constants';
 
 @Component({
   selector: 'app-slicing-task-model',
@@ -15,8 +14,6 @@ export class SlicingTaskModelComponent implements OnInit {
 
   constructor(private http: SlicingTaskServices) { }
 
-  // 业务需求列表
-  businessList: object[] = BUSINESS_REQUIREMENT;
   // 配置审核详情
   checkDetail: any[] = [{}];
   //业务需求信息

@@ -1,0 +1,82 @@
+<nz-list
+	class="taskmodel_list"
+	[nzDataSource]="checkDetail"
+	nzBordered
+	[nzHeader]="'配置审核详情：'"
+	[nzFooter]="null"
+	[nzRenderItem]="checkItem"
+>
+	<ng-template #checkItem let-check>
+		<nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
+			<div nz-col nzSpan="10">
+				<span>Task ID： {{ check.task_id }}</span>
+			</div>
+			<div nz-col nzSpan="8">
+				<span>Task Name： {{ check.task_name }}</span>
+			</div>
+			<div nz-col nzSpan="6">
+				<span>S-NSSAI：{{ check.service_snssai }}</span>
+			</div>
+		</nz-list-item>
+		<nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
+			<div nz-col nzSpan="10">
+				<span
+					>Arrived Time：
+					{{ check.create_time | date: "yyyy-MM-dd HH:mm:ss" }}</span
+				>
+			</div>
+			<div nz-col nzSpan="8">
+				<span>Status： {{ check.processing_status }}</span>
+			</div>
+		</nz-list-item>
+	</ng-template>
+</nz-list>
+
+<nz-list
+	class="taskmodel_list"
+	[nzDataSource]="businessRequirement"
+	nzBordered
+	[nzHeader]="'业务需求信息：'"
+	[nzFooter]="null"
+	[nzRenderItem]="businessItem"
+>
+	<ng-template #businessItem let-item>
+		<nz-list-item
+			nz-row
+			nzType="flex"
+			nzJustify="start"
+			[nzGutter]="8"
+			*ngFor="let list of businessList"
+		>
+			<div
+				nz-col
+				[nzSpan]="list.length === 1 ? '24' : '8'"
+				*ngFor="let ite of list"
+			>
+				<span class="ant-typography"
+					>{{ ite.title }} : &nbsp;{{ item[ite.key] }}</span
+				>
+			</div>
+		</nz-list-item>
+	</ng-template>
+</nz-list>
+
+<nz-list
+	class="taskmodel_list"
+	[nzDataSource]="NSTinfo"
+	nzBordered
+	[nzHeader]="'匹配NST信息：'"
+	[nzFooter]="null"
+	[nzRenderItem]="taskItem"
+>
+	<ng-template #taskItem let-item>
+		<nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
+			<div nz-col nzSpan="12">
+				<span>NST ID： {{ item.nst_id }}</span>
+			</div>
+			<div nz-col nzSpan="12">
+				<span>NST Name： {{ item.nst_name }}</span>
+			</div>
+		</nz-list-item>
+	</ng-template>
+</nz-list>
