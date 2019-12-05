@@ -1,0 +1,11 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "5G slicing task operation progress result."
+    },
+    "result_body": {
+        "an_progress": 60,
+        "tn_progress": 60,
+        "cn_progress": 60
+    }
+}

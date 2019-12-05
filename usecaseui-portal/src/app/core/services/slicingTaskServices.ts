@@ -28,7 +28,9 @@ export class SlicingTaskServices {
         slicingInstance: this.baseUrl + '/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}',
         slicingSubnetInstance: this.baseUrl + '/resource/nsi/{nsiId}/nssiInstances',
         subnetInContext: this.baseUrl + '/resource/nssi/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
-        submitSlicing: this.baseUrl + '/task/auditInfo',    
+        submitSlicing: this.baseUrl + '/task/auditInfo',  
+        slicingBasicInfo: this.baseUrl + '/task/{taskId}/taskCreationInfo',
+        slicingCreateProgress: this.baseUrl + '/task/{taskId}/taskCreationProgress',
         //slicing-business-management
         slicingBusinessList:this.baseUrl+"/resource/business/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingBusinesQueryOfStatus:this.baseUrl+"/resource/{businessStatus}/business/pageNo/{pageNo}/pageSize/{pageSize}",
@@ -36,7 +38,8 @@ export class SlicingTaskServices {
         deactivateSlicingService:this.baseUrl+"/resource/{serviceId}/deactivate",
         terminateSlicingService:this.baseUrl+"/resource/{serviceId}",
         queryOperationProgress:this.baseUrl+"resource/{serviceId}/progress",
-        slicingBasicInfo: this.baseUrl + '/task/{taskId}/taskCreationInfo',
+        
+        
     }
 
 
@@ -83,6 +86,10 @@ export class SlicingTaskServices {
     }
     getSlicingBasicInfo (taskId: string) {
         const url = this.url.slicingBasicInfo.replace('{taskId}', taskId);
+        return this.http.get<any>(url);
+    }
+    getSlicingCreateProgress (taskId: string) {
+        const url = this.url.slicingCreateProgress.replace('{taskId', taskId);
         return this.http.get<any>(url);
     }
 

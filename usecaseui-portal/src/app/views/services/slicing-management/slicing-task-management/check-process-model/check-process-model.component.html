@@ -11,5 +11,33 @@
 		[NSTinfo]="NSTinfo"
 	>
 	</app-basic-info>
+	<nz-list [nzDataSource]="data" nzBordered nzHeader="任务详情:" [nzFooter]="null" [nzRenderItem]="defaultItem" >
+		<ng-template #defaultItem let-item> 
+			<nz-list-item  nz-row nzType="flex" nzJustify="center" >
+				<nz-steps 
+					nzType="navigation"
+					[nzCurrent]="item.currentProgress" 
+					nz-col 
+					nzSpan="20" 
+					nzSize="small" 
+					*ngFor="let item of data[0]; let i = index" class="task_progress" 
+					[ngStyle]="{paddingBottom: i === data[0].length -1 ? '30px': '0px'}"
+				>
+					<nz-step [nzTitle]="item.title"></nz-step>
+					<nz-step 
+						[nzTitle]="item.currentProgress > 1 ? null : 'in progress'" 
+						[nzStatus]="item.status" nzIcon="anticon anticon-spin anticon-loading"
+					> </nz-step>
+					<nz-step 
+						[nzTitle]="item.status === 'finish' ? 'success' : null"
+						[nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" 
+						nzIcon='loading'
+					></nz-step>
+				</nz-steps>
+				
+			</nz-list-item>
+		</ng-template>
+	</nz-list>
+
 	
 </nz-modal>

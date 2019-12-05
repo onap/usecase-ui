@@ -19,12 +19,18 @@ export class CheckProcessModelComponent implements OnInit {
 	checkDetail: any[];
 	businessRequirement: any[];
 	NSTinfo: any[];
+	data: any[];
+	currentProgress: number = 1;
+	timer: any = null;
 
 	ngOnInit() { }
 
 	ngOnChanges() {
 		if (this.showProcess) {
 			this.getInfo();
+			this.getProgress();
+		}else {
+			clearTimeout(this.timer);
 		}
 	}
 
@@ -51,10 +57,45 @@ export class CheckProcessModelComponent implements OnInit {
 		})
 	}
 
+	getProgress(): void {
+		this.http.getSlicingCreateProgress(this.taskId).subscribe(res => {
+			const { result_body, result_header: {result_code } } = res;
+			if (+result_code === 200) {
+				this.data = [];
+				Object.keys(result_body).forEach( item => {
+					let currentProgress = 1
+					let status = 'process';
+					if(+result_body[item] === 100){
+						currentProgress = 2;
+						status = 'finish'
+					}
+					const title = item === 'an_progress'? '无线域': (item === 'tn_progress'? '传输域' : '核心域')
+					let obj = { [item]: result_body[item], currentProgress, title, status };
+					this.data.push(obj)
+				})
+				this.data = [this.data];
+				let flag: boolean = false;
+				Object.values(result_body).forEach ( item => {
+					if(item !== 100) {
+						flag = true;
+					}
+				})
+				if(flag) {
+					this.timer = setTimeout( () => {
+						this.getProgress()
+					}, 5000)
+				}
+			}
+		})
+	}
+
 	handleCancel() {
 		this.showProcess = false;
 		this.cancel.emit(this.showProcess)
 	}
-	handleOk() { }
+	handleOk() { 
+		this.handleCancel();
+	}
 
 }
+ 
