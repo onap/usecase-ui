@@ -99,7 +99,14 @@
       </nz-list-item>
     </nz-list>
   </div>
-  <app-subnet-params-model [showModel]="isShowParams" [detailData]="params" [title]="paramsTitle"
-    (cancel)="isShowParams=$event"></app-subnet-params-model>
+  <app-subnet-params-model 
+    [showModel]="isShowParams" 
+    [detailData]="params" 
+    [title]="paramsTitle" 
+    (cancel)="isShowParams=$event" 
+    (paramsDataChange)="changeParams($event)"
+  >
+  </app-subnet-params-model>
+
 
 </nz-modal>
