@@ -1,0 +1,7 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "Operation result message."
+    },
+    "result_body": {}
+}

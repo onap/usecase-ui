@@ -28,6 +28,7 @@ export class SlicingTaskServices {
         slicingInstance: this.baseUrl + '/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}',
         slicingSubnetInstance: this.baseUrl + '/resource/nsi/{nsiId}/nssiInstances',
         subnetInContext: this.baseUrl + '/resource/nssi/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
+        submitSlicing: this.baseUrl + '/task/auditInfo',    
         //slicing-business-management
         slicingBusinessList:this.baseUrl+"/resource/business/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingBusinesQueryOfStatus:this.baseUrl+"/resource/{businessStatus}/business/pageNo/{pageNo}/pageSize/{pageSize}",
@@ -75,6 +76,9 @@ export class SlicingTaskServices {
                         .replace('{pageNo', pageNo)
                         .replace('{pageSize}', pageSize);
         return this.http.get<any>(url);
+    }
+    submitSlicing (reqbody) {
+        return this.http.put<any>(this.url.submitSlicing, reqbody)
     }
 
     // Get slicing business list

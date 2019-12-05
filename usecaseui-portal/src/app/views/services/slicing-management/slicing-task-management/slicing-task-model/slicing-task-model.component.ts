@@ -18,9 +18,9 @@ export class SlicingTaskModelComponent implements OnInit {
   // 业务需求列表
   businessList: object[] = BUSINESS_REQUIREMENT;
   // 配置审核详情
-  checkDetail: object[] = [{}];
+  checkDetail: any[] = [{}];
   //业务需求信息
-  businessRequirement: object[] = [{}];
+  businessRequirement: any[] = [];
   //匹配NST信息 
   NSTinfo: object[] = [{}];
   // 共享切片实例
@@ -70,7 +70,15 @@ export class SlicingTaskModelComponent implements OnInit {
     this.http.getAuditInfo(this.taskId).subscribe( res => {
       const { result_header: { result_code } } = res;
       if (+result_code === 200) {
-        const { task_id, task_name, create_timer, processing_status, business_demand_info, nst_info, nsi_nssi_info, business_demand_info: { service_snssai } } = res.result_body;
+        const { 
+          task_id, 
+          task_name, 
+          create_time, 
+          processing_status, 
+          business_demand_info, 
+          nst_info, nsi_nssi_info, 
+          business_demand_info: { service_snssai } 
+        } = res.result_body;
         const { 
           suggest_nsi_id, 
           suggest_nsi_name, 
@@ -97,9 +105,10 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_area_traffic_cap_ul
         } = nsi_nssi_info;
         // 处理配置审核详情数据
-        this.checkDetail = [{ task_id, task_name, create_timer, processing_status, service_snssai }];
+        this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
         // 业务需求信息数据
         this.businessRequirement = [business_demand_info];
+        // 匹配NST信息
         this.NSTinfo = [nst_info];
         // 共享切片实例
         this.selectedServiceId = suggest_nsi_id;
@@ -216,7 +225,6 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   restSubnetInstance (instance: any): void {
-    if (!this.isDisabled) return;
     instance.slicingId = '';
     instance.slicingName = '';
   }
@@ -227,13 +235,38 @@ export class SlicingTaskModelComponent implements OnInit {
     this.params = item.params
   }
 
+  changeParams (params: any): void {
+    const index = this.paramsTitle === '无线域' ? 0 : (this.paramsTitle === '传输域' ? 1 : 2);
+    this.slicingSubnet[index].params = params
+  }
+
   handleCancel() {
     this.showDetail = false;
     this.cancel.emit(this.showDetail);
   }
   handleOk() {
-    this.handleCancel();
-    // 对应操作逻辑未编写
-
+    const { selectedServiceId, selectedServiceName, slicingSubnet, checkDetail, businessRequirement, NSTinfo } = this;
+    const nsi_nssi_info: object = {
+      suggest_nsi_id:  selectedServiceId,
+      suggest_nsi_name: selectedServiceName,
+      an_suggest_nssi_id: slicingSubnet[0].slicingId,
+      an_suggest_nssi_name: slicingSubnet[0].slicingName,
+      ...slicingSubnet[0].params,
+      tn_suggest_nssi_id: slicingSubnet[1].slicingId,
+      tn_suggest_nssi_name: slicingSubnet[1].slicingName,
+      ...slicingSubnet[1].params,
+      cn_suggest_nssi_id: slicingSubnet[2].slicingId,
+      cn_suggest_nssi_name: slicingSubnet[2].slicingName,
+      ...slicingSubnet[2].params,
+    }
+    let reqBody = {...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info};
+    delete reqBody.service_snssai;
+    this.http.submitSlicing(reqBody).subscribe (res => {
+      const { result_header: { result_code } } = res;
+      if (+result_code === 200) {
+        console.log('成功提交')
+        this.handleCancel();
+      }
+    })
   }
 }
