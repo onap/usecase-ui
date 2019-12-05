@@ -19,6 +19,7 @@ const server = jsonServer.create();
 const middlewares = jsonServer.defaults();
 const customersRouters = require('./routes');
 const baseUrl = "/usecaseui-server/v1";
+const nsmfBaseUrl = "/uui-slicing/nsmf"; 
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
@@ -99,6 +100,18 @@ server.put(`${baseUrl}/*`, (req, res, next) => {
 server.delete(`${baseUrl}/*`, (req, res, next) => {
     const prefix = req.url.replace(baseUrl, "");
     req.url = `${baseUrl}/DELETE${prefix}`;
+    req.method = 'GET';
+    next();
+})
+server.put(`${nsmfBaseUrl}/*`, (req, res, next) => {
+    req.method = 'GET';
+    next();
+})
+server.post(`${nsmfBaseUrl}/*`, (req, res, next) => {
+    req.method = 'GET';
+    next();
+})
+server.delete(`${nsmfBaseUrl}/*`, (req, res, next) => {
     req.method = 'GET';
     next();
 })
