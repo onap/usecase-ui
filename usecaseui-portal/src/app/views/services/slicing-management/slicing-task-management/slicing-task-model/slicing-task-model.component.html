@@ -16,7 +16,7 @@
       </nz-list-item>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
         <div nz-col nzSpan="10">
-          <span>Arrived Time： {{ check.create_timer }}</span>
+          <span>Arrived Time： {{ check.create_time | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
         </div>
         <div nz-col nzSpan="8">
           <span>Status： {{ check.processing_status }}</span>
@@ -28,8 +28,8 @@
   <nz-list class="taskmodel_list" [nzDataSource]="businessRequirement" nzBordered [nzHeader]="'业务需求信息：'"
     [nzFooter]="null" [nzRenderItem]="businessItem">
     <ng-template #businessItem let-item>
-      <nz-list-item *ngFor="let ite of businessList " nz-row>
-        <div nz-col nz-Span='10'>
+      <nz-list-item  nz-row nzType="flex" nzJustify="start" [nzGutter]="8" *ngFor="let list of businessList ">
+        <div nz-col [nzSpan]="list.length === 1 ? '24' : '8'" *ngFor="let ite of list">
           <span class="ant-typography">{{ ite.title }} : &nbsp;{{ item[ite.key] }}</span>
         </div>
       </nz-list-item>
@@ -48,7 +48,7 @@
         </div>
       </nz-list-item>
     </ng-template>
-  </nz-list>
+  </nz-list> 
 
   <div>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'匹配共享切片实例：'" [nzFooter]="null">
