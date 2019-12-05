@@ -39,4 +39,11 @@
   <app-slicing-task-model [moduleTitle]="moduleTitle" [showDetail]="showDetail" [taskId]="taskId"
     (cancel)="showDetail=$event">
   </app-slicing-task-model>
+  <app-check-process-model 
+    [moduleTitle]="moduleTitle"
+    [showProcess]="showProcess" 
+    [taskId]="taskId" 
+    (cancel)="showProcess=$event"
+  >
+  </app-check-process-model>
 </div>

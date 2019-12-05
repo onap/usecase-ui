@@ -1,0 +1,15 @@
+<nz-modal
+	[nzVisible]="showProcess"
+	nzWidth="85%"
+	[nzTitle]="moduleTitle"
+	(nzOnCancel)="handleCancel()"
+	(nzOnOk)="handleOk()"
+>
+	<app-basic-info
+		[checkDetail]="checkDetail"
+		[businessRequirement]="businessRequirement"
+		[NSTinfo]="NSTinfo"
+	>
+	</app-basic-info>
+	
+</nz-modal>

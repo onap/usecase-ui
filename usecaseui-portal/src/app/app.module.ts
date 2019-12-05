@@ -93,7 +93,7 @@ import { NssiManagementComponent } from './views/services/slicing-management/sli
 import { SubnetParamsModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component';
 import { SlicingBusinessTableComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-table/slicing-business-table.component'
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
-
+import { CheckProcessModelComponent } from './views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component'
 
 @NgModule({
   providers: [
@@ -151,7 +151,8 @@ import { BasicInfoComponent } from './shared/components/basic-info/basic-info.co
     NssiManagementComponent,
     SubnetParamsModelComponent,
     SlicingBusinessTableComponent,
-    BasicInfoComponent
+    BasicInfoComponent,
+    CheckProcessModelComponent
   ],
   imports: [
     BrowserModule,

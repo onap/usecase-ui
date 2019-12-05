@@ -16,8 +16,8 @@ export class SlicingTaskManagementComponent implements OnInit {
     this.getTaskList()
   }
   showDetail: boolean = false;
+  showProcess: boolean = false;
   selectedValue = null;
-  // detailData: object = {};
   taskId: string;
   moduleTitle: string = "";
   listOfData: any[] = []; 
@@ -67,7 +67,11 @@ export class SlicingTaskManagementComponent implements OnInit {
 
   showdetail(data: any): void {
     this.taskId = data.task_id;
-    this.showDetail = true;
     this.moduleTitle = data.status;
+    if(data.status === '审核阶段') {
+      this.showDetail = true;
+    } else {
+      this.showProcess = true;
+    }
   }
 }

@@ -36,6 +36,7 @@ export class SlicingTaskServices {
         deactivateSlicingService:this.baseUrl+"/resource/{serviceId}/deactivate",
         terminateSlicingService:this.baseUrl+"/resource/{serviceId}",
         queryOperationProgress:this.baseUrl+"resource/{serviceId}/progress",
+        slicingBasicInfo: this.baseUrl + '/task/{taskId}/taskCreationInfo',
     }
 
 
@@ -79,6 +80,10 @@ export class SlicingTaskServices {
     }
     submitSlicing (reqbody) {
         return this.http.put<any>(this.url.submitSlicing, reqbody)
+    }
+    getSlicingBasicInfo (taskId: string) {
+        const url = this.url.slicingBasicInfo.replace('{taskId}', taskId);
+        return this.http.get<any>(url);
     }
 
     // Get slicing business list

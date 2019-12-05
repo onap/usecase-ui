@@ -1,0 +1,31 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "5G slicing task creation info result."
+    },
+    "result_body": {
+        "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d70a1177",
+        "task_name": "5G Slicee MMB",
+        "create_time": "1454171445000",
+        "processing_status": "Waiting for review",
+        "business_demand_info": {
+            "service_name": "5G Slice eMMB",
+            "service_snssai": "1-010101",
+            "exp_data_rate_dl": "300",
+            "exp_data_rate_ul": "300",
+            "ue_mobility_level": "stageary",
+            "latency": "20",
+            "use_interval": "12",
+            "coverage_area_ta_list": [" xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx ", " xxxx;xxxxx;xxxxx "],
+            "activity_factor": "60",
+            "resource_sharing_level": "shared",
+            "area_traffic_cap_ul": "300",
+            "area_traffic_cap_dl": "300",
+            "max_number_of_ues": "10000"
+        },
+        "nst_info": {
+            "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+            "nst_name": "eMBBNST"
+        }
+    }
+}
