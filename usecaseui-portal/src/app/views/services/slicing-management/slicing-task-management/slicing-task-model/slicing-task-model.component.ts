@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '../../../../../core/services/slicingTaskServices';
 
 @Component({
@@ -11,8 +12,9 @@ export class SlicingTaskModelComponent implements OnInit {
   @Input() moduleTitle: string;
   @Input() taskId: string;
   @Output() cancel = new EventEmitter<boolean>();
+  @ViewChild('notification') notification1: any;
 
-  constructor(private http: SlicingTaskServices) { }
+  constructor(private http: SlicingTaskServices, private message: NzMessageService) { }
 
   // 配置审核详情
   checkDetail: any[] = [{}];
@@ -189,9 +191,12 @@ export class SlicingTaskModelComponent implements OnInit {
         const { nsi_service_instances, record_number } = result_body;
         this.slicingInstances.total = record_number;
         this.slicingInstances.list.push(...nsi_service_instances);
-        this.slicingInstances.isLoading = false;
-        this.slicingInstances.flag = false;
+      } else {
+        this.message.error('Failed to get slicing instance ID')
       }
+      this.slicingInstances.isLoading = false;
+      this.slicingInstances.flag = false;
+
     })
   }
 
@@ -203,6 +208,8 @@ export class SlicingTaskModelComponent implements OnInit {
       const { result_header: { result_code }, result_body, record_number} = res;
       if (+result_code === 200) {
         this.subnetDataFormatting(result_body, record_number)
+      } else {
+        this.message.error('Failed to get slicing subnet instance ID')
       }
     }) 
     this.slicingInstances.list.forEach (item => {
@@ -286,6 +293,8 @@ export class SlicingTaskModelComponent implements OnInit {
             item.flag = false;
           }
         })
+      } else {
+        this.message.error('Failed to get slicing subnet instance ID');
       }
     })
   }
@@ -335,11 +344,14 @@ export class SlicingTaskModelComponent implements OnInit {
     }
     let reqBody = {...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info};
     delete reqBody.service_snssai;
+    this.notification1.notificationStart('Task', 'Sumbit', this.taskId)
     this.http.submitSlicing(reqBody).subscribe (res => {
       const { result_header: { result_code } } = res;
       if (+result_code === 200) {
-        console.log('成功提交')
         this.handleCancel();
+        this.notification1.notificationSuccess('Task', 'Sumbit', this.taskId)
+      } else {
+        this.notification1.notificationFailed('Task', 'Sumbit', this.taskId)
       }
     })
   }

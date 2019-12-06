@@ -5,7 +5,7 @@
         <img src="{{notificationAttributes.imgPath}}" alt="{{notificationAttributes.status}}">
       </span>
       <!-- customer&onboard -->
-      <div *ngIf="!isServicesList">
+      <div *ngIf="!isServicesList && !parentComponent">
         <div class="ant-notification-notice-message">
           {{(notificationAttributes.action === 'OnboardingState'? notificationAttributes.title : "i18nTextDefine_"+notificationAttributes.title) | translate}}&nbsp;
           {{"i18nTextDefine_"+notificationAttributes.action | translate}}&nbsp;&nbsp;{{"i18nTextDefine_"+notificationAttributes.status | translate}}
@@ -41,6 +41,20 @@
           <div class="notificationlist">
             <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
             <span>{{ notificationAttributes.title }}</span>
+          </div>
+        </div>
+        <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
+      </div>
+      <!-- slicing  -->
+      <div *ngIf="!isServicesList && parentComponent">
+        <div class="ant-notification-notice-message">
+          {{ notificationAttributes.title}}&nbsp;
+          {{ notificationAttributes.action }}&nbsp;&nbsp;{{notificationAttributes.status}}
+        </div>
+        <div class="ant-notification-notice-description">
+          <div class="notificationlist">
+            <p>{{notificationAttributes.title}} id:&nbsp;</p>
+            <span>{{ notificationAttributes.name }}</span>
           </div>
         </div>
         <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>

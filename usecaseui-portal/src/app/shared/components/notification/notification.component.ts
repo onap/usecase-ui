@@ -9,6 +9,7 @@ import { NzNotificationService } from 'ng-zorro-antd';
 export class NotificationComponent implements OnInit {
   @ViewChild('notificationModel')notificationModel: any;
   @Input()isServicesList: boolean;
+  @Input()parentComponent: string;
   @Input()customerSelected: object;
 
   notificationAttributes: {
@@ -21,8 +22,7 @@ export class NotificationComponent implements OnInit {
 
   constructor(private notification: NzNotificationService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   setNotification({ title, imgPath, action, status, name }):void{
     this.notificationAttributes = { title, imgPath, action, status, name };
