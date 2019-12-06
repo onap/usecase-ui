@@ -2,7 +2,8 @@
     <div nz-row>
         <div nz-col nzSpan="12" class="task_status">
             <span>Status : </span>
-            <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue">
+            <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue"
+                       (ngModelChange)="getListOfProcessingStatus()">
                 <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
             </nz-select>
         </div>
@@ -12,11 +13,14 @@
                 #nsiTable
                 [nzData]="listOfData"
                 [nzFrontPagination]="false"
+                nzShowSizeChanger
                 [nzPageSizeOptions]="[5,10,15,20]"
                 [nzTotal]='total'
                 [(nzPageSize)]="pageSize"
                 [(nzPageIndex)]='pageIndex'
                 [nzLoading]="loading"
+                (nzPageIndexChange)="searchData()"
+                (nzPageSizeChange)="searchData(true)"
         >
             <thead>
             <tr>

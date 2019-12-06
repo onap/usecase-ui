@@ -47,6 +47,14 @@ export class NsiTableComponent implements OnInit {
             }
         })
     }
+    getListOfProcessingStatus(){
+        this.pageIndex = 1;
+        this.pageSize = 10;
+        this.getNsiList();
+    }
+    searchData(reset: boolean = false) {
+        this.getNsiList();
+    }
     showdetail(data){
 
     }
