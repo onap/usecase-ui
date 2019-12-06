@@ -32,14 +32,19 @@ export class SlicingTaskManagementComponent implements OnInit {
     })
   }
   getListOfProcessingStatus():void {
-    this.myhttp.getTaskProcessingStatus(this.selectedValue, '1', '10').subscribe (res => {
-      const { result_header: { result_code }, result_body: { slicing_task_list } } = res
-      if (+result_code === 200) {
-        this.dataFormatting(slicing_task_list)
-      }
-    })
+    const { selectedValue } = this;
+    if (selectedValue) {
+      this.myhttp.getTaskProcessingStatus(selectedValue, '1', '10').subscribe (res => {
+        const { result_header: { result_code }, result_body: { slicing_task_list } } = res
+        if (+result_code === 200) {
+          this.dataFormatting(slicing_task_list)
+        }
+      })
+    } else {
+      this.getTaskList()
+    }
   }
-  
+
   dataFormatting(list: any):void{
     this.listOfData = list.map( item => {
       item.arrival_time = moment(+item.arrival_time).format('YYYY-MM-DD hh:mm')
