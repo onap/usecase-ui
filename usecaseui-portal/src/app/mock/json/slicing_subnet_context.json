@@ -4,20 +4,84 @@
 		"result_message":"5G slicing NSSI query based on environment context result."
 	},
 	"result_body":{
-		"record_number":2,
+		"record_number": 26,
 		"nssi_service_instances":[
 			{
 				"service_instance_order":"1",
 				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
-				"service_instance_name":"slicing_core_notwork",
+				"service_instance_name":"slicing_core_notwork1",
 				"service_type":"slicing_core_notwork",
 				"environment_context":"cn",
 				"orchestration_status":"activated"
 			},
 			{
 				"service_instance_order":"2",
-				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
-				"service_instance_name":"slicing_core_notwork",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZY",
+				"service_instance_name":"slicing_core_notwork2",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"3",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZZ",
+				"service_instance_name":"slicing_core_notwork3",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"4",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZA",
+				"service_instance_name":"slicing_core_notwork4",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"5",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZB",
+				"service_instance_name":"slicing_core_notwork5",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"6",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZC",
+				"service_instance_name":"slicing_core_notwork6",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"7",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZD",
+				"service_instance_name":"slicing_core_notwork7",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"8",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZE",
+				"service_instance_name":"slicing_core_notwork8",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"9",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZF",
+				"service_instance_name":"slicing_core_notwork9",
+				"service_type":"slicing_core_notwork",
+				"environment_context":"cn",
+				"orchestration_status":"activated"
+			},
+			{
+				"service_instance_order":"10",
+				"service_instance_id":"NSSI-C-001-HDBNJ-NSSMF-01-A-ZG",
+				"service_instance_name":"slicing_core_notwork10",
 				"service_type":"slicing_core_notwork",
 				"environment_context":"cn",
 				"orchestration_status":"activated"

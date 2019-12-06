@@ -23,7 +23,7 @@ export class SlicingTaskModelComponent implements OnInit {
   // 共享切片实例
   selectedServiceId: string;
   selectedServiceName: string;
-  slicingInstances: any[];
+  slicingInstances: any;
   loading: boolean = false;
   // 子网实例
   slicingSubnet: any[] =  [
@@ -32,6 +32,11 @@ export class SlicingTaskModelComponent implements OnInit {
       context: 'an',
       slicingId: '',
       slicingName: '',
+      total: 0,
+      currentPage: '1',
+      pageSize: '10',
+      isLoading: false,
+      flag: false,
       instances: []
     },
     {
@@ -39,6 +44,11 @@ export class SlicingTaskModelComponent implements OnInit {
       context: 'tn',
       slicingId: '',
       slicingName: '',
+      total: 0,
+      currentPage: '1',
+      pageSize: '10',
+      isLoading: false,
+      flag: false,
       instances: []
     },
     {
@@ -46,20 +56,29 @@ export class SlicingTaskModelComponent implements OnInit {
       context: 'cn',
       slicingId: '',
       slicingName: '',
+      total: 0,
+      currentPage: '1',
+      pageSize: '10',
+      isLoading: false,
+      flag: false,
       instances: []
     }
   ]
+  isDisabled: boolean = true;
   // 子网参数
   isShowParams: boolean;
   paramsTitle: string;
   params: any;
-  isDisabled: boolean = true;
+  
+  
 
   ngOnInit() { }
   
   ngOnChanges() {
     if (this.showDetail) {
       this.getautidInfo();
+    } else {
+      this.isDisabled = true;
     }
   }
 
@@ -110,13 +129,20 @@ export class SlicingTaskModelComponent implements OnInit {
         // 共享切片实例
         this.selectedServiceId = suggest_nsi_id;
         this.selectedServiceName = suggest_nsi_name;
-        this.slicingInstances = [{
-          service_instance_id: this.selectedServiceId,
-          service_instance_name: this.selectedServiceName
-        }];
+        this.slicingInstances = {
+          currentPage: '1',
+          pageSize: '10',
+          isLoading: false,
+          total: 0,
+          flag: false,
+          list: [{
+            service_instance_id: this.selectedServiceId,
+            service_instance_name: this.selectedServiceName
+          }]
+        }
         // 子网实例
         let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name};
-        this.subnetDataFormatting(subnetData);
+        this.subnetDataFormatting(subnetData, 0);
         this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth };
         this.slicingSubnet[2].params = { 
@@ -135,39 +161,63 @@ export class SlicingTaskModelComponent implements OnInit {
     })
   }
 
-  getSlicingData ( bool: boolean): void {
-    this.loading = true;
-    if (bool && this.slicingInstances.length === 1) {
-      this.http.getSlicingInstance('1', '10').subscribe ( res => {
-        this.loading = false;
-        const { result_header: { result_code }, result_body: { nsi_service_instances } } = res
-        if (+result_code === 200) {
-          this.slicingInstances = nsi_service_instances;
-        }
-      })
+  openSlicingInstance ( bool: boolean): void {
+    const { total, currentPage, pageSize} = this.slicingInstances;
+    if (bool && !total) {
+      this.slicingInstances.list = [];
+      this.getSlicingInstances(currentPage, pageSize)
     }
   }
+
+  getNextPageData ():void {
+    const { total, currentPage, pageSize} = this.slicingInstances;
+    if (total - (+currentPage * +pageSize) > 0 ) {
+      if (this.slicingInstances.flag) return;
+      this.slicingInstances.isLoading = true;
+      this.slicingInstances.flag = true
+      setTimeout( () => {
+        this.getSlicingInstances(currentPage, pageSize)
+      }, 2000)
+      this.slicingInstances.currentPage ++ ;
+    }
+  }
+
+  getSlicingInstances(pageNo: string, pageSize: string): void {
+    this.http.getSlicingInstance(pageNo, pageSize).subscribe ( res => {
+      const { result_header: { result_code }, result_body } = res;
+      if (+result_code === 200) {
+        const { nsi_service_instances, record_number } = result_body;
+        this.slicingInstances.total = record_number;
+        this.slicingInstances.list.push(...nsi_service_instances);
+        this.slicingInstances.isLoading = false;
+        this.slicingInstances.flag = false;
+      }
+    })
+  }
+
 
   slicingInstanceChange ():void {
     this.isDisabled = true;
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe( res => {
-      const { result_header: { result_code }, result_body} = res;
+      const { result_header: { result_code }, result_body, record_number} = res;
       if (+result_code === 200) {
-        this.subnetDataFormatting(result_body)
+        this.subnetDataFormatting(result_body, record_number)
       }
     }) 
-    this.slicingInstances.forEach (item => {
+    this.slicingInstances.list.forEach (item => {
       if (item.service_instance_id === this.selectedServiceId) {
         this.selectedServiceName = item.service_instance_name;
       }
     })
   }
 
-  subnetDataFormatting ( subnetData: any): void{
+  subnetDataFormatting ( subnetData: any, total: number): void{
     const { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = subnetData;
     this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
     this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
+    this.slicingSubnet[0].total = total;
+    this.slicingSubnet[0].currentPage = '1'; 
     this.slicingSubnet[0].instances = [{
       service_instance_id: an_suggest_nssi_id,
       service_instance_name: an_suggest_nssi_name
@@ -175,13 +225,17 @@ export class SlicingTaskModelComponent implements OnInit {
 
     this.slicingSubnet[1].slicingId = tn_suggest_nssi_id;
     this.slicingSubnet[1].slicingName = tn_suggest_nssi_name;
-    this.slicingSubnet[1].instances = [{
+    this.slicingSubnet[1].total = total;
+    this.slicingSubnet[1].currentPage = '1'; 
+    this.slicingSubnet[1].instances =  [{
       service_instance_id: tn_suggest_nssi_id,
       service_instance_name: tn_suggest_nssi_name
-    }]; 
+    }];
 
     this.slicingSubnet[2].slicingId = cn_suggest_nssi_id;
     this.slicingSubnet[2].slicingName = cn_suggest_nssi_name;
+    this.slicingSubnet[2].total = total;
+    this.slicingSubnet[2].currentPage = '1'; 
     this.slicingSubnet[2].instances = [{
       service_instance_id: cn_suggest_nssi_id,
       service_instance_name: cn_suggest_nssi_name
@@ -197,20 +251,43 @@ export class SlicingTaskModelComponent implements OnInit {
     })
     this.isDisabled = false;
   }
-
-  getSubnetInstances (bool: boolean, instance: any): void {
-    if(bool && instance.instances.length === 1) {
-      this.http.getSubnetInContext(instance.context, '1', '10').subscribe( res => {
-        const { result_header: { result_code }, result_body } = res;
-        if (+result_code === 200) {
-          this.slicingSubnet.map (item => {
-            if (item.context === instance.context) {
-              item.instances = result_body.nssi_service_instances;
-            }
-          })
-        }
-      })
+  
+  openSubnetInstances (bool: boolean, instance: any): void {
+    if(bool && !instance.total) {
+      instance.instances = []
+      this.getSubnetInstances(instance)
     }
+  }
+
+  getNextPageSubnet (instance: any): void{
+    const { total, currentPage, pageSize} = instance;
+    if(total - (+currentPage * +pageSize) > 0 ){
+      if (instance.flag) return;
+      instance.isLoading = true;
+      instance.flag = true;
+      setTimeout( () => {
+        this.getSubnetInstances(instance);
+      }, 2000)
+      instance.currentPage ++;
+    }
+  }
+
+  getSubnetInstances (instance: any): void {
+    const { context, currentPage, pageSize } = instance;
+    this.http.getSubnetInContext(context, currentPage, pageSize).subscribe( res => {
+      const { result_header: { result_code }, result_body } = res;
+      if (+result_code === 200) {
+        const { nssi_service_instances, record_number } = result_body;
+        this.slicingSubnet.map (item => {
+          if (item.context === context) {
+            item.total = record_number;
+            item.instances.push(...nssi_service_instances);
+            item.isLoading = false;
+            item.flag = false;
+          }
+        })
+      }
+    })
   }
 
   slicingSubnetChange (instance: any): void {
