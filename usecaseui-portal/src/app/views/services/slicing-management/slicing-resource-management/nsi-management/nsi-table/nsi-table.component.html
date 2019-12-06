@@ -8,9 +8,9 @@
             </nz-select>
         </div>
     </div>
-    <div>
+    <div class="slicing-resource-table-list">
         <nz-table
-                #nsiTable
+                #nssiTable
                 [nzData]="listOfData"
                 [nzFrontPagination]="false"
                 nzShowSizeChanger
@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            <ng-template ngFor let-data [ngForOf]="nsiTable.data" let-i="index">
+            <ng-template ngFor let-data [ngForOf]="nssiTable.data" let-i="index">
                 <tr>
                     <td>{{ data.service_instance_id }}</td>
                     <td>{{ data.service_instance_name }}</td>

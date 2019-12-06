@@ -95,6 +95,8 @@ import { SlicingBusinessTableComponent } from './views/services/slicing-manageme
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
 import { CheckProcessModelComponent } from './views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component'
 import { NsiTableComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-table/nsi-table.component'
+import { NssiTableComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-table/nssi-table.component'
+
 @NgModule({
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -153,7 +155,8 @@ import { NsiTableComponent } from './views/services/slicing-management/slicing-r
     SlicingBusinessTableComponent,
     BasicInfoComponent,
     CheckProcessModelComponent,
-      NsiTableComponent
+      NsiTableComponent,
+      NssiTableComponent
   ],
   imports: [
     BrowserModule,
