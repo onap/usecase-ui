@@ -100,13 +100,14 @@ module.exports =
         "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
         "/uui-slicing/nsmf/task/:taskId/taskCreationInfo": "/slicing_taskCreationInfo",
         "/uui-slicing/nsmf/task/:taskId/taskCreationProgress": "/slicing_taskCreationProgress",
+        "/PUT/uui-slicing/nsmf/task/auditInfo": "/PUT_task_auditInfo",
 
         ///////<-------------slicing_business--------->/////
         "/uui-slicing/nsmf/resource/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list",
         "/uui-slicing/nsmf/resource/:businessStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list_activated",
-        "/uui-slicing/nsmf/resource/:serviceId/activate": "/slicing_business_activate",
-        "/uui-slicing/nsmf/resource/:serviceId/deactivate": "/slicing_business_activate",
-        "/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
+        "/PUT/uui-slicing/nsmf/resource/:serviceId/activate": "/slicing_business_activate",
+        "/PUT/uui-slicing/nsmf/resource/:serviceId/deactivate": "/slicing_business_activate",
+        "/DELETE/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
         "/uui-slicing/nsmf/resource/:serviceId/progress":"/getSlicingBusinessProgress",
         ///////<-------------slicing_nsi--------->/////
         "/uui-slicing/nsmf/resource/nsi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list_activated",

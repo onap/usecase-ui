@@ -105,14 +105,17 @@ server.delete(`${baseUrl}/*`, (req, res, next) => {
 })
 server.put(`${nsmfBaseUrl}/*`, (req, res, next) => {
     req.method = 'GET';
+    req.url = '/PUT'+req.url;
     next();
 })
 server.post(`${nsmfBaseUrl}/*`, (req, res, next) => {
     req.method = 'GET';
+    req.url = '/POST'+req.url;
     next();
 })
 server.delete(`${nsmfBaseUrl}/*`, (req, res, next) => {
     req.method = 'GET';
+    req.url = '/DELETE'+req.url;
     next();
 })
 
