@@ -4,7 +4,7 @@
     "result_message": "5G slicing service instances query result."
   },
   "result_body": {
-    "record_number": 2,
+    "record_number": 14,
     "slicing_business_list": [
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9265",
@@ -31,7 +31,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 100
+        "last_operation_progress": 10
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9270",
@@ -58,7 +58,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "deactivated",
         "last_operation_type": "deactivate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9273",
@@ -67,7 +67,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "deactivated",
         "last_operation_type": "deactivate",
-        "last_operation_progress": 50
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9274",
@@ -76,7 +76,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9275",
@@ -94,7 +94,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9277",
@@ -103,7 +103,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9278",
@@ -112,7 +112,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9279",
@@ -121,7 +121,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9280",
@@ -130,7 +130,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9281",
@@ -139,7 +139,7 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activate",
-        "last_operation_progress": 70
+        "last_operation_progress": 100
       }
     ]
   }
