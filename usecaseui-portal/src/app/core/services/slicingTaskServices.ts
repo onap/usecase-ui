@@ -37,9 +37,12 @@ export class SlicingTaskServices {
         activateSlicingService:this.baseUrl+"/resource/{serviceId}/activate",
         deactivateSlicingService:this.baseUrl+"/resource/{serviceId}/deactivate",
         terminateSlicingService:this.baseUrl+"/resource/{serviceId}",
-        queryOperationProgress:this.baseUrl+"resource/{serviceId}/progress",
-        
-        
+        queryOperationProgress:this.baseUrl+"/resource/{serviceId}/progress",
+        slicingBusinessDetail:this.baseUrl+"/resource/business/{businessId}/details",
+        //slicing-nsi-management
+        slicingNsiList:this.baseUrl+"/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingNsiQueryOfStatus:this.baseUrl+"/resource/nsi/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingNsiDetail:this.baseUrl+"/resource/nsi/{nsiId}/details",
     }
 
 
@@ -101,9 +104,9 @@ export class SlicingTaskServices {
             url = this.url.slicingBusinesQueryOfStatus.replace("{businessStatus}", paramsObj.businessStatus).replace("{pageNo}", paramsObj.pageNo)
                 .replace("{pageSize}", paramsObj.pageSize);
         }
-        let params = new HttpParams({ fromObject: paramsObj });
-        return this.http.get<any>(url,{params});
+        return this.http.get<any>(url);
     }
+    // change slicing business activate status
     changeActivateSlicingService(paramsObj, activate: boolean){
         let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
         if(activate){
@@ -111,14 +114,26 @@ export class SlicingTaskServices {
         }
         return this.http.put<any>(url,paramsObj);
     }
+    // terminate slicing business
     terminateSlicingService(paramsObj){
         const url = this.url.terminateSlicingService.replace('{serviceId}', paramsObj.serviceId);
         return this.http.delete<any>(url);
     }
+    // query slicing business progress
     getSlicingBusinessProgress(paramsObj) {
-        let params = new HttpParams({ fromObject: paramsObj });
         let url = this.url.queryOperationProgress.replace("{serviceId}", paramsObj.serviceId);
-        return this.http.get<any>(url,{params});
+        return this.http.get<any>(url);
+    }
+    // Get slicing nsi list
+    // Get slicing business list
+    getSlicingNsiList (paramsObj,isSelect: boolean) {
+        let url = this.url.slicingNsiList .replace("{pageNo}", paramsObj.pageNo)
+            .replace("{pageSize}", paramsObj.pageSize);
+        if(isSelect){
+            url = this.url.slicingNsiQueryOfStatus.replace("{instanceStatus}", paramsObj.businessStatus).replace("{pageNo}", paramsObj.pageNo)
+                .replace("{pageSize}", paramsObj.pageSize);
+        }
+        return this.http.get<any>(url);
     }
 }
 

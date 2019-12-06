@@ -95,7 +95,7 @@ module.exports =
         "/uui-slicing/nsmf/task/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_list",
         "/uui-slicing/nsmf/task/:processingStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_task_processing_status",
         "/uui-slicing/nsmf/task/:taskId/auditInfo": "/slicing_task_auditInfo",
-        "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_instance",
+        "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list",
         "/uui-slicing/nsmf/resource/nsi/:nsiId/nssiInstances": "/slicing_subnet_instance",
         "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
         "/uui-slicing/nsmf/task/:taskId/taskCreationInfo": "/slicing_taskCreationInfo",
@@ -104,10 +104,13 @@ module.exports =
         ///////<-------------slicing_business--------->/////
         "/uui-slicing/nsmf/resource/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list",
         "/uui-slicing/nsmf/resource/:businessStatus/business/pageNo/:pageNo/pageSize/:pageSize": "/slicing_business_list_activated",
-        "/PUT/uui-slicing/nsmf/resource/:serviceId/activate": "/slicing_business_activate",
-        "/PUT/uui-slicing/nsmf/resource/:serviceId/deactivate": "/slicing_business_activate",
-        "/DELETE/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
+        "/uui-slicing/nsmf/resource/:serviceId/activate": "/slicing_business_activate",
+        "/uui-slicing/nsmf/resource/:serviceId/deactivate": "/slicing_business_activate",
+        "/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
         "/uui-slicing/nsmf/resource/:serviceId/progress":"/getSlicingBusinessProgress",
+        ///////<-------------slicing_nsi--------->/////
+        // "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list",
+        "/uui-slicing/nsmf/resource/nsi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list_activated",
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",
