@@ -2,7 +2,13 @@
   <div nz-row>
     <div nz-col nzSpan="12" class="task_status">
       <span>Status : </span>
-      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue" (ngModelChange)="getListOfProcessingStatus()">
+      <nz-select 
+        nzShowSearch 
+        nzAllowClear 
+        [(ngModel)]="selectedValue" 
+        nzPlaceHolder="Select a processing status" 
+        (ngModelChange)="getListOfProcessingStatus()"
+      >
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
       </nz-select>
     </div>
