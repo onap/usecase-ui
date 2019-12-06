@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import {SlicingTaskServices} from "../../../../../../core/services/slicingTaskServices";
 @Component({
-  selector: 'app-nsi-table',
-  templateUrl: './nsi-table.component.html',
-  styleUrls: ['./nsi-table.component.less']
+  selector: 'app-nssi-table',
+  templateUrl: './nssi-table.component.html',
+  styleUrls: ['./nssi-table.component.less']
 })
-export class NsiTableComponent implements OnInit {
+export class NssiTableComponent implements OnInit {
 
     constructor(
         private myhttp: SlicingTaskServices
@@ -14,7 +14,7 @@ export class NsiTableComponent implements OnInit {
     }
 
   ngOnInit() {
-      this.getNsiList()
+      this.getNssiList()
   }
     selectedValue:string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
@@ -25,7 +25,7 @@ export class NsiTableComponent implements OnInit {
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
 
-    getNsiList (): void{
+    getNssiList (): void{
         this.loading = true;
         this.isSelect = false;
         let paramsObj = {
@@ -36,22 +36,22 @@ export class NsiTableComponent implements OnInit {
             paramsObj["instanceStatus"] = this.selectedValue;
             this.isSelect = true;
         }
-        this.myhttp.getSlicingNsiList(paramsObj,this.isSelect).subscribe (res => {
-            const { result_header: { result_code }, result_body: { nsi_service_instances } } = res;
+        this.myhttp.getSlicingNssiList(paramsObj,this.isSelect).subscribe (res => {
+            const { result_header: { result_code }, result_body: { nssi_service_instances } } = res;
             if (+result_code === 200) {
-                this.total = nsi_service_instances.length;
+                this.total = nssi_service_instances.length;
                 this.loading = false;
-                this.listOfData = nsi_service_instances;
+                this.listOfData = nssi_service_instances;
             }
         })
     }
     getListOfProcessingStatus(){
         this.pageIndex = 1;
         this.pageSize = 10;
-        this.getNsiList();
+        this.getNssiList();
     }
     searchData(reset: boolean = false) {
-        this.getNsiList();
+        this.getNssiList();
     }
     showdetail(data){
 

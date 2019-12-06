@@ -109,8 +109,10 @@ module.exports =
         "/uui-slicing/nsmf/resource/:serviceId": "/slicing_business_activate",
         "/uui-slicing/nsmf/resource/:serviceId/progress":"/getSlicingBusinessProgress",
         ///////<-------------slicing_nsi--------->/////
-        // "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list",
         "/uui-slicing/nsmf/resource/nsi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list_activated",
+        ///////<-------------slicing_nssi--------->/////
+        "/uui-slicing/nsmf/resource/nssi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list",
+        "/uui-slicing/nsmf/resource/nssi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list_activated",
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",

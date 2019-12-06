@@ -43,6 +43,10 @@ export class SlicingTaskServices {
         slicingNsiList:this.baseUrl+"/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNsiQueryOfStatus:this.baseUrl+"/resource/nsi/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNsiDetail:this.baseUrl+"/resource/nsi/{nsiId}/details",
+        //slicing-nssi-management
+        slicingNssiList:this.baseUrl+"/resource/nssi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingNssiQueryOfStatus:this.baseUrl+"/resource/nssi/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingNssiDetail:this.baseUrl+"/resource/nssi/{nssiId}/details",
     }
 
 
@@ -125,12 +129,21 @@ export class SlicingTaskServices {
         return this.http.get<any>(url);
     }
     // Get slicing nsi list
-    // Get slicing business list
     getSlicingNsiList (paramsObj,isSelect: boolean) {
         let url = this.url.slicingNsiList .replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         if(isSelect){
-            url = this.url.slicingNsiQueryOfStatus.replace("{instanceStatus}", paramsObj.businessStatus).replace("{pageNo}", paramsObj.pageNo)
+            url = this.url.slicingNsiQueryOfStatus.replace("{instanceStatus}", paramsObj.instanceStatus).replace("{pageNo}", paramsObj.pageNo)
+                .replace("{pageSize}", paramsObj.pageSize);
+        }
+        return this.http.get<any>(url);
+    }
+    // Get slicing nssi list
+    getSlicingNssiList (paramsObj,isSelect: boolean) {
+        let url = this.url.slicingNssiList .replace("{pageNo}", paramsObj.pageNo)
+            .replace("{pageSize}", paramsObj.pageSize);
+        if(isSelect){
+            url = this.url.slicingNssiQueryOfStatus.replace("{instanceStatus}", paramsObj.instanceStatus).replace("{pageNo}", paramsObj.pageNo)
                 .replace("{pageSize}", paramsObj.pageSize);
         }
         return this.http.get<any>(url);
