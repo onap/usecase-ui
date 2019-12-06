@@ -7,14 +7,25 @@
         nzAllowClear 
         [(ngModel)]="selectedValue" 
         nzPlaceHolder="Select a processing status" 
-        (ngModelChange)="getListOfProcessingStatus()"
+        (ngModelChange)="processingStatusChange()"
       >
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
       </nz-select>
     </div>
   </div>
   <div>
-    <nz-table #basicTable [nzData]="listOfData">
+    <nz-table 
+      #basicTable 
+      nzShowPagination
+      nzPageSizeOptions
+      nzShowSizeChanger
+      [nzTotal]="total"
+      [nzLoading]="loading"
+      [nzData]="listOfData"
+      [nzFrontPagination]="false"
+      (nzPageSizeChange)="pageSizeChange($event)"
+      (nzPageIndexChange)="pageNumChange($event)"
+    >
       <thead>
         <tr>
           <th>任务ID</th>

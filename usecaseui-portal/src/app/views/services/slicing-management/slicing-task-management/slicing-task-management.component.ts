@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import * as moment from 'moment';
 import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
 import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
@@ -10,11 +11,8 @@ import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
 })
 export class SlicingTaskManagementComponent implements OnInit {
 
-  constructor(private myhttp: SlicingTaskServices) { }
-
-  ngOnInit() { 
-    this.getTaskList()
-  }
+  constructor(private myhttp: SlicingTaskServices, private message: NzMessageService) { }
+  
   showDetail: boolean = false;
   showProcess: boolean = false;
   selectedValue = null;
@@ -22,26 +20,74 @@ export class SlicingTaskManagementComponent implements OnInit {
   moduleTitle: string = "";
   listOfData: any[] = []; 
   statusOptions: any[] = TASK_PROCESSING_STATUS;
+  loading: boolean = false;
+  total: number = 1;
+  pageSize: string = '10';
+  pageNum: string = '1';
+
+  ngOnInit() { 
+    this.getTaskList()
+  }
 
   getTaskList (): void{
-    this.myhttp.getSlicingTaskList('1', '10').subscribe (res => {
-      const { result_header: { result_code }, result_body: { slicing_task_list } } = res
+    const { pageNum, pageSize } = this;
+    this.loading = true;
+    this.myhttp.getSlicingTaskList(pageNum, pageSize).subscribe (res => {
+      const { result_header: { result_code }, result_body } = res
       if (+result_code === 200) {
-        this.dataFormatting(slicing_task_list)
-      }
+        const { slicing_task_list, record_number } = result_body;
+        this.dataFormatting(slicing_task_list);
+        this.total = record_number;
+      } else {
+        this.message.error('Failed to get form data')
+      } 
+      this.loading = false;
     })
   }
-  getListOfProcessingStatus():void {
+
+  processingStatusChange():void {
+    this.pageSize = '10';
+    this.pageNum = '1';
+    if (this.selectedValue) {
+      this.getListOfProcessingStatus();
+    } else {
+      this.getTaskList();
+    }
+  }
+
+  getListOfProcessingStatus (): void {
+    const { selectedValue, pageNum, pageSize } = this;
+    this.loading = true;
+      this.myhttp.getTaskProcessingStatus(selectedValue, pageNum+'', pageSize+'').subscribe (res => {
+        const { result_header: { result_code }, result_body } = res
+        if (+result_code === 200) {
+          const { slicing_task_list,record_number } = result_body;
+          this.dataFormatting(slicing_task_list)
+          this.total = record_number;
+        } else {
+          this.message.error('Failed to get form data')
+        } 
+        this.loading = false;
+      })
+  }
+
+  pageSizeChange (pageSize: number): void{
+    this.pageSize = pageSize + '';
     const { selectedValue } = this;
     if (selectedValue) {
-      this.myhttp.getTaskProcessingStatus(selectedValue, '1', '10').subscribe (res => {
-        const { result_header: { result_code }, result_body: { slicing_task_list } } = res
-        if (+result_code === 200) {
-          this.dataFormatting(slicing_task_list)
-        }
-      })
+      this.getListOfProcessingStatus();
     } else {
-      this.getTaskList()
+      this.getTaskList();
+    }
+  }
+
+  pageNumChange (pageNum: number): void{
+    this.pageNum = pageNum + '';
+    const { selectedValue } = this;
+    if (selectedValue) {
+      this.getListOfProcessingStatus();
+    } else {
+      this.getTaskList();
     }
   }
 
