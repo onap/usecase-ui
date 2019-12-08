@@ -4,7 +4,7 @@
     "result_message": "5G slicing service instances query result."
   },
   "result_body": {
-    "record_number": 30,
+    "record_number": 38,
     "slicing_business_list": [
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9265",

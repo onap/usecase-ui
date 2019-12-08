@@ -4,7 +4,7 @@
     "result_message": "5G slicing NSI service instances result."
   },
   "result_body": {
-    "record_number": 20,
+    "record_number": 27,
     "nsi_service_instances": [
       {
         "service_instance_order": "1",

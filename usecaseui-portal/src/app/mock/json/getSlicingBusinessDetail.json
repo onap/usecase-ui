@@ -1,0 +1,37 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing business details query result."
+  },
+  "result_body": {
+    "business_demand_info": {
+      "service_name": "5GSliceeMMB",
+      "service_snssai": "1-010101",
+      "exp_data_rate_dl": "300",
+      "exp_data_rate_ul": "300",
+      "ue_mobility_level": "stageary",
+      "latency": "20",
+      "use_interval": "12",
+      "coverage_area_ta_list": [
+        " 北京;北京市;昌平区;城北街道 ",
+        " 上海;上海市;黄浦区;外滩",
+        " 天津;天津市;河西区;海河街道 "
+      ],
+      "activity_factor": "60",
+      "resource_sharing_level": "shared",
+      "area_traffic_cap_ul": "300",
+      "area_traffic_cap_dl": "300",
+      "max_number_of_ues": "10000"
+    },
+    "nst_info": {
+      "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
+      "nst_name": "eMBBNST"
+    },
+    "nsi_info": {
+      "nsi_id": "23edd22b-a0b2-449f-be87-d094159b9269",
+      "nsi_name": "slicing-01-eMBB",
+      "nsi_type": "eMBB",
+      "nsi_orchestration-status": "activated"
+    }
+  }
+}
