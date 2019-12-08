@@ -1,0 +1,42 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5Gslicingserviceonlineusersqueryresult."
+  },
+  "result_body": {
+    "hosted_business_list": [
+      {
+        "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9269",
+        "service_instance_name": "slicing-01-eMBB",
+        "service_type": "eMMB",
+        "service_snssai": "1-010101",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9269",
+        "service_instance_name": "slicing-01-eMBB",
+        "service_type": "eMMB",
+        "service_snssai": "1-010101",
+        "orchestration_status": "activated"
+      }
+    ],
+    "included_nssi_list": [
+      {
+        "service_instance_order": "1",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "1",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      }
+    ]
+  }
+}
