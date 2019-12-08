@@ -10,6 +10,7 @@ export class BasicInfoComponent implements OnInit {
   @Input() checkDetail: any;
   @Input() businessRequirement: any;
   @Input() NSTinfo: any;
+  @Input() taskModel: any;
 
   // 业务需求列表
   businessList: object[] = BUSINESS_REQUIREMENT;

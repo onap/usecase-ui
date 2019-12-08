@@ -1,4 +1,4 @@
-<nz-list class="taskmodel_list" [nzDataSource]="checkDetail" nzBordered [nzHeader]="'配置审核详情：'" [nzFooter]="null"
+<nz-list class="taskmodel_list" [nzDataSource]="checkDetail" nzBordered [nzHeader]="'配置审核详情：'" [nzFooter]="null" *ngIf="taskModel!==false"
     [nzRenderItem]="checkItem">
     <ng-template #checkItem let-check>
       <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
@@ -28,7 +28,11 @@
     <ng-template #businessItem let-item>
       <nz-list-item  nz-row nzType="flex" nzJustify="start" [nzGutter]="8" *ngFor="let list of businessList ">
         <div nz-col [nzSpan]="list.length === 1 ? '24' : '8'" *ngFor="let ite of list">
-          <span class="ant-typography">{{ ite.title }} : &nbsp;{{ item[ite.key] }}</span>
+          <span class="ant-typography" *ngIf="ite!=='区域'">{{ ite.title }} : &nbsp;{{ item[ite.key] }}</span>
+            <span class="ant-typography" *ngIf="ite==='区域'">
+                {{ ite.title }} : &nbsp;
+                <span style="display: inline-block" *ngFor="let items of item[ite.key]">{{ items }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </span>
         </div>
       </nz-list-item>
     </ng-template>
