@@ -20,7 +20,7 @@ export class NsiTableComponent implements OnInit {
     listOfData: any[] = [];
     pageIndex: number = 1;
     pageSize: number = 10;
-    total: number = 100;
+    total: number = 0;
     loading = false;
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
@@ -37,9 +37,9 @@ export class NsiTableComponent implements OnInit {
             this.isSelect = true;
         }
         this.myhttp.getSlicingNsiList(paramsObj,this.isSelect).subscribe (res => {
-            const { result_header: { result_code }, result_body: { nsi_service_instances } } = res;
+            const { result_header: { result_code }, result_body: { nsi_service_instances,record_number } } = res;
             if (+result_code === 200) {
-                this.total = nsi_service_instances.length;
+                this.total = record_number;
                 this.loading = false;
                 this.listOfData = nsi_service_instances;
             }
