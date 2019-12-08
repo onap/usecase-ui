@@ -1,0 +1,59 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing NSSI query result."
+  },
+  "result_body": {
+    "record_number": 6,
+    "nssi_service_instances": [
+      {
+        "service_instance_order": "1",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-01-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "2",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-02-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "5",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-05-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "6",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-06-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "9",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-09-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      },
+      {
+        "service_instance_order": "10",
+        "service_instance_id": "NSSI-C-001-HDBNJ-NSSMF-10-A-ZX",
+        "service_instance_name": "slicing_core_notwork",
+        "service_type": "slicing_core_notwork",
+        "environment_context": "cn",
+        "orchestration_status": "activated"
+      }
+    ]
+  }
+}

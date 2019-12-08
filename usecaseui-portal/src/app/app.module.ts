@@ -96,6 +96,7 @@ import { BasicInfoComponent } from './shared/components/basic-info/basic-info.co
 import { CheckProcessModelComponent } from './views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component'
 import { NsiTableComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-table/nsi-table.component'
 import { NssiTableComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-table/nssi-table.component'
+import { SlicingBusinessModelComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-model/slicing-business-model.component'
 
 @NgModule({
   providers: [
@@ -156,7 +157,8 @@ import { NssiTableComponent } from './views/services/slicing-management/slicing-
     BasicInfoComponent,
     CheckProcessModelComponent,
       NsiTableComponent,
-      NssiTableComponent
+      NssiTableComponent,
+      SlicingBusinessModelComponent
   ],
   imports: [
     BrowserModule,
