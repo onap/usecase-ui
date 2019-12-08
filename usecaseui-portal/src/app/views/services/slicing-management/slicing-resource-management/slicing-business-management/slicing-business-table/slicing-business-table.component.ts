@@ -26,7 +26,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     listOfData: any[] = [];
     pageIndex: number = 1;
     pageSize: number = 10;
-    total: number = 100;
+    total: number = 0;
     loading = false;
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
@@ -45,9 +45,9 @@ export class SlicingBusinessTableComponent implements OnInit {
             this.isSelect = true;
         }
         this.myhttp.getSlicingBusinessList(paramsObj,this.isSelect).subscribe (res => {
-            const { result_header: { result_code }, result_body: { slicing_business_list } } = res;
+            const { result_header: { result_code }, result_body: { slicing_business_list,record_number } } = res;
             if (+result_code === 200) {
-                this.total = slicing_business_list.length;
+                this.total = record_number;
                 this.loading = false;
                 this.listOfData = slicing_business_list.map((item)=>{
                     if(item.last_operation_progress < 100){
