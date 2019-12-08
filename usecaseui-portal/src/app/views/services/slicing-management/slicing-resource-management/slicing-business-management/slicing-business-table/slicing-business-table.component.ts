@@ -170,6 +170,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                                 requery();
                             },5000);
                         } else {
+                            clearInterval(this.progressingTimer);
                             res(data.result_body);
                         }
                     })
