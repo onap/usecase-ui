@@ -158,6 +158,11 @@ export class SlicingTaskServices {
         }
         return this.http.get<any>(url);
     }
+    //get slicingNssiDetail
+    getSlicingNssiDetail(nssiId: string){
+        let url = this.url.slicingNssiDetail.replace("{nssiId}",nssiId);
+        return this.http.get<any>(url);
+    }
 }
 
 
