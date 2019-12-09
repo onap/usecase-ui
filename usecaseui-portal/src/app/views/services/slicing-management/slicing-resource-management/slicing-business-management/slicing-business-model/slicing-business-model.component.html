@@ -1,3 +1,37 @@
-<p>
-  slicing-business-model works!
-</p>
+<app-basic-info
+        [businessRequirement]="businessRequirement"
+        [NSTinfo]="NSTinfo"
+        [taskModel]="taskModel"
+>
+</app-basic-info>
+<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Slicing NSI £º'" [nzFooter]="null">
+    <nz-table
+            #basicTable
+            [nzData]="nsiInfo"
+            [nzShowPagination]="false"
+            nzHideOnSinglePage
+    >
+        <thead>
+        <tr>
+            <th>Service Instance Id</th>
+            <th>Service Instance Name</th>
+            <th>Service Type</th>
+            <th>Status</th>
+            <th width="100px">Detail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+            <tr>
+                <td>{{ data.nsi_id }}</td>
+                <td>{{ data.nsi_name }}</td>
+                <td>{{ data.nsi_type }}</td>
+                <td>{{ data.nsi_orchestration-status }}</td>
+                <td>
+                    <a (click)="showdetail(data)">detail</a>
+                </td>
+            </tr>
+        </ng-template>
+        </tbody>
+    </nz-table>
+</nz-list>

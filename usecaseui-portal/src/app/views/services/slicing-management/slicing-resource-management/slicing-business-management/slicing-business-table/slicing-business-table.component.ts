@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SlicingTaskServices} from '.././../../../../../core/services/slicingTaskServices';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import { NzModalService } from 'ng-zorro-antd';
-
+import { SlicingBusinessModelComponent } from '../slicing-business-model/slicing-business-model.component';
 @Component({
     selector: 'app-slicing-business-table',
     templateUrl: './slicing-business-table.component.html',
@@ -156,8 +156,17 @@ export class SlicingBusinessTableComponent implements OnInit {
             }
         });
     }
-    showdetail(data){
-
+    showdetail(data) {
+        const BusinessModal = this.modalService.create({
+            nzTitle:"Detail",
+            nzContent: SlicingBusinessModelComponent,
+            nzWidth:"70%",
+            nzOkText: null,
+            nzCancelText: null,
+            nzComponentParams:{
+                businessId:data.service_instance_id
+            }
+        })
     }
     queryProgress(obj, callback) {
         return new Promise( res => {

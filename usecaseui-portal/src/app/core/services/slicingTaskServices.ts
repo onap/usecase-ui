@@ -128,6 +128,11 @@ export class SlicingTaskServices {
         let url = this.url.queryOperationProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
     }
+    //get slicingBusinessDetail
+    getSlicingBusinessDetail(businessId: string){
+        let url = this.url.slicingBusinessDetail.replace("{businessId}",businessId);
+        return this.http.get<any>(url);
+    }
     // Get slicing nsi list
     getSlicingNsiList (paramsObj,isSelect: boolean) {
         let url = this.url.slicingNsiList .replace("{pageNo}", paramsObj.pageNo)

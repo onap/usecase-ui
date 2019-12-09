@@ -96,7 +96,8 @@ import { BasicInfoComponent } from './shared/components/basic-info/basic-info.co
 import { CheckProcessModelComponent } from './views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component'
 import { NsiTableComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-table/nsi-table.component'
 import { NssiTableComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-table/nssi-table.component'
-import { SlicingBusinessModelComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-model/slicing-business-model.component'
+import { SlicingBusinessModelComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-model/slicing-business-model.component';
+import { NsiModelComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-model/nsi-model.component';
 
 @NgModule({
   providers: [
@@ -158,7 +159,8 @@ import { SlicingBusinessModelComponent } from './views/services/slicing-manageme
     CheckProcessModelComponent,
       NsiTableComponent,
       NssiTableComponent,
-      SlicingBusinessModelComponent
+      SlicingBusinessModelComponent,
+      NsiModelComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,6 +178,10 @@ import { SlicingBusinessModelComponent } from './views/services/slicing-manageme
     NgxEchartsModule,
     AppRoutingModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+    entryComponents: [
+        SlicingBusinessModelComponent,
+        NsiModelComponent
+	    ]
 })
 export class AppModule { }
