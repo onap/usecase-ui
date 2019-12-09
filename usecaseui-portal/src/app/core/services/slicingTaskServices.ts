@@ -84,7 +84,7 @@ export class SlicingTaskServices {
     getSubnetInContext (context: string, pageNo: string, pageSize: string) {
         const url = this.url.subnetInContext
                         .replace('{environmentContext}', context)
-                        .replace('{pageNo', pageNo)
+                        .replace('{pageNo}', pageNo)
                         .replace('{pageSize}', pageSize);
         return this.http.get<any>(url);
     }
