@@ -26,7 +26,6 @@ export class SlicingTaskModelComponent implements OnInit {
   selectedServiceId: string;
   selectedServiceName: string;
   slicingInstances: any;
-  loading: boolean = false;
   // 子网实例
   slicingSubnet: any[] =  [
     {
@@ -180,27 +179,27 @@ export class SlicingTaskModelComponent implements OnInit {
     const { total, currentPage, pageSize} = this.slicingInstances;
     if (total - (+currentPage * +pageSize) > 0 ) {
       if (this.slicingInstances.flag) return;
-      this.slicingInstances.isLoading = true;
       this.slicingInstances.flag = true
-      setTimeout( () => {
-        this.getSlicingInstances(currentPage, pageSize)
-      }, 2000)
-      this.slicingInstances.currentPage ++ ;
+      this.getSlicingInstances(currentPage, pageSize)
+      this.slicingInstances.currentPage = (+this.slicingInstances.currentPage +1).toString();
     }
   }
 
   getSlicingInstances(pageNo: string, pageSize: string): void {
+    this.slicingInstances.isLoading = true;
     this.http.getSlicingInstance(pageNo, pageSize).subscribe ( res => {
       const { result_header: { result_code }, result_body } = res;
-      if (+result_code === 200) {
-        const { nsi_service_instances, record_number } = result_body;
-        this.slicingInstances.total = record_number;
-        this.slicingInstances.list.push(...nsi_service_instances);
-      } else {
-        this.message.error('Failed to get slicing instance ID')
-      }
-      this.slicingInstances.isLoading = false;
-      this.slicingInstances.flag = false;
+      setTimeout( () => {
+        if (+result_code === 200) {
+          const { nsi_service_instances, record_number } = result_body;
+          this.slicingInstances.total = record_number;
+          this.slicingInstances.list.push(...nsi_service_instances);
+        } else {
+          this.message.error('Failed to get slicing instance ID')
+        }
+        this.slicingInstances.isLoading = false;
+        this.slicingInstances.flag = false;
+      },2000)
 
     })
   }
@@ -275,16 +274,15 @@ export class SlicingTaskModelComponent implements OnInit {
     const { total, currentPage, pageSize} = instance;
     if(total - (+currentPage * +pageSize) > 0 ){
       if (instance.flag) return;
-      instance.isLoading = true;
       instance.flag = true;
-      setTimeout( () => {
-        this.getSubnetInstances(instance);
-      }, 2000)
-      instance.currentPage ++;
+      this.getSubnetInstances(instance);
+      let count = +instance.currentPage;
+      instance.currentPage = (++count).toString();
     }
   }
 
   getSubnetInstances (instance: any): void {
+    instance.isLoading = true;
     const { context, currentPage, pageSize } = instance;
     this.http.getSubnetInContext(context, currentPage, pageSize).subscribe( res => {
       const { result_header: { result_code }, result_body } = res;
@@ -293,9 +291,11 @@ export class SlicingTaskModelComponent implements OnInit {
         this.slicingSubnet.map (item => {
           if (item.context === context) {
             item.total = record_number;
-            item.instances.push(...nssi_service_instances);
-            item.isLoading = false;
-            item.flag = false;
+            setTimeout(() => {
+              item.instances.push(...nssi_service_instances);
+              item.isLoading = false;
+              item.flag = false;
+            },2000)
           }
         })
       } else {
