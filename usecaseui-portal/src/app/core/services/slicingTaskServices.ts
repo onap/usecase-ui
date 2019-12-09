@@ -143,6 +143,11 @@ export class SlicingTaskServices {
         }
         return this.http.get<any>(url);
     }
+    //get slicingNsiDetail
+    getSlicingNsiDetail(nsiId: string){
+        let url = this.url.slicingNsiDetail.replace("{nsiId}",nsiId);
+        return this.http.get<any>(url);
+    }
     // Get slicing nssi list
     getSlicingNssiList (paramsObj,isSelect: boolean) {
         let url = this.url.slicingNssiList .replace("{pageNo}", paramsObj.pageNo)
