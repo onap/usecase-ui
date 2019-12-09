@@ -71,13 +71,15 @@ export class SlicingTaskModelComponent implements OnInit {
   isShowParams: boolean;
   paramsTitle: string;
   params: any;
-  
+  // 获取数据loading
+  isSpinning: boolean = false;
   
 
   ngOnInit() { }
   
   ngOnChanges() {
     if (this.showDetail) {
+      this.isSpinning = true;
       this.getautidInfo();
     } else {
       this.isDisabled = true;
@@ -87,6 +89,7 @@ export class SlicingTaskModelComponent implements OnInit {
   getautidInfo(): void {
     this.http.getAuditInfo(this.taskId).subscribe( res => {
       const { result_header: { result_code } } = res;
+      this.isSpinning = false;
       if (+result_code === 200) {
         const { 
           task_id, 
@@ -159,6 +162,8 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_area_traffic_cap_dl,
           cn_area_traffic_cap_ul 
         };
+      } else {
+        this.message.error('Failed to get data')
       }
     })
   }
