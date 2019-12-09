@@ -1,3 +1,54 @@
-<p>
-  monitor-5g works!
-</p>
+<div>
+    <div nz-row>
+        <div nz-col nzSpan="12" class="monitorDate">
+            <nz-date-picker
+                    nzShowTime
+                    nzFormat="yyyy-MM-dd HH:mm:ss"
+                    nzPlaceHolder="Select Time"
+                    ngModel
+                    (ngModelChange)="onDateChange($event)"
+                    (nzOnOk)="onDateOk($event)"
+            ></nz-date-picker>
+        </div>
+    </div>
+    <div class="slicing-resource-table">
+        <div class="slicing-resource-table-list">
+            <nz-table
+                    #basicTable
+                    [nzData]="listOfData"
+                    [nzFrontPagination]="false"
+                    nzShowSizeChanger
+                    [nzPageSizeOptions]="[6,8,10]"
+                    [nzTotal]='total'
+                    [(nzPageSize)]="pageSize"
+                    [(nzPageIndex)]='pageIndex'
+                    [nzLoading]="loading"
+                    (nzPageIndexChange)="searchData()"
+                    (nzPageSizeChange)="searchData(true)"
+            >
+                <thead>
+                <tr>
+                    <th>Service Instance Id</th>
+                    <th>Service Instance Name</th>
+                    <th>Service Type</th>
+                    <th>S-NSSAI</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+                    <tr>
+                        <td>{{ data.service_instance_id }}</td>
+                        <td>{{ data.service_instance_name }}</td>
+                        <td>{{ data.service_type }}</td>
+                        <td>{{ data.service_snssai }}</td>
+                        <td>
+                            {{ data.orchestration_status }}
+                        </td>
+                    </tr>
+                </ng-template>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
