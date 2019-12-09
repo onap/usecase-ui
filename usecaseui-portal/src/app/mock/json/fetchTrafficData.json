@@ -1,0 +1,22 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing service traffic query result."
+  },
+  "result_body": {
+    "slicing_usage_traffic_list": [
+      {
+        "service_id": "service1",
+        "traffic_data": "100"
+      },
+      {
+        "service_id": "service2",
+        "traffic_data": "200"
+      },
+      {
+        "service_id": "service3",
+        "traffic_data": "80"
+      }
+    ]
+  }
+}
