@@ -1,4 +1,64 @@
-<p>
-  nsi-model works!
-  <button (click)="button()">我是nsi--button</button>
-</p>
+<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Carry Slicing Businress List ：'" [nzFooter]="null">
+  <nz-table
+          #businessTable
+          [nzData]="businessList"
+          [nzShowPagination]="false"
+          nzHideOnSinglePage
+  >
+    <thead>
+    <tr>
+      <th>Service Instance Id</th>
+      <th>Service Instance Name</th>
+      <th>Service Type</th>
+      <th>Status</th>
+      <th width="100px">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="businessTable.data" let-i="index">
+      <tr>
+        <td>{{ data.service_instance_id }}</td>
+        <td>{{ data.service_instance_name }}</td>
+        <td>{{ data.service_type }}</td>
+        <td>{{ data.service_snssai }}</td>
+        <td>{{ data.orchestration_status }}</td>
+        <td>
+          <a (click)="showBusinessDetail(data)">detail</a>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</nz-list>
+<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Include Slicing NSSI List ：'" [nzFooter]="null">
+  <nz-table
+          #nssiTable
+          [nzData]="nssiList"
+          [nzShowPagination]="false"
+          nzHideOnSinglePage
+  >
+    <thead>
+    <tr>
+      <th>Service Instance Id</th>
+      <th>Service Instance Name</th>
+      <th>Service Type</th>
+      <th>Status</th>
+      <th width="100px">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-template ngFor let-data [ngForOf]="nssiTable.data" let-i="index">
+      <tr>
+        <td>{{ data.service_instance_id }}</td>
+        <td>{{ data.service_instance_name }}</td>
+        <td>{{ data.service_type }}</td>
+        <td>{{ data.environment_context }}</td>
+        <td>{{ data.orchestration_status }}</td>
+        <td>
+          <a (click)="showNssiDetail(data)">detail</a>
+        </td>
+      </tr>
+    </ng-template>
+    </tbody>
+  </nz-table>
+</nz-list>

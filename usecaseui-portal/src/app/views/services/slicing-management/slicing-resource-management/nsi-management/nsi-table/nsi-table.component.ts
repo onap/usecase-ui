@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import {SlicingTaskServices} from "../../../../../../core/services/slicingTaskServices";
+import {NsiModelComponent} from "../nsi-model/nsi-model.component";
+import { NzModalService } from 'ng-zorro-antd';
 @Component({
   selector: 'app-nsi-table',
   templateUrl: './nsi-table.component.html',
@@ -9,7 +11,8 @@ import {SlicingTaskServices} from "../../../../../../core/services/slicingTaskSe
 export class NsiTableComponent implements OnInit {
 
     constructor(
-        private myhttp: SlicingTaskServices
+        private myhttp: SlicingTaskServices,
+        private modalService: NzModalService
     ) {
     }
 
@@ -53,7 +56,16 @@ export class NsiTableComponent implements OnInit {
     searchData(reset: boolean = false) {
         this.getNsiList();
     }
-    showdetail(data){
-
+    showdetail(data) {
+        const nsiModal = this.modalService.create({
+            nzTitle:"Detail",
+            nzContent: NsiModelComponent,
+            nzWidth:"70%",
+            nzOkText: null,
+            nzCancelText: null,
+            nzComponentParams:{
+                nsiId:data.service_instance_id
+            }
+        })
     }
 }
