@@ -2,30 +2,16 @@
   <div nz-row>
     <div nz-col nzSpan="12" class="task_status">
       <span>Status : </span>
-      <nz-select 
-        nzShowSearch 
-        nzAllowClear 
-        [(ngModel)]="selectedValue" 
-        nzPlaceHolder="Select a processing status" 
-        (ngModelChange)="processingStatusChange()"
-      >
+      <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedValue" nzPlaceHolder="Select a processing status"
+        (ngModelChange)="processingStatusChange()">
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
       </nz-select>
     </div>
   </div>
   <div>
-    <nz-table 
-      #basicTable 
-      nzShowPagination
-      nzPageSizeOptions
-      nzShowSizeChanger
-      [nzTotal]="total"
-      [nzLoading]="loading"
-      [nzData]="listOfData"
-      [nzFrontPagination]="false"
-      (nzPageSizeChange)="pageSizeChange($event)"
-      (nzPageIndexChange)="pageNumChange($event)"
-    >
+    <nz-table #basicTable nzShowPagination nzPageSizeOptions nzShowSizeChanger [nzTotal]="total" [nzLoading]="loading"
+      [nzData]="listOfData" [nzFrontPagination]="false" (nzPageSizeChange)="pageSizeChange($event)"
+      (nzPageIndexChange)="pageNumChange($event)">
       <thead>
         <tr>
           <th>任务ID</th>
@@ -43,10 +29,11 @@
           <td>{{ data.task_name }}</td>
           <td>{{ data.service_snssai }}</td>
           <td>{{ data.service_type }}</td>
-          <td>{{ data.arrival_time }}</td>
+          <td>{{ data.create_time }}</td>
           <td>{{ data.status }}</td>
           <td>
-            <span *ngIf="data.processing_status === 'Planning'" class="task_operation_disabled">{{ data.operation }}</span>
+            <span *ngIf="data.processing_status === 'Planning'"
+              class="task_operation_disabled">{{ data.operation }}</span>
             <a (click)="showdetail(data)" *ngIf="data.processing_status !== 'Planning'">{{ data.operation }}</a>
           </td>
         </tr>
@@ -56,11 +43,7 @@
   <app-slicing-task-model [moduleTitle]="moduleTitle" [showDetail]="showDetail" [taskId]="taskId"
     (cancel)="showDetail=$event">
   </app-slicing-task-model>
-  <app-check-process-model 
-    [moduleTitle]="moduleTitle"
-    [showProcess]="showProcess" 
-    [taskId]="taskId" 
-    (cancel)="showProcess=$event"
-  >
+  <app-check-process-model [moduleTitle]="moduleTitle" [showProcess]="showProcess" [taskId]="taskId"
+    (cancel)="showProcess=$event">
   </app-check-process-model>
 </div>
