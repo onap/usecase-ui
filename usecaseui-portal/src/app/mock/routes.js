@@ -117,6 +117,10 @@ module.exports =
         "/uui-slicing/nsmf/resource/nssi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list",
         "/uui-slicing/nsmf/resource/nssi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list_activated",
         "/uui-slicing/nsmf/resource/nssi/:nssiId/details":"/getSlicingNssiDetail",
+        ///////<-------------monitor 5G--------->/////
+        "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/trafficData": "/fetchTrafficData",
+        "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/onlineUsers": "/fetchOnlineusersData",
+        "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/bandwidth": "/fetchBandwidthData",
         ///////<-------------general interface--------->/////
         "/api/*": "/$1",
         "/*/*": "/$1_$2",

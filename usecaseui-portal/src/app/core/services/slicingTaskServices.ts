@@ -47,6 +47,10 @@ export class SlicingTaskServices {
         slicingNssiList:this.baseUrl+"/resource/nssi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiQueryOfStatus:this.baseUrl+"/resource/nssi/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiDetail:this.baseUrl+"/resource/nssi/{nssiId}/details",
+        //monitor 5G
+        fetchTraffic:this.baseUrl+"/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
+        fetchOnlineusers:this.baseUrl+"/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
+        fetchBandwidth:this.baseUrl+"/monitoring/queryTimestamp/{queryTimestamp}/bandwidth"
     }
 
 
@@ -163,6 +167,20 @@ export class SlicingTaskServices {
         let url = this.url.slicingNssiDetail.replace("{nssiId}",nssiId);
         return this.http.get<any>(url);
     }
+    //monitor 5G
+    getFetchTraffic(service_list,time){
+        let url = this.url.fetchTraffic.replace("{queryTimestamp}",time);
+        return this.http.post<any>(url,service_list);
+    }
+    getFetchOnlineusers(service_list,time){
+        let url = this.url.fetchOnlineusers.replace("{queryTimestamp}",time);
+        return this.http.post<any>(url,service_list);
+    }
+    getFetchBandwidth(service_list,time){
+        let url = this.url.fetchBandwidth.replace("{queryTimestamp}",time);
+        return this.http.post<any>(url,service_list);
+    }
+
 }
 
 

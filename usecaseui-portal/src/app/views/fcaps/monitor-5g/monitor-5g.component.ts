@@ -16,6 +16,10 @@ export class Monitor5gComponent implements OnInit {
     pageSize: number = 10;
     total: number = 0;
     loading = false;
+    trafficData: any[] =[];
+    onlineusersData: any[] =[];
+    bandwidthData: any[] =[];
+    selectDate: Date = null;
   ngOnInit() {
       this.getBusinessList()
   }
@@ -31,7 +35,8 @@ export class Monitor5gComponent implements OnInit {
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
-                this.listOfData = [].concat(slicing_business_list)
+                this.listOfData = [].concat(slicing_business_list);
+                this.getChartsData();
             }
         })
     }
@@ -44,6 +49,7 @@ export class Monitor5gComponent implements OnInit {
 
     onDateOk(result: Date): void {
         console.log('onOk', result);
+        this.selectDate = result;
     }
     getChartsData = (time = new Date().getTime()) => {
         if (!this.listOfData.length) {
@@ -53,6 +59,33 @@ export class Monitor5gComponent implements OnInit {
         this.listOfData.forEach(item => {
             service_list.push({service_id: item.service_instance_id});
         });
+        this.fetchTrafficData(service_list, time);
+        this.fetchOnlineusersData(service_list, time);
+        this.fetchBandwidthData(service_list, time);
+    }
+    fetchTrafficData(service_list, time){
+        this.myhttp.getFetchTraffic(service_list,time).subscribe (res => {
+            const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
+            if (+result_code === 200) {
+                this.trafficData = slicing_usage_traffic_list;
+            }
+        })
+    }
+    fetchOnlineusersData(service_list, time){
+        this.myhttp.getFetchOnlineusers(service_list,time).subscribe (res => {
+            const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
+            if (+result_code === 200) {
+                this.onlineusersData = slicing_online_user_list;
+            }
+        })
+    }
+    fetchBandwidthData(service_list, time){
+        this.myhttp.getFetchBandwidth(service_list,time).subscribe (res => {
+            const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
+            if (+result_code === 200) {
+                this.bandwidthData = slicing_total_bandwidth_list;
+            }
+        })
     }
 
 }
