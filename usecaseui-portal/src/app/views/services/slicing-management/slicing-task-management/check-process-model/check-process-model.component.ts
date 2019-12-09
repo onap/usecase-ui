@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '../../../../../core/services/slicingTaskServices'
 
 @Component({
@@ -14,7 +15,7 @@ export class CheckProcessModelComponent implements OnInit {
 
 	@Output() cancel = new EventEmitter<boolean>();
 
-	constructor(private http: SlicingTaskServices) { }
+	constructor(private http: SlicingTaskServices, private message: NzMessageService) { }
 
 	checkDetail: any[];
 	businessRequirement: any[];
@@ -22,20 +23,29 @@ export class CheckProcessModelComponent implements OnInit {
 	data: any[];
 	currentProgress: number = 1;
 	timer: any = null;
+	isSpinning: boolean = false;
+	isGetData: boolean = false;
 
 	ngOnInit() { }
 
 	ngOnChanges() {
 		if (this.showProcess) {
+			this.isSpinning = true;
 			this.getInfo();
 			this.getProgress();
 		}else {
 			clearTimeout(this.timer);
+			this.isGetData = false;
 		}
 	}
 
 	getInfo(): void {
 		this.http.getSlicingBasicInfo(this.taskId).subscribe(res => {
+			if (this.isGetData) {
+				this.isSpinning = false;
+			} else {
+				this.isGetData = true;
+			}
 			const { result_body, result_header: { result_code } } = res;
 			if (+result_code === 200) {
 				const {
@@ -53,12 +63,20 @@ export class CheckProcessModelComponent implements OnInit {
 				this.businessRequirement = [business_demand_info];
 				// 匹配NST信息
 				this.NSTinfo = [nst_info];
+			} else {
+				const errorMessage = this.moduleTitle === '切片创建中' ? 'Failed to get data' : 'Viewing results failed';
+				this.message.error(errorMessage)
 			}
 		})
 	}
 
 	getProgress(): void {
 		this.http.getSlicingCreateProgress(this.taskId).subscribe(res => {
+			if (this.isGetData) {
+				this.isSpinning = false;
+			} else {
+				this.isGetData = true;
+			}
 			const { result_body, result_header: {result_code } } = res;
 			if (+result_code === 200) {
 				this.data = [];
@@ -85,6 +103,8 @@ export class CheckProcessModelComponent implements OnInit {
 						this.getProgress()
 					}, 5000)
 				}
+			} else {
+				this.message.error('Failed to get progress')
 			}
 		})
 	}
