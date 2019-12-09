@@ -2,8 +2,8 @@
 	[nzVisible]="showProcess"
 	nzWidth="85%"
 	[nzTitle]="moduleTitle"
+	[nzFooter]="modalFooter"
 	(nzOnCancel)="handleCancel()"
-	(nzOnOk)="handleOk()"
 >
 	<nz-spin [nzSpinning]="isSpinning">
 		<app-basic-info
@@ -28,12 +28,14 @@
 						<nz-step 
 							[nzTitle]="item.currentProgress > 1 ? null : 'in progress'" 
 							[nzStatus]="item.status" nzIcon="anticon anticon-spin anticon-loading"
-						> </nz-step>
+						> 
+						</nz-step>
 						<nz-step 
 							[nzTitle]="item.status === 'finish' ? 'success' : null"
 							[nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" 
 							nzIcon='loading'
-						></nz-step>
+						>
+						</nz-step>
 					</nz-steps>
 					
 				</nz-list-item>
@@ -41,3 +43,6 @@
 		</nz-list>	
 	</nz-spin>
 </nz-modal>
+<ng-template #modalFooter>
+	<button nz-button nzType="primary" (click)="handleOk()">OK</button>
+  </ng-template>
