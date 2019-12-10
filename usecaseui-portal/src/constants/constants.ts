@@ -1,5 +1,9 @@
 export const TASK_PROCESSING_STATUS = [
 	{
+		title: 'All',
+		value: 'all'
+	},
+	{
 		title: '规划阶段',
 		value: 'Planning'
 	},
