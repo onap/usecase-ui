@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SlicingTaskServices} from '.././../../core/services/slicingTaskServices';
-import {pieChartconfig} from './monitorEchartsConfig';
+import {pieChartconfig,lineChartconfig} from './monitorEchartsConfig';
 @Component({
   selector: 'app-monitor-5g',
   templateUrl: './monitor-5g.component.html',
@@ -17,13 +17,24 @@ export class Monitor5gComponent implements OnInit {
     pageSize: number = 10;
     total: number = 0;
     loading = false;
+    selectDate: number = 0;
+
     trafficData: any[] =[];
     trafficLegend: any[] =[];
-    onlineusersData: any[] =[];
-    bandwidthData: any[] =[];
-    selectDate: number = 0;
     trafficChartInit :Object = pieChartconfig;
     trafficChartData :Object;
+
+    onlineusersData: any[] =[];
+    onlineuserXAxis :any[] = [];
+    onlineuserLegend :any[] = [];
+    onlineuserChartInit :Object = lineChartconfig;
+    onlineuserChartData :Object;
+
+    bandwidthData: any[] =[];
+    bandwidthXAxis :any[] = [];
+    bandwidthLegend :any[] = [];
+    bandwidthChartInit :Object = lineChartconfig;
+    bandwidthChartData :Object;
   ngOnInit() {
       this.getBusinessList()
   }
@@ -79,7 +90,6 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchTraffic(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
             if (+result_code === 200 && slicing_usage_traffic_list.length >0) {
-                console.log(this.trafficChartInit,"----trafficChartInit")
                 slicing_usage_traffic_list.forEach((item)=>{
                     this.trafficData.push({
                         name:item.service_id,
@@ -110,7 +120,27 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchOnlineusers(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
             if (+result_code === 200) {
-                this.onlineusersData = slicing_online_user_list;
+                slicing_online_user_list[0].online_user_list.map((key)=>{
+                    this.onlineuserXAxis.push(key.timestamp)
+                });
+                 slicing_online_user_list.forEach((item)=>{
+                     this.onlineuserLegend.push(item.service_id);
+                     this.onlineusersData.push({
+                         name: item.service_id,
+                         type: 'line',
+                         data:this.getOnlineuserSeriesData(item)
+                     })
+                });
+                this.onlineuserChartData = {
+                    legend:{
+                        bottom: '0px',
+                        data: this.onlineuserLegend
+                    },
+                    xAxis: {
+                        data: this.onlineuserXAxis
+                    },
+                    series: this.onlineusersData
+                };
             }
         })
     }
@@ -118,9 +148,42 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchBandwidth(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
             if (+result_code === 200) {
-                this.bandwidthData = slicing_total_bandwidth_list;
+                slicing_total_bandwidth_list[0].total_bandwidth_list.map((key)=>{
+                    this.bandwidthXAxis.push(key.timestamp)
+                });
+                slicing_total_bandwidth_list.forEach((item)=>{
+                    this.bandwidthLegend.push(item.service_id);
+                    this.bandwidthData.push({
+                        name: item.service_id,
+                        type: 'line',
+                        data:this.getBandwidthSeriesData(item)
+                    })
+                });
+                this.bandwidthChartData = {
+                    legend:{
+                        bottom: '0px',
+                        data: this.bandwidthLegend
+                    },
+                    xAxis: {
+                        data: this.bandwidthXAxis
+                    },
+                    series: this.bandwidthData
+                };
             }
         })
     }
-
+    getOnlineuserSeriesData(item){
+        let datas = [];
+        item.online_user_list.forEach((keys)=>{
+            datas.push(keys.online_users)
+        })
+        return datas
+    }
+    getBandwidthSeriesData(item){
+        let datas = [];
+        item.total_bandwidth_list.forEach((keys)=>{
+            datas.push(keys.total_bandwidth)
+        })
+        return datas
+    }
 }

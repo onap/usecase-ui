@@ -1,4 +1,5 @@
 <div>
+    <h1>Slicing business Monitor</h1>
     <div nz-row>
         <div nz-col nzSpan="12" class="monitorDate">
             <nz-date-picker
@@ -17,11 +18,13 @@
             <h4>Slicing Use Traffic</h4>
             <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>
         </div>
-        <div nz-col nzSpan="9" class="gutter-row col-boxshadow">
-            col-9
+        <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
+            <h4>Number Of Online Users</h4>
+            <app-line [initData]="onlineuserChartInit" [chartData]="onlineuserChartData"></app-line>
         </div>
-        <div nz-col nzSpan="9" class="gutter-row col-boxshadow">
-            col-9
+        <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
+            <h4>Slicing Total Bandwidth</h4>
+            <app-line [initData]="bandwidthChartInit" [chartData]="bandwidthChartData"></app-line>
         </div>
     </div>
     <div class="slicing-resource-table">

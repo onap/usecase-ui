@@ -34,3 +34,33 @@ export const pieChartconfig = {
         }]
     }
 };
+export const lineChartconfig = {
+    height: 320,
+    option: {
+        legend: {
+            bottom: '0px',
+            data: []
+        },
+        xAxis: {
+            data: []
+        },
+        color: ["#7AC0EF", "#FB7788","#6A86D8","#A6BFE4","#748CDC", "#7277D4", "#7067CE", "#B9B0F7", "#7DCFF5"],
+        series: [
+            {
+                name: '',
+                type: 'line',
+                data: []
+            },
+            {
+                name: 'Memory',
+                type: 'line',
+                data: []
+            },
+            {
+                name: 'Disk',
+                type: 'line',
+                data: []
+            }
+        ]
+    }
+}
