@@ -55,11 +55,15 @@ export class CheckProcessModelComponent implements OnInit {
 					processing_status,
 					business_demand_info,
 					nst_info,
-					business_demand_info: { service_snssai }
+					business_demand_info: { service_snssai, coverage_area_ta_list }
 				} = result_body;
 				// 处理配置审核详情数据
 				this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
 				// 业务需求信息数据
+				business_demand_info.area = coverage_area_ta_list.map(item => {
+					item = item.split(';').join('-')
+					return item
+				})
 				this.businessRequirement = [business_demand_info];
 				// 匹配NST信息
 				this.NSTinfo = [nst_info];

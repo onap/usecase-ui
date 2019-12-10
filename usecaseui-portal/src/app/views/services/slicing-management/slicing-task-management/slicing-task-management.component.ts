@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import * as moment from 'moment';
 import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
 import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
 
@@ -93,7 +92,6 @@ export class SlicingTaskManagementComponent implements OnInit {
 
   dataFormatting(list: any): void {
     this.listOfData = list.map(item => {
-      item.create_time = moment(item.create_time).format('YYYY-MM-DD hh:mm')
       switch (item.processing_status) {
         case 'Planning':
           item.status = '规划阶段';

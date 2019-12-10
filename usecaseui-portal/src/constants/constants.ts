@@ -78,7 +78,7 @@ export const BUSINESS_REQUIREMENT = [
 	[
 		{
 			title: '区域',
-			key: 'coverage_area_ta_list'
+			key: 'area'
 		},
 	],
 	

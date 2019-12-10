@@ -96,8 +96,9 @@ export class SlicingTaskModelComponent implements OnInit {
           create_time, 
           processing_status, 
           business_demand_info, 
-          nst_info, nsi_nssi_info, 
-          business_demand_info: { service_snssai } 
+          nst_info, 
+          nsi_nssi_info, 
+          business_demand_info: { service_snssai, coverage_area_ta_list } 
         } = res.result_body;
         const { 
           suggest_nsi_id, 
@@ -127,6 +128,10 @@ export class SlicingTaskModelComponent implements OnInit {
         // 处理配置审核详情数据
         this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
         // 业务需求信息数据
+        business_demand_info.area = coverage_area_ta_list.map(item => {
+          item = item.split(';').join('-')
+          return item
+        })
         this.businessRequirement = [business_demand_info];
         // 匹配NST信息
         this.NSTinfo = [nst_info];
@@ -347,6 +352,7 @@ export class SlicingTaskModelComponent implements OnInit {
       cn_suggest_nssi_name: slicingSubnet[2].slicingName,
       ...slicingSubnet[2].params,
     }
+    delete businessRequirement[0].area
     let reqBody = {...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info};
     delete reqBody.service_snssai;
     this.notification1.notificationStart('Task', 'Sumbit', this.taskId)
