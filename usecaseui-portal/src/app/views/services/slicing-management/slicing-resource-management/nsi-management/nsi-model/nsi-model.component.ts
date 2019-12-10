@@ -18,6 +18,7 @@ export class NsiModelComponent implements OnInit {
     @Input() nsiId;
     businessList: any[];
     nssiList: any[];
+    isSpinning: boolean = true;
   ngOnInit() {
       this.getNsiDetail()
   }
@@ -25,6 +26,7 @@ export class NsiModelComponent implements OnInit {
         this.myhttp.getSlicingNsiDetail(this.nsiId).subscribe(res => {
             const {result_header: {result_code}, result_body: {hosted_business_list,included_nssi_list} } = res;
             if (+result_code === 200) {
+                this.isSpinning = false;
                 this.businessList = hosted_business_list;
                 this.nssiList = included_nssi_list;
             }

@@ -9,11 +9,11 @@
         "service_id": "service1",
         "total_bandwidth_list": [
           {
-            "timestamp": "1454171445000",
+            "timestamp": "1454171446000",
             "total_bandwidth": "167"
           },
           {
-            "timestamp": "1454171445000",
+            "timestamp": "1454173447000",
             "total_bandwidth": "200"
           }
         ]
@@ -22,11 +22,11 @@
         "service_id": "service2",
         "total_bandwidth_list": [
           {
-            "timestamp": "1454171447000",
+            "timestamp": "1454171446000",
             "total_bandwidth": "88"
           },
           {
-            "timestamp": "1454171447000",
+            "timestamp": "1454173447000",
             "total_bandwidth": "184"
           }
         ]
@@ -35,11 +35,11 @@
         "service_id": "service3",
         "total_bandwidth_list": [
           {
-            "timestamp": "1454171448000",
+            "timestamp": "1454171446000",
             "total_bandwidth": "173"
           },
           {
-            "timestamp": "1454171448000",
+            "timestamp": "1454173447000",
             "total_bandwidth": "95"
           }
         ]

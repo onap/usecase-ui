@@ -18,9 +18,10 @@ export class SlicingBusinessModelComponent implements OnInit {
 
     @Input() businessId;
     businessRequirement: any[];
-    NSTinfo: any[];
-    nsiInfo: any[];
+    NSTinfo: any[] = [];
+    nsiInfo: any[] = [];
     taskModel: boolean = false;
+    isSpinning: boolean = true;
     ngOnInit() {
         console.log(this.businessId, "id");
         this.getDetail()
@@ -28,11 +29,14 @@ export class SlicingBusinessModelComponent implements OnInit {
 
     getDetail() {
         this.myhttp.getSlicingBusinessDetail(this.businessId).subscribe(res => {
-            const {result_header: {result_code}, result_body: {business_demand_info,nst_info,nsi_info} } = res;
+            const { result_body, result_header: { result_code } } = res;
             if (+result_code === 200) {
-                // business_demand_info.coverage_area_ta_list.map((item)=>{
-                //     item.replace(";","   ")
-                // });
+                this.isSpinning = false;
+                const {business_demand_info,business_demand_info: { coverage_area_ta_list },nst_info,nsi_info}  = result_body;
+                business_demand_info.area = coverage_area_ta_list.map(item => {
+                    item = item.split(';').join('-');
+                    return item
+                });
                 this.businessRequirement = [business_demand_info];
                 this.NSTinfo = [nst_info];
                 this.nsiInfo = [nsi_info];

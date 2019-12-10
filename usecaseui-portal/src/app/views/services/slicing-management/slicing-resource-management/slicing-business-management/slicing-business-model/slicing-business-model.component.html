@@ -1,15 +1,17 @@
+<nz-spin [nzSpinning]="isSpinning">
 <app-basic-info
         [businessRequirement]="businessRequirement"
         [NSTinfo]="NSTinfo"
         [taskModel]="taskModel"
 >
 </app-basic-info>
-<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Slicing NSI £º'" [nzFooter]="null">
+    <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Slicing NSI :'" [nzFooter]="null">
     <nz-table
             #basicTable
             [nzData]="nsiInfo"
             [nzShowPagination]="false"
             nzHideOnSinglePage
+                class="model-table-padding"
     >
         <thead>
         <tr>
@@ -35,3 +37,4 @@
         </tbody>
     </nz-table>
 </nz-list>
+</nz-spin>
