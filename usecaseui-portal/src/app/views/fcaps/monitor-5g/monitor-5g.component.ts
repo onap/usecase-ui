@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SlicingTaskServices} from '.././../../core/services/slicingTaskServices';
 import {pieChartconfig,lineChartconfig} from './monitorEchartsConfig';
+import *as moment from 'moment';
 @Component({
   selector: 'app-monitor-5g',
   templateUrl: './monitor-5g.component.html',
@@ -90,6 +91,8 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchTraffic(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
             if (+result_code === 200 && slicing_usage_traffic_list.length >0) {
+                this.trafficData = [];
+                this.trafficLegend = [];
                 slicing_usage_traffic_list.forEach((item)=>{
                     this.trafficData.push({
                         name:item.service_id,
@@ -120,8 +123,12 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchOnlineusers(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
             if (+result_code === 200) {
+                this.onlineuserXAxis = [];
+                this.onlineusersData = [];
+                this.onlineuserLegend = [];
                 slicing_online_user_list[0].online_user_list.map((key)=>{
-                    this.onlineuserXAxis.push(key.timestamp)
+                    let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
+                    this.onlineuserXAxis.push(date)
                 });
                  slicing_online_user_list.forEach((item)=>{
                      this.onlineuserLegend.push(item.service_id);
@@ -148,8 +155,12 @@ export class Monitor5gComponent implements OnInit {
         this.myhttp.getFetchBandwidth(service_list,time).subscribe (res => {
             const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
             if (+result_code === 200) {
+                this.bandwidthXAxis = [];
+                this.bandwidthData = [];
+                this.bandwidthLegend = [];
                 slicing_total_bandwidth_list[0].total_bandwidth_list.map((key)=>{
-                    this.bandwidthXAxis.push(key.timestamp)
+                    let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
+                    this.bandwidthXAxis.push(date)
                 });
                 slicing_total_bandwidth_list.forEach((item)=>{
                     this.bandwidthLegend.push(item.service_id);

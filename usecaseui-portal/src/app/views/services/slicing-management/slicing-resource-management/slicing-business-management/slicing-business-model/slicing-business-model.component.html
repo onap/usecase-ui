@@ -4,12 +4,13 @@
         [taskModel]="taskModel"
 >
 </app-basic-info>
-<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Slicing NSI £º'" [nzFooter]="null">
+<nz-list class="taskmodel_list"  nzBordered [nzHeader]="'Slicing NSI :'" [nzFooter]="null">
     <nz-table
             #basicTable
             [nzData]="nsiInfo"
             [nzShowPagination]="false"
             nzHideOnSinglePage
+            class="model-table-padding"
     >
         <thead>
         <tr>
@@ -26,7 +27,7 @@
                 <td>{{ data.nsi_id }}</td>
                 <td>{{ data.nsi_name }}</td>
                 <td>{{ data.nsi_type }}</td>
-                <td>{{ data.nsi_orchestration-status }}</td>
+                <td>{{ data.nsi_orchestration-status}}</td>
                 <td>
                     <a (click)="showdetail(data)">detail</a>
                 </td>

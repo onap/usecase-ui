@@ -20,7 +20,9 @@ export class SlicingBusinessTableComponent implements OnInit {
         this.getBusinessList()
     }
     ngOnDestroy() {
-        clearInterval(this.progressingTimer);
+        this.progressingTimer.forEach((item)=>{
+            clearInterval(item.timer);
+        })
     }
     selectedValue:string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
@@ -30,7 +32,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     loading = false;
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
-    progressingTimer :any;
+    progressingTimer :any[] = [];
 
 
     getBusinessList (): void{
@@ -175,11 +177,19 @@ export class SlicingBusinessTableComponent implements OnInit {
                     .subscribe((data) => {
                         if (data.result_body.operation_progress < 100) {
                             callback(data.result_body);
-                            this.progressingTimer = setTimeout(()=>{
+                            let progressSetTimeOut = setTimeout(()=>{
                                 requery();
                             },5000);
+                            this.progressingTimer.push({
+                                id:obj.serviceId,
+                                timer:progressSetTimeOut
+                            })
                         } else {
-                            clearInterval(this.progressingTimer);
+                            this.progressingTimer.forEach((item)=>{
+                                if(item.serviceId === obj.serviceId){
+                                    clearInterval(item.timer);
+                                }
+                            });
                             res(data.result_body);
                         }
                     })

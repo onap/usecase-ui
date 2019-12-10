@@ -1,4 +1,4 @@
-<div>
+<div class="monitor-content">
     <h1>Slicing business Monitor</h1>
     <div nz-row>
         <div nz-col nzSpan="12" class="monitorDate">
@@ -13,7 +13,7 @@
             ></nz-date-picker>
         </div>
     </div>
-    <div nz-row nzType="flex" nzGutter="16" class="charts">
+    <div nz-row nzType="flex" class="charts">
         <div nz-col nzSpan="6" class="gutter-row col-boxshadow">
             <h4>Slicing Use Traffic</h4>
             <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>

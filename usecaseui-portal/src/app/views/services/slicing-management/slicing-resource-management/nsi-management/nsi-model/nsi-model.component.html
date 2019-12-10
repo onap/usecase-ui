@@ -4,12 +4,14 @@
           [nzData]="businessList"
           [nzShowPagination]="false"
           nzHideOnSinglePage
+          class="model-table-padding"
   >
     <thead>
     <tr>
       <th>Service Instance Id</th>
       <th>Service Instance Name</th>
       <th>Service Type</th>
+      <th>S-NSSAI</th>
       <th>Status</th>
       <th width="100px">Detail</th>
     </tr>
@@ -36,12 +38,14 @@
           [nzData]="nssiList"
           [nzShowPagination]="false"
           nzHideOnSinglePage
+          class="model-table-padding"
   >
     <thead>
     <tr>
       <th>Service Instance Id</th>
       <th>Service Instance Name</th>
       <th>Service Type</th>
+      <th>Environment Context</th>
       <th>Status</th>
       <th width="100px">Detail</th>
     </tr>
