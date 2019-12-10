@@ -25,7 +25,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   pageNum: string = '1';
 
   ngOnInit() {
-    this.getTaskList()
+    this.getTaskList();
   }
 
   getTaskList(): void {
@@ -116,8 +116,8 @@ export class SlicingTaskManagementComponent implements OnInit {
 
   showdetail(data: any): void {
     this.taskId = data.task_id;
-    this.moduleTitle = data.status;
-    if (data.status === '审核阶段') {
+    this.moduleTitle = data.processing_status;
+    if (data.processing_status === 'Waiting to Confirm') {
       this.showDetail = true;
     } else {
       this.showProcess = true;
