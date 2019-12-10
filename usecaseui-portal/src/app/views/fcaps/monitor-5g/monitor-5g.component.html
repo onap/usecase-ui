@@ -3,12 +3,25 @@
         <div nz-col nzSpan="12" class="monitorDate">
             <nz-date-picker
                     nzShowTime
+                    [nzShowToday]="false"
                     nzFormat="yyyy-MM-dd HH:mm:ss"
                     nzPlaceHolder="Select Time"
                     ngModel
                     (ngModelChange)="onDateChange($event)"
                     (nzOnOk)="onDateOk($event)"
             ></nz-date-picker>
+        </div>
+    </div>
+    <div nz-row nzType="flex" nzGutter="16" class="charts">
+        <div nz-col nzSpan="6" class="gutter-row col-boxshadow">
+            <h4>Slicing Use Traffic</h4>
+            <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>
+        </div>
+        <div nz-col nzSpan="9" class="gutter-row col-boxshadow">
+            col-9
+        </div>
+        <div nz-col nzSpan="9" class="gutter-row col-boxshadow">
+            col-9
         </div>
     </div>
     <div class="slicing-resource-table">
