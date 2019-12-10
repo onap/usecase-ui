@@ -94,20 +94,20 @@ export class SlicingTaskManagementComponent implements OnInit {
     this.listOfData = list.map(item => {
       switch (item.processing_status) {
         case 'Planning':
-          item.status = '规划阶段';
-          item.operation = '任务处理'
+          // item.status = '规划阶段';
+          item.operation = 'Process Task'
           break;
         case 'Waiting to Confirm':
-          item.status = '审核阶段';
-          item.operation = '任务处理'
+          // item.status = '审核阶段';
+          item.operation = 'Process Task'
           break;
         case 'Creating':
-          item.status = '切片创建中';
-          item.operation = '查看进度'
+          // item.status = '切片创建中';
+          item.operation = 'View Progress'
           break;
         case 'Completed':
-          item.status = '创建完成';
-          item.operation = '查看结果'
+          // item.status = '创建完成';
+          item.operation = 'View Result'
           break;
       }
       return item;

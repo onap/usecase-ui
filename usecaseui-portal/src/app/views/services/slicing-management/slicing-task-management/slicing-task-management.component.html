@@ -2,45 +2,26 @@
 	<div nz-row>
 		<div nz-col nzSpan="12" class="task_status">
 			<span>Status : </span>
-			<nz-select
-				nzShowSearch
-				nzAllowClear
-				[(ngModel)]="selectedValue"
-				nzPlaceHolder="Select a processing status"
-				(ngModelChange)="processingStatusChange()"
-			>
-				<nz-option
-					*ngFor="let item of statusOptions"
-					[nzLabel]="item.title"
-					[nzValue]="item.value"
-				></nz-option>
+			<nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedValue" nzPlaceHolder="Select a processing status"
+				(ngModelChange)="processingStatusChange()">
+				<nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
 			</nz-select>
 		</div>
 	</div>
 	<div>
-		<nz-table
-			#basicTable
-			nzShowPagination
-			nzPageSizeOptions
-			nzShowSizeChanger
-			[nzTotal]="total"
-			[nzLoading]="loading"
-			[nzData]="listOfData"
-			[nzPageIndex]="pageNum"
-			[nzPageSize]="pageSize"
-			[nzFrontPagination]="false"
-			(nzPageSizeChange)="pageSizeChange($event)"
-			(nzPageIndexChange)="pageNumChange($event)"
-		>
+		<nz-table #basicTable nzShowPagination nzPageSizeOptions nzShowSizeChanger [nzTotal]="total"
+			[nzLoading]="loading" [nzData]="listOfData" [nzPageIndex]="pageNum" [nzPageSize]="pageSize"
+			[nzFrontPagination]="false" (nzPageSizeChange)="pageSizeChange($event)"
+			(nzPageIndexChange)="pageNumChange($event)">
 			<thead>
 				<tr>
-					<th>任务ID</th>
-					<th>任务名称</th>
+					<th>Task ID</th>
+					<th>Task Name</th>
 					<th>S-NSSAI</th>
-					<th>切片业务类型</th>
-					<th>到达时间</th>
-					<th>处理环节</th>
-					<th>操作</th>
+					<th>Service Type</th>
+					<th>Created time</th>
+					<th>Status</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,35 +31,21 @@
 					<td>{{ data.service_snssai }}</td>
 					<td>{{ data.service_type }}</td>
 					<td>{{ data.create_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
-					<td>{{ data.status }}</td>
+					<td>{{ data.processing_status }}</td>
 					<td>
-						<span
-							*ngIf="data.processing_status === 'Planning'"
-							class="task_operation_disabled"
-							>{{ data.operation }}</span
-						>
-						<a
-							(click)="showdetail(data)"
-							*ngIf="data.processing_status !== 'Planning'"
-							>{{ data.operation }}</a
-						>
+						<span *ngIf="data.processing_status === 'Planning'"
+							class="task_operation_disabled">{{ data.operation }}</span>
+						<a (click)="showdetail(data)"
+							*ngIf="data.processing_status !== 'Planning'">{{ data.operation }}</a>
 					</td>
 				</tr>
 			</tbody>
 		</nz-table>
 	</div>
-	<app-slicing-task-model
-		[moduleTitle]="moduleTitle"
-		[showDetail]="showDetail"
-		[taskId]="taskId"
-		(cancel)="showDetail = $event"
-	>
+	<app-slicing-task-model [moduleTitle]="moduleTitle" [showDetail]="showDetail" [taskId]="taskId"
+		(cancel)="showDetail = $event">
 	</app-slicing-task-model>
-	<app-check-process-model
-		[moduleTitle]="moduleTitle"
-		[showProcess]="showProcess"
-		[taskId]="taskId"
-		(cancel)="showProcess = $event"
-	>
+	<app-check-process-model [moduleTitle]="moduleTitle" [showProcess]="showProcess" [taskId]="taskId"
+		(cancel)="showProcess = $event">
 	</app-check-process-model>
 </div>

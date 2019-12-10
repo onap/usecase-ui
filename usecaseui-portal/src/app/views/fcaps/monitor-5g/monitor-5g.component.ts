@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {SlicingTaskServices} from '.././../../core/services/slicingTaskServices';
-import {pieChartconfig,lineChartconfig} from './monitorEchartsConfig';
+import { SlicingTaskServices } from '.././../../core/services/slicingTaskServices';
+import { pieChartconfig, lineChartconfig } from './monitorEchartsConfig';
 @Component({
-  selector: 'app-monitor-5g',
-  templateUrl: './monitor-5g.component.html',
-  styleUrls: ['./monitor-5g.component.less']
+    selector: 'app-monitor-5g',
+    templateUrl: './monitor-5g.component.html',
+    styleUrls: ['./monitor-5g.component.less']
 })
 export class Monitor5gComponent implements OnInit {
 
@@ -19,34 +19,34 @@ export class Monitor5gComponent implements OnInit {
     loading = false;
     selectDate: number = 0;
 
-    trafficData: any[] =[];
-    trafficLegend: any[] =[];
-    trafficChartInit :Object = pieChartconfig;
-    trafficChartData :Object;
+    trafficData: any[] = [];
+    trafficLegend: any[] = [];
+    trafficChartInit: Object = pieChartconfig;
+    trafficChartData: Object;
 
-    onlineusersData: any[] =[];
-    onlineuserXAxis :any[] = [];
-    onlineuserLegend :any[] = [];
-    onlineuserChartInit :Object = lineChartconfig;
-    onlineuserChartData :Object;
+    onlineusersData: any[] = [];
+    onlineuserXAxis: any[] = [];
+    onlineuserLegend: any[] = [];
+    onlineuserChartInit: Object = lineChartconfig;
+    onlineuserChartData: Object;
 
-    bandwidthData: any[] =[];
-    bandwidthXAxis :any[] = [];
-    bandwidthLegend :any[] = [];
-    bandwidthChartInit :Object = lineChartconfig;
-    bandwidthChartData :Object;
-  ngOnInit() {
-      this.getBusinessList()
-  }
+    bandwidthData: any[] = [];
+    bandwidthXAxis: any[] = [];
+    bandwidthLegend: any[] = [];
+    bandwidthChartInit: Object = lineChartconfig;
+    bandwidthChartData: Object;
+    ngOnInit() {
+        this.getBusinessList()
+    }
 
-    getBusinessList (): void{
+    getBusinessList(): void {
         this.loading = true;
         let paramsObj = {
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        this.myhttp.getSlicingBusinessList(paramsObj,false).subscribe (res => {
-            const { result_header: { result_code }, result_body: { slicing_business_list,record_number } } = res;
+        this.myhttp.getSlicingBusinessList(paramsObj, false).subscribe(res => {
+            const { result_header: { result_code }, result_body: { slicing_business_list, record_number } } = res;
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
@@ -60,7 +60,7 @@ export class Monitor5gComponent implements OnInit {
     }
     onDateChange(result: Date): void {
         console.log('Selected Time: ', result);
-        if(result === null){
+        if (result === null) {
             this.selectDate = 0;
             this.getChartsData()
         }
@@ -75,30 +75,30 @@ export class Monitor5gComponent implements OnInit {
         if (!this.listOfData.length) {
             return false;
         }
-        if(this.selectDate !==0){
+        if (this.selectDate !== 0) {
             time = this.selectDate
         }
         const service_list = [];
         this.listOfData.forEach(item => {
-            service_list.push({service_id: item.service_instance_id});
+            service_list.push({ service_id: item.service_instance_id });
         });
         this.fetchTrafficData(service_list, time);
         this.fetchOnlineusersData(service_list, time);
         this.fetchBandwidthData(service_list, time);
     }
-    fetchTrafficData(service_list, time){
-        this.myhttp.getFetchTraffic(service_list,time).subscribe (res => {
+    fetchTrafficData(service_list, time) {
+        this.myhttp.getFetchTraffic(service_list, time).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
-            if (+result_code === 200 && slicing_usage_traffic_list.length >0) {
-                slicing_usage_traffic_list.forEach((item)=>{
+            if (+result_code === 200 && slicing_usage_traffic_list.length > 0) {
+                slicing_usage_traffic_list.forEach((item) => {
                     this.trafficData.push({
-                        name:item.service_id,
-                        value:item.traffic_data
+                        name: item.service_id,
+                        value: item.traffic_data
                     });
                     this.trafficLegend.push(item.service_id)
                 });
                 this.trafficChartData = {
-                    legend:{
+                    legend: {
                         orient: 'vertical',
                         left: '0px',
                         bottom: '0px',
@@ -116,23 +116,23 @@ export class Monitor5gComponent implements OnInit {
             }
         })
     }
-    fetchOnlineusersData(service_list, time){
-        this.myhttp.getFetchOnlineusers(service_list,time).subscribe (res => {
+    fetchOnlineusersData(service_list, time) {
+        this.myhttp.getFetchOnlineusers(service_list, time).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
             if (+result_code === 200) {
-                slicing_online_user_list[0].online_user_list.map((key)=>{
+                slicing_online_user_list[0].online_user_list.map((key) => {
                     this.onlineuserXAxis.push(key.timestamp)
                 });
-                 slicing_online_user_list.forEach((item)=>{
-                     this.onlineuserLegend.push(item.service_id);
-                     this.onlineusersData.push({
-                         name: item.service_id,
-                         type: 'line',
-                         data:this.getOnlineuserSeriesData(item)
-                     })
+                slicing_online_user_list.forEach((item) => {
+                    this.onlineuserLegend.push(item.service_id);
+                    this.onlineusersData.push({
+                        name: item.service_id,
+                        type: 'line',
+                        data: this.getOnlineuserSeriesData(item)
+                    })
                 });
                 this.onlineuserChartData = {
-                    legend:{
+                    legend: {
                         bottom: '0px',
                         data: this.onlineuserLegend
                     },
@@ -144,23 +144,23 @@ export class Monitor5gComponent implements OnInit {
             }
         })
     }
-    fetchBandwidthData(service_list, time){
-        this.myhttp.getFetchBandwidth(service_list,time).subscribe (res => {
+    fetchBandwidthData(service_list, time) {
+        this.myhttp.getFetchBandwidth(service_list, time).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
             if (+result_code === 200) {
-                slicing_total_bandwidth_list[0].total_bandwidth_list.map((key)=>{
+                slicing_total_bandwidth_list[0].total_bandwidth_list.map((key) => {
                     this.bandwidthXAxis.push(key.timestamp)
                 });
-                slicing_total_bandwidth_list.forEach((item)=>{
+                slicing_total_bandwidth_list.forEach((item) => {
                     this.bandwidthLegend.push(item.service_id);
                     this.bandwidthData.push({
                         name: item.service_id,
                         type: 'line',
-                        data:this.getBandwidthSeriesData(item)
+                        data: this.getBandwidthSeriesData(item)
                     })
                 });
                 this.bandwidthChartData = {
-                    legend:{
+                    legend: {
                         bottom: '0px',
                         data: this.bandwidthLegend
                     },
@@ -172,16 +172,16 @@ export class Monitor5gComponent implements OnInit {
             }
         })
     }
-    getOnlineuserSeriesData(item){
+    getOnlineuserSeriesData(item) {
         let datas = [];
-        item.online_user_list.forEach((keys)=>{
+        item.online_user_list.forEach((keys) => {
             datas.push(keys.online_users)
         })
         return datas
     }
-    getBandwidthSeriesData(item){
+    getBandwidthSeriesData(item) {
         let datas = [];
-        item.total_bandwidth_list.forEach((keys)=>{
+        item.total_bandwidth_list.forEach((keys) => {
             datas.push(keys.total_bandwidth)
         })
         return datas
