@@ -111,14 +111,15 @@ export class SlicingBusinessTableComponent implements OnInit {
                     serviceId: slicing.service_instance_id
                 };
                 let updata = (prodata) => {
-                    slicing.last_operation_progress = prodata.progress;
-                    slicing.orchestration_status = prodata.operation_type;
-                    this.queryProgress(obj, updata).then(() => {
-                        slicing.last_operation_progress = 100;
-                        slicing.orchestration_status = finished;
-                        this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
-                    })
+                    slicing.last_operation_progress = prodata.progress || 0;
+                    slicing.orchestration_status = prodata.operation_type || activateValue;
                 };
+                this.queryProgress(obj, updata).then(() => {
+                    slicing.last_operation_progress = 100;
+                    slicing.orchestration_status = finished;
+                    this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
+                    this.getBusinessList();
+                })
             }else {
                 this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
                 console.error(result_message);
@@ -138,20 +139,21 @@ export class SlicingBusinessTableComponent implements OnInit {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
                     if (+result_code === 200) {
                         slicing.last_operation_progress = 0;
-                        slicing.orchestration_status = 'deactivate';
+                        slicing.orchestration_status = 'delete';
                         console.log(operation_id,"operation_id");
                         let obj = {
                             serviceId: slicing.service_instance_id
                         };
                         let updata = (prodata) => {
-                            slicing.last_operation_progress = prodata.progress;
-                            slicing.orchestration_status = prodata.operation_type;
-                            this.queryProgress(obj, updata).then(() => {
-                                slicing.last_operation_progress = 100;
-                                slicing.orchestration_status = "terminated";
-                                this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
-                            })
+                            slicing.last_operation_progress = prodata.progress || 0;
+                            slicing.orchestration_status = prodata.operation_type || "delete";
                         };
+                        this.queryProgress(obj, updata).then(() => {
+                            slicing.last_operation_progress = 100;
+                            slicing.orchestration_status = "terminated";
+                            this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
+                            this.getBusinessList();
+                        })
                     }else {
                         this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
                         console.error(result_message)

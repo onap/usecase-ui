@@ -27,7 +27,7 @@ export class SlicingTaskServices {
         auditInfo: this.baseUrl + '/task/{taskId}/auditInfo',
         slicingInstance: this.baseUrl + '/resource/nsi/instances/pageNo/{pageNo}/pageSize/{pageSize}',
         slicingSubnetInstance: this.baseUrl + '/resource/nsi/{nsiId}/nssiInstances',
-        subnetInContext: this.baseUrl + '/resource/nssi/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
+        subnetInContext: this.baseUrl + '/resource/nssi/environmentContext/{environmentContext}/instances/pageNo/{pageNo}/pageSize/{pageSize}',
         submitSlicing: this.baseUrl + '/task/auditInfo',
         slicingBasicInfo: this.baseUrl + '/task/{taskId}/taskCreationInfo',
         slicingCreateProgress: this.baseUrl + '/task/{taskId}/taskCreationProgress',
@@ -45,7 +45,7 @@ export class SlicingTaskServices {
         slicingNsiDetail: this.baseUrl + "/resource/nsi/{nsiId}/details",
         //slicing-nssi-management
         slicingNssiList: this.baseUrl + "/resource/nssi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
-        slicingNssiQueryOfStatus: this.baseUrl + "/resource/nssi/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
+        slicingNssiQueryOfStatus: this.baseUrl + "/resource/nssi/instanceStatus/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiDetail: this.baseUrl + "/resource/nssi/{nssiId}/details",
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
