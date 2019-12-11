@@ -14,7 +14,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 
   showDetail: boolean = false;
   showProcess: boolean = false;
-  selectedValue = null;
+  selectedValue = 'all';
   taskId: string;
   moduleTitle: string = "";
   listOfData: any[] = [];
@@ -47,7 +47,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   processingStatusChange(): void {
     this.pageSize = '10';
     this.pageNum = '1';
-    if (this.selectedValue) {
+    if (this.selectedValue && this.selectedValue !== 'all') {
       this.getListOfProcessingStatus();
     } else {
       this.getTaskList();
@@ -73,7 +73,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   pageSizeChange(pageSize: number): void {
     this.pageSize = pageSize + '';
     const { selectedValue } = this;
-    if (selectedValue) {
+    if (selectedValue && selectedValue !== 'all') {
       this.getListOfProcessingStatus();
     } else {
       this.getTaskList();
@@ -83,7 +83,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   pageNumChange(pageNum: number): void {
     this.pageNum = pageNum + '';
     const { selectedValue } = this;
-    if (selectedValue) {
+    if (selectedValue && selectedValue !== 'all') {
       this.getListOfProcessingStatus();
     } else {
       this.getTaskList();

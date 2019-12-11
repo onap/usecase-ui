@@ -2,17 +2,35 @@
 	<div nz-row>
 		<div nz-col nzSpan="12" class="task_status">
 			<span>Status : </span>
-			<nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedValue" nzPlaceHolder="Select a processing status"
-				(ngModelChange)="processingStatusChange()">
-				<nz-option *ngFor="let item of statusOptions" [nzLabel]="item.title" [nzValue]="item.value"></nz-option>
+			<nz-select
+				nzShowSearch
+				[(ngModel)]="selectedValue"
+				nzPlaceHolder="Select a processing status"
+				(ngModelChange)="processingStatusChange()"
+			>
+				<nz-option
+					*ngFor="let item of statusOptions"
+					[nzLabel]="item.title"
+					[nzValue]="item.value"
+				></nz-option>
 			</nz-select>
 		</div>
 	</div>
 	<div>
-		<nz-table #basicTable nzShowPagination nzPageSizeOptions nzShowSizeChanger [nzTotal]="total"
-			[nzLoading]="loading" [nzData]="listOfData" [nzPageIndex]="pageNum" [nzPageSize]="pageSize"
-			[nzFrontPagination]="false" (nzPageSizeChange)="pageSizeChange($event)"
-			(nzPageIndexChange)="pageNumChange($event)">
+		<nz-table
+			#basicTable
+			nzShowPagination
+			nzPageSizeOptions
+			nzShowSizeChanger
+			[nzTotal]="total"
+			[nzLoading]="loading"
+			[nzData]="listOfData"
+			[nzPageIndex]="pageNum"
+			[nzPageSize]="pageSize"
+			[nzFrontPagination]="false"
+			(nzPageSizeChange)="pageSizeChange($event)"
+			(nzPageIndexChange)="pageNumChange($event)"
+		>
 			<thead>
 				<tr>
 					<th>Task ID</th>
@@ -33,19 +51,33 @@
 					<td>{{ data.create_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
 					<td>{{ data.processing_status }}</td>
 					<td>
-						<span *ngIf="data.processing_status === 'Planning'"
-							class="task_operation_disabled">{{ data.operation }}</span>
-						<a (click)="showdetail(data)"
-							*ngIf="data.processing_status !== 'Planning'">{{ data.operation }}</a>
+						<span
+							*ngIf="data.processing_status === 'Planning'"
+							class="task_operation_disabled"
+							>{{ data.operation }}</span
+						>
+						<a
+							(click)="showdetail(data)"
+							*ngIf="data.processing_status !== 'Planning'"
+							>{{ data.operation }}</a
+						>
 					</td>
 				</tr>
 			</tbody>
 		</nz-table>
 	</div>
-	<app-slicing-task-model [moduleTitle]="moduleTitle" [showDetail]="showDetail" [taskId]="taskId"
-		(cancel)="showDetail = $event">
+	<app-slicing-task-model
+		[moduleTitle]="moduleTitle"
+		[showDetail]="showDetail"
+		[taskId]="taskId"
+		(cancel)="showDetail = $event"
+	>
 	</app-slicing-task-model>
-	<app-check-process-model [moduleTitle]="moduleTitle" [showProcess]="showProcess" [taskId]="taskId"
-		(cancel)="showProcess = $event">
+	<app-check-process-model
+		[moduleTitle]="moduleTitle"
+		[showProcess]="showProcess"
+		[taskId]="taskId"
+		(cancel)="showProcess = $event"
+	>
 	</app-check-process-model>
 </div>

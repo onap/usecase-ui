@@ -1,18 +1,22 @@
 export const TASK_PROCESSING_STATUS = [
 	{
-		title: '规划阶段',
+		title: 'All',
+		value: 'all'
+	},
+	{
+		title: 'Planning',
 		value: 'Planning'
 	},
 	{
-		title: '审核阶段',
+		title: 'Waiting to Confirm',
 		value: 'Waiting to Confirm'
 	},
 	{
-		title: '切片创建中',
+		title: 'Creating',
 		value: 'Creating'
 	},
 	{
-		title: '创建完成',
+		title: 'Completed',
 		value: 'Completed'
 	}
 ]
@@ -20,7 +24,7 @@ export const TASK_PROCESSING_STATUS = [
 export const BUSINESS_REQUIREMENT = [
 	[
 		{
-			title: '切片业务名称',
+			title: 'Slicing Business Name',
 			key: 'service_name'
 		},
 		{
@@ -28,42 +32,42 @@ export const BUSINESS_REQUIREMENT = [
 			key: 'service_snssai'
 		},
 		{
-			title: '用户下行带宽（Mbps）',
+			title: 'Data Rate Downlink (Mbps) ',
 			key: 'exp_data_rate_dl'
 		},
 	],
 	[
 		{
-			title: '用户上行带宽（Mbps）',
+			title: 'Data Rate Uplink (Mbps) ',
 			key: 'exp_data_rate_ul'
 		},
 		{
-			title: '游牧性',
+			title: 'Mobility',
 			key: 'ue_mobility_level'
 		},
 		{
-			title: '时延（ms）',
+			title: 'Latency (ms)',
 			key: 'latency'
 		},
 	],
 	[
 		{
-			title: '使用期限（月）',
+			title: 'Use Interval (Moon) ',
 			key: 'use_interval'
 		},
 
 		{
-			title: '激活因子（%）',
+			title: 'Activity Factor（%）',
 			key: 'activity_factor'
 		},
 		{
-			title: '共享等级',
+			title: 'Resource Sharing Level',
 			key: 'resource_sharing_level'
 		},
 	],
 	[
 		{
-			title: '连接规模数',
+			title: 'Max Number of UEs',
 			key: 'max_number_of_ues'
 		},
 		{
@@ -77,7 +81,7 @@ export const BUSINESS_REQUIREMENT = [
 	],
 	[
 		{
-			title: '区域',
+			title: 'Area',
 			key: 'area'
 		},
 	],
@@ -87,7 +91,7 @@ export const BUSINESS_REQUIREMENT = [
 
 export const WIRELESS_FORM_ITEMS = [
 	{
-		title: '时延（ms）',
+		title: 'Latency (ms)',
 		key: 'an_latency'
 	},
 	{
@@ -95,18 +99,18 @@ export const WIRELESS_FORM_ITEMS = [
 		key: 'an_5qi'
 	},
 	{
-		title: '覆盖小区列表',
+		title: 'Coverage Area Ta List',
 		key: 'an_coverage_area_ta_list'
 	}
 ]
 
 export const TRANSFRER_FORM_ITEMS = [
 	{
-		title: '时延（ms）',
+		title: 'Latency (ms)',
 		key: 'tn_latency'
 	},
 	{
-		title: '带宽',
+		title: 'Bandwidth',
 		key: 'tn_bandwidth'
 	}
 ]
@@ -117,51 +121,51 @@ export const CORE_FORM_ITEMS = 	[
 		key: 'cn_service_snssai'
 	},
 	{
-		title: '共享等级',
+		title: 'Resource Sharing Level',
 		key: 'cn_resource_sharing_level',
 		options: [
 			{
-				title: '共享',
+				title: 'Shared',
 				key: 'shared'
 			},
 			{
-				title: '独享',
+				title: 'Non-shared',
 				key: 'no-shared'
 			}
 		]
 	},
 	{
-		title: '游牧性',
+		title: 'Mobility',
 		key: 'cn_ue_mobility_level',
 		options: [
 			{
-				title: '不可游牧',
-				key: 'stageary'
+				title: 'Stationary',
+				key: 'stationary'
 			},
 			{
-				title: '固定接入',
+				title: 'Nomadic',
 				key: 'nomadic'
 			},
 			{
-				title: '限定范围内可游牧',
+				title: 'Spatially Restricted Mobility',
 				key: 'spatially restricted mobility'
 			},
 			{
-				title: '自由游牧',
+				title: 'Fully Mobility',
 				key: 'fully mobility'
 			}
 		]
 	},
 	{
-		title: '时延（ms）',
+		title: 'Latency (ms)',
 		key: 'cn_latency'
 	},
 	{
-		title: '连接规模数',
+		title: 'Max Number of UEs',
 		key: 'cn_max_number_of_ues'
 	},
 	{
-		title: '活动因子（%）',
+		title: 'Activity Factor (%)',
 		key: 'cn_activity_factor'
 	},
 	{

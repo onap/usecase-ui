@@ -54,10 +54,10 @@
 				[nzSpan]="list.length === 1 ? '24' : '8'"
 				*ngFor="let ite of list"
 			>
-				<span class="ant-typography" *ngIf="ite.title !== '区域'">
+				<span class="ant-typography" *ngIf="ite.title !== 'Area'">
 					{{ ite.title }} : &nbsp;{{ item[ite.key] }}
 				</span>
-				<span class="ant-typography" *ngIf="ite.title === '区域'">
+				<span class="ant-typography" *ngIf="ite.title === 'Area'">
 					{{ ite.title }} : &nbsp;
 					<nz-tag *ngFor="let value of item[ite.key]">
 						{{value}}
