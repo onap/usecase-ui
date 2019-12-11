@@ -97,7 +97,7 @@ module.exports =
         "/uui-slicing/nsmf/task/:taskId/auditInfo": "/slicing_task_auditInfo",
         "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list",
         "/uui-slicing/nsmf/resource/nsi/:nsiId/nssiInstances": "/slicing_subnet_instance",
-        "/uui-slicing/nsmf/resource/nssi/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
+        "/uui-slicing/nsmf//resource//nssi/environmentContext/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
         "/uui-slicing/nsmf/task/:taskId/taskCreationInfo": "/slicing_taskCreationInfo",
         "/uui-slicing/nsmf/task/:taskId/taskCreationProgress": "/slicing_taskCreationProgress",
         "/PUT/uui-slicing/nsmf/task/auditInfo": "/PUT_task_auditInfo",
@@ -115,7 +115,7 @@ module.exports =
         "/uui-slicing/nsmf/resource/nsi/:nsiId/details":"/getSlicingNsiDetail",
         ///////<-------------slicing_nssi--------->/////
         "/uui-slicing/nsmf/resource/nssi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list",
-        "/uui-slicing/nsmf/resource/nssi/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list_activated",
+        "/uui-slicing/nsmf/resource/nssi/instanceStatus/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list_activated",
         "/uui-slicing/nsmf/resource/nssi/:nssiId/details":"/getSlicingNssiDetail",
         ///////<-------------monitor 5G--------->/////
         "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/trafficData": "/fetchTrafficData",

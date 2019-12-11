@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SlicingTaskServices} from '.././../../../../../core/services/slicingTaskServices';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import { NzModalService } from 'ng-zorro-antd';
@@ -33,7 +33,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
     progressingTimer :any[] = [];
-
+    @ViewChild('notification') notification1: any;
 
     getBusinessList (): void{
         this.loading = true;
@@ -80,8 +80,9 @@ export class SlicingBusinessTableComponent implements OnInit {
     switchChange(slicing,i){
         this.modalService.confirm({
             nzTitle: '<i>Do you Want to'+(slicing.orchestration_status === 'activated'?'deactivated':'activated')+ 'slicing business?</i>',
-            nzContent: '<b>service_instance_id:'+slicing.service_instance_id+'</b>',
+            nzContent: '<b>Name:'+slicing.service_instance_name+'</b>',
             nzOnOk: () => {
+                this.notification1.notificationStart('slicing business', slicing.orchestration_status === 'activated'?'deactivate':'activated', slicing.service_instance_id);
                 let paramsObj = {
                     serviceId:slicing.service_instance_id
                 };
@@ -108,25 +109,28 @@ export class SlicingBusinessTableComponent implements OnInit {
                 console.log(operation_id,"operation_id");
                 let obj = {
                     serviceId: slicing.service_instance_id
-                }
+                };
                 let updata = (prodata) => {
                     slicing.last_operation_progress = prodata.progress;
                     slicing.orchestration_status = prodata.operation_type;
                     this.queryProgress(obj, updata).then(() => {
                         slicing.last_operation_progress = 100;
                         slicing.orchestration_status = finished;
+                        this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
                     })
-                }
+                };
             }else {
-                console.error(result_message)
+                this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
+                console.error(result_message);
             }
         })
     }
     terminate(slicing){
         this.modalService.confirm({
             nzTitle: 'Do you Want to Terminate slicing business?',
-            nzContent: '<b>service_instance_id:&nbsp;</b>'+slicing.service_instance_id,
+            nzContent: '<b>Name:&nbsp;</b>'+slicing.service_instance_name,
             nzOnOk: () => {
+                this.notification1.notificationStart('slicing business', 'terminate', slicing.service_instance_id);
                 let paramsObj = {
                     serviceId:slicing.service_instance_id
                 };
@@ -145,9 +149,11 @@ export class SlicingBusinessTableComponent implements OnInit {
                             this.queryProgress(obj, updata).then(() => {
                                 slicing.last_operation_progress = 100;
                                 slicing.orchestration_status = "terminated";
+                                this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
                             })
-                        }
+                        };
                     }else {
+                        this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
                         console.error(result_message)
                     }
                 })
