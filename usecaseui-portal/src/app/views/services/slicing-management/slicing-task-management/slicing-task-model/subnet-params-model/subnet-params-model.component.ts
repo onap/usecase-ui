@@ -24,7 +24,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	ngOnInit() { }
 
 	ngOnChanges() {
-		if (this.title === '无线域') {
+		if (this.title === 'An') {
 		  	this.AreaFormatting();
 		}
 	}
@@ -116,7 +116,7 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	handleOk(): void {
 		let params: object;
-		if (this.title === '无线域') {
+		if (this.title === 'An') {
 			const an_coverage_area_ta_list: string[] = [];
 			this.areaList.forEach( item => {
 				let str: string = '';

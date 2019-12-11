@@ -2,7 +2,7 @@
 	class="taskmodel_list"
 	[nzDataSource]="checkDetail"
 	nzBordered
-	[nzHeader]="'配置审核详情：'"
+	[nzHeader]="'Configuration Audit Detail：'"
 	[nzFooter]="null"
 	*ngIf="taskModel !== false"
 	[nzRenderItem]="checkItem"
@@ -37,7 +37,7 @@
 	class="taskmodel_list"
 	[nzDataSource]="businessRequirement"
 	nzBordered
-	[nzHeader]="'业务需求信息：'"
+	[nzHeader]="'Business Requirement Information：'"
 	[nzFooter]="null"
 	[nzRenderItem]="businessItem"
 >
@@ -72,7 +72,7 @@
 	class="taskmodel_list"
 	[nzDataSource]="NSTinfo"
 	nzBordered
-	[nzHeader]="'匹配NST信息：'"
+	[nzHeader]="'Matching NST Information：'"
 	[nzFooter]="null"
 	[nzRenderItem]="taskItem"
 >

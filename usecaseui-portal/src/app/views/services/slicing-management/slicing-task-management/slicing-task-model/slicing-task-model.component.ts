@@ -29,7 +29,7 @@ export class SlicingTaskModelComponent implements OnInit {
   // 子网实例
   slicingSubnet: any[] =  [
     {
-      title: '无线域',
+      title: 'An',
       context: 'an',
       slicingId: '',
       slicingName: '',
@@ -41,7 +41,7 @@ export class SlicingTaskModelComponent implements OnInit {
       instances: []
     },
     {
-      title: '传输域',
+      title: 'Tn',
       context: 'tn',
       slicingId: '',
       slicingName: '',
@@ -53,7 +53,7 @@ export class SlicingTaskModelComponent implements OnInit {
       instances: []
     },
     {
-      title: '核心域',
+      title: 'Cn',
       context: 'cn',
       slicingId: '',
       slicingName: '',
@@ -329,7 +329,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   changeParams (params: any): void {
-    const index = this.paramsTitle === '无线域' ? 0 : (this.paramsTitle === '传输域' ? 1 : 2);
+    const index = this.paramsTitle === 'An' ? 0 : (this.paramsTitle === 'Tn' ? 1 : 2);
     this.slicingSubnet[index].params = params
   }
 

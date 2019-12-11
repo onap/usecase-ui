@@ -71,11 +71,11 @@ export const BUSINESS_REQUIREMENT = [
 			key: 'max_number_of_ues'
 		},
 		{
-			title: '上行区域流量密度（Mbps/km ）',
+			title: 'Uplink Regional Traffic Density（Mbps/km ）',
 			key: 'area_traffic_cap_ul'
 		},
 		{
-			title: '下行区域流量密度（Mbps/km ）',
+			title: 'Downlink Regional Traffic Density（Mbps/km ）',
 			key: 'area_traffic_cap_dl'
 		}
 	],
@@ -169,19 +169,19 @@ export const CORE_FORM_ITEMS = 	[
 		key: 'cn_activity_factor'
 	},
 	{
-		title: '用户下行体验速率（Mbps）',
+		title: 'User Downlink Experience Rate（Mbps）',
 		key: 'cn_exp_data_rate_dl'
 	},
 	{
-		title: '用户上行体验速率（Mbps）',
+		title: 'User Uplink Experience Rate（Mbps）',
 		key: 'cn_exp_data_rate_ul'
 	},
 	{
-		title: '下行区域流量密度（Mbps/km ）',
+		title: 'Downlink Regional Traffic Density（Mbps/km ）',
 		key: 'cn_area_traffic_cap_dl'
 	},
 	{
-		title: '下行区域流量密度（Mbps/km ）',
+		title: 'Uplink Regional Traffic Density（Mbps/km ）',
 		key: 'cn_area_traffic_cap_ul'
 	}
 ]

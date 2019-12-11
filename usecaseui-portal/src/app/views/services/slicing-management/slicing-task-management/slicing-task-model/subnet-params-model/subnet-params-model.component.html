@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="showModel" [nzTitle]="title + 'Parameter'" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
 	nzWidth="700px">
 	<div class="subnet_params_container">
-		<form nz-form *ngIf="title === '无线域'">
+		<form nz-form *ngIf="title === 'An'">
 			<nz-form-item *ngFor="let item of wirelessFormItems">
 				<nz-form-label [nzSpan]="6" nzRequired [nzFor]="item.key">
 					{{ item.title }}
@@ -34,7 +34,7 @@
 				</div>
 			</nz-form-item>
 		</form>
-		<form nz-form *ngIf="title === '传输域'">
+		<form nz-form *ngIf="title === 'Tn'">
 			<nz-form-item *ngFor="let item of transferFormItems">
 				<nz-form-label [nzSpan]="7" nzRequired [nzFor]="item.key">
 					{{ item.title }}
@@ -44,12 +44,12 @@
 				</nz-form-control>
 			</nz-form-item>
 		</form>
-		<form nz-form *ngIf="title === '核心域'">
+		<form nz-form *ngIf="title === 'Cn'">
 			<nz-form-item *ngFor="let item of coreFormItems">
-				<nz-form-label [nzSpan]="10" nzRequired [nzFor]="item.key">
+				<nz-form-label [nzSpan]="13" nzRequired [nzFor]="item.key">
 					{{ item.title }}
 				</nz-form-label>
-				<nz-form-control [nzSpan]="10">
+				<nz-form-control [nzSpan]="8">
 					<input nz-input [id]="item.key" [name]="item.key" [(ngModel)]="detailData[item.key]"
 						[readOnly]="item.title === 'S-NSSAI'"
 						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' " />

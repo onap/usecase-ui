@@ -116,7 +116,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 
   showdetail(data: any): void {
     this.taskId = data.task_id;
-    this.moduleTitle = data.processing_status;
+    this.moduleTitle = data.task_name;
     if (data.processing_status === 'Waiting to Confirm') {
       this.showDetail = true;
     } else {
