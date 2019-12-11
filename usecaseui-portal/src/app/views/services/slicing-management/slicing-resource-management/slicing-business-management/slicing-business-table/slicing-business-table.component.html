@@ -3,74 +3,60 @@
         <div nz-col nzSpan="12" class="task_status">
             <span>Status : </span>
             <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue"
-                       (ngModelChange)="getListOfProcessingStatus()">
+                (ngModelChange)="getListOfProcessingStatus()">
                 <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
             </nz-select>
         </div>
     </div>
     <div class="slicing-resource-table-list">
-        <nz-table
-                #basicTable
-                [nzData]="listOfData"
-                [nzFrontPagination]="false"
-                nzShowSizeChanger
-                [nzPageSizeOptions]="[5,10,15,20]"
-                [nzTotal]='total'
-                [(nzPageSize)]="pageSize"
-                [(nzPageIndex)]='pageIndex'
-                [nzLoading]="loading"
-                (nzPageIndexChange)="searchData()"
-                (nzPageSizeChange)="searchData(true)"
-        >
+        <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
+            [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+            [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
             <thead>
-            <tr>
-                <th>Service Instance Id</th>
-                <th>Service Instance Name</th>
-                <th>Service Type</th>
-                <th>S-NSSAI</th>
-                <th>Status</th>
-                <th width="130px">Aciton</th>
-                <th width="100px">Detail</th>
-            </tr>
+                <tr>
+                    <th>Service Instance Id</th>
+                    <th>Service Instance Name</th>
+                    <th>Service Type</th>
+                    <th>S-NSSAI</th>
+                    <th>Status</th>
+                    <th width="130px">Aciton</th>
+                    <th width="100px">Detail</th>
+                </tr>
             </thead>
             <tbody>
-            <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
-                <tr>
-                    <td>{{ data.service_instance_id }}</td>
-                    <td>{{ data.service_instance_name }}</td>
-                    <td>{{ data.service_type }}</td>
-                    <td>{{ data.service_snssai }}</td>
-                    <td>
+                <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+                    <tr>
+                        <td>{{ data.service_instance_id }}</td>
+                        <td>{{ data.service_instance_name }}</td>
+                        <td>{{ data.service_type }}</td>
+                        <td>{{ data.service_snssai }}</td>
+                        <td>
 
-                        <span  class="marginLeft10">
-                                 {{ data.last_operation_progress !== 100?data.last_operation_type+'&nbsp;&nbsp;&nbsp;'+data.last_operation_progress+'%':data.orchestration_status }}
-                        </span>
-                        <nz-progress *ngIf="data.last_operation_progress !== 100"
-                                     [nzPercent]="data.last_operation_progress"
-                                     [nzShowInfo]="false" nzStatus="active"></nz-progress>
-                    </td>
-                    <td>
-                        <nz-switch [ngModel]="data.orchestration_status==='activated'?true:false"
-                                   [nzDisabled]="data.last_operation_progress !== 100"
-                                   (ngModelChange)="switchChange(data,i)"
-                        ></nz-switch>
-                        <i [ngClass]="{'cannotclick':data.last_operation_progress !== 100}"
-                           nz-icon
-                           nzType="poweroff"
-                           nzTheme="outline"
-                           class="anticon anticon-poweroff"
-                           (click)="terminate(data)"
-                        ></i>
-                    </td>
-                    <td>
-                        <!--<i [ngClass]="{'cannotclick':data.last_operation_progress !== 100}"-->
-                           <!--class="anticon anticon-bars"-->
-                           <!--(click)="showdetail(data)">-->
-                        <!--</i>-->
-                        <a (click)="showdetail(data)" [ngClass]="{'cannotclick':data.last_operation_progress !== 100}">detail</a>
-                    </td>
-                </tr>
-            </ng-template>
+                            <span class="marginLeft10">
+                                {{ data.last_operation_progress !== 100?data.last_operation_type+'&nbsp;&nbsp;&nbsp;'+data.last_operation_progress+'%':data.orchestration_status }}
+                            </span>
+                            <nz-progress *ngIf="data.last_operation_progress !== 100"
+                                [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
+                            </nz-progress>
+                        </td>
+                        <td>
+                            <nz-switch [ngModel]="data.orchestration_status==='activated'?true:false"
+                                [nzDisabled]="data.last_operation_progress !== 100"
+                                (ngModelChange)="switchChange(data,i)"></nz-switch>
+                            <i [ngClass]="{'cannotclick':data.last_operation_progress !== 100}" nz-icon
+                                nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
+                                (click)="terminate(data)"></i>
+                        </td>
+                        <td>
+                            <!--<i [ngClass]="{'cannotclick':data.last_operation_progress !== 100}"-->
+                            <!--class="anticon anticon-bars"-->
+                            <!--(click)="showdetail(data)">-->
+                            <!--</i>-->
+                            <a (click)="showdetail(data)"
+                                [ngClass]="{'cannotclick':data.last_operation_progress !== 100}">View Detail</a>
+                        </td>
+                    </tr>
+                </ng-template>
             </tbody>
         </nz-table>
     </div>

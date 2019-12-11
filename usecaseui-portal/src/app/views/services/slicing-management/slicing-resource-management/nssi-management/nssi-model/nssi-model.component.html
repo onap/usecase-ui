@@ -1,34 +1,28 @@
 <nz-spin [nzSpinning]="isSpinning">
-    <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Carry Slicing Nsi List :'" [nzFooter]="null">
-  <nz-table
-          #nssiTable
-          [nzData]="nsiList"
-          [nzShowPagination]="false"
-          nzHideOnSinglePage
-                class="model-table-padding"
-  >
-    <thead>
-    <tr>
-      <th>Service Instance Id</th>
-      <th>Service Instance Name</th>
-      <th>Service Type</th>
-      <th>Status</th>
-      <th width="100px">Detail</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-template ngFor let-data [ngForOf]="nssiTable.data" let-i="index">
-      <tr>
-        <td>{{ data.service_instance_id }}</td>
-        <td>{{ data.service_instance_name }}</td>
-        <td>{{ data.service_type }}</td>
-        <td>{{ data.orchestration_status }}</td>
-        <td>
-          <a (click)="showSingleNsiDetail(data)">detail</a>
-        </td>
-      </tr>
-    </ng-template>
-    </tbody>
-  </nz-table>
-</nz-list>
+  <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Related Slicing Nsi List :'" [nzFooter]="null">
+    <nz-table #nssiTable [nzData]="nsiList" [nzShowPagination]="false" nzHideOnSinglePage class="model-table-padding">
+      <thead>
+        <tr>
+          <th>Service Instance Id</th>
+          <th>Service Instance Name</th>
+          <th>Service Type</th>
+          <th>Status</th>
+          <th width="100px">Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="nssiTable.data" let-i="index">
+          <tr>
+            <td>{{ data.service_instance_id }}</td>
+            <td>{{ data.service_instance_name }}</td>
+            <td>{{ data.service_type }}</td>
+            <td>{{ data.orchestration_status }}</td>
+            <td>
+              <a (click)="showSingleNsiDetail(data)">View Detail</a>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+  </nz-list>
 </nz-spin>
