@@ -3,48 +3,38 @@
     <div nz-col nzSpan="12" class="task_status">
       <span>Status : </span>
       <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue"
-                 (ngModelChange)="getListOfProcessingStatus()">
+        (ngModelChange)="getListOfProcessingStatus()">
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
       </nz-select>
     </div>
   </div>
   <div class="slicing-resource-table-list">
-    <nz-table
-            #nsiTable
-            [nzData]="listOfData"
-            [nzFrontPagination]="false"
-            nzShowSizeChanger
-            [nzPageSizeOptions]="[5,10,15,20]"
-            [nzTotal]='total'
-            [(nzPageSize)]="pageSize"
-            [(nzPageIndex)]='pageIndex'
-            [nzLoading]="loading"
-            (nzPageIndexChange)="searchData()"
-            (nzPageSizeChange)="searchData(true)"
-    >
+    <nz-table #nsiTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
+      [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+      [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
       <thead>
-      <tr>
-        <th>Service Instance Id</th>
-        <th>Service Instance Name</th>
-        <th>Service Type</th>
-        <th>Environment Context</th>
-        <th>Status</th>
-        <th width="140px">Detail</th>
-      </tr>
+        <tr>
+          <th>Service Instance Id</th>
+          <th>Service Instance Name</th>
+          <th>Service Type</th>
+          <th>Environment Context</th>
+          <th>Status</th>
+          <th width="140px">Detail</th>
+        </tr>
       </thead>
       <tbody>
-      <ng-template ngFor let-data [ngForOf]="nsiTable.data" let-i="index">
-        <tr>
-          <td>{{ data.service_instance_id }}</td>
-          <td>{{ data.service_instance_name }}</td>
-          <td>{{ data.service_type }}</td>
-          <td>{{data.environment_context}}</td>
-          <td>{{data.orchestration_status}}</td>
-          <td>
-            <a (click)="showdetail(data)">detail</a>
-          </td>
-        </tr>
-      </ng-template>
+        <ng-template ngFor let-data [ngForOf]="nsiTable.data" let-i="index">
+          <tr>
+            <td>{{ data.service_instance_id }}</td>
+            <td>{{ data.service_instance_name }}</td>
+            <td>{{ data.service_type }}</td>
+            <td>{{data.environment_context}}</td>
+            <td>{{data.orchestration_status}}</td>
+            <td>
+              <a (click)="showdetail(data)">View Detail</a>
+            </td>
+          </tr>
+        </ng-template>
       </tbody>
     </nz-table>
   </div>
