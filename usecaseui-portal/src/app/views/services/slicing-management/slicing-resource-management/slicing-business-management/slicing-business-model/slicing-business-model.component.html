@@ -2,8 +2,13 @@
     <app-basic-info [businessRequirement]="businessRequirement" [NSTinfo]="NSTinfo" [taskModel]="taskModel">
     </app-basic-info>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Slicing NSI :'" [nzFooter]="null">
-        <nz-table #basicTable [nzData]="nsiInfo" [nzShowPagination]="false" nzHideOnSinglePage
-            class="model-table-padding">
+    <nz-table
+            #basicTable
+            [nzData]="nsiInfo"
+            [nzShowPagination]="false"
+            nzHideOnSinglePage
+                class="model-table-padding"
+    >
             <thead>
                 <tr>
                     <th>Service Instance Id</th>

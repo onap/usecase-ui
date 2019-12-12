@@ -9,9 +9,19 @@
         </div>
     </div>
     <div class="slicing-resource-table-list">
-        <nz-table #nssiTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
-            [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-            [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+        <nz-table
+                #nssiTable
+                [nzData]="listOfData"
+                [nzFrontPagination]="false"
+                nzShowSizeChanger
+                [nzPageSizeOptions]="[5,10,15,20]"
+                [nzTotal]='total'
+                [(nzPageSize)]="pageSize"
+                [(nzPageIndex)]='pageIndex'
+                [nzLoading]="loading"
+                (nzPageIndexChange)="searchData()"
+                (nzPageSizeChange)="searchData(true)"
+        >
             <thead>
                 <tr>
                     <th>Service Instance Id</th>

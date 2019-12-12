@@ -1,6 +1,12 @@
 <nz-spin [nzSpinning]="isSpinning">
   <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Related Slicing Nsi List :'" [nzFooter]="null">
-    <nz-table #nssiTable [nzData]="nsiList" [nzShowPagination]="false" nzHideOnSinglePage class="model-table-padding">
+  <nz-table
+          #nssiTable
+          [nzData]="nsiList"
+          [nzShowPagination]="false"
+          nzHideOnSinglePage
+                class="model-table-padding"
+  >
       <thead>
         <tr>
           <th>Service Instance Id</th>

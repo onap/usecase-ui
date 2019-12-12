@@ -33,6 +33,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
     progressingTimer :any[] = [];
+    terminateStart :boolean = false;
     @ViewChild('notification') notification1: any;
 
     getBusinessList (): void{
@@ -61,7 +62,6 @@ export class SlicingBusinessTableComponent implements OnInit {
                         };
                         this.queryProgress(obj, updata).then((res) => {
                             item.last_operation_progress = 100;
-                            item.orchestration_status = item.last_operation_type === 'activate'?'activated':item.last_operation_type === 'deactivated'?'deactivated':'terminated';
                         })
                     }
                     return item
@@ -135,6 +135,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                 let paramsObj = {
                     serviceId:slicing.service_instance_id
                 };
+                this.terminateStart = true;
                 this.myhttp.terminateSlicingService(paramsObj).subscribe (res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
                     if (+result_code === 200) {
@@ -150,12 +151,14 @@ export class SlicingBusinessTableComponent implements OnInit {
                         };
                         this.queryProgress(obj, updata).then(() => {
                             slicing.last_operation_progress = 100;
-                            slicing.orchestration_status = "terminated";
+                            slicing.orchestration_status = "delete";
                             this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
+                            this.terminateStart = false;
                             this.getBusinessList();
                         })
                     }else {
                         this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
+                        this.terminateStart = false;
                         console.error(result_message)
                     }
                 })
