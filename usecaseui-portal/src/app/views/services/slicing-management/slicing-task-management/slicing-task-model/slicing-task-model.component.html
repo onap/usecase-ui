@@ -1,4 +1,4 @@
-<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" [nzFooter]="modalFooter">
+<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" [nzFooter]="modalFooter"  (nzOnCancel)="handleCancel()">
   <nz-spin [nzSpinning]="isSpinning">
     <app-basic-info
       [checkDetail]="checkDetail"
