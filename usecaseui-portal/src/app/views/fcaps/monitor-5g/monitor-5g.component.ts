@@ -79,13 +79,15 @@ export class Monitor5gComponent implements OnInit {
         if (this.selectDate !== 0) {
             time = this.selectDate
         }
-        const service_list = [];
+        const requestBody = {
+            service_list:[]
+        };
         this.listOfData.forEach(item => {
-            service_list.push({ service_id: item.service_instance_id });
+            requestBody.service_list.push({ service_id: item.service_instance_id });
         });
-        this.fetchTrafficData(service_list, time);
-        this.fetchOnlineusersData(service_list, time);
-        this.fetchBandwidthData(service_list, time);
+        this.fetchTrafficData(requestBody, time);
+        this.fetchOnlineusersData(requestBody, time);
+        this.fetchBandwidthData(requestBody, time);
     }
     fetchTrafficData(service_list, time) {
         this.myhttp.getFetchTraffic(service_list, time).subscribe(res => {
