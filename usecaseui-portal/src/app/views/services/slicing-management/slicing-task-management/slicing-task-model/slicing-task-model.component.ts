@@ -11,7 +11,7 @@ export class SlicingTaskModelComponent implements OnInit {
   @Input() showDetail: boolean;
   @Input() moduleTitle: string;
   @Input() taskId: string;
-  @Output() cancel = new EventEmitter<boolean>();
+  @Output() cancel = new EventEmitter<object>();
   @ViewChild('notification') notification1: any;
 
   constructor(private http: SlicingTaskServices, private message: NzMessageService) { }
@@ -72,6 +72,7 @@ export class SlicingTaskModelComponent implements OnInit {
   params: any;
   // 获取数据loading
   isSpinning: boolean = false;
+  loading: boolean = false;
   
 
   ngOnInit() { }
@@ -333,11 +334,12 @@ export class SlicingTaskModelComponent implements OnInit {
     this.slicingSubnet[index].params = params
   }
 
-  handleCancel() {
+  handleCancel(bool: boolean = false) {
     this.showDetail = false;
-    this.cancel.emit(this.showDetail);
+    this.cancel.emit({showDetail: this.showDetail, bool});
   }
   handleOk() {
+    this.loading = true;
     const { selectedServiceId, selectedServiceName, slicingSubnet, checkDetail, businessRequirement, NSTinfo } = this;
     const nsi_nssi_info: object = {
       suggest_nsi_id:  selectedServiceId,
@@ -355,15 +357,16 @@ export class SlicingTaskModelComponent implements OnInit {
     delete businessRequirement[0].area
     let reqBody = {...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info};
     delete reqBody.service_snssai;
-    this.notification1.notificationStart('Task', 'Sumbit', this.taskId)
+    // this.notification1.notificationStart('Task', 'Sumbit', this.taskId)
     this.http.submitSlicing(reqBody).subscribe (res => {
       const { result_header: { result_code } } = res;
       if (+result_code === 200) {
-        this.handleCancel();
         this.notification1.notificationSuccess('Task', 'Sumbit', this.taskId)
       } else {
         this.notification1.notificationFailed('Task', 'Sumbit', this.taskId)
       }
+      this.loading = false;
+      this.handleCancel(true);
     })
   }
 }

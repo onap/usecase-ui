@@ -123,4 +123,15 @@ export class SlicingTaskManagementComponent implements OnInit {
       this.showProcess = true;
     }
   }
+
+  handelCancel(obj: any):void {
+    this.showDetail = obj.showDetail;
+    if (obj.bool) {
+      if (this.selectedValue && this.selectedValue !== 'all') {
+        this.getListOfProcessingStatus();
+      } else {
+        this.getTaskList();
+      }
+    }
+  }
 }

@@ -1,5 +1,4 @@
-<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
+<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" [nzFooter]="modalFooter">
   <nz-spin [nzSpinning]="isSpinning">
     <app-basic-info
       [checkDetail]="checkDetail"
@@ -87,9 +86,12 @@
         </nz-list-item>
       </nz-list>
     </div>
-
   </nz-spin>
 </nz-modal>
+<ng-template #modalFooter>
+  <button nz-button (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" [nzLoading]='loading' (click)="handleOk()">OK</button>
+</ng-template>
 <app-subnet-params-model 
   [showModel]="isShowParams" 
   [detailData]="params" 
