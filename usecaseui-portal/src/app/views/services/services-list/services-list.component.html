@@ -246,29 +246,29 @@
                             *ngIf="thisCreateService.status == 'Failed'">
                     </span>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">
-                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
+                        *ngIf="(createData['commonParams']['templateType'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">
+                        {{ createData['commonParams']['templateType'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
                         translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Successful'">
+                        *ngIf="(createData['commonParams']['templateType'] == 'E2E Service') && thisCreateService.status == 'Successful'">
                         E2E &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Successful'">
+                        *ngIf="(createData['commonParams']['templateType'] == 'Network Service') && thisCreateService.status == 'Successful'">
                         NS &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Failed'">
-                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
+                        *ngIf="(createData['commonParams']['templateType'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Failed'">
+                        {{ createData['commonParams']['templateType'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
                         translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'E2E Service') && thisCreateService.status == 'Failed'">
+                        *ngIf="(createData['commonParams']['templateType'] == 'E2E Service') && thisCreateService.status == 'Failed'">
                         E2E &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'Network Service') && thisCreateService.status == 'Failed'">
+                        *ngIf="(createData['commonParams']['templateType'] == 'Network Service') && thisCreateService.status == 'Failed'">
                         NS &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
                     </div>
                     <div class="ant-notification-notice-description">

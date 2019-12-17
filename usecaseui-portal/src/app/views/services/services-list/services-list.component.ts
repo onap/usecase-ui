@@ -517,14 +517,14 @@ export class ServicesListComponent implements OnInit {
 
         let createParams = "?customerId=" + this.createData['commonParams'].customer.id +
             "&serviceType=" + this.createData['commonParams'].serviceType.name +
-            "&serviceDomain=" + this.templateTypeSelected;
+            "&serviceDomain=" + this.createData['commonParams'].templateType;
         this.createService(obj, createParams, templateCreatestarting, templateCreateSuccessFaild).then((data) => {
             console.log(data);
             this.loadingAnimateShow = false;
             newData = {  //Newly created service data in the main form
                 'service-instance-id': data["serviceId"],
                 'service-instance-name': obj.service.name,
-                serviceDomain: this.templateTypeSelected,
+                serviceDomain: this.createData['commonParams'].templateType,
                 childServiceInstances: [],
                 status: "In Progress",
                 rate: 0,
@@ -582,7 +582,7 @@ export class ServicesListComponent implements OnInit {
         let newData; //
         let createParams = "?customerId=" + this.customerSelected.id +
             "&serviceType=" + this.createData['commonParams'].serviceType.name +
-            "&serviceDomain=" + this.templateTypeSelected +
+            "&serviceDomain=" + this.createData['commonParams'].templateType +
             "&parentServiceInstanceId=" +
             "&uuid=" + obj.service.serviceUuid +
             "&invariantUuuid=" + obj.service.serviceInvariantUuid;
@@ -592,7 +592,7 @@ export class ServicesListComponent implements OnInit {
             newData = {  //
                 'service-instance-id': data["serviceId"],
                 'service-instance-name': obj.service.name,
-                serviceDomain: this.templateTypeSelected,
+                serviceDomain: this.createData['commonParams'].templateType,
                 childServiceInstances: [],
                 status: "In Progress",
                 statusClass: 1001,
@@ -657,7 +657,7 @@ export class ServicesListComponent implements OnInit {
                 newData = {  //
                     'service-instance-id': data.nsInstanceId,
                     'service-instance-name': obj.step1.nsName,
-                    serviceDomain: this.templateTypeSelected,
+                    serviceDomain: this.createData['commonParams'].templateType,
                     childServiceInstances: [],
                     status: "In Progress",
                     statusClass: 1001,
@@ -676,7 +676,7 @@ export class ServicesListComponent implements OnInit {
                 let createParams = "?ns_instance_id=" + data.nsInstanceId +
                     "&customerId=" + this.createData['commonParams'].customer.id +
                     "&serviceType=" + this.createData['commonParams'].serviceType.name +
-                    "&serviceDomain=" + this.templateTypeSelected +
+                    "&serviceDomain=" + this.createData['commonParams'].templateType +
                     "&parentServiceInstanceId=";
                 // step2
                 this.createNsService(createParams, obj.step2).then((jobid) => {
