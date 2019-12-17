@@ -53,11 +53,8 @@ export class ServicesListComponent implements OnInit {
     orchestratorList = [];
     customerList = [];
     customerSelected = { name: null, id: null };
-    customerSelected2 = { name: null, id: null };
     serviceTypeList = [];
     serviceTypeSelected = { name: '' };
-    serviceTypeSelected2 = { name: '' };
-    serviceTypeSelectedName = "";
     templateTypeSelected = "CCVPN";
     orchestratorSelected = { name: null, id: null };
     listSortMasters = JSON.parse(sessionStorage.getItem('listSortMasters'));
@@ -167,7 +164,7 @@ export class ServicesListComponent implements OnInit {
 
     createdModalShow(obj: any): void{
         this.createData = obj.createData;
-        console.log(obj.createData)
+        console.log(obj,"------obj.createData")
         if (obj.templateType === "SOTN" || obj.templateType === "CCVPN") {
             this.ccvpn_temParametersContent = obj.data;
             this.createshow = true;
@@ -518,8 +515,8 @@ export class ServicesListComponent implements OnInit {
         console.log(obj);
         let newData; //Newly created service data for the main table
 
-        let createParams = "?customerId=" + this.customerSelected2.id +
-            "&serviceType=" + this.serviceTypeSelected2.name +
+        let createParams = "?customerId=" + this.createData['commonParams'].customer.id +
+            "&serviceType=" + this.createData['commonParams'].serviceType.name +
             "&serviceDomain=" + this.templateTypeSelected;
         this.createService(obj, createParams, templateCreatestarting, templateCreateSuccessFaild).then((data) => {
             console.log(data);
@@ -584,7 +581,7 @@ export class ServicesListComponent implements OnInit {
         console.log(obj);
         let newData; //
         let createParams = "?customerId=" + this.customerSelected.id +
-            "&serviceType=" + this.serviceTypeSelected2.name +
+            "&serviceType=" + this.createData['commonParams'].serviceType.name +
             "&serviceDomain=" + this.templateTypeSelected +
             "&parentServiceInstanceId=" +
             "&uuid=" + obj.service.serviceUuid +
@@ -677,8 +674,8 @@ export class ServicesListComponent implements OnInit {
                     return false;
                 }
                 let createParams = "?ns_instance_id=" + data.nsInstanceId +
-                    "&customerId=" + this.customerSelected2.id +
-                    "&serviceType=" + this.serviceTypeSelected2.name +
+                    "&customerId=" + this.createData['commonParams'].customer.id +
+                    "&serviceType=" + this.createData['commonParams'].serviceType.name +
                     "&serviceDomain=" + this.templateTypeSelected +
                     "&parentServiceInstanceId=";
                 // step2
