@@ -87,9 +87,6 @@ import { SlicingManagementComponent } from './views/services/slicing-management/
 import { SlicingTaskManagementComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-management.component';
 import { SlicingResourceManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-resource-management.component';
 import { SlicingTaskModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component';
-import { SlicingBusinessManagementComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-management.component'
-import { NsiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-management.component'
-import { NssiManagementComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-management.component';
 import { SubnetParamsModelComponent } from './views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component';
 import { SlicingBusinessTableComponent } from './views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-table/slicing-business-table.component'
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
@@ -151,9 +148,6 @@ import { NssiModelComponent } from './views/services/slicing-management/slicing-
     SlicingTaskManagementComponent,
     SlicingResourceManagementComponent,
     SlicingTaskModelComponent,
-    SlicingBusinessManagementComponent,
-    NsiManagementComponent,
-    NssiManagementComponent,
     SubnetParamsModelComponent,
     SlicingBusinessTableComponent,
     BasicInfoComponent,
