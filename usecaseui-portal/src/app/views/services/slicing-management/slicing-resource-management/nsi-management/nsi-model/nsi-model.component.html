@@ -7,8 +7,8 @@
           <th>Service Instance Id</th>
           <th>Service Instance Name</th>
           <th>Service Type</th>
-          <th>S-NSSAI</th>
-          <th>Status</th>
+          <th width="90px">S-NSSAI</th>
+          <th width="110px">Status</th>
           <th width="110px">Detail</th>
         </tr>
       </thead>
@@ -28,15 +28,15 @@
       </tbody>
     </nz-table>
   </nz-list>
-  <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Related Slicing NSSI List ：'" [nzFooter]="null">
+  <nz-list class="taskmodel_list taskmodel_list-margin" nzBordered [nzHeader]="'Related Slicing NSSI List ：'" [nzFooter]="null">
     <nz-table #nssiTable [nzData]="nssiList" [nzShowPagination]="false" nzHideOnSinglePage class="model-table-padding">
       <thead>
         <tr>
           <th>Service Instance Id</th>
           <th>Service Instance Name</th>
           <th>Service Type</th>
-          <th>Environment Context</th>
-          <th>Status</th>
+          <th width="85px">Context</th>
+          <th width="110px">Status</th>
           <th width="110px">Detail</th>
         </tr>
       </thead>

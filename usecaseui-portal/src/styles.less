@@ -828,13 +828,31 @@ nz-notification-container .ant-notification{
 }
 .slicing-resource-table-list{
   padding: 0 20px 0 0!important;
+  nz-table{
+    .ant-table-wrapper{
+      .ant-table-body{
+        th,td{
+          word-break: break-word!important;
+        }
+      }
+    }
+  }
 }
 .taskmodel_list{
   margin-bottom: 20px;
-}
-
-.taskmodel_list {
-  margin-bottom: 20px;
+  nz-table{
+    .ant-table-wrapper{
+      .ant-table-body{
+        th,td{
+          word-break: break-word!important;
+        }
+      }
+    }
+  }
+  .ant-list-header{
+    font-weight: 600;
+    color: #000000!important;
+  }
 }
 
 .model-table-padding {
