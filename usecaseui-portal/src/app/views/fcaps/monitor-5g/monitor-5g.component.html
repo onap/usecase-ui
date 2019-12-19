@@ -15,16 +15,25 @@
     </div>
     <div nz-row nzType="flex" class="charts">
         <div nz-col nzSpan="6" class="gutter-row col-boxshadow">
-            <h4>Slicing Use Traffic</h4>
-            <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>
+            <nz-spin [nzSpinning]="isSpinningTraffic">
+                <h4>Slicing Use Traffic</h4>
+                <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>
+                <div *ngIf="!isSpinningTraffic && trafficData.length === 0" class="nodata">NO Data</div>
+            </nz-spin>
         </div>
         <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
-            <h4>Number Of Online Users</h4>
-            <app-line [initData]="onlineuserChartInit" [chartData]="onlineuserChartData"></app-line>
+            <nz-spin [nzSpinning]="isSpinningOnlineuser">
+                <h4>Number Of Online Users</h4>
+                <app-line [initData]="onlineuserChartInit" [chartData]="onlineuserChartData"></app-line>
+                <div *ngIf="!isSpinningOnlineuser && onlineusersData.length === 0" class="nodata">NO Data</div>
+            </nz-spin>
         </div>
         <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
-            <h4>Slicing Total Bandwidth</h4>
-            <app-line [initData]="bandwidthChartInit" [chartData]="bandwidthChartData"></app-line>
+            <nz-spin [nzSpinning]="isSpinningBandwidth">
+                <h4>Slicing Total Bandwidth</h4>
+                <app-line [initData]="bandwidthChartInit" [chartData]="bandwidthChartData"></app-line>
+                <div *ngIf="!isSpinningBandwidth && bandwidthData.length === 0" class="nodata">NO Data</div>
+            </nz-spin>
         </div>
     </div>
     <div class="slicing-resource-table">

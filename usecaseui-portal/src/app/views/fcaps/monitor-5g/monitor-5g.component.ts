@@ -19,6 +19,9 @@ export class Monitor5gComponent implements OnInit {
     total: number = 0;
     loading = false;
     selectDate: number = 0;
+    isSpinningTraffic: boolean =true;
+    isSpinningOnlineuser: boolean =true;
+    isSpinningBandwidth: boolean =true;
 
     trafficData: any[] = [];
     trafficLegend: any[] = [];
@@ -83,7 +86,7 @@ export class Monitor5gComponent implements OnInit {
             service_list:[]
         };
         this.listOfData.forEach(item => {
-            requestBody.service_list.push({ service_id: item.service_instance_id });
+            requestBody.service_list.push({ service_id: item.service_snssai });
         });
         this.fetchTrafficData(requestBody, time);
         this.fetchOnlineusersData(requestBody, time);
@@ -91,6 +94,7 @@ export class Monitor5gComponent implements OnInit {
     }
     fetchTrafficData(service_list, time) {
         this.myhttp.getFetchTraffic(service_list, time).subscribe(res => {
+            this.isSpinningTraffic = false;
             const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
             if (+result_code === 200 && slicing_usage_traffic_list.length > 0) {
                 this.trafficData = [];
@@ -123,6 +127,7 @@ export class Monitor5gComponent implements OnInit {
     }
     fetchOnlineusersData(service_list, time) {
         this.myhttp.getFetchOnlineusers(service_list, time).subscribe(res => {
+            this.isSpinningOnlineuser = false;
             const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
             if (+result_code === 200) {
                 this.onlineuserXAxis = [];
@@ -155,6 +160,7 @@ export class Monitor5gComponent implements OnInit {
     }
     fetchBandwidthData(service_list, time) {
         this.myhttp.getFetchBandwidth(service_list, time).subscribe(res => {
+            this.isSpinningBandwidth = false;
             const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
             if (+result_code === 200) {
                 this.bandwidthXAxis = [];
