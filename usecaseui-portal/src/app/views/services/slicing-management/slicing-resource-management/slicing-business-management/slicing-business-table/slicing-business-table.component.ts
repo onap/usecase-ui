@@ -23,6 +23,7 @@ export class SlicingBusinessTableComponent implements OnInit {
         this.progressingTimer.forEach((item) => {
             clearInterval(item.timer);
         })
+        this.progressingTimer = [];
     }
     selectedValue:string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
@@ -72,9 +73,17 @@ export class SlicingBusinessTableComponent implements OnInit {
     getListOfProcessingStatus(){
         this.pageIndex = 1;
         this.pageSize = 10;
+        this.progressingTimer.forEach((item) => {
+            clearInterval(item.timer);
+        });
+        this.progressingTimer = [];
         this.getBusinessList();
     }
     searchData(reset: boolean = false) {
+        this.progressingTimer.forEach((item) => {
+            clearInterval(item.timer);
+        });
+        this.progressingTimer = [];
         this.getBusinessList();
     }
     switchChange(slicing,i){

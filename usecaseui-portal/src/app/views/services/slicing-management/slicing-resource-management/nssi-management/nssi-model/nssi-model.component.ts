@@ -22,9 +22,9 @@ export class NssiModelComponent implements OnInit {
   }
     getNssiDetail(){
         this.myhttp.getSlicingNssiDetail(this.nssiId).subscribe(res => {
+            this.isSpinning = false;
             const {result_header: {result_code}, result_body: {hosted_nsi_list} } = res;
             if (+result_code === 200) {
-                this.isSpinning = false;
                 this.nsiList = hosted_nsi_list;
             }
         })

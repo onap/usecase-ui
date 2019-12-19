@@ -29,9 +29,9 @@ export class SlicingBusinessModelComponent implements OnInit {
 
     getDetail() {
         this.myhttp.getSlicingBusinessDetail(this.businessId).subscribe(res => {
+            this.isSpinning = false;
             const { result_body, result_header: { result_code } } = res;
             if (+result_code === 200) {
-                this.isSpinning = false;
                 const {business_demand_info,business_demand_info: { coverage_area_ta_list },nst_info,nsi_info}  = result_body;
                 business_demand_info.area = coverage_area_ta_list.map(item => {
                     item = item.split(';').join('-');
@@ -52,7 +52,7 @@ export class SlicingBusinessModelComponent implements OnInit {
             nzOkText: null,
             nzCancelText: null,
             nzComponentParams:{
-                businessId:data.nsi_id
+                nsiId:data.nsi_id
             }
         });
     }
