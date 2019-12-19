@@ -86,7 +86,9 @@ export class Monitor5gComponent implements OnInit {
             service_list:[]
         };
         this.listOfData.forEach(item => {
-            requestBody.service_list.push({ service_id: item.service_snssai });
+            if(item.service_snssai !==null && item.service_snssai!==undefined){
+                requestBody.service_list.push({ service_id: item.service_snssai });
+            }
         });
         this.fetchTrafficData(requestBody, time);
         this.fetchOnlineusersData(requestBody, time);
