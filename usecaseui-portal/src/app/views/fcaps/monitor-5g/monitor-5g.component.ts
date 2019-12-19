@@ -109,6 +109,7 @@ export class Monitor5gComponent implements OnInit {
                 this.trafficChartData = {
                     legend: {
                         orient: 'vertical',
+                        type: 'scroll',
                         left: '0px',
                         bottom: '0px',
                         itemWidth: 10,
@@ -148,6 +149,7 @@ export class Monitor5gComponent implements OnInit {
                 this.onlineuserChartData = {
                     legend: {
                         bottom: '0px',
+                        type: 'scroll',
                         data: this.onlineuserLegend
                     },
                     xAxis: {
@@ -181,6 +183,7 @@ export class Monitor5gComponent implements OnInit {
                 this.bandwidthChartData = {
                     legend: {
                         bottom: '0px',
+                        type: 'scroll',
                         data: this.bandwidthLegend
                     },
                     xAxis: {

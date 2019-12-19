@@ -7,6 +7,7 @@ export const pieChartconfig = {
         },
         legend: {
             orient: 'vertical',
+            type: 'scroll',
             left: '0px',
             bottom: '0px',
             itemWidth: 10,
@@ -37,8 +38,21 @@ export const pieChartconfig = {
 export const lineChartconfig = {
     height: 320,
     option: {
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": {
+                "type": "line",
+                textStyle: {
+                    color: "#fff"
+                },
+                lineStyle: {
+                    color: '#ccc'
+                }
+            },
+        },
         legend: {
             bottom: '0px',
+            type: 'scroll',
             data: []
         },
         xAxis: {
