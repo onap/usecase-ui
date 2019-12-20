@@ -105,7 +105,7 @@ export class SlicingTaskManagementComponent implements OnInit {
           // item.status = '规划阶段';
           item.operation = 'Process Task'
           break;
-        case 'WaitingToConfirm':
+        case 'Waiting to Confirm':
           // item.status = '审核阶段';
           item.operation = 'Process Task'
           break;
