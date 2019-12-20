@@ -61,10 +61,15 @@ export class CheckProcessModelComponent implements OnInit {
 				this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
 				// 业务需求信息数据
 				business_demand_info.area = coverage_area_ta_list.map(item => {
-					item = item.split(';').join('-')
+					item = item.split(';').join(' - ')
 					return item
 				})
-				this.businessRequirement = [business_demand_info];
+				// 前端模拟数据
+				let area = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"].map(item => {
+					item = item.split(';').join(' - ')
+					return item
+				})
+				this.businessRequirement = [{...business_demand_info, area}];
 				// 匹配NST信息
 				this.NSTinfo = [nst_info];
 			} else {
