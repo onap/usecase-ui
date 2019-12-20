@@ -7,7 +7,10 @@
     >
     </app-basic-info>
     <div>
-      <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Matching Shared NSI: '" [nzFooter]="null" *ngIf="slicingInstances">
+      <nz-list class="taskmodel_list" nzBordered [nzHeader]="nssiInfoTile" [nzFooter]="null" *ngIf="slicingInstances">
+        <ng-template #nssiInfoTile>
+          <p class="list_title">Matching Shared NSI: </p>
+        </ng-template>
         <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
           <div nz-col nzSpan="12">
             NSI ID：

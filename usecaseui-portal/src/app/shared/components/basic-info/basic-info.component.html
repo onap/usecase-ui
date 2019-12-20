@@ -2,11 +2,14 @@
 	class="taskmodel_list"
 	[nzDataSource]="checkDetail"
 	nzBordered
-	[nzHeader]="'Configuration Audit Detail：'"
+	[nzHeader]="DetailHeader"
 	[nzFooter]="null"
 	*ngIf="taskModel !== false"
 	[nzRenderItem]="checkItem"
 >
+	<ng-template #DetailHeader>
+		<p class="list-title">Configuration Audit Detail：</p>
+	</ng-template>
 	<ng-template #checkItem let-check>
 		<nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
 			<div nz-col nzSpan="10">
@@ -37,10 +40,13 @@
 	class="taskmodel_list"
 	[nzDataSource]="businessRequirement"
 	nzBordered
-	[nzHeader]="'Business Requirement Information：'"
+	[nzHeader]="businessItemTitle"
 	[nzFooter]="null"
 	[nzRenderItem]="businessItem"
 >
+	<ng-template #businessItemTitle>
+		<p class="list-title">Business Requirement Information：</p>
+	</ng-template>
 	<ng-template #businessItem let-item>
 		<nz-list-item
 			nz-row
@@ -72,10 +78,13 @@
 	class="taskmodel_list"
 	[nzDataSource]="NSTinfo"
 	nzBordered
-	[nzHeader]="'Matching NST Information：'"
+	[nzHeader]="nsiInfoTile"
 	[nzFooter]="null"
 	[nzRenderItem]="taskItem"
 >
+	<ng-template #nsiInfoTile>
+		<p class="list-title">Matching NST Information：</p>
+	</ng-template>
 	<ng-template #taskItem let-item>
 		<nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
 			<div nz-col nzSpan="12">

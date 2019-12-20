@@ -12,7 +12,10 @@
 			[NSTinfo]="NSTinfo"
 		>
 		</app-basic-info>
-		<nz-list [nzDataSource]="data" nzBordered nzHeader="Task Detail:" [nzFooter]="null" [nzRenderItem]="defaultItem" >
+		<nz-list [nzDataSource]="data" nzBordered [nzHeader]="processHeader" [nzFooter]="null" [nzRenderItem]="defaultItem" >
+			<ng-template #processHeader>
+				<p class="list-title">Task Detail:</p>
+			</ng-template>
 			<ng-template #defaultItem let-item> 
 				<nz-list-item  nz-row nzType="flex" nzJustify="center" >
 					<nz-steps 
