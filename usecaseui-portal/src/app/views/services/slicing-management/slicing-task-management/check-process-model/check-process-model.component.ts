@@ -91,7 +91,7 @@ export class CheckProcessModelComponent implements OnInit {
 						currentProgress = 2;
 						status = 'finish'
 					}
-					const title = item === 'an_progress'? '无线域': (item === 'tn_progress'? '传输域' : '核心域')
+					const title = item === 'an_progress'? 'An': (item === 'tn_progress'? 'Tn' : 'Cn')
 					let obj = { [item]: result_body[item], currentProgress, title, status };
 					this.data.push(obj)
 				})
@@ -117,9 +117,5 @@ export class CheckProcessModelComponent implements OnInit {
 		this.showProcess = false;
 		this.cancel.emit(this.showProcess)
 	}
-	handleOk() { 
-		this.handleCancel();
-	}
-
 }
  
