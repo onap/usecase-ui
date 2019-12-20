@@ -227,6 +227,7 @@ export class SlicingTaskModelComponent implements OnInit {
 
   slicingInstanceChange ():void {
     this.isDisabled = true;
+    this.selectedServiceName = ''
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe( res => {
       const { result_header: { result_code }, result_body, record_number} = res;
@@ -329,6 +330,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   slicingSubnetChange (instance: any): void {
+    instance.slicingName = ''
     instance.instances.forEach( item => {
       if (instance.slicingId === item.service_instance_id) {
         instance.slicingName = item.service_instance_name; 

@@ -97,7 +97,7 @@ module.exports =
         "/uui-slicing/nsmf/task/:taskId/auditInfo": "/slicing_task_auditInfo",
         "/uui-slicing/nsmf/resource/nsi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nsi_list",
         "/uui-slicing/nsmf/resource/nsi/:nsiId/nssiInstances": "/slicing_subnet_instance",
-        "/uui-slicing/nsmf//resource//nssi/environmentContext/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
+        "/uui-slicing/nsmf/resource/nssi/environmentContext/:environmentContext/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_subnet_context",
         "/uui-slicing/nsmf/task/:taskId/taskCreationInfo": "/slicing_taskCreationInfo",
         "/uui-slicing/nsmf/task/:taskId/taskCreationProgress": "/slicing_taskCreationProgress",
         "/PUT/uui-slicing/nsmf/task/auditInfo": "/PUT_task_auditInfo",
