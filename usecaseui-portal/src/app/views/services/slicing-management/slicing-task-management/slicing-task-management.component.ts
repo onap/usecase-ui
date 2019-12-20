@@ -42,8 +42,8 @@ export class SlicingTaskManagementComponent implements OnInit {
         this.message.error('Failed to get form data');
       }
       this.loading = false;
-    },({status, statusText}) => {
-			this.message.error(status + ' (' + statusText + ')');
+    }, ({ status, statusText }) => {
+      this.message.error(status + ' (' + statusText + ')');
       this.loading = false;
     })
   }
@@ -71,8 +71,8 @@ export class SlicingTaskManagementComponent implements OnInit {
         this.message.error('Failed to get form data');
       }
       this.loading = false;
-    }, ({status, statusText}) => {
-			this.message.error(status + ' (' + statusText + ')');
+    }, ({ status, statusText }) => {
+      this.message.error(status + ' (' + statusText + ')');
       this.listOfData = [];
       this.loading = false;
     })
@@ -109,6 +109,10 @@ export class SlicingTaskManagementComponent implements OnInit {
           // item.status = '审核阶段';
           item.operation = 'Process Task'
           break;
+        case 'WaitingToConfirm':
+          // item.status = '审核阶段';
+          item.operation = 'Process Task'
+          break;
         case 'Creating':
           // item.status = '切片创建中';
           item.operation = 'View Progress'
@@ -125,7 +129,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   showdetail(data: any): void {
     this.taskId = data.task_id;
     this.moduleTitle = data.task_name;
-    if (data.processing_status === 'WaitingToConfirm') {
+    if (data.processing_status === 'Waiting to Confirm' || data.processing_status === 'WaitingToConfirm') {
       this.showDetail = true;
     } else {
       this.moduleOperation = data.operation;
@@ -133,7 +137,7 @@ export class SlicingTaskManagementComponent implements OnInit {
     }
   }
 
-  handelCancel(obj: any):void {
+  handelCancel(obj: any): void {
     this.showDetail = obj.showDetail;
     if (obj.bool) {
       if (this.selectedValue && this.selectedValue !== 'all') {

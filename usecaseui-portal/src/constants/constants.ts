@@ -85,9 +85,9 @@ export const BUSINESS_REQUIREMENT = [
 			key: 'area'
 		},
 	],
-	
-	
-] 
+
+
+]
 
 export const WIRELESS_FORM_ITEMS = [
 	{
@@ -115,7 +115,7 @@ export const TRANSFRER_FORM_ITEMS = [
 	}
 ]
 
-export const CORE_FORM_ITEMS = 	[
+export const CORE_FORM_ITEMS = [
 	{
 		title: 'S-NSSAI',
 		key: 'cn_service_snssai'

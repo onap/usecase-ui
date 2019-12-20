@@ -5,14 +5,13 @@
     },
     "result_body": {
         "record_number": 2,
-        "slicing_task_list": [
-            {
+        "slicing_task_list": [{
                 "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d70a1177",
                 "task_name": "5G Slice service eMMB",
                 "service_snssai": "1-010101",
                 "service_type": "eMMB",
                 "arrival_time": "1454171445000",
-                "processing_status": "Waiting to Confirm"
+                "processing_status": "WaitingToConfirm"
             },
             {
                 "task_id": "b1bb0de7-ebca-4fa7-95ed-4840d7041177",
@@ -20,7 +19,7 @@
                 "service_snssai": "1-010101",
                 "service_type": "eMMB",
                 "arrival_time": "1544471445000",
-                "processing_status": "Waiting to Confirm"
+                "processing_status": "WaitingToConfirm"
             }
         ]
     }
