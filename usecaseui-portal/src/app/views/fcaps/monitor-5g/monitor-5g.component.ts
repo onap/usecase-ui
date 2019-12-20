@@ -102,11 +102,13 @@ export class Monitor5gComponent implements OnInit {
                 this.trafficData = [];
                 this.trafficLegend = [];
                 slicing_usage_traffic_list.forEach((item) => {
-                    this.trafficData.push({
-                        name: item.service_id,
-                        value: item.traffic_data
-                    });
-                    this.trafficLegend.push(item.service_id)
+                    if(item.service_id !==null){
+                        this.trafficData.push({
+                            name: item.service_id,
+                            value: item.traffic_data
+                        });
+                        this.trafficLegend.push(item.service_id)
+                    }
                 });
                 this.trafficChartData = {
                     legend: {
@@ -136,11 +138,13 @@ export class Monitor5gComponent implements OnInit {
                 this.onlineuserXAxis = [];
                 this.onlineusersData = [];
                 this.onlineuserLegend = [];
-                slicing_online_user_list[0].online_user_list.map((key) => {
+                let filterList = [];
+                filterList = this.filterData(slicing_online_user_list);
+                filterList[0].online_user_list.map((key) => {
                     let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
                     this.onlineuserXAxis.push(date)
                 });
-                slicing_online_user_list.forEach((item) => {
+                filterList.forEach((item) => {
                     this.onlineuserLegend.push(item.service_id);
                     this.onlineusersData.push({
                         name: item.service_id,
@@ -170,11 +174,14 @@ export class Monitor5gComponent implements OnInit {
                 this.bandwidthXAxis = [];
                 this.bandwidthData = [];
                 this.bandwidthLegend = [];
-                slicing_total_bandwidth_list[0].total_bandwidth_list.map((key) => {
+                let filterList = [];
+                filterList = this.filterData(slicing_total_bandwidth_list);
+                console.log(filterList,"filterList----slicing_total_bandwidth");
+                filterList[0].total_bandwidth_list.map((key) => {
                     let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
                     this.bandwidthXAxis.push(date)
                 });
-                slicing_total_bandwidth_list.forEach((item) => {
+                filterList.forEach((item) => {
                     this.bandwidthLegend.push(item.service_id);
                     this.bandwidthData.push({
                         name: item.service_id,
@@ -209,5 +216,14 @@ export class Monitor5gComponent implements OnInit {
             datas.push(keys.total_bandwidth)
         })
         return datas
+    }
+    filterData(data){
+        let filter = [];
+        data.map((item,index) => {
+            if(item.service_id !== null){
+                filter.push(item)
+            }
+        });
+        return filter
     }
 }

@@ -34,8 +34,8 @@ export class ServiceListService {
     templateParameters: this.baseUrl + "/uui-lcm/fetchCCVPNTemplateData/*_*",
     e2etemplateParameters: this.baseUrl + "/uui-lcm/service-templates/*_*",//no mock Sample Data json
     nstemplateParameters: this.baseUrl + "/uui-lcm/fetchNsTemplateData",
-    vimInfo: this.baseUrl + "/uui-lcm/locations",
-    sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers",
+    vimInfo: this.baseUrl + "/uui-lcm/locations/",
+    sdnControllers: this.baseUrl + "/uui-lcm/sdnc-controllers/",
     createService: this.baseUrl + "/uui-lcm/services",
     ns_createService: this.baseUrl + "/uui-lcm/createNetworkServiceInstance",
     ns_createService2: this.baseUrl + "/uui-lcm/instantiateNetworkServiceInstance",
