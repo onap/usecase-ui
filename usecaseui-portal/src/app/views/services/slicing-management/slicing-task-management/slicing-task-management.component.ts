@@ -17,6 +17,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   selectedValue = 'all';
   taskId: string;
   moduleTitle: string = "";
+  moduleOperation: string;
   listOfData: any[] = [];
   statusOptions: any[] = TASK_PROCESSING_STATUS;
   loading: boolean = false;
@@ -38,8 +39,11 @@ export class SlicingTaskManagementComponent implements OnInit {
         this.dataFormatting(slicing_task_list);
         this.total = record_number;
       } else {
-        this.message.error('Failed to get form data')
+        this.message.error('Failed to get form data');
       }
+      this.loading = false;
+    },({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
       this.loading = false;
     })
   }
@@ -64,8 +68,12 @@ export class SlicingTaskManagementComponent implements OnInit {
         this.dataFormatting(slicing_task_list)
         this.total = record_number;
       } else {
-        this.message.error('Failed to get form data')
+        this.message.error('Failed to get form data');
       }
+      this.loading = false;
+    }, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+      this.listOfData = [];
       this.loading = false;
     })
   }
@@ -120,6 +128,7 @@ export class SlicingTaskManagementComponent implements OnInit {
     if (data.processing_status === 'Waiting to Confirm') {
       this.showDetail = true;
     } else {
+      this.moduleOperation = data.operation;
       this.showProcess = true;
     }
   }

@@ -178,6 +178,9 @@ export class SlicingTaskModelComponent implements OnInit {
       } else {
         this.message.error('Failed to get data')
       }
+    },({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+      this.isSpinning = false;
     })
   }
 
@@ -214,7 +217,10 @@ export class SlicingTaskModelComponent implements OnInit {
         this.slicingInstances.isLoading = false;
         this.slicingInstances.flag = false;
       },2000)
-
+    }, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+      this.slicingInstances.isLoading = false;
+      this.slicingInstances.flag = false;
     })
   }
 
@@ -229,6 +235,8 @@ export class SlicingTaskModelComponent implements OnInit {
       } else {
         this.message.error('Failed to get slicing subnet instance ID')
       }
+    }, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
     }) 
     this.slicingInstances.list.forEach (item => {
       if (item.service_instance_id === this.selectedServiceId) {
@@ -305,16 +313,18 @@ export class SlicingTaskModelComponent implements OnInit {
         this.slicingSubnet.map (item => {
           if (item.context === context) {
             item.total = record_number;
-            setTimeout(() => {
-              item.instances.push(...nssi_service_instances);
-              item.isLoading = false;
-              item.flag = false;
-            },2000)
+            item.instances.push(...nssi_service_instances);
           }
         })
       } else {
         this.message.error('Failed to get slicing subnet instance ID');
       }
+      instance.isLoading = false;
+      instance.flag = false;
+    }, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+      instance.isLoading = false;
+      instance.flag = false;
     })
   }
 
@@ -365,7 +375,6 @@ export class SlicingTaskModelComponent implements OnInit {
     delete businessRequirement[0].area
     let reqBody = {...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info};
     delete reqBody.service_snssai;
-    // this.notification1.notificationStart('Task', 'Sumbit', this.taskId)
     this.http.submitSlicing(reqBody).subscribe (res => {
       const { result_header: { result_code } } = res;
       if (+result_code === 200) {
@@ -375,6 +384,9 @@ export class SlicingTaskModelComponent implements OnInit {
       }
       this.loading = false;
       this.handleCancel(true);
+    }, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+      this.loading = false;
     })
   }
 }

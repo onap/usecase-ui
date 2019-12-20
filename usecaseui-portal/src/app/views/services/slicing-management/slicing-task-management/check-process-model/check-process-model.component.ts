@@ -12,6 +12,7 @@ export class CheckProcessModelComponent implements OnInit {
 	@Input() moduleTitle: string;
 	@Input() showProcess: boolean;
 	@Input() taskId: string;
+  	@Input() moduleOperation: string;
 
 	@Output() cancel = new EventEmitter<boolean>();
 
@@ -41,11 +42,6 @@ export class CheckProcessModelComponent implements OnInit {
 
 	getInfo(): void {
 		this.http.getSlicingBasicInfo(this.taskId).subscribe(res => {
-			if (this.isGetData) {
-				this.isSpinning = false;
-			} else {
-				this.isGetData = true;
-			}
 			const { result_body, result_header: { result_code } } = res;
 			if (+result_code === 200) {
 				const {
@@ -73,19 +69,26 @@ export class CheckProcessModelComponent implements OnInit {
 				// 匹配NST信息
 				this.NSTinfo = [nst_info];
 			} else {
-				const errorMessage = this.moduleTitle === '切片创建中' ? 'Failed to get data' : 'Viewing results failed';
-				this.message.error(errorMessage)
+				const errorMessage = this.moduleOperation === 'Creating' ? 'Failed to get data' : 'Viewing results failed';
+				this.message.error(errorMessage);
 			}
+			this.isLoadingShow();
+		}, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+			this.isLoadingShow();
 		})
+	}
+
+	isLoadingShow () {
+		if (this.isGetData) {
+			this.isSpinning = false;
+		} else {
+			this.isGetData = true;
+		}
 	}
 
 	getProgress(): void {
 		this.http.getSlicingCreateProgress(this.taskId).subscribe(res => {
-			if (this.isGetData) {
-				this.isSpinning = false;
-			} else {
-				this.isGetData = true;
-			}
 			const { result_body, result_header: { result_code } } = res;
 			if (+result_code === 200) {
 				this.data = [];
@@ -115,6 +118,10 @@ export class CheckProcessModelComponent implements OnInit {
 			} else {
 				this.message.error('Failed to get progress')
 			}
+			this.isLoadingShow();
+		}, ({status, statusText}) => {
+			this.message.error(status + ' (' + statusText + ')');
+			this.isLoadingShow();
 		})
 	}
 
