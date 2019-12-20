@@ -33,7 +33,7 @@ export class CheckProcessModelComponent implements OnInit {
 			this.isSpinning = true;
 			this.getInfo();
 			this.getProgress();
-		}else {
+		} else {
 			clearTimeout(this.timer);
 			this.isGetData = false;
 		}
@@ -81,29 +81,29 @@ export class CheckProcessModelComponent implements OnInit {
 			} else {
 				this.isGetData = true;
 			}
-			const { result_body, result_header: {result_code } } = res;
+			const { result_body, result_header: { result_code } } = res;
 			if (+result_code === 200) {
 				this.data = [];
-				Object.keys(result_body).forEach( item => {
+				Object.keys(result_body).forEach(item => {
 					let currentProgress = 1
 					let status = 'process';
-					if(+result_body[item] === 100){
+					if (+result_body[item] === 100) {
 						currentProgress = 2;
 						status = 'finish'
 					}
-					const title = item === 'an_progress'? 'An': (item === 'tn_progress'? 'Tn' : 'Cn')
+					const title = item === 'an_progress' ? 'An' : (item === 'tn_progress' ? 'Tn' : 'Cn')
 					let obj = { [item]: result_body[item], currentProgress, title, status };
 					this.data.push(obj)
 				})
 				this.data = [this.data];
 				let flag: boolean = false;
-				Object.values(result_body).forEach ( item => {
-					if(item !== 100) {
+				Object.values(result_body).forEach(item => {
+					if (item !== 100) {
 						flag = true;
 					}
 				})
-				if(flag) {
-					this.timer = setTimeout( () => {
+				if (flag) {
+					this.timer = setTimeout(() => {
 						this.getProgress()
 					}, 5000)
 				}
@@ -118,4 +118,3 @@ export class CheckProcessModelComponent implements OnInit {
 		this.cancel.emit(this.showProcess)
 	}
 }
- 

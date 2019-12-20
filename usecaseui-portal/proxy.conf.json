@@ -1,6 +1,6 @@
 {
     "/api/usecaseui-server/v1": {
-        "target": "http://10.15.0.11:8082",
+        "target": "http://192.168.235.56:30280",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true

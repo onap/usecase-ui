@@ -100,7 +100,7 @@ export class SlicingTaskServices {
         return this.http.get<any>(url);
     }
     getSlicingCreateProgress(taskId: string) {
-        const url = this.url.slicingCreateProgress.replace('{taskId', taskId);
+        const url = this.url.slicingCreateProgress.replace('{taskId}', taskId);
         return this.http.get<any>(url);
     }
 
