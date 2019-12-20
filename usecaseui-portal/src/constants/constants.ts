@@ -9,7 +9,7 @@ export const TASK_PROCESSING_STATUS = [
 	},
 	{
 		title: 'Waiting to Confirm',
-		value: 'WaitingtoConfirm'
+		value: 'WaitingToConfirm'
 	},
 	{
 		title: 'Creating',
