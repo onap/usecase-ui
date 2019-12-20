@@ -7,7 +7,7 @@
         "task_id": "b1bb0ce7-ebca-4fa7-95ed-4840d70a1177",
         "task_name": "5G Slice service eMMB",
         "create_time": "1454171445000",
-        "processing_status": "Waiting to Confirm",
+        "processing_status": "WaitingToConfirm",
         "business_demand_info": {
             "service_name": "5G Slice eMMB",
             "service_snssai": "1-010101",

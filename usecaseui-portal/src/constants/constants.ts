@@ -8,7 +8,7 @@ export const TASK_PROCESSING_STATUS = [
 		value: 'Planning'
 	},
 	{
-		title: 'Waiting to Confirm',
+		title: 'WaitingToConfirm',
 		value: 'WaitingToConfirm'
 	},
 	{

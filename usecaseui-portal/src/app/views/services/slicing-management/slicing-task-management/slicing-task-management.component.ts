@@ -105,7 +105,7 @@ export class SlicingTaskManagementComponent implements OnInit {
           // item.status = '规划阶段';
           item.operation = 'Process Task'
           break;
-        case 'Waiting to Confirm':
+        case 'WaitingToConfirm':
           // item.status = '审核阶段';
           item.operation = 'Process Task'
           break;
@@ -125,7 +125,7 @@ export class SlicingTaskManagementComponent implements OnInit {
   showdetail(data: any): void {
     this.taskId = data.task_id;
     this.moduleTitle = data.task_name;
-    if (data.processing_status === 'Waiting to Confirm') {
+    if (data.processing_status === 'WaitingToConfirm') {
       this.showDetail = true;
     } else {
       this.moduleOperation = data.operation;

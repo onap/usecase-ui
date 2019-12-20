@@ -11,7 +11,7 @@
                 "service_snssai": "1-010101",
                 "service_type": "eMMB",
                 "create_time": "1454171445000",
-                "processing_status": "Waiting to Confirm"
+                "processing_status": "WaitingToConfirm"
             },
             {
                 "task_id": "6965-8758-5468-2548-457896541236",
