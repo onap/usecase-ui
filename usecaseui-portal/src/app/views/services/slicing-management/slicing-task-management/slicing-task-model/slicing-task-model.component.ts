@@ -130,10 +130,15 @@ export class SlicingTaskModelComponent implements OnInit {
         this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
         // 业务需求信息数据
         business_demand_info.area = coverage_area_ta_list.map(item => {
-          item = item.split(';').join('-')
+          item = item.split(';').join(' - ')
+          return item
+        })  
+        // 前端模拟数据
+        let areaList = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"].map(item => {
+          item = item.split(';').join(' - ')
           return item
         })
-        this.businessRequirement = [business_demand_info];
+        this.businessRequirement = [{...business_demand_info, area: areaList}];
         // 匹配NST信息
         this.NSTinfo = [nst_info];
         // 共享切片实例
@@ -153,7 +158,10 @@ export class SlicingTaskModelComponent implements OnInit {
         // 子网实例
         let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name};
         this.subnetDataFormatting(subnetData, 0);
-        this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
+        // 前端模拟数据
+        let area = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"]
+        // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
+        this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list:area } 
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth };
         this.slicingSubnet[2].params = { 
           cn_service_snssai,
