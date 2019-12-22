@@ -96,9 +96,9 @@ export class SlicingBusinessTableComponent implements OnInit {
                     serviceId:slicing.service_instance_id
                 };
                 if(slicing.orchestration_status === 'activated'){
-                    this.changeActivate(paramsObj,false,slicing,"deactivate","deactivated")
+                    this.changeActivate(paramsObj,false,slicing,"deactivate","deactivated",i)
                 }else {
-                    this.changeActivate(paramsObj,true,slicing,"activate","activated");
+                    this.changeActivate(paramsObj,true,slicing,"activate","activated",i);
                 }
             },
             nzCancelText: 'No',
@@ -109,7 +109,7 @@ export class SlicingBusinessTableComponent implements OnInit {
             }
         });
     }
-    changeActivate(paramsObj,isActivate,slicing,activateValue,finished){
+    changeActivate(paramsObj,isActivate,slicing,activateValue,finished,index){
         this.myhttp.changeActivateSlicingService(paramsObj,isActivate).subscribe (res => {
             const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
             if (+result_code === 200) {
@@ -130,9 +130,18 @@ export class SlicingBusinessTableComponent implements OnInit {
                     this.getBusinessList();
                 })
             }else {
+                let singleSlicing = Object.assign({},this.listOfData[index]);
+                this.listOfData[index] = singleSlicing;
+                this.listOfData = [...this.listOfData];
                 this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
                 console.error(result_message);
             }
+        },(err) => {
+            let singleSlicing = Object.assign({},this.listOfData[index]);
+            this.listOfData[index] = singleSlicing;
+            this.listOfData = [...this.listOfData];
+            this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
+            console.error(err);
         })
     }
     terminate(slicing){
@@ -170,6 +179,10 @@ export class SlicingBusinessTableComponent implements OnInit {
                         this.terminateStart = false;
                         console.error(result_message)
                     }
+                },(err) => {
+                    this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
+                    this.terminateStart = false;
+                    console.error(err)
                 })
             },
             nzCancelText: 'No',
