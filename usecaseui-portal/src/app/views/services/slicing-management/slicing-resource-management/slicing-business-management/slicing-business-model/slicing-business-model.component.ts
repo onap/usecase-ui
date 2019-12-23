@@ -37,9 +37,16 @@ export class SlicingBusinessModelComponent implements OnInit {
                     item = item.split(';').join('-');
                     return item
                 });
-                this.businessRequirement = [business_demand_info];
+                // area : Front-end analog data
+                let area = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"].map(item => {
+                    item = item.split(';').join(' - ');
+                    return item
+                });
+                this.businessRequirement = [{...business_demand_info, area}];
                 this.NSTinfo = [nst_info];
-                this.nsiInfo = [nsi_info];
+                if(nsi_info.nsi_id !==null){
+                    this.nsiInfo = [nsi_info];
+                }
             }
         })
     }
