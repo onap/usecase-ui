@@ -27,8 +27,16 @@ export class NsiModelComponent implements OnInit {
             this.isSpinning = false;
             const {result_header: {result_code}, result_body: {hosted_business_list,included_nssi_list} } = res;
             if (+result_code === 200) {
-                this.businessList = hosted_business_list;
-                this.nssiList = included_nssi_list;
+                this.businessList = hosted_business_list.map((item)=>{
+                    if(item.service_instance_id !==null){
+                        return item
+                    }
+                });
+                this.nssiList = included_nssi_list.map((item)=>{
+                    if(item.service_instance_id !==null){
+                        return item
+                    }
+                });
             }
         })
     }
