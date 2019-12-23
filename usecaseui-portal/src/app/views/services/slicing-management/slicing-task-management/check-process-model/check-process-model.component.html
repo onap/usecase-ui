@@ -17,7 +17,7 @@
 				<p class="list-title">Task Detail:</p>
 			</ng-template>
 			<ng-template #defaultItem let-item> 
-				<nz-list-item  nz-row nzType="flex" nzJustify="center" >
+				<nz-list-item  nz-row nzType="flex" nzJustify="center">
 					<nz-steps 
 						nzType="navigation"
 						[nzCurrent]="item.currentProgress" 
@@ -30,18 +30,15 @@
 						<nz-step [nzTitle]="item.title"></nz-step>
 						<nz-step 
 							[nzTitle]="item.currentProgress > 1 ? null : 'in progress'" 
-							[nzStatus]="item.status" nzIcon="anticon anticon-spin anticon-loading"
+							[nzStatus]="item.status" [nzIcon]="item.status === 'process'? 'anticon anticon-spin anticon-loading' : null"
 						> 
 						</nz-step>
-						<nz-step 
-							[nzTitle]="item.status === 'finish' ? 'success' : null"
-							[nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" 
-							nzIcon='loading'
-						>
-						</nz-step>
+						<nz-step [nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" [nzIcon]="item.status === 'process'?'loading': null"> </nz-step>
 					</nz-steps>
-					
+					<p *ngIf="!data[0].length" [ngStyle]="{marginBottom: 0}">No data</p>
 				</nz-list-item>
+
+				
 			</ng-template>
 		</nz-list>	
 	</nz-spin>

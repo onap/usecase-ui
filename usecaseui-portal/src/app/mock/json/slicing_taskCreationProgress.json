@@ -4,8 +4,8 @@
         "result_message": "5G slicing task operation progress result."
     },
     "result_body": {
-        "an_progress": 60,
-        "tn_progress": 60,
+        "an_progress": 100,
+        "tn_progress": null,
         "cn_progress": 60
     }
 }

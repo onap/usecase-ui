@@ -96,17 +96,19 @@ export class CheckProcessModelComponent implements OnInit {
 					let currentProgress = 1
 					let status = 'process';
 					if (+result_body[item] === 100) {
-						currentProgress = 2;
+						currentProgress = 3;
 						status = 'finish'
 					}
 					const title = item === 'an_progress' ? 'An' : (item === 'tn_progress' ? 'Tn' : 'Cn')
 					let obj = { [item]: result_body[item], currentProgress, title, status };
-					this.data.push(obj)
+					if(result_body[item]){
+						this.data.push(obj)
+					}
 				})
 				this.data = [this.data];
 				let flag: boolean = false;
 				Object.values(result_body).forEach(item => {
-					if (item !== 100) {
+					if (+item !== 100 && typeof item !== 'object') {
 						flag = true;
 					}
 				})
