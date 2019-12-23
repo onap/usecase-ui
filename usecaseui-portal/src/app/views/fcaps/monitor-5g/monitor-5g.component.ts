@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SlicingTaskServices } from '.././../../core/services/slicingTaskServices';
 import { pieChartconfig, lineChartconfig } from './monitorEchartsConfig';
 import *as moment from 'moment';
+import * as differenceInDays from 'date-fns/difference_in_days';
 @Component({
     selector: 'app-monitor-5g',
     templateUrl: './monitor-5g.component.html',
@@ -13,6 +14,8 @@ export class Monitor5gComponent implements OnInit {
         private myhttp: SlicingTaskServices
     ) {
     }
+    today = new Date();
+    dateValue = null;
     listOfData: any[] = [];
     pageIndex: number = 1;
     pageSize: number = 10;
@@ -59,11 +62,14 @@ export class Monitor5gComponent implements OnInit {
             }
         })
     }
+    disabledDate = (current: Date): boolean => {
+        // Can not select days before today and today
+        return differenceInDays(current, this.today) > 0;
+    };
     searchData(reset: boolean = false) {
         this.getBusinessList();
     }
-    onDateChange(result: Date): void {
-        console.log('Selected Time: ', result);
+    onDateChange(result): void {
         if (result === null) {
             this.selectDate = 0;
             this.getChartsData()
@@ -71,9 +77,14 @@ export class Monitor5gComponent implements OnInit {
     }
 
     onDateOk(result: Date): void {
-        console.log('onOk', result);
         this.selectDate = result.valueOf();
         this.getChartsData();
+    }
+    onOpenChange(result): void {
+        if(this.selectDate ===0 && !result){
+            this.dateValue = null;
+            this.getChartsData();
+        }
     }
     getChartsData = (time = new Date().getTime()) => {
         if (!this.listOfData.length) {

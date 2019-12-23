@@ -5,11 +5,13 @@
             <nz-date-picker
                     nzShowTime
                     [nzShowToday]="false"
+                    [nzDisabledDate]="disabledDate"
                     nzFormat="yyyy-MM-dd HH:mm:ss"
                     nzPlaceHolder="Select Time"
-                    ngModel
+                    [(ngModel)]="dateValue"
                     (ngModelChange)="onDateChange($event)"
                     (nzOnOk)="onDateOk($event)"
+                    (nzOnOpenChange)="onOpenChange($event)"
             ></nz-date-picker>
         </div>
     </div>
