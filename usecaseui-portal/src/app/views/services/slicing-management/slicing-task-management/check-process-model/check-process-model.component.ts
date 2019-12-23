@@ -61,7 +61,7 @@ export class CheckProcessModelComponent implements OnInit {
 					return item
 				})
 				// 前端模拟数据
-				let area = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"].map(item => {
+				let area = ["Beijing;Beijing City;Haidian District", "Beijing;Beijing City;Xicheng District", "Beijing;Beijing City;Changping District"].map(item => {
 					item = item.split(';').join(' - ')
 					return item
 				})

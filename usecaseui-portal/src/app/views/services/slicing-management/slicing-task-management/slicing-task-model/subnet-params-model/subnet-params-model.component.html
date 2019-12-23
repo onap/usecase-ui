@@ -11,7 +11,7 @@
 				</nz-form-control>
 				<div *ngIf="item.key === 'an_coverage_area_ta_list'">
 					<div *ngFor="let area of areaList; let i = index">
-						<nz-form-control [nzSpan]="4" [nzOffset]="i && !ind ? 6 : 0" class="subnet_params_area"
+						<nz-form-control [nzSpan]="!ind ? 4 : 5" [nzOffset]="i && !ind ? 6 : 0" class="subnet_params_area"
 							*ngFor="let item of area; let ind = index">
 							<nz-select [(ngModel)]="item.selected" [name]="'area' + i + ind"
 								(nzOpenChange)="handleChange(area, item)"

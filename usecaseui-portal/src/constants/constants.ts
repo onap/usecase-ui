@@ -189,23 +189,23 @@ export const CORE_FORM_ITEMS = [
 export const ADDRESS = [
 	{
 		"id": "1",
-		"name": "北京",
+		"name": "Beijing",
 		"city": [
 			{
 				"id": "101",
-				"name": "北京市",
+				"name": "Beijing City",
 				"county": [
 					{
 						"id": "1001",
-						"name": "海淀区",
+						"name": "Haiding District",
 					},
 					{
 						"id": "1002",
-						"name": "西城区",
+						"name": "Xicheng District",
 					},
 					{
 						"id": "1003",
-						"name": "昌平区"
+						"name": "Changping District"
 					}
 				]
 			}
@@ -213,18 +213,18 @@ export const ADDRESS = [
 	},
 	{
 		"id": "2",
-		"name": "上海",
+		"name": "Shanghai",
 		"city": [{
 			"id": "201",
-			"name": "上海市",
+			"name": "Shanghai City",
 			"county": [
 				{
 					"id": "2001",
-					"name": "浦东新区",
+					"name": "Pudongxin District",
 				},
 				{
 					"id": "2002",
-					"name": "静安区"
+					"name": "Jingan District"
 				}
 			]
 		}]

@@ -134,7 +134,7 @@ export class SlicingTaskModelComponent implements OnInit {
           return item
         })  
         // 前端模拟数据
-        let areaList = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"].map(item => {
+        let areaList = ["Beijing;Beijing City;Haidian District", "Beijing;Beijing City;Xicheng District", "Beijing;Beijing City;Changping District"].map(item => {
           item = item.split(';').join(' - ')
           return item
         })
@@ -159,7 +159,7 @@ export class SlicingTaskModelComponent implements OnInit {
         let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name};
         this.subnetDataFormatting(subnetData, 0);
         // 前端模拟数据
-        let area = ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"]
+        let area = ["Beijing;Beijing City;Haidian District", "Beijing;Beijing City;Xicheng District", "Beijing;Beijing City;Changping District"]
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
         this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list:area } 
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth };
