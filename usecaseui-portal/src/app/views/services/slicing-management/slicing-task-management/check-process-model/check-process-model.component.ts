@@ -12,7 +12,7 @@ export class CheckProcessModelComponent implements OnInit {
 	@Input() moduleTitle: string;
 	@Input() showProcess: boolean;
 	@Input() taskId: string;
-  	@Input() moduleOperation: string;
+	@Input() moduleOperation: string;
 
 	@Output() cancel = new EventEmitter<boolean>();
 
@@ -61,11 +61,11 @@ export class CheckProcessModelComponent implements OnInit {
 					return item
 				})
 				// 前端模拟数据
-				let area = ["Beijing;Beijing City;Haidian District", "Beijing;Beijing City;Xicheng District", "Beijing;Beijing City;Changping District"].map(item => {
+				let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"].map(item => {
 					item = item.split(';').join(' - ')
 					return item
 				})
-				this.businessRequirement = [{...business_demand_info, area}];
+				this.businessRequirement = [{ ...business_demand_info, area }];
 				// 匹配NST信息
 				this.NSTinfo = [nst_info];
 			} else {
@@ -73,13 +73,13 @@ export class CheckProcessModelComponent implements OnInit {
 				this.message.error(errorMessage);
 			}
 			this.isLoadingShow();
-		}, ({status, statusText}) => {
+		}, ({ status, statusText }) => {
 			this.message.error(status + ' (' + statusText + ')');
 			this.isLoadingShow();
 		})
 	}
 
-	isLoadingShow () {
+	isLoadingShow() {
 		if (this.isGetData) {
 			this.isSpinning = false;
 		} else {
@@ -101,7 +101,7 @@ export class CheckProcessModelComponent implements OnInit {
 					}
 					const title = item === 'an_progress' ? 'An' : (item === 'tn_progress' ? 'Tn' : 'Cn')
 					let obj = { [item]: result_body[item], currentProgress, title, status };
-					if(result_body[item]){
+					if (result_body[item]) {
 						this.data.push(obj)
 					}
 				})
@@ -121,7 +121,7 @@ export class CheckProcessModelComponent implements OnInit {
 				this.message.error('Failed to get progress')
 			}
 			this.isLoadingShow();
-		}, ({status, statusText}) => {
+		}, ({ status, statusText }) => {
 			this.message.error(status + ' (' + statusText + ')');
 			this.isLoadingShow();
 		})

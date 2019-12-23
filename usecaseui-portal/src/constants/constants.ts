@@ -193,7 +193,7 @@ export const ADDRESS = [
 		"city": [
 			{
 				"id": "101",
-				"name": "Beijing City",
+				"name": "Beijing",
 				"county": [
 					{
 						"id": "1001",
