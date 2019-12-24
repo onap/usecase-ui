@@ -1,10 +1,7 @@
-<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" [nzFooter]="modalFooter"  (nzOnCancel)="handleCancel()">
+<nz-modal [nzVisible]="showDetail" nzWidth="85%" [nzTitle]="moduleTitle" [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()">
   <nz-spin [nzSpinning]="isSpinning">
-    <app-basic-info
-      [checkDetail]="checkDetail"
-      [businessRequirement]="businessRequirement"
-      [NSTinfo]="NSTinfo"
-    >
+    <app-basic-info [checkDetail]="checkDetail" [businessRequirement]="businessRequirement" [NSTinfo]="NSTinfo">
     </app-basic-info>
     <div>
       <nz-list class="taskmodel_list" nzBordered [nzHeader]="nssiInfoTile" [nzFooter]="null" *ngIf="slicingInstances">
@@ -14,23 +11,14 @@
         <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
           <div nz-col nzSpan="12">
             NSI ID：
-            <nz-select 
-              nzShowSearch 
-              [(ngModel)]="selectedServiceId" 
-              (nzOpenChange)="openSlicingInstance($event)"
-              (nzScrollToBottom)="getNextPageData()"
-              (ngModelChange)="slicingInstanceChange()"
-            >
-              <nz-option 
-                nzCustomContent   
-                *ngFor="let item of slicingInstances.list" 
-                [nzValue]="item.service_instance_id" 
-                [nzLabel]="item.service_instance_id"
-              >
-                <span>{{item.service_instance_name + ' -- '}}</span> {{item.service_instance_id}}
+            <nz-select nzShowSearch [(ngModel)]="selectedServiceId" (nzOpenChange)="openSlicingInstance($event)"
+              (nzScrollToBottom)="getNextPageData()" (ngModelChange)="slicingInstanceChange()">
+              <nz-option nzCustomContent *ngFor="let item of slicingInstances.list" [nzValue]="item.service_instance_id"
+                [nzLabel]="item.service_instance_id">
+                <span>{{item.service_instance_name + ' : '}}</span> {{item.service_instance_id}}
               </nz-option>
               <nz-option *ngIf="slicingInstances.isLoading" nzDisabled nzCustomContent>
-                <i class="anticon anticon-loading anticon-spin loading-icon"></i> 
+                <i class="anticon anticon-loading anticon-spin loading-icon"></i>
                 Loading Data...
               </nz-option>
             </nz-select>
@@ -50,24 +38,15 @@
             <div nz-row [nzGutter]="8">
               <div nz-col nzSpan="12">
                 NSSI ID：
-                <nz-select 
-                  nzShowSearch 
-                  [nzDisabled]="isDisabled"
-                  [(ngModel)]="item.slicingId" 
-                  (ngModelChange)="slicingSubnetChange(item)"
-                  (nzOpenChange)="openSubnetInstances($event, item)" 
-                  (nzScrollToBottom)="getNextPageSubnet(item)"
-                >
-                  <nz-option 
-                    nzCustomContent 
-                    *ngFor="let item of item.instances" 
-                    [nzValue]="item.service_instance_id"
-                    [nzLabel]="item.service_instance_id" 
-                  >
-                    <span>{{item.service_instance_name + ' -- '}}</span> {{item.service_instance_id}}
+                <nz-select nzShowSearch [nzDisabled]="isDisabled" [(ngModel)]="item.slicingId"
+                  (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="openSubnetInstances($event, item)"
+                  (nzScrollToBottom)="getNextPageSubnet(item)">
+                  <nz-option nzCustomContent *ngFor="let item of item.instances" [nzValue]="item.service_instance_id"
+                    [nzLabel]="item.service_instance_id">
+                    <span>{{item.service_instance_name + ' : '}}</span> {{item.service_instance_id}}
                   </nz-option>
                   <nz-option *ngIf="item.isLoading" nzDisabled nzCustomContent>
-                    <i class="anticon anticon-loading anticon-spin loading-icon"></i> 
+                    <i class="anticon anticon-loading anticon-spin loading-icon"></i>
                     Loading Data...
                   </nz-option>
                 </nz-select>
@@ -95,12 +74,7 @@
   <button nz-button (click)="handleCancel()">Cancel</button>
   <button nz-button nzType="primary" [nzLoading]='loading' (click)="handleOk()">OK</button>
 </ng-template>
-<app-subnet-params-model 
-  [showModel]="isShowParams" 
-  [detailData]="params" 
-  [title]="paramsTitle" 
-  (cancel)="isShowParams=$event" 
-  (paramsDataChange)="changeParams($event)"
->
+<app-subnet-params-model [showModel]="isShowParams" [detailData]="params" [title]="paramsTitle"
+  (cancel)="isShowParams=$event" (paramsDataChange)="changeParams($event)">
 </app-subnet-params-model>
 <app-notification #notification [isServicesList]="false" [parentComponent]="'slicing'"></app-notification>
