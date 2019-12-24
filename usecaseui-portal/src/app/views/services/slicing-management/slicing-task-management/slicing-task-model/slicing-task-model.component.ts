@@ -144,6 +144,9 @@ export class SlicingTaskModelComponent implements OnInit {
         // 共享切片实例
         this.selectedServiceId = suggest_nsi_id;
         this.selectedServiceName = suggest_nsi_name;
+        if (!this.selectedServiceId || !this.selectedServiceName) {
+          this.isDisabled = false;
+        }
         this.slicingInstances = {
           currentPage: '1',
           pageSize: '10',
@@ -227,14 +230,16 @@ export class SlicingTaskModelComponent implements OnInit {
 
   slicingInstanceChange(): void {
     this.isDisabled = true;
-    this.selectedServiceName = ''
+    this.selectedServiceName = '';
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe(res => {
       const { result_header: { result_code }, result_body, record_number } = res;
       if (+result_code === 200) {
-        this.subnetDataFormatting(result_body, record_number)
+        console.log(result_body, "==>result_body")
+        this.subnetDataFormatting(result_body, record_number);
       } else {
-        this.message.error('Failed to get slicing subnet instance ID')
+        this.subnetDataFormatting({}, 1);
+        this.message.error('Failed to get slicing subnet instance ID');
       }
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');
