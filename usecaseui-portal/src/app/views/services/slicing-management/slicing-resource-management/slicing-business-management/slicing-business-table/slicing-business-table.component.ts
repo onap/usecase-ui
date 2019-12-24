@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SlicingTaskServices} from '.././../../../../../core/services/slicingTaskServices';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService,NzMessageService } from 'ng-zorro-antd';
 import { SlicingBusinessModelComponent } from '../slicing-business-model/slicing-business-model.component';
 @Component({
     selector: 'app-slicing-business-table',
@@ -12,7 +12,8 @@ export class SlicingBusinessTableComponent implements OnInit {
 
     constructor(
         private myhttp: SlicingTaskServices,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private message: NzMessageService
         ) {
     }
 
@@ -53,15 +54,16 @@ export class SlicingBusinessTableComponent implements OnInit {
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
-                this.listOfData = slicing_business_list.map((item)=>{
-                    if(item.last_operation_progress < 100){
+                this.listOfData = slicing_business_list.map((item,index)=>{
+                    if(item.last_operation_progress!==null && item.last_operation_progress < 100 && item.last_operation_type!==null){
                         let updata = (prodata) => {
                             item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                         };
                         let obj = {
                             serviceId: item.service_instance_id
                         };
-                        this.queryProgress(obj, updata).then((res) => {
+                        if(item.last_operation_type === 'delete')this.terminateStart = true;
+                        this.queryProgress(obj,item.orchestration_status,index, updata).then((res) => {
                             item.last_operation_progress = 100;
                         })
                     }
@@ -113,35 +115,22 @@ export class SlicingBusinessTableComponent implements OnInit {
         this.myhttp.changeActivateSlicingService(paramsObj,isActivate).subscribe (res => {
             const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
             if (+result_code === 200) {
-                slicing.last_operation_progress = 0;
-                slicing.orchestration_status = activateValue;
-                console.log(operation_id,"operation_id");
-                let obj = {
-                    serviceId: slicing.service_instance_id
-                };
-                let updata = (prodata) => {
-                    slicing.last_operation_progress = prodata.progress || 0;
-                    slicing.orchestration_status = prodata.operation_type || activateValue;
-                };
-                this.queryProgress(obj, updata).then(() => {
-                    slicing.last_operation_progress = 100;
-                    slicing.orchestration_status = finished;
-                    this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
-                    this.getBusinessList();
-                })
+                this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
+                this.getBusinessList();
             }else {
                 let singleSlicing = Object.assign({},this.listOfData[index]);
                 this.listOfData[index] = singleSlicing;
                 this.listOfData = [...this.listOfData];
                 this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
-                console.error(result_message);
+                this.getBusinessList();
             }
-        },(err) => {
+            this.getBusinessList();
+        },() => {
             let singleSlicing = Object.assign({},this.listOfData[index]);
             this.listOfData[index] = singleSlicing;
             this.listOfData = [...this.listOfData];
             this.notification1.notificationFailed('slicing business', finished, slicing.service_instance_id);
-            console.error(err);
+            this.getBusinessList();
         })
     }
     terminate(slicing){
@@ -157,32 +146,14 @@ export class SlicingBusinessTableComponent implements OnInit {
                 this.myhttp.terminateSlicingService(paramsObj).subscribe (res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
                     if (+result_code === 200) {
-                        slicing.last_operation_progress = 0;
-                        slicing.orchestration_status = 'delete';
-                        console.log(operation_id,"operation_id");
-                        let obj = {
-                            serviceId: slicing.service_instance_id
-                        };
-                        let updata = (prodata) => {
-                            slicing.last_operation_progress = prodata.progress || 0;
-                            slicing.orchestration_status = prodata.operation_type || "delete";
-                        };
-                        this.queryProgress(obj, updata).then(() => {
-                            slicing.last_operation_progress = 100;
-                            slicing.orchestration_status = "delete";
-                            this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
-                            this.terminateStart = false;
-                            this.getBusinessList();
-                        })
+                        this.getBusinessList();
                     }else {
                         this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
                         this.terminateStart = false;
-                        console.error(result_message)
                     }
-                },(err) => {
+                },() => {
                     this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
                     this.terminateStart = false;
-                    console.error(err)
                 })
             },
             nzCancelText: 'No',
@@ -203,28 +174,47 @@ export class SlicingBusinessTableComponent implements OnInit {
             }
         })
     }
-    queryProgress(obj, callback) {
+    queryProgress(obj,action,index,callback) {
         return new Promise( res => {
             let requery = () => {
                 this.myhttp.getSlicingBusinessProgress(obj)
                     .subscribe((data) => {
-                        if (data.result_body.operation_progress < 100) {
-                            callback(data.result_body);
-                            let progressSetTimeOut = setTimeout(() => {
-                                requery();
-                            },5000);
-                            this.progressingTimer.push({
-                                id:obj.serviceId,
-                                timer:progressSetTimeOut
-                            })
-                        } else {
+                        const { result_header: { result_code, result_message }, result_body: { operation_id } } = data;
+                        if (+result_code === 200) {
+                            if (data.result_body.operation_progress < 100) {
+                                callback(data.result_body);
+                                let progressSetTimeOut = setTimeout(() => {
+                                    requery();
+                                }, 5000);
+                                this.progressingTimer.push({
+                                    id: obj.serviceId,
+                                    timer: progressSetTimeOut
+                                })
+                            } else {
+                                this.progressingTimer.forEach((item) => {
+                                    if (item.serviceId === obj.serviceId) {
+                                        clearInterval(item.timer);
+                                    }
+                                });
+                                res(data.result_body);
+                            }
+                        }else {
                             this.progressingTimer.forEach((item) => {
-                                if(item.serviceId === obj.serviceId){
+                                if (item.serviceId === obj.serviceId) {
                                     clearInterval(item.timer);
                                 }
                             });
-                            res(data.result_body);
+                            this.getBusinessList();
+                            this.message.error(result_message);
                         }
+                    },(err) => {
+                        this.progressingTimer.forEach((item) => {
+                            if (item.serviceId === obj.serviceId) {
+                                clearInterval(item.timer);
+                            }
+                        });
+                        this.getBusinessList();
+                        this.message.error(err);
                     })
             };
             requery();

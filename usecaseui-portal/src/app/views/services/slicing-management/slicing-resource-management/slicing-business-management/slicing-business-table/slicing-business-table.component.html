@@ -57,12 +57,12 @@
                                        [nzDisabled]="data.last_operation_progress !== 100"
                                        (ngModelChange)="switchChange(data,i)"
                             ></nz-switch>
-                            <nz-progress *ngIf="data.last_operation_progress !== 100 && data.orchestration_status !== 'delete'"
+                            <nz-progress *ngIf="data.last_operation_progress !== 100 && data.last_operation_type !== 'delete'"
                                          [nzPercent]="data.last_operation_progress"
                                          [nzShowInfo]="false" nzStatus="active"></nz-progress>
                         </div>
                         <div class="action-icon">
-                            <i [ngClass]="{'cannotclick':data.last_operation_progress !== 100 || data.orchestration_status==='activated'}"
+                            <i [ngClass]="{'cannotclick':(data.last_operation_progress !== 100 && data.last_operation_type !== 'delete') || data.orchestration_status==='activated'}"
                                nz-icon
                                nzType="poweroff"
                                nzTheme="outline"
