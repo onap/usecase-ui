@@ -134,7 +134,7 @@ export class SlicingTaskModelComponent implements OnInit {
           return item
         })
         // 前端模拟数据
-        let areaList = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"].map(item => {
+        let areaList = ["Haidian District;Beijing;Beijing", "Xicheng District;Beijing;Beijing", "Changping District;Beijing;Beijing"].map(item => {
           item = item.split(';').join(' - ')
           return item
         })
