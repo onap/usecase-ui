@@ -55,14 +55,14 @@ export class SlicingBusinessTableComponent implements OnInit {
                 this.total = record_number;
                 this.loading = false;
                 this.listOfData = slicing_business_list.map((item, index) => {
-                    if (item.last_operation_progress !== null && item.last_operation_progress < 100 && item.last_operation_type !== null) {
-                        let updata = (prodata) => {
+                    if (item.last_operation_progress && item.last_operation_type && item.last_operation_progress < 100) {
+                        let updata = (prodata: { operation_progress: string }) => {
                             item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                         };
                         let obj = {
                             serviceId: item.service_instance_id
                         };
-                        if (item.last_operation_type === 'delete') this.terminateStart = true;
+                        if (item.last_operation_type === 'DELETE') this.terminateStart = true;
                         this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
                             item.last_operation_progress = 100;
                         })
