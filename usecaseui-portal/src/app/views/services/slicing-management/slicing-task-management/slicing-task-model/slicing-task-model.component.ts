@@ -87,8 +87,8 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   getautidInfo(): void {
-    this.http.getAuditInfo(this.taskId).subscribe(res => {
-      const { result_header: { result_code } } = res;
+    this.http.getAuditInfo(this.taskId).subscribe( res => {
+      const { result_header: { result_code, result_message } } = res;
       this.isSpinning = false;
       if (+result_code === 200) {
         const {
@@ -179,7 +179,7 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_area_traffic_cap_ul
         };
       } else {
-        this.message.error('Failed to get data')
+        this.message.error(result_message || 'Failed to get data')
       }
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');
@@ -208,14 +208,14 @@ export class SlicingTaskModelComponent implements OnInit {
   getSlicingInstances(pageNo: string, pageSize: string): void {
     this.slicingInstances.isLoading = true;
     this.http.getSlicingInstance(pageNo, pageSize).subscribe(res => {
-      const { result_header: { result_code }, result_body } = res;
+      const { result_header: { result_code, result_message }, result_body } = res;
       setTimeout(() => {
         if (+result_code === 200) {
           const { nsi_service_instances, record_number } = result_body;
           this.slicingInstances.total = record_number;
           this.slicingInstances.list.push(...nsi_service_instances);
         } else {
-          this.message.error('Failed to get slicing instance ID')
+          this.message.error(result_message || 'Failed to get slicing instance ID')
         }
         this.slicingInstances.isLoading = false;
         this.slicingInstances.flag = false;
@@ -233,12 +233,12 @@ export class SlicingTaskModelComponent implements OnInit {
     this.selectedServiceName = '';
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe(res => {
-      const { result_header: { result_code }, result_body, record_number } = res;
+      const { result_header: { result_code, result_message }, result_body, record_number} = res;
       if (+result_code === 200) {
-        this.subnetDataFormatting(result_body, record_number);
+        this.subnetDataFormatting(result_body, record_number)
       } else {
         this.subnetDataFormatting({}, 1);
-        this.message.error('Failed to get slicing subnet instance ID');
+        this.message.error(result_message || 'Failed to get slicing subnet instance ID')
       }
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');
@@ -250,7 +250,7 @@ export class SlicingTaskModelComponent implements OnInit {
     })
   }
 
-  subnetDataFormatting(subnetData: any, total: number): void {
+  subnetDataFormatting ( subnetData?: any, total?: number): void{
     const { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = subnetData;
     this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
     this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
@@ -312,7 +312,7 @@ export class SlicingTaskModelComponent implements OnInit {
     instance.isLoading = true;
     const { context, currentPage, pageSize } = instance;
     this.http.getSubnetInContext(context, currentPage, pageSize).subscribe(res => {
-      const { result_header: { result_code }, result_body } = res;
+      const { result_header: { result_code, result_message }, result_body } = res;
       if (+result_code === 200) {
         const { nssi_service_instances, record_number } = result_body;
         this.slicingSubnet.map(item => {
@@ -322,7 +322,7 @@ export class SlicingTaskModelComponent implements OnInit {
           }
         })
       } else {
-        this.message.error('Failed to get slicing subnet instance ID');
+        this.message.error(result_message || 'Failed to get slicing subnet instance ID');
       }
       instance.isLoading = false;
       instance.flag = false;

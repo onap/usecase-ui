@@ -92,23 +92,25 @@ export class CheckProcessModelComponent implements OnInit {
 			const { result_body, result_header: { result_code } } = res;
 			if (+result_code === 200) {
 				this.data = [];
-				Object.keys(result_body).forEach(item => {
-					let currentProgress = 1
-					let status = 'process';
-					if (+result_body[item] === 100) {
-						currentProgress = 3;
-						status = 'finish'
-					}
-					const title = item === 'an_progress' ? 'An' : (item === 'tn_progress' ? 'Tn' : 'Cn')
-					let obj = { [item]: result_body[item], currentProgress, title, status };
-					if (result_body[item]) {
+				const nssiList: string[] = ['an', 'tn', 'cn'];
+				nssiList.forEach( item => {
+					const progress: number = +result_body[item +'_progress']; 
+					const title: string = item.charAt(0).toUpperCase() + item.slice(1);
+					let status: string = result_body[item +'_status'];
+					if ((progress || progress === 0) && status) {
+						let currentProgress = 1
+						if (progress === 100 && status === 'finished') {
+							currentProgress = 3;
+							status = 'finish'
+						}
+						const obj = { progress, currentProgress, title, status };
 						this.data.push(obj)
 					}
 				})
 				this.data = [this.data];
 				let flag: boolean = false;
-				Object.values(result_body).forEach(item => {
-					if (+item !== 100 && typeof item !== 'object') {
+				nssiList.forEach(item => {
+					if (result_body[item +'_status'] === 'processing' && result_body[item +'_progress'] !== 0) {
 						flag = true;
 					}
 				})
