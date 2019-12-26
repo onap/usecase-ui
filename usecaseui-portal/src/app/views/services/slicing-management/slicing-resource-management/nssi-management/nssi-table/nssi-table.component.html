@@ -9,27 +9,17 @@
     </div>
   </div>
   <div class="slicing-resource-table-list">
-    <nz-table
-            #nsiTable
-            [nzData]="listOfData"
-            [nzFrontPagination]="false"
-            nzShowSizeChanger
-            [nzPageSizeOptions]="[5,10,15,20]"
-            [nzTotal]='total'
-            [(nzPageSize)]="pageSize"
-            [(nzPageIndex)]='pageIndex'
-            [nzLoading]="loading"
-            (nzPageIndexChange)="searchData()"
-            (nzPageSizeChange)="searchData(true)"
-    >
+    <nz-table #nsiTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
+      [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+      [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
       <thead>
         <tr>
-          <th>Service Instance Id</th>
-          <th>Service Instance Name</th>
-          <th>Service Type</th>
-          <th width="85px">Context</th>
-          <th width="110px">Status</th>
-          <th width="140px">Detail</th>
+          <th width=280>Service Instance Id</th>
+          <th width=280>Service Instance Name</th>
+          <th width=160>Service Type</th>
+          <th width=120>Context</th>
+          <th width=110>Status</th>
+          <th width=140>Detail</th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +27,7 @@
           <tr>
             <td>{{ data.service_instance_id }}</td>
             <td>{{ data.service_instance_name }}</td>
-            <td>{{ data.service_type }}</td>
+            <td>{{ data.service_type?data.service_type:'--' }}</td>
             <td>{{data.environment_context}}</td>
             <td>{{data.orchestration_status}}</td>
             <td>

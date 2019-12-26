@@ -28,7 +28,8 @@
       </tbody>
     </nz-table>
   </nz-list>
-  <nz-list class="taskmodel_list taskmodel_list-margin" nzBordered [nzHeader]="'Related Slicing NSSI List ：'" [nzFooter]="null">
+  <nz-list class="taskmodel_list taskmodel_list-margin" nzBordered [nzHeader]="'Related Slicing NSSI List ：'"
+    [nzFooter]="null">
     <nz-table #nssiTable [nzData]="nssiList" [nzShowPagination]="false" nzHideOnSinglePage class="model-table-padding">
       <thead>
         <tr>
@@ -45,7 +46,7 @@
           <tr>
             <td>{{ data.service_instance_id }}</td>
             <td>{{ data.service_instance_name }}</td>
-            <td>{{ data.service_type }}</td>
+            <td>{{ data.service_type?data.service_type:"--" }}</td>
             <td>{{ data.environment_context }}</td>
             <td>{{ data.orchestration_status }}</td>
             <td>

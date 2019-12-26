@@ -14,13 +14,13 @@
             [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
             <thead>
                 <tr>
-                    <th>Service Instance Id</th>
-                    <th>Service Instance Name</th>
-                    <th>Service Type</th>
-                    <th width="90px">S-NSSAI</th>
-                    <th width="110px">Status</th>
-                    <th width="140px">Aciton</th>
-                    <th width="110px">Detail</th>
+                    <th width=280>Service Instance Id</th>
+                    <th width=200>Service Instance Name</th>
+                    <th width=110>Service Type</th>
+                    <th width=110>S-NSSAI</th>
+                    <th width=110>Status</th>
+                    <th width=180>Aciton</th>
+                    <th width=110>Detail</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ data.service_instance_id }}</td>
                         <td>{{ data.service_instance_name }}</td>
-                        <td>{{ data.service_type }}</td>
+                        <td>{{ data.service_type?data.service_type:'--' }}</td>
                         <td>{{ data.service_snssai }}</td>
                         <td>
                             <span class="marginLeft10">
