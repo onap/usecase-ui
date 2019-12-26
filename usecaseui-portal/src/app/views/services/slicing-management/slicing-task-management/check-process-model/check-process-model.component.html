@@ -30,10 +30,10 @@
 						<nz-step [nzTitle]="item.title"></nz-step>
 						<nz-step 
 							[nzTitle]="item.currentProgress > 1 ? null : 'in progress'" 
-							[nzStatus]="item.status" [nzIcon]="item.status === 'process'? 'anticon anticon-spin anticon-loading' : null"
+							[nzStatus]="item.status" [nzIcon]="item.status === 'processing'? 'anticon anticon-spin anticon-loading' : null"
 						> 
 						</nz-step>
-						<nz-step [nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" [nzIcon]="item.status === 'process'?'loading': null"> </nz-step>
+						<nz-step [nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" [nzIcon]="item.status === 'processing' ? 'loading': null"> </nz-step>
 					</nz-steps>
 					<p *ngIf="!data[0].length" [ngStyle]="{marginBottom: 0}">No data</p>
 				</nz-list-item>
