@@ -104,7 +104,7 @@ export class E2eCreationComponent implements OnInit {
     } else if (type == "ns") {
       if (data["model"] != undefined && typeof data["model"] == 'string') {
         this.nsTemplateParameters = JSON.parse(data["model"]);
-        console.log(data["model"]);
+        console.log(data["model"],"----------1111");
       } else {
         this.nsTemplateParameters = data;
       }

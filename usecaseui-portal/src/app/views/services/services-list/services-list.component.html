@@ -86,7 +86,7 @@
                 <ng-template ngFor let-data [ngForOf]="nzTable.data" let-i="index">
                     <tr>
                         <td>{{pageSize*(pageIndex-1) + i+1}}</td>
-                        <td [nzShowExpand]="data.childServiceInstances[0]" [(nzExpand)]="data.expand"></td>
+                        <td [nzShowExpand]="data.childServiceInstances?data.childServiceInstances[0]:null" [(nzExpand)]="data.expand"></td>
                         <td>{{data["service-instance-name"] || data.nsName}}</td>
                         <td>{{data["service-instance-id"] || data.nsInstanceId}}</td>
                         <td>
@@ -130,7 +130,7 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances">
+                    <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances?data.childServiceInstances[0]:null">
                         <td></td>
                         <td></td>
                         <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>
