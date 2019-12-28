@@ -54,12 +54,24 @@ export class Monitor5gComponent implements OnInit {
         };
         this.myhttp.getSlicingBusinessList(paramsObj, false).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_business_list, record_number } } = res;
+            this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
                 this.listOfData = [].concat(slicing_business_list);
                 this.getChartsData();
+            }else {
+                console.log("getBusinessList false");
+                this.isSpinningTraffic = false;
+                this.isSpinningOnlineuser = false;
+                this.isSpinningBandwidth = false;
             }
+        },(res) => {
+            this.loading = false;
+            this.isSpinningTraffic = false;
+            this.isSpinningOnlineuser = false;
+            this.isSpinningBandwidth = false;
+            console.error(res);
         })
     }
     disabledDate = (current: Date): boolean => {
@@ -139,6 +151,9 @@ export class Monitor5gComponent implements OnInit {
                     }]
                 };
             }
+        },(res) => {
+            this.isSpinningTraffic = false;
+            console.error(res);
         })
     }
     fetchOnlineusersData(service_list, time) {
@@ -175,6 +190,9 @@ export class Monitor5gComponent implements OnInit {
                     series: this.onlineusersData
                 };
             }
+        },(res) => {
+            this.isSpinningOnlineuser = false;
+            console.error(res);
         })
     }
     fetchBandwidthData(service_list, time) {
@@ -212,6 +230,9 @@ export class Monitor5gComponent implements OnInit {
                     series: this.bandwidthData
                 };
             }
+        },(res) => {
+            this.isSpinningBandwidth = false;
+            console.error(res);
         })
     }
     getOnlineuserSeriesData(item) {

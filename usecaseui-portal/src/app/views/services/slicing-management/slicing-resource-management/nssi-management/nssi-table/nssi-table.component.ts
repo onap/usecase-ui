@@ -41,11 +41,15 @@ export class NssiTableComponent implements OnInit {
         }
         this.myhttp.getSlicingNssiList(paramsObj,this.isSelect).subscribe (res => {
             const { result_header: { result_code }, result_body: { nssi_service_instances,record_number } } = res;
+            this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
                 this.listOfData = nssi_service_instances;
             }
+        },(res) => {
+            this.loading = false;
+            console.error(res);
         })
     }
     getListOfProcessingStatus(){

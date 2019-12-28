@@ -51,9 +51,9 @@ export class SlicingBusinessTableComponent implements OnInit {
         }
         this.myhttp.getSlicingBusinessList(paramsObj, this.isSelect).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_business_list, record_number } } = res;
+            this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
-                this.loading = false;
                 this.listOfData = slicing_business_list.map((item, index) => {
                     if (item.last_operation_progress && item.last_operation_type && item.last_operation_progress < 100) {
                         let updata = (prodata: { operation_progress: string }) => {
@@ -115,6 +115,7 @@ export class SlicingBusinessTableComponent implements OnInit {
         this.loading = true;
         this.myhttp.changeActivateSlicingService(paramsObj, isActivate).subscribe(res => {
             const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
+            this.loading = false;
             if (+result_code === 200) {
                 this.notification1.notificationSuccess('slicing business', finished, slicing.service_instance_id);
                 this.getBusinessList();
@@ -127,6 +128,7 @@ export class SlicingBusinessTableComponent implements OnInit {
             }
             this.getBusinessList();
         }, () => {
+            this.loading = false;
             let singleSlicing = Object.assign({}, this.listOfData[index]);
             this.listOfData[index] = singleSlicing;
             this.listOfData = [...this.listOfData];
@@ -145,6 +147,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                 this.loading = true;
                 this.myhttp.terminateSlicingService(paramsObj).subscribe(res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
+                    this.loading = false;
                     if (+result_code === 200) {
                         this.notification1.notificationSuccess('slicing business', 'terminate', slicing.service_instance_id);
                         this.getBusinessList();
@@ -153,6 +156,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                         this.terminateStart = false;
                     }
                 }, () => {
+                    this.loading = false;
                     this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
                     this.terminateStart = false;
                 })
