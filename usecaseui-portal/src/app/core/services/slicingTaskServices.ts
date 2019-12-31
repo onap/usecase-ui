@@ -117,7 +117,7 @@ export class SlicingTaskServices {
     // change slicing business activate status
     changeActivateSlicingService(paramsObj, activate: boolean) {
         let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
-        if (activate) {
+        if (!activate) {
             url = this.url.deactivateSlicingService.replace("{serviceId}", paramsObj.serviceId)
         }
         return this.http.put<any>(url, paramsObj);
