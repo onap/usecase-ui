@@ -55,7 +55,7 @@ export class SlicingBusinessTableComponent implements OnInit {
             if (+result_code === 200) {
                 this.total = record_number;
                 this.listOfData = slicing_business_list.map((item, index) => {
-                    if (item.last_operation_progress && item.last_operation_type && item.last_operation_progress < 100) {
+                    if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
                         let updata = (prodata: { operation_progress: string }) => {
                             item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                         };
@@ -64,7 +64,8 @@ export class SlicingBusinessTableComponent implements OnInit {
                         };
                         if (item.last_operation_type === 'DELETE') this.terminateStart = true;
                         this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
-                            item.last_operation_progress = 100;
+                            item.last_operation_progress = '100';
+                            this.getBusinessList();
                         })
                     }
                     return item
@@ -186,7 +187,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                     .subscribe((data) => {
                         const { result_header: { result_code, result_message }, result_body: { operation_id } } = data;
                         if (+result_code === 200) {
-                            if (data.result_body.operation_progress && data.result_body.operation_progress < 100) {
+                            if (data.result_body.operation_progress && Number(data.result_body.operation_progress) < 100) {
                                 callback(data.result_body);
                                 let progressSetTimeOut = setTimeout(() => {
                                     requery();
