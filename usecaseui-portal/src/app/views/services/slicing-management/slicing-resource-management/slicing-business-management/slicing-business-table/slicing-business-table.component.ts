@@ -41,6 +41,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     getBusinessList(): void {
         this.loading = true;
         this.isSelect = false;
+        this.listOfData = [];
         let paramsObj = {
             pageNo: this.pageIndex,
             pageSize: this.pageSize
@@ -54,22 +55,24 @@ export class SlicingBusinessTableComponent implements OnInit {
             this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
-                this.listOfData = slicing_business_list.map((item, index) => {
-                    if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
-                        let updata = (prodata: { operation_progress: string }) => {
-                            item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
-                        };
-                        let obj = {
-                            serviceId: item.service_instance_id
-                        };
-                        if (item.last_operation_type === 'DELETE') this.terminateStart = true;
-                        this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
-                            item.last_operation_progress = '100';
-                            this.getBusinessList();
-                        })
-                    }
-                    return item
-                });
+                if(slicing_business_list !==null && slicing_business_list.length >0){
+                    this.listOfData = slicing_business_list.map((item, index) => {
+                        if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
+                            let updata = (prodata: { operation_progress: string }) => {
+                                item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
+                            };
+                            let obj = {
+                                serviceId: item.service_instance_id
+                            };
+                            if (item.last_operation_type === 'DELETE') this.terminateStart = true;
+                            this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
+                                item.last_operation_progress = '100';
+                                this.getBusinessList();
+                            })
+                        }
+                        return item
+                    });
+                }
             }
         })
     }

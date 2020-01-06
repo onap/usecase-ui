@@ -31,6 +31,7 @@ export class NssiTableComponent implements OnInit {
     getNssiList (): void{
         this.loading = true;
         this.isSelect = false;
+        this.listOfData = [];
         let paramsObj = {
             pageNo: this.pageIndex,
             pageSize: this.pageSize
@@ -45,7 +46,9 @@ export class NssiTableComponent implements OnInit {
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
-                this.listOfData = nssi_service_instances;
+                if(nssi_service_instances !== null && nssi_service_instances.length >0) {
+                    this.listOfData = nssi_service_instances;
+                }
             }
         },(res) => {
             this.loading = false;
