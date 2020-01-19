@@ -49,11 +49,9 @@ Usecase-UI project consists of 5 modules which are *Home*, *Cusomer*, *Monitor*,
    :width: 7.97047in
    :height: 3.63208in
 
-*4.3. Monitor Module*
+*4.3. Services Module*
 
-*4.4. Services Module*
-
-This module consists of two parts. One is Lifecycle Management, the other is Package Management.
+This module consists of two parts. One is Lifecycle Management, the other is 5G Slicing Management.
 
 * Lifecycle Management
 
@@ -63,7 +61,23 @@ This module consists of two parts. One is Lifecycle Management, the other is Pac
    :width: 7.97047in
    :height: 3.63208in
 
-* Package Management
+* 5G Slicing Management
+
+This module consists of two parts. The first part is the slicing task management which is responsible for presenting the tasks created in CSMF portal and processing those tasks. The second part is slicing resource management which is responsible for listing all the NS, NSI and NSSI resource and showing the relation between them.
+
+|Slicing Task Management|
+
+.. |Slicing Task Management| image:: ../../images/slicing-task.png
+   :width: 7.97047in
+   :height: 3.63208in
+
+|Slicing Resource Management|
+
+.. |Slicing Resource Management| image:: ../../images/slicing-res.png
+   :width: 7.97047in
+   :height: 3.63208in
+
+*4.4. Package Management
 
 |package|
 
@@ -73,3 +87,12 @@ This module consists of two parts. One is Lifecycle Management, the other is Pac
 
 *4.5. Network Topology Module*
 
+*4.6. Monitor Module*
+
+This module is responsible for presenting all kinds of monitoring information. In Frankfurt Release, 5G Slicing monitoring data can be present.   
+
+|Slicing Monitor|
+
+.. |Slicing Monitor| image:: ../../images/slicing-monitor.png
+   :width: 7.97047in
+   :height: 3.63208in
