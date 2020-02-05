@@ -1,4 +1,4 @@
-<nz-tabset (nzSelectChange)="handleTabChange($event)">
+<nz-tabset (nzSelectChange)="handleTabChange($event)" class="slicing">
   <nz-tab nzTitle="Slicing Task Management">
     <app-slicing-task-management
             *ngIf="currentTab ==='Slicing Task Management'"
@@ -8,5 +8,10 @@
     <app-slicing-resource-management
             *ngIf="currentTab ==='Slicing Resource Management'"
     ></app-slicing-resource-management>
+  </nz-tab>
+  <nz-tab nzTitle="CSMF Slicing Business Management">
+    <app-csmf-slicing-business-management
+            *ngIf="currentTab ==='CSMF Slicing Business Management'"
+    ></app-csmf-slicing-business-management>
   </nz-tab>
 </nz-tabset>

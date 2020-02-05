@@ -47,6 +47,8 @@ export class SlicingTaskServices {
         slicingNssiList: this.baseUrl + "/resource/nssi/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiQueryOfStatus: this.baseUrl + "/resource/nssi/instanceStatus/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiDetail: this.baseUrl + "/resource/nssi/{nssiId}/details",
+        //csmf
+        csmfSlicingBusinessList:"/api/usecaseui/csmf/5gSlicing/services/status/{status}/pageNo/{pageNo}/pageSize/{pageSize}",
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
         fetchOnlineusers: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
@@ -167,6 +169,13 @@ export class SlicingTaskServices {
         let url = this.url.slicingNssiDetail.replace("{nssiId}", nssiId);
         return this.http.get<any>(url);
     }
+    // Get CSMF slicing business list
+    getCSMFSlicingBusinessList(paramsObj) {
+        let url = this.url.csmfSlicingBusinessList.replace("{status}", paramsObj.status).replace("{pageNo}", paramsObj.pageNo)
+            .replace("{pageSize}", paramsObj.pageSize);
+        return this.http.get<any>(url);
+    }
+
     //monitor 5G
     getFetchTraffic(service_list, time) {
         let url = this.url.fetchTraffic.replace("{queryTimestamp}", time);

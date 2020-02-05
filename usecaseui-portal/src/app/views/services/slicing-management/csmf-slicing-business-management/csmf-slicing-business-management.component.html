@@ -1,3 +1,69 @@
-<p>
-  csmf-slicing-business-management works!
-</p>
+<div class="slicing-resource-table slicing-resource_tab">
+  <div nz-row>
+    <div nz-col nzSpan="12" class="task_status">
+      <span>Status : </span>
+      <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue"
+                 (ngModelChange)="getListOfProcessingStatus()">
+        <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="slicing-resource-table-list">
+    <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
+              [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+              [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+      <thead>
+      <tr>
+        <th width=100>No</th>
+        <th width=280>Service Instance Id</th>
+        <th width=200>Service Instance Name</th>
+        <th width=110>Service Type</th>
+        <th width=110>S-NSSAI</th>
+        <th width=110>Status</th>
+        <th width=180>Aciton</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{ data.service_id }}</td>
+          <td>{{ data.service_name }}</td>
+          <td>{{ data.service_type?data.service_type:'--' }}</td>
+          <td>{{ data.service_snssai }}</td>
+          <td>
+                            <span class="marginLeft10">
+                                <span *ngIf="data.last_operation_process && data.last_operation_process !== '100'">
+                                    {{data.last_operation_process+'%'}}
+                                </span>
+                                <br>
+                                {{data.service_status}}
+                            </span>
+            <br>
+          </td>
+          <td>
+            <div class="action-icon">
+              <nz-switch [ngModel]="data.service_status==='activated'?true:false"
+                         [nzDisabled]="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100'"
+                         (ngModelChange)="switchChange(data,i)"></nz-switch>
+              <nz-progress
+                      *ngIf="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && data.last_operation_type !== 'DELETE'"
+                      [nzPercent]="data.last_operation_process" [nzShowInfo]="false" nzStatus="active">
+              </nz-progress>
+            </div>
+            <div class="action-icon">
+              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && (data.last_operation_type !== 'DELETE' || data.service_status==='activated')}"
+                 nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
+                 (click)="terminate(data)"></i>
+              <nz-progress
+                      *ngIf="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && terminateStart"
+                      [nzPercent]="data.last_operation_process" [nzShowInfo]="false" nzStatus="active">
+              </nz-progress>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

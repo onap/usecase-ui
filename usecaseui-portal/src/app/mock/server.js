@@ -20,6 +20,7 @@ const middlewares = jsonServer.defaults();
 const customersRouters = require('./routes');
 const baseUrl = "/usecaseui-server/v1";
 const nsmfBaseUrl = "/uui-slicing/nsmf"; 
+const csmfBaseUrl = "/usecaseui/csmf";
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
