@@ -98,6 +98,10 @@ export const WIRELESS_FORM_ITEMS = [
 		title: '5QI',
 		key: 'an_5qi'
 	},
+    {
+        title: 'Script Name',
+        key: 'an_script_name'
+    },
 	{
 		title: 'Coverage Area Ta List',
 		key: 'an_coverage_area_ta_list'
@@ -112,7 +116,11 @@ export const TRANSFRER_FORM_ITEMS = [
 	{
 		title: 'Bandwidth',
 		key: 'tn_bandwidth'
-	}
+	},
+    {
+        title: 'Script Name',
+        key: 'tn_script_name'
+    },
 ]
 
 export const CORE_FORM_ITEMS = [
@@ -183,7 +191,11 @@ export const CORE_FORM_ITEMS = [
 	{
 		title: 'Uplink Regional Traffic Density（Mbps/km ）',
 		key: 'cn_area_traffic_cap_ul'
-	}
+	},
+    {
+        title: 'Script Name',
+        key: 'cn_script_name'
+    }
 ]
 
 export const ADDRESS = [
