@@ -1,0 +1,9 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "Terminate slicing service processing succeeded."
+  },
+  "result_body": {
+    "operation_id": "e227846c-daca-487a-9750-5d0ddb8a95d0"
+  }
+}

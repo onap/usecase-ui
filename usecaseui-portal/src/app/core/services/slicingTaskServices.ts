@@ -49,6 +49,10 @@ export class SlicingTaskServices {
         slicingNssiDetail: this.baseUrl + "/resource/nssi/{nssiId}/details",
         //csmf
         csmfSlicingBusinessList:"/api/usecaseui/csmf/5gSlicing/services/status/{status}/pageNo/{pageNo}/pageSize/{pageSize}",
+        csmfActivate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/activate",
+        csmfDeactivate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/deactivate",
+        csmfTerminate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}",
+        csmfGetProgress:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/progress",
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
         fetchOnlineusers: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
@@ -173,6 +177,24 @@ export class SlicingTaskServices {
     getCSMFSlicingBusinessList(paramsObj) {
         let url = this.url.csmfSlicingBusinessList.replace("{status}", paramsObj.status).replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
+        return this.http.get<any>(url);
+    }
+    // change CSMF slicing business activate status
+    csmfChangeActivate(paramsObj, activate: boolean) {
+        let url = this.url.csmfActivate.replace("{serviceId}", paramsObj.serviceId);
+        if (!activate) {
+            url = this.url.csmfDeactivate.replace("{serviceId}", paramsObj.serviceId)
+        }
+        return this.http.put<any>(url, paramsObj);
+    }
+    // terminate CSMF slicing business
+    csmfTerminate(paramsObj) {
+        const url = this.url.csmfTerminate.replace('{serviceId}', paramsObj.serviceId);
+        return this.http.delete<any>(url);
+    }
+    // query CSMF slicing business progress
+    csmfSlicingProgress(paramsObj) {
+        let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
     }
 

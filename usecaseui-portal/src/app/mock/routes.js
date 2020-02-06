@@ -121,6 +121,9 @@ module.exports =
         "/uui-slicing/nsmf/resource/nssi/:nssiId/details":"/getSlicingNssiDetail",
         ///////<-------------CSMF slicing_business--------->/////
         "/5gSlicing/services/status/:status/pageNo/:pageNo/pageSize/:pageSize": "/csmf_slicing_businessData",
+        "/PUT/usecaseui/csmf/5gSlicing/service/:serviceId/activate": "/csmfActivate",
+        "/DELETE/usecaseui/csmf/5gSlicing/service/:serviceId": "/csmfTerminate",
+        "/5gSlicing/service/:serviceId/progress": "/csmfSlicingProgress",
         ///////<-------------monitor 5G--------->/////
         "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/trafficData": "/fetchTrafficData",
         "/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/onlineUsers": "/fetchOnlineusersData",

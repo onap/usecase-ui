@@ -119,6 +119,21 @@ server.delete(`${nsmfBaseUrl}/*`, (req, res, next) => {
     req.url = '/DELETE'+req.url;
     next();
 })
+server.put(`${csmfBaseUrl}/*`, (req, res, next) => {
+    req.method = 'GET';
+    req.url = '/PUT'+req.url;
+    next();
+})
+server.post(`${csmfBaseUrl}/*`, (req, res, next) => {
+    req.method = 'GET';
+    req.url = '/POST'+req.url;
+    next();
+})
+server.delete(`${csmfBaseUrl}/*`, (req, res, next) => {
+    req.method = 'GET';
+    req.url = '/DELETE'+req.url;
+    next();
+})
 
 server.listen(3002, () => {
     console.log('Mock Server is successfully running on port 3002 😁')

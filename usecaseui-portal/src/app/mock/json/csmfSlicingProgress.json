@@ -1,0 +1,11 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "Query operation process processing succeeded."
+  },
+  "result_body": {
+    "operation_id": "3b74758c-4a23-4c44-88bf-e5ed3baa395f",
+    "operation_type": "activation",
+    "operation_progress": 66
+  }
+}
