@@ -1,4 +1,4 @@
-<div class="slicing-resource-table slicing-resource_tab">
+<div>
   <div nz-row>
     <div nz-col nzSpan="12" class="task_status">
       <span>Status : </span>
@@ -27,37 +27,37 @@
       <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
         <tr>
           <td>{{i+1}}</td>
-          <td>{{ data.service_id }}</td>
-          <td>{{ data.service_name }}</td>
+          <td>{{ data.service_instance_id }}</td>
+          <td>{{ data.service_instance_name }}</td>
           <td>{{ data.service_type?data.service_type:'--' }}</td>
           <td>{{ data.service_snssai }}</td>
           <td>
                             <span class="marginLeft10">
-                                <span *ngIf="data.last_operation_process && data.last_operation_process !== '100'">
-                                    {{data.last_operation_process+'%'}}
+                                <span *ngIf="data.last_operation_progress && data.last_operation_progress !== '100'">
+                                    {{data.last_operation_progress+'%'}}
                                 </span>
                                 <br>
-                                {{data.service_status}}
+                                {{data.orchestration_status}}
                             </span>
             <br>
           </td>
           <td>
             <div class="action-icon">
               <nz-switch [ngModel]="data.service_status==='activated'?true:false"
-                         [nzDisabled]="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100'"
+                         [nzDisabled]="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100'"
                          (ngModelChange)="switchChange(data,i)"></nz-switch>
               <nz-progress
-                      *ngIf="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && data.last_operation_type !== 'DELETE'"
-                      [nzPercent]="data.last_operation_process" [nzShowInfo]="false" nzStatus="active">
+                      *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
+                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
               </nz-progress>
             </div>
             <div class="action-icon">
-              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && (data.last_operation_type !== 'DELETE' || data.service_status==='activated')}"
+              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.service_status==='activated')}"
                  nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
                  (click)="terminate(data)"></i>
               <nz-progress
-                      *ngIf="data.last_operation_type && data.last_operation_process && data.last_operation_process !== '100' && terminateStart"
-                      [nzPercent]="data.last_operation_process" [nzShowInfo]="false" nzStatus="active">
+                      *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart"
+                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
               </nz-progress>
             </div>
           </td>

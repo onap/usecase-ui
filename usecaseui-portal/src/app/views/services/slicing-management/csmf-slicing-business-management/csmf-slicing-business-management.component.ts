@@ -33,34 +33,40 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     total: number = 0;
     loading = false;
     statusOptions: any[] = BUSINESS_STATUS;
+    isSelect: boolean = false;
     progressingTimer: any[] = [];
     terminateStart: boolean = false;
 
     getCSMFBusinessList() {
         this.loading = true;
+        this.isSelect = false;
         this.listOfData = [];
         let paramsObj = {
             status: this.selectedValue,
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        this.myhttp.getCSMFSlicingBusinessList(paramsObj).subscribe(res => {
-            const {result_header: {result_code}, result_body: {slicing_service_list, record_number}} = res;
+        if (this.selectedValue !== BUSINESS_STATUS[0]) {
+            paramsObj["businessStatus"] = this.selectedValue;
+            this.isSelect = true;
+        }
+        this.myhttp.getSlicingBusinessList(paramsObj, this.isSelect).subscribe(res => {
+            const {result_header: {result_code}, result_body: {slicing_business_list, record_number}} = res;
             this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
-                if (slicing_service_list !== null && slicing_service_list.length > 0) {
-                    this.listOfData = slicing_service_list.map((item, index) => {
-                        if (item.last_operation_process && item.last_operation_type && Number(item.last_operation_process) < 100) {
+                if (slicing_business_list !== null && slicing_business_list.length > 0) {
+                    this.listOfData = slicing_business_list.map((item, index) => {
+                        if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
                             let updata = (prodata: { operation_progress: string }) => {
-                                item.last_operation_process = prodata.operation_progress || item.last_operation_process;
+                                item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                             };
                             let obj = {
                                 serviceId: item.service_instance_id
                             };
                             if (item.last_operation_type === 'DELETE') this.terminateStart = true;
                             this.queryProgress(obj, index, updata).then((res) => {
-                                item.last_operation_process = '100';
+                                item.last_operation_progress = '100';
                                 this.getCSMFBusinessList();
                             })
                         }
@@ -93,12 +99,12 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         console.log(slicing, i, "slicing");
         this.modalService.confirm({
             nzTitle: '<i>Are you sure you want to perform this task?</i>',
-            nzContent: '<b>Name:' + slicing.service_name + '</b>',
+            nzContent: '<b>Name:' + slicing.service_instance_name + '</b>',
             nzOnOk: () => {
                 let paramsObj = {
-                    serviceId: slicing.service_id
+                    serviceId: slicing.service_instance_id
                 };
-                if (slicing.service_status === 'activated') {
+                if (slicing.orchestration_status === 'activated') {
                     this.changeActivate(paramsObj, false, slicing, "deactivate", "deactivated", i)
                 } else {
                     this.changeActivate(paramsObj, true, slicing, "activate", "activated", i);
@@ -114,7 +120,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     }
     changeActivate(paramsObj, isActivate, slicing, activateValue, finished, index) {
         this.loading = true;
-        this.myhttp.csmfChangeActivate(paramsObj, isActivate).subscribe(res => {
+        this.myhttp.changeActivateSlicingService(paramsObj, isActivate).subscribe(res => {
             const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
             this.loading = false;
             if (+result_code === 200) {
@@ -139,12 +145,12 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         console.log(slicing, "slicing");
         this.modalService.confirm({
             nzTitle: 'Are you sure you want to terminate this task?',
-            nzContent: '<b>Name:&nbsp;</b>' + slicing.service_name,
+            nzContent: '<b>Name:&nbsp;</b>' + slicing.service_instance_name,
             nzOnOk: () => {
-                let paramsObj = { serviceId: slicing.service_id };
+                let paramsObj = { serviceId: slicing.service_instance_id };
                 this.terminateStart = true;
                 this.loading = true;
-                this.myhttp.csmfTerminate(paramsObj).subscribe(res => {
+                this.myhttp.terminateSlicingService(paramsObj).subscribe(res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
                     this.loading = false;
                     if (+result_code === 200) {
@@ -166,7 +172,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     queryProgress(obj, index, callback) {
         return new Promise(res => {
             let requery = () => {
-                this.myhttp.csmfSlicingProgress(obj)
+                this.myhttp.getSlicingBusinessProgress(obj)
                     .subscribe((data) => {
                         const { result_header: { result_code, result_message }, result_body: { operation_id } } = data;
                         if (+result_code === 200) {
