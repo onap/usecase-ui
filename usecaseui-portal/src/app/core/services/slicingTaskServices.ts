@@ -53,6 +53,7 @@ export class SlicingTaskServices {
         csmfDeactivate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/deactivate",
         csmfTerminate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}",
         csmfGetProgress:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/progress",
+        csmfPurchase:"/uui-slicing/csmf/5gSlicing ",
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
         fetchOnlineusers: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
