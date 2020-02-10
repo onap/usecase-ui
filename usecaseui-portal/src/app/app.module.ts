@@ -97,6 +97,7 @@ import { SlicingBusinessModelComponent } from './views/services/slicing-manageme
 import { NsiModelComponent } from './views/services/slicing-management/slicing-resource-management/nsi-management/nsi-model/nsi-model.component';
 import { NssiModelComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component';
 import { CsmfSlicingBusinessManagementComponent } from './views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component';
+import { BusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component';
 
 @NgModule({
   providers: [
@@ -158,7 +159,8 @@ import { CsmfSlicingBusinessManagementComponent } from './views/services/slicing
       SlicingBusinessModelComponent,
       NsiModelComponent,
       NssiModelComponent,
-      CsmfSlicingBusinessManagementComponent
+      CsmfSlicingBusinessManagementComponent,
+      BusinessOrderComponent
   ],
   imports: [
     BrowserModule,
