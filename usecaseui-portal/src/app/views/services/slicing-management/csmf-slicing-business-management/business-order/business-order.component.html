@@ -1,3 +1,54 @@
-<nz-modal [(nzVisible)]="showModel" nzTitle="Create Slicing Business Order" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+<nz-spin nzTip='Loading...' [nzSpinning]="isSpinning">
+<nz-modal [(nzVisible)]="showModel" nzTitle="Create Slicing Business Order" (nzOnCancel)="handleCancel()"
+          (nzOnOk)="handleOk()"
           nzWidth="900px">
+    <div class="subnet_params_container">
+        <form nz-form>
+            <nz-form-item *ngFor="let item of comunicationFormItems">
+                <nz-form-label [nzSpan]="6" nzRequired [nzFor]="item.key">
+                    {{ item.title }}
+                </nz-form-label>
+                <nz-form-control [nzSpan]="15">
+                    <input nz-input [id]="item.key" [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
+                           *ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "/>
+                    <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
+                                    *ngIf="item.title === 'Resource Sharing Level'">
+                        <label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
+                            {{ option.title }}
+                        </label>
+                    </nz-radio-group>
+                    <nz-select [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
+                               *ngIf="item.title === 'Mobility'">
+                        <nz-option [nzValue]="option.key" [nzLabel]="option.title" *ngFor="let option of item.options">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+                <div *ngIf="item.key === 'coverageArea'">
+                    <div *ngFor="let area of areaList; let i = index">
+                        <nz-form-control [nzSpan]="!ind ? 3 : 4" [nzOffset]="i && !ind ? 6 : 0"
+                                         class="subnet_params_area"
+                                         *ngFor="let item of area; let ind = index">
+                            <nz-select [(ngModel)]="item.selected" [name]="'area' + i + ind"
+                                       (nzOpenChange)="handleChange(area, item)"
+                                       (ngModelChange)=" handleChangeSelected(area, item) ">
+                                <nz-option [nzValue]="op.name" [nzLabel]="op.name" *ngFor="let op of item.options">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                        <nz-form-control [nzSpan]="1" [nzOffset]="1">
+                            <button nz-button nzType="primary" nzSize="small" class="subnet_params_button" *ngIf="!i"
+                                    (click)="creatAreaList()">
+                                <i nz-icon class="anticon anticon-plus subnet_params_icon"></i>
+                            </button>
+                            <button nz-button nzType="primary" nzSize="small" class="subnet_params_button" *ngIf="i"
+                                    (click)="deleteAreaList(i)">
+                                <i nz-icon class="anticon anticon-minus subnet_params_icon"></i>
+                            </button>
+                        </nz-form-control>
+                    </div>
+                </div>
+            </nz-form-item>
+        </form>
+    </div>
 </nz-modal>
+</nz-spin>
