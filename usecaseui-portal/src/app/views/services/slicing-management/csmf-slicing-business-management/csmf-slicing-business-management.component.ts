@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BUSINESS_STATUS} from "../../../../../constants/constants";
 import {SlicingTaskServices} from '.././../../../core/services/slicingTaskServices';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import *as moment from 'moment';
 @Component({
     selector: 'app-csmf-slicing-business-management',
     templateUrl: './csmf-slicing-business-management.component.html',
@@ -33,36 +34,37 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     total: number = 0;
     loading = false;
     statusOptions: any[] = BUSINESS_STATUS;
-    isSelect: boolean = false;
+    // isSelect: boolean = false;
     progressingTimer: any[] = [];
     terminateStart: boolean = false;
-
+    businessOrderShow: boolean = false;
     getCSMFBusinessList() {
         this.loading = true;
-        this.isSelect = false;
+        // this.isSelect = false;
         this.listOfData = [];
         let paramsObj = {
             status: this.selectedValue,
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        if (this.selectedValue !== BUSINESS_STATUS[0]) {
-            paramsObj["businessStatus"] = this.selectedValue;
-            this.isSelect = true;
-        }
-        this.myhttp.getSlicingBusinessList(paramsObj, this.isSelect).subscribe(res => {
-            const {result_header: {result_code}, result_body: {slicing_business_list, record_number}} = res;
+        // if (this.selectedValue !== BUSINESS_STATUS[0]) {
+        //     paramsObj["businessStatus"] = this.selectedValue;
+        //     this.isSelect = true;
+        // }
+        this.myhttp.getCSMFSlicingBusinessList(paramsObj).subscribe(res => {
+            const {result_header: {result_code}, result_body: {slicing_order_list, record_number}} = res;
             this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
-                if (slicing_business_list !== null && slicing_business_list.length > 0) {
-                    this.listOfData = slicing_business_list.map((item, index) => {
+                if (slicing_order_list !== null && slicing_order_list.length > 0) {
+                    this.listOfData = slicing_order_list.map((item, index) => {
+                        item.order_creation_time =  moment(Number(item.order_creation_time)).format('YYYY-MM-DD');
                         if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
                             let updata = (prodata: { operation_progress: string }) => {
                                 item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                             };
                             let obj = {
-                                serviceId: item.service_instance_id
+                                serviceId: item.order_id
                             };
                             if (item.last_operation_type === 'DELETE') this.terminateStart = true;
                             this.queryProgress(obj, index, updata).then((res) => {
@@ -99,12 +101,12 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         console.log(slicing, i, "slicing");
         this.modalService.confirm({
             nzTitle: '<i>Are you sure you want to perform this task?</i>',
-            nzContent: '<b>Name:' + slicing.service_instance_name + '</b>',
+            nzContent: '<b>Name:' + slicing.order_name + '</b>',
             nzOnOk: () => {
                 let paramsObj = {
-                    serviceId: slicing.service_instance_id
+                    serviceId: slicing.order_id
                 };
-                if (slicing.orchestration_status === 'activated') {
+                if (slicing.order_status === 'activated') {
                     this.changeActivate(paramsObj, false, slicing, "deactivate", "deactivated", i)
                 } else {
                     this.changeActivate(paramsObj, true, slicing, "activate", "activated", i);
@@ -145,9 +147,9 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         console.log(slicing, "slicing");
         this.modalService.confirm({
             nzTitle: 'Are you sure you want to terminate this task?',
-            nzContent: '<b>Name:&nbsp;</b>' + slicing.service_instance_name,
+            nzContent: '<b>Name:&nbsp;</b>' + slicing.order_name,
             nzOnOk: () => {
-                let paramsObj = { serviceId: slicing.service_instance_id };
+                let paramsObj = { serviceId: slicing.order_id };
                 this.terminateStart = true;
                 this.loading = true;
                 this.myhttp.terminateSlicingService(paramsObj).subscribe(res => {
@@ -214,5 +216,9 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
             };
             requery();
         })
+    }
+
+    OrderModelShow(){
+        this.businessOrderShow = true;
     }
 }

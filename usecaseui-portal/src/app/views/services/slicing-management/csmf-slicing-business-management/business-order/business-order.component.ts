@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {COMMUNICATION_FORM_ITEMS} from "../../../../../../constants/constants";
 @Component({
   selector: 'app-business-order',
@@ -11,5 +11,11 @@ export class BusinessOrderComponent implements OnInit {
 
   ngOnInit() {
   }
+    @Input() showModel: boolean;
+    @Output() cancel = new EventEmitter<boolean>();
 
+    handleCancel() {
+        this.showModel = false;
+        this.cancel.emit(this.showModel)
+    }
 }

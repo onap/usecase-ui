@@ -48,12 +48,12 @@ export class SlicingTaskServices {
         slicingNssiQueryOfStatus: this.baseUrl + "/resource/nssi/instanceStatus/{instanceStatus}/instances/pageNo/{pageNo}/pageSize/{pageSize}",
         slicingNssiDetail: this.baseUrl + "/resource/nssi/{nssiId}/details",
         //csmf
-        csmfSlicingBusinessList:"/api/usecaseui/csmf/5gSlicing/services/status/{status}/pageNo/{pageNo}/pageSize/{pageSize}",
+        csmfSlicingBusinessList:"/api/uui-slicing/csmf/5gSlicing/orders/status/{status}/pageNo/{pageNo}/pageSize/{pageSize}",
         csmfActivate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/activate",
         csmfDeactivate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/deactivate",
         csmfTerminate:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}",
         csmfGetProgress:"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/progress",
-        csmfPurchase:"/uui-slicing/csmf/5gSlicing ",
+        csmfPurchase:"/api/uui-slicing/csmf/5gSlicing",
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
         fetchOnlineusers: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
@@ -197,6 +197,10 @@ export class SlicingTaskServices {
     csmfSlicingProgress(paramsObj) {
         let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
+    }
+    csmfSlicingPurchase(paramsObj){
+        let url = this.url.csmfPurchase;
+        return this.http.post<any>(url, paramsObj);
     }
 
     //monitor 5G
