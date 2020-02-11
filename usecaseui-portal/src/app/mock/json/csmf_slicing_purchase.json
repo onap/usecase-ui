@@ -1,0 +1,10 @@
+{
+  "result_header": {
+    "result_code": "200",
+    "result_message": "5G slicing order created normally."
+  },
+  "result_body": {
+    "service_id": "service123456",
+    "operation_id": "operation123456"
+  }
+}

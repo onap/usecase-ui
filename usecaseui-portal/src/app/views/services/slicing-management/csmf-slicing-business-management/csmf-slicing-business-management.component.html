@@ -7,7 +7,7 @@
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
       </nz-select>
     </div>
-    <button nz-button nzType="primary" class="buy-button">Purchase</button>
+    <button nz-button nzType="primary" class="buy-button" (click)="OrderModelShow()">Purchase</button>
   </div>
   <div class="slicing-resource-table-list">
     <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
@@ -18,6 +18,7 @@
         <th width=100>No</th>
         <th width=280>Service Instance Id</th>
         <th width=200>Service Instance Name</th>
+        <th width=200>Creation Time</th>
         <th width=110>Service Type</th>
         <th width=110>S-NSSAI</th>
         <th width=110>Status</th>
@@ -28,8 +29,9 @@
       <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
         <tr>
           <td>{{i+1}}</td>
-          <td>{{ data.service_instance_id }}</td>
-          <td>{{ data.service_instance_name }}</td>
+          <td>{{ data.order_id }}</td>
+          <td>{{ data.order_name }}</td>
+          <td>{{ data.order_creation_time }}</td>
           <td>{{ data.service_type?data.service_type:'--' }}</td>
           <td>{{ data.service_snssai }}</td>
           <td>
@@ -38,13 +40,13 @@
                                     {{data.last_operation_progress+'%'}}
                                 </span>
                                 <br>
-                                {{data.orchestration_status}}
+                                {{data.order_status}}
                             </span>
             <br>
           </td>
           <td>
             <div class="action-icon">
-              <nz-switch [ngModel]="data.orchestration_status==='activated'?true:false"
+              <nz-switch [ngModel]="data.order_status==='activated'?true:false"
                          [nzDisabled]="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100'"
                          (ngModelChange)="switchChange(data,i)"></nz-switch>
               <nz-progress
@@ -53,7 +55,7 @@
               </nz-progress>
             </div>
             <div class="action-icon">
-              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.orchestration_status==='activated')}"
+              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.order_status==='activated')}"
                  nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
                  (click)="terminate(data)"></i>
               <nz-progress
@@ -67,4 +69,5 @@
       </tbody>
     </nz-table>
   </div>
+  <app-business-order [showModel]="businessOrderShow" (cancel)="businessOrderShow=$event"></app-business-order>
 </div>
