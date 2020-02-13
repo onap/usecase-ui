@@ -14,7 +14,7 @@
         "service_snssai": "01-010101",
         "order_status": "activated",
         "last_operation_type": "activation",
-        "last_operation_process": 100
+        "last_operation_progress": "100"
       },
       {
         "order_id": "8c681037-75c9-444c-a665-34a66372e13e",
@@ -22,9 +22,9 @@
         "order_creation_time":"1454171445000",
         "service_type": "embb",
         "service_snssai": "01-1370889D",
-        "order_status": "deactivated",
-        "last_operation_type": null,
-        "last_operation_process": null
+        "order_status": "activated",
+        "last_operation_type": "activated",
+        "last_operation_progress": "60"
       },
       {
         "order_id": "dfa76a2f-6416-4070-9024-355d0d210234",
@@ -34,7 +34,7 @@
         "service_snssai": "01-485C16B6",
         "order_status": "deactivated",
         "last_operation_type": "activation",
-        "last_operation_process": 0
+        "last_operation_progress": "0"
       },
       {
         "order_id": "1e6a6a4b-8efb-4211-b583-b2e8567c5950",
@@ -43,8 +43,8 @@
         "service_type": "embb",
         "service_snssai": "01-6C572676",
         "order_status": "deactivated",
-        "last_operation_type": null,
-        "last_operation_process": null
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
       },
       {
         "order_id": "9941305e-311f-4a88-bd9e-431252a46337",
@@ -53,8 +53,8 @@
         "service_type": "embb",
         "service_snssai": "01-D38E2F0",
         "order_status": "deactivated",
-        "last_operation_type": null,
-        "last_operation_process": null
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "80"
       },
       {
         "order_id": "4876265d-e4bb-4240-bcda-7b4b00481e4a",
@@ -63,8 +63,8 @@
         "service_type": "embb",
         "service_snssai": "01-6A345C48",
         "order_status": "deactivated",
-        "last_operation_type": null,
-        "last_operation_process": null
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "40"
       },
       {
         "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
@@ -73,8 +73,8 @@
         "service_type": "embb",
         "service_snssai": "01-774F54FC",
         "order_status": "deactivated",
-        "last_operation_type": null,
-        "last_operation_process": null
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
       },
       {
         "order_id": "1cab507a-3422-46f8-8520-9b46c95b7f9d",
@@ -82,9 +82,9 @@
         "order_creation_time":"1454171445000",
         "service_type": "embb",
         "service_snssai": "01-44AA4085",
-        "order_status": "deactivated",
+        "order_status": "DELETE",
         "last_operation_type": "DELETE",
-        "last_operation_process": 100
+        "last_operation_progress": "30"
       }
     ]
   }

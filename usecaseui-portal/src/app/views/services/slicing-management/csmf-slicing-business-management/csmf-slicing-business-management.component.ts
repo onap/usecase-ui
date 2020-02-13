@@ -36,14 +36,14 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     statusOptions: any[] = BUSINESS_STATUS;
     // isSelect: boolean = false;
     progressingTimer: any[] = [];
-    terminateStart: boolean = false;
+    terminateStart:  any[] = [];
     businessOrderShow: boolean = false;
     getCSMFBusinessList() {
         this.loading = true;
         // this.isSelect = false;
         this.listOfData = [];
         let paramsObj = {
-            status: this.selectedValue,
+            status: this.selectedValue.toLocaleLowerCase(),
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
@@ -66,7 +66,8 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                             let obj = {
                                 serviceId: item.order_id
                             };
-                            if (item.last_operation_type === 'DELETE') this.terminateStart = true;
+                            if (item.last_operation_type === 'DELETE') this.terminateStart[index] = true
+                            else this.terminateStart[index] = false;
                             this.queryProgress(obj, index, updata).then((res) => {
                                 item.last_operation_progress = '100';
                                 this.getCSMFBusinessList();
@@ -143,14 +144,14 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         })
     }
 
-    terminate(slicing) {
+    terminate(slicing,index) {
         console.log(slicing, "slicing");
         this.modalService.confirm({
             nzTitle: 'Are you sure you want to terminate this task?',
             nzContent: '<b>Name:&nbsp;</b>' + slicing.order_name,
             nzOnOk: () => {
                 let paramsObj = { serviceId: slicing.order_id };
-                this.terminateStart = true;
+                this.terminateStart[index] = true;
                 this.loading = true;
                 this.myhttp.terminateSlicingService(paramsObj).subscribe(res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
@@ -158,11 +159,11 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                     if (+result_code === 200) {
                         this.getCSMFBusinessList();
                     } else {
-                        this.terminateStart = false;
+                        this.terminateStart[index] = false;
                     }
                 }, () => {
                     this.loading = false;
-                    this.terminateStart = false;
+                    this.terminateStart[index] = false;
                 })
             },
             nzCancelText: 'No',

@@ -35,7 +35,7 @@ export class SlicingBusinessTableComponent implements OnInit {
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
     progressingTimer: any[] = [];
-    terminateStart: boolean = false;
+    terminateStart: any[] = [];
     @ViewChild('notification') notification1: any;
 
     getBusinessList(): void {
@@ -47,7 +47,7 @@ export class SlicingBusinessTableComponent implements OnInit {
             pageSize: this.pageSize
         };
         if (this.selectedValue !== BUSINESS_STATUS[0]) {
-            paramsObj["businessStatus"] = this.selectedValue;
+            paramsObj["businessStatus"] = this.selectedValue.toLocaleLowerCase();
             this.isSelect = true;
         }
         this.myhttp.getSlicingBusinessList(paramsObj, this.isSelect).subscribe(res => {
@@ -64,7 +64,8 @@ export class SlicingBusinessTableComponent implements OnInit {
                             let obj = {
                                 serviceId: item.service_instance_id
                             };
-                            if (item.last_operation_type === 'DELETE') this.terminateStart = true;
+                            if (item.last_operation_type === 'DELETE') this.terminateStart[index] = true
+                            else this.terminateStart[index] = false;
                             this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
                                 item.last_operation_progress = '100';
                                 this.getBusinessList();
@@ -140,14 +141,14 @@ export class SlicingBusinessTableComponent implements OnInit {
             this.getBusinessList();
         })
     }
-    terminate(slicing) {
+    terminate(slicing,index) {
         this.modalService.confirm({
             nzTitle: 'Do you Want to terminate slicing business?',
             nzContent: '<b>Name:&nbsp;</b>' + slicing.service_instance_name,
             nzOnOk: () => {
                 this.notification1.notificationStart('slicing business', 'terminate', slicing.service_instance_id);
                 let paramsObj = { serviceId: slicing.service_instance_id };
-                this.terminateStart = true;
+                this.terminateStart[index] = true;
                 this.loading = true;
                 this.myhttp.terminateSlicingService(paramsObj).subscribe(res => {
                     const { result_header: { result_code, result_message }, result_body: { operation_id } } = res;
@@ -157,12 +158,12 @@ export class SlicingBusinessTableComponent implements OnInit {
                         this.getBusinessList();
                     } else {
                         this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
-                        this.terminateStart = false;
+                        this.terminateStart[index] = false;
                     }
                 }, () => {
                     this.loading = false;
                     this.notification1.notificationFailed('slicing business', 'terminate', slicing.service_instance_id);
-                    this.terminateStart = false;
+                    this.terminateStart[index] = false;
                 })
             },
             nzCancelText: 'No',

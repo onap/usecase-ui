@@ -37,7 +37,7 @@ export class NssiTableComponent implements OnInit {
             pageSize: this.pageSize
         };
         if(this.selectedValue !== BUSINESS_STATUS[0]){
-            paramsObj["instanceStatus"] = this.selectedValue;
+            paramsObj["instanceStatus"] = this.selectedValue.toLocaleLowerCase();
             this.isSelect = true;
         }
         this.myhttp.getSlicingNssiList(paramsObj,this.isSelect).subscribe (res => {

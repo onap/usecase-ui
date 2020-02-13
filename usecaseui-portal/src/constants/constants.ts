@@ -243,7 +243,7 @@ export const ADDRESS = [
 	}
 ]
 export const BUSINESS_STATUS = [
-	"All", "activated", "deactivated"
+	"All", "Activated", "Deactivated"
 ]
 
 export const COMMUNICATION_FORM_ITEMS = [

@@ -53,7 +53,7 @@
                             <div class="action-icon">
                                 <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.orchestration_status==='activated')}"
                                     nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
-                                    (click)="terminate(data)"></i>
+                                    (click)="terminate(data,i)"></i>
                                 <nz-progress
                                     *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart"
                                     [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
