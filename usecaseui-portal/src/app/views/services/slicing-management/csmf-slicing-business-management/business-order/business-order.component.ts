@@ -146,7 +146,18 @@ export class BusinessOrderComponent implements OnInit {
 
     handleCancel() {
         this.showModel = false;
-        this.cancel.emit(this.showModel)
+        this.cancel.emit(this.showModel);
+        this.slicing_order_info = {
+            name: null,
+            maxNumberofUEs: null,
+            expDataRateDL: null,
+            latency: null,
+            expDataRateUL: null,
+            resourceSharingLevel: "shared",
+            uEMobilityLevel: "stationary",
+            useInterval: null,
+            coverageArea: ''
+        };
     }
 
     getRulesText = (words,title,val,index) => {
@@ -156,11 +167,12 @@ export class BusinessOrderComponent implements OnInit {
     validator(key,val,i){
         if(val === null || val.replace(/\s*/g,'').length<=0){
             this.validateRules[i] = true;
-            this.getRulesText('Please enter',key,val,i);
+            this.getRulesText('Please enter',key,val,i,);
             return false
         }else {
             this.validateRules[i] = false;
-        }if(key === 'maxNumberofUEs' && !/^([1-9]\d{0,4}|100000)$/.test(val) && isNaN(val)){
+        }
+        if(key === 'maxNumberofUEs' && !/^([1-9]\d{0,4}|100000)$/.test(val) && isNaN(val)){
             this.validateRules[i] = true;
             this.getRulesText('Only numbers can be entered','','',i);
             return false
@@ -206,7 +218,9 @@ export class BusinessOrderComponent implements OnInit {
 
     handleOk(): void {
         Object.keys(this.slicing_order_info).forEach((item,index)=>{
-            this.validator(item,this.slicing_order_info[item],index)
+            if(item !== 'resourceSharingLevel' && item !== 'uEMobilityLevel' && item !== 'coverageArea'){
+                this.validator(item,this.slicing_order_info[item],index)
+            }
         });
         if(this.validateRules.indexOf(true)>-1){
             return
