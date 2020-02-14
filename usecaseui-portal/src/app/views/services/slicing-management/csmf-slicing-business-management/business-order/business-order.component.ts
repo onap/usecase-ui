@@ -38,6 +38,7 @@ export class BusinessOrderComponent implements OnInit {
     isSpinning: boolean = false;
     validateRules: any[] = [];
     rulesText: any[] = [];
+    tooltipText: string = 'Scope: 1-100000';
     AreaFormatting() {
         let areaList = ['Beijing;Beijing;Haidian District;Wanshoulu Street'];
         this.areaList = areaList.map((item: any) => {
@@ -160,6 +161,18 @@ export class BusinessOrderComponent implements OnInit {
         };
     }
 
+    changeTooltipText(title){
+        if(title === 'Max Number of UEs'){
+            this.tooltipText = 'Scope: 1-100000'
+        }else if(title === 'Data Rate Downlink (Mbps)' || title === 'Data Rate Uplink (Mbps)'){
+            this.tooltipText = 'Scope: 100-3000'
+        }else if(title === 'Latency'){
+            this.tooltipText = 'Scope: 10-200'
+        }else if(title === 'Use Interval (Month)'){
+            this.tooltipText = 'Scope: ≥1'
+        }
+    }
+
     getRulesText = (words,title,val,index) => {
         return this.rulesText[index] = words + title
     };
@@ -209,7 +222,7 @@ export class BusinessOrderComponent implements OnInit {
             return false
         }else if(key === 'useInterval' && !/^[1-9]\d*$/.test(val) && !isNaN(val)){
             this.validateRules[i] = true;
-            this.getRulesText('Scope: >=1','','',i);
+            this.getRulesText('Scope: ≥1','','',i);
             return false
         }else {
             this.validateRules[i] = false;
