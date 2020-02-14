@@ -58,7 +58,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                 this.total = record_number;
                 if (slicing_order_list !== null && slicing_order_list.length > 0) {
                     this.listOfData = slicing_order_list.map((item, index) => {
-                        item.order_creation_time =  moment(Number(item.order_creation_time)).format('YYYY-MM-DD');
+                        item.order_creation_time =  moment(Number(item.order_creation_time)).format('YYYY-MM-DD hh:mm:ss');
                         if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
                             let updata = (prodata: { operation_progress: string }) => {
                                 item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
@@ -221,5 +221,10 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
 
     OrderModelShow(){
         this.businessOrderShow = true;
+    }
+    orderModelClose($event){
+        console.log($event,"$event------")
+        this.businessOrderShow = $event;
+        this.getCSMFBusinessList();
     }
 }

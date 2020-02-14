@@ -18,7 +18,7 @@
         <th width=100>No</th>
         <th width=280>Service Instance Id</th>
         <th width=200>Service Instance Name</th>
-        <th width=200>Creation Time</th>
+        <th width=200>Created Time</th>
         <!--<th width=110>Service Type</th>-->
         <th width=110>S-NSSAI</th>
         <th width=110>Status</th>
@@ -44,7 +44,7 @@
           <td>
             <div class="action-icon">
               <nz-switch [ngModel]="data.order_status==='activated'?true:false"
-                         [nzDisabled]="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100'"
+                         [nzDisabled]="data.order_status === 'processing'|| (data.order_status !== 'processing' && data.last_operation_progress && data.last_operation_progress !== '100')"
                          (ngModelChange)="switchChange(data,i)"></nz-switch>
               <nz-progress
                       *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
@@ -54,7 +54,7 @@
           </td>
             <td>
                 <div class="action-icon">
-                    <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.order_status==='activated')}"
+                    <i [ngClass]="{'cannotclick':data.order_status === 'processing' || ( data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type === 'DELETE' || data.last_operation_type === 'activated'))}"
                        nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
                        (click)="terminate(data,i)"></i>
                     <nz-progress
@@ -68,5 +68,5 @@
       </tbody>
     </nz-table>
   </div>
-  <app-business-order [showModel]="businessOrderShow" (cancel)="businessOrderShow=$event"></app-business-order>
+  <app-business-order [showModel]="businessOrderShow" (cancel)="orderModelClose($event)"></app-business-order>
 </div>
