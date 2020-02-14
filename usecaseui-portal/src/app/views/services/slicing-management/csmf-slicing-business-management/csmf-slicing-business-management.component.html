@@ -22,7 +22,8 @@
         <!--<th width=110>Service Type</th>-->
         <th width=110>S-NSSAI</th>
         <th width=110>Status</th>
-        <th width=180>Aciton</th>
+        <th width=120>Activate</th>
+        <th width=130>Terminate</th>
       </tr>
       </thead>
       <tbody>
@@ -36,10 +37,6 @@
           <td>{{ data.service_snssai }}</td>
           <td>
                             <span class="marginLeft10">
-                                <span *ngIf="data.last_operation_progress && data.last_operation_progress !== '100'">
-                                    {{data.last_operation_progress+'%'}}
-                                </span>
-                                <br>
                                 {{data.order_status}}
                             </span>
             <br>
@@ -51,19 +48,21 @@
                          (ngModelChange)="switchChange(data,i)"></nz-switch>
               <nz-progress
                       *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
-                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
-              </nz-progress>
-            </div>
-            <div class="action-icon">
-              <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.order_status==='activated')}"
-                 nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
-                 (click)="terminate(data,i)"></i>
-              <nz-progress
-                      *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart[i]"
-                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="false" nzStatus="active">
+                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
               </nz-progress>
             </div>
           </td>
+            <td>
+                <div class="action-icon">
+                    <i [ngClass]="{'cannotclick': data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type !== 'DELETE' || data.order_status==='activated')}"
+                       nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
+                       (click)="terminate(data,i)"></i>
+                    <nz-progress
+                            *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart[i]"
+                            [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
+                    </nz-progress>
+                </div>
+            </td>
         </tr>
       </ng-template>
       </tbody>

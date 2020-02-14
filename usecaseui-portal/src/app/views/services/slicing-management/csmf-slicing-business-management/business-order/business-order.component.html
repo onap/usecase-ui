@@ -9,6 +9,14 @@
                         {{ item.title }}
                     </nz-form-label>
                     <nz-form-control [nzSpan]="15">
+                        <input nz-input nz-tooltip
+                               [id]="item.key"
+                               [name]="item.key"
+                               [(ngModel)]="slicing_order_info[item.key]"
+                               [ngClass]="{'error-input-border':validateRules[i] === true}"
+                               *ngIf=" item.title === 'Slicing Business Name' "
+                               (blur)="validator(item.key,slicing_order_info[item.key],i)"
+                        />
                         <nz-tooltip
                                 [nzTitle]="tooltipText"
                                 [nzPlacement]="'right'"
@@ -19,7 +27,7 @@
                                    [name]="item.key"
                                    [(ngModel)]="slicing_order_info[item.key]"
                                    [ngClass]="{'error-input-border':validateRules[i] === true}"
-                                   *ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "
+                                   *ngIf=" item.title !== 'Slicing Business Name' && item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "
                                    (blur)="validator(item.key,slicing_order_info[item.key],i)"
                                    (focus)="changeTooltipText(item.title)"
                             />
