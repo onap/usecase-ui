@@ -34,23 +34,17 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     total: number = 0;
     loading = false;
     statusOptions: any[] = BUSINESS_STATUS;
-    // isSelect: boolean = false;
     progressingTimer: any[] = [];
     terminateStart: any[] = [];
     businessOrderShow: boolean = false;
     getCSMFBusinessList() {
         this.loading = true;
-        // this.isSelect = false;
         this.listOfData = [];
         let paramsObj = {
             status: this.selectedValue.toLocaleLowerCase(),
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        // if (this.selectedValue !== BUSINESS_STATUS[0]) {
-        //     paramsObj["businessStatus"] = this.selectedValue;
-        //     this.isSelect = true;
-        // }
         this.myhttp.getCSMFSlicingBusinessList(paramsObj).subscribe(res => {
             const { result_header: { result_code }, result_body: { slicing_order_list, record_number } } = res;
             this.loading = false;
