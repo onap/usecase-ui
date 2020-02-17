@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {BUSINESS_STATUS} from "../../../../../constants/constants";
-import {SlicingTaskServices} from '.././../../../core/services/slicingTaskServices';
+import { Component, OnInit } from '@angular/core';
+import { BUSINESS_STATUS } from "../../../../../constants/constants";
+import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
-import *as moment from 'moment';
+import * as moment from 'moment';
 @Component({
     selector: 'app-csmf-slicing-business-management',
     templateUrl: './csmf-slicing-business-management.component.html',
@@ -36,7 +36,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     statusOptions: any[] = BUSINESS_STATUS;
     // isSelect: boolean = false;
     progressingTimer: any[] = [];
-    terminateStart:  any[] = [];
+    terminateStart: any[] = [];
     businessOrderShow: boolean = false;
     getCSMFBusinessList() {
         this.loading = true;
@@ -52,13 +52,13 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         //     this.isSelect = true;
         // }
         this.myhttp.getCSMFSlicingBusinessList(paramsObj).subscribe(res => {
-            const {result_header: {result_code}, result_body: {slicing_order_list, record_number}} = res;
+            const { result_header: { result_code }, result_body: { slicing_order_list, record_number } } = res;
             this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
                 if (slicing_order_list !== null && slicing_order_list.length > 0) {
                     this.listOfData = slicing_order_list.map((item, index) => {
-                        item.order_creation_time =  moment(Number(item.order_creation_time)).format('YYYY-MM-DD hh:mm:ss');
+                        item.order_creation_time = moment(Number(item.order_creation_time)).format('YYYY-MM-DD HH:mm:ss');
                         if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
                             let updata = (prodata: { operation_progress: string }) => {
                                 item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
@@ -99,7 +99,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     }
 
     switchChange(slicing, i) {
-        console.log(slicing, i, "slicing");
+        // console.log(slicing, i, "slicing");
         this.modalService.confirm({
             nzTitle: '<i>Are you sure you want to perform this task?</i>',
             nzContent: '<b>Name:' + slicing.order_name + '</b>',
@@ -144,8 +144,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         })
     }
 
-    terminate(slicing,index) {
-        console.log(slicing, "slicing");
+    terminate(slicing, index) {
         this.modalService.confirm({
             nzTitle: 'Are you sure you want to terminate this task?',
             nzContent: '<b>Name:&nbsp;</b>' + slicing.order_name,
@@ -219,11 +218,10 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         })
     }
 
-    OrderModelShow(){
+    OrderModelShow() {
         this.businessOrderShow = true;
     }
-    orderModelClose($event){
-        console.log($event,"$event------")
+    orderModelClose($event) {
         this.businessOrderShow = $event;
         this.getCSMFBusinessList();
     }
