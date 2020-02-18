@@ -31,7 +31,6 @@ export class BusinessOrderComponent implements OnInit {
         expDataRateUL: null,
         resourceSharingLevel: "shared",
         uEMobilityLevel: "stationary",
-        useInterval: null,
         coverageArea: ''
     };
     areaList: any[] = [];
@@ -156,7 +155,6 @@ export class BusinessOrderComponent implements OnInit {
             expDataRateUL: null,
             resourceSharingLevel: "shared",
             uEMobilityLevel: "stationary",
-            useInterval: null,
             coverageArea: ''
         };
     }
@@ -213,16 +211,6 @@ export class BusinessOrderComponent implements OnInit {
         }else if(key === 'latency' && !/^1[0-9]$|^[2-9]\d$|^1\d{2}$|^200$/.test(val) && !isNaN(val)){
             this.validateRules[i] = true;
             this.getRulesText('Scope: 10-200','','',i);
-            return false
-        }else {
-            this.validateRules[i] = false;
-        }if(key === 'useInterval' && !/^[1-9]\d*$/.test(val) && isNaN(val)){
-            this.validateRules[i] = true;
-            this.getRulesText('Only numbers can be entered','','',i);
-            return false
-        }else if(key === 'useInterval' && !/^[1-9]\d*$/.test(val) && !isNaN(val)){
-            this.validateRules[i] = true;
-            this.getRulesText('Scope: ≥1','','',i);
             return false
         }else {
             this.validateRules[i] = false;
