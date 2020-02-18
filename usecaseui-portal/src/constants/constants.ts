@@ -304,10 +304,6 @@ export const COMMUNICATION_FORM_ITEMS = [
         ]
     },
     {
-        title: 'Use Interval (Month)',
-        key: 'useInterval'
-    },
-    {
         title: 'Area',
         key: 'coverageArea'
     }
