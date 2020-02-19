@@ -103,6 +103,9 @@ import { NsiModelComponent } from './views/services/slicing-management/slicing-r
 import { NssiModelComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component';
 import { CsmfSlicingBusinessManagementComponent } from './views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component';
 import { BusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component';
+import { DesignBpmnComponent } from './views/design/design-bpmn/design-bpmn.component';
+import { RegisterEsrComponent } from './views/design/register-esr/register-esr.component';
+import { DesignServiceComponent } from './views/design/design-service/design-service.component';
 
 @NgModule({
   providers: [
@@ -168,7 +171,10 @@ import { BusinessOrderComponent } from './views/services/slicing-management/csmf
       BusinessOrderComponent,
     MdonsCreationComponent,
     MdonsDetailComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    DesignBpmnComponent,
+      RegisterEsrComponent,
+      DesignServiceComponent
   ],
   imports: [
     BrowserModule,

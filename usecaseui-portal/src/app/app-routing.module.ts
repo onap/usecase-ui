@@ -33,6 +33,9 @@ import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.compo
 
 
 import { TestComponent } from './test/test.component';
+import { DesignServiceComponent } from './views/design/design-service/design-service.component';
+import { DesignBpmnComponent } from './views/design/design-bpmn/design-bpmn.component';
+import { RegisterEsrComponent } from './views/design/register-esr/register-esr.component';
 
 // import { DetailsComponent } from './details/details.component';
 
@@ -50,6 +53,9 @@ const routes: Routes = [
   { path: 'fcaps/5gslicing', component: Monitor5gComponent },
   { path: 'services/services-list', component: ServicesListComponent },
   { path: 'services/slicing-management', component: SlicingManagementComponent },
+  { path: 'design/design-service', component: DesignServiceComponent },
+  { path: 'design/design-bpmn', component: DesignBpmnComponent },
+  { path: 'design/register-esr', component: RegisterEsrComponent },
   // { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent },
   { path: 'onboard-vnf-vm', component: OnboardVnfVmComponent },
   { path: 'alarm', component: AlarmComponent },

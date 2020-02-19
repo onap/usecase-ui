@@ -112,6 +112,28 @@
         </ul>
 
       </li>
+      <hr><!-- Design Service page -->
+      <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('design') === 0}" [nzOpen]="designflag">
+        <span title>
+          <i>
+            <img src="{{ url === 'fcaps' ? 'assets/images/scale-active.png':'assets/images/scale.png'}}"
+              alt="home">
+          </i>
+          <span> {{"i18nTextDefine_Design" | translate}} </span>
+        </span>
+        <ul>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'design/design-service'}">
+            <a routerLink='design/design-service'> {{"i18nTextDefine_Design_Service" | translate}} </a>
+          </li>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'design/design-bpmn'}">
+            <a routerLink='design/design-bpmn'> {{"i18nTextDefine_Desgin_BPMN" | translate}} </a>
+          </li>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'design/register-esr'}">
+            <a routerLink='design/register-esr'> {{"i18nTextDefine_Design_ESR" | translate}} </a>
+          </li>
+        </ul>
+
+      </li>
       <hr>
     </ul>
   </nz-sider>

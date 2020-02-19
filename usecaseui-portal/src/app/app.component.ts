@@ -81,5 +81,11 @@ export class AppComponent {
             return false
         }
     }
-
+    get designflag() {
+        if (!this.url.indexOf('design')) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
