@@ -20,7 +20,10 @@
       "prefix": "app",
       "styles": [
         "styles.less",
-        "my-theme.less"
+        "my-theme.less",
+        "../node_modules/bpmn-js/dist/assets/diagram-js.css",
+        "../node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css",
+        "../node_modules/bpmn-js-properties-panel/styles/properties.less"
       ],
       "scripts": [
         "../node_modules/echarts/dist/echarts.min.js"
