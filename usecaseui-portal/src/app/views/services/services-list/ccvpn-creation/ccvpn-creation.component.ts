@@ -27,7 +27,7 @@ export class CcvpnCreationComponent implements OnInit {
 
     constructor(private myhttp: ServiceListService) { }
     @Input() createParams;
-    @Input() ccvpn_temParametersContent;
+    @Input() ccvpn_temParametersContent; 
     @Output() closeCreate = new EventEmitter();
 
 

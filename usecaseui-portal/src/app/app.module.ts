@@ -16,12 +16,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { NgxEchartsModule } from 'ngx-echarts';
+
+//Custom Directive
+import { DisableControlDirective } from './Directives/disable-control.directive';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -49,6 +52,8 @@ import { PerformanceVmComponent } from './views/performance/performance-vm/perfo
 import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
 import { CcvpnDetailComponent } from './views/services/services-list/ccvpn-detail/ccvpn-detail.component';
 import { CcvpnCreationComponent } from './views/services/services-list/ccvpn-creation/ccvpn-creation.component';
+import { MdonsDetailComponent } from './views/services/services-list/mdons-detail/mdons-detail.component';
+import { MdonsCreationComponent } from './views/services/services-list/mdons-creation/mdons-creation.component';
 
 import { DetailsComponent } from './shared/components/details/details.component';
 import { GraphiclistComponent } from './shared/components/graphiclist/graphiclist.component';
@@ -160,11 +165,15 @@ import { BusinessOrderComponent } from './views/services/slicing-management/csmf
       NsiModelComponent,
       NssiModelComponent,
       CsmfSlicingBusinessManagementComponent,
-      BusinessOrderComponent
+      BusinessOrderComponent,
+    MdonsCreationComponent,
+    MdonsDetailComponent,
+    DisableControlDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule ,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -183,6 +192,10 @@ import { BusinessOrderComponent } from './views/services/slicing-management/csmf
         SlicingBusinessModelComponent,
         NsiModelComponent,
         NssiModelComponent
-    ]
+    ],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
 export class AppModule { }

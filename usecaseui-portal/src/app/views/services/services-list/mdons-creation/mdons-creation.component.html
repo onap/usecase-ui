@@ -1,0 +1,49 @@
+<div class="model creation-model">
+        <!-- Create data -->
+        <div class="top-title">
+            <h3 class="title fl">{{templateParameters.type}} {{"i18nTextDefine_InstanceCreation" | translate}} </h3>
+            <div class="fl" style="width: 20%">
+                <button class="submit" [disabled]="!mdons_creation_form.valid" nz-button (click)="createService()">
+                    <span> {{"i18nTextDefine_Create" | translate}} </span> 
+                </button>
+                <button class="back" nz-button (click)="goback()"></button>
+            </div>
+        </div>
+<div [formGroup]="mdons_creation_form">
+<div class="e2ecreate-content">
+        <div class="creation fl" style="width:95%">
+            <div *ngIf="mdonsModelShow" class="baseparms clearfix">
+                <div class="vnf-box  form-group" *ngIf="templateParameters.inputs.length>0">
+                        <h3>{{"i18nTextDefine_templateInputs" | translate}}</h3>
+                        <ul >
+                            <li *ngFor="let parameter of templateParameters.inputs; let i = index;">
+                                <span *ngIf="parameter.isRequired.includes('true')" style="color: red;width:10px;min-width:1px;">*</span>
+                                <span title="{{parameter.name}}">{{parameter.name}}:</span>
+                                <input *ngIf="!(parameter.name.includes('uni_id') || parameter.name.includes('enni_id') || parameter.name.includes('date'))" formControlName="{{parameter.name}}" nz-input [(ngModel)]="parameter.value" style="margin-left: auto;">
+                                <!--<pre>{{mdons_creation_form.get(parameter.name).valid}}</pre>-->
+                                <input style="margin-left: 2px;" *ngIf="parameter.name.includes('date')" type="date" formControlName="{{parameter.name}}" nz-input [(ngModel)]="parameter.value" placeholder="yyyy-MM-dd"/>
+                                <span style="color: red;width:10px;" *ngIf="mdons_creation_form.controls[parameter.name].errors?.required && (mdons_creation_form.controls[parameter.name].dirty || mdons_creation_form.controls[parameter.name].touched)">Required</span>
+                                <nz-dropdown class = "customclass" [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'" *ngIf="(parameter.name.includes('uni_id') || parameter.name.includes('enni_id'))">
+                                    <button style="width: 300px;" nz-button nz-dropdown><span *ngIf="parameter.name.includes('uni_id')">{{uniIdSelected.id}}</span><span *ngIf="parameter.name.includes('enni_id')">{{enniIdSelected.id}}</span> <i class="anticon anticon-down"></i>
+                                    </button>
+                                    <ul nz-menu  *ngIf="parameter.name.includes('uni_id')" class="dropDownScroller">
+                                        <li nz-menu-item (click)="chooseUni(item)" *ngFor="let item of uniList" > 
+                                            <a title="{{item.id}}">{{item.id}}</a>
+                                        </li>
+                                    </ul>
+                                    <ul nz-menu *ngIf="parameter.name.includes('enni_id')" class="dropDownScroller" >
+                                        <li nz-menu-item (click)="chooseEnni(item)" *ngFor="let item of enniList" > 
+                                            <a title="{{item.id}}">{{item.id}}</a> 
+                                        </li>
+                                    </ul>
+                                </nz-dropdown>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+        
+    </div>
+  </div>
+</div>
+

@@ -24,7 +24,7 @@
         <button nz-button nz-dropdown><span>{{customerSelected.name}}</span> <i class="anticon anticon-down"></i>
         </button>
         <ul nz-menu>
-            <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList">
+            <li nz-menu-item (click)="choseCustomer(item)" *ngFor="let item of customerList"> 
                 <a title="{{item.name}}">{{item.name}}</a>
             </li>
         </ul>
@@ -99,13 +99,13 @@
                     'updating':data.statusClass==='Updating','deleting':data.statusClass==='1002','creating':data.statusClass==='1001',
                     'scaling':data.statusClass==='1003','healing':data.statusClass==='1004'}"
                                 *ngIf="data.tips !== 'Available' && data.tips !== 'Unavailable'">{{data.tips}}</span>
-                            <span *ngIf="data.tips === 'Available' " class="marginLeft10">
+                            <span *ngIf="data.tips === 'Available' " class="marginLeft10" title = "{{data.serviceStatusInfo}}">
                                 <img src="assets/images/wancheng-icon.png" alt="Available">
                             </span>
-                            <span *ngIf="data.tips === 'Unavailable' " class="marginLeft10">
+                            <span *ngIf="data.tips === 'Unavailable' " class="marginLeft10" title = "{{data.serviceStatusInfo}}">
                                 <img src="assets/images/shibai-icon.png" alt="Unavailable">
                             </span>
-                            <nz-progress *ngIf="data.status === 'In Progress'" [nzPercent]="data.rate"
+                            <nz-progress *ngIf="data.status === 'In Progress'" [nzPercent]="data.rate" title = "{{data.serviceStatusInfo}}"
                                 [nzShowInfo]="false" nzStatus="active"></nz-progress>
                         </td>
                         <td>
@@ -205,8 +205,8 @@
                         <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
                     </span>
                     <div class="ant-notification-notice-message"
-                        *ngIf="createData['commonParams']['templateType'] === 'CCVPN' || thisService['serviceDomain'] === 'SOTN'">
-                        {{ createData['commonParams']['templateType'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" |
+                        *ngIf="thisCreateService['serviceDomain'] === 'CCVPN' || thisService['serviceDomain'] === 'SOTN' || thisService['serviceDomain'] === 'MDONS'">
+                        {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" |
                         translate}}
                     </div>
                     <div class="ant-notification-notice-message"
@@ -246,8 +246,8 @@
                             *ngIf="thisCreateService.status == 'Failed'">
                     </span>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Successful'">
-                        {{ createData['commonParams']['templateType'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
+                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisCreateService.status == 'Successful'">
+                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
                         translate}}
                     </div>
                     <div class="ant-notification-notice-message"
@@ -259,8 +259,8 @@
                         NS &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
                     </div>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN') && thisCreateService.status == 'Failed'">
-                        {{ createData['commonParams']['templateType'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
+                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisCreateService.status == 'Failed'">
+                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
                         translate}}
                     </div>
                     <div class="ant-notification-notice-message"
@@ -301,7 +301,7 @@
                             *ngIf="thisService.status == 'Failed'">
                     </span>
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Successful'">
+                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisService.status == 'Successful'">
                         {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminatedSuccessfully" |
                         translate}}
                     </div>
@@ -315,7 +315,7 @@
                     </div>
                     
                     <div class="ant-notification-notice-message"
-                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN') && thisService.status == 'Failed'">
+                        *ngIf="(thisService['serviceDomain'] == 'CCVPN' || thisService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisService.status == 'Failed'">
                         {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceTeminationFailed" |
                         translate}}
                     </div>
@@ -520,6 +520,10 @@
         <app-e2e-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
         </app-e2e-detail> 
     </div>
+    <div class="detailComponent" *ngIf="detailshow2">
+        <app-mdons-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
+        </app-mdons-detail> 
+    </div>
     <div class="createComponent" *ngIf="createshow">
         <app-ccvpn-creation [createParams]="createData" [ccvpn_temParametersContent]="ccvpn_temParametersContent"
             (closeCreate)="closeCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
@@ -530,6 +534,11 @@
             (nsCloseCreate)="nsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)"
             (e2eCloseCreate)="e2eCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
         </app-e2e-creation>
+    </div>
+    <div class="createComponent" *ngIf="showCreateMDONS">
+        <app-mdons-creation [createParams]="createData" [mdons_temParametersContent]="mdons_temParametersContent"
+        (mdonsCloseCreate)="mdonsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+        </app-mdons-creation>
     </div>
     <!--</div>-->
 </nz-layout>

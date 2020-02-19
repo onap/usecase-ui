@@ -6,7 +6,7 @@ import { ServiceListService } from '../../../../core/services/serviceList.servic
   templateUrl: './create-model.component.html',
   styleUrls: ['./create-model.component.less'],
 })
-export class CreateModelComponent implements OnInit {
+export class CreateModelComponent implements OnInit { 
   @Input()isVisible: boolean;
   @Input()customerList;
   @Input()serviceTypeList;
@@ -95,7 +95,7 @@ export class CreateModelComponent implements OnInit {
   }
 
   handleOk(): void {
-    if (this.templateTypeSelected === "SOTN" || this.templateTypeSelected === "CCVPN") {
+    if (this.templateTypeSelected === "SOTN" || this.templateTypeSelected === "CCVPN" || this.templateTypeSelected === "MDONS") {
         this.createData = {
             commonParams: {
               customer: this.currentCustomer,

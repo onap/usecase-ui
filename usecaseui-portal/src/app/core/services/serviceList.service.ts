@@ -17,6 +17,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import {  servicesTableData,baseUrl } from '../models/dataInterface';
+import { retry, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ServiceListService {
@@ -52,10 +53,16 @@ export class ServiceListService {
     pnfDetail: this.baseUrl + "/uui-sotn/getPnfInfo/",
     connectivity: this.baseUrl + "/uui-sotn/getConnectivityInfo/",
     vpnBinding: this.baseUrl + "/uui-sotn/getPinterfaceByVpnId/",
+    getNIList: this.baseUrl + "/uui-lcm/getAllNI/"
   };
 
 
   //The following APIs are optimizable
+
+  //get all unni
+  getAllNI(type) {
+    return this.http.get<any>(this.url.getNIList+type);
+  }
 
   // Get all customers
   getAllCustomers() {
@@ -89,8 +96,11 @@ export class ServiceListService {
   }
   // Create interface
   createInstance(requestBody, createParams) {
-    return this.http.post<any>(this.url.createService + createParams, requestBody);
+    return this.http.post<any>(this.url.createService + createParams, requestBody).pipe(
+      catchError(this.handleError)
+    );
   }
+
   // NS CreateInstance step one
   nsCreateInstance(requestBody) {
     return this.http.post<any>(this.url.ns_createService, requestBody);
@@ -136,7 +146,7 @@ export class ServiceListService {
         inputs: ""
       };
       return this.http.post<any>(this.url.nstemplateParameters, body);
-    } else if (type == "e2e") {
+    } else if (type == "e2e" || type == "MDONS") {
       let params = new HttpParams({ fromObject: {"toscaModelPath":template.toscaModelURL} });
       let url = this.url.e2etemplateParameters.replace("*_*", template.uuid);
       return this.http.get<any>(url,{params});
@@ -209,5 +219,17 @@ export class ServiceListService {
     return this.http.get<any>(url);
   }
 
-
+  
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log("errorMessage : "+errorMessage);
+    return Observable.throw(error);
+  }
 }
