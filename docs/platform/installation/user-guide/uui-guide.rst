@@ -61,6 +61,9 @@ This module consists of two parts. One is Lifecycle Management, the other is 5G 
    :width: 7.97047in
    :height: 3.63208in
 
+In Frankfurt Release, MDONS instance has been added to the orginal service type. Click the following link to see more detal:
+https://wiki.onap.org/display/DW/UUI
+
 * 5G Slicing Management
 
 This module consists of two parts. 
