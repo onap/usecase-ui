@@ -16,6 +16,11 @@ export class MdonsCreationComponent implements OnInit {
   uniIdSelected = { id: null };
   enniList= [];
   enniIdSelected = { id: null };
+  nniList= [];
+  nniIdSelected = { id: null };
+  
+  nniMap : Map<any, any> = new Map<any, any>();
+
   templateParameters = {
     invariantUUID: "",
     uuid: "",
@@ -67,6 +72,7 @@ export class MdonsCreationComponent implements OnInit {
   ngOnInit() {
     this.getalluni();
     this.getallenni();
+    this.getallnni();
     this.templateParameters=this.mdons_temParametersContent;
     this.mdonsModelShow = true;
     this.mdons_creation_form = this.fb.group({});
@@ -76,7 +82,7 @@ export class MdonsCreationComponent implements OnInit {
 
   buildFormArrayOfGroupsFromArr() {
     for(let i of this.templateParameters.inputs){
-      if(i.isRequired === "true" && !(i.name.includes('uni_id') || i.name.includes('enni_id'))){
+      if(i.isRequired === "true" && !(i.name.includes('_id'))){
       this.mdons_creation_form.addControl(i.name, this.fb.control('', [Validators.required]))
       } else {
         this.mdons_creation_form.addControl(i.name, this.fb.control('')) 
@@ -95,7 +101,7 @@ export class MdonsCreationComponent implements OnInit {
 }
 
 getallenni() {
-  this.myhttp.getAllNI("NNI")
+  this.myhttp.getAllNI("ENNI")
       .subscribe((data) => {
           this.enniList = data.map(item => ({id: item }) );
           if(data.length !== 0){
@@ -104,12 +110,29 @@ getallenni() {
       })
 }
 
-chooseUni(item = this.uniIdSelected){
-  if(this.uniIdSelected !== item) this.uniIdSelected = item;
+getallnni() {
+  this.myhttp.getAllNI("NNI")
+      .subscribe((data) => {
+          this.nniList = data.map(item => ({id: item }) );
+          if(data.length !== 0){
+              this.nniIdSelected = this.nniList[0];
+          }
+      })
 }
 
-chooseEnni(item = this.enniIdSelected){
-  if(this.enniIdSelected !== item) this.enniIdSelected = item;
+chooseUni(parameterName, item){
+  //if(this.uniIdSelected !== item) this.uniIdSelected = item;
+  this.nniMap.set(parameterName,item);
+}
+
+chooseEnni(parameterName, item){
+  //if(this.enniIdSelected !== item) this.enniIdSelected = item;
+  this.nniMap.set(parameterName,item);
+}
+
+chooseNni(parameterName, item){
+  //if(this.nniIdSelected !== item) this.nniIdSelected = item;
+  this.nniMap.set(parameterName,item);
 }
 
   goback() {
@@ -131,11 +154,14 @@ chooseEnni(item = this.enniIdSelected){
 
       this.templateParameters.inputs.forEach((ipnut) => {
         this.service.parameters.requestInputs[ipnut.name] = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
-        if(ipnut.name.includes('uni_id')) {
-          this.service.parameters.requestInputs[ipnut.name] = this.uniIdSelected.id == undefined ? ipnut.defaultValue : this.uniIdSelected.id;
+        if(ipnut.name.includes('uni') && ipnut.name.includes('id')) {
+          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.uniIdSelected.id : this.nniMap.get(ipnut.name).id;
         }
-        if(ipnut.name.includes('enni_id')) {
-          this.service.parameters.requestInputs[ipnut.name] = this.enniIdSelected.id == undefined ? ipnut.defaultValue : this.enniIdSelected.id;
+        if(ipnut.name.includes('enni') && ipnut.name.includes('id')) {
+          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.enniIdSelected.id : this.nniMap.get(ipnut.name).id;
+        }
+        if(ipnut.name.includes('nni') && ipnut.name.includes('id')) {
+          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.nniIdSelected.id : this.nniMap.get(ipnut.name).id;
         }
         if(ipnut.name==='name') {
           this.service.name = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
