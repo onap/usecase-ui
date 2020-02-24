@@ -6,6 +6,7 @@
   "i18nTextDefine_Monitor_5g": "5G 切片",
   "i18nTextDefine_Services": "服务",
   "i18nTextDefine_ServicesList": "服务列表",
+  "i18nTextDefine_SotnEline": "SOTN Eline",
   "i18nTextDefine_Mangement_5g": "5G切片管理",
   "i18nTextDefine_PackageManagement": "包管理",
   "i18nTextDefine_Alarm": "告警",
@@ -138,5 +139,16 @@
   "i18nTextDefine_RightPort": "右侧端口",
   "i18nTextDefine_PartnerNetwork": "伙伴网络",
   "i18nTextDefine_HostUrl": "主机网址",
-  "i18nTextDefine_deleteLink": "删除链接"
+  "i18nTextDefine_deleteLink": "删除链接",
+
+  "sotn-component": "--:",
+  "i18nTextDefine_subscriptionType": "Service Type",
+  "i18nTextDefine_serviceInstance": "Service Instance",
+  "i18nTextDefine_serviceInformation": "Service Information",
+  "i18nTextDefine_vpnInformation": "VPN Information",
+  "i18nTextDefine_vpnName": "VPN Name",
+  "i18nTextDefine_siteInformation": "Site Information",
+  "i18nTextDefine_siteName": "Site Name",
+  "i18nTextDefine_city": "City",
+  "i18nTextDefine_postalCode": "Postal Code"
 }

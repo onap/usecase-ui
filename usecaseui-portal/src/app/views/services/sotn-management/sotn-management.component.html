@@ -1,0 +1,17 @@
+<nz-tabset (nzSelectChange)="handleTabChange($event)" class="slicing">
+  <nz-tab nzTitle="Order Service">
+    <app-order-service
+            *ngIf="currentTab ==='Order Service'"
+    ></app-order-service>
+  </nz-tab>
+  <nz-tab nzTitle="Manage Service" >
+    <app-manage-service
+            *ngIf="currentTab ==='Manage Service'"
+    ></app-manage-service>
+  </nz-tab>
+  <nz-tab nzTitle="Monitor Service">
+    <app-monitor-service
+            *ngIf="currentTab ==='Monitor Service'"
+    ></app-monitor-service>
+  </nz-tab>
+</nz-tabset>

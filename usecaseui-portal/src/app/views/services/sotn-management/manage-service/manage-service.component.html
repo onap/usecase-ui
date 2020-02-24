@@ -1,0 +1,197 @@
+<div class="main">
+    <div class="divCls">
+        <table>
+            <tr>
+                <td>
+                    <nz-form-label class="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_subscriptionType" | translate}}</nz-form-label>
+                </td>
+                <td>
+                    <nz-select class="colm-s-2" id="subscriptionType" [(ngModel)]="selectedSubscriptionType" (ngModelChange)="getServiceInstanceList($event)" nzAllowClear
+                        nzPlaceHolder="Choose">
+                        <nz-option *ngFor="let option of serviceSubscriptionList" [nzValue]="option.serviceType" [nzLabel]="option.serviceType"></nz-option>
+                    </nz-select>
+                </td>
+                <td style="width: 5%"></td>
+                <td>
+                    <nz-form-label class="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_serviceInstance" | translate}}</nz-form-label>
+                </td>
+                <td>
+                    <nz-select class="colm-s-2" id="serviceInstance" [(ngModel)]="selectedServiceInstance" (ngModelChange)="getSubscribedSites($event)" nzAllowClear
+                        nzPlaceHolder="Choose">
+                        <nz-option *ngFor="let option of serviceInstanceList" [nzValue]="option.serviceInstance" [nzLabel]="option.serviceInstancename"></nz-option>
+                    </nz-select>
+                </td>
+                <td style="width: 5%"></td>
+                <td>
+                    <button *ngIf="((selectedSubscriptionType|lowercase) == 'sotn' && selectedServiceInstance !='' )" nz-button nzType="primary"
+                    (click)="deleteSelectedService()">{{"i18nTextDefine_delete" | translate}}</button>
+                </td>
+            </tr>
+        </table>
+        </div>
+        <div class="desktop view">
+            <nz-table #nzExpandTable [nzData]="expandDataSet" [nzShowPagination]=false>
+                <tbody>
+                    <ng-template ngFor let-data [ngForOf]="nzExpandTable.data">
+                        <tr>
+                            <td width="4%" class="tdCls" nzShowExpand [(nzExpand)]="data.expand"></td>
+                            <td width="96%" class="tdCls">{{data.name | translate}}</td>
+                        </tr>
+                        <tr [nzExpand]="data.expand">
+                            <td class="noPadding" colspan="2">
+                                <ng-template [ngIf]="data.rowIdx == 1">
+                                    <div style="display: flex; justify-content: center; padding: 1%;">
+                                        <div style="width: 45%" class="">
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Name: </b>
+                                                </span>
+                                                <span>{{summaryInfo.name}}</span>
+                                            </div>
+                                        </div>
+                                        <div style="width: 45%" class="">
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Description: </b>
+                                                </span>
+                                                <span>{{summaryInfo.description}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template [ngIf]="data.rowIdx == 2">
+                                    <div style="display: flex; justify-content: center; padding: 1%;">
+                                        <div style="width: 45%" class="">
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Name: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_name}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Description: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_description}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>COS: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_COS}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Dual Link: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_dualLink}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Tenant ID: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_tenantId}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>VPN Type: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_vpnType}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>CBC: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_cbs}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>EBC: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_ebs}}</span>
+                                            </div>
+                                        </div>
+                                        <div style="width: 45%" class="">
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Color Aware: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_colorAware}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Re-route: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_reroute}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Coupling Flag: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_couplingFlag}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>CIR: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_cir}}</span>
+                                            </div>
+                                            
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>Start Time: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_startTime}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>End Time: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_endTime}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>EIR: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_eir}}</span>
+                                            </div>
+                                            <div style="padding: 1%">
+                                                <span>
+                                                    <b>SLS: </b>
+                                                </span>
+                                                <span>{{vpnInfo.l2vpn_SLS}}</span>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template [ngIf]="data.rowIdx == 3">
+                                    <div style="display: flex; justify-content: center; padding: 1%;">
+                                        <div style="width: 90%" class="">
+                                            <nz-table #basicTable [nzData]="uniInfo" [nzShowPagination]="false">
+                                                <thead>
+                                                    <tr>
+                                                    <th>UNI</th>
+                                                    <th>TP Id</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let data of basicTable.data">
+                                                    <td>{{ data.sotnuni_cVLAN }}</td>
+                                                    <td>{{ data.sotnuni_tpId }}</td>
+                                                    </tr>
+                                                </tbody>
+                                                </nz-table>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- <app-sotn-order-service *ngIf="((selectedSubscriptionType|lowercase) == 'sotn' && selectedServiceInstance !='' )" [subscriptionType]="selectedSubscriptionType"
+            [serviceInstanceId]="selectedServiceInstance"></app-sotn-order-service>
+        <app-ordered-service *ngIf="((selectedSubscriptionType|lowercase) == 'sdwan' && selectedServiceInstance !='' )"></app-ordered-service> -->
+</div>
