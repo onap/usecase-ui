@@ -25,20 +25,20 @@ export class networkHttpservice {
 
     baseUrl = baseUrl.baseUrl;//Online environment
     url = {
-        "getNetworkD3Data": "/uui-sotn/getNetWorkResources",
-        "getLogicalLinksData": "/uui-sotn/getLogicalLinks",
-        "deleteCloud": "/uui-sotn/deleteExtNetWork",
-        "getPInterfacesData": "/uui-sotn/getPinterfaceByPnfName/",
-        "createLink": "/uui-sotn/createLink/",
-        "querySpecificLinkInfo": "/uui-sotn/getSpecificLogicalLink/",
-        "queryCloudUrl": "/uui-sotn/getHostUrl/",
-        "queryExtAAIIdVersion": "/uui-sotn/getExtAaiId/",
-        "createNetwrok": "/uui-sotn/createTopoNetwork/",
-        "createPnf": "/uui-sotn/createPnf/",
-        "createTp": "/uui-sotn/pnf/",
-        "createCloudLink": "/uui-sotn/createLink/",
-        "createCloudUrl": "/uui-sotn/createHostUrl/",
-        "deleteLink": "/uui-sotn/deleteLink/",
+        "getNetworkD3Data": this.baseUrl+"/uui-sotn/getNetWorkResources",
+        "getLogicalLinksData": this.baseUrl+"/uui-sotn/getLogicalLinks",
+        "deleteCloud": this.baseUrl+"/uui-sotn/deleteExtNetWork",
+        "getPInterfacesData": this.baseUrl+"/uui-sotn/getPinterfaceByPnfName/",
+        "createLink": this.baseUrl+"/uui-sotn/createLink/",
+        "querySpecificLinkInfo": this.baseUrl+"/uui-sotn/getSpecificLogicalLink/",
+        "queryCloudUrl": this.baseUrl+"/uui-sotn/getHostUrl/",
+        "queryExtAAIIdVersion": this.baseUrl+"/uui-sotn/getExtAaiId/",
+        "createNetwrok": this.baseUrl+"/uui-sotn/createTopoNetwork/",
+        "createPnf": this.baseUrl+"/uui-sotn/createPnf/",
+        "createTp": this.baseUrl+"/uui-sotn/pnf/",
+        "createCloudLink": this.baseUrl+"/uui-sotn/createLink/",
+        "createCloudUrl": this.baseUrl+"/uui-sotn/createHostUrl/",
+        "deleteLink": this.baseUrl+"/uui-sotn/deleteLink/",
 
     };
 
