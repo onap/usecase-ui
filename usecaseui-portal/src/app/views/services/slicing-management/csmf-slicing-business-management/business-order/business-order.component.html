@@ -10,15 +10,15 @@
                     <nz-form-control [nzSpan]="15">
                         <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
                                [(ngModel)]="slicing_order_info[item.key]"
-                               [ngClass]="{'error-input-border':validateRules[i] === true}"
+                               [ngClass]="{'error-input-border':validateRulesShow[i] === true}"
                                *ngIf=" item.title === 'Slicing Business Name' "
-                               (blur)="validator(item,slicing_order_info[item.key],i)"/>
+                               (blur)="this.Util.validator(item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow)"/>
                         <nz-tooltip [nzTitle]="tooltipText" [nzPlacement]="'right'" [nzTrigger]="'focus'">
                             <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
                                    [(ngModel)]="slicing_order_info[item.key]"
-                                   [ngClass]="{'error-input-border':validateRules[i] === true}"
+                                   [ngClass]="{'error-input-border':validateRulesShow[i] === true}"
                                    *ngIf=" item.title !== 'Slicing Business Name' && item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "
-                                   (blur)="validator(item,slicing_order_info[item.key],i)"
+                                   (blur)="this.Util.validator(item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow)"
                                    (focus)="changeTooltipText(item.title)"/>
                         </nz-tooltip>
                         <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
@@ -34,7 +34,7 @@
                             </nz-option>
                         </nz-select>
                         <nz-form-explain
-                                *ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' && validateRules[i]"
+                                *ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' && validateRulesShow[i]"
                                 class="validateRules">{{rulesText[i]}}
                         </nz-form-explain>
                     </nz-form-control>
