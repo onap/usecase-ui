@@ -24,7 +24,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 //Custom Directive
-import { DisableControlDirective } from './Directives/disable-control.directive';
+import { DisableControlDirective } from './core/Directives/disable-control.directive';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';

@@ -19,21 +19,26 @@
                             <li *ngFor="let parameter of templateParameters.inputs; let i = index;">
                                 <span *ngIf="parameter.isRequired.includes('true')" style="color: red;width:10px;min-width:1px;">*</span>
                                 <span title="{{parameter.name}}">{{parameter.name}}:</span>
-                                <input *ngIf="!(parameter.name.includes('uni_id') || parameter.name.includes('enni_id') || parameter.name.includes('date'))" formControlName="{{parameter.name}}" nz-input [(ngModel)]="parameter.value" style="margin-left: auto;">
+                                <input *ngIf="!(((parameter.name.includes('uni') || parameter.name.includes('enni') || parameter.name.includes('nni')) && parameter.name.includes('id')) || parameter.name.includes('date'))" formControlName="{{parameter.name}}" nz-input [(ngModel)]="parameter.value" style="margin-left: auto;">
                                 <!--<pre>{{mdons_creation_form.get(parameter.name).valid}}</pre>-->
                                 <input style="margin-left: 2px;" *ngIf="parameter.name.includes('date')" type="date" formControlName="{{parameter.name}}" nz-input [(ngModel)]="parameter.value" placeholder="yyyy-MM-dd"/>
                                 <span style="color: red;width:10px;" *ngIf="mdons_creation_form.controls[parameter.name].errors?.required && (mdons_creation_form.controls[parameter.name].dirty || mdons_creation_form.controls[parameter.name].touched)">Required</span>
-                                <nz-dropdown class = "customclass" [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'" *ngIf="(parameter.name.includes('uni_id') || parameter.name.includes('enni_id'))">
-                                    <button style="width: 300px;" nz-button nz-dropdown><span *ngIf="parameter.name.includes('uni_id')">{{uniIdSelected.id}}</span><span *ngIf="parameter.name.includes('enni_id')">{{enniIdSelected.id}}</span> <i class="anticon anticon-down"></i>
+                                <nz-dropdown class = "customclass" [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'" *ngIf="(parameter.name.includes('uni') || parameter.name.includes('enni') || parameter.name.includes('nni')) && parameter.name.includes('id')">
+                                    <button style="width: 300px;" nz-button nz-dropdown><span *ngIf="(parameter.name.includes('uni') && parameter.name.includes('id'))">{{nniMap.get(parameter.name) == undefined ? uniIdSelected.id : nniMap.get(parameter.name).id}}</span><span *ngIf="(parameter.name.includes('enni')&& parameter.name.includes('id'))">{{nniMap.get(parameter.name) == undefined ? enniIdSelected.id : nniMap.get(parameter.name).id}}</span><span *ngIf="(parameter.name.includes('nni') && parameter.name.includes('id') && !parameter.name.includes('e'))">{{nniMap.get(parameter.name) == undefined ? nniIdSelected.id : nniMap.get(parameter.name).id}}</span> <i class="anticon anticon-down"></i>
                                     </button>
-                                    <ul nz-menu  *ngIf="parameter.name.includes('uni_id')" class="dropDownScroller">
-                                        <li nz-menu-item (click)="chooseUni(item)" *ngFor="let item of uniList" > 
+                                    <ul nz-menu  *ngIf="(parameter.name.includes('uni') && parameter.name.includes('id'))" class="dropDownScroller">
+                                        <li nz-menu-item (click)="chooseUni(parameter.name,item)" *ngFor="let item of uniList" > 
                                             <a title="{{item.id}}">{{item.id}}</a>
                                         </li>
                                     </ul>
-                                    <ul nz-menu *ngIf="parameter.name.includes('enni_id')" class="dropDownScroller" >
-                                        <li nz-menu-item (click)="chooseEnni(item)" *ngFor="let item of enniList" > 
-                                            <a title="{{item.id}}">{{item.id}}</a> 
+                                    <ul nz-menu *ngIf="(parameter.name.includes('enni') && parameter.name.includes('id'))" class="dropDownScroller" >
+                                        <li nz-menu-item (click)="chooseEnni(parameter.name,item)" *ngFor="let item of enniList" > 
+                                            <a title="{{nniMap.get(parameter.name) == undefined ? item.id : nniMap.get(parameter.name)}}">{{nniMap.get(parameter.name) == undefined ? item.id : nniMap.get(parameter.name)}}</a> 
+                                        </li>
+                                    </ul>
+                                    <ul nz-menu  *ngIf="(parameter.name.includes('nni') && parameter.name.includes('id') && !parameter.name.includes('e'))" class="dropDownScroller">
+                                        <li nz-menu-item (click)="chooseNni(parameter.name,item)" *ngFor="let item of nniList" > 
+                                            <a title="{{item.id}}">{{item.id}}</a>
                                         </li>
                                     </ul>
                                 </nz-dropdown>
