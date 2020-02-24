@@ -1,0 +1,204 @@
+<div theme class="main">
+  <nz-table #nzExpandTable [nzData]="expandDataSet" [nzShowPagination]=false>
+    <tbody>
+      <tr>
+        <td width="4%"></td>
+        <td width="96%">
+          <button style="float:right" (click)="selectOrderSiteData()" nz-button nzType="primary">Create Service</button>
+        </td>
+      </tr>
+      <ng-template ngFor let-data [ngForOf]="nzExpandTable.data">
+        <tr>
+          <td width="4%" class="tdCls" nzShowExpand [(nzExpand)]="data.expand"></td>
+          <td width="96%" class="tdCls">{{data.name | translate}}</td>
+        </tr>
+        <tr [nzExpand]="data.expand">
+          <td class="noPadding" colspan="2">
+            <form autocomplete="off" [formGroup]="validateForm">
+              <ng-template [ngIf]="data.rowIdx == 1">
+                <div style="display: flex; justify-content: center; padding: 1%;">
+                  <div style="width: 100%" class="">
+                    <div style="display: flex; justify-content: space-around;">
+                      <div class="sotn-form">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name" ><span class="form-lable-font"> {{ "i18nTextDefine_Name" |  translate}}</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="name" id="name" [(ngModel)]="siteData.name">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <div class="sotn-form ">
+                        <nz-form-item class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="description"><span class="form-lable-font">{{ "i18nTextDefine_Description" | translate}}</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="description" id="description" [(ngModel)]="siteData.description">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template [ngIf]="data.rowIdx == 2">
+                <div style="display: flex; justify-content: center; padding: 1%;">
+                  <div style="width: 100%" class="">
+                    <div style="display: flex; justify-content: space-around;">
+                      <div class="sotn-form">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_name" ><span class="form-lable-font"> {{ "i18nTextDefine_Name" |  translate}}</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_name" id="l2vpn_name" [(ngModel)]="l2vpn.l2vpn_name">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_description"><span class="form-lable-font">{{ "i18nTextDefine_Description" | translate}}</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_description" id="l2vpn_description" [(ngModel)]="l2vpn.l2vpn_description">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_COS"><span class="form-lable-font">COS</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_COS" id="l2vpn_COS" [(ngModel)]="l2vpn.l2vpn_COS"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_dualLink"><span class="form-lable-font">Dual Link</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_dualLink" id="l2vpn_dualLink" [(ngModel)]="l2vpn.l2vpn_dualLink"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_tenantId"><span class="form-lable-font">Tenant ID</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_tenantId" id="l2vpn_tenantId" [(ngModel)]="l2vpn.l2vpn_tenantId"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_vpnType"><span class="form-lable-font">VPN Type</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_vpnType" id="l2vpn_vpnType" [(ngModel)]="l2vpn.l2vpn_vpnType"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_cbs"><span class="form-lable-font">CBS</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_cbs" id="l2vpn_cbs" [(ngModel)]="l2vpn.l2vpn_cbs"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_ebs"><span class="form-lable-font">EBS</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_ebs" id="l2vpn_ebs" [(ngModel)]="l2vpn.l2vpn_ebs"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <div class="sotn-form ">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_colorAware" ><span class="form-lable-font">Color Aware</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_colorAware" id="l2vpn_colorAware" [(ngModel)]="l2vpn.l2vpn_colorAware">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_reroute"><span class="form-lable-font">Re-route</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_reroute" id="l2vpn_reroute" [(ngModel)]="l2vpn.l2vpn_reroute">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_couplingFlag"><span class="form-lable-font">Coupling Flag</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_couplingFlag" id="l2vpn_couplingFlag" [(ngModel)]="l2vpn.l2vpn_couplingFlag"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_cir"><span class="form-lable-font">CIR</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_cir" id="l2vpn_cir" [(ngModel)]="l2vpn.l2vpn_cir"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_startTime"><span class="form-lable-font">Strat Time</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <nz-date-picker formControlName="l2vpn_startTime" id="l2vpn_startTime" [(ngModel)]="l2vpn.l2vpn_startTime"></nz-date-picker>
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_endTime"><span class="form-lable-font">End Time</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <nz-date-picker formControlName="l2vpn_endTime" id="l2vpn_endTime" [(ngModel)]="l2vpn.l2vpn_endTime"></nz-date-picker>
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_eir"><span class="form-lable-font">EIR</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_eir" id="l2vpn_eir" [(ngModel)]="l2vpn.l2vpn_eir"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="mar-0x  child">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_SLS"><span class="form-lable-font">SLS</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="l2vpn_SLS" id="l2vpn_SLS" [(ngModel)]="l2vpn.l2vpn_SLS"  (keypress)="numberOnly($event)">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template [ngIf]="data.rowIdx == 3">
+              <div style="display: flex; justify-content: center; padding: 1%;">
+                <div style="width: 100%" class="">
+                    <div style="display: flex; justify-content: space-around;">
+                      <div class="sotn-form">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="sotnuni_cVLAN" ><span class="form-lable-font">VLAN</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="sotnuni_cVLAN" id="sotnuni_cVLAN" [(ngModel)]="uni.sotnuni_cVLAN">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <div class="sotn-form ">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="sotnuni_tpId" ><span class="form-lable-font">TP ID</span></nz-form-label>
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <input nz-input formControlName="sotnuni_tpId" id="sotnuni_tpId" [(ngModel)]="uni.sotnuni_tpId">
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <div class="sotn-form ">
+                        <nz-form-item  class="mar-0x">
+                          <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <button (click)="addUNI($event)" nz-button nzType="primary">Add</button>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                    </div>
+                    <nz-table #basicTable [nzData]="sotnUni" [nzShowPagination]="false">
+                      <thead>
+                        <tr>
+                          <th>VLAN</th>
+                          <th>TP Id</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let data of basicTable.data">
+                          <td>{{ data.sotnuni_cVLAN }}</td>
+                          <td>{{ data.sotnuni_tpId }}</td>
+                          <td>
+                            <a>Delete</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </nz-table>
+                  </div>
+                </div>
+              </ng-template>
+            </form>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+   </nz-table>
+</div>

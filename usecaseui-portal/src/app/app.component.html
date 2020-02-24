@@ -61,6 +61,10 @@
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/services-list'}">
             <a routerLink='services/services-list'> {{"i18nTextDefine_ServicesList" | translate}} </a>
           </li>
+          <!-- SOTN ELine -->
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/sotn-management'}">
+            <a routerLink='services/sotn-management'> {{"i18nTextDefine_SotnEline" | translate}} </a>
+          </li>
           <!-- 5g slicing management -->
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/slicing-management'}">
             <a routerLink='services/slicing-management'> {{"i18nTextDefine_Mangement_5g" | translate}} </a>
