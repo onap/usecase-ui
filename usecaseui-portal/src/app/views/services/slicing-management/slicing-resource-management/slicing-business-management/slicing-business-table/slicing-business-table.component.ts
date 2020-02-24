@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, ViewChild,SimpleChanges} from '@angular/core';
 import { SlicingTaskServices } from '.././../../../../../core/services/slicingTaskServices';
 import { BUSINESS_STATUS } from '../../../../../../../constants/constants';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
@@ -17,14 +17,20 @@ export class SlicingBusinessTableComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
-        this.getBusinessList()
+    @Input() currentTabName;
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.currentTabName.currentValue === 'Slicing Business Management'){
+            this.getBusinessList()
+        }else {
+            this.progressingTimer.forEach((item) => {
+                clearInterval(item.timer);
+            });
+            this.progressingTimer = [];
+        }
     }
-    ngOnDestroy() {
-        this.progressingTimer.forEach((item) => {
-            clearInterval(item.timer);
-        })
-        this.progressingTimer = [];
+    ngOnInit() {
+
     }
     selectedValue: string = BUSINESS_STATUS[0];
     listOfData: any[] = [];

@@ -1,11 +1,11 @@
-<nz-tabset class="slicing-resource_tab"  (nzSelectChange)="handleTabChange($event)">
-  <nz-tab nzTitle="Slicing Business Management">
-      <app-slicing-business-table *ngIf="currentTab ==='Slicing Business Management'"></app-slicing-business-table>
-  </nz-tab>
-  <nz-tab nzTitle="Slicing Instance Management">
-      <app-nsi-table *ngIf="currentTab ==='Slicing Instance Management'"></app-nsi-table>
-  </nz-tab>
-  <nz-tab nzTitle="Slicing Subnet Instance Management">
-      <app-nssi-table *ngIf="currentTab ==='Slicing Subnet Instance Management'"></app-nssi-table>
-  </nz-tab>
+<nz-tabset class="slicing-resource_tab" (nzSelectChange)="handleTabChange($event)">
+    <nz-tab nzTitle="Slicing Business Management">
+        <app-slicing-business-table [currentTabName]="currentTab"></app-slicing-business-table>
+    </nz-tab>
+    <nz-tab nzTitle="Slicing Instance Management">
+        <app-nsi-table [currentTabName]="currentTab"></app-nsi-table>
+    </nz-tab>
+    <nz-tab nzTitle="Slicing Subnet Instance Management">
+        <app-nssi-table [currentTabName]="currentTab"></app-nssi-table>
+    </nz-tab>
 </nz-tabset>

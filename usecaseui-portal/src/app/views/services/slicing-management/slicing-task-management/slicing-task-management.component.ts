@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
 import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
@@ -11,6 +11,8 @@ import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
 export class SlicingTaskManagementComponent implements OnInit {
 
   constructor(private myhttp: SlicingTaskServices, private message: NzMessageService) { }
+
+  @Input() currentTabTitle;
 
   showDetail: boolean = false;
   showProcess: boolean = false;
@@ -25,9 +27,13 @@ export class SlicingTaskManagementComponent implements OnInit {
   pageSize: string = '10';
   pageNum: string = '1';
 
-  ngOnInit() {
-    this.getTaskList();
-  }
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.currentTabTitle.currentValue === 'Slicing Task Management'){
+            this.getTaskList();
+        }
+    }
+
+  ngOnInit() {}
 
   getTaskList(): void {
     const { pageNum, pageSize } = this;

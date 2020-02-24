@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import { BUSINESS_STATUS } from "../../../../../constants/constants";
 import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
@@ -16,16 +16,20 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         private message: NzMessageService
     ) {
     }
+    @Input() currentTabTitle;
 
-    ngOnInit() {
-        this.getCSMFBusinessList()
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.currentTabTitle.currentValue === 'Communication Service'){
+            this.getCSMFBusinessList()
+        }else {
+            this.progressingTimer.forEach((item) => {
+                clearInterval(item.timer);
+            });
+            this.progressingTimer = [];
+        }
     }
-    ngOnDestroy() {
-        this.progressingTimer.forEach((item) => {
-            clearInterval(item.timer);
-        });
-        this.progressingTimer = [];
-    }
+
+    ngOnInit() {}
 
     selectedValue: string = BUSINESS_STATUS[0];
     listOfData: any[] = [];

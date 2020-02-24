@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit,SimpleChanges} from '@angular/core';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import {SlicingTaskServices} from "../../../../../../core/services/slicingTaskServices";
 import {NsiModelComponent} from "../nsi-model/nsi-model.component";
-import { NzModalService } from 'ng-zorro-antd';
+import {NzModalService} from 'ng-zorro-antd';
+
 @Component({
-  selector: 'app-nsi-table',
-  templateUrl: './nsi-table.component.html',
-  styleUrls: ['./nsi-table.component.less']
+    selector: 'app-nsi-table',
+    templateUrl: './nsi-table.component.html',
+    styleUrls: ['./nsi-table.component.less']
 })
 export class NsiTableComponent implements OnInit {
 
@@ -16,10 +17,16 @@ export class NsiTableComponent implements OnInit {
     ) {
     }
 
-  ngOnInit() {
-      this.getNsiList()
-  }
-    selectedValue:string = BUSINESS_STATUS[0];
+    @Input() currentTabName;
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.currentTabName.currentValue === 'Slicing Instance Management') {
+            this.getNsiList()
+        }
+    }
+    ngOnInit() {}
+
+    selectedValue: string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
     pageIndex: number = 1;
     pageSize: number = 10;
@@ -28,7 +35,7 @@ export class NsiTableComponent implements OnInit {
     isSelect: boolean = false;
     statusOptions: any[] = BUSINESS_STATUS;
 
-    getNsiList (): void{
+    getNsiList(): void {
         this.loading = true;
         this.isSelect = false;
         this.listOfData = [];
@@ -36,17 +43,17 @@ export class NsiTableComponent implements OnInit {
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        if(this.selectedValue !== BUSINESS_STATUS[0]){
+        if (this.selectedValue !== BUSINESS_STATUS[0]) {
             paramsObj["instanceStatus"] = this.selectedValue.toLocaleLowerCase();
             this.isSelect = true;
         }
-        this.myhttp.getSlicingNsiList(paramsObj,this.isSelect).subscribe (res => {
-            const { result_header: { result_code }, result_body: { nsi_service_instances,record_number } } = res;
+        this.myhttp.getSlicingNsiList(paramsObj, this.isSelect).subscribe(res => {
+            const {result_header: {result_code}, result_body: {nsi_service_instances, record_number}} = res;
             this.loading = false;
             if (+result_code === 200) {
                 this.total = record_number;
                 this.loading = false;
-                if(nsi_service_instances !== null  && nsi_service_instances.length >0) {
+                if (nsi_service_instances !== null && nsi_service_instances.length > 0) {
                     this.listOfData = nsi_service_instances;
                 }
             }
@@ -55,23 +62,26 @@ export class NsiTableComponent implements OnInit {
             console.error(res);
         })
     }
-    getListOfProcessingStatus(){
+
+    getListOfProcessingStatus() {
         this.pageIndex = 1;
         this.pageSize = 10;
         this.getNsiList();
     }
+
     searchData(reset: boolean = false) {
         this.getNsiList();
     }
+
     showdetail(data) {
         const nsiModal = this.modalService.create({
-            nzTitle:"Detail",
+            nzTitle: "Detail",
             nzContent: NsiModelComponent,
-            nzWidth:"70%",
+            nzWidth: "70%",
             nzOkText: null,
             nzCancelText: null,
-            nzComponentParams:{
-                nsiId:data.service_instance_id
+            nzComponentParams: {
+                nsiId: data.service_instance_id
             }
         })
     }

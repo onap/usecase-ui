@@ -1,17 +1,11 @@
 <nz-tabset (nzSelectChange)="handleTabChange($event)" class="slicing">
     <nz-tab nzTitle="Communication Service">
-        <app-csmf-slicing-business-management
-                *ngIf="currentTab ==='Communication Service'"
-        ></app-csmf-slicing-business-management>
+        <app-csmf-slicing-business-management [currentTabTitle]="currentTab"></app-csmf-slicing-business-management>
     </nz-tab>
-  <nz-tab nzTitle="Slicing Task Management">
-    <app-slicing-task-management
-            *ngIf="currentTab ==='Slicing Task Management'"
-    ></app-slicing-task-management>
-  </nz-tab>
-  <nz-tab nzTitle="Slicing Resource Management" >
-    <app-slicing-resource-management
-            *ngIf="currentTab ==='Slicing Resource Management'"
-    ></app-slicing-resource-management>
-  </nz-tab>
+    <nz-tab nzTitle="Slicing Task Management">
+        <app-slicing-task-management [currentTabTitle]="currentTab"></app-slicing-task-management>
+    </nz-tab>
+    <nz-tab nzTitle="Slicing Resource Management">
+        <app-slicing-resource-management [currentTabTitle]="currentTab"></app-slicing-resource-management>
+    </nz-tab>
 </nz-tabset>
