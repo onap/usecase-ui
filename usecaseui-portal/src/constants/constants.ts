@@ -248,7 +248,7 @@ export const BUSINESS_STATUS = [
 
 export const COMMUNICATION_FORM_ITEMS = [
     {
-        title: 'Slicing Business Name',
+        title: 'Communication Service Name',
         key: 'name'
     },
     {

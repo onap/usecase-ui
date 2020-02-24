@@ -1,7 +1,6 @@
 <nz-spin nzTip='Loading...' [nzSpinning]="isSpinning">
-    <nz-modal [(nzVisible)]="showModel" nzTitle="Create Slicing Business Order" (nzOnCancel)="handleCancel()"
-              (nzOnOk)="handleOk()"
-              nzWidth="900px">
+    <nz-modal [(nzVisible)]="showModel" nzTitle="Create Communication Service" (nzOnCancel)="handleCancel()"
+              (nzOnOk)="handleOk()" nzWidth="900px">
         <div class="subnet_params_container">
             <form nz-form>
                 <nz-form-item *ngFor="let item of comunicationFormItems; let i = index">
@@ -9,28 +8,18 @@
                         {{ item.title }}
                     </nz-form-label>
                     <nz-form-control [nzSpan]="15">
-                        <input nz-input nz-tooltip
-                               [id]="item.key"
-                               [name]="item.key"
+                        <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
                                [(ngModel)]="slicing_order_info[item.key]"
                                [ngClass]="{'error-input-border':validateRules[i] === true}"
                                *ngIf=" item.title === 'Slicing Business Name' "
-                               (blur)="validator(item.key,slicing_order_info[item.key],i)"
-                        />
-                        <nz-tooltip
-                                [nzTitle]="tooltipText"
-                                [nzPlacement]="'right'"
-                                [nzTrigger]="'focus'"
-                        >
-                            <input nz-input nz-tooltip
-                                   [id]="item.key"
-                                   [name]="item.key"
+                               (blur)="validator(item,slicing_order_info[item.key],i)"/>
+                        <nz-tooltip [nzTitle]="tooltipText" [nzPlacement]="'right'" [nzTrigger]="'focus'">
+                            <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
                                    [(ngModel)]="slicing_order_info[item.key]"
                                    [ngClass]="{'error-input-border':validateRules[i] === true}"
                                    *ngIf=" item.title !== 'Slicing Business Name' && item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "
-                                   (blur)="validator(item.key,slicing_order_info[item.key],i)"
-                                   (focus)="changeTooltipText(item.title)"
-                            />
+                                   (blur)="validator(item,slicing_order_info[item.key],i)"
+                                   (focus)="changeTooltipText(item.title)"/>
                         </nz-tooltip>
                         <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
                                         *ngIf="item.title === 'Resource Sharing Level'">
@@ -52,8 +41,7 @@
                     <div *ngIf="item.key === 'coverageArea'">
                         <div *ngFor="let area of areaList; let i = index">
                             <nz-form-control [nzSpan]="!ind ? 3 : 4" [nzOffset]="i && !ind ? 6 : 0"
-                                             class="subnet_params_area"
-                                             *ngFor="let item of area; let ind = index">
+                                             class="subnet_params_area" *ngFor="let item of area; let ind = index">
                                 <nz-select [(ngModel)]="item.selected" [name]="'area' + i + ind"
                                            (nzOpenChange)="handleChange(area, item)"
                                            (ngModelChange)=" handleChangeSelected(area, item) ">
@@ -63,8 +51,7 @@
                             </nz-form-control>
                             <nz-form-control [nzSpan]="1" [nzOffset]="1">
                                 <button nz-button nzType="primary" nzSize="small" class="subnet_params_button"
-                                        *ngIf="!i"
-                                        (click)="creatAreaList()">
+                                        *ngIf="!i" (click)="creatAreaList()">
                                     <i nz-icon class="anticon anticon-plus subnet_params_icon"></i>
                                 </button>
                                 <button nz-button nzType="primary" nzSize="small" class="subnet_params_button" *ngIf="i"

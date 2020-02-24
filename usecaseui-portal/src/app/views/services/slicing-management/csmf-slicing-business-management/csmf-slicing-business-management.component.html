@@ -3,7 +3,7 @@
     <div nz-col nzSpan="12" class="task_status">
       <span>Status : </span>
       <nz-select nzShowSearch nzPlaceHolder="Select a processing status" [(ngModel)]="selectedValue"
-                 (ngModelChange)="getListOfProcessingStatus()">
+        (ngModelChange)="getListOfProcessingStatus()">
         <nz-option *ngFor="let item of statusOptions" [nzLabel]="item" [nzValue]="item"></nz-option>
       </nz-select>
     </div>
@@ -11,60 +11,60 @@
   </div>
   <div class="slicing-resource-table-list">
     <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
-              [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-              [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+      [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
+      [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
       <thead>
-      <tr>
-        <th width=100>No</th>
-        <th width=280>Service Instance Id</th>
-        <th width=200>Service Instance Name</th>
-        <th width=200>Created Time</th>
-        <!--<th width=110>Service Type</th>-->
-        <th width=110>S-NSSAI</th>
-        <th width=110>Status</th>
-        <th width=120>Activate</th>
-        <th width=130>Terminate</th>
-      </tr>
+        <tr>
+          <th width=100>No</th>
+          <th width=280>Service Instance Id</th>
+          <th width=200>Service Instance Name</th>
+          <th width=200>Created Time</th>
+          <!--<th width=110>Service Type</th>-->
+          <th width=110>S-NSSAI</th>
+          <th width=110>Status</th>
+          <th width=120>Activate</th>
+          <th width=130>Terminate</th>
+        </tr>
       </thead>
       <tbody>
-      <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
-        <tr>
-          <td>{{i+1}}</td>
-          <td>{{ data.order_id }}</td>
-          <td>{{ data.order_name }}</td>
-          <td>{{ data.order_creation_time }}</td>
-          <!--<td>{{ data.service_type?data.service_type:'&#45;&#45;' }}</td>-->
-          <td>{{ data.service_snssai }}</td>
-          <td>
-                            <span class="marginLeft10">
-                                {{data.order_status}}
-                            </span>
-            <br>
-          </td>
-          <td>
-            <div class="action-icon">
-              <nz-switch [ngModel]="data.order_status==='activated'?true:false"
-                         [nzDisabled]="data.order_status === 'processing'|| (data.order_status !== 'processing' && data.last_operation_progress && data.last_operation_progress !== '100')"
-                         (ngModelChange)="switchChange(data,i)"></nz-switch>
-              <nz-progress
-                      *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
-                      [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
-              </nz-progress>
-            </div>
-          </td>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{ data.order_id }}</td>
+            <td>{{ data.order_name }}</td>
+            <td>{{ data.order_creation_time }}</td>
+            <!--<td>{{ data.service_type?data.service_type:'&#45;&#45;' }}</td>-->
+            <td>{{ data.service_snssai }}</td>
             <td>
-                <div class="action-icon">
-                    <i [ngClass]="{'cannotclick':data.order_status === 'processing' || ( data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type === 'DELETE' || data.last_operation_type === 'activated'))}"
-                       nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
-                       (click)="terminate(data,i)"></i>
-                    <nz-progress
-                            *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart[i]"
-                            [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
-                    </nz-progress>
-                </div>
+              <span class="marginLeft10">
+                {{data.order_status}}
+              </span>
+              <br>
             </td>
-        </tr>
-      </ng-template>
+            <td>
+              <div class="action-icon">
+                <nz-switch [ngModel]="data.order_status==='activated'?true:false"
+                  [nzDisabled]="data.order_status === 'processing'|| (data.order_status !== 'processing' && data.last_operation_progress && data.last_operation_progress !== '100')"
+                  (ngModelChange)="switchChange(data,i)"></nz-switch>
+                <nz-progress
+                  *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
+                  [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
+                </nz-progress>
+              </div>
+            </td>
+            <td>
+              <div class="action-icon">
+                <i [ngClass]="{'cannotclick':data.order_status === 'processing' || ( data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type === 'DELETE' || data.last_operation_type === 'activated'))}"
+                  nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
+                  (click)="terminate(data,i)"></i>
+                <nz-progress
+                  *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && terminateStart[i]"
+                  [nzPercent]="data.last_operation_progress" [nzShowInfo]="true" nzStatus="active">
+                </nz-progress>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
       </tbody>
     </nz-table>
   </div>
