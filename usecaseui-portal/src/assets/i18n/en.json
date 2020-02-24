@@ -6,6 +6,7 @@
   "i18nTextDefine_Monitor_5g": "5G Slicing",
   "i18nTextDefine_Services": "Services",
   "i18nTextDefine_ServicesList": "Lifecycle Management",
+  "i18nTextDefine_SotnEline": "SOTN Eline",
   "i18nTextDefine_Mangement_5g": "5G Slicing Management",
   "i18nTextDefine_PackageManagement": "Package Management",
   "i18nTextDefine_Alarm": "Alarm",
@@ -137,5 +138,16 @@
   "i18nTextDefine_RightPort": "Right Port",
   "i18nTextDefine_PartnerNetwork": "Partner Network",
   "i18nTextDefine_HostUrl": "Host Url",
-  "i18nTextDefine_DeleteLink": "Delete Link"
+  "i18nTextDefine_DeleteLink": "Delete Link",
+
+  "sotn-component": "--:",
+  "i18nTextDefine_subscriptionType": "Service Type",
+  "i18nTextDefine_serviceInstance": "Service Instance",
+  "i18nTextDefine_serviceInformation": "Service Information",
+  "i18nTextDefine_vpnInformation": "VPN Information",
+  "i18nTextDefine_vpnName": "VPN Name",
+  "i18nTextDefine_siteInformation": "Site Information",
+  "i18nTextDefine_siteName": "Site Name",
+  "i18nTextDefine_city": "City",
+  "i18nTextDefine_postalCode": "Postal Code"
 }

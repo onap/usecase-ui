@@ -1,0 +1,43 @@
+<div class="main">
+  <div class="divCls">
+    <table>
+      <tr>
+        <td>
+            <nz-form-label class= "colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_subscriptionType" | translate}}</nz-form-label>
+        </td>
+        <td>
+            <nz-select id="subscriptionType" class= "colm-s-2" [(ngModel)]="selectedSubscriptionType" (ngModelChange)="getServiceInstanceList($event)" nzAllowClear
+            nzPlaceHolder="Choose">
+            <nz-option *ngFor="let option of serviceSubscriptionList" [nzValue]="option.serviceType" [nzLabel]="option.serviceType"></nz-option>
+    
+        </nz-select>
+        </td>
+        <td style="width: 5%"></td>
+        <td>
+            <nz-form-label class ="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_serviceInstance" | translate}}</nz-form-label>
+        </td>
+        <td>
+            <nz-select id="serviceInstance" class= "colm-s-2 " [(ngModel)]="selectedServiceInstance" (ngModelChange)="getSelectedsubscriptionInfo($event)"
+            nzAllowClear nzPlaceHolder="Choose">
+            <nz-option *ngFor="let option of serviceInstanceList" [nzValue]="option.serviceInstance" [nzLabel]="option.serviceInstancename"></nz-option>
+        </nz-select>
+        </td>
+        <td style="width: 5%"></td>
+        <td>
+            <nz-form-label class ="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">Topology</nz-form-label>
+        </td>
+        <td>
+            <nz-select id="serviceInstance" class= "colm-s-2 " [(ngModel)]="selectedTopology" (ngModelChange)="getTopologyInfo($event)"
+            nzAllowClear nzPlaceHolder="Choose">
+            <nz-option *ngFor="let option of serviceTopologyList" [nzValue]="option.topologyType" [nzLabel]="option.topologyType"></nz-option>
+        </nz-select>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="flexDiv">   
+    <div id="mynetwork"  class="colm-s-3"></div>
+    <div class="colm-s-4"><div id="nodeDetails"></div></div>
+  </div>
+</div>

@@ -30,6 +30,10 @@ import { PerformanceVnfComponent } from './views/performance/performance-vnf/per
 import { PerformanceVmComponent } from './views/performance/performance-vm/performance-vm.component';
 
 import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
+import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
+import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
+import { ManageServiceComponent } from './views/services/sotn-management/manage-service/manage-service.component';
+import { MonitorServiceComponent } from './views/services/sotn-management/monitor-service/monitor-service.component';
 
 
 import { TestComponent } from './test/test.component';
@@ -50,7 +54,10 @@ const routes: Routes = [
   { path: 'fcaps/5gslicing', component: Monitor5gComponent },
   { path: 'services/services-list', component: ServicesListComponent },
   { path: 'services/slicing-management', component: SlicingManagementComponent },
-  // { path: 'services/onboard-vnf-vm', component: OnboardVnfVmComponent },
+  { path: 'services/sotn-management', component: SotnManagementComponent },
+  { path: 'services/order-service', component: OrderServiceComponent },
+  { path: 'services/manage-service', component: ManageServiceComponent },
+  { path: 'services/monitor-service', component: MonitorServiceComponent },
   { path: 'onboard-vnf-vm', component: OnboardVnfVmComponent },
   { path: 'alarm', component: AlarmComponent },
   { path: 'performance', component: PerformanceComponent },

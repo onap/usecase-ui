@@ -103,6 +103,10 @@ import { NsiModelComponent } from './views/services/slicing-management/slicing-r
 import { NssiModelComponent } from './views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component';
 import { CsmfSlicingBusinessManagementComponent } from './views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component';
 import { BusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component';
+import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
+import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
+import { ManageServiceComponent } from './views/services/sotn-management/manage-service/manage-service.component';
+import { MonitorServiceComponent } from './views/services/sotn-management/monitor-service/monitor-service.component';
 
 @NgModule({
   providers: [
@@ -168,7 +172,11 @@ import { BusinessOrderComponent } from './views/services/slicing-management/csmf
       BusinessOrderComponent,
     MdonsCreationComponent,
     MdonsDetailComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    SotnManagementComponent,
+    OrderServiceComponent,
+    ManageServiceComponent,
+    MonitorServiceComponent
   ],
   imports: [
     BrowserModule,
