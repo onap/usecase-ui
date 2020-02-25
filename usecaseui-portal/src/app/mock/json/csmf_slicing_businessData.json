@@ -4,7 +4,7 @@
     "result_message": "Query all slicing services processing succeeded."
   },
   "result_body": {
-    "record_number": 8,
+    "record_number": 12,
     "slicing_order_list": [
       {
         "order_id": "5G-777",
@@ -85,6 +85,66 @@
         "order_status": "DELETE",
         "last_operation_type": "DELETE",
         "last_operation_progress": "30"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
+      },
+      {
+        "order_id": "6c52086a-e9b6-4f31-bc7a-7b34d66c69c0",
+        "order_name": "test_0204",
+        "order_creation_time":"1454171445000",
+        "service_type": "embb",
+        "service_snssai": "01-774F54FC",
+        "order_status": "deactivated",
+        "last_operation_type": "deactivated",
+        "last_operation_progress": "100"
       }
     ]
   }

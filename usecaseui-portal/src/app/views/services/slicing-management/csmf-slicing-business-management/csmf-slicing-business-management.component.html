@@ -12,7 +12,7 @@
   <div class="slicing-resource-table-list">
     <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
       [nzPageSizeOptions]="[5,10,15,20]" [nzTotal]='total' [(nzPageSize)]="pageSize" [(nzPageIndex)]='pageIndex'
-      [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+      [nzLoading]="loading" (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData()">
       <thead>
         <tr>
           <th width=100>No</th>
@@ -44,7 +44,7 @@
             <td>
               <div class="action-icon">
                 <nz-switch [ngModel]="data.order_status==='activated'?true:false"
-                  [nzDisabled]="data.order_status === 'processing'|| (data.order_status !== 'processing' && data.last_operation_progress && data.last_operation_progress !== '100')"
+                  [nzDisabled]="data.order_status === 'processing' || data.order_status === 'error' || (data.order_status !== 'processing' && data.last_operation_progress && data.last_operation_progress !== '100')"
                   (ngModelChange)="switchChange(data,i)"></nz-switch>
                 <nz-progress
                   *ngIf="data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100' && data.last_operation_type !== 'DELETE'"
@@ -54,7 +54,7 @@
             </td>
             <td>
               <div class="action-icon">
-                <i [ngClass]="{'cannotclick':data.order_status === 'processing' || ( data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type === 'DELETE' || data.last_operation_type === 'activated'))}"
+                <i [ngClass]="{'cannotclick':data.order_status === 'processing' || data.order_status === 'error' || ( data.last_operation_progress && data.last_operation_progress !== '100' && (data.last_operation_type === 'DELETE' || data.last_operation_type === 'activated'))}"
                   nz-icon nzType="poweroff" nzTheme="outline" class="anticon anticon-poweroff"
                   (click)="terminate(data,i)"></i>
                 <nz-progress

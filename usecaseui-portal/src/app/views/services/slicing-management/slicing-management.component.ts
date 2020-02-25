@@ -17,7 +17,6 @@ export class SlicingManagementComponent implements OnInit {
   }
     currentTab = 'Communication Service';
     handleTabChange($event): void {
-        console.log($event,"$event");
         this.currentTab = $event.tab._title;
     }
 }

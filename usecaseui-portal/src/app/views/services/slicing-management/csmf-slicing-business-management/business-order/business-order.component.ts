@@ -48,7 +48,7 @@ export class BusinessOrderComponent implements OnInit {
         let areaList = ['Beijing;Beijing;Haidian District;Wanshoulu Street'];
         this.areaList = areaList.map((item: any) => {
             let arr = item.split(';');
-            item = arr.map((ite, index) => {
+            item = arr.map((it, index) => {
                 let key: string;
                 if (!index) {
                     key = 'province';
@@ -61,8 +61,8 @@ export class BusinessOrderComponent implements OnInit {
                 }
                 const obj: any = {};
                 obj.key = key;
-                obj.selected = ite;
-                obj.options = [{name: ite, id: ite}]
+                obj.selected = it;
+                obj.options = [{name: it, id: it}]
                 return obj
             })
             return item;
@@ -156,7 +156,7 @@ export class BusinessOrderComponent implements OnInit {
         };
     }
 
-    changeTooltipText(title): void {
+    changeTooltipText(title: string): void {
         if (title === 'Max Number of UEs') {
             this.tooltipText = 'Scope: 1-100000'
         } else if (title === 'Data Rate Downlink (Mbps)' || title === 'Data Rate Uplink (Mbps)') {
@@ -196,7 +196,7 @@ export class BusinessOrderComponent implements OnInit {
         console.log(paramsObj, "-----paramsObj");
         this.isSpinning = true;
         this.myhttp.csmfSlicingPurchase(paramsObj).subscribe(res => {
-            const {result_header: {result_code, result_message}, result_body: {service_id, operation_id}} = res;
+            const {result_header: {result_code}} = res;
             if (+result_code === 200) {
                 this.isSpinning = false;
                 this.handleCancel();

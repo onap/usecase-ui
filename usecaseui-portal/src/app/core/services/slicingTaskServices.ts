@@ -112,7 +112,7 @@ export class SlicingTaskServices {
     }
 
     // Get slicing business list
-    getSlicingBusinessList(paramsObj, isSelect: boolean) {
+    getSlicingBusinessList(paramsObj: any, isSelect: boolean) {
         let url = this.url.slicingBusinessList.replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         if (isSelect) {
@@ -122,7 +122,7 @@ export class SlicingTaskServices {
         return this.http.get<any>(url);
     }
     // change slicing business activate status
-    changeActivateSlicingService(paramsObj, activate: boolean) {
+    changeActivateSlicingService(paramsObj: any, activate: boolean) {
         let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
         if (!activate) {
             url = this.url.deactivateSlicingService.replace("{serviceId}", paramsObj.serviceId)
@@ -130,12 +130,12 @@ export class SlicingTaskServices {
         return this.http.put<any>(url, paramsObj);
     }
     // terminate slicing business
-    terminateSlicingService(paramsObj) {
+    terminateSlicingService(paramsObj: any) {
         const url = this.url.terminateSlicingService.replace('{serviceId}', paramsObj.serviceId);
         return this.http.delete<any>(url);
     }
     // query slicing business progress
-    getSlicingBusinessProgress(paramsObj) {
+    getSlicingBusinessProgress(paramsObj: any) {
         let url = this.url.queryOperationProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
     }
@@ -175,7 +175,7 @@ export class SlicingTaskServices {
         return this.http.get<any>(url);
     }
     // Get CSMF slicing business list
-    getCSMFSlicingBusinessList(paramsObj) {
+    getCSMFSlicingBusinessList(paramsObj: any) {
         let url = this.url.csmfSlicingBusinessList.replace("{status}", paramsObj.status).replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         return this.http.get<any>(url);
@@ -198,7 +198,7 @@ export class SlicingTaskServices {
         let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
     }
-    csmfSlicingPurchase(paramsObj){
+    csmfSlicingPurchase(paramsObj: any){
         let url = this.url.csmfPurchase;
         return this.http.post<any>(url, paramsObj);
     }
