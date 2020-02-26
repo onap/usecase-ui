@@ -145,9 +145,14 @@
   "i18nTextDefine_serviceInstance": "Service Instance",
   "i18nTextDefine_serviceInformation": "Service Information",
   "i18nTextDefine_vpnInformation": "VPN Information",
-  "i18nTextDefine_vpnName": "VPN Name",
-  "i18nTextDefine_siteInformation": "Site Information",
-  "i18nTextDefine_siteName": "Site Name",
-  "i18nTextDefine_city": "City",
-  "i18nTextDefine_postalCode": "Postal Code"
+  "i18nTextDefine_uniInformation": "UNI Information",
+  "i18nTextDefine_terminationPoint": "Termination Point",
+  "i18nTextDefine_topology": "Topology",
+  "i18nTextDefine_colorAware": "Color Aware",
+  "i18nTextDefine_couplingFlag": "Coupling Flag",
+  "i18nTextDefine_networkTopology": "Network Topology",
+  "i18nTextDefine_resourceTopology": "Resource Topology",
+  "i18nTextDefine_orderService":"Order Service",
+  "i18nTextDefine_monitorService":"Monitor Service", 
+  "i18nTextDefine_manageService":"Manage Service"
 }

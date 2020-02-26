@@ -142,13 +142,18 @@
   "i18nTextDefine_deleteLink": "删除链接",
 
   "sotn-component": "--:",
-  "i18nTextDefine_subscriptionType": "Service Type",
-  "i18nTextDefine_serviceInstance": "Service Instance",
-  "i18nTextDefine_serviceInformation": "Service Information",
-  "i18nTextDefine_vpnInformation": "VPN Information",
-  "i18nTextDefine_vpnName": "VPN Name",
-  "i18nTextDefine_siteInformation": "Site Information",
-  "i18nTextDefine_siteName": "Site Name",
-  "i18nTextDefine_city": "City",
-  "i18nTextDefine_postalCode": "Postal Code"
+  "i18nTextDefine_subscriptionType": "订购类型",
+  "i18nTextDefine_serviceInstance": "业务实例",
+  "i18nTextDefine_serviceInformation": "服务信息",
+  "i18nTextDefine_vpnInformation": "VPN信息",
+  "i18nTextDefine_uniInformation": "UNI信息",
+  "i18nTextDefine_terminationPoint": "终点",
+  "i18nTextDefine_topology": "拓扑结构",
+  "i18nTextDefine_colorAware": "色敏感",
+  "i18nTextDefine_couplingFlag": "耦合标签",
+  "i18nTextDefine_networkTopology": "网络拓扑",
+  "i18nTextDefine_resourceTopology": "资源拓扑",
+  "i18nTextDefine_orderService":"订购服务",
+  "i18nTextDefine_monitorService":"监控服务", 
+  "i18nTextDefine_manageService":"管理服务"
 }
