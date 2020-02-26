@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {
   FormBuilder,  
   FormGroup,
@@ -15,31 +15,19 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class OrderServiceComponent implements OnInit {
 
   validateForm: FormGroup;
-  validateForm1: FormGroup;
-  validateForm2: FormGroup;
   l2vpn:object = {};
   siteData:object = {};
-  tipMsg: String = "serviceCreationInitiated";
-  displayMsg:boolean = false;
-  displayMsg2:boolean = false;
   buttonDisabled:boolean = false;
   intervalData:any;
   baseUrl:string = '/api/usecaseui-server/v1';
   expandDataSet = [
-    { rowIdx: 1, name: 'Service', expand: true },
-    { rowIdx: 2, name: 'VPN', expand: true },
-    { rowIdx: 3, name: 'UNI', expand: true }
+    { rowIdx: 1, name: 'i18nTextDefine_serviceInformation', expand: true },
+    { rowIdx: 2, name: 'i18nTextDefine_vpnInformation', expand: true },
+    { rowIdx: 3, name: 'i18nTextDefine_uniInformation', expand: true }
   ];
-  uni = {
-    sotnuni_cVLAN:"asdf",
-    sotnuni_tpId:"asdf"
-  };
-  sotnUni = [
-    {
-      sotnuni_cVLAN:"asdf",
-      sotnuni_tpId:"saf"
-    }
-  ];
+  uni = {};
+  sotnUni = [];
+  @Output() childEvent = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder, private http: HttpClient, private message: NzMessageService) { }
 
@@ -66,28 +54,6 @@ export class OrderServiceComponent implements OnInit {
       sotnuni_cVLAN:[null, [Validators.required]],
       sotnuni_tpId:[null, [Validators.required]],
     });
-    // this.validateForm1 = this.fb.group({
-    //   l2vpn_name:[null, [Validators.required]],
-    //   l2vpn_dualLink:[null, [Validators.required]],
-    //   l2vpn_description:[null, [Validators.required]],
-    //   l2vpn_SLS:[null, [Validators.required]],
-    //   l2vpn_COS:[null, [Validators.required]],
-    //   l2vpn_tenantId:[null, [Validators.required]],
-    //   l2vpn_vpnType:[null, [Validators.required]],
-    //   l2vpn_cbs:[null, [Validators.required]],
-    //   l2vpn_ebs:[null, [Validators.required]],
-    //   l2vpn_colorAware:[null, [Validators.required]],
-    //   l2vpn_reroute:[null, [Validators.required]],
-    //   l2vpn_couplingFlag:[null, [Validators.required]],
-    //   l2vpn_cir:[null, [Validators.required]],
-    //   l2vpn_eir:[null, [Validators.required]],
-    //   l2vpn_startTime:[null, [Validators.required]],
-    //   l2vpn_endTime:[null, [Validators.required]],
-    // });
-    // this.validateForm2 = this.fb.group({
-    //   sotnuni_cVLAN:[null, [Validators.required]],
-    //   sotnuni_tpId:[null, [Validators.required]],
-    // });
   }
 
   numberOnly(event): boolean {
@@ -98,20 +64,29 @@ export class OrderServiceComponent implements OnInit {
   }
 
   addUNI () {
+    if(this.uni['sotnuni_cVLAN'] == undefined || this.uni['sotnuni_tpId'] == undefined) {
+      this.message.error("Please enter cVLAN & TPID first.");
+      return;
+    }
     this.sotnUni.push(this.uni);
-    // this.uni = {};
+    this.uni = {};
+  }
+
+  deletesotnUni(data) {
+    for(let i = 0; i < this.sotnUni.length; i++) {
+      if(data.sotnuni_tpId == this.sotnUni[i].sotnuni_tpId) {
+        this.sotnUni.splice(i, 1); 
+      }
+    }
   }
 
   selectOrderSiteData(): void {
     if (!this.validateVpnAndUni() ||
       !this.validateServices() ) {
-      this.displayMsg = true;
       this.message.error("Please fill all mandatory fields");
-      var comp = this;
-      setTimeout(function () {
-        comp.displayMsg = false;
-      }, 5000);
     } else {
+      this.siteData["l2vpn"] = [this.l2vpn];
+      this.siteData["sotnUni"] = this.sotnUni;
       this.putnewSotnSiteData()
     }
   }
@@ -158,39 +133,37 @@ export class OrderServiceComponent implements OnInit {
       })
     };
     let url1 = this.baseUrl + '/uui-lcm/Sotnservices';
-    // this.http.post<any>(url1, body, httpOptions).subscribe((data) => { 
-    //   let comp = this;
-    //   this.message.info('Instantiation In Progress');
-    //   comp.displayMsg2 = true;
-    //   this.intervalData = setInterval(() => {
-    //     let url2 = this.baseUrl + "/uui-lcm/Sotnservices/serviceStatus/service-instance/" + data.service.serviceId;
-    //     this.http.get<any>(url2, {}).subscribe((data) => {
-    //       if (data.status == "1") {
-    //         clearInterval(comp.intervalData);
-    //         comp.displayMsg2 = true;
-    //         comp.message.success('Service Created');
-    //         comp.goToPage();
-    //       }
-    //       else {
-    //         comp.message.info('Instantiation In Progress');
-    //         comp.displayMsg2 = true;
-    //       }
-    //     }, (err) => {
-    //       console.log(err);
-    //     });
-    //   }, 1000);
-    // }, (err) => {
-    //   console.log(err);
-    // });
+    this.http.post<any>(url1, body, httpOptions).subscribe((data) => { 
+      let comp = this;
+      this.message.info('Instantiation In Progress');
+      this.intervalData = setInterval(() => {
+        let url2 = this.baseUrl + "/uui-lcm/Sotnservices/serviceStatus/service-instance/" + data.service.serviceId;
+        this.http.get<any>(url2, {}).subscribe((data) => {
+          if (data.status == "1") {
+            clearInterval(comp.intervalData);
+            comp.message.success('Service Created');
+            comp.goToPage();
+          }
+          else {
+            comp.message.info('Instantiation In Progress');
+          }
+        }, (err) => {
+          console.log(err);
+        });
+      }, 1000);
+    }, (err) => {
+      console.log(err);
+    });
     setTimeout(() => {
       comp.message.success("Service Created");
-      comp.goToPage();
+      comp.goToPage.call(comp);
     }, 3000);
   }
 
   goToPage(): void {
+    var comb = this;
     setTimeout(function () {
-      // document.getElementById('manageService').click();
+      comb.childEvent.emit();
     }, 1000);
   }
 
