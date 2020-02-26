@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Network, DataSet, Node, Edge, IdType } from 'vis';
+import { Network, Node, Edge } from 'vis';
 
 @Component({
   selector: 'app-monitor-service',
@@ -23,13 +23,13 @@ export class MonitorServiceComponent implements OnInit {
       serviceInstancename: "ISAAC-IS0333"
     }
   ];
-  selectedTopology:string = 'Network Topology';
+  selectedTopology:string = 'i18nTextDefine_networkTopology';
   serviceTopologyList:any = [
     {
-      topologyType:"Network Topology"
+      topologyType:"i18nTextDefine_networkTopology",
     },
     {
-      topologyType:"Resource Topology"
+      topologyType:"i18nTextDefine_resourceTopology",
     }
   ];
 
@@ -230,7 +230,7 @@ export class MonitorServiceComponent implements OnInit {
 
   //Get SubscriptionType
   getSubscribeTypes() {
-      this.getTopologyInfo('Network Topology');
+      this.getTopologyInfo('i18nTextDefine_networkTopology');
   }
 
   getTopologyInfo (topo) {
@@ -297,7 +297,7 @@ export class MonitorServiceComponent implements OnInit {
 
   getData ()
   {
-    if (this.selectedTopology == 'Network Topology') {
+    if (this.selectedTopology == 'i18nTextDefine_networkTopology') {
       this.serviceList = this.node1;
     } else {
       this.serviceList = this.node2;

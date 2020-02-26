@@ -24,12 +24,12 @@
         </td>
         <td style="width: 5%"></td>
         <td>
-            <nz-form-label class ="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">Topology</nz-form-label>
+            <nz-form-label class ="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_topology" | translate}}</nz-form-label>
         </td>
         <td>
             <nz-select id="serviceInstance" class= "colm-s-2 " [(ngModel)]="selectedTopology" (ngModelChange)="getTopologyInfo($event)"
             nzAllowClear nzPlaceHolder="Choose">
-            <nz-option *ngFor="let option of serviceTopologyList" [nzValue]="option.topologyType" [nzLabel]="option.topologyType"></nz-option>
+            <nz-option *ngFor="let option of serviceTopologyList" [nzValue]="option.topologyType" [nzLabel]="option.topologyType | translate"></nz-option>
         </nz-select>
         </td>
       </tr>
