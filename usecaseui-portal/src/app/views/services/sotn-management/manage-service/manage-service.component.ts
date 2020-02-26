@@ -23,11 +23,10 @@ export class ManageServiceComponent implements OnInit {
       serviceInstancename: "ISAAC-IS0333"
     }
   ];
-  graphData: boolean = true;
   expandDataSet = [
-    { rowIdx: 1, name: 'Service',cost: '', expand: true , mobileExpand:false},
-    { rowIdx: 2, name: 'VPN',cost: '', expand: true,mobileExpand:false },
-    { rowIdx: 3, name: 'UNI',cost: '', expand: true,mobileExpand:false }
+    { rowIdx: 1, name: 'i18nTextDefine_serviceInformation', expand: true },
+    { rowIdx: 2, name: 'i18nTextDefine_vpnInformation', expand: true },
+    { rowIdx: 3, name: 'i18nTextDefine_uniInformation', expand: true }
   ];
 
   summaryInfo:object = {};
@@ -73,7 +72,6 @@ export class ManageServiceComponent implements OnInit {
     //   this.serviceInstanceList = data.serviceInstanceList; 
     //   this.selectedServiceInstance = data.serviceInstanceList[0].serviceInstance;
     //   this.getSubscribedSites(data.serviceInstanceList[0]);
-    //   this.graphData = false;     
     // }, (err) => {
     //   console.log(err);
     // });    
@@ -92,33 +90,6 @@ export class ManageServiceComponent implements OnInit {
     this.serviceInstanceList = data.serviceInstanceList;
     this.selectedServiceInstance = data.serviceInstanceList[0].serviceInstance;
     this.getSubscribedSites(data.serviceInstanceList[0]);
-    
-    // var datas= {  
-    //     "ethtSvcName":"vpn022",
-    //     "colorAware":"true",
-    //     "cbs":"100",
-    //     "couplingFlag":"true",
-    //     "ebs":"EVPL",
-    //     "cir":"98900",
-    //     "eir":"1000",                    
-    //     "vpnInformations":[{  
-    //       "vpnThreshold":"1000",
-    //       "vpnBandwidth":"100",
-    //       "vpnType":"Hub-Spoke",
-    //       "vpnId":"a8529dee-523e-4c6b-bc83-e26d68a9911c",
-    //       "vpnName":"vpn022",
-    //       "sites":[  
-    //           {  
-    //             "zipCode":"100008",
-    //             "address":"beijing",
-    //             "siteId":"d5b530fe-2271-4ed6-8c09-b7ce368a1f59",
-    //             "siteName":"ISAAC01-hub1",
-    //             "description":"desc"
-    //           }
-    //       ]
-    //     }]
-    // };
-    // this.assignData(datas, false);
     var datas = {
       "service":{
         "name":"CCVPNServiceV2-36",
@@ -198,31 +169,6 @@ export class ManageServiceComponent implements OnInit {
       // }, (err) => {
       //   console.log(err);
       // });
-      //   var data= {  
-      //     "ethtSvcName":"vpn022",
-      //     "colorAware":"true",
-      //     "cbs":"100",
-      //     "couplingFlag":"true",
-      //     "ebs":"EVPL",
-      //     "cir":"98900",
-      //     "eir":"1000",                    
-      //     "vpnInformations":[{  
-      //       "vpnThreshold":"1000",
-      //       "vpnBandwidth":"100",
-      //       "vpnType":"Hub-Spoke",
-      //       "vpnId":"a8529dee-523e-4c6b-bc83-e26d68a9911c",
-      //       "vpnName":"vpn022",
-      //       "sites":[  
-      //           {  
-      //             "zipCode":"100008",
-      //             "address":"beijing",
-      //             "siteId":"d5b530fe-2271-4ed6-8c09-b7ce368a1f59",
-      //             "siteName":"ISAAC01-hub1",
-      //             "description":"desc"
-      //           }
-      //       ]
-      //     }]
-      // };
       var datas = {
         "service":{
           "name":"CCVPNServiceV2-36",
@@ -282,7 +228,6 @@ export class ManageServiceComponent implements OnInit {
     //     })
     //   };
     //   let body = JSON.stringify({}); //this.orderServiceData
-
     //   let url = this.baseUrl + "/uui-lcm/Sotnservices/cost";
     // return this.http.post<any>(url,body,httpOptions).subscribe((data) => {
     //     this.assignData(data, true);
