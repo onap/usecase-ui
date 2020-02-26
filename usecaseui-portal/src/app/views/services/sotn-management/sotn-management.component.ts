@@ -10,8 +10,7 @@ import { slideToRight } from '../../../shared/utils/animates';
 export class SotnManagementComponent implements OnInit {
 
   @HostBinding('@routerAnimate') routerAnimateState;
-
-  currentTab = 'Order Service';
+  selectedIndex:number = 0;
 
   constructor() { }
 
@@ -19,7 +18,10 @@ export class SotnManagementComponent implements OnInit {
   }
   
   handleTabChange($event): void {
-      console.log($event,"$event");
-      this.currentTab = $event.tab._title;
+    this.selectedIndex = $event.index;
+  }
+
+  changeTab() {
+    this.selectedIndex = 1;
   }
 }
