@@ -4,7 +4,7 @@
       <tr>
         <td width="4%"></td>
         <td width="96%">
-          <button style="float:right" (click)="selectOrderSiteData()" nz-button nzType="primary">Create Service</button>
+          <button style="float:right" [disabled]="buttonDisabled" (click)="selectOrderSiteData()" nz-button nzType="primary">Create Service</button>
         </td>
       </tr>
       <ng-template ngFor let-data [ngForOf]="nzExpandTable.data">
@@ -95,7 +95,7 @@
                       </div>
                       <div class="sotn-form ">
                         <nz-form-item  class="mar-0x">
-                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_colorAware" ><span class="form-lable-font">Color Aware</span></nz-form-label>
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_colorAware" ><span class="form-lable-font">{{ "i18nTextDefine_colorAware" | translate }}</span></nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24">
                             <input nz-input formControlName="l2vpn_colorAware" id="l2vpn_colorAware" [(ngModel)]="l2vpn.l2vpn_colorAware">
                           </nz-form-control>
@@ -107,7 +107,7 @@
                           </nz-form-control>
                         </nz-form-item>
                         <nz-form-item class="mar-0x  child">
-                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_couplingFlag"><span class="form-lable-font">Coupling Flag</span></nz-form-label>
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="l2vpn_couplingFlag"><span class="form-lable-font">{{ "i18nTextDefine_couplingFlag" | translate }}</span></nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24">
                             <input nz-input formControlName="l2vpn_couplingFlag" id="l2vpn_couplingFlag" [(ngModel)]="l2vpn.l2vpn_couplingFlag"  (keypress)="numberOnly($event)">
                           </nz-form-control>
@@ -153,45 +153,45 @@
                     <div style="display: flex; justify-content: space-around;">
                       <div class="sotn-form">
                         <nz-form-item  class="mar-0x">
-                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="sotnuni_cVLAN" ><span class="form-lable-font">VLAN</span></nz-form-label>
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sotnuni_cVLAN" ><span class="form-lable-font">UNI</span></nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24">
                             <input nz-input formControlName="sotnuni_cVLAN" id="sotnuni_cVLAN" [(ngModel)]="uni.sotnuni_cVLAN">
                           </nz-form-control>
                         </nz-form-item>
                       </div>
-                      <div class="sotn-form ">
+                      <div class="sotn-form">
                         <nz-form-item  class="mar-0x">
-                          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="sotnuni_tpId" ><span class="form-lable-font">TP ID</span></nz-form-label>
+                          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sotnuni_tpId" ><span class="form-lable-font">{{ "i18nTextDefine_terminationPoint" | translate }}</span></nz-form-label>
                           <nz-form-control [nzSm]="14" [nzXs]="24">
                             <input nz-input formControlName="sotnuni_tpId" id="sotnuni_tpId" [(ngModel)]="uni.sotnuni_tpId">
                           </nz-form-control>
                         </nz-form-item>
                       </div>
-                      <div class="sotn-form ">
+                      <div class="sotn-form" style="width:10%">
                         <nz-form-item  class="mar-0x">
                           <nz-form-control [nzSm]="14" [nzXs]="24">
-                            <button (click)="addUNI($event)" nz-button nzType="primary">Add</button>
+                            <button (click)="addUNI($event)" nz-button nzType="primary">{{ "i18nTextDefine_Add" | translate }}</button>
                           </nz-form-control>
                         </nz-form-item>
                       </div>
                     </div>
-                    <nz-table #basicTable [nzData]="sotnUni" [nzShowPagination]="false">
-                      <thead>
+                    <div style="width:100%">
+                      <table class="tableStyle" *ngIf="sotnUni.length > 0">
                         <tr>
-                          <th>VLAN</th>
-                          <th>TP Id</th>
+                          <th>UNI</th>
+                          <th>{{ "i18nTextDefine_terminationPoint" | translate }}</th>
+                          <th>{{ "i18nTextDefine_Action" | translate }}</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                          <tr *ngFor="let data of basicTable.data">
-                          <td>{{ data.sotnuni_cVLAN }}</td>
-                          <td>{{ data.sotnuni_tpId }}</td>
-                          <td>
-                            <a>Delete</a>
-                          </td>
+                        <tr *ngFor="let data of sotnUni">
+                          <td>{{data.sotnuni_cVLAN}}</td>
+                          <td>{{data.sotnuni_tpId}}</td>
+                          <td><a (click)="deletesotnUni(data)">{{ "i18nTextDefine_delete" | translate }}</a></td>
                         </tr>
-                      </tbody>
-                    </nz-table>
+                      </table>
+                      <div style="width: 80%;height: 5%;margin-top:30px;text-align: center"  *ngIf="sotnUni.length == 0">
+                        <strong>No Data</strong>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ng-template>
