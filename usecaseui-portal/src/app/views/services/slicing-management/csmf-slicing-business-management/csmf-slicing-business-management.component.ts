@@ -64,7 +64,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                             let obj = {
                                 serviceId: item.order_id
                             };
-                            if (item.last_operation_type === 'DELETE') this.terminateStart[index] = true
+                            if (item.last_operation_type.toUpperCase() === 'DELETE') this.terminateStart[index] = true
                             else this.terminateStart[index] = false;
                             this.queryProgress(obj, index, updata).then(() => {
                                 item.last_operation_progress = '100';

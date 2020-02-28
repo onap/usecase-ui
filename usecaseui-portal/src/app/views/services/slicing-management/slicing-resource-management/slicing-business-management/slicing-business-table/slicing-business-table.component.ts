@@ -70,7 +70,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                             let obj = {
                                 serviceId: item.service_instance_id
                             };
-                            if (item.last_operation_type === 'DELETE') this.terminateStart[index] = true
+                            if (item.last_operation_type.toUpperCase() === 'DELETE') this.terminateStart[index] = true
                             else this.terminateStart[index] = false;
                             this.queryProgress(obj, item.orchestration_status, index, updata).then((res) => {
                                 item.last_operation_progress = '100';
