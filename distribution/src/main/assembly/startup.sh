@@ -25,6 +25,9 @@ if [ ! -d "$RUNHOME/tomcat/logs" ]; then
 fi
 export CATALINA_HOME=$RUNHOME/tomcat
 export CATALINA_BASE=$RUNHOME/tomcat
+cp /home/uui/server.xml $RUNHOME/tomcat/conf
+cp /home/uui/web.xml $RUNHOME/tomcat/conf
+cp /home/uui/uuiServer.jks $RUNHOME/tomcat/conf
 $RUNHOME/tomcat/bin/startup.sh
 tail -f /home/uui/tomcat/logs/catalina.out
 
