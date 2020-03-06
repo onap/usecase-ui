@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ab90582_c77ed660",
+        "filename": "distribution/src/main/assembly/startup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4965
+      },
+      "writtenOn": "2020-03-06T16:48:08Z",
+      "side": 1,
+      "message": "What\u0027s the point of this change? does it fix sth? No single word of meaningful description in commit message nor in jira ticket",
+      "revId": "306fb868d6180f4123fd3e4c806ff35c1d560a7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
