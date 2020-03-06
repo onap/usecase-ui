@@ -19,15 +19,16 @@ DIRNAME=`dirname $0`
 RUNHOME=`cd $DIRNAME/; pwd`
 echo @RUNHOME@ $RUNHOME
 echo "### Starting usecase-ui";
+cp -f /home/uui/server.xml /home/uui/tomcat/conf/
+cp -f /home/uui/web.xml /home/uui/tomcat/conf/
+cp -f /home/uui/uuiServer.jks /home/uui/tomcat/conf/
+
 cd ./tomcat
 if [ ! -d "$RUNHOME/tomcat/logs" ]; then
   mkdir $RUNHOME/tomcat/logs
 fi
 export CATALINA_HOME=$RUNHOME/tomcat
 export CATALINA_BASE=$RUNHOME/tomcat
-cp /home/uui/server.xml $RUNHOME/tomcat/conf
-cp /home/uui/web.xml $RUNHOME/tomcat/conf
-cp /home/uui/uuiServer.jks $RUNHOME/tomcat/conf
 $RUNHOME/tomcat/bin/startup.sh
 tail -f /home/uui/tomcat/logs/catalina.out
 
