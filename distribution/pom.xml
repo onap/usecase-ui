@@ -172,12 +172,6 @@
                                     <tarfileset dir="${linux64outputdir}" filemode="0755" dirmode="0755">
                                         <include name="**/*.sh"/>
                                     </tarfileset>
-									<tarfileset dir="${linux64outputdir}" filemode="0755" dirmode="0755">
-                                        <include name="**/*.xml"/>
-                                    </tarfileset>
-									<tarfileset dir="${linux64outputdir}" filemode="0755" dirmode="0755">
-                                        <include name="**/uuiServer.jks"/>
-                                    </tarfileset>
                                 </tar>
                                 <attachartifact file="${dockeroutput}/usecase-ui-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
                             </tasks>
