@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Network, Node, Edge } from 'vis';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { baseUrl } from '../../../../datainterface';
 @Component({
   selector: 'app-monitor-service',
   templateUrl: './monitor-service.component.html',
@@ -8,30 +10,22 @@ import { Network, Node, Edge } from 'vis';
 })
 export class MonitorServiceComponent implements OnInit {
 
-  selectedSubscriptionType:string = "SOTN";
-  serviceSubscriptionList:any = [{
-    serviceType:"SOTN"
-  }];
-  selectedServiceInstance:string = "SiteService-5011";
-  serviceInstanceList:any = [
-    {
-      serviceInstance: "SiteService-5011",
-      serviceInstancename: "SiteService-5011"
-    },
-    {
-      serviceInstance: "ISAAC-IS0333",
-      serviceInstancename: "ISAAC-IS0333"
-    }
-  ];
-  selectedTopology:string = 'i18nTextDefine_networkTopology';
+  selectedSubscriptionType: string = "";
+  serviceSubscriptionList = [] as Array<any>;
+  selectedServiceInstance: string = "" ;
+  serviceInstanceList = [] as Array<any>;
+
+  selectedTopology:string = 'i18nTextDefine_serviceTopology';
   serviceTopologyList:any = [
     {
-      topologyType:"i18nTextDefine_networkTopology",
+      topologyType:"i18nTextDefine_serviceTopology",
     },
     {
       topologyType:"i18nTextDefine_resourceTopology",
     }
   ];
+  baseUrl = baseUrl.baseUrl
+  // baseUrl:string = 'http://localhost:8082/api/usecaseui-server/v1';
 
   title = 'Network';
     public nodes: Node;
@@ -71,166 +65,33 @@ export class MonitorServiceComponent implements OnInit {
       },
     };
 
-    node1:any = {
-      "nodes": [
-        {
-          "id": "1",
-          "shape": "circularImage",
-          "image": "./assets/images/edge.png",
-          "label": "Node",
-          "color": "Green",
-          "dataNode": {
-            "ethtSvcName": "sotn-021-VS-monitored",
-            "colorAware": "true",
-            "cbs": "100",
-            "couplingFlag": "true",
-            "ebs": "evpl",
-            "cir": "200000",
-            "eir": "0"
-          }
-        },
-        {
-          "id": "2",
-          "shape": "circularImage",
-          "image": "./assets/images/logicallink.png",
-          "label": "Logical Link",
-          "color": "Green",
-          "dataNode": {
-            "ethtSvcName": "sotn-021-VS-monitored",
-            "colorAware": "true",
-            "cbs": "100",
-            "couplingFlag": "true",
-            "ebs": "evpl",
-            "cir": "200000",
-            "eir": "0"
-          }
-        },
-        {
-          "id": "3",
-          "shape": "circularImage",
-          "image": "./assets/images/edge.png",
-          "label": "Node",
-          "color": "Green",
-          "dataNode": {
-            "zipcode": "100095",
-            "siteName": "hubtravel",
-            "description": "desc",
-            "location": "laptop-5",
-            "cvlan": "100"
-          }
-        }
-      ],
-      "edges": [
-        {
-          "from": "1",
-          "to": "2"
-        },
-        {
-          "from": "2",
-          "to": "3"
-        }
-      ]
-    }
-
-  node2:any = {
-    "nodes": [
-      {
-        "id": "1",
-        "shape": "circularImage",
-        "image": "./assets/images/tpoint.png",
-        "label": "Termination Point",
-        "color": "Green",
-        "dataNode": {}
-      },
-      {
-        "id": "2",
-        "shape": "circularImage",
-        "image": "./assets/images/edge.png",
-        "label": "Node",
-        "color": "Green",
-        "dataNode": {
-          "ethtSvcName": "sotn-021-VS-monitored",
-          "colorAware": "true",
-          "cbs": "100",
-          "couplingFlag": "true",
-          "ebs": "evpl",
-          "cir": "200000",
-          "eir": "0"
-        }
-      },
-      {
-        "id": "3",
-        "shape": "circularImage",
-        "image": "./assets/images/logicallink.png",
-        "label": "Logical Link",
-        "color": "Green",
-        "dataNode": {
-          "ethtSvcName": "sotn-021-VS-monitored",
-          "colorAware": "true",
-          "cbs": "100",
-          "couplingFlag": "true",
-          "ebs": "evpl",
-          "cir": "200000",
-          "eir": "0"
-        }
-      },
-      {
-        "id": "4",
-        "shape": "circularImage",
-        "image": "./assets/images/edge.png",
-        "label": "Node",
-        "color": "Green",
-        "dataNode": {
-          "zipcode": "100095",
-          "siteName": "hubtravel",
-          "description": "desc",
-          "location": "laptop-5",
-          "cvlan": "100"
-        }
-      },
-      {
-        "id": "5",
-        "shape": "circularImage",
-        "image": "./assets/images/tpoint.png",
-        "label": "Termination Point",
-        "color": "Green",
-        "dataNode": {
-          "accessltpid": "155",
-          "siteName": "hubtravel",
-          "description": "desc",
-          "accessnodeid": "10.10.10.10",
-          "cvlan": "100"
-        }
-      }
-    ],
-    "edges": [
-      {
-        "from": "1",
-        "to": "2"
-      },
-      {
-        "from": "2",
-        "to": "3"
-      },
-      {
-        "from": "3",
-        "to": "4"
-      },
-      {
-        "from": "4",
-        "to": "5"
-      }
-    ]
-  }
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   intervalData: any;
   returnResponse: boolean = true;
 
-  //Get SubscriptionType
-  getSubscribeTypes() {
-      this.getTopologyInfo('i18nTextDefine_networkTopology');
+
+
+   //Get SubscriptionType
+   getSubscribeTypes() {
+    let url = this.baseUrl + "/uui-lcm/customers/service-subscriptions";
+    this.http.get<any>(url, {}).subscribe((data) => {
+      this.serviceSubscriptionList = data.subscriptions;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  //Get subscription instanceID by calling With Subscription Type
+  getServiceInstanceList(subscriptionType) {
+    this.serviceInstanceList = [];
+    this.selectedServiceInstance="";
+    let url = this.baseUrl + "/uui-lcm/Sotnservices/ServiceInstances/" + subscriptionType;
+    this.http.get<any>(url,{}).subscribe((data) => {
+      this.serviceInstanceList = data.serviceInstanceList; 
+    }, (err) => {
+      console.log(err);
+    });    
   }
 
   getTopologyInfo (topo) {
@@ -238,26 +99,18 @@ export class MonitorServiceComponent implements OnInit {
     this.getData();
     this.refreshData();
   }
-
   //Get subscription instanceID by calling With Subscription Type
-  getServiceInstanceList(subscriptionType) {
-          this.getSelectedsubscriptionInfo(subscriptionType);
-  }
   ngOnInit() {
       this.container = document.getElementById('mynetwork');
       this.getSubscribeTypes();
   }
 
   refreshData() {
-
       var data1 = {
           nodes: this.serviceList.nodes,
           edges: this.serviceList.edges
       };
-
       var network = new Network(this.container, data1, this.networkOptions);
-
-
       network.on('select', function (selection) {
           this.selectedNodeIds = selection.nodes[0]; // array of selected node's ids
           var filteredNode = data1.nodes.filter(item => (
@@ -295,13 +148,14 @@ export class MonitorServiceComponent implements OnInit {
       });
   }
 
-  getData ()
-  {
-    if (this.selectedTopology == 'i18nTextDefine_networkTopology') {
-      this.serviceList = this.node1;
-    } else {
-      this.serviceList = this.node2;
-    }
+  getData (){
+    var comp = this;
+    this.http.get<summary>(this.baseUrl+'/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance, {}).subscribe((data) => {
+        this.serviceList = data;
+        comp.refreshData();
+    }, (err) => {
+        console.log(err);
+    });
   }
   // Getting sitedata Based On Type and ID
   getSelectedsubscriptionInfo(s) {       

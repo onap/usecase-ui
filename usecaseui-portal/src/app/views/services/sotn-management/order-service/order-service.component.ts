@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd';
+import { baseUrl } from '../../../../datainterface';
 
 @Component({
   selector: 'app-order-service',
@@ -19,7 +20,8 @@ export class OrderServiceComponent implements OnInit {
   siteData:object = {};
   buttonDisabled:boolean = false;
   intervalData:any;
-  baseUrl:string = '/api/usecaseui-server/v1';
+  // baseUrl:string = '/api/usecaseui-server/v1';
+  baseUrl = baseUrl.baseUrl
   expandDataSet = [
     { rowIdx: 1, name: 'i18nTextDefine_serviceInformation', expand: true },
     { rowIdx: 2, name: 'i18nTextDefine_vpnInformation', expand: true },
@@ -27,6 +29,7 @@ export class OrderServiceComponent implements OnInit {
   ];
   uni = {};
   sotnUni = [];
+  
   @Output() childEvent = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder, private http: HttpClient, private message: NzMessageService) { }
@@ -118,6 +121,10 @@ export class OrderServiceComponent implements OnInit {
       this.l2vpn["l2vpn_reroute"] == null) {
         return false;
     }
+    // for (const i in this.validateForm.controls) {
+    //   this.validateForm.controls[i].markAsDirty();
+    //   this.validateForm.controls[i].updateValueAndValidity();
+    // }
     return true;
   }
 
@@ -132,7 +139,7 @@ export class OrderServiceComponent implements OnInit {
        'Content-Type': 'application/json',
       })
     };
-    let url1 = this.baseUrl + '/uui-lcm/Sotnservices';
+    let url1 = this.baseUrl + '/uui-lcm/Sotnservices_unni';
     this.http.post<any>(url1, body, httpOptions).subscribe((data) => { 
       let comp = this;
       this.message.info('Instantiation In Progress');
