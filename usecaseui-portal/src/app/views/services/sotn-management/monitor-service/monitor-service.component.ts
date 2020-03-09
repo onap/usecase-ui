@@ -150,7 +150,7 @@ export class MonitorServiceComponent implements OnInit {
 
   getData (){
     var comp = this;
-    this.http.get<summary>(this.baseUrl+'/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance, {}).subscribe((data) => {
+    this.http.get<any>(this.baseUrl+'/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance, {}).subscribe((data) => {
         this.serviceList = data;
         comp.refreshData();
     }, (err) => {
