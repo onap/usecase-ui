@@ -20,4 +20,7 @@ WORKDIR /home/uui
 ADD usecase-ui-*-linux64.tar.gz /home/uui/
 RUN chmod 755 /home/uui/*.sh
 
+RUN bash /home/uui/configEnv.sh
+USER uui
+WORKDIR /home/uui
 ENTRYPOINT /home/uui/startup.sh

@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Copyright 2020 CMCC Corporation.
 #
@@ -14,15 +15,17 @@
 # limitations under the License.
 #
 
-echo "### Starting usecase-ui"
+main_path="/home/uui"
 
-cp -f /home/uui/server.xml /home/uui/tomcat/conf/
-echo "cp server.xml"
+add_user() {
+  useradd uui
+  echo "add_user uui..."
+}
 
-cp -f /home/uui/web.xml /home/uui/tomcat/conf/
-echo "cp web.xml"
+modify_owner() {
+  chown -R uui:uui $main_path
+  echo "modify files owner..."
+}
 
-cp -f /home/uui/uuiServer.jks /home/uui/tomcat/conf/
-echo "cp uuiServer.jks"
-
-bash /home/uui/tomcat/bin/catalina.sh run
+add_user
+modify_owner
