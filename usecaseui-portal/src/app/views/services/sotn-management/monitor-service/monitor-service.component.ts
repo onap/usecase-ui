@@ -304,7 +304,7 @@ export class MonitorServiceComponent implements OnInit {
     }
   }
   // Getting sitedata Based On Type and ID
-  getSelectedsubscriptionInfo(s) {       
+  getSelectedsubscriptionInfo() {       
       this.getData();
       this.refreshData();
       if (this.intervalData) {
