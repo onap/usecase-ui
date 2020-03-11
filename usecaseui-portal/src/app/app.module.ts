@@ -107,6 +107,7 @@ import { SotnManagementComponent } from './views/services/sotn-management/sotn-m
 import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
 import { ManageServiceComponent } from './views/services/sotn-management/manage-service/manage-service.component';
 import { MonitorServiceComponent } from './views/services/sotn-management/monitor-service/monitor-service.component';
+import { fakeBackendProvider } from '../../testBE/FakeBackendInterceptor';
 
 @NgModule({
   providers: [
@@ -119,7 +120,8 @@ import { MonitorServiceComponent } from './views/services/sotn-management/monito
     networkHttpservice,
     ManagemencsService,
     TextService,
-    SlicingTaskServices
+    SlicingTaskServices,
+    // fakeBackendProvider
   ],
   declarations: [
     AppComponent,
