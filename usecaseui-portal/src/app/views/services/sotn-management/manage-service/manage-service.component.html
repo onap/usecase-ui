@@ -16,7 +16,7 @@
                     <nz-form-label class="colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">{{"i18nTextDefine_serviceInstance" | translate}}</nz-form-label>
                 </td>
                 <td>
-                    <nz-select class="colm-s-2" id="serviceInstance" [(ngModel)]="selectedServiceInstance" (ngModelChange)="getSubscribedSites($event)" nzAllowClear
+                    <nz-select class="colm-s-2" id="serviceInstance" [(ngModel)]="selectedServiceInstance" (ngModelChange)="getSubscribedSites()" nzAllowClear
                         nzPlaceHolder="Choose">
                         <nz-option *ngFor="let option of serviceInstanceList" [nzValue]="option.serviceInstance" [nzLabel]="option.serviceInstancename"></nz-option>
                     </nz-select>
