@@ -149,6 +149,7 @@ export class SlicingTaskManagementComponent implements OnInit {
       if (this.selectedValue && this.selectedValue !== 'all') {
         this.getListOfProcessingStatus();
       } else {
+          this.loading = true;
           setTimeout(() => {
               this.getTaskList()
           }, 5000);
