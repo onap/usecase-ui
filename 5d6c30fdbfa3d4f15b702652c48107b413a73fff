@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "112a1b1c_9f9551d1",
+        "filename": "usecaseui-portal/src/app/app.module.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2020-03-11T12:38:35Z",
+      "side": 1,
+      "message": "don\u0027t think it\u0027s necessary to import this component",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d98f9d8a_b52cc7de",
+        "filename": "usecaseui-portal/src/app/datainterface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2020-03-11T12:38:35Z",
+      "side": 1,
+      "message": "don\u0027t think it\u0027s necessary to add this line because we already got a same one",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ce4f25c_9ef4a572",
+        "filename": "usecaseui-portal/testBE/FakeBackendInterceptor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2020-03-11T12:38:35Z",
+      "side": 1,
+      "message": "don\u0027t really understand the meaning of this file, could you give a description of this one?",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
