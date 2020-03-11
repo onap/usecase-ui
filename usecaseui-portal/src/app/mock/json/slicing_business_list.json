@@ -11,8 +11,8 @@
         "service_instance_name": "slicing-01-eMBB",
         "service_type": "eMMB",
         "service_snssai": "1-010101",
-        "orchestration_status": "activated",
-        "last_operation_type": "activate",
+        "orchestration_status": "processing",
+        "last_operation_type": "processing",
         "last_operation_progress": 80
       },
       {
@@ -21,7 +21,7 @@
         "service_type": "eMMB",
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
-        "last_operation_type": "activate",
+        "last_operation_type": "DELETE",
         "last_operation_progress": 99
       },
       {
