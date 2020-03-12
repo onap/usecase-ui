@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10c74109_17a0c587",
+        "filename": "usecaseui-portal/src/app/app.module.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 897
+      },
+      "writtenOn": "2020-03-12T10:59:34Z",
+      "side": 1,
+      "message": "This is required for a standalone testing point and hence have included it in the test folder",
+      "parentUuid": "112a1b1c_9f9551d1",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d98f9d8a_b52cc7de",
         "filename": "usecaseui-portal/src/app/datainterface.ts",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1af387fa_c2d61788",
+        "filename": "usecaseui-portal/src/app/datainterface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 897
+      },
+      "writtenOn": "2020-03-12T10:59:34Z",
+      "side": 1,
+      "message": "This is again for mocking the URLs while standalone deployment, will change to the test folder",
+      "parentUuid": "d98f9d8a_b52cc7de",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ce4f25c_9ef4a572",
         "filename": "usecaseui-portal/testBE/FakeBackendInterceptor.ts",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2020-03-11T12:38:35Z",
       "side": 1,
       "message": "don\u0027t really understand the meaning of this file, could you give a description of this one?",
+      "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7bf9eb2_46244195",
+        "filename": "usecaseui-portal/testBE/FakeBackendInterceptor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 897
+      },
+      "writtenOn": "2020-03-12T10:59:34Z",
+      "side": 1,
+      "message": "This is for injecting the standalone mocking... This give a better testability of FE alone.",
+      "parentUuid": "3ce4f25c_9ef4a572",
       "revId": "5d6c30fdbfa3d4f15b702652c48107b413a73fff",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
