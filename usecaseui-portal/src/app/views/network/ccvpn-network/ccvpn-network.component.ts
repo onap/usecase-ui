@@ -16,7 +16,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as d3 from 'd3';
 import * as $ from 'jquery';
-import { networkHttpservice } from '../../core/services/networkHttpservice.service';
+import { networkHttpservice } from '../../../core/services/networkHttpservice.service';
 
 @Component({
     selector: 'app-ccvpn-network',

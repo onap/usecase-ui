@@ -81,5 +81,13 @@ export class AppComponent {
             return false
         }
     }
+    // Whether the submenu expands the identifier
+    get network_flag () {
+        if(!this.url.indexOf('network')){
+            return true
+        }else{
+            return false
+        }
+    }
 
 }

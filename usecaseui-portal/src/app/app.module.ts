@@ -49,11 +49,12 @@ import { AlarmComponent } from './views/alarm/alarm.component';
 import { PerformanceComponent } from './views/performance/performance.component';
 import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
 import { PerformanceVmComponent } from './views/performance/performance-vm/performance-vm.component';
-import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
+import { CcvpnNetworkComponent } from './views/network/ccvpn-network/ccvpn-network.component';
 import { CcvpnDetailComponent } from './views/services/services-list/ccvpn-detail/ccvpn-detail.component';
 import { CcvpnCreationComponent } from './views/services/services-list/ccvpn-creation/ccvpn-creation.component';
 import { MdonsDetailComponent } from './views/services/services-list/mdons-detail/mdons-detail.component';
 import { MdonsCreationComponent } from './views/services/services-list/mdons-creation/mdons-creation.component';
+import { MdonsNetworkComponent } from './views/network/mdons-network/mdons-network.component';
 
 import { DetailsComponent } from './shared/components/details/details.component';
 import { GraphiclistComponent } from './shared/components/graphiclist/graphiclist.component';
@@ -178,7 +179,8 @@ import { fakeBackendProvider } from '../../testBE/FakeBackendInterceptor';
     SotnManagementComponent,
     OrderServiceComponent,
     ManageServiceComponent,
-    MonitorServiceComponent
+    MonitorServiceComponent,
+    MdonsNetworkComponent
   ],
   imports: [
     BrowserModule,

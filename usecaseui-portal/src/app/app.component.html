@@ -87,17 +87,23 @@
       </li>
       <hr>
       <!-- network page -->
-      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'network'}">
-        <a routerLink="network">
+      <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('network') === 0}" [nzOpen]="network_flag">
           <span title>
             <i>
               <img
-                src="{{url === 'network' ? 'assets/images/network-icon-active.png':'assets/images/network-icon.png'}}"
+                src="{{url.indexOf('network') === 0 ? 'assets/images/network-icon-active.png':'assets/images/network-icon.png'}}"
                 alt="home">
             </i>
             <span> {{"i18nTextDefine_NetworkTopology" | translate}} </span>
           </span>
-        </a>
+          <ul>
+            <li nz-menu-item [ngClass]="{'activeMenuList': url === 'network/ccvpn-network'}">
+              <a routerLink='network/ccvpn-network'> {{"i18nTextDefine_CCVPNNetwork" | translate}} </a>
+            </li>
+            <li nz-menu-item [ngClass]="{'activeMenuList': url === 'network/mdons-network'}">
+              <a routerLink='network/mdons-network'> {{"i18nTextDefine_MDONSNetwork" | translate}} </a>
+            </li>
+          </ul>
       </li>
       <hr>
       <!-- monitor page -->
