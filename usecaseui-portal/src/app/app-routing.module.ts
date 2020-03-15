@@ -28,8 +28,8 @@ import { AlarmComponent } from './views/alarm/alarm.component';
 import { PerformanceComponent } from './views/performance/performance.component';
 import { PerformanceVnfComponent } from './views/performance/performance-vnf/performance-vnf.component';
 import { PerformanceVmComponent } from './views/performance/performance-vm/performance-vm.component';
-
-import { CcvpnNetworkComponent } from './views/ccvpn-network/ccvpn-network.component';
+import { CcvpnNetworkComponent } from './views/network/ccvpn-network/ccvpn-network.component';
+import { MdonsNetworkComponent } from './views/network/mdons-network/mdons-network.component';
 import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
 import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
 import { ManageServiceComponent } from './views/services/sotn-management/manage-service/manage-service.component';
@@ -63,7 +63,8 @@ const routes: Routes = [
   { path: 'performance', component: PerformanceComponent },
   { path: 'performance/performance-vnf', component: PerformanceVnfComponent },
   { path: 'performance/performance-vm', component: PerformanceVmComponent },
-  { path: 'network', component: CcvpnNetworkComponent },
+  { path: 'network/ccvpn-network', component: CcvpnNetworkComponent },
+  { path: 'network/mdons-network', component: MdonsNetworkComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

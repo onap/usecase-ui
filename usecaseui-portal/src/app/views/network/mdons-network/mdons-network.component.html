@@ -1,0 +1,99 @@
+<!--
+    Copyright (C) 2020 Fujitsu Network Communications, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<nz-spin nzTip="Loading resource details..." [nzSpinning]="isSpinning" nzSize="large">
+<div>
+    <h1>{{"i18nTextDefine_InterDomainTitle" | translate}}</h1>
+    <form id="createForm">
+        <ul> 
+            <li>
+                <label for="linkName"><span class="red-span">*</span>{{"i18nTextDefine_LinkName" | translate}}</label>
+                <input nz-input [(ngModel)]="linkName" name="linkName" maxlength="20" required>
+            </li>
+            <li>
+                <h2>{{"i18nTextDefine_NearEnd" | translate}} :</h2>
+            </li>
+            <li>
+                <label for="dm1"><span class="red-span">*</span>{{"i18nTextDefine_Domain" | translate}} 1</label>
+                <nz-select name="dm1" [(ngModel)]="dm1Selected" nzShowSearch nzAllowClear (ngModelChange)="dm1Change()">
+                    <nz-option *ngFor="let dm of dm1List" [nzValue]="dm.id" [nzLabel]="dm.name"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <label for="ep1"><span class="red-span">*</span>{{"i18nTextDefine_Node" | translate}} 1</label>
+                <nz-select name="ep1" [disabled]="dm2Disable" [(ngModel)]="endPoint1Selected" nzShowSearch nzAllowClear (ngModelChange)="node1Change()">
+                    <nz-option *ngFor="let node of nodeList1" [nzValue]="node.id" [nzLabel]="node.name"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <label for="nni1"><span class="red-span">*</span>{{"i18nTextDefine_Interface" | translate}} 1</label>
+                <nz-select  name="nni1" [disabled]="dm2Disable" [(ngModel)]="pInterface1Selected" nzShowSearch nzAllowClear>
+                    <nz-option *ngFor="let ip of pInterfaceList1" [nzValue]="ip.id" [nzLabel]="ip.name" ></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <h2>{{"i18nTextDefine_FarEnd" | translate}} :</h2>
+            </li>
+            <li>
+                <label for="dm2"><span class="red-span">*</span>{{"i18nTextDefine_Domain" | translate}} 2</label>
+                <nz-select name="dm2" [disabled]="dm2Disable" [(ngModel)]="dm2Selected" nzShowSearch nzAllowClear (ngModelChange)="dm2Change()">
+                    <nz-option *ngFor="let dm of dm2List" [nzValue]="dm.id" [nzLabel]="dm.name"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <label for="ep2"><span class="red-span">*</span>{{"i18nTextDefine_Node" | translate}} 2</label>
+                <nz-select  name="ep2" [disabled]="node2Disable || dm2Disable" [(ngModel)]="endPoint2Selected" nzShowSearch nzAllowClear (ngModelChange)="node2Change()">
+                    <nz-option *ngFor="let node of nodeList2" [nzValue]="node.id" [nzLabel]="node.name"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <label for="nni2"><span class="red-span">*</span>{{"i18nTextDefine_Interface" | translate}} 2</label>
+                <nz-select  name="nni2" [disabled]="node2Disable || dm2Disable" [(ngModel)]="pInterface2Selected" nzShowSearch nzAllowClear>
+                    <nz-option *ngFor="let ip of pInterfaceList2" [nzValue]="ip.id" [nzLabel]="ip.name"></nz-option>
+                </nz-select>
+            </li>
+            <!-- future feature add <li>
+                <label nz-checkbox [(ngModel)]="messageShow"  [ngModelOptions]="{standalone: true}"> Is External Network? </label>
+            </li> -->
+        </ul>       
+    </form>
+    <div class="center"><span *ngIf="messageShow" class="red-span">{{"i18nTextDefine_ExternalNetworkMessage" | translate}}</span></div>
+    <button class="submit" [disabled]="isSpinning" nz-button nzType="primary" nzSize="small" (click)="submitForm()" [nzLoading]="isConfirmCreating" form="createForm"><span>{{"i18nTextDefine_CreateLink" | translate}}</span></button>
+    <button class="submit delete topright" nz-button nzType="primary" nzSize="small" (click)="showDelete()"><span>{{"i18nTextDefine_DeleteLink" | translate}}</span></button>
+</div>
+<nz-modal
+    [(nzVisible)]="delBoxisVisible"
+    [nzTitle]="modalTitle"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
+    (nzOnCancel)="hideDel()">
+    <ng-template #modalTitle>
+        <h2 class="red">{{"i18nTextDefine_DeleteLink" | translate}}</h2>
+    </ng-template>
+    <ng-template #modalContent>
+        <div>
+            <label for="delLinkName"><span class="red-span">*</span>{{"i18nTextDefine_LinkName" | translate}}</label>
+            <nz-select  name="delLinkName" [(ngModel)]="logicalLinkSelected" nzShowSearch nzAllowClear>
+                <nz-option *ngFor="let ll of logicalLinkList" [nzValue]="ll.id" [nzLabel]="ll.name"></nz-option>
+            </nz-select>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+    <button class="delete" nz-button nzType="primary" (click)="delLink()" [nzLoading]="isConfirmDeleting">{{"i18nTextDefine_DeleteLink" | translate}}</button>
+    <button nz-button nzType="default" (click)="hideDel()">{{"i18nTextDefine_Cancel" | translate}}</button>
+    </ng-template>
+</nz-modal>
+</nz-spin>
