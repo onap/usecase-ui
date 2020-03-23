@@ -10,6 +10,45 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 3.0.1
+--------------
+
+:Release Date: 2020-03-26
+
+**New Features**
+ - 5G network GUI : In F release, we support the whole flow of creating 5G network slicing service. We provide CSMF portal for the network slicing customers and NSMF portal for the network slicing operators. What's more, we enhance the *Monitor* Module for monitoring 5G network slicing.
+ - CCVPN GUI : In this release, UUI supports CCVPN-E-LINE over OTN Inter Domain Links, as well as the Multi-domain multi-layer Optical Service Orchestration.
+**Released Components**
+ - usecase-ui  3.0.1
+ - usecase-ui-server  3.0.1
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
+
+**Quick Links**
+ - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+ - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
 Version: 2.0.2
 --------------
 
