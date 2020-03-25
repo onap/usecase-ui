@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Network, Node, Edge } from 'vis';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { baseUrl } from '../../../../datainterface';
+import { getLocaleDateFormat } from '@angular/common';
 @Component({
   selector: 'app-monitor-service',
   templateUrl: './monitor-service.component.html',
@@ -16,14 +17,6 @@ export class MonitorServiceComponent implements OnInit {
   serviceInstanceList = [] as Array<any>;
 
   selectedTopology:string = 'i18nTextDefine_serviceTopology';
-  serviceTopologyList:any = [
-    {
-      topologyType:"i18nTextDefine_serviceTopology",
-    },
-    {
-      topologyType:"i18nTextDefine_resourceTopology",
-    }
-  ];
   baseUrl = baseUrl.baseUrl
 
   title = 'Network';
@@ -31,6 +24,7 @@ export class MonitorServiceComponent implements OnInit {
     public edges: Edge;
     public network: Network;
     public serviceList: any;
+    public vpnBindingList:any;
     public tempNode: any;
     public tempEdge: any;
     public selectedNode: any;
@@ -38,9 +32,20 @@ export class MonitorServiceComponent implements OnInit {
     public x: any;
     public abc = [];
     container: any;
+    isdisabled:boolean = true;
+    serviceTopologyList:any = [
+      {
+        topologyType:"i18nTextDefine_serviceTopology",
+      },
+      {
+        topologyType:"i18nTextDefine_resourceTopology",
+      }
+    ];
+  
+    
     networkOptions = {
       layout: { 
-          randomSeed: 15 
+          randomSeed: 15
       },
       nodes: {
           borderWidth: 13,
@@ -52,7 +57,7 @@ export class MonitorServiceComponent implements OnInit {
           font: { color: '#eeeeee' }
       },
       edges: {
-          color: 'lightgray'
+          color: 'lightgray',
       },
 
       interaction: {
@@ -69,12 +74,27 @@ export class MonitorServiceComponent implements OnInit {
   intervalData: any;
   returnResponse: boolean = true;
 
-
+  onBack(){
+     if(this.serviceList.length > 0) {
+      this.refreshData("");
+     } else {
+       this.getData("");
+     }
+     this.isdisabled = true;
+  };
 
    //Get SubscriptionType
    getSubscribeTypes() {
+    this.serviceList = [];
+    this.vpnBindingList = [];
+    this.isdisabled = true;
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
     let url = this.baseUrl + "/uui-lcm/customers/service-subscriptions";
-    this.http.get<any>(url, {}).subscribe((data) => {
+    this.http.get<any>(url, httpOptions).subscribe((data) => {
       this.serviceSubscriptionList = data.subscriptions;
     }, (err) => {
       console.log(err);
@@ -83,10 +103,19 @@ export class MonitorServiceComponent implements OnInit {
 
   //Get subscription instanceID by calling With Subscription Type
   getServiceInstanceList(subscriptionType) {
+    debugger
+    this.serviceList = [];
+    this.vpnBindingList = [];
+    this.isdisabled = true;
     this.serviceInstanceList = [];
     this.selectedServiceInstance="";
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
     let url = this.baseUrl + "/uui-lcm/Sotnservices/ServiceInstances/" + subscriptionType;
-    this.http.get<any>(url,{}).subscribe((data) => {
+    this.http.get<any>(url,httpOptions).subscribe((data) => {
       this.serviceInstanceList = data.serviceInstanceList; 
     }, (err) => {
       console.log(err);
@@ -95,8 +124,8 @@ export class MonitorServiceComponent implements OnInit {
 
   getTopologyInfo (topo) {
     this.selectedTopology = topo;
-    this.getData();
-    this.refreshData();
+    this.getData("");
+    this.refreshData("");
   }
   //Get subscription instanceID by calling With Subscription Type
   ngOnInit() {
@@ -104,24 +133,28 @@ export class MonitorServiceComponent implements OnInit {
       this.getSubscribeTypes();
   }
 
-  refreshData() {
+  refreshData(data) {
+      const com = this
+      var id ;
       var data1 = {
-          nodes: this.serviceList.nodes,
-          edges: this.serviceList.edges
+          nodes: data.nodes,
+          edges: data.edges
       };
       var network = new Network(this.container, data1, this.networkOptions);
-      network.on('select', function (selection) {
+      network.on('doubleClick', function (selection) {
+           var selectedvpnid = selection.nodes[0];
+          com.getData(selectedvpnid)
           this.selectedNodeIds = selection.nodes[0]; // array of selected node's ids
           var filteredNode = data1.nodes.filter(item => (
               item.id == this.selectedNodeIds
           ));
           var t1 = '<div class="tblDiv">\
           <nz-form-label class="lblCls">Node Information</nz-form-label>\
-          <table class="table table-striped table-bordered">\
+          <table class="monitor-table">\
               <thead>\
                   <tr>\
-                      <th class="clr-primary padding-2p">Specification</th>\
-                      <th class="clr-primary padding-2p">Value</th>\
+                      <th class="monitor-table-td-th ">Specification</th>\
+                      <th class="monitor-table-td-th ">Value</th>\
                   </tr>\
               </thead>\
               <tbody>\
@@ -130,8 +163,8 @@ export class MonitorServiceComponent implements OnInit {
               if( entry[1] !== "null")
               {
                   t1 += '<tr class="popup-table-row">\
-                      <td class="popup-table-header clr-primary padding-2p">'+ entry[0] + ':</td>\
-                      <td class="popup-table-data  clr-primary padding-2p">'+ entry[1] + '</td>\
+                      <td class="monitor-table-td-th  ">'+ entry[0] + ':</td>\
+                      <td class="monitor-table-td-th   ">'+ entry[1] + '</td>\
                   </tr>\
                   ';
               }    
@@ -147,24 +180,49 @@ export class MonitorServiceComponent implements OnInit {
       });
   }
 
-  getData (){
+  getData (vpnid){
     var comp = this;
-    this.http.get<any>(this.baseUrl+'/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance, {}).subscribe((data) => {
+    let url = "";
+    if(vpnid != "" ) {
+      if(this.vpnBindingList.length > 0) {
+          this.refreshData(this.vpnBindingList)
+        } else {
+        url = this.baseUrl+'/uui-lcm/Sotnservices/vpnbindingTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance+'/vpn-informations/vpn-information/'+ vpnid;
+      }
+    } else {
+      if(this.serviceList.length > 0 && vpnid == "") {
+        this.refreshData(this.serviceList);
+      } else {
+        url = this.baseUrl+'/uui-lcm/Sotnservices/serviceTopology/service/service-subscriptions/service-subscription/'+this.selectedSubscriptionType.toLowerCase()+'/service-instances/service-instance/'+this.selectedServiceInstance;
+      }
+    }
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    this.http.get<any>(url, httpOptions).subscribe((data) => {
+      if(vpnid == "") {
         this.serviceList = data;
-        comp.refreshData();
-    }, (err) => {
+      } else {
+        this.vpnBindingList = data;
+        this.isdisabled = false;
+    }
+    comp.refreshData(data);
+  }, (err) => {
         console.log(err);
     });
   }
+
   // Getting sitedata Based On Type and ID
   getSelectedsubscriptionInfo() {       
-      this.getData();
-      this.refreshData();
+      this.getData("");
       if (this.intervalData) {
           clearInterval(this.intervalData);
       }        
   }
 
+  
   ngOnDestroy() {
       console.log('clear interval');
       if (this.intervalData) {
