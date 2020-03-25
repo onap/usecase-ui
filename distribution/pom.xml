@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.onap.usecase-ui</groupId>
         <artifactId>usecase-ui-parent</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>usecase-ui-distribution</artifactId>
@@ -28,7 +28,7 @@
     <description>distribution for usecase-ui portal</description>
 
     <properties>
-        <usecaseui.version>2.0.2</usecaseui.version>
+        <usecaseui.version>3.0.1</usecaseui.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
