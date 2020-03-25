@@ -25,8 +25,8 @@ Usecase-UI Repositories
 Usecase-UI Docker Images
 ::
 
-  nexus3.onap.org:10001/onap/usecase-ui:2.0.1
-  nexus3.onap.org:10001/onap/usecase-ui-server:2.0.1
+  nexus3.onap.org:10001/onap/usecase-ui:3.0.1
+  nexus3.onap.org:10001/onap/usecase-ui-server:3.0.1
   
 
 **3. Usecase-UI Deployment**

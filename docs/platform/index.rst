@@ -30,6 +30,7 @@ Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server.
 	* providing E2E instance lifecycle management GUI.
 	* providing NS instance lifecycle management GUI.
 	* providing NS/VNF/PNF package management GUI.
+   * providing 5G Slicing network management and monitor GUI.
 	* providing network management GUI for OTN Domain.
 
 * Usecase UI Server (Backend)
