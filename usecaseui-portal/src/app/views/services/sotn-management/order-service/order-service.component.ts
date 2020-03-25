@@ -20,7 +20,6 @@ export class OrderServiceComponent implements OnInit {
   siteData:object = {};
   buttonDisabled:boolean = false;
   intervalData:any;
-  // baseUrl:string = '/api/usecaseui-server/v1';
   baseUrl = baseUrl.baseUrl
   expandDataSet = [
     { rowIdx: 1, name: 'i18nTextDefine_serviceInformation', expand: true },
@@ -59,6 +58,7 @@ export class OrderServiceComponent implements OnInit {
     });
   }
 
+  
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -121,6 +121,10 @@ export class OrderServiceComponent implements OnInit {
       this.l2vpn["l2vpn_reroute"] == null) {
         return false;
     }
+    // for (const i in this.validateForm.controls) {
+    //   this.validateForm.controls[i].markAsDirty();
+    //   this.validateForm.controls[i].updateValueAndValidity();
+    // }
     return true;
   }
 
@@ -135,13 +139,19 @@ export class OrderServiceComponent implements OnInit {
        'Content-Type': 'application/json',
       })
     };
+    
     let url1 = this.baseUrl + '/uui-lcm/Sotnservices_unni';
     this.http.post<any>(url1, body, httpOptions).subscribe((data) => { 
       let comp = this;
       this.message.info('Instantiation In Progress');
       this.intervalData = setInterval(() => {
+        const httpOptions1 = {
+          headers: new HttpHeaders({
+           'Content-Type': 'application/json',
+          })
+        };
         let url2 = this.baseUrl + "/uui-lcm/Sotnservices/serviceStatus/service-instance/" + data.service.serviceId;
-        this.http.get<any>(url2, {}).subscribe((data) => {
+        this.http.get<any>(url2, httpOptions1).subscribe((data) => {
           if (data.status == "1") {
             clearInterval(comp.intervalData);
             comp.message.success('Service Created');

@@ -28,5 +28,9 @@
 <body>
   <app-root></app-root>
 </body>
-
+<script>
+  var x = document.getElementsByTagName("canvas");
+  var ctx = x.getContext("2d");
+  ctx.rotate(10 * Math.PI / 180);
+  </script>
 </html>
