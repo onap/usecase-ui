@@ -153,7 +153,7 @@
   "i18nTextDefine_topology": "拓扑结构",
   "i18nTextDefine_colorAware": "色敏感",
   "i18nTextDefine_couplingFlag": "耦合标签",
-  "i18nTextDefine_networkTopology": "网络拓扑",
+  "i18nTextDefine_serviceTopology": "服务拓扑",
   "i18nTextDefine_resourceTopology": "资源拓扑",
   "i18nTextDefine_orderService":"订购服务",
   "i18nTextDefine_monitorService":"监控服务", 

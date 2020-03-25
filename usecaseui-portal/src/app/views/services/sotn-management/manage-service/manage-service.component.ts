@@ -34,8 +34,13 @@ export class ManageServiceComponent implements OnInit {
 
    //Get SubscriptionType
    getSubscribeTypes() {
+     let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
     let url = this.baseUrl + "/uui-lcm/customers/service-subscriptions";
-    this.http.get<any>(url, {}).subscribe((data) => {
+    this.http.get<any>(url, httpOptions).subscribe((data) => {
       this.serviceSubscriptionList = data.subscriptions;
     }, (err) => {
       console.log(err);
@@ -44,10 +49,15 @@ export class ManageServiceComponent implements OnInit {
 
   //Get subscription instanceID by calling With Subscription Type
   getServiceInstanceList(subscriptionType) {
+     let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
     this.serviceInstanceList = [];
     this.selectedServiceInstance="";
     let url = this.baseUrl + "/uui-lcm/Sotnservices/ServiceInstances/"+subscriptionType;
-    this.http.get<any>(url,{}).subscribe((data) => {
+    this.http.get<any>(url,httpOptions).subscribe((data) => {
       this.serviceInstanceList = data.serviceInstanceList; 
     }, (err) => {
       console.log(err);
@@ -56,8 +66,12 @@ export class ManageServiceComponent implements OnInit {
 
   deleteSelectedService() {
     let url = this.baseUrl + "/uui-lcm/Sotnservices/servicesubscription/"+this.selectedSubscriptionType+'/serviceinstance/'+this.selectedServiceInstance;
-    
-    this.http.delete<any>(url,{}).subscribe((data) => {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    this.http.delete<any>(url,httpOptions).subscribe((data) => {
       this.serviceInstanceList = [];
       this.selectedServiceInstance = "";
       this.getServiceInstanceList(this.selectedSubscriptionType);
@@ -67,11 +81,17 @@ export class ManageServiceComponent implements OnInit {
   }
 
 
+  
   getSubscribedSites() {  
     console.log("on change");
+     let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
     if (this.selectedServiceInstance) {
       let url = this.baseUrl + "/uui-lcm/Sotnservices/servicesubscription/"+this.selectedSubscriptionType+'/serviceinstance/'+this.selectedServiceInstance;
-      this.http.get<any>(url, {}).subscribe((data) => {
+      this.http.get<any>(url, httpOptions).subscribe((data) => {
         this.assignData(data, false);
       }, (err) => {
         console.log(err);

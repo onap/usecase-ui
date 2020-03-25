@@ -152,7 +152,7 @@
   "i18nTextDefine_topology": "Topology",
   "i18nTextDefine_colorAware": "Color Aware",
   "i18nTextDefine_couplingFlag": "Coupling Flag",
-  "i18nTextDefine_networkTopology": "Network Topology",
+  "i18nTextDefine_serviceTopology": "Service Topology",
   "i18nTextDefine_resourceTopology": "Resource Topology",
   "i18nTextDefine_orderService":"Order Service",
   "i18nTextDefine_monitorService":"Monitor Service", 
