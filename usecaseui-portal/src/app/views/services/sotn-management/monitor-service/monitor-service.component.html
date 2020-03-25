@@ -29,15 +29,19 @@
         <td>
             <nz-select id="serviceInstance" class= "colm-s-2 " [(ngModel)]="selectedTopology" (ngModelChange)="getTopologyInfo($event)"
             nzAllowClear nzPlaceHolder="Choose">
-            <nz-option *ngFor="let option of serviceTopologyList" [nzValue]="option.topologyType" [nzLabel]="option.topologyType | translate"></nz-option>
+            <nz-option *ngFor="let option of serviceTopologyList" [nzValue]="option.topologyType" [nzLabel]="option.topologyType | translate"    [nzDisabled]="option.topologyType == 'i18nTextDefine_resourceTopology'"></nz-option>
         </nz-select>
         </td>
       </tr>
     </table>
   </div>
-  
-  <div class="flexDiv">   
-    <div id="mynetwork"  class="colm-s-3"></div>
+  <div class="flexDiv">
+    <div class="topocontainer">
+      <div class="back-btn">
+        <button nz-button nzType="primary" (click)="onBack()" [disabled]="isdisabled">Back</button> 
+      </div>
+      <div id="mynetwork"  class="colm-s-3"></div>
+    </div> 
     <div class="colm-s-4"><div id="nodeDetails"></div></div>
   </div>
 </div>
