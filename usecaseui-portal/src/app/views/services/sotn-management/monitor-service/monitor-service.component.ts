@@ -103,7 +103,6 @@ export class MonitorServiceComponent implements OnInit {
 
   //Get subscription instanceID by calling With Subscription Type
   getServiceInstanceList(subscriptionType) {
-    debugger
     this.serviceList = [];
     this.vpnBindingList = [];
     this.isdisabled = true;

@@ -121,10 +121,6 @@ export class OrderServiceComponent implements OnInit {
       this.l2vpn["l2vpn_reroute"] == null) {
         return false;
     }
-    // for (const i in this.validateForm.controls) {
-    //   this.validateForm.controls[i].markAsDirty();
-    //   this.validateForm.controls[i].updateValueAndValidity();
-    // }
     return true;
   }
 

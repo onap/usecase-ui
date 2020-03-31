@@ -12,6 +12,8 @@
   "i18nTextDefine_Alarm": "Alarm",
   "i18nTextDefine_Performance": "Performance",
   "i18nTextDefine_NetworkTopology": "Network Topology",
+  "i18nTextDefine_CCVPNNetwork":"CCVPN Network",
+  "i18nTextDefine_MDONSNetwork":"MDONS Network",
 
   "home-component": "--:",
   "i18nTextDefine_SERVICES": "SERVICES",
@@ -154,5 +156,15 @@
   "i18nTextDefine_resourceTopology": "Resource Topology",
   "i18nTextDefine_orderService":"Order Service",
   "i18nTextDefine_monitorService":"Monitor Service", 
-  "i18nTextDefine_manageService":"Manage Service"
+  "i18nTextDefine_manageService":"Manage Service",
+
+
+  "mdons-network-component":"--:",
+  "i18nTextDefine_InterDomainTitle": "Inter-domain link",
+  "i18nTextDefine_Domain":"Domain",
+  "i18nTextDefine_Interface": "Interface",
+  "i18nTextDefine_ResourceVersion": "Resource version",
+  "i18nTextDefine_NearEnd": "Near End",
+  "i18nTextDefine_FarEnd": "Far End",
+  "i18nTextDefine_ExternalNetworkMessage":"Note: Both the endpoints would be changed to ENNI."
 }

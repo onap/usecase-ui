@@ -90,108 +90,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return Observable.of(new HttpResponse({ status: 200, body: body }));
 
             }
-            // get monotor service data
-            // if (request.url.endsWith('/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02')  && request.method === 'GET') {
-            //     let body = {
-            //         "nodes": [
-            //           {
-            //             "id": "1",
-            //             "shape": "circularImage",
-            //             "image": "./assets/images/tpoint.png",
-            //             "label": "Termination Point",
-            //             "color": "Green",
-            //             "dataNode": {}
-            //           },
-            //           {
-            //             "id": "2",
-            //             "shape": "circularImage",
-            //             "image": "./assets/images/edge.png",
-            //             "label": "Node",
-            //             "color": "Green",
-            //             "dataNode": {
-            //               "ethtSvcName": "sotn-021-VS-monitored",
-            //               "colorAware": "true",
-            //               "cbs": "100",
-            //               "couplingFlag": "true",
-            //               "ebs": "evpl",
-            //               "cir": "200000",
-            //               "eir": "0"
-            //             }
-            //           },
-            //           {
-            //             "id": "3",
-            //             "shape": "circularImage",
-            //             "image": "./assets/images/logicallink.png",
-            //             "label": "Logical Link",
-            //             "color": "Green",
-            //             "dataNode": {
-            //               "ethtSvcName": "sotn-021-VS-monitored",
-            //               "colorAware": "true",
-            //               "cbs": "100",
-            //               "couplingFlag": "true",
-            //               "ebs": "evpl",
-            //               "cir": "200000",
-            //               "eir": "0"
-            //             }
-            //           },
-            //           {
-            //             "id": "4",
-            //             "shape": "circularImage",
-            //             "image": "./assets/images/edge.png",
-            //             "label": "Node",
-            //             "color": "Green",
-            //             "dataNode": {
-            //               "zipcode": "100095",
-            //               "siteName": "hubtravel",
-            //               "description": "desc",
-            //               "location": "laptop-5",
-            //               "cvlan": "100"
-            //             }
-            //           },
-            //           {
-            //             "id": "5",
-            //             "shape": "circularImage",
-            //             "image": "./assets/images/tpoint.png",
-            //             "label": "Termination Point",
-            //             "color": "Green",
-            //             "dataNode": {
-            //               "accessltpid": "155",
-            //               "siteName": "hubtravel",
-            //               "description": "desc",
-            //               "accessnodeid": "10.10.10.10",
-            //               "cvlan": "100"
-            //             }
-            //           }
-            //         ],
-            //         "edges": [
-            //           {
-            //             "from": "1",
-            //             "to": "2"
-            //           },
-            //           {
-            //             "from": "2",
-            //             "to": "3"
-            //           },
-            //           {
-            //             "from": "3",
-            //             "to": "4"
-            //           },
-            //           {
-            //             "from": "4",
-            //             "to": "5"
-            //           }
-            //         ]
-            //       };
-
-            //     return Observable.of(new HttpResponse({ status: 200, body: body }));
-
-            // }
-
-            // VPN binding
-
-           // var url = '/uui-lcm/Sotnservices/topology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02/vpn-informations/vpn-information'
-
-            if (request.url.endsWith('http://localhost:8082/api/usecaseui/server/v1/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02/vpn-informations/vpn-information/vpn-bind-1') && request.method === 'GET') {
+            if (request.url.endsWith('/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02/vpn-informations/vpn-information/vpn-bind-1') && request.method === 'GET') {
               let body =  {
                 "nodes":[
                    {
@@ -262,7 +161,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
           // resource topo
 
-          if  (request.url.endsWith('/uui-lcm/Sotnservices/resourceTopology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02')&& request.method === 'GET') {
+          if  (request.url.endsWith('/uui-lcm/Sotnservices/serviceTopology/service/service-subscriptions/service-subscription/sotn/service-instances/service-instance/ISAAC-IS02')&& request.method === 'GET') {
             let body =  {
               "nodes":[
                  {
