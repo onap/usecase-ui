@@ -18,6 +18,8 @@ Version: 3.0.1
 **New Features**
  - 5G network GUI : In F release, we support the whole flow of creating 5G network slicing service. We provide CSMF portal for the network slicing customers and NSMF portal for the network slicing operators. What's more, we enhance the *Monitor* Module for monitoring 5G network slicing.
  - CCVPN GUI : In F release, UUI supports CCVPN-E-LINE over OTN Inter Domain Links, as well as the Multi-domain multi-layer Optical Service Orchestration.
+ - Https: In F release, we update the frontend and backend service to https
+ 
 **Released Components**
  - usecase-ui  3.0.1
  - usecase-ui-server  3.0.1

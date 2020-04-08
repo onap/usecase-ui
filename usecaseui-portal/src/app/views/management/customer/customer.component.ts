@@ -25,7 +25,7 @@ import { Observable } from 'rxjs';
 export class CustomerComponent implements OnInit {
     @ViewChild('chart') chart;
     @ViewChild('pie') pie;
-    @ViewChild('notification')notification:any;
+    @ViewChild('notification') notification: any;
     public chose = '';
 
     resizeMark;
@@ -36,19 +36,19 @@ export class CustomerComponent implements OnInit {
 
     ngOnInit() {
         this.getAllCustomers();
-        this.resizeMark = Observable.fromEvent(window,'resize')
+        this.resizeMark = Observable.fromEvent(window, 'resize')
             .subscribe((event) => {
-                this.pie.resize(this.chart.nativeElement.offsetHeight,210)
+                this.pie.resize(this.chart.nativeElement.offsetHeight, 210)
             })
     }
 
-    ngAfterViewInit(){
-        this.pie.resize(this.chart.nativeElement.offsetHeight,210)
+    ngAfterViewInit() {
+        this.pie.resize(this.chart.nativeElement.offsetHeight, 210)
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.resizeMark.unsubscribe()
-      }
+    }
 
     AllCustomersdata = [];
     AllServiceTypes = [];
@@ -170,7 +170,7 @@ export class CustomerComponent implements OnInit {
     serviceChart = true;
     getCustomersPie() {
         this.managemencs.getCustomersPie().subscribe((data) => {
-            this.serviceChart =data.serviceTotalNum > 0 ? true : false
+            this.serviceChart = data.serviceTotalNum > 0 ? true : false
             this.CUChartData = {
                 series: [{
                     data: data.customerServiceList
@@ -369,17 +369,17 @@ export class CustomerComponent implements OnInit {
 
     createNewCustomer(): void {
         let createParams = {
-            customerId: this.addNewCustomer,
+            // customerId: this.addNewCustomer,
             'global-customer-id': this.addNewCustomer,
             'subscriber-name': this.addNewCustomer,
             'subscriber-type': 'INFRA'
         };
         this.managemencs.createCustomer(this.addNewCustomer, createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notification.notificationSuccess('Customer','Create',this.addNewCustomer);
+                this.notification.notificationSuccess('Customer', 'Create', this.addNewCustomer);
                 this.getAllCustomers();
             } else {
-                this.notification.notificationFailed('Customer','Create',this.addNewCustomer);
+                this.notification.notificationFailed('Customer', 'Create', this.addNewCustomer);
             }
         })
     }
@@ -398,7 +398,7 @@ export class CustomerComponent implements OnInit {
     }
     deleteCustomerOk() {
         this.deleteCustomerModelVisible = false;
-        this.getCustomerVersion(this.thisdeleteCustomer,);
+        this.getCustomerVersion(this.thisdeleteCustomer);
     }
     getCustomerVersion(thisdeleteCustomer) {
         this.managemencs.getdeleteCustomerVersion(thisdeleteCustomer).subscribe((data) => {
@@ -416,10 +416,10 @@ export class CustomerComponent implements OnInit {
     deleteCustomer(paramsObj) {
         this.managemencs.deleteSelectCustomer(paramsObj).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notification.notificationSuccess('Customer','delete',this.thisdeleteCustomer.name);
+                this.notification.notificationSuccess('Customer', 'delete', this.thisdeleteCustomer.name);
                 this.getAllCustomers();
             } else {
-                this.notification.notificationFailed('Customer','delete',this.thisdeleteCustomer.name);
+                this.notification.notificationFailed('Customer', 'delete', this.thisdeleteCustomer.name);
             }
         })
     }
@@ -433,10 +433,10 @@ export class CustomerComponent implements OnInit {
         };
         this.managemencs.createServiceType(createParams).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notification.notificationSuccess('ServiceType','Create',this.addNewServiceType);
+                this.notification.notificationSuccess('ServiceType', 'Create', this.addNewServiceType);
                 this.getAllCustomers();
             } else {
-                this.notification.notificationFailed('ServiceType','Create',this.addNewServiceType);
+                this.notification.notificationFailed('ServiceType', 'Create', this.addNewServiceType);
             }
         })
     }
@@ -477,10 +477,10 @@ export class CustomerComponent implements OnInit {
     deleteServiceType(params) {
         this.managemencs.deleteSelectServiceType(params).subscribe((data) => {
             if (data["status"] == 'SUCCESS') {
-                this.notification.notificationSuccess('ServiceType','delete',this.thisdeleteServiceType["type"]);
+                this.notification.notificationSuccess('ServiceType', 'delete', this.thisdeleteServiceType["type"]);
                 this.getAllCustomers();
             } else {
-                this.notification.notificationFailed('ServiceType','delete',this.thisdeleteServiceType["type"]);
+                this.notification.notificationFailed('ServiceType', 'delete', this.thisdeleteServiceType["type"]);
             }
         })
     }
