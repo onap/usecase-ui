@@ -7,7 +7,7 @@
     <div class="select-list">
         <span> {{"i18nTextDefine_Customer" | translate}} : </span>
         <nz-select [(ngModel)]="currentCustomer.name" nzAllowClear
-            (ngModelChange)="customerChange()">
+            (ngModelChange)="customerChange(currentCustomer)">
             <nz-option *ngFor="let item of customerList" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
         </nz-select>
     </div>

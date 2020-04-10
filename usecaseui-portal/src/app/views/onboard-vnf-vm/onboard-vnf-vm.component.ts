@@ -197,11 +197,11 @@ export class OnboardVnfVmComponent implements OnInit {
             let sameData = nsData.filter((nssdc) => { return !this.nsTableData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
             this.nsTableData = this.nsTableData.concat(sameData);
           }, (err) => {
-            console.error(err);
+            this.msg.error(err);
             this.isSpinning = false;
           })
       }, (err) => {
-        console.error(err);
+        this.msg.error(err);
         this.isSpinning = false;
       })
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { ServiceListService } from '../../../../core/services/serviceList.service';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-create-model',
@@ -29,7 +30,10 @@ export class CreateModelComponent implements OnInit {
   createData: Object = {};
   loadingAnimateShow: boolean = false;
 
-  constructor( private http: ServiceListService) {}
+  constructor(
+      private http: ServiceListService,
+      private msg: NzMessageService
+  ) {}
 
   ngOnInit() {
     this.serviceTypes = this.serviceTypeList;
@@ -50,18 +54,20 @@ export class CreateModelComponent implements OnInit {
   getAlltemplates() {
     this.http.getAllServiceTemplates(this.templateTypeSelected)
       .subscribe((data) => {
-        this.templates = data;
-        if (this.templateTypeSelected == "Network Service") {
-          this.templates = data.filter((d) => {
-            return typeof d.packageInfo.csarName == "string";
-          }).map((item) => {
-            let cName = item.packageInfo.csarName.split("/").reverse()[0];
-            return { name: cName, id: item.csarId, packageInfo: item.packageInfo }
-          });
+        if(data.length!==0){
+            this.templates = data;
+            if (this.templateTypeSelected == "Network Service") {
+                this.templates = data.filter((d) => {
+                    return typeof d.packageInfo.csarName == "string";
+                }).map((item) => {
+                    let cName = item.packageInfo.csarName.split("/").reverse()[0];
+                    return { name: cName, id: item.csarId, packageInfo: item.packageInfo }
+                });
+            }
+            this.currentTemplate = this.templates[0];
         }
-        this.currentTemplate = this.templates[0];
       }, (err) => {
-        console.log(err);
+        this.msg.error(err);
       })
   }
 
@@ -83,7 +89,8 @@ export class CreateModelComponent implements OnInit {
     this.loadingAnimateShow = false;
   }
 
-  customerChange(): void {
+  customerChange(value): void {
+    this.currentCustomer = value;
     this.getServiceType();
   }
 
@@ -95,6 +102,10 @@ export class CreateModelComponent implements OnInit {
   }
 
   handleOk(): void {
+      if(this.templates.length === 0){
+          this.msg.warning('Template is required.');
+          return
+      }
     if (this.templateTypeSelected === "SOTN" || this.templateTypeSelected === "CCVPN" || this.templateTypeSelected === "MDONS") {
         this.createData = {
             commonParams: {
