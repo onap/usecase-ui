@@ -12,14 +12,14 @@ import * as d3 from 'd3';
 export class MdonsCreationComponent implements OnInit {
   mdons_creation_form: FormGroup;
 
-  uniList= [];
+  uniList = [];
   uniIdSelected = { id: null };
-  enniList= [];
+  enniList = [];
   enniIdSelected = { id: null };
-  nniList= [];
+  nniList = [];
   nniIdSelected = { id: null };
-  
-  nniMap : Map<any, any> = new Map<any, any>();
+
+  nniMap: Map<any, any> = new Map<any, any>();
 
   templateParameters = {
     invariantUUID: "",
@@ -49,22 +49,22 @@ export class MdonsCreationComponent implements OnInit {
       ],
       resources: [],
       requestInputs: {
-            name:"",
-            customer:"",
-            service_provider:"",
-            due_date:"",
-            end_date:"",
-            uni_id:"",
-            enni_id:""
+        name: "",
+        customer: "",
+        service_provider: "",
+        due_date: "",
+        end_date: "",
+        uni_id: "",
+        enni_id: ""
       }
     }
   }
 
-  mdonsModelShow : boolean = false;
-  constructor(private myhttp: ServiceListService,private fb: FormBuilder) {
+  mdonsModelShow: boolean = false;
+  constructor(private myhttp: ServiceListService, private fb: FormBuilder) {
 
-    
-   }
+
+  }
   @Input() createParams;
   @Input() mdons_temParametersContent;
   @Output() mdonsCloseCreate = new EventEmitter();
@@ -73,67 +73,66 @@ export class MdonsCreationComponent implements OnInit {
     this.getalluni();
     this.getallenni();
     this.getallnni();
-    this.templateParameters=this.mdons_temParametersContent;
+    this.templateParameters = this.mdons_temParametersContent;
     this.mdonsModelShow = true;
     this.mdons_creation_form = this.fb.group({});
     this.buildFormArrayOfGroupsFromArr();
-    console.log("Controls "+this.mdons_creation_form.controls['terms'])
   }
 
   buildFormArrayOfGroupsFromArr() {
-    for(let i of this.templateParameters.inputs){
-      if(i.isRequired === "true" && !(i.name.includes('_id'))){
-      this.mdons_creation_form.addControl(i.name, this.fb.control('', [Validators.required]))
+    for (let i of this.templateParameters.inputs) {
+      if (i.isRequired === "true" && !(i.name.includes('_id'))) {
+        this.mdons_creation_form.addControl(i.name, this.fb.control('', [Validators.required]))
       } else {
-        this.mdons_creation_form.addControl(i.name, this.fb.control('')) 
+        this.mdons_creation_form.addControl(i.name, this.fb.control(''))
       }
     }
   }
 
   getalluni() {
     this.myhttp.getAllNI("UNI")
-        .subscribe((data) => {
-            this.uniList = data.map(item => ({id: item }) );
-            if(data.length !== 0){
-                this.uniIdSelected = this.uniList[0];
-            }
-        })
-}
-
-getallenni() {
-  this.myhttp.getAllNI("ENNI")
       .subscribe((data) => {
-          this.enniList = data.map(item => ({id: item }) );
-          if(data.length !== 0){
-              this.enniIdSelected = this.enniList[0];
-          }
+        this.uniList = data.map(item => ({ id: item }));
+        if (data.length !== 0) {
+          this.uniIdSelected = this.uniList[0];
+        }
       })
-}
+  }
 
-getallnni() {
-  this.myhttp.getAllNI("NNI")
+  getallenni() {
+    this.myhttp.getAllNI("ENNI")
       .subscribe((data) => {
-          this.nniList = data.map(item => ({id: item }) );
-          if(data.length !== 0){
-              this.nniIdSelected = this.nniList[0];
-          }
+        this.enniList = data.map(item => ({ id: item }));
+        if (data.length !== 0) {
+          this.enniIdSelected = this.enniList[0];
+        }
       })
-}
+  }
 
-chooseUni(parameterName, item){
-  //if(this.uniIdSelected !== item) this.uniIdSelected = item;
-  this.nniMap.set(parameterName,item);
-}
+  getallnni() {
+    this.myhttp.getAllNI("NNI")
+      .subscribe((data) => {
+        this.nniList = data.map(item => ({ id: item }));
+        if (data.length !== 0) {
+          this.nniIdSelected = this.nniList[0];
+        }
+      })
+  }
 
-chooseEnni(parameterName, item){
-  //if(this.enniIdSelected !== item) this.enniIdSelected = item;
-  this.nniMap.set(parameterName,item);
-}
+  chooseUni(parameterName, item) {
+    //if(this.uniIdSelected !== item) this.uniIdSelected = item;
+    this.nniMap.set(parameterName, item);
+  }
 
-chooseNni(parameterName, item){
-  //if(this.nniIdSelected !== item) this.nniIdSelected = item;
-  this.nniMap.set(parameterName,item);
-}
+  chooseEnni(parameterName, item) {
+    //if(this.enniIdSelected !== item) this.enniIdSelected = item;
+    this.nniMap.set(parameterName, item);
+  }
+
+  chooseNni(parameterName, item) {
+    //if(this.nniIdSelected !== item) this.nniIdSelected = item;
+    this.nniMap.set(parameterName, item);
+  }
 
   goback() {
     this.mdonsCloseCreate.emit();
@@ -145,30 +144,28 @@ chooseNni(parameterName, item){
     if (this.mdons_creation_form.invalid) {
       return;
     } else {
-    this.service.serviceInvariantUuid = this.templateParameters.invariantUUID;
-    this.service.name = this.templateParameters.name;
-    this.service.description = this.templateParameters.description;
+      this.service.serviceInvariantUuid = this.templateParameters.invariantUUID;
+      this.service.name = this.templateParameters.name;
+      this.service.description = this.templateParameters.description;
       this.service.serviceUuid = this.templateParameters.uuid;
       this.service.globalSubscriberId = this.createParams.commonParams.customer.id;
       this.service.serviceType = this.createParams.commonParams.serviceType.name;
 
       this.templateParameters.inputs.forEach((ipnut) => {
         this.service.parameters.requestInputs[ipnut.name] = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
-        if(ipnut.name.includes('uni') && ipnut.name.includes('id')) {
+        if (ipnut.name.includes('uni') && ipnut.name.includes('id')) {
           this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.uniIdSelected.id : this.nniMap.get(ipnut.name).id;
         }
-        if(ipnut.name.includes('enni') && ipnut.name.includes('id')) {
+        if (ipnut.name.includes('enni') && ipnut.name.includes('id')) {
           this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.enniIdSelected.id : this.nniMap.get(ipnut.name).id;
         }
-        if(ipnut.name.includes('nni') && ipnut.name.includes('id')) {
+        if (ipnut.name.includes('nni') && ipnut.name.includes('id')) {
           this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.nniIdSelected.id : this.nniMap.get(ipnut.name).id;
         }
-        if(ipnut.name==='name') {
+        if (ipnut.name === 'name') {
           this.service.name = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
-        } 
+        }
       })
-
-      console.log(this.service)
       this.mdonsCloseCreate.emit({ service: this.service });
     }
   }

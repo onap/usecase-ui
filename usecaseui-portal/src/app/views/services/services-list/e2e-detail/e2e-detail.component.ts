@@ -78,12 +78,12 @@ export class E2eDetailComponent implements OnInit {
   }
 
   dataInit() {
-    console.log(this.detailParams);
+
     this.serviceInstanceName = this.detailParams['service-instance-name'] || this.detailParams["nsName"];
     if (this.detailParams.serviceDomain == 'E2E Service') {
       this.input_parameters = JSON.stringify(this.detailParams['input-parameters']);
       this.input_parameters = JSON.parse(this.input_parameters);
-      console.log(this.input_parameters);
+
       this.service = {
         name: this.input_parameters.service.name,
         description: this.input_parameters.service.description,
@@ -118,9 +118,7 @@ export class E2eDetailComponent implements OnInit {
           });
           this.roote2e.children.push(nsIndex);
         });
-        console.log(this.e2e_nestedTemplates);
-        console.log(this.e2e_requestInputs);
-        console.log(this.roote2e)
+
       }
     } else if (this.detailParams.serviceDomain == 'Network Service') {
       this.ns_service = {
@@ -137,9 +135,6 @@ export class E2eDetailComponent implements OnInit {
           "type": "vnf"
         }
       });
-      console.log(this.ns_nestedTemplates);
-      console.log(this.ns_requestInputs);
-      console.log(this.rootns)
     }
     this.drawImage(this.detailParams.serviceDomain)
   }

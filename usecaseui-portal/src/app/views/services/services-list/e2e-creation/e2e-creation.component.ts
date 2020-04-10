@@ -23,14 +23,12 @@ import * as d3 from 'd3';
   styleUrls: ['./e2e-creation.component.less']
 })
 export class E2eCreationComponent implements OnInit {
-
   constructor(private myhttp: ServiceListService) { }
 
   ngOnInit() {
     this.gete2eTemParameters(this.e2e_ns_temParametersContent);
     this.getVimInfo();
     this.getSdnControllers();
-    console.log(this.createParams);
   }
 
   @Output() e2eCloseCreate = new EventEmitter();
@@ -78,8 +76,6 @@ export class E2eCreationComponent implements OnInit {
   };
   gete2eTemParameters(data) { //Get template parameters
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
-    console.log(this.createParams);
-    console.log(data);
     if (type == "e2e") {
       this.templateParameters = data;
       this.templateParameters.nestedTemplates.forEach((item) => {
@@ -99,16 +95,13 @@ export class E2eCreationComponent implements OnInit {
         });
         this.roote2e.children.push(nsIndex);
       });
-      console.log(this.templateParameters);
-      console.log(this.roote2e)
+
     } else if (type == "ns") {
       if (data["model"] != undefined && typeof data["model"] == 'string') {
         this.nsTemplateParameters = JSON.parse(data["model"]);
-        console.log(data["model"],"----------1111");
       } else {
         this.nsTemplateParameters = data;
       }
-      console.log(this.nsTemplateParameters);
       this.nsTemplateParameters["inputs2"] = [];
       let inputs = this.nsTemplateParameters.inputs;
       for (let key in inputs) {
@@ -120,11 +113,8 @@ export class E2eCreationComponent implements OnInit {
           "type": "vnf",
         }
       });
-      console.log(this.nsTemplateParameters);
     }
-
     this.drawImage(type)
-
   }
   vimInfos = [];
   getVimInfo() {
@@ -152,13 +142,10 @@ export class E2eCreationComponent implements OnInit {
     globalSubscriberId: "",   // "customer.id",
     serviceType: "",    // "serviceType.value",
     parameters: {
-      locationConstraints: [
-
-      ],
+      locationConstraints: [],
       resources: [],
       requestInputs: {},
     }
-
   }
 
   // ns requstbody
@@ -172,11 +159,8 @@ export class E2eCreationComponent implements OnInit {
     }
   }
   ns_service2 = {
-    locationConstraints: [
-
-    ],
-    additionalParamForNs: {
-    }
+    locationConstraints: [],
+    additionalParamForNs: {}
   }
   submit() {
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
@@ -218,7 +202,6 @@ export class E2eCreationComponent implements OnInit {
         })
         this.service.parameters.resources.push(nsService);
       })
-      console.log(this.service)
       this.service.parameters.requestInputs['orchestrator'] = this.createParams.orchestrator.name;
       if (this.createParams.isSol005Interface) {
         this.service.parameters.requestInputs['isSol005Interface'] = this.createParams.isSol005Interface;
@@ -244,7 +227,6 @@ export class E2eCreationComponent implements OnInit {
         }
         this.ns_service2.locationConstraints.push(vnfparams);
       })
-      console.log(this.ns_service2);
 
       let requstbody = {
         step1: this.ns_service,
