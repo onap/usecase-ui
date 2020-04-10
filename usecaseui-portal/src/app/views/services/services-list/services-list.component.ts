@@ -210,9 +210,9 @@ export class ServicesListComponent implements OnInit {
                     if (typeof item == "string") {
                         item = JSON.parse(item);
                     }
-
                     item["iconMore"] = this.iconMore;
                     if (item["serviceDomain"] === "Network Service") {
+                        console.log(123456789)
                         if (item["vnfInfo"]) {
                             item["childServiceInstances"] = item["vnfInfo"].map((vnf) => {
                                 vnf["serviceDomain"] = "vnf";
@@ -238,6 +238,7 @@ export class ServicesListComponent implements OnInit {
                                 return vnfInfo;
                             })
                         }
+                        console.log(item,"======item")
                     } else {
                         item["childServiceInstances"] = [];
                     }
@@ -361,7 +362,6 @@ export class ServicesListComponent implements OnInit {
                         }
                     }
                 })
-                console.log(this.tableData)
                 this.loading = false;
             }, (err) => {
                 console.log(err);
