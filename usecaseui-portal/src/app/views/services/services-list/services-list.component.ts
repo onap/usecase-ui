@@ -210,9 +210,9 @@ export class ServicesListComponent implements OnInit {
                     if (typeof item == "string") {
                         item = JSON.parse(item);
                     }
-
                     item["iconMore"] = this.iconMore;
                     if (item["serviceDomain"] === "Network Service") {
+                        console.log(123456789)
                         if (item["vnfInfo"]) {
                             item["childServiceInstances"] = item["vnfInfo"].map((vnf) => {
                                 vnf["serviceDomain"] = "vnf";
@@ -238,6 +238,7 @@ export class ServicesListComponent implements OnInit {
                                 return vnfInfo;
                             })
                         }
+                        console.log(item,"======item")
                     } else {
                         item["childServiceInstances"] = [];
                     }
@@ -283,6 +284,7 @@ export class ServicesListComponent implements OnInit {
                                     item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
                                         return its["sortCode"] == item["operationType"] && its["language"] == this.language
                                     })["sortValue"] + '\xa0\xa0\xa0' + item["status"];
+                                    this.getTableData();
                                 }
                             }
                             let id = item["nsInstanceId"] || item["service-instance-id"];
@@ -296,11 +298,15 @@ export class ServicesListComponent implements OnInit {
                                 item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
                                     return its["sortCode"] == item["operationType"] && its["language"] == this.language
                                 })["sortValue"] + '\xa0\xa0\xa0' + item["status"];
+                                this.getTableData();
                             })
                         } else {
                             let updata = (prodata) => {
                                 item["rate"] = prodata.progress || 0;
-                                if(item["rate"] > 100) item["status"] = prodata.status;
+                                if(item["rate"] > 100) {
+                                    item["status"] = prodata.status;
+                                    this.getTableData();
+                                }
                                 item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
                                     return its["sortCode"] === item["operationType"] && its["language"] === this.language
                                 })["sortValue"] + '\xa0\xa0\xa0' + (item["rate"] > 100? item["status"] : prodata.progress + '%');
@@ -318,6 +324,7 @@ export class ServicesListComponent implements OnInit {
                                 item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
                                     return its["sortCode"] == item["operationType"] && its["language"] == this.language
                                 })["sortValue"] + '\xa0\xa0\xa0' + item["status"];
+                                this.getTableData();
                             })
                         }
                     }
@@ -361,7 +368,6 @@ export class ServicesListComponent implements OnInit {
                         }
                     }
                 })
-                console.log(this.tableData)
                 this.loading = false;
             }, (err) => {
                 console.log(err);
@@ -567,6 +573,7 @@ export class ServicesListComponent implements OnInit {
                     newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+                    this.getTableData();
                 }
             };
             let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
@@ -648,6 +655,7 @@ export class ServicesListComponent implements OnInit {
                     newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+                    this.getTableData();
                 }
             }
             let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
@@ -720,6 +728,7 @@ export class ServicesListComponent implements OnInit {
                     newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                         return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                     })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+                    this.getTableData();
                 }
             }
             let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
@@ -812,6 +821,7 @@ export class ServicesListComponent implements OnInit {
                             newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                                 return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                             })["sortValue"] + '\xa0\xa0\xa0' + newData["status"];
+                            this.getTableData();
                         }
                     }
 
@@ -831,6 +841,7 @@ export class ServicesListComponent implements OnInit {
                     let hasUndone = this.tableData.some((item) => {
                         return item.rate < 100;
                     })
+                    console.log(hasUndone,"------ hasUndone")
                     if (!hasUndone) {
                         setTimeout(() => {
                             this.getTableData();

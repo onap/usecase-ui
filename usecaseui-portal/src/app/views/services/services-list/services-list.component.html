@@ -130,7 +130,7 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances?data.childServiceInstances[0]:[]">
+                    <tr class="childtr" [nzExpand]="data.expand" *ngFor="let item of data.childServiceInstances?data.childServiceInstances:[]">
                         <td></td>
                         <td></td>
                         <td>{{item["service-instance-id"] || item.nsInstanceId || item.vnfInstanceId}}</td>

@@ -64,7 +64,7 @@ export class SlicingBusinessTableComponent implements OnInit {
                 if(slicing_business_list !==null && slicing_business_list.length >0){
                     this.listOfData = slicing_business_list.map((item, index) => {
                         if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
-                            let updata = (prodata: { operation_progress: string }) => {
+                            let updata = (prodata: { operation_progress: string })   => {
                                 item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                             };
                             let obj = {
