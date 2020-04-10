@@ -511,17 +511,17 @@
             </div>
         </ng-template>
     </div>
-    <div class="detailComponent" *ngIf="detailshow">
+    <div class="detailComponent" *ngIf="detailCCVPNShow">
         <app-ccvpn-detail [detailParams]="detailData" [upDateShow]="upDateShow"
             (closeUpdate)="closeCCVPNUpdate($event,templateUpdateSuccessFaild)"
-            (closeDetail)="detailshow = false;listDisplay = false;"></app-ccvpn-detail>
+            (closeDetail)="detailCCVPNShow = false;listDisplay = false;"></app-ccvpn-detail>
     </div>
-    <div class="detailComponent" *ngIf="detailshow2">
-        <app-e2e-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
+    <div class="detailComponent" *ngIf="detailNSShow">
+        <app-e2e-detail [detailParams]="detailData" (closeDetail)="detailNSShow = false;listDisplay = false;">
         </app-e2e-detail> 
     </div>
-    <div class="detailComponent" *ngIf="detailshow2">
-        <app-mdons-detail [detailParams]="detailData" (closeDetail)="detailshow2 = false;listDisplay = false;">
+    <div class="detailComponent" *ngIf="detailshowMDONS">
+        <app-mdons-detail [detailParams]="detailData" (closeDetail)="detailshowMDONS = false;listDisplay = false;">
         </app-mdons-detail> 
     </div>
     <div class="createComponent" *ngIf="createshow">

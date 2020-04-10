@@ -460,8 +460,8 @@ export class ServicesListComponent implements OnInit {
     }
 
     // show detail
-    detailshow = false;
-    detailshow2 = false;
+    detailCCVPNShow = false;
+    detailNSShow = false;
     detailshowMDONS = false;
     upDateShow = false;
     detailData: Object;
@@ -480,14 +480,16 @@ export class ServicesListComponent implements OnInit {
             }
         })
         if (service["serviceDomain"] === 'CCVPN' || service["serviceDomain"] === 'SOTN') {
-            this.detailshow = true;
+            this.detailCCVPNShow = true;
             if (typeNum === 1) {
                 this.upDateShow = false;
             } else {
                 this.upDateShow = true;
             }
-        } else if (service["serviceDomain"] === 'E2E Service' || service["serviceDomain"] === 'Network Service' || service["serviceDomain"] === 'MDONS') {
-            this.detailshow2 = true;
+        } else if (service["serviceDomain"] === 'E2E Service' || service["serviceDomain"] === 'Network Service') {
+            this.detailNSShow = true;
+        }else if( service["serviceDomain"] === 'MDONS'){
+            this.detailshowMDONS = false;
         }
         this.listDisplay = true;
         this.detailData = service;
@@ -999,7 +1001,7 @@ export class ServicesListComponent implements OnInit {
 
     closeCCVPNUpdate(obj, templateUpdateSuccessFaild) {
         console.log(obj);
-        this.detailshow = false;
+        this.detailCCVPNShow = false;
         this.listDisplay = false;
         this.upDateShow = false;
         this.detailData["rate"] = 0;
