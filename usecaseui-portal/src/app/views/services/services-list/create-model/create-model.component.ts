@@ -42,12 +42,13 @@ export class CreateModelComponent implements OnInit {
     this.getAlltemplates();
   }
 
-  getServiceType(): void{
+  getServiceType() {
     this.http.getServiceTypes(this.currentCustomer)
     .subscribe((data) => {
       this.serviceTypes = data.map((item) => {
         return { name: item["service-type"] }
       });
+      this.currentServiceType = this.serviceTypes[0]
     })
   } 
   
@@ -89,8 +90,10 @@ export class CreateModelComponent implements OnInit {
     this.loadingAnimateShow = false;
   }
 
-  customerChange(value): void {
-    this.currentCustomer = value;
+  customerChange(id): void {
+    this.currentCustomer = this.customerList.find(item=>{
+        return item.id === id
+    });
     this.getServiceType();
   }
 

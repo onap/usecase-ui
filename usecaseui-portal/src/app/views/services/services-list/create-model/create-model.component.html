@@ -6,8 +6,8 @@
 >
     <div class="select-list">
         <span> {{"i18nTextDefine_Customer" | translate}} : </span>
-        <nz-select [(ngModel)]="currentCustomer.name" nzAllowClear
-            (ngModelChange)="customerChange(currentCustomer)">
+        <nz-select [(ngModel)]="currentCustomer.id" nzAllowClear
+            (ngModelChange)="customerChange(currentCustomer.id)">
             <nz-option *ngFor="let item of customerList" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
         </nz-select>
     </div>
