@@ -41,38 +41,33 @@ export class MdonsDetailComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.detailParams);
     this.serviceInstanceName = this.detailParams['serviceDomain'] || this.detailParams["nsName"];
     this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
-      console.log(this.input_parameters);
+
     this.service = {
       name: this.input_parameters.service.name,
-        description: this.input_parameters.service.description,
-    };   
+      description: this.input_parameters.service.description,
+    };
     if (this.input_parameters.service.parameters.requestInputs != undefined && Object.keys(this.input_parameters.service.parameters.requestInputs).length > 0) {
       this.e2e_requestInputs = this.input_parameters.service.parameters.requestInputs;
     }
     if (this.e2e_requestInputs != undefined) {
-      for(let item of this.e2e_requestInputs) {
-        console.log("outside "+item);
-        if((item.includes("enni_id") || item.includes("uni_id"))){
-          console.log("inside "+item);
+      for (let item of this.e2e_requestInputs) {
+        if ((item.includes("enni_id") || item.includes("uni_id"))) {
           let nsIndex = {
             "name": "ns",
             "type": "ns",
             "children": []
           };
-          
+
           this.roote2e.children.push(nsIndex);
         }
 
-        
+
       }
-      console.log(this.e2e_requestInputs);
-      console.log(this.roote2e)
     }
 
-    this.drawImage(this.roote2e,this.imgmap);
+    this.drawImage(this.roote2e, this.imgmap);
   }
 
   goback() {
@@ -112,14 +107,11 @@ export class MdonsDetailComponent implements OnInit {
         .attr('fill', 'white');
     var i = 0;
     var nodes = cluster.nodes(data).reverse();
-    console.log(nodes);
     nodes.forEach(function (d) {
       d.y = d.depth * 200 + 100;
-
     });
 
     var links = cluster.links(nodes);
-
     var linkEnter = svg.selectAll("path.link")
       .data(links);
 

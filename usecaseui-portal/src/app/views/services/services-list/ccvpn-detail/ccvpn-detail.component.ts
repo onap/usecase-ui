@@ -498,7 +498,6 @@ export class CcvpnDetailComponent implements OnInit {
             }
 
         });
-        console.log(this.siteTableData);
         this.siteAddModelShow = false;
     }
 
