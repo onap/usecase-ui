@@ -394,7 +394,9 @@ export class ServicesListComponent implements OnInit {
         };
         this.myhttp.getE2e_nsData(paramsObj)
             .subscribe((data) => {
-                this.e2e_nsData = data;
+                if(data.length!==0){
+                    this.e2e_nsData = data;
+                }
             })
     }
 
@@ -443,8 +445,10 @@ export class ServicesListComponent implements OnInit {
             this.vnfParams.vnfInstanceId = service.vnfInstanceId;
             this.myhttp.getVnfInfo(service.vnfInstanceId)
                 .subscribe((data) => {
-                    this.vnfVms = data.vnfVms;
-                    this.vmSelected = this.vnfVms[0];
+                    if(data.vnfVms && data.vnfVms.length!==0){
+                        this.vnfVms = data.vnfVms;
+                        this.vmSelected = this.vnfVms[0];
+                    }
                 })
         }
     }
