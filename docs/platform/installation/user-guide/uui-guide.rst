@@ -81,15 +81,19 @@ The first part is CSMF component which provides the functions of creating networ
    :width: 7.97047in
    :height: 3.63208in
 
-The second part is NSMF component which includes two different modules. The first one is the slicing task management which is responsible for presenting the tasks created in CSMF portal and processing those tasks. The second one is slicing resource management which is responsible for listing all the NS, NSI and NSSI resource and showing the relation between them.
+The second part is NSMF component which includes two different modules.
 
 |Slicing Task Management|
+
+This module is responsible for presenting the tasks created in CSMF portal and processing those tasks. 
 
 .. |Slicing Task Management| image:: ../../images/slicing-task.png
    :width: 7.97047in
    :height: 3.63208in
 
 |Slicing Resource Management|
+
+This module is responsible for listing all the NS, NSI and NSSI resource and showing the relation between them.
 
 .. |Slicing Resource Management| image:: ../../images/slicing-res.png
    :width: 7.97047in
