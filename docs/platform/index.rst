@@ -3,7 +3,7 @@
 
 .. _uui_index:
 
-Usecase-UI
+ONAP Usecase-UI
 ==========
 
 |image0|
