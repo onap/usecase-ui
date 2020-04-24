@@ -21,6 +21,7 @@ coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GU
 * support NS instance lifecycle management GUI.
 * support NS/VNF/PNF package management GUI.
 * support network management GUI for OTN Domain.
+* support 5G slicing management GUI.
 
 Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server.
 
