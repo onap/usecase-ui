@@ -13,50 +13,51 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { showHideAnimate, slideToRight } from '../../shared/utils/animates';
-import { ManagemencsService } from '../../core/services/managemencs.service';
+import { Component, OnInit, HostBinding } from '@angular/core'
+import { showHideAnimate, slideToRight } from '../../shared/utils/animates'
+import { ManagemencsService } from '../../core/services/managemencs.service'
 
 @Component({
-    selector: 'app-management',
-    templateUrl: './management.component.html',
-    styleUrls: ['./management.component.less'],
-    animations: [
-        showHideAnimate, slideToRight
-    ]
+  selector: 'app-management',
+  templateUrl: './management.component.html',
+  styleUrls: ['./management.component.less'],
+  animations: [showHideAnimate, slideToRight]
 })
 export class ManagementComponent implements OnInit {
-    @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
+  @HostBinding('@routerAnimate') routerAnimateState //Routing animation
 
-    nocuster: boolean;
-    firstCustomer: string;
+  nocuster: boolean
+  firstCustomer: string
 
-    constructor(private managemencs: ManagemencsService) { }
+  constructor (private managemencs: ManagemencsService) {}
 
-    ngOnInit() {
-        this.getAllCustomers();
+  ngOnInit () {
+    this.getAllCustomers()
+  }
+
+  // Get all customers
+  getAllCustomers () {
+    this.managemencs.getAllCustomers().subscribe(data => {
+      this.nocuster = data.length > 0 ? false : true
+    })
+  }
+  createNewCustomer (customer) {
+    let createParams = {
+      // customerId: customer,
+      'global-customer-id': customer,
+      'subscriber-name': customer,
+      'subscriber-type': 'INFRA'
     }
-   
-    // Get all customers
-    getAllCustomers() {
-        this.managemencs.getAllCustomers().subscribe((data) => {
-            this.nocuster = data.length > 0 ? false : true;
-        })
-    }
-    createNewCustomer(customer) {
-        let createParams = {
-            customerId: customer
-        };
-        this.managemencs.createCustomer(customer, createParams).subscribe((data) => {
-            if (data["status"] == 'SUCCESS') {
-                this.nocuster = false;
-            } else {
-                this.nocuster = true;
-                console.log(data, "Interface returned error")
-            }
-        })
-    }
-    clearCustomerInput() {
-        this.firstCustomer = '';
-    }
+    this.managemencs.createCustomer(customer, createParams).subscribe(data => {
+      if (data['status'] == 'SUCCESS') {
+        this.nocuster = false
+      } else {
+        this.nocuster = true
+        console.log(data, 'Interface returned error')
+      }
+    })
+  }
+  clearCustomerInput () {
+    this.firstCustomer = ''
+  }
 }
