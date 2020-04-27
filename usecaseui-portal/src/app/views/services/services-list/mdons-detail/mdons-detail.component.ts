@@ -54,7 +54,7 @@ export class MdonsDetailComponent implements OnInit {
     }
     if (this.e2e_requestInputs != undefined) {
       for (let item of this.e2e_requestInputs) {
-        if (item.includes("_id") {
+        if (item.includes("_id")) {
           let nsIndex = {
             "name": "ns",
             "type": "ns",
