@@ -166,5 +166,6 @@
   "i18nTextDefine_ResourceVersion": "Resource version",
   "i18nTextDefine_NearEnd": "Near End",
   "i18nTextDefine_FarEnd": "Far End",
-  "i18nTextDefine_ExternalNetworkMessage":"Note: Both the endpoints would be changed to ENNI."
+  "i18nTextDefine_ExternalNetworkMessage":"Note: Both the endpoints would be changed to ENNI.",
+  "i18nTextDefine_domainService":"Domain Services"
 }
