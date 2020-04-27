@@ -16,6 +16,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { showHideAnimate, slideToRight } from '../../shared/utils/animates';
 import { ManagemencsService } from '../../core/services/managemencs.service';
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-management',
@@ -28,10 +29,13 @@ import { ManagemencsService } from '../../core/services/managemencs.service';
 export class ManagementComponent implements OnInit {
     @HostBinding('@routerAnimate') routerAnimateState; //Routing animation
 
-    nocuster: boolean;
-    firstCustomer: string;
+    nocuster: boolean = true;
+    firstCustomer: string = "";
 
-    constructor(private managemencs: ManagemencsService) { }
+    constructor(
+        private managemencs: ManagemencsService,
+        private message: NzMessageService,
+    ) { }
 
     ngOnInit() {
         this.getAllCustomers();
@@ -40,7 +44,7 @@ export class ManagementComponent implements OnInit {
     // Get all customers
     getAllCustomers() {
         this.managemencs.getAllCustomers().subscribe((data) => {
-            this.nocuster = data.length > 0 ? false : true;
+            this.nocuster = data.length !== 0 ? false : true;
         })
     }
     createNewCustomer(customer) {
@@ -52,11 +56,15 @@ export class ManagementComponent implements OnInit {
                 this.nocuster = false;
             } else {
                 this.nocuster = true;
-                console.log(data, "Interface returned error")
+                this.clearCustomerInput();
+                this.message.error(data["errorMessage"]);
             }
         })
     }
     clearCustomerInput() {
         this.firstCustomer = '';
+    }
+    closeCustomer(isClose){
+        this.nocuster = isClose;
     }
 }
