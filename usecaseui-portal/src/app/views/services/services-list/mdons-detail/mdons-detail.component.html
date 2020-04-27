@@ -6,7 +6,7 @@
         <button class="back" nz-button (click)="goback()"></button>
       </div>
     </div>
-    <div class="detaildata fl">
+    <div class="detaildata fl" style="width: 100%;">
       <div class="baseparms clearfix">
         <div class="vnf-box">
           <h3> {{"i18nTextDefine_Base" | translate}} </h3>
@@ -33,12 +33,29 @@
     </div>
 </div>
 
-<!-- chart -->
-<div class="chart fr">
-  <div id="createChart">
-    <svg width="100%" height="100%">
-    </svg>
+<div class="detaildata fl" style="width: 100%;">
+  <div class="baseparms clearfix">
+    <div class="vnf-box">
+      <h3>{{"i18nTextDefine_domainService" | translate}}</h3>
+      <ul class="clearfix">
+        <li *ngFor="let item of domainService;">
+          <h3>{{item.domainServiceRealtedTo}}</h3>
+          <div *ngIf="item.domainServiceRealtedTo == 'Domain Service Instance'">
+            <span title="Domain ServiceId">Domain ServiceId:</span>
+            <span class="input-content">{{item.domainServiceId}}</span>
+          </div>
+          <div *ngIf="item.domainServiceRealtedTo == 'Domain Service Instance'">
+            <span title="Domain Service Name">Domain Service Name:</span>
+            <span class="input-content">{{item.domainServiceName}}</span>
+          </div>
+          <div *ngIf="item.domainServiceRealtedTo == 'Logical Link'">
+            <span title="Logical Link Name">Logical Link Name:</span>
+            <span class="input-content">{{item.logicalLinkName}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+  </div>
 
 </div>

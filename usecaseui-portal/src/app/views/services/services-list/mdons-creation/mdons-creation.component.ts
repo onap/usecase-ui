@@ -79,6 +79,15 @@ export class MdonsCreationComponent implements OnInit {
     this.buildFormArrayOfGroupsFromArr();
   }
 
+  chunkTemplateParam(){
+    console.log(this.templateParameters)
+      for (let i = 0; i < this.templateParameters.inputs.length; i++){
+          if(this.templateParameters.inputs[i].name.includes('vf_')){
+            this.templateParameters.inputs[i].name = this.templateParameters.inputs[i].name.replace('vf_','')
+          }
+      }
+  }
+
   buildFormArrayOfGroupsFromArr() {
     for (let i of this.templateParameters.inputs) {
       if (i.isRequired === "true" && !(i.name.includes('_id'))) {
@@ -154,21 +163,25 @@ export class MdonsCreationComponent implements OnInit {
       this.templateParameters.inputs.forEach((ipnut) => {
         this.service.parameters.requestInputs[ipnut.name] = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
         if (ipnut.name.includes('uni') && ipnut.name.includes('id')) {
-          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.uniIdSelected.id : this.nniMap.get(ipnut.name).id;
-        }
+	this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.removePortNumber(this.uniIdSelected.id) : this.removePortNumber(this.nniMap.get(ipnut.name).id);
+	}
         if (ipnut.name.includes('enni') && ipnut.name.includes('id')) {
-          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.enniIdSelected.id : this.nniMap.get(ipnut.name).id;
-        }
+	this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.removePortNumber(this.enniIdSelected.id) : this.removePortNumber(this.nniMap.get(ipnut.name).id);
+	}
         if (ipnut.name.includes('nni') && ipnut.name.includes('id')) {
-          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.nniIdSelected.id : this.nniMap.get(ipnut.name).id;
-        }
+          this.service.parameters.requestInputs[ipnut.name] = this.nniMap.get(ipnut.name) == undefined ? this.removePortNumber(this.nniIdSelected.id) : this.removePortNumber(this.nniMap.get(ipnut.name).id);
+	}
         if (ipnut.name === 'name') {
           this.service.name = ipnut.value == undefined ? ipnut.defaultValue : ipnut.value;
         }
       })
       this.mdonsCloseCreate.emit({ service: this.service });
     }
-  }
+    }
+
+    removePortNumber(portNum){
+        return portNum.split('(')[0].toString().trim()
+	}
 
   markFormTouched(group: FormGroup | FormArray) {
     Object.keys(group.controls).forEach((key: string) => {

@@ -17,6 +17,7 @@ export class MdonsDetailComponent implements OnInit {
   serviceType: any;
   input_parameters: any;
   e2e_requestInputs: any;
+  domainService =[];
 
   service = {
     name: "",
@@ -43,7 +44,7 @@ export class MdonsDetailComponent implements OnInit {
 
     this.serviceInstanceName = this.detailParams['serviceDomain'] || this.detailParams["nsName"];
     this.input_parameters = JSON.parse(this.detailParams['input-parameters']);
-
+    this.domainService = this.detailParams["childServiceInstances"];
     this.service = {
       name: this.input_parameters.service.name,
       description: this.input_parameters.service.description,
@@ -53,7 +54,7 @@ export class MdonsDetailComponent implements OnInit {
     }
     if (this.e2e_requestInputs != undefined) {
       for (let item of this.e2e_requestInputs) {
-        if ((item.includes("enni_id") || item.includes("uni_id"))) {
+        if (item.includes("_id") {
           let nsIndex = {
             "name": "ns",
             "type": "ns",
