@@ -554,9 +554,9 @@ export class ServicesListComponent implements OnInit {
         if (this.thisService["serviceDomain"] === "Network Service") {
             this.deleteNsService(obj, this.thisService);
         } else {
-            this.deleteService(this.thisService, templateDeleteSuccessFaild);
+            this.deleteService(this.thisService);
         }
-        this.notification1.notificationStart(this.thisService['serviceDomain'], 'deleteStarting', this.thisService["service-instance-name"] || this.thisService["nsInstanceName"])
+        this.notification1.notificationStart(this.thisService['serviceDomain'], 'InstanceTeminationStarting', this.thisService["service-instance-name"] || this.thisService["nsInstanceName"])
     }
 
     deleteSuccessNotification(template: TemplateRef<{}>): void {
@@ -573,14 +573,20 @@ export class ServicesListComponent implements OnInit {
 
     //ccvpn sotn createservice
     parentServiceInstanceId = "";
-    thisCreateService = {};
-
-    closeCreate(obj, templateCreatestarting, templateCreateSuccessFaild) {
+    closeCreate(obj) {
         if (!obj) {
             this.createshow = false; //close
             this.listDisplay = false; //close
             return false;
         }
+        this.pageIndex = 1;
+        this.customerList.map(item=>{
+            if(item.id === obj.service.globalSubscriberId){
+                this.customerSelected = Object.assign({},item)
+            }
+        });
+        this.serviceTypeSelected = { name: obj.service.serviceType };
+        this.getTableData();
         this.createshow = false;
         this.listDisplay = false;
         this.loadingAnimateShow = true;
@@ -589,7 +595,7 @@ export class ServicesListComponent implements OnInit {
         let createParams = "?customerId=" + this.createData['commonParams'].customer.id +
             "&serviceType=" + this.createData['commonParams'].serviceType.name +
             "&serviceDomain=" + this.createData['commonParams'].templateType;
-        this.createService(obj, createParams, templateCreatestarting, templateCreateSuccessFaild).then((data) => {
+        this.createService(obj, createParams).then((data) => {
             this.loadingAnimateShow = false;
             newData = {  //Newly created service data in the main form
                 'service-instance-id': data["serviceId"],
@@ -601,9 +607,8 @@ export class ServicesListComponent implements OnInit {
                 statusClass: 1001,
                 tips: ""
             };
-            this.thisCreateService = newData;
             this.tableData = [newData, ...this.tableData];
-            this.createNotification(templateCreatestarting);
+            this.notification1.notificationStart(newData['serviceDomain'], 'InstanceCreationStarting', newData["service-instance-name"] || newData["nsInstanceName"]);
             let updata = (prodata) => {
                 newData.rate = prodata.progress;
                 newData.tips = this.listSortMasters["operationTypes"].find((its) => {
@@ -620,10 +625,9 @@ export class ServicesListComponent implements OnInit {
             let queryParams = { serviceId: data["serviceId"], operationId: data["operationId"], operationType: "1001" };
             return this.queryProgress(queryParams, updata);
         }).then((data) => {
-
             newData.rate = 100;
             newData.status = "Successful";
-            this.createSuccessNotification(templateCreateSuccessFaild);
+            this.notification1.notificationSuccess(newData.serviceDomain, 'InstanceCreatedSuccessfully', newData["service-instance-name"] || newData["nsInstanceName"]);
             newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                 return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
             })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -640,12 +644,20 @@ export class ServicesListComponent implements OnInit {
         })
     }
 
-    mdonsCloseCreate(obj, templateCreatestarting, templateCreateSuccessFaild) {
+    mdonsCloseCreate(obj) {
         if (!obj) {
             this.showCreateMDONS = false; //
             this.listDisplay = false; //
             return false;
         }
+        this.pageIndex = 1;
+        this.customerList.map(item=>{
+            if(item.id === obj.service.globalSubscriberId){
+                this.customerSelected = Object.assign({},item)
+            }
+        });
+        this.serviceTypeSelected = { name: obj.service.serviceType };
+        this.getTableData();
         this.showCreateMDONS = false; //
         this.listDisplay = false; //
         this.loadingAnimateShow = true;
@@ -656,7 +668,7 @@ export class ServicesListComponent implements OnInit {
             "&parentServiceInstanceId=" +
             "&uuid=" + obj.service.serviceUuid +
             "&invariantUuuid=" + obj.service.serviceInvariantUuid;
-        this.createService(obj, createParams, templateCreatestarting, templateCreateSuccessFaild).then((data) => {
+        this.createService(obj, createParams).then((data) => {
             this.loadingAnimateShow = false;
             newData = {
                 'service-instance-id': data["serviceId"],
@@ -671,15 +683,12 @@ export class ServicesListComponent implements OnInit {
             if (data == "FAILED") {
                 newData.status = "Failed";
                 newData.tips = "Unavailable";
-                this.thisCreateService = newData;
                 this.tableData = [newData, ...this.tableData];
-                this.createNotification(templateCreateSuccessFaild);
+                this.notification1.notificationFailed(newData.serviceDomain, 'InstanceCreationFailed', newData["service-instance-name"] || newData["nsInstanceName"]);
                 return false;
             }
-
-            this.thisCreateService = newData;
             this.tableData = [newData, ...this.tableData];
-            this.createNotification(templateCreatestarting);
+            this.notification1.notificationStart(newData['serviceDomain'], 'InstanceCreationStarting', newData["service-instance-name"] || newData["nsInstanceName"]);
             let updata = (prodata) => {
                 newData.rate = prodata.progress;
                 newData.tips = this.listSortMasters["operationTypes"].find((its) => {
@@ -701,7 +710,7 @@ export class ServicesListComponent implements OnInit {
             }
             newData.rate = 100;
             newData.status = "Successful";
-            this.createSuccessNotification(templateCreateSuccessFaild);
+            this.notification1.notificationSuccess(newData.serviceDomain, 'InstanceCreatedSuccessfully', newData["service-instance-name"] || newData["nsInstanceName"]);
             newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                 return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
             })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -719,12 +728,20 @@ export class ServicesListComponent implements OnInit {
 
     }
 
-    e2eCloseCreate(obj, templateCreatestarting, templateCreateSuccessFaild) {
+    e2eCloseCreate(obj) {
         if (!obj) {
             this.createshow2 = false; //
             this.listDisplay = false; //
             return false;
         }
+        this.pageIndex = 1;
+        this.customerList.map(item=>{
+            if(item.id === obj.service.globalSubscriberId){
+                this.customerSelected = Object.assign({},item)
+            }
+        });
+        this.serviceTypeSelected = { name: obj.service.serviceType };
+        this.getTableData();
         this.createshow2 = false; //
         this.listDisplay = false; //
         this.loadingAnimateShow = true;
@@ -735,7 +752,7 @@ export class ServicesListComponent implements OnInit {
             "&parentServiceInstanceId=" +
             "&uuid=" + obj.service.serviceUuid +
             "&invariantUuuid=" + obj.service.serviceInvariantUuid;
-        this.createService(obj, createParams, templateCreatestarting, templateCreateSuccessFaild).then((data) => {
+        this.createService(obj, createParams).then((data) => {
             this.loadingAnimateShow = false;
             newData = {  //
                 'service-instance-id': data["serviceId"],
@@ -746,10 +763,15 @@ export class ServicesListComponent implements OnInit {
                 statusClass: 1001,
                 rate: 0,
                 tips: ""
-            }
-            this.thisCreateService = newData;
+            };
             this.tableData = [newData, ...this.tableData];
-            this.createNotification(templateCreatestarting);
+            this.notification1.notificationStart(newData['serviceDomain'], 'InstanceCreationStarting', newData["service-instance-name"] || newData["nsInstanceName"]);
+            // if (data.status === "FAILED") {
+            //     newData.status = "Failed";
+            //     this.notification1.notificationFailed(newData.serviceDomain, 'InstanceCreationFailed', newData["service-instance-name"] || newData["nsInstanceName"]);
+            //     this.getTableData();
+            //     return false;
+            // }
             let updata = (prodata) => {
                 newData.rate = prodata.progress;
                 newData.tips = this.listSortMasters["operationTypes"].find((its) => {
@@ -768,7 +790,7 @@ export class ServicesListComponent implements OnInit {
         }).then((data) => {
             newData.rate = 100;
             newData.status = "Successful";
-            this.createSuccessNotification(templateCreateSuccessFaild);
+            this.notification1.notificationSuccess(newData.serviceDomain, 'InstanceCreatedSuccessfully', newData["service-instance-name"] || newData["nsInstanceName"]);
             newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                 return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
             })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
@@ -786,12 +808,20 @@ export class ServicesListComponent implements OnInit {
 
     }
 
-    nsCloseCreate(obj, templateCreatestarting, templateCreateSuccessFaild) {
+    nsCloseCreate(obj) {
         if (!obj) {
             this.createshow2 = false; //
             this.listDisplay = false; //
             return false;
         }
+        this.pageIndex = 1;
+        this.customerList.map(item=>{
+           if(item.id === obj.step1.context.globalCustomerId){
+                this.customerSelected = Object.assign({},item)
+            }
+        });
+        this.serviceTypeSelected = { name: obj.step1.context.serviceType };
+        this.getTableData();
         this.createshow2 = false; //
         this.listDisplay = false; //
         this.loadingAnimateShow = true;
@@ -810,12 +840,12 @@ export class ServicesListComponent implements OnInit {
                     rate: 0,
                     tips: ""
                 }
-                this.thisCreateService = newData;
                 this.tableData = [newData, ...this.tableData];
-                this.createNotification(templateCreatestarting);
-                if (data.status == "FAILED") {
+                this.notification1.notificationStart(newData['serviceDomain'], 'InstanceCreationStarting', newData["service-instance-name"] || newData["nsInstanceName"]);
+                if (data.status === "FAILED") {
                     newData.status = "Failed";
-                    this.createSuccessNotification(templateCreateSuccessFaild);
+                    this.notification1.notificationFailed(newData.serviceDomain, 'InstanceCreationFailed', newData["service-instance-name"] || newData["nsInstanceName"]);
+                    this.getTableData();
                     return false;
                 }
                 let createParams = "?ns_instance_id=" + data.nsInstanceId +
@@ -825,16 +855,15 @@ export class ServicesListComponent implements OnInit {
                     "&parentServiceInstanceId=";
                 // step2
                 this.createNsService(createParams, obj.step2).then((jobid) => {
-                    if (jobid == "Failed") {
+                    if (jobid === "Failed") {
                         newData.status = "Failed";
-                        this.thisCreateService = newData;
-                        this.createSuccessNotification(templateCreateSuccessFaild);
                         newData.tips = this.listSortMasters["operationTypes"].find((its) => {
                             return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
                         })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
                             return its["sortCode"] == 2002 && its["language"] == this.language
                         })["sortValue"];
-                        return false;
+                        this.notification1.notificationFailed(newData.serviceDomain, 'InstanceCreationFailed', newData["service-instance-name"] || newData["nsInstanceName"]);
+                        return ;
                     }
                     let operationType = "1001";
                     let updata = (prodata) => {
@@ -851,30 +880,29 @@ export class ServicesListComponent implements OnInit {
                         }
                     }
 
-                    return this.queryNsProgress(jobid, newData["service-instance-id"], updata, operationType);
-                }).then((data) => {
-                    newData.rate = 100;
-                    newData.status = "Successful";
-                    this.thisCreateService = newData;
-                    this.createSuccessNotification(templateCreateSuccessFaild);
-                    newData.tips = this.listSortMasters["operationTypes"].find((its) => {
-                        return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
-                    })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
-                        return its["sortCode"] == 2001 && its["language"] == this.language
-                    })["sortValue"];
-                    let hasUndone = this.tableData.some((item) => {
-                        return item.rate < 100;
+                    this.queryNsProgress(jobid, newData["service-instance-id"], updata, operationType).then((data) => {
+                        newData.rate = 100;
+                        newData.status = "Successful";
+                        this.notification1.notificationSuccess(newData.serviceDomain, 'InstanceCreatedSuccessfully', newData["service-instance-name"] || newData["nsInstanceName"]);
+                        newData.tips = this.listSortMasters["operationTypes"].find((its) => {
+                            return its["sortCode"] == newData["statusClass"] && its["language"] == this.language
+                        })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
+                            return its["sortCode"] == 2001 && its["language"] == this.language
+                        })["sortValue"];
+                        let hasUndone = this.tableData.some((item) => {
+                            return item.rate < 100;
+                        })
+                        if (!hasUndone) {
+                            setTimeout(() => {
+                                this.getTableData();
+                            }, 1000)
+                        }
                     })
-                    if (!hasUndone) {
-                        setTimeout(() => {
-                            this.getTableData();
-                        }, 1000)
-                    }
                 })
             })
     }
 
-    createService(requestBody, createParams, templateCreatestarting, templateCreateSuccessFaild) {
+    createService(requestBody, createParams) {
         let mypromise = new Promise((res, rej) => {
             this.myhttp.createInstance(requestBody, createParams)
                 .subscribe((data) => {
@@ -1063,7 +1091,7 @@ export class ServicesListComponent implements OnInit {
             })
     }
 
-    deleteService(service: any, templateDeleteSuccessFaild) {
+    deleteService(service: any) {
         let allprogress = {};
         let querypros = [];
         service.rate = 0;
@@ -1088,6 +1116,7 @@ export class ServicesListComponent implements OnInit {
                             })["sortValue"] + '\xa0\xa0\xa0' + this.listSortMasters["operationResults"].find((its) => {
                                 return its["sortCode"] == 2002 && its["language"] == this.language
                             })["sortValue"];
+                            this.notification1.notificationFailed(service.serviceDomain, 'InstanceTeminationFailed', service["service-instance-name"] || service["nsInstanceName"])
                             return false;
                         }
                         let obj = {
@@ -1125,7 +1154,7 @@ export class ServicesListComponent implements OnInit {
                 })["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                     return its["sortCode"] == 2001 && its["language"] == this.language
                 })["sortValue"];
-                this.deleteSuccessNotification(templateDeleteSuccessFaild);
+                this.notification1.notificationSuccess(service.serviceDomain, 'InstanceTeminatedSuccessfully', service["service-instance-name"] || service["nsInstanceName"])
                 let hasUndone = this.tableData.some((item) => {
                     return item.rate < 100;
                 })
@@ -1148,7 +1177,7 @@ export class ServicesListComponent implements OnInit {
         this.stopNsService(id, obj).then((jobid) => {
             if (jobid === "Failed") {
                 service.status = "Failed";
-                this.notification1.notificationFailed(service.serviceDomain, 'deleteStarting', service["service-instance-name"] || service["nsInstanceName"])
+                this.notification1.notificationFailed(service.serviceDomain, 'InstanceTeminationFailed', service["service-instance-name"] || service["nsInstanceName"])
                 service.tips = this.listSortMasters["operationTypes"].find((its) => {
                     return its["sortCode"] == service.statusClass && its["language"] == this.language
                 })["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
@@ -1177,7 +1206,7 @@ export class ServicesListComponent implements OnInit {
                             })["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                                 return its["sortCode"] == 2001 && its["language"] == this.language
                             })["sortValue"];
-                            this.notification1.notificationSuccess(service.serviceDomain, 'deleteStarting', service["service-instance-name"] || service["nsInstanceName"])
+                            this.notification1.notificationSuccess(service.serviceDomain, 'InstanceTeminatedSuccessfully', service["service-instance-name"] || service["nsInstanceName"])
                         } else {
                             service.status = "Failed";
                             service.tips = this.listSortMasters["operationTypes"].find((its) => {
@@ -1185,7 +1214,7 @@ export class ServicesListComponent implements OnInit {
                             })["sortValue"] + this.listSortMasters["operationResults"].find((its) => {
                                 return its["sortCode"] == 2002 && its["language"] == this.language
                             })["sortValue"];
-                            this.notification1.notificationFailed(service.serviceDomain, 'deleteStarting', service["service-instance-name"] || service["nsInstanceName"])
+                            this.notification1.notificationFailed(service.serviceDomain, 'InstanceTeminationFailed', service["service-instance-name"] || service["nsInstanceName"])
                             return false;
                         }
                         let hasUndone = this.tableData.some((item) => {
