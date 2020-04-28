@@ -14,10 +14,10 @@
     limitations under the License.
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, HostBinding, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { onboardService } from '../../core/services/onboard.service';
 import { slideToRight } from '../../shared/utils/animates';
-import { NzMessageService, UploadFile, NzModalRef, NzModalService } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile, NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -338,8 +338,12 @@ export class OnboardVnfVmComponent implements OnInit {
     }
     this.myhttp[API](pkgid)
       .subscribe((data) => {
-        this.notification.notificationSuccess(this.currentTab, 'OnboardingState', pkgid);
         resolve()
+          if(data.status === 'FAILED'){
+              this.notification.notificationFailed(this.currentTab, 'delete', pkgid);
+          }else {
+              this.notification.notificationSuccess(this.currentTab, 'delete', pkgid);
+          }
         //refresh list after successful deletion
         switch (this.currentTab) {
           case 'NS':
@@ -354,7 +358,7 @@ export class OnboardVnfVmComponent implements OnInit {
         }
       }, (err) => {
         console.log(err);
-        this.notification.notificationFailed(this.currentTab, 'OnboardingState', pkgid);
+        this.notification.notificationFailed(this.currentTab, 'delete', pkgid);
       })
   }
 }
