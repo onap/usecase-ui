@@ -240,7 +240,41 @@ export class ServicesListComponent implements OnInit {
                                 return vnfInfo;
                             })
                         }
-                    } else {
+			} else if(item["serviceDomain"] === "MDONS") {
+                        if (item["relationship-list"] && item["relationship-list"]["relationship"]) {
+                            let domainServiceList = [];
+                            
+                            for(let i = 0; i < item["relationship-list"]["relationship"].length; i++){
+                                let domainServiceInfo = {
+                                    domainServiceRealtedTo:"",
+                                    domainServiceId:"",
+                                    domainServiceName:"",
+                                    logicalLinkName:""
+                                }
+                                
+                                if(item["relationship-list"]["relationship"][i]["related-to"] === 'service-instance') {
+                                    domainServiceInfo.domainServiceRealtedTo = "Domain Service Instance";
+                                    domainServiceInfo.domainServiceName = item["relationship-list"]["relationship"][i]["related-to-property"][0]["property-value"];
+                                } else if(item["relationship-list"]["relationship"][i]["related-to"] === 'logical-link'){
+                                    domainServiceInfo.domainServiceRealtedTo = "Logical Link";
+                                }
+                                let relationshipdata = item["relationship-list"]["relationship"][i]["relationship-data"];
+                                for (let j=0;j< relationshipdata.length;j++ ) {
+                                    if(relationshipdata[j]["relationship-key"] === "service-instance.service-instance-id"){
+                                        domainServiceInfo.domainServiceId = relationshipdata[j]["relationship-value"];
+                                    }
+                                    if(relationshipdata[j]["relationship-key"] === "logical-link.link-name"){
+                                        domainServiceInfo.logicalLinkName = relationshipdata[j]["relationship-value"];
+                                    }
+                                }
+                                
+                                domainServiceList.splice(i,0,domainServiceInfo);    
+                            }
+                            item["childServiceInstances"]= domainServiceList;
+                        } else {
+                            item["childServiceInstances"] = [];
+                        }
+			} else{
                         item["childServiceInstances"] = [];
                     }
 
