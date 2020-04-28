@@ -197,100 +197,6 @@
 
         <app-notification #notification [isServicesList]="true" [customerSelected]="customerSelected"></app-notification>
         <!-- add notification-->
-
-        <ng-template #templateCreatestarting>
-            <div class="ant-notification-notice-content">
-                <div class="ant-notification-notice-with-icon">
-                    <span class="ant-notification-notice-icon">
-                        <img src="assets/images/execute-inproess.png" alt="instance temination is starting">
-                    </span>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="thisCreateService['serviceDomain'] === 'CCVPN' || thisService['serviceDomain'] === 'SOTN' || thisService['serviceDomain'] === 'MDONS'">
-                        {{ thisService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationStarting" |
-                        translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="createData['commonParams']['templateType'] == 'E2E Service'">E2E &nbsp;
-                        {{"i18nTextDefine_InstanceCreationStarting" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="createData['commonParams']['templateType'] == 'Network Service'">NS &nbsp;
-                        {{"i18nTextDefine_InstanceCreationStarting" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-description">
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
-                            <span>{{ thisCreateService["service-instance-name"] }}
-                            </span>
-                        </div>
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
-                            <span>{{ createData['commonParams']['customer'].name }}</span>
-                        </div>
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
-                            <span>{{ createData['commonParams']['templateType'] }}</span>
-                        </div>
-                    </div>
-                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-                </div>
-            </div>
-        </ng-template>
-        <ng-template #templateCreateSuccessFaild>
-            <div class="ant-notification-notice-content">
-                <div class="ant-notification-notice-with-icon">
-                    <span class="ant-notification-notice-icon">
-                        <img src="assets/images/execute-success.png" alt="instance temination is starting"
-                            *ngIf="thisCreateService.status == 'Successful'">
-                        <img src="assets/images/execute-faild.png" alt="instance temination is starting"
-                            *ngIf="thisCreateService.status == 'Failed'">
-                    </span>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisCreateService.status == 'Successful'">
-                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" |
-                        translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'E2E Service') && thisCreateService.status == 'Successful'">
-                        E2E &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'Network Service') && thisCreateService.status == 'Successful'">
-                        NS &nbsp; {{"i18nTextDefine_InstanceCreatedSuccessfully" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(thisCreateService['serviceDomain'] == 'CCVPN' || thisCreateService['serviceDomain'] == 'SOTN' || thisCreateService['serviceDomain'] == 'MDONS') && thisCreateService.status == 'Failed'">
-                        {{ thisCreateService['serviceDomain'] }} &nbsp; {{"i18nTextDefine_InstanceCreationFailed" |
-                        translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'E2E Service') && thisCreateService.status == 'Failed'">
-                        E2E &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-message"
-                        *ngIf="(createData['commonParams']['templateType'] == 'Network Service') && thisCreateService.status == 'Failed'">
-                        NS &nbsp; {{"i18nTextDefine_InstanceCreationFailed" | translate}}
-                    </div>
-                    <div class="ant-notification-notice-description">
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_InstanceName" | translate}} :</p>
-                            <span>{{ thisCreateService["service-instance-name"] ||
-                                    thisCreateService["nsInstanceName"] }}
-                            </span>
-                        </div>
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_Customer" | translate}} :</p>
-                            <span>{{ createData['commonParams']['customer'].name }}</span>
-                        </div>
-                        <div class="notificationlist">
-                            <p> {{"i18nTextDefine_UseCase" | translate}} :</p>
-                            <span>{{ thisCreateService["serviceDomain"] }}</span>
-                        </div>
-                    </div>
-                    <div class="close-icons">{{"i18nTextDefine_Close" | translate}}</div>
-                </div>
-            </div>
-        </ng-template>
         <ng-template #templateDeleteSuccessFaild>
             <div class="ant-notification-notice-content">
                 <div class="ant-notification-notice-with-icon">
@@ -526,18 +432,18 @@
     </div>
     <div class="createComponent" *ngIf="createshow">
         <app-ccvpn-creation [createParams]="createData" [ccvpn_temParametersContent]="ccvpn_temParametersContent"
-            (closeCreate)="closeCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+            (closeCreate)="closeCreate($event)">
         </app-ccvpn-creation>
     </div>
     <div class="createComponent" *ngIf="createshow2">
         <app-e2e-creation [createParams]="createData" [e2e_ns_temParametersContent]="e2e_ns_temParametersContent"
-            (nsCloseCreate)="nsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)"
-            (e2eCloseCreate)="e2eCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+            (nsCloseCreate)="nsCloseCreate($event)"
+            (e2eCloseCreate)="e2eCloseCreate($event)">
         </app-e2e-creation>
     </div>
     <div class="createComponent" *ngIf="showCreateMDONS">
         <app-mdons-creation [createParams]="createData" [mdons_temParametersContent]="mdons_temParametersContent"
-        (mdonsCloseCreate)="mdonsCloseCreate($event,templateCreatestarting,templateCreateSuccessFaild)">
+        (mdonsCloseCreate)="mdonsCloseCreate($event)">
         </app-mdons-creation>
     </div>
     <!--</div>-->

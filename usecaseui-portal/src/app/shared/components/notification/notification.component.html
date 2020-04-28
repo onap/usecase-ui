@@ -27,7 +27,7 @@
         </div>
         <div class="ant-notification-notice-message"
             *ngIf="notificationAttributes.title === 'E2E Service' || notificationAttributes.title === 'Network Service'">
-            {{notificationAttributes.title === 'E2E Service'?'E2E': 'NS'}} &nbsp;{{notificationAttributes.status === 'Success'? "i18nTextDefine_InstanceTeminatedSuccessfully" :(notificationAttributes.status === 'Failed'?"i18nTextDefine_InstanceTeminationFailed":"i18nTextDefine_InstanceTeminationStarting")| translate}}
+            {{notificationAttributes.title === 'E2E Service'?'E2E': 'NS'}} &nbsp;{{"i18nTextDefine_"+notificationAttributes.action | translate}}
         </div>
         <div class="ant-notification-notice-description">
           <div class="notificationlist">
