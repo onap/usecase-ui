@@ -13,9 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { ManagemencsService } from '../../../core/services/managemencs.service'
-import { Observable } from 'rxjs'
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { ManagemencsService } from '../../../core/services/managemencs.service';
+import { Observable } from 'rxjs';
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
   selector: 'app-customer',
@@ -29,8 +30,12 @@ export class CustomerComponent implements OnInit {
   public chose = ''
 
   resizeMark
-  constructor (private managemencs: ManagemencsService) {}
-
+    constructor(
+        private managemencs: ManagemencsService,
+        private message: NzMessageService,
+    ) {
+    }
+    @Output() closeCustomer = new EventEmitter();
   ngOnInit () {
     this.getAllCustomers()
     this.resizeMark = Observable.fromEvent(window, 'resize').subscribe(
@@ -47,7 +52,7 @@ export class CustomerComponent implements OnInit {
   ngOnDestroy () {
     this.resizeMark.unsubscribe()
   }
-
+    isCustomerEmpty = false;
   AllCustomersdata = []
   AllServiceTypes = []
   customerber = []
@@ -61,16 +66,24 @@ export class CustomerComponent implements OnInit {
   deleteCustomerModelVisible = false
   deleteServiceTypeModelVisible = false
   getAllCustomers () {
-    this.managemencs.getAllCustomers().subscribe(data => {
-      this.AllCustomersdata = data.map(item => {
-        return { name: item['subscriber-name'], id: item['global-customer-id'] }
-      })
-      this.selectCustomer = this.AllCustomersdata[0]
-      this.serviceInit['customer'] = this.AllCustomersdata[0].name
-      this.getCustomersPie()
-      this.getServiceTypes(this.selectCustomer)
-      this.getCustomersColumn(this.selectCustomer)
-    })
+        this.managemencs.getAllCustomers().subscribe((data) => {
+            if(data.length!==0){
+                this.AllCustomersdata = data.map((item) => {
+                    return { name: item["subscriber-name"], id: item["global-customer-id"] }
+                });
+                this.selectCustomer = this.AllCustomersdata[0];
+                this.serviceInit["customer"] = this.AllCustomersdata[0].name;
+                this.getCustomersPie();
+                this.getServiceTypes(this.selectCustomer);
+                this.getCustomersColumn(this.selectCustomer);
+            }else {
+                this.message.info('Customer has not been created in ONAP.' +
+                    'Please create customer and its service type!');
+                setTimeout(()=>{
+                    this.closeCustomer.emit(this.isCustomerEmpty = true);
+                },1000)
+            }
+        })
   }
 
   // Get all servicetype

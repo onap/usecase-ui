@@ -33,6 +33,6 @@
     </div>
   </div>
   <div *ngIf="!nocuster">
-    <app-customer></app-customer>
+    <app-customer (closeCustomer)="closeCustomer($event)"></app-customer>
   </div>
 </div>
