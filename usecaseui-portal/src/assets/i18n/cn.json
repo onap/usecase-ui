@@ -111,6 +111,9 @@
   "i18nTextDefine_Version": "版本",
   "i18nTextDefine_OnboardingState": "分发状态",
   "i18nTextDefine_OperationalState": "操作状态",
+  "i18nTextDefine_NS": "NS",
+  "i18nTextDefine_PNF": "PNF",
+  "i18nTextDefine_VNF": "VNF",
   "i18nTextDefine_UsageState": "使用状态",
   "i18nTextDefine_Operationbutton": "操作按钮",
 

@@ -110,6 +110,9 @@
   "i18nTextDefine_Version": "Version",
   "i18nTextDefine_OnboardingState": "Onboarding State",
   "i18nTextDefine_OperationalState": "Operational State",
+  "i18nTextDefine_NS": "NS",
+  "i18nTextDefine_PNF": "PNF",
+  "i18nTextDefine_VNF": "VNF",
   "i18nTextDefine_UsageState": "Usage State",
   "i18nTextDefine_Operationbutton": "Operation button",
 
