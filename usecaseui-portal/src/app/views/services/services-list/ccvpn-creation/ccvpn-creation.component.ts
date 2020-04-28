@@ -521,8 +521,8 @@ export class CcvpnCreationComponent implements OnInit {
     siteImage = [];
     tpImage = [];
     imgmap = {
-        '1': '../../../assets/images/domain1.png',
-        '2': '../../../assets/images/site.png'
+        '1': 'assets/images/domain1.png',
+        '2': 'assets/images/site.png'
     };
 
     drawImage(sitelist) {

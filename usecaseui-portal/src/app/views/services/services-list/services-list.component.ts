@@ -479,13 +479,15 @@ export class ServicesListComponent implements OnInit {
         service["customer"] = this.customerSelected;
         service["serviceType"] = this.serviceTypeSelected;
 
-        service.childServiceInstances.forEach((item) => {
-            if (item.serviceDomain === "SITE") {
-                service.siteSer.push(item);
-            } else if (item.serviceDomain === "SDWAN") {
-                service.sdwanSer.push(item);
-            }
-        })
+        if(service.childServiceInstances !== undefined){
+            service.childServiceInstances.forEach((item) => {
+                if (item.serviceDomain === "SITE") {
+                    service.siteSer.push(item);
+                } else if (item.serviceDomain === "SDWAN") {
+                    service.sdwanSer.push(item);
+                }
+            })
+        }
         if (service["serviceDomain"] === 'CCVPN' || service["serviceDomain"] === 'SOTN') {
             this.detailCCVPNShow = true;
             if (typeNum === 1) {

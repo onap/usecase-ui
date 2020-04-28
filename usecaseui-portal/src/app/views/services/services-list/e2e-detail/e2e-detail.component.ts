@@ -68,9 +68,9 @@ export class E2eDetailComponent implements OnInit {
   };
 
   imgmap = {
-    '1': '../../../../assets/images/create-e2e.png',
-    '2': '../../../../assets/images/create-ns.png',
-    '3': '../../../../assets/images/create-vnf.png',
+    '1': 'assets/images/create-e2e.png',
+    '2': 'assets/images/create-ns.png',
+    '3': 'assets/images/create-vnf.png',
   };
 
   getKeys(item) {
@@ -83,7 +83,6 @@ export class E2eDetailComponent implements OnInit {
     if (this.detailParams.serviceDomain == 'E2E Service') {
       this.input_parameters = JSON.stringify(this.detailParams['input-parameters']);
       this.input_parameters = JSON.parse(this.input_parameters);
-
       this.service = {
         name: this.input_parameters.service.name,
         description: this.input_parameters.service.description,
@@ -121,6 +120,7 @@ export class E2eDetailComponent implements OnInit {
 
       }
     } else if (this.detailParams.serviceDomain == 'Network Service') {
+      console.log(this.detailParams,"---this.detailParams--ns");
       this.ns_service = {
         name: this.detailParams.name || this.detailParams['service-instance-name'],
         description: this.detailParams.description || null
