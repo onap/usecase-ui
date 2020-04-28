@@ -333,38 +333,38 @@ export class ServicesListComponent implements OnInit {
                 })
                 this.tableData.forEach(item => {
                     if (item.serviceDomain === 'E2E Service') {
-                        if (item.operationResult === 2001) {
+                        if (Number(item.operationResult) === 2001) {
                             this.serviceNunber[0]["Success"] += 1;
-                        } else if (item.operationResult === 2002) {
+                        } else if (Number(item.operationResult) === 2002) {
                             this.serviceNunber[0]["failed"] += 1;
-                        } else if (item.operationResult === 2003) {
+                        } else if (Number(item.operationResult) === 2003) {
                             this.serviceNunber[0]["InProgress"] += 1;
                         }
                     }
                     else if (item.serviceDomain === 'Network Service') {
-                        if (item.operationResult === 2001) {
+                        if (Number(item.operationResult) === 2001) {
                             this.serviceNunber[1]["Success"] += 1;
-                        } else if (item.operationResult === 2002) {
+                        } else if (Number(item.operationResult) === 2002) {
                             this.serviceNunber[1]["failed"] += 1;
-                        } else if (item.operationResult === 2003) {
+                        } else if (Number(item.operationResult) === 2003) {
                             this.serviceNunber[1]["InProgress"] += 1;
                         }
                     }
                     else if (item.serviceDomain === 'CCVPN') {
-                        if (item.operationResult === 2001) {
+                        if (Number(item.operationResult) === 2001) {
                             this.serviceNunber[2]["Success"] += 1;
-                        } else if (item.operationResult === 2002) {
+                        } else if (Number(item.operationResult) === 2002) {
                             this.serviceNunber[2]["failed"] += 1;
-                        } else if (item.operationResult === 2003) {
+                        } else if (Number(item.operationResult) === 2003) {
                             this.serviceNunber[2]["InProgress"] += 1;
                         }
                     }
                     else if (item.serviceDomain === 'MDONS') {
-                        if (item.operationResult === "2001") {
+                        if (Number(item.operationResult) === 2001) {
                             this.serviceNunber[3]["Success"] += 1;
-                        } else if (item.operationResult === "2002") {
+                        } else if (Number(item.operationResult) === 2002) {
                             this.serviceNunber[3]["failed"] += 1;
-                        } else if (item.operationResult === "2003") {
+                        } else if (Number(item.operationResult) === 2003) {
                             this.serviceNunber[3]["InProgress"] += 1;
                         }
                     }
