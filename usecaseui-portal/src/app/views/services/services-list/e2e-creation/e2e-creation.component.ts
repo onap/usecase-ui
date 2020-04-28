@@ -70,9 +70,9 @@ export class E2eCreationComponent implements OnInit {
   };
 
   imgmap = {
-    '1': '../../../../assets/images/create-e2e.png',
-    '2': '../../../../assets/images/create-ns.png',
-    '3': '../../../../assets/images/create-vnf.png',
+    '1': 'assets/images/create-e2e.png',
+    '2': 'assets/images/create-ns.png',
+    '3': 'assets/images/create-vnf.png',
   };
   gete2eTemParameters(data) { //Get template parameters
     let type = this.createParams.commonParams.templateType == "E2E Service" ? "e2e" : "ns";
