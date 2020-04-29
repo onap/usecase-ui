@@ -313,7 +313,7 @@ export class E2eCreationComponent implements OnInit {
       .append("g")
       .attr("class", "node")
       .attr("transform", function (d) {
-        return "translate(" + (d.x + -50) + "," + (d.y) + ")";
+        return "translate(" + (d.x + -40) + "," + (d.y) + ")";
       });
 
     node.append('image')
