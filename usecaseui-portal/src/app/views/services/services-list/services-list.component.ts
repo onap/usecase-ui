@@ -319,7 +319,7 @@ export class ServicesListComponent implements OnInit {
                                     item["tips"] = this.listSortMasters["operationTypes"].find((its) => {
                                         return its["sortCode"] == item["operationType"] && its["language"] == this.language
                                     })["sortValue"] + '\xa0\xa0\xa0' + item["status"];
-                                    this.getTableData();
+                                    // this.getTableData();
                                 }
                             }
                             let id = item["nsInstanceId"] || item["service-instance-id"];

@@ -138,7 +138,7 @@ export const CORE_FORM_ITEMS = [
 			},
 			{
 				title: 'Non-shared',
-				key: 'no-shared'
+				key: 'non-shared'
 			}
 		]
 	},
