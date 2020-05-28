@@ -11,10 +11,10 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
-Version: 3.0.1
+Version: 3.0.4
 --------------
 
-:Release Date: 2020-03-26
+:Release Date: 2020-05-28
 
 **New Features**
  - 5G network GUI : In F release, we support the whole flow of creating 5G network slicing service. We provide CSMF portal for the network slicing customers and NSMF portal for the network slicing operators. What's more, we enhance the *Monitor* Module for monitoring 5G network slicing.
@@ -22,8 +22,8 @@ Version: 3.0.1
  - Https: In F release, we update the frontend and backend service to https
  
 **Released Components**
- - usecase-ui  3.0.1
- - usecase-ui-server  3.0.1
+ - usecase-ui  3.0.4
+ - usecase-ui-server  3.0.4
 
 **Bug Fixes**
 	NA
