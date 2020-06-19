@@ -537,7 +537,7 @@ export class ServicesListComponent implements OnInit {
         } else if (service["serviceDomain"] === 'E2E Service' || service["serviceDomain"] === 'Network Service') {
             this.detailNSShow = true;
         } else if (service["serviceDomain"] === 'MDONS') {
-            this.detailshowMDONS = false;
+            this.detailshowMDONS = true;
         }
         this.listDisplay = true;
         this.detailData = service;
