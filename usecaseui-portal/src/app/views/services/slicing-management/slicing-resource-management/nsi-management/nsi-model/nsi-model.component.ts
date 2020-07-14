@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NzModalService} from "ng-zorro-antd";
+import {NzModalService, NzMessageService} from "ng-zorro-antd";
 import {SlicingTaskServices} from '.././../../../../../core/services/slicingTaskServices';
 import { SlicingBusinessModelComponent } from '../../slicing-business-management/slicing-business-model/slicing-business-model.component';
 import { NssiModelComponent } from '../../nssi-management/nssi-model/nssi-model.component';
@@ -12,7 +12,8 @@ export class NsiModelComponent implements OnInit {
 
     constructor(
         private myhttp: SlicingTaskServices,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private message: NzMessageService
     ) {
     }
     @Input() nsiId;
@@ -37,6 +38,8 @@ export class NsiModelComponent implements OnInit {
                         return item
                     }
                 });
+            }else{
+                this.message.error(res.result_header.result_message)
             }
         })
     }

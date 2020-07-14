@@ -277,7 +277,7 @@ export const COMMUNICATION_FORM_ITEMS = [
             },
             {
                 title: 'Non-shared',
-                key: 'no-shared'
+                key: 'non-shared'
             }
         ]
     },

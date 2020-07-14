@@ -74,6 +74,8 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                         return item
                     });
                 }
+            }else{
+                this.message.error(res.result_header.result_message)
             }
         })
     }
@@ -129,6 +131,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                 let singleSlicing = Object.assign({}, this.listOfData[index]);
                 this.listOfData[index] = singleSlicing;
                 this.listOfData = [...this.listOfData];
+                this.message.error(res.result_header.result_message)
                 this.getCSMFBusinessList();
             }
             this.getCSMFBusinessList();
@@ -156,6 +159,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                         this.getCSMFBusinessList();
                     } else {
                         this.terminateStart[index] = false;
+                        this.message.error(res.result_header.result_message)
                     }
                 }, () => {
                     this.loading = false;

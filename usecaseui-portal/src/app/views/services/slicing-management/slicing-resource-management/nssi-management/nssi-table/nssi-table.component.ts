@@ -1,7 +1,7 @@
 import {Component, Input, OnInit,SimpleChanges} from '@angular/core';
 import {BUSINESS_STATUS} from '../../../../../../../constants/constants';
 import {SlicingTaskServices} from "../../../../../../core/services/slicingTaskServices";
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzMessageService} from 'ng-zorro-antd';
 import {NssiModelComponent} from "../nssi-model/nssi-model.component";
 
 @Component({
@@ -13,7 +13,8 @@ export class NssiTableComponent implements OnInit {
 
     constructor(
         private myhttp: SlicingTaskServices,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private message: NzMessageService
     ) {
     }
 
@@ -56,10 +57,12 @@ export class NssiTableComponent implements OnInit {
                 if (nssi_service_instances !== null && nssi_service_instances.length > 0) {
                     this.listOfData = nssi_service_instances;
                 }
+            }else{
+                this.message.error(res.result_header.result_message)
             }
         }, (res) => {
             this.loading = false;
-            console.error(res);
+            this.message.error(res)
         })
     }
 
