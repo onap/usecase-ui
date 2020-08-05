@@ -1,4 +1,5 @@
 # UUID                                                                     	Group Name
 #
+06c0e01a63fac9d95c147c8f298529af47f1afd8                                   	saml/onap-gerrit-usecase-ui-committers
 daebbf523be390041a1a9c0e340a6d833aae5043                                   	GitHub Replication
 ldap:cn=onap-gerrit-usecase-ui-committers,ou=Groups,dc=freestandards,dc=org	ldap/onap-gerrit-usecase-ui-committers
