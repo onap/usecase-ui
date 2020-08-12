@@ -109,12 +109,20 @@ export const WIRELESS_FORM_ITEMS = [
 ]
 
 export const TRANSFRER_FORM_ITEMS = [
+    {
+        title: 'S-NSSAI',
+        key: 'tn_service_snssai'
+    },
 	{
-		title: 'Latency (ms)',
-		key: 'tn_latency'
-	},
+        title: 'Latency (ms)',
+        key: 'tn_latency'
+    },
+    {
+        title: 'Jitter',
+        key: 'tn_jitter'
+    },
 	{
-		title: 'Bandwidth',
+		title: 'MaxBandwidth',
 		key: 'tn_bandwidth'
 	},
     {
@@ -195,6 +203,26 @@ export const CORE_FORM_ITEMS = [
     {
         title: 'Script Name',
         key: 'cn_script_name'
+    },
+    {
+        title: 'overallUserDensity',
+        key: 'cn_overalluser_density'
+    },
+    {
+        title: 'IP Address',
+        key: 'cn_ip_address'
+    },
+    {
+        title: 'Logical Link',
+        key: 'cn_logical_link'
+    },
+    {
+        title: 'Nexthop Info',
+        key: 'cn_nexthop_info'
+    },
+    {
+        title: 'Coverage Area Ta List',
+        key: 'an_coverage_area_ta_list'
     }
 ]
 

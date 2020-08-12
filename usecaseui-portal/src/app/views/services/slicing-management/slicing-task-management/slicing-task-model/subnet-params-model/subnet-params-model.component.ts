@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { WIRELESS_FORM_ITEMS, TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from '../.../../../../../../../../constants/constants'
+import { WIRELESS_FORM_ITEMS, TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from '@src/constants/constants'
 
 @Component({
 	selector: 'app-subnet-params-model',

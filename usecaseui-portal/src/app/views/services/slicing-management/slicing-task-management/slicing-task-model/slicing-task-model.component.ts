@@ -117,6 +117,8 @@ export class SlicingTaskModelComponent implements OnInit {
           tn_latency,
           tn_bandwidth,
           tn_script_name,
+          tn_jitter,
+          tn_service_snssai,
           cn_service_snssai,
           cn_resource_sharing_level,
           cn_ue_mobility_level,
@@ -127,7 +129,11 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_exp_data_rate_ul,
           cn_area_traffic_cap_dl,
           cn_area_traffic_cap_ul,
-          cn_script_name
+          cn_script_name,
+          cn_overalluser_density,
+          cn_ip_address,
+          cn_logical_link,
+          cn_nexthop_info,
         } = nsi_nssi_info;
         // 处理配置审核详情数据
         this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
@@ -167,9 +173,9 @@ export class SlicingTaskModelComponent implements OnInit {
         // 前端模拟数据
         let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"]
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
-        this.slicingSubnet[0].params = { an_latency, an_5qi, an_script_name, an_coverage_area_ta_list: area }
+        // this.slicingSubnet[0].params = { an_latency, an_5qi, an_script_name, an_coverage_area_ta_list: area }
         this.slicingSubnet[1].params = { tn_latency, tn_bandwidth, tn_script_name };
-        this.slicingSubnet[2].params = {
+        this.slicingSubnet[0].params = this.slicingSubnet[2].params = {
           cn_service_snssai,
           cn_resource_sharing_level,
           cn_ue_mobility_level,
@@ -180,7 +186,12 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_exp_data_rate_ul,
           cn_area_traffic_cap_dl,
           cn_area_traffic_cap_ul,
-          cn_script_name
+          cn_script_name,
+          cn_overalluser_density,
+          cn_ip_address,
+          cn_logical_link,
+          cn_nexthop_info,
+          an_coverage_area_ta_list: area
         };
       } else {
         this.message.error(result_message || 'Failed to get data')
@@ -352,6 +363,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   showParamsModel(item: any): void {
+    console.log(item,"------->")
     this.isShowParams = true;
     this.paramsTitle = item.title;
     this.params = item.params
