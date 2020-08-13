@@ -188,9 +188,9 @@ export class SlicingTaskModelComponent implements OnInit {
           cn_area_traffic_cap_ul,
           cn_script_name,
           cn_overalluser_density,
-          cn_ip_address,
-          cn_logical_link,
-          cn_nexthop_info,
+          // cn_ip_address,
+          // cn_logical_link,
+          // cn_nexthop_info,
           an_coverage_area_ta_list: area
         };
       } else {

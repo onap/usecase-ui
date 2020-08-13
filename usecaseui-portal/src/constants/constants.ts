@@ -208,18 +208,18 @@ export const CORE_FORM_ITEMS = [
         title: 'overallUserDensity',
         key: 'cn_overalluser_density'
     },
-    {
-        title: 'IP Address',
-        key: 'cn_ip_address'
-    },
-    {
-        title: 'Logical Link',
-        key: 'cn_logical_link'
-    },
-    {
-        title: 'Nexthop Info',
-        key: 'cn_nexthop_info'
-    },
+    // {
+    //     title: 'IP Address',
+    //     key: 'cn_ip_address'
+    // },
+    // {
+    //     title: 'Logical Link',
+    //     key: 'cn_logical_link'
+    // },
+    // {
+    //     title: 'Nexthop Info',
+    //     key: 'cn_nexthop_info'
+    // },
     {
         title: 'Coverage Area Ta List',
         key: 'an_coverage_area_ta_list'
