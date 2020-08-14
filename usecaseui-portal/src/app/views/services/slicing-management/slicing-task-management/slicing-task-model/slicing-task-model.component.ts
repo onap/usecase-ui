@@ -174,7 +174,7 @@ export class SlicingTaskModelComponent implements OnInit {
         let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"]
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_script_name, an_coverage_area_ta_list: area }
-        this.slicingSubnet[1].params = { tn_latency, tn_bandwidth, tn_script_name };
+        this.slicingSubnet[1].params = { tn_latency, tn_bandwidth, tn_script_name, tn_jitter, tn_service_snssai};
         this.slicingSubnet[0].params = this.slicingSubnet[2].params = {
           cn_service_snssai,
           cn_resource_sharing_level,
