@@ -31,11 +31,6 @@ repositories:
     - "usecase-ui"
 committers:
     - <<: *onap_releng_ptl
-    - name: "Ran Xu"
-      email: "xuranyjy@chinamobile.com"
-      company: "CMCC"
-      id: "cyuamber"
-      timezone: "China/Beijing"
     - name: "Tao Shen"
       email: "shentao@chinamobile.com"
       company: "CMCC"
@@ -55,6 +50,11 @@ committers:
       email: "zhanganbing@chinamobile.com"
       company: "CMCC"
       id: "zhangab"
+      timezone: "China/Beijing"
+    - name: "Ran Xu"
+      email: "xuranyjy@chinamobile.com"
+      company: "CMCC"
+      id: "cyuamber"
       timezone: "China/Beijing"
 tsc:
     approval: "https://lists.onap.org/pipermail/onap-tsc"
