@@ -86,59 +86,31 @@ export class SlicingTaskModelComponent implements OnInit {
     }
   }
 
+  // used for picking some key-value pairs from a object. 
+  pick(obj, arr): Object {
+    return arr.reduce((iter, val) => {
+      if(val in obj) {
+        iter[val] = obj[val];
+      }
+      return iter;
+    }, {});
+  }
+
   getautidInfo(): void {
     this.http.getAuditInfo(this.taskId).subscribe( res => {
       const { result_header: { result_code, result_message } } = res;
       this.isSpinning = false;
       if (+result_code === 200) {
         const {
-          task_id,
-          task_name,
-          create_time,
-          processing_status,
           business_demand_info,
           nst_info,
           nsi_nssi_info,
-          business_demand_info: { service_snssai, coverage_area_ta_list }
+          ...checkInfo
         } = res.result_body;
-        const {
-          suggest_nsi_id,
-          suggest_nsi_name,
-          an_suggest_nssi_id,
-          an_suggest_nssi_name,
-          tn_suggest_nssi_id,
-          tn_suggest_nssi_name,
-          cn_suggest_nssi_id,
-          cn_suggest_nssi_name,
-          an_latency,
-          an_5qi,
-          an_script_name,
-          an_coverage_area_ta_list,
-          tn_latency,
-          tn_bandwidth,
-          tn_script_name,
-          tn_jitter,
-          tn_service_snssai,
-          cn_service_snssai,
-          cn_resource_sharing_level,
-          cn_ue_mobility_level,
-          cn_latency,
-          cn_max_number_of_ues,
-          cn_activity_factor,
-          cn_exp_data_rate_dl,
-          cn_exp_data_rate_ul,
-          cn_area_traffic_cap_dl,
-          cn_area_traffic_cap_ul,
-          cn_script_name,
-          cn_overalluser_density,
-          cn_ip_address,
-          cn_logical_link,
-          cn_nexthop_info,
-        } = nsi_nssi_info;
         // 处理配置审核详情数据
-        this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
+        this.checkDetail = [{...checkInfo, 'service_snssai': business_demand_info.service_snssai}];
         // 业务需求信息数据
-        business_demand_info.area = coverage_area_ta_list.map(item => {
+        business_demand_info.area = business_demand_info.coverage_area_ta_list.map(item => {
           item = item.split(';').join(' - ')
           return item
         })
@@ -151,8 +123,8 @@ export class SlicingTaskModelComponent implements OnInit {
         // 匹配NST信息
         this.NSTinfo = [nst_info];
         // 共享切片实例
-        this.selectedServiceId = suggest_nsi_id;
-        this.selectedServiceName = suggest_nsi_name;
+        this.selectedServiceId = nsi_nssi_info.suggest_nsi_id;
+        this.selectedServiceName = nsi_nssi_info.suggest_nsi_name;
         if (!this.selectedServiceId || !this.selectedServiceName) {
           this.isDisabled = false;
         }
@@ -168,31 +140,30 @@ export class SlicingTaskModelComponent implements OnInit {
           }]
         }
         // 子网实例
-        let subnetData = { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name };
+        let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_suggest_nssi_id', 'tn_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
         this.subnetDataFormatting(subnetData, 0);
         // 前端模拟数据
         let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"]
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
         // this.slicingSubnet[0].params = { an_latency, an_5qi, an_script_name, an_coverage_area_ta_list: area }
-        this.slicingSubnet[1].params = { tn_latency, tn_bandwidth, tn_script_name, tn_jitter, tn_service_snssai};
-        this.slicingSubnet[0].params = this.slicingSubnet[2].params = {
-          cn_service_snssai,
-          cn_resource_sharing_level,
-          cn_ue_mobility_level,
-          cn_latency,
-          cn_max_number_of_ues,
-          cn_activity_factor,
-          cn_exp_data_rate_dl,
-          cn_exp_data_rate_ul,
-          cn_area_traffic_cap_dl,
-          cn_area_traffic_cap_ul,
-          cn_script_name,
-          cn_overalluser_density,
+        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai']);
+        this.slicingSubnet[0].params = this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
+          'cn_service_snssai',
+          'cn_resource_sharing_level',
+          'cn_ue_mobility_level',
+          'cn_latency',
+          'cn_max_number_of_ues',
+          'cn_activity_factor',
+          'cn_exp_data_rate_dl',
+          'cn_exp_data_rate_ul',
+          'cn_area_traffic_cap_dl',
+          'cn_area_traffic_cap_ul',
+          'cn_script_name',
+          'cn_overalluser_density',
           // cn_ip_address,
           // cn_logical_link,
           // cn_nexthop_info,
-          an_coverage_area_ta_list: area
-        };
+        ]), an_coverage_area_ta_list: area};
       } else {
         this.message.error(result_message || 'Failed to get data')
       }
@@ -243,7 +214,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
 
-  slicingInstanceChange(): void {
+  slicingInstanceChange(): void { // choose the target nssi
     this.isDisabled = true;
     this.selectedServiceName = '';
     // 获取切片子网实例数据
