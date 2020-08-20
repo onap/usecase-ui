@@ -56,6 +56,11 @@ committers:
       company: "CMCC"
       id: "cyuamber"
       timezone: "China/Beijing"
+    - name: "He Keguang"
+      email: "hekeguang@chinamobile.com"
+      company: "CMCC"
+      id: "hekeguang"
+      timezone: "China/Beijing"
 tsc:
     approval: "https://lists.onap.org/pipermail/onap-tsc"
     changes:
@@ -71,3 +76,6 @@ tsc:
           name: "Xin Jin"
           link: "https://wiki.onap.org/display/DW/
               Xin+Jin+-+Committer+Removal+Request"
+        - type: "Addition"
+          name: "He Keguang"
+          link: "https://wiki.onap.org/display/DW/He+Keguang+-+Committer+Promotion+Request"
