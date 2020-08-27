@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { SlicingTaskServices } from '.././../../../core/services/slicingTaskServices';
-import { TASK_PROCESSING_STATUS } from '../../../../../constants/constants';
+import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
+import { TASK_PROCESSING_STATUS } from '@src/constants/constants';
 
 @Component({
   selector: 'app-slicing-task-management',

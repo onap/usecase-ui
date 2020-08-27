@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { slideToRight } from '../../../shared/utils/animates';
+import { slideToRight } from '@src/app/shared/utils/animates';
 
 @Component({
   selector: 'app-slicing-management',

@@ -89,24 +89,6 @@ export const BUSINESS_REQUIREMENT = [
 
 ]
 
-export const WIRELESS_FORM_ITEMS = [
-	{
-		title: 'Latency (ms)',
-		key: 'an_latency'
-	},
-	{
-		title: '5QI',
-		key: 'an_5qi'
-	},
-    {
-        title: 'Script Name',
-        key: 'an_script_name'
-    },
-	{
-		title: 'Coverage Area Ta List',
-		key: 'an_coverage_area_ta_list'
-	}
-]
 
 export const TRANSFRER_FORM_ITEMS = [
     {
@@ -131,100 +113,192 @@ export const TRANSFRER_FORM_ITEMS = [
     },
 ]
 
-export const CORE_FORM_ITEMS = [
-	{
-		title: 'S-NSSAI',
-		key: 'cn_service_snssai'
-	},
-	{
-		title: 'Resource Sharing Level',
-		key: 'cn_resource_sharing_level',
-		options: [
-			{
-				title: 'Shared',
-				key: 'shared'
-			},
-			{
-				title: 'Non-shared',
-				key: 'non-shared'
-			}
-		]
-	},
-	{
-		title: 'Mobility',
-		key: 'cn_ue_mobility_level',
-		options: [
-			{
-				title: 'Stationary',
-				key: 'stationary'
-			},
-			{
-				title: 'Nomadic',
-				key: 'nomadic'
-			},
-			{
-				title: 'Spatially Restricted Mobility',
-				key: 'spatially restricted mobility'
-			},
-			{
-				title: 'Fully Mobility',
-				key: 'fully mobility'
-			}
-		]
-	},
-	{
-		title: 'Latency (ms)',
-		key: 'cn_latency'
-	},
-	{
-		title: 'Max Number of UEs',
-		key: 'cn_max_number_of_ues'
-	},
-	{
-		title: 'Activity Factor (%)',
-		key: 'cn_activity_factor'
-	},
-	{
-		title: 'User Downlink Experience Rate（Mbps）',
-		key: 'cn_exp_data_rate_dl'
-	},
-	{
-		title: 'User Uplink Experience Rate（Mbps）',
-		key: 'cn_exp_data_rate_ul'
-	},
-	{
-		title: 'Downlink Regional Traffic Density（Mbps/km ）',
-		key: 'cn_area_traffic_cap_dl'
-	},
-	{
-		title: 'Uplink Regional Traffic Density（Mbps/km ）',
-		key: 'cn_area_traffic_cap_ul'
-	},
-    {
-        title: 'Script Name',
-        key: 'cn_script_name'
-    },
-    {
-        title: 'overallUserDensity',
-        key: 'cn_overalluser_density'
-    },
-    // {
-    //     title: 'IP Address',
-    //     key: 'cn_ip_address'
-    // },
-    // {
-    //     title: 'Logical Link',
-    //     key: 'cn_logical_link'
-    // },
-    // {
-    //     title: 'Nexthop Info',
-    //     key: 'cn_nexthop_info'
-    // },
-    {
-        title: 'Coverage Area Ta List',
-        key: 'an_coverage_area_ta_list'
-    }
-]
+export const CORE_FORM_ITEMS = {
+    "An": [
+        {
+            title: 'S-NSSAI',
+            key: 'an_service_snssai'
+        },
+        {
+            title: 'Resource Sharing Level',
+            key: 'an_resource_sharing_level',
+            options: [
+                {
+                    title: 'Shared',
+                    key: 'shared'
+                },
+                {
+                    title: 'Non-shared',
+                    key: 'non-shared'
+                }
+            ]
+        },
+        {
+            title: 'Mobility',
+            key: 'an_ue_mobility_level',
+            options: [
+                {
+                    title: 'Stationary',
+                    key: 'stationary'
+                },
+                {
+                    title: 'Nomadic',
+                    key: 'nomadic'
+                },
+                {
+                    title: 'Spatially Restricted Mobility',
+                    key: 'spatially restricted mobility'
+                },
+                {
+                    title: 'Fully Mobility',
+                    key: 'fully mobility'
+                }
+            ]
+        },
+        {
+            title: 'Latency (ms)',
+            key: 'an_latency'
+        },
+        {
+            title: 'Max Number of UEs',
+            key: 'an_max_number_of_ues'
+        },
+        {
+            title: 'Activity Factor (%)',
+            key: 'an_activity_factor'
+        },
+        {
+            title: 'User Downlink Experience Rate（Mbps）',
+            key: 'an_exp_data_rate_dl'
+        },
+        {
+            title: 'User Uplink Experience Rate（Mbps）',
+            key: 'an_exp_data_rate_ul'
+        },
+        {
+            title: 'Downlink Regional Traffic Density（Mbps/km ）',
+            key: 'an_area_traffic_cap_dl'
+        },
+        {
+            title: 'Uplink Regional Traffic Density（Mbps/km ）',
+            key: 'an_area_traffic_cap_ul'
+        },
+        {
+            title: 'Script Name',
+            key: 'an_script_name'
+        },
+        {
+            title: 'overallUserDensity',
+            key: 'an_overalluser_density'
+        },
+        // {
+        //     title: 'IP Address',
+        //     key: 'an_ip_address'
+        // },
+        // {
+        //     title: 'Logical Link',
+        //     key: 'an_logical_link'
+        // },
+        // {
+        //     title: 'Nexthop Info',
+        //     key: 'an_nexthop_info'
+        // },
+        {
+            title: 'Coverage Area Ta List',
+            key: 'an_coverage_area_ta_list'
+        }
+    ],
+    "Cn": [
+        {
+            title: 'S-NSSAI',
+            key: 'cn_service_snssai'
+        },
+        {
+            title: 'Resource Sharing Level',
+            key: 'cn_resource_sharing_level',
+            options: [
+                {
+                    title: 'Shared',
+                    key: 'shared'
+                },
+                {
+                    title: 'Non-shared',
+                    key: 'non-shared'
+                }
+            ]
+        },
+        {
+            title: 'Mobility',
+            key: 'cn_ue_mobility_level',
+            options: [
+                {
+                    title: 'Stationary',
+                    key: 'stationary'
+                },
+                {
+                    title: 'Nomadic',
+                    key: 'nomadic'
+                },
+                {
+                    title: 'Spatially Restricted Mobility',
+                    key: 'spatially restricted mobility'
+                },
+                {
+                    title: 'Fully Mobility',
+                    key: 'fully mobility'
+                }
+            ]
+        },
+        {
+            title: 'Latency (ms)',
+            key: 'cn_latency'
+        },
+        {
+            title: 'Max Number of UEs',
+            key: 'cn_max_number_of_ues'
+        },
+        {
+            title: 'Activity Factor (%)',
+            key: 'cn_activity_factor'
+        },
+        {
+            title: 'User Downlink Experience Rate（Mbps）',
+            key: 'cn_exp_data_rate_dl'
+        },
+        {
+            title: 'User Uplink Experience Rate（Mbps）',
+            key: 'cn_exp_data_rate_ul'
+        },
+        {
+            title: 'Downlink Regional Traffic Density（Mbps/km ）',
+            key: 'cn_area_traffic_cap_dl'
+        },
+        {
+            title: 'Uplink Regional Traffic Density（Mbps/km ）',
+            key: 'cn_area_traffic_cap_ul'
+        },
+        {
+            title: 'Script Name',
+            key: 'cn_script_name'
+        },
+        {
+            title: 'overallUserDensity',
+            key: 'cn_overalluser_density'
+        },
+        // {
+        //     title: 'IP Address',
+        //     key: 'an_ip_address'
+        // },
+        // {
+        //     title: 'Logical Link',
+        //     key: 'an_logical_link'
+        // },
+        // {
+        //     title: 'Nexthop Info',
+        //     key: 'an_nexthop_info'
+        // }
+        ]
+}
 
 export const ADDRESS = [
 	{

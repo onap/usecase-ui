@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { WIRELESS_FORM_ITEMS, TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from '@src/constants/constants'
+import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from '@src/constants/constants'
 
 @Component({
 	selector: 'app-subnet-params-model',
@@ -15,8 +15,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	@Output() paramsDataChange = new EventEmitter<any>();
 
 	transferFormItems = TRANSFRER_FORM_ITEMS;
-	coreFormItems = CORE_FORM_ITEMS;
-	wirelessFormItems = WIRELESS_FORM_ITEMS;
+	coreFormItems :object ={};
 	areaList: any[] = [];
 
 	constructor() { }
@@ -24,6 +23,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	ngOnInit() { }
 
 	ngOnChanges() {
+        this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:CORE_FORM_ITEMS.Cn;
 		if (this.title === 'An') {
 		  	this.AreaFormatting();
 		}

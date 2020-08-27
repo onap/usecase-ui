@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { SlicingTaskServices } from '../../../../../core/services/slicingTaskServices';
+import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
 
 @Component({
   selector: 'app-slicing-task-model',
@@ -143,11 +143,26 @@ export class SlicingTaskModelComponent implements OnInit {
         let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_suggest_nssi_id', 'tn_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
         this.subnetDataFormatting(subnetData, 0);
         // 前端模拟数据
-        let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"]
-        // this.slicingSubnet[0].params = { an_latency, an_5qi, an_coverage_area_ta_list } 
-        // this.slicingSubnet[0].params = { an_latency, an_5qi, an_script_name, an_coverage_area_ta_list: area }
+        let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"];
+        this.slicingSubnet[0].params = {...this.pick(nsi_nssi_info, [
+                'an_service_snssai',
+                'an_resource_sharing_level',
+                'an_ue_mobility_level',
+                'an_latency',
+                'an_max_number_of_ues',
+                'an_activity_factor',
+                'an_exp_data_rate_dl',
+                'an_exp_data_rate_ul',
+                'an_area_traffic_cap_dl',
+                'an_area_traffic_cap_ul',
+                'an_script_name',
+                'an_overalluser_density',
+                // an_ip_address,
+                // an_logical_link,
+                // an_nexthop_info,
+            ]), an_coverage_area_ta_list: area};
         this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai']);
-        this.slicingSubnet[0].params = this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
+        this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
           'cn_service_snssai',
           'cn_resource_sharing_level',
           'cn_ue_mobility_level',
