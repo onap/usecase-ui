@@ -43,9 +43,17 @@
             "an_area_traffic_cap_dl": "300",
             "an_area_traffic_cap_ul": "300",
             "an_overalluser_density":"test_an_overalluser_density_01",
-            "an_ip_address":"test_cn_ip_address_01",
-            "an_logical_link":"test_cn_logical_link_01",
-            "an_nexthop_info":"test_cn_nexthop_info_01",
+            "an_Endpoint":[
+                {
+                    "an_ip_address":"test_an_ip_address_01"
+                },
+                {
+                    "an_logical_link": "test_an_logical_link_01"
+                },
+                {
+                    "an_nexthop_info":"test_info_01"
+                }
+            ],
             "an_script_name":"test_an_01",
             "an_coverage_area_ta_list": ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"],
             "tn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411b",
@@ -69,9 +77,17 @@
             "cn_area_traffic_cap_ul": "300",
             "cn_script_name":"test_cn_01",
             "cn_overalluser_density":"test_cn_overalluser_density_01",
-            "cn_ip_address":"test_cn_ip_address_01",
-            "cn_logical_link":"test_cn_logical_link_01",
-            "cn_nexthop_info":"test_cn_nexthop_info_01"
+            "cn_Endpoint":[
+                {
+                    "cn_ip_address":"test_cn_ip_address_01"
+                },
+                {
+                    "cn_logical_link": "test_cn_logical_link_01"
+                },
+                {
+                    "cn_nexthop_info":"test_info_01"
+                }
+            ]
         }
 
     }
