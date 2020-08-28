@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from '@src/constants/constants'
+import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS , NexthopInfo_Options } from '@src/constants/constants'
 
 @Component({
 	selector: 'app-subnet-params-model',
@@ -17,6 +17,11 @@ export class SubnetParamsModelComponent implements OnInit {
 	transferFormItems = TRANSFRER_FORM_ITEMS;
 	coreFormItems :object ={};
 	areaList: any[] = [];
+    // 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
+    NexthopInfoOptions = NexthopInfo_Options;
+    EndpointInputs: any[] = [];
+    EndpointEnable: boolean = false;  // Whether to enable the three parameters of Endpoint
+    //  Comment: Above code
 
 	constructor() { }
 
@@ -24,6 +29,16 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	ngOnChanges() {
         this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:CORE_FORM_ITEMS.Cn;
+
+        // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
+        if(this.EndpointEnable){
+            this.EndpointInputs = this.title === 'An'
+                ?this.detailData["an_Endpoint"]
+                :this.title === 'Cn'
+                    ?this.detailData["cn_Endpoint"]
+                    :[];
+		}
+        //-------> Comment: Above code
 		if (this.title === 'An') {
 		  	this.AreaFormatting();
 		}

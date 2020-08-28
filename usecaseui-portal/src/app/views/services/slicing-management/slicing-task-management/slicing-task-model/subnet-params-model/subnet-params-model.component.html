@@ -19,13 +19,13 @@
 		</form>
 		<form nz-form *ngIf="title === 'An' || title === 'Cn'">
 			<nz-form-item *ngFor="let item of coreFormItems">
-				<nz-form-label [nzSpan]="(item.key === 'an_coverage_area_ta_list' && title === 'An')?7:13" nzRequired>
+				<nz-form-label [nzSpan]="(item.key === 'an_coverage_area_ta_list' || item.title === 'Endpoint')?7:13" nzRequired *ngIf=" item.title !== 'Endpoint' || EndpointEnable ">
 					{{ item.title }}
 				</nz-form-label>
-				<nz-form-control [nzSpan]="8" *ngIf="item.key !== 'an_coverage_area_ta_list'">
+				<nz-form-control [nzSpan]="item.title === 'Endpoint'?14:8" *ngIf="item.key !== 'an_coverage_area_ta_list'">
 					<input nz-input [id]="item.key" [name]="item.key" [(ngModel)]="detailData[item.key]"
 						[readOnly]="item.title === 'S-NSSAI'" [disabled]="item.title === 'S-NSSAI'"
-						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' " />
+						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Endpoint' " />
 					<nz-radio-group [name]="item.key" [(ngModel)]="detailData[item.key]"
 						*ngIf="item.title === 'Resource Sharing Level'">
 						<label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
@@ -36,6 +36,31 @@
 						<nz-option [nzValue]="option.key" [nzLabel]="option.title" *ngFor="let option of item.options">
 						</nz-option>
 					</nz-select>
+					<!-- 2020.08.17  Add 3 parameters for Endpoint-->
+					<!-- Comment: The following code-->
+					<nz-input-group *ngIf="item.title === 'Endpoint' && EndpointEnable">
+						<div *ngFor="let option of item.options;let i=index">
+							<input nz-input
+								   *ngIf="option.title !== 'nexthop_info'"
+								   [id]="option.key"
+								   [name]="option.key"
+								   [title]="EndpointInputs[i][option.key]"
+								   [(ngModel)]="EndpointInputs[i][option.key]"
+								   style="width:32%;margin-right:1%" />
+							<nz-select
+									*ngIf="option.title === 'nexthop_info'"
+									[name]="option.key"
+									[title]="EndpointInputs[i][option.key]"
+									[(ngModel)]="EndpointInputs[i][option.key]" style="width:34%;">
+								<nz-option
+										*ngFor="let infoOption of NexthopInfoOptions"
+										[nzValue]="infoOption.key"
+										[nzLabel]="infoOption.title"
+								></nz-option>
+							</nz-select>
+						</div>
+					</nz-input-group>
+					<!-- Comment: Above code-->
 				</nz-form-control>
 				<div *ngIf="title === 'An' && item.key === 'an_coverage_area_ta_list'">
 					<div *ngFor="let area of areaList; let i = index">
