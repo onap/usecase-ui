@@ -15,7 +15,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	@Output() paramsDataChange = new EventEmitter<any>();
 
 	transferFormItems = TRANSFRER_FORM_ITEMS;
-	coreFormItems :object ={};
+	coreFormItems: any[] = [];
 	areaList: any[] = [];
     // 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
     NexthopInfoOptions = NexthopInfo_Options;
@@ -28,15 +28,25 @@ export class SubnetParamsModelComponent implements OnInit {
 	ngOnInit() { }
 
 	ngOnChanges() {
-        this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:CORE_FORM_ITEMS.Cn;
-
-        // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
-        if(this.EndpointEnable){
-            this.EndpointInputs = this.title === 'An'
-                ?this.detailData["an_Endpoint"]
-                :this.title === 'Cn'
-                    ?this.detailData["cn_Endpoint"]
-                    :[];
+		if(this.title){
+            this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
+            if(this.detailData !==undefined && Object.keys(this.detailData).length!==0){
+                this.EndpointEnable = (this.detailData.hasOwnProperty("an_Endpoint") && this.detailData['an_Endpoint'].length!==0) || (this.detailData.hasOwnProperty("cn_Endpoint") && this.detailData['cn_Endpoint'].length!==0)
+            }
+            // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
+            if(this.EndpointEnable){
+                this.EndpointInputs = this.title === 'An'
+                    ?this.detailData["an_Endpoint"]
+                    :this.title === 'Cn'
+                        ?this.detailData["cn_Endpoint"]
+                        :[];
+            }else{
+                this.coreFormItems.map((item,index)=>{
+                    if(item.title === 'Endpoint'){
+                        this.coreFormItems.splice(index,1)
+                    }
+                })
+            }
 		}
         //-------> Comment: Above code
 		if (this.title === 'An') {
