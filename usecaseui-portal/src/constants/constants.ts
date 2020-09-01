@@ -197,11 +197,13 @@ export const CORE_FORM_ITEMS = {
             options: [
                 {
                     title: 'ip_address',
-                    key: 'an_ip_address'
+                    key: 'an_ip_address',
+                    holder: 'IpAddress'
                 },
                 {
                     title: 'logical_link',
-                    key: 'an_logical_link'
+                    key: 'an_logical_link',
+                    holder: 'LogicId'
                 },
                 {
                     title: 'nexthop_info',
@@ -297,11 +299,13 @@ export const CORE_FORM_ITEMS = {
             options: [
                 {
                     title: 'ip_address',
-                    key: 'cn_ip_address'
+                    key: 'cn_ip_address',
+                    holder: 'IpAddress'
                 },
                 {
                     title: 'logical_link',
-                    key: 'cn_logical_link'
+                    key: 'cn_logical_link',
+                    holder: 'LogicId'
                 },
                 {
                     title: 'nexthop_info',
