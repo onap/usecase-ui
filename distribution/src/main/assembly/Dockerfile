@@ -5,7 +5,7 @@ MAINTAINER "Lu Ji" <lu.ji3@zte.com.cn>
 EXPOSE 8443
 
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk
+    apt-get install -y -qq --no-install-recommends openjdk-8-jdk
 
 #configure the JDK
 RUN sed -i 's|#networkaddress.cache.ttl=-1|networkaddress.cache.ttl=10|' /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/java.security
