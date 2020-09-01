@@ -157,7 +157,7 @@ export class SlicingTaskModelComponent implements OnInit {
                 'an_area_traffic_cap_ul',
                 'an_script_name',
                 'an_overalluser_density',
-                'an_Endpoint'
+                 'an_Endpoint'
             ]), an_coverage_area_ta_list: area};
         this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai']);
         this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [

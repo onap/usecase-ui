@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS , NexthopInfo_Options } from '@src/constants/constants'
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS , NexthopInfo_Options } from '@src/constants/constants';
+import { NzMessageService } from "ng-zorro-antd";
 
 @Component({
 	selector: 'app-subnet-params-model',
@@ -15,23 +16,29 @@ export class SubnetParamsModelComponent implements OnInit {
 	@Output() paramsDataChange = new EventEmitter<any>();
 
 	transferFormItems = TRANSFRER_FORM_ITEMS;
-	coreFormItems: any[] = [];
+	formData: any;
+	coreFormItems : any = [];
 	areaList: any[] = [];
     // 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
     NexthopInfoOptions = NexthopInfo_Options;
     EndpointInputs: any[] = [];
-    EndpointEnable: boolean = false;  // Whether to enable the three parameters of Endpoint
+	EndpointEnable: boolean = true;  // Whether to enable the three parameters of Endpoint
     //  Comment: Above code
 
-	constructor() { }
+	constructor(
+		private message: NzMessageService,
+		) {
+		}
 
-	ngOnInit() { }
+	ngOnInit() {
+	 }
 
 	ngOnChanges() {
 		if(this.title){
-            this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
-            if(this.detailData !==undefined && Object.keys(this.detailData).length!==0){
-                this.EndpointEnable = (this.detailData.hasOwnProperty("an_Endpoint") && this.detailData['an_Endpoint'].length!==0) || (this.detailData.hasOwnProperty("cn_Endpoint") && this.detailData['cn_Endpoint'].length!==0)
+			this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
+			this.formData = JSON.parse(JSON.stringify(this.detailData));
+            if(this.formData !==undefined && Object.keys(this.formData).length!==0){
+                this.EndpointEnable = (this.formData.hasOwnProperty("an_Endpoint") && this.formData['an_Endpoint'].length!==0) || (this.formData.hasOwnProperty("cn_Endpoint") && this.formData['cn_Endpoint'].length!==0)
             }
             // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
             if(this.EndpointEnable){
@@ -53,9 +60,62 @@ export class SubnetParamsModelComponent implements OnInit {
 		  	this.AreaFormatting();
 		}
 	}
-
+	validateEndPoint (key: string, value: any): string {
+		if (value === '') {
+			return 'can not be empty';
+		}
+		if (key === 'ip_address') {
+			const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+			if (!regxp.test(value)) {
+				return 'xxx.xxx.xxx.xxx';
+			} else {
+				return '';
+			}
+		} else if (key === 'logical_link') {
+			return '';
+		} else {
+			return '';
+		}
+	}
+	// endPointOnBlur ($event:any, title: string): void {
+	// 	const target = $event.target;
+	// 	if (title === 'ip_address') {
+	// 		const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+	// 		if (!regxp.test(target.value)) {
+	// 			target.value = '';
+	// 			this.message.error('Please enter legal IP address');
+	// 		}
+	// 	}
+	// }
+	// endPointEnter ($event:any, title: string): void {
+	// 	if ($event.keyCode === 13) {
+	// 		const target = $event.target;
+	// 		if (title === 'ip_address') {
+	// 			const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+	// 			if (!regxp.test(target.value)) {
+	// 				target.value = '';
+	// 				this.message.error('Please enter legal IP address');
+	// 			}
+	// 		}
+	// 	}
+	// }
+	onInput ($event:any, title: string) {
+		if (!$event) {
+			return;
+		}
+		const target = $event.target;
+		if (title === 'ip_address') {
+		    // only number and '.' can be inputted
+			const regexp = /[^\d^\.]+/g;
+			target.value = target.value.replace(regexp, '');
+		} else if (title === 'logical_link') {
+		    // only number can be inputted
+			const regxp = /[^\d]/g;
+			target.value = target.value.replace(regxp, '');
+		}
+	}
 	AreaFormatting () {
-		let areaList = [...this.detailData.an_coverage_area_ta_list];
+		let areaList = [...this.formData.an_coverage_area_ta_list];
 		this.areaList = areaList.map ( (item: any) => {
 			let arr = item.split(';');
 			item = arr.map( (ite, index) => {
@@ -138,9 +198,88 @@ export class SubnetParamsModelComponent implements OnInit {
 		this.showModel = false
 		this.cancel.emit(this.showModel)
 	}
+	
+	checkArea () {
+		let result = true;
+		console.log(this.areaList);
+		this.areaList.forEach((item) => {
+			if (item.some((val) => {return val['selected'] === ''})) {
+				result = false;
+			}
+		})
+		if (!result) {
+			return 'can not be empty!';
+		} else {
+			return '';
+		}
+	}
+
+	judgeType (a) {
+		return Object.prototype.toString.call(a)
+	}
+
+	// used to verify that each item is not empty in a object
+	deepCheck (target) {
+		let type = this.judgeType(target);
+		if (type === '[object Array]') {
+			for (let i = 0; i < target.length; i++) {
+				if (!this.deepCheck(target[i])) {
+					return false;
+				}
+			  }
+		} else if (type === '[object Object]') {
+			for (const prop in target) {
+				if (target.hasOwnProperty(prop)) { // special handling for address
+				  if (prop === 'an_coverage_area_ta_list' || prop ==='cn_coverage_area_ta_list') {
+					  return target[prop].every((item) => {return this.deepCheck(item.split(';'))});
+				  } else if (!this.deepCheck(target[prop])) {
+					  return false;
+				  }
+				}
+			}
+		} else {
+			if (!target && target!==0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		return true;
+	}
+
+	// endCheckBeforeSubmit (params) {
+	// 	let target;
+	// 	if (this.title === 'An') {
+	// 		target = params['an_Endpoint'];
+	// 		for (let item of target) {
+	// 			if (Object.keys[0] === 'an_ip_address') { 
+	// 				const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+	// 				if (regxp.test(item['an_ip_address'])) {
+	// 					this.message.error('illegal IpAddress');
+	// 					return false;
+	// 				} 
+	// 			}
+	// 		}
+	// 	} else if (this.title === 'Cn'){
+	// 		target = params['cn_Endpoint'];
+	// 		for (let item of target) {
+	// 			if (Object.keys[0] === 'cn_ip_address') { 
+	// 				const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+	// 				if (regxp.test(item['cn_ip_address'])) {
+	// 					this.message.error('illegal IpAddress');
+	// 					return false;
+	// 				} 
+	// 			}
+	// 		}
+	// 	} else {
+	// 		return true;
+	// 	}
+	// 	return true;
+	// }
 
 	handleOk(): void {
 		let params: object;
+		// Verify that each item is not empty
 		if (this.title === 'An') {
 			const an_coverage_area_ta_list: string[] = [];
 			this.areaList.forEach( item => {
@@ -150,12 +289,16 @@ export class SubnetParamsModelComponent implements OnInit {
 				})
 				an_coverage_area_ta_list.push(str.substring(0, str.length-1));
 			})
-			params = {...this.detailData, an_coverage_area_ta_list}
+			params = {...this.formData, an_coverage_area_ta_list};
 		} else {
-			params = {...this.detailData}
+			params = {...this.formData};
 		}
-		this.paramsDataChange.emit(params)
-		this.handleCancel()
+		if (this.deepCheck(params)) {
+			this.paramsDataChange.emit(params);
+			this.handleCancel();
+		} else {
+			this.message.error('Please complete the form');
+		}
 	}
 
 }
