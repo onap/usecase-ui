@@ -72,8 +72,8 @@ export class SubnetParamsModelComponent implements OnInit {
 				return '';
 			}
 		} else if (key === 'logical_link') {
-			if (isNaN(value)){
-				return 'number only'
+			if (!this.isInteger(value)){
+				return 'integer only'
 			} else {
 				return ''
 			}
@@ -182,18 +182,14 @@ export class SubnetParamsModelComponent implements OnInit {
 		this.cancel.emit(this.showModel)
 	}
 	
-	checkArea () {
-		let result = true;
-		this.areaList.forEach((item) => {
-			if (item.some((val) => {return val['selected'] === ''})) {
-				result = false;
-			}
-		})
-		if (!result) {
-			return 'can not be empty!';
-		} else {
-			return '';
+	checkArea (area: any) {
+		if (area.every((item) => {return item.selected === ''})) {
+			return 'empty';
 		}
+		if (area.some((item) => {return item.selected === ''})) {
+			return 'incomplete';
+		}
+		return '';
 	}
 
 	judgeType (a) {
@@ -229,6 +225,18 @@ export class SubnetParamsModelComponent implements OnInit {
 		return true;
 	}
 
+	isInteger (value: any) {
+		// for common string and undefined, eg '123a3'
+		if (isNaN(value)) {
+			return false;
+		} else if (isNaN(parseInt(value))) {
+			return false;
+		} else if (Number(value) >= 0 && Number(value)%1 !== 0){
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	endCheckBeforeSubmit () {
 		// check params of Endpoint
@@ -244,8 +252,8 @@ export class SubnetParamsModelComponent implements OnInit {
 						result = [false, 'Illegal IpAddress']
 					}
 				} else if (prop === 'an_logical_link') {
-					if (isNaN(formatedEndpoint[prop])) {
-						result = [false, 'LogicalID can only be a number']
+					if (!this.isInteger(formatedEndpoint[prop])) {
+						result = [false, 'LogicalID can only be an integer']
 					}
 				}
 			} 
@@ -256,8 +264,8 @@ export class SubnetParamsModelComponent implements OnInit {
 						result = [false, 'Illegal IpAddress']
 					}
 				} else if (prop === 'cn_logical_link') {
-					if (isNaN(formatedEndpoint[prop])) {
-						result = [false, 'LogicalID can only be a number']
+					if (!this.isInteger(formatedEndpoint[prop])) {
+						result = [false, 'LogicalID can only be an integer']
 					}
 				}
 			} 
