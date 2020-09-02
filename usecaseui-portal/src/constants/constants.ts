@@ -22,7 +22,7 @@ export const TASK_PROCESSING_STATUS = [
 ]
 
 export const BUSINESS_REQUIREMENT = [
-	[
+
 		{
 			title: 'Slicing Business Name',
 			key: 'service_name'
@@ -35,8 +35,6 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'Data Rate Downlink (Mbps) ',
 			key: 'exp_data_rate_dl'
 		},
-	],
-	[
 		{
 			title: 'Data Rate Uplink (Mbps) ',
 			key: 'exp_data_rate_ul'
@@ -49,10 +47,8 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'Latency (ms)',
 			key: 'latency'
 		},
-	],
-	[
 		{
-			title: 'Use Interval (Moon) ',
+			title: 'Use Interval (Month) ',
 			key: 'use_interval'
 		},
 
@@ -64,8 +60,6 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'Resource Sharing Level',
 			key: 'resource_sharing_level'
 		},
-	],
-	[
 		{
 			title: 'Max Number of UEs',
 			key: 'max_number_of_ues'
@@ -77,15 +71,13 @@ export const BUSINESS_REQUIREMENT = [
 		{
 			title: 'Downlink Regional Traffic Density（Mbps/km ）',
 			key: 'area_traffic_cap_dl'
-		}
-	],
-	[
-		{
-			title: 'Area',
-			key: 'area'
 		},
-	],
-
+		[
+            {
+                title: 'Area',
+                key: 'area'
+            }
+        ]
 
 ]
 
