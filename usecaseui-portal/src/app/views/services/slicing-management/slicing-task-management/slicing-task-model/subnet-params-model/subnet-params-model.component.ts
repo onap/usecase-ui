@@ -16,6 +16,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	@Output() paramsDataChange = new EventEmitter<any>();
 
 	transferFormItems = TRANSFRER_FORM_ITEMS;
+	regxpIP =  /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/; // check for correct ip address
 	formData: any;
 	coreFormItems : any = [];
 	areaList: any[] = [];
@@ -43,9 +44,9 @@ export class SubnetParamsModelComponent implements OnInit {
             // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
             if(this.EndpointEnable){
                 this.EndpointInputs = this.title === 'An'
-                    ?this.detailData["an_Endpoint"]
+                    ?this.formData["an_Endpoint"]
                     :this.title === 'Cn'
-                        ?this.detailData["cn_Endpoint"]
+                        ?this.formData["cn_Endpoint"]
                         :[];
             }else{
                 this.coreFormItems.map((item,index)=>{
@@ -65,40 +66,22 @@ export class SubnetParamsModelComponent implements OnInit {
 			return 'can not be empty';
 		}
 		if (key === 'ip_address') {
-			const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
-			if (!regxp.test(value)) {
+			if (!this.regxpIP.test(value)) {
 				return 'xxx.xxx.xxx.xxx';
 			} else {
 				return '';
 			}
 		} else if (key === 'logical_link') {
-			return '';
+			if (isNaN(value)){
+				return 'number only'
+			} else {
+				return ''
+			}
 		} else {
 			return '';
 		}
 	}
-	// endPointOnBlur ($event:any, title: string): void {
-	// 	const target = $event.target;
-	// 	if (title === 'ip_address') {
-	// 		const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
-	// 		if (!regxp.test(target.value)) {
-	// 			target.value = '';
-	// 			this.message.error('Please enter legal IP address');
-	// 		}
-	// 	}
-	// }
-	// endPointEnter ($event:any, title: string): void {
-	// 	if ($event.keyCode === 13) {
-	// 		const target = $event.target;
-	// 		if (title === 'ip_address') {
-	// 			const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
-	// 			if (!regxp.test(target.value)) {
-	// 				target.value = '';
-	// 				this.message.error('Please enter legal IP address');
-	// 			}
-	// 		}
-	// 	}
-	// }
+
 	onInput ($event:any, title: string) {
 		if (!$event) {
 			return;
@@ -201,7 +184,6 @@ export class SubnetParamsModelComponent implements OnInit {
 	
 	checkArea () {
 		let result = true;
-		console.log(this.areaList);
 		this.areaList.forEach((item) => {
 			if (item.some((val) => {return val['selected'] === ''})) {
 				result = false;
@@ -247,39 +229,50 @@ export class SubnetParamsModelComponent implements OnInit {
 		return true;
 	}
 
-	// endCheckBeforeSubmit (params) {
-	// 	let target;
-	// 	if (this.title === 'An') {
-	// 		target = params['an_Endpoint'];
-	// 		for (let item of target) {
-	// 			if (Object.keys[0] === 'an_ip_address') { 
-	// 				const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
-	// 				if (regxp.test(item['an_ip_address'])) {
-	// 					this.message.error('illegal IpAddress');
-	// 					return false;
-	// 				} 
-	// 			}
-	// 		}
-	// 	} else if (this.title === 'Cn'){
-	// 		target = params['cn_Endpoint'];
-	// 		for (let item of target) {
-	// 			if (Object.keys[0] === 'cn_ip_address') { 
-	// 				const regxp = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
-	// 				if (regxp.test(item['cn_ip_address'])) {
-	// 					this.message.error('illegal IpAddress');
-	// 					return false;
-	// 				} 
-	// 			}
-	// 		}
-	// 	} else {
-	// 		return true;
-	// 	}
-	// 	return true;
-	// }
+
+	endCheckBeforeSubmit () {
+		// check params of Endpoint
+		let result = [true, ''];
+		let formatedEndpoint = {};
+		this.EndpointInputs.forEach((item) => {
+			formatedEndpoint[Object.keys(item)[0]] = item[Object.keys(item)[0]];
+		})
+		if (this.title === 'An') {
+			for (let prop in formatedEndpoint) {
+				if (prop === 'an_ip_address') {
+					if (!this.regxpIP.test(formatedEndpoint[prop])) {
+						result = [false, 'Illegal IpAddress']
+					}
+				} else if (prop === 'an_logical_link') {
+					if (isNaN(formatedEndpoint[prop])) {
+						result = [false, 'LogicalID can only be a number']
+					}
+				}
+			} 
+		} else if (this.title === 'Cn') {
+			for (let prop in formatedEndpoint) {
+				if (prop === 'cn_ip_address') {
+					if (!this.regxpIP.test(formatedEndpoint[prop])) {
+						result = [false, 'Illegal IpAddress']
+					}
+				} else if (prop === 'cn_logical_link') {
+					if (isNaN(formatedEndpoint[prop])) {
+						result = [false, 'LogicalID can only be a number']
+					}
+				}
+			} 
+		}
+		return result;
+	}
 
 	handleOk(): void {
+		// Verify that items of EndPoint is correct
+		let endCheckResult = this.endCheckBeforeSubmit()
+		if (!endCheckResult[0]) {
+			this.message.error(endCheckResult[1].toString());
+			return;
+		}
 		let params: object;
-		// Verify that each item is not empty
 		if (this.title === 'An') {
 			const an_coverage_area_ta_list: string[] = [];
 			this.areaList.forEach( item => {
@@ -293,6 +286,7 @@ export class SubnetParamsModelComponent implements OnInit {
 		} else {
 			params = {...this.formData};
 		}
+		// Verify that each item is not empty
 		if (this.deepCheck(params)) {
 			this.paramsDataChange.emit(params);
 			this.handleCancel();

@@ -345,7 +345,6 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   showParamsModel(item: any): void {
-    console.log(item,"------->")
     this.isShowParams = true;
     this.paramsTitle = item.title;
     this.params = item.params
