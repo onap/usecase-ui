@@ -82,6 +82,7 @@
             "cn_area_traffic_cap_dl": "300",
             "cn_area_traffic_cap_ul": "300",
             "cn_script_name":"test_cn_01",
+            "cn_max_number_of_pud_session":"10000",
             "cn_overalluser_density":"test_cn_overalluser_density_01",
             "cn_enableNSSISelection":true,
             "cn_Endpoint":[

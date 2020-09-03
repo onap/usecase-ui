@@ -73,4 +73,53 @@ export class Util {
             validateRulesShow[index] = false;
         }
     }
+    isInteger (value: any) : boolean{
+        // for common string and undefined, eg '123a3'
+		if (isNaN(value)) {
+			return false;
+		} else if (isNaN(parseInt(value))) {
+			return false;
+		} else if (Number(value) >= 0 && Number(value)%1 !== 0){
+			return false;
+		} else {
+			return true;
+		}
+    }
+    judgeType (a: any) : string {
+		return Object.prototype.toString.call(a)
+    }
+    isEmpty (a: any): boolean {
+        const type = this.judgeType(a);
+        if (type === 'object Null' || type === '[object undefined]' || a === false || a === '') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    deepCheck (target: any) : boolean{
+        //used to verify that each item is not '' or undefined in a object or an array
+        let type = this.judgeType(target);
+		if (type === '[object Array]') {
+			for (let i = 0; i < target.length; i++) {
+				if (!this.deepCheck(target[i])) {
+					return false;
+				}
+			  }
+		} else if (type === '[object Object]') {
+			for (const prop in target) {
+				if (target.hasOwnProperty(prop)) {
+				  if (!this.deepCheck(target[prop])) {
+					  return false;
+				  }
+				}
+			}
+		} else {
+			if (this.isEmpty(target)) { // '', undefined, null, false
+				return false;
+			} else {
+				return true;
+			}
+		}
+		return true;
+    }
 }

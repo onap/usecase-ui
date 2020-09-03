@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS , NexthopInfo_Options } from '@src/constants/constants';
 import { NzMessageService } from "ng-zorro-antd";
+import { stringify } from '@angular/core/src/util';
+import { Util } from '../../../../../../shared/utils/utils';
 
 @Component({
 	selector: 'app-subnet-params-model',
@@ -28,6 +30,7 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	constructor(
 		private message: NzMessageService,
+		private Util: Util
 		) {
 		}
 
@@ -62,7 +65,7 @@ export class SubnetParamsModelComponent implements OnInit {
 		}
 	}
 	validateEndPoint (key: string, value: any): string {
-		if (value === '') {
+		if (this.Util.isEmpty(value)) {
 			return 'can not be empty';
 		}
 		if (key === 'ip_address') {
@@ -72,7 +75,7 @@ export class SubnetParamsModelComponent implements OnInit {
 				return '';
 			}
 		} else if (key === 'logical_link') {
-			if (!this.isInteger(value)){
+			if (!this.Util.isInteger(value)){
 				return 'integer only'
 			} else {
 				return ''
@@ -182,6 +185,7 @@ export class SubnetParamsModelComponent implements OnInit {
 		this.cancel.emit(this.showModel)
 	}
 	
+	// prompt text for each item of area_list
 	checkArea (area: any) {
 		if (area.every((item) => {return item.selected === ''})) {
 			return 'empty';
@@ -192,55 +196,22 @@ export class SubnetParamsModelComponent implements OnInit {
 		return '';
 	}
 
-	judgeType (a) {
-		return Object.prototype.toString.call(a)
-	}
-
-	// used to verify that each item is not empty in a object
-	deepCheck (target) {
-		let type = this.judgeType(target);
-		if (type === '[object Array]') {
-			for (let i = 0; i < target.length; i++) {
-				if (!this.deepCheck(target[i])) {
-					return false;
+	// special handling for address
+	areaCheckBeforeSubmit (target: object) : Boolean{
+		for (const prop in target) {
+			if (target.hasOwnProperty(prop)) { 
+				if (prop === 'an_coverage_area_ta_list' || prop ==='cn_coverage_area_ta_list') {
+					// if the vlaue is "shanghai;shanghai;", the input is incomplete
+					return target[prop].every((item) => {return this.Util.deepCheck(item.split(';'))});
 				}
-			  }
-		} else if (type === '[object Object]') {
-			for (const prop in target) {
-				if (target.hasOwnProperty(prop)) { // special handling for address
-				  if (prop === 'an_coverage_area_ta_list' || prop ==='cn_coverage_area_ta_list') {
-					  return target[prop].every((item) => {return this.deepCheck(item.split(';'))});
-				  } else if (!this.deepCheck(target[prop])) {
-					  return false;
-				  }
-				}
-			}
-		} else {
-			if (!target && target!==0) {
-				return false;
-			} else {
-				return true;
 			}
 		}
 		return true;
 	}
 
-	isInteger (value: any) {
-		// for common string and undefined, eg '123a3'
-		if (isNaN(value)) {
-			return false;
-		} else if (isNaN(parseInt(value))) {
-			return false;
-		} else if (Number(value) >= 0 && Number(value)%1 !== 0){
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	endCheckBeforeSubmit () {
+	endCheckBeforeSubmit () : Array<any>{
 		// check params of Endpoint
-		let result = [true, ''];
+		let result: Array<any> = [true, ''];
 		let formatedEndpoint = {};
 		this.EndpointInputs.forEach((item) => {
 			formatedEndpoint[Object.keys(item)[0]] = item[Object.keys(item)[0]];
@@ -252,7 +223,7 @@ export class SubnetParamsModelComponent implements OnInit {
 						result = [false, 'Illegal IpAddress']
 					}
 				} else if (prop === 'an_logical_link') {
-					if (!this.isInteger(formatedEndpoint[prop])) {
+					if (!this.Util.isInteger(formatedEndpoint[prop])) {
 						result = [false, 'LogicalID can only be an integer']
 					}
 				}
@@ -264,13 +235,32 @@ export class SubnetParamsModelComponent implements OnInit {
 						result = [false, 'Illegal IpAddress']
 					}
 				} else if (prop === 'cn_logical_link') {
-					if (!this.isInteger(formatedEndpoint[prop])) {
+					if (!this.Util.isInteger(formatedEndpoint[prop])) {
 						result = [false, 'LogicalID can only be an integer']
 					}
 				}
 			} 
 		}
 		return result;
+	}
+
+	inputHolder (title: string): string {
+		const titleArr = title.split(' ')
+		if (titleArr.length > 1) {
+			return titleArr.slice(0, 2).join('');
+		} else {
+			return title;
+		}
+	}
+	
+	labelStyle (required: boolean) : object{
+		let style;
+		if (!required) {
+			style = {'margin-left': '18px', 'margin-right': '-18px'};
+		} else {
+			style = {}
+		}
+		return style;
 	}
 
 	handleOk(): void {
@@ -294,8 +284,8 @@ export class SubnetParamsModelComponent implements OnInit {
 		} else {
 			params = {...this.formData};
 		}
-		// Verify that each item is not empty
-		if (this.deepCheck(params)) {
+		// Verify that each item is not empty, include special handeling of area_list
+		if (this.Util.deepCheck(params) && this.areaCheckBeforeSubmit(params)) {
 			this.paramsDataChange.emit(params);
 			this.handleCancel();
 		} else {

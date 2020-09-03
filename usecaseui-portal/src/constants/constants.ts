@@ -117,35 +117,37 @@ export const BUSINESS_REQUIREMENT = [
 export const TRANSFRER_FORM_ITEMS = [
     {
         title: 'S-NSSAI',
-        key: 'tn_service_snssai'
+        key: 'tn_service_snssai',
+        required: true
     },
 	{
         title: 'Latency (ms)',
-        key: 'tn_latency'
+        key: 'tn_latency',
+        required: true
     },
     {
         title: 'Jitter',
-        key: 'tn_jitter'
+        key: 'tn_jitter',
+        required: false,
     },
 	{
 		title: 'MaxBandwidth',
-		key: 'tn_bandwidth'
+        key: 'tn_bandwidth',
+        required: true
 	},
-    {
-        title: 'Script Name',
-        key: 'tn_script_name'
-    },
 ]
 
 export const CORE_FORM_ITEMS = {
     "An": [
         {
             title: 'S-NSSAI',
-            key: 'an_service_snssai'
+            key: 'an_service_snssai',
+            required: true
         },
         {
             title: 'Resource Sharing Level',
             key: 'an_resource_sharing_level',
+            required: true,
             options: [
                 {
                     title: 'Shared',
@@ -160,6 +162,7 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Mobility',
             key: 'an_ue_mobility_level',
+            required: true,
             options: [
                 {
                     title: 'Stationary',
@@ -181,43 +184,58 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Latency (ms)',
-            key: 'an_latency'
+            key: 'an_latency',
+            required: true
+        },
+        {
+            title: 'Max Number of PUD Session',
+            key: 'an_max_number_of_pud_session',
+            required: true
         },
         {
             title: 'Max Number of UEs',
-            key: 'an_max_number_of_ues'
+            key: 'an_max_number_of_ues',
+            required: true
         },
         {
             title: 'Activity Factor (%)',
-            key: 'an_activity_factor'
+            key: 'an_activity_factor',
+            required: true
         },
         {
             title: 'User Downlink Experience Rate（Mbps）',
-            key: 'an_exp_data_rate_dl'
+            key: 'an_exp_data_rate_dl',
+            required: true
         },
         {
             title: 'User Uplink Experience Rate（Mbps）',
-            key: 'an_exp_data_rate_ul'
+            key: 'an_exp_data_rate_ul',
+            required: true
         },
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
-            key: 'an_area_traffic_cap_dl'
+            key: 'an_area_traffic_cap_dl',
+            required: true
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
-            key: 'an_area_traffic_cap_ul'
+            key: 'an_area_traffic_cap_ul',
+            required: true
         },
         {
             title: 'Script Name',
-            key: 'an_script_name'
+            key: 'an_script_name',
+            required: true
         },
         {
-            title: 'overallUserDensity',
-            key: 'an_overalluser_density'
+            title: 'Overall User Density',
+            key: 'an_overalluser_density',
+            required: true
         },
         {
             title:'Endpoint',
             key:"an_Endpoint",
+            required: true,
             options: [
                 {
                     title: 'ip_address',
@@ -231,23 +249,27 @@ export const CORE_FORM_ITEMS = {
                 },
                 {
                     title: 'nexthop_info',
-                    key: 'an_nexthop_info'
+                    key: 'an_nexthop_info',
+                    holder: 'NextHop'
                 }
             ]
         },
         {
             title: 'Coverage Area Ta List',
-            key: 'an_coverage_area_ta_list'
+            key: 'an_coverage_area_ta_list',
+            required: true
         }
     ],
     "Cn": [
         {
             title: 'S-NSSAI',
-            key: 'cn_service_snssai'
+            key: 'cn_service_snssai',
+            required: true
         },
         {
             title: 'Resource Sharing Level',
             key: 'cn_resource_sharing_level',
+            required: true,
             options: [
                 {
                     title: 'Shared',
@@ -262,6 +284,7 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Mobility',
             key: 'cn_ue_mobility_level',
+            required: true,
             options: [
                 {
                     title: 'Stationary',
@@ -283,43 +306,58 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Latency (ms)',
-            key: 'cn_latency'
+            key: 'cn_latency',
+            required: true
         },
         {
             title: 'Max Number of UEs',
-            key: 'cn_max_number_of_ues'
+            key: 'cn_max_number_of_ues',
+            required: true
         },
         {
             title: 'Activity Factor (%)',
-            key: 'cn_activity_factor'
+            key: 'cn_activity_factor',
+            required: true
         },
         {
             title: 'User Downlink Experience Rate（Mbps）',
-            key: 'cn_exp_data_rate_dl'
+            key: 'cn_exp_data_rate_dl',
+            required: true
         },
         {
             title: 'User Uplink Experience Rate（Mbps）',
-            key: 'cn_exp_data_rate_ul'
+            key: 'cn_exp_data_rate_ul',
+            required: true
         },
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
-            key: 'cn_area_traffic_cap_dl'
+            key: 'cn_area_traffic_cap_dl',
+            required: true
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
-            key: 'cn_area_traffic_cap_ul'
+            key: 'cn_area_traffic_cap_ul',
+            required: true
         },
         {
             title: 'Script Name',
-            key: 'cn_script_name'
+            key: 'cn_script_name',
+            required: true
         },
         {
-            title: 'overallUserDensity',
-            key: 'cn_overalluser_density'
+            title: 'Max Number of PUD Session',
+            key: 'cn_max_number_of_pud_session',
+            required: true
+        },
+        {
+            title: 'OverAll User Density',
+            key: 'cn_overalluser_density',
+            required: true
         },
         {
             title:'Endpoint',
             key:"cn_Endpoint",
+            required: true,
             options: [
                 {
                     title: 'ip_address',

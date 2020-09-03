@@ -3,8 +3,8 @@
 	<div class="subnet_params_container">
 		<form nz-form *ngIf="title === 'Tn'">
 			<nz-form-item *ngFor="let item of transferFormItems">
-				<nz-form-label [nzSpan]="7" nzRequired [nzFor]="item.key">
-					{{ item.title }}
+				<nz-form-label [nzSpan]="7" [nzRequired]="item.required" [nzFor]="item.key" [ngStyle]="labelStyle(item.required)">
+					{{item.title}}
 				</nz-form-label>
 				<nz-form-control [nzSpan]="12">
 					<input nz-input
@@ -13,19 +13,21 @@
 						   [id]="item.key"
 						   [readOnly]="item.title === 'S-NSSAI'"
 						   [disabled]="item.title === 'S-NSSAI'"
+						   [placeholder]="inputHolder(item.title)"
 					/>
+					<div class="validation_alert" *ngIf="item.required">{{Util.isEmpty(formData[item.key])? 'can not be empty!':' '}}</div>
 				</nz-form-control>
 			</nz-form-item>
 		</form>
 		<form nz-form *ngIf="title === 'An' || title === 'Cn'">
 			<nz-form-item *ngFor="let item of coreFormItems">
-				<nz-form-label [nzSpan]="(item.key === 'an_coverage_area_ta_list' || item.title === 'Endpoint')?7:13" nzRequired *ngIf=" item.title !== 'Endpoint' || EndpointEnable ">
+				<nz-form-label [nzSpan]="(item.key === 'an_coverage_area_ta_list' || item.title === 'Endpoint')?7:13" [nzRequired]="item.required" *ngIf=" item.title !== 'Endpoint' || EndpointEnable " [ngStyle]="labelStyle(item.required)">
 					{{ item.title }}
 				</nz-form-label>
 				<nz-form-control [nzSpan]="item.title === 'Endpoint'?14:8" *ngIf="item.key !== 'an_coverage_area_ta_list'">
 					<input nz-input [id]="item.key" [name]="item.key" [(ngModel)]="formData[item.key]"
 						[readOnly]="item.title === 'S-NSSAI'" [disabled]="item.title === 'S-NSSAI'"
-						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Endpoint' " />
+						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Endpoint' " [placeholder]="inputHolder(item.title)"/>
 					<nz-radio-group [name]="item.key" [(ngModel)]="formData[item.key]"
 						*ngIf="item.title === 'Resource Sharing Level'">
 						<label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
@@ -36,14 +38,13 @@
 						<nz-option [nzValue]="option.key" [nzLabel]="option.title" *ngFor="let option of item.options">
 						</nz-option>
 					</nz-select>
-					<div class="validation_alert">{{formData[item.key] === ''? 'can not be empty!':' '}}</div>
+					<div class="validation_alert" *ngIf="item.required">{{Util.isEmpty(formData[item.key])? 'can not be empty!':' '}}</div>
 					<!-- 2020.08.17  Add 3 parameters for Endpoint-->
 					<!-- Comment: The following code-->
 					<nz-input-group *ngIf="item.title === 'Endpoint' && EndpointEnable">
 						<div *ngFor="let option of item.options;let i=index">
 							<div class="endpoint_input">
 								<input nz-input
-								   *ngIf="option.title !== 'nexthop_info'"
 								   [id]="option.key"
 								   [name]="option.key"
 								   [title]="EndpointInputs[i][option.key]"
@@ -53,18 +54,8 @@
 								   style="width:32%;margin-right:1%" />
 								<div class="end_alert_ip" *ngIf="option.title === 'ip_address'">{{validateEndPoint(option.title, EndpointInputs[i][option.key])}}</div>
 								<div class="end_alert_logical"  *ngIf="option.title === 'logical_link'">{{validateEndPoint(option.title, EndpointInputs[i][option.key])}}</div>
+								<div class="end_alert_nexthop"  *ngIf="option.title === 'nexthop_info'">{{validateEndPoint(option.title, EndpointInputs[i][option.key])}}</div>
 							</div>
-							<nz-select
-									*ngIf="option.title === 'nexthop_info'"
-									[name]="option.key"
-									[title]="EndpointInputs[i][option.key]"
-									[(ngModel)]="EndpointInputs[i][option.key]" style="width:34%;">
-								<nz-option
-										*ngFor="let infoOption of NexthopInfoOptions"
-										[nzValue]="infoOption.key"
-										[nzLabel]="infoOption.title"
-								></nz-option>
-							</nz-select>
 						</div>
 					</nz-input-group>
 					<!-- Comment: Above code-->
