@@ -38,7 +38,7 @@
 
 <nz-list
 	class="taskmodel_list"
-	[nzDataSource]="businessRequirement"
+	[nzDataSource]="requirement"
 	nzBordered
 	[nzHeader]="businessItemTitle"
 	[nzFooter]="null"
@@ -53,7 +53,7 @@
 			nzType="flex"
 			nzJustify="start"
 			[nzGutter]="8"
-			*ngFor="let list of businessList"
+			*ngFor="let list of businessListAfterSorting"
 		>
 			<div
 				nz-col
@@ -68,7 +68,7 @@
 					<nz-tag *ngFor="let value of item[ite.key]">
 						{{value}}
 					</nz-tag>
-				</span> 
+				</span>
 			</div>
 		</nz-list-item>
 	</ng-template>

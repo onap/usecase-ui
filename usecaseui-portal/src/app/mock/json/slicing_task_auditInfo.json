@@ -10,18 +10,22 @@
         "processing_status": "WaitingToConfirm",
         "business_demand_info": {
             "service_name": "5G Slice eMMB",
-            "service_snssai": "1-010101",
-            "exp_data_rate_dl": "300",
-            "exp_data_rate_ul": "300",
+            "service_snssai": "",
             "ue_mobility_level": "stationary",
             "latency": "20",
             "use_interval": "12",
             "coverage_area_ta_list": ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"],
             "activity_factor": "60",
             "resource_sharing_level": "shared",
-            "area_traffic_cap_ul": "300",
-            "area_traffic_cap_dl": "300",
-            "max_number_of_ues": "10000"
+            "max_number_of_ues": "10000",
+            "uLThptPerUE":"1000",
+            "dLThptPerUE":"2000",
+            "uLThptPerSlice":"3000",
+            "dLThptPerSlice":"4000",
+            "maxPktSize":"10000",
+            "termDensity":"500",
+            "jitter":"10",
+            "survivalTime":"10"
         },
         "nst_info": {
             "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
@@ -43,6 +47,8 @@
             "an_area_traffic_cap_dl": "300",
             "an_area_traffic_cap_ul": "300",
             "an_overalluser_density":"test_an_overalluser_density_01",
+            "an_enableNSSISelection":false,
+            "an_max_number_of_pud_session":"10000",
             "an_Endpoint":[
                 {
                     "an_ip_address":"test_an_ip_address_01"
@@ -63,6 +69,7 @@
             "tn_script_name":"test_tn_01",
             "tn_jitter":"test_tn_jitter_01",
             "tn_service_snssai":"test_tn_service_snssai_01",
+            "tn_enableNSSISelection":false,
             "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411c",
             "cn_suggest_nssi_name": "eMBB CNinstance3",
             "cn_service_snssai": "cn_1-010101",
@@ -76,7 +83,9 @@
             "cn_area_traffic_cap_dl": "300",
             "cn_area_traffic_cap_ul": "300",
             "cn_script_name":"test_cn_01",
+            "cn_max_number_of_pud_session":"10000",
             "cn_overalluser_density":"test_cn_overalluser_density_01",
+            "cn_enableNSSISelection":true,
             "cn_Endpoint":[
                 {
                     "cn_ip_address":"test_cn_ip_address_01"
