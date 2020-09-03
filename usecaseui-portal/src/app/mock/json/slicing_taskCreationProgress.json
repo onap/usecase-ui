@@ -5,7 +5,10 @@
     },
     "result_body": {
         "an_progress": 100,
-        "tn_progress": null,
-        "cn_progress": 60
+        "tn_progress": 70,
+        "cn_progress": 60,
+        "an_status":"finished",
+        "tn_status":"processing",
+        "cn_status":"processing"
     }
 }

@@ -34,11 +34,11 @@
         </nz-list-item>
         <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
           <p class="listitem_subtitle" nz-col nzSpan="24">Matching Shared NSSI：</p>
-          <nz-card *ngFor="let item of slicingSubnet" nzType="inner" nz-col nzSpan="24" [nzTitle]="item.title">
+          <nz-card *ngFor="let item of slicingSubnet,let i = index" nzType="inner" nz-col nzSpan="24" [nzTitle]="item.title">
             <div nz-row [nzGutter]="8">
               <div nz-col nzSpan="12">
                 NSSI ID：
-                <nz-select nzShowSearch [nzDisabled]="isDisabled" [(ngModel)]="item.slicingId"
+                <nz-select nzShowSearch [nzDisabled]="isDisabled[i]" [(ngModel)]="item.slicingId"
                   (ngModelChange)="slicingSubnetChange(item)" (nzOpenChange)="openSubnetInstances($event, item)"
                   (nzScrollToBottom)="getNextPageSubnet(item)">
                   <nz-option nzCustomContent *ngFor="let item of item.instances" [nzValue]="item.service_instance_id"
@@ -55,8 +55,8 @@
                 NSSI Name：{{item.slicingName}}
               </div>
               <div nz-col nzSpan="4">
-                <button nz-button nzType="primary" (click)="restSubnetInstance(item)" [disabled]='isDisabled'
-                  [attr.disabled]='isDisabled?true:undefined'>
+                <button nz-button nzType="primary" (click)="restSubnetInstance(item)" [disabled]='isDisabled[i]'
+                  [attr.disabled]='isDisabled[i]?true:undefined'>
                   <i nz-icon class="anticon anticon-delete"></i>
                 </button>
                 <button nz-button nzType="primary" (click)="showParamsModel(item)">

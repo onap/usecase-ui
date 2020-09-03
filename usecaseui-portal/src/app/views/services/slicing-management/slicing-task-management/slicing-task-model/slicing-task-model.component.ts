@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
+import { indexDebugNode } from '@angular/core/src/debug/debug_node';
 
 @Component({
   selector: 'app-slicing-task-model',
@@ -26,6 +27,8 @@ export class SlicingTaskModelComponent implements OnInit {
   selectedServiceId: string;
   selectedServiceName: string;
   slicingInstances: any;
+  //an/tn/cn instances NSSI ID下拉框的开关
+  enableNSSISelectionList: any[] = []
   // 子网实例
   slicingSubnet: any[] = [
     {
@@ -65,7 +68,7 @@ export class SlicingTaskModelComponent implements OnInit {
       instances: []
     }
   ]
-  isDisabled: boolean = true;
+  isDisabled: any = [true,true,true]
   // 子网参数
   isShowParams: boolean;
   paramsTitle: string;
@@ -82,7 +85,9 @@ export class SlicingTaskModelComponent implements OnInit {
       this.isSpinning = true;
       this.getautidInfo();
     } else {
-      this.isDisabled = true;
+      this.isDisabled.map(item=>{
+        item = true
+      })
     }
   }
 
@@ -125,9 +130,18 @@ export class SlicingTaskModelComponent implements OnInit {
         // 共享切片实例
         this.selectedServiceId = nsi_nssi_info.suggest_nsi_id;
         this.selectedServiceName = nsi_nssi_info.suggest_nsi_name;
+        // an/tn/cn 3 select box switches parameters of Matching Shared NSSI
+        this.enableNSSISelectionList = [nsi_nssi_info.an_enableNSSISelection,nsi_nssi_info.tn_enableNSSISelection,nsi_nssi_info.cn_enableNSSISelection];
         if (!this.selectedServiceId || !this.selectedServiceName) {
-          this.isDisabled = false;
+          this.isDisabled.map((item,index)=>{
+            this.isDisabled[index] = false
+          })
         }
+        this.isDisabled.map((item,index)=>{
+          if(this.enableNSSISelectionList[index]){
+            this.isDisabled[index] = false
+          }
+        })
         this.slicingInstances = {
           currentPage: '1',
           pageSize: '10',
@@ -157,9 +171,10 @@ export class SlicingTaskModelComponent implements OnInit {
                 'an_area_traffic_cap_ul',
                 'an_script_name',
                 'an_overalluser_density',
-                 'an_Endpoint'
+                 'an_Endpoint',
+                 "an_enableNSSISelection"
             ]), an_coverage_area_ta_list: area};
-        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai']);
+        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai',"tn_enableNSSISelection"]);
         this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
           'cn_service_snssai',
           'cn_resource_sharing_level',
@@ -173,7 +188,8 @@ export class SlicingTaskModelComponent implements OnInit {
           'cn_area_traffic_cap_ul',
           'cn_script_name',
           'cn_overalluser_density',
-          'cn_Endpoint'
+          'cn_Endpoint',
+          "cn_enableNSSISelection"
         ])};
       } else {
         this.message.error(result_message || 'Failed to get data')
@@ -226,7 +242,11 @@ export class SlicingTaskModelComponent implements OnInit {
 
 
   slicingInstanceChange(): void { // choose the target nssi
-    this.isDisabled = true;
+    this.isDisabled.map((item,index)=>{
+      if (!this.enableNSSISelectionList[index]) {
+        this.isDisabled[index] = true
+      }
+    })
     this.selectedServiceName = '';
     // 获取切片子网实例数据
     this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe(res => {
@@ -284,7 +304,9 @@ export class SlicingTaskModelComponent implements OnInit {
       item.slicingId = '';
       item.slicingName = '';
     })
-    this.isDisabled = false;
+    this.isDisabled.map((item,index)=>{
+      this.isDisabled[index] = false
+    })
   }
 
   openSubnetInstances(bool: boolean, instance: any): void {
