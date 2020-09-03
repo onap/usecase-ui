@@ -31,14 +31,14 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'S-NSSAI',
 			key: 'service_snssai'
 		},
-		{
-			title: 'Data Rate Downlink (Mbps) ',
-			key: 'exp_data_rate_dl'
-		},
-		{
-			title: 'Data Rate Uplink (Mbps) ',
-			key: 'exp_data_rate_ul'
-		},
+		// {
+		// 	title: 'Data Rate Downlink (Mbps) ',
+		// 	key: 'exp_data_rate_dl'
+		// },
+		// {
+		// 	title: 'Data Rate Uplink (Mbps) ',
+		// 	key: 'exp_data_rate_ul'
+		// },
 		{
 			title: 'Mobility',
 			key: 'ue_mobility_level'
@@ -64,14 +64,46 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'Max Number of UEs',
 			key: 'max_number_of_ues'
 		},
-		{
-			title: 'Uplink Regional Traffic Density（Mbps/km ）',
-			key: 'area_traffic_cap_ul'
-		},
-		{
-			title: 'Downlink Regional Traffic Density（Mbps/km ）',
-			key: 'area_traffic_cap_dl'
-		},
+		// {
+		// 	title: 'Uplink Regional Traffic Density（Mbps/km ）',
+		// 	key: 'area_traffic_cap_ul'
+		// },
+		// {
+		// 	title: 'Downlink Regional Traffic Density（Mbps/km ）',
+		// 	key: 'area_traffic_cap_dl'
+        // },
+        {
+			title: 'Uplink throughput per UE',
+			key: 'uLThptPerUE'
+        },
+        {
+			title: 'Downlink throughput per UE',
+			key: 'dLThptPerUE'
+        },
+        {
+			title: 'Uplink throughput per network slice',
+			key: 'uLThptPerSlice'
+        },
+        {
+			title: 'Downlink throughput per network slice',
+			key: 'dLThptPerSlice'
+        },
+        {
+			title: 'Maximum Number of Connections',
+			key: 'maxPktSize'
+        },
+        {
+			title: 'Terminal density',
+			key: 'termDensity'
+        },
+        {
+			title: 'Jitter',
+			key: 'jitter'
+        },
+        {
+			title: 'SurvivalTime',
+			key: 'survivalTime'
+        },
 		[
             {
                 title: 'Area',

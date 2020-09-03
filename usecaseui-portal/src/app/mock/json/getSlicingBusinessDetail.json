@@ -6,7 +6,7 @@
   "result_body": {
     "business_demand_info": {
       "service_name": "5GSliceeMMB",
-      "service_snssai": "1-010101",
+      "service_snssai": "",
       "exp_data_rate_dl": "300",
       "exp_data_rate_ul": "300",
       "ue_mobility_level": "stageary",

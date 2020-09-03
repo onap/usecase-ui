@@ -11,17 +11,21 @@
         "business_demand_info": {
             "service_name": "5G Slice eMMB",
             "service_snssai": "",
-            "exp_data_rate_dl": "300",
-            "exp_data_rate_ul": "300",
             "ue_mobility_level": "stationary",
             "latency": "20",
             "use_interval": "12",
             "coverage_area_ta_list": ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"],
             "activity_factor": "60",
             "resource_sharing_level": "shared",
-            "area_traffic_cap_ul": "300",
-            "area_traffic_cap_dl": "300",
-            "max_number_of_ues": "10000"
+            "max_number_of_ues": "10000",
+            "uLThptPerUE":"1000",
+            "dLThptPerUE":"2000",
+            "uLThptPerSlice":"3000",
+            "dLThptPerSlice":"4000",
+            "maxPktSize":"10000",
+            "termDensity":"500",
+            "jitter":"10",
+            "survivalTime":"10"
         },
         "nst_info": {
             "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
