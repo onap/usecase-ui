@@ -42,30 +42,22 @@
             "suggest_nsi_name": "eMBB instance1",
             "an_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
             "an_suggest_nssi_name": "eMBB ANinstance1",
-            "an_service_snssai": "an_1-010101",
-            "an_resource_sharing_level": "shared",
-            "an_ue_mobility_level": "stationary",
+            "sliceProfile_AN_sNSSAI": "an_1-010101",
+            "sliceProfile_AN_resourceSharingLevel": "shared",
+            "sliceProfile_AN_uEMobilityLevel": "stationary",
             "an_latency": "10",
-            "an_max_number_of_ues": "10000",
-            "an_max_number_of_pud_session":"10000",
-            "an_activity_factor": "60",
-            "an_exp_data_rate_dl": "300",
-            "an_exp_data_rate_ul": "300",
-            "an_area_traffic_cap_dl": "300",
-            "an_area_traffic_cap_ul": "300",
-            "an_overalluser_density":"test_an_overalluser_density_01",
+            "sliceProfile_AN_maxNumberofUEs": "10000",
+            "sliceProfile_AN_maxNumberofPDUSession":"10000",
+            "sliceProfile_AN_activityFactor": "60",
+            "sliceProfile_AN_expDataRateDL": "300",
+            "sliceProfile_AN_expDataRateUL": "300",
+            "sliceProfile_AN_areaTrafficCapDL": "300",
+            "sliceProfile_AN_areaTrafficCapUL": "300",
+            "sliceProfile_AN_overallUserDensity":"test_an_overalluser_density_01",
             "an_enableNSSISelection":false,
-            "an_Endpoint":[
-                {
-                    "an_ip_address":"test_an_ip_address_01"
-                },
-                {
-                    "an_logical_link": "test_an_logical_link_01"
-                },
-                {
-                    "an_nexthop_info":"test_info_01"
-                }
-            ],
+            "sliceProfile_AN_ipAddress":"test_an_ip_address_01",
+            "sliceProfile_AN_logicInterfaceId":"test_an_logical_link_01",
+            "sliceProfile_AN_nextHopInfo":"sliceProfile_AN_nextHopInfo",
             "an_script_name":"test_an_01",
             "an_coverage_area_ta_list": ["北京;北京市;海淀区", "北京;北京市;西城区", "北京;北京市;昌平区"],
             "tn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411b",
@@ -73,8 +65,8 @@
             "tn_latency": "10",
             "tn_bandwidth": "300",
             "tn_script_name":"test_tn_01",
-            "tn_jitter":"test_tn_jitter_01",
-            "tn_service_snssai":"test_tn_service_snssai_01",
+            "sliceProfile_TN_jitte":"test_tn_jitter_01",
+            "sliceProfile_TN_sNSSAI":"test_tn_service_snssai_01",
             "tn_enableNSSISelection":false,
             "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411c",
             "cn_suggest_nssi_name": "eMBB CNinstance3",
@@ -89,20 +81,13 @@
             "cn_area_traffic_cap_dl": "300",
             "cn_area_traffic_cap_ul": "300",
             "cn_script_name":"test_cn_01",
-            "cn_max_number_of_pud_session":"10000",
-            "cn_overalluser_density":"test_cn_overalluser_density_01",
+            "sliceProfile_CN_maxNumberofPDUSession":"10000",
+            "sliceProfile_CN_overallUserDensity":"test_cn_overalluser_density_01",
             "cn_enableNSSISelection":true,
-            "cn_Endpoint":[
-                {
-                    "cn_ip_address":"test_cn_ip_address_01"
-                },
-                {
-                    "cn_logical_link": "test_cn_logical_link_01"
-                },
-                {
-                    "cn_nexthop_info":"test_info_01"
-                }
-            ]
+            "sliceProfile_CN_coverageAreaTAList": "",
+            "sliceProfile_CN_ipAddress":"1.1.1.1",
+            "sliceProfile_CN_logicInterfaceId":"2222",
+            "sliceProfile_CN_nextHopInfo":"nexthopj"
         }
 
     }

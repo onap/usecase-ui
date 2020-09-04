@@ -24,8 +24,9 @@ export class SubnetParamsModelComponent implements OnInit {
 	areaList: any[] = [];
     // 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
     NexthopInfoOptions = NexthopInfo_Options;
-    EndpointInputs: any[] = [];
+    EndpointInputs: object = {};
 	EndpointEnable: boolean = true;  // Whether to enable the three parameters of Endpoint
+	keyList: string[] = []; // keys of endPoint
     //  Comment: Above code
 
 	constructor(
@@ -41,16 +42,13 @@ export class SubnetParamsModelComponent implements OnInit {
 		if(this.title){
 			this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
 			this.formData = JSON.parse(JSON.stringify(this.detailData));
+			this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
             if(this.formData !==undefined && Object.keys(this.formData).length!==0){
-                this.EndpointEnable = (this.formData.hasOwnProperty("an_Endpoint") && this.formData['an_Endpoint'].length!==0) || (this.formData.hasOwnProperty("cn_Endpoint") && this.formData['cn_Endpoint'].length!==0)
+				this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
             }
             // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
             if(this.EndpointEnable){
-                this.EndpointInputs = this.title === 'An'
-                    ?this.formData["an_Endpoint"]
-                    :this.title === 'Cn'
-                        ?this.formData["cn_Endpoint"]
-                        :[];
+				this.EndpointInputs = this.Util.pick(this.formData, this.keyList)// no?
             }else{
                 this.coreFormItems.map((item,index)=>{
                     if(item.title === 'Endpoint'){
@@ -85,21 +83,21 @@ export class SubnetParamsModelComponent implements OnInit {
 		}
 	}
 
-	onInput ($event:any, title: string) {
-		if (!$event) {
-			return;
-		}
-		const target = $event.target;
-		if (title === 'ip_address') {
-		    // only number and '.' can be inputted
-			const regexp = /[^\d^\.]+/g;
-			target.value = target.value.replace(regexp, '');
-		} else if (title === 'logical_link') {
-		    // only number can be inputted
-			const regxp = /[^\d]/g;
-			target.value = target.value.replace(regxp, '');
-		}
-	}
+	// onInput ($event:any, title: string) {
+	// 	if (!$event) {
+	// 		return;
+	// 	}
+	// 	const target = $event.target;
+	// 	if (title === 'ip_address') {
+	// 	    // only number and '.' can be inputted
+	// 		const regexp = /[^\d^\.]+/g;
+	// 		target.value = target.value.replace(regexp, '');
+	// 	} else if (title === 'logical_link') {
+	// 	    // only number can be inputted
+	// 		const regxp = /[^\d]/g;
+	// 		target.value = target.value.replace(regxp, '');
+	// 	}
+	// }
 	AreaFormatting () {
 		let areaList = [...this.formData.an_coverage_area_ta_list];
 		this.areaList = areaList.map ( (item: any) => {
@@ -212,35 +210,27 @@ export class SubnetParamsModelComponent implements OnInit {
 	endCheckBeforeSubmit () : Array<any>{
 		// check params of Endpoint
 		let result: Array<any> = [true, ''];
-		let formatedEndpoint = {};
-		this.EndpointInputs.forEach((item) => {
-			formatedEndpoint[Object.keys(item)[0]] = item[Object.keys(item)[0]];
-		})
-		if (this.title === 'An') {
-			for (let prop in formatedEndpoint) {
-				if (prop === 'an_ip_address') {
-					if (!this.regxpIP.test(formatedEndpoint[prop])) {
-						result = [false, 'Illegal IpAddress']
-					}
-				} else if (prop === 'an_logical_link') {
-					if (!this.Util.isInteger(formatedEndpoint[prop])) {
-						result = [false, 'LogicalID can only be an integer']
-					}
-				}
-			} 
-		} else if (this.title === 'Cn') {
-			for (let prop in formatedEndpoint) {
-				if (prop === 'cn_ip_address') {
-					if (!this.regxpIP.test(formatedEndpoint[prop])) {
-						result = [false, 'Illegal IpAddress']
-					}
-				} else if (prop === 'cn_logical_link') {
-					if (!this.Util.isInteger(formatedEndpoint[prop])) {
-						result = [false, 'LogicalID can only be an integer']
-					}
-				}
-			} 
+		const endPointList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options;
+		let ipKey = '';
+		let logicalKey = '';
+		for (let item of endPointList) {
+			if (item.title === 'ip_address') {
+				ipKey = item.key
+			} else if (item.title === 'logical_link') {
+				logicalKey = item.key
+			}
 		}
+		for (let prop in this.EndpointInputs) {
+			if (prop === ipKey) {
+				if (!this.regxpIP.test(this.EndpointInputs[prop])) {
+					result = [false, 'Illegal IpAddress']
+				}
+			} else if (prop === logicalKey) {
+				if (!this.Util.isInteger(this.EndpointInputs[prop])) {
+					result = [false, 'LogicalID can only be an integer']
+				}
+			}
+		} 
 		return result;
 	}
 
@@ -269,6 +259,12 @@ export class SubnetParamsModelComponent implements OnInit {
 		if (!endCheckResult[0]) {
 			this.message.error(endCheckResult[1].toString());
 			return;
+		}
+		// replace the params about endPoint
+		for (let prop in this.formData) {
+			if (typeof this.EndpointInputs[prop] !== 'undefined') {
+				this.formData[prop] = this.EndpointInputs[prop];
+			}
 		}
 		let params: object;
 		if (this.title === 'An') {
