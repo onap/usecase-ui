@@ -159,23 +159,25 @@ export class SlicingTaskModelComponent implements OnInit {
         // 前端模拟数据
         let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"];
         this.slicingSubnet[0].params = {...this.pick(nsi_nssi_info, [
-                'an_service_snssai',
-                'an_resource_sharing_level',
-                'an_ue_mobility_level',
+                'sliceProfile_AN_sNSSAI',
+                'sliceProfile_AN_resourceSharingLevel',
+                'sliceProfile_AN_uEMobilityLevel',
                 'an_latency',
-                'an_max_number_of_ues',
-                'an_activity_factor',
-                'an_exp_data_rate_dl',
-                'an_exp_data_rate_ul',
-                'an_area_traffic_cap_dl',
-                'an_area_traffic_cap_ul',
+                'sliceProfile_AN_maxNumberofUEs',
+                'sliceProfile_AN_activityFactor',
+                'sliceProfile_AN_expDataRateDL',
+                'sliceProfile_AN_expDataRateUL',
+                'sliceProfile_AN_areaTrafficCapDL',
+                'sliceProfile_AN_areaTrafficCapUL',
                 'an_script_name',
-                'an_overalluser_density',
-                'an_Endpoint',
+                'sliceProfile_AN_overallUserDensity',
                 'an_enableNSSISelection',
-                'an_max_number_of_pud_session'
+                'sliceProfile_AN_maxNumberofPDUSession',
+                'sliceProfile_AN_ipAddress',
+                'sliceProfile_AN_logicInterfaceId',
+                'sliceProfile_AN_nextHopInfo'
             ]), an_coverage_area_ta_list: area};
-        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai',"tn_enableNSSISelection"]);
+        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'sliceProfile_TN_jitte', 'sliceProfile_TN_sNSSAI',"tn_enableNSSISelection"]);
         this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
           'cn_service_snssai',
           'cn_resource_sharing_level',
@@ -188,10 +190,12 @@ export class SlicingTaskModelComponent implements OnInit {
           'cn_area_traffic_cap_dl',
           'cn_area_traffic_cap_ul',
           'cn_script_name',
-          'cn_overalluser_density',
-          'cn_Endpoint',
+          'sliceProfile_CN_overallUserDensity',
           'cn_enableNSSISelection',
-          'cn_max_number_of_pud_session'
+          'sliceProfile_CN_maxNumberofPDUSession',
+          'sliceProfile_CN_logicInterfaceId',
+          'sliceProfile_CN_ipAddress',
+          'sliceProfile_CN_nextHopInfo'
         ])};
       } else {
         this.message.error(result_message || 'Failed to get data')
