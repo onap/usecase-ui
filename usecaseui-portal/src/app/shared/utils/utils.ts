@@ -79,7 +79,7 @@ export class Util {
 			return false;
 		} else if (isNaN(parseInt(value))) {
 			return false;
-		} else if (Number(value) >= 0 && Number(value)%1 !== 0){
+		} else if (Number(value) < 0 || (Number(value)%1 !== 0)){
 			return false;
 		} else {
 			return true;
@@ -90,7 +90,7 @@ export class Util {
     }
     isEmpty (a: any): boolean {
         const type = this.judgeType(a);
-        if (type === 'object Null' || type === '[object undefined]' || a === false || a === '') {
+        if (type === 'object Null' || type === '[object undefined]' || a === '') {
             return true;
         } else {
             return false;
@@ -122,4 +122,12 @@ export class Util {
 		}
 		return true;
     }
+    pick(obj: object, arr: Array<string>): Object {
+        return arr.reduce((iter, val) => {
+          if(val in obj) {
+            iter[val] = obj[val];
+          }
+          return iter;
+        }, {});
+      }
 }

@@ -132,7 +132,7 @@ export const BUSINESS_REQUIREMENT = [
 export const TRANSFRER_FORM_ITEMS = [
     {
         title: 'S-NSSAI',
-        key: 'tn_service_snssai',
+        key: 'iceProfile_TN_sNSSAI',
         required: true
     },
 	{
@@ -142,7 +142,7 @@ export const TRANSFRER_FORM_ITEMS = [
     },
     {
         title: 'Jitter',
-        key: 'tn_jitter',
+        key: 'sliceProfile_TN_jitte',
         required: false,
     },
 	{
@@ -156,12 +156,12 @@ export const CORE_FORM_ITEMS = {
     "An": [
         {
             title: 'S-NSSAI',
-            key: 'an_service_snssai',
+            key: 'sliceProfile_AN_sNSSAI',
             required: true
         },
         {
             title: 'Resource Sharing Level',
-            key: 'an_resource_sharing_level',
+            key: 'sliceProfile_AN_resourceSharingLevel',
             required: true,
             options: [
                 {
@@ -176,7 +176,7 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Mobility',
-            key: 'an_ue_mobility_level',
+            key: 'sliceProfile_AN_uEMobilityLevel',
             required: true,
             options: [
                 {
@@ -204,38 +204,38 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Max Number of PUD Session',
-            key: 'an_max_number_of_pud_session',
+            key: 'sliceProfile_AN_maxNumberofPDUSession',
             required: true
         },
         {
             title: 'Max Number of UEs',
-            key: 'an_max_number_of_ues',
+            key: 'sliceProfile_AN_maxNumberofUEs',
             required: true
         },
         {
             title: 'Activity Factor (%)',
-            key: 'an_activity_factor',
+            key: 'sliceProfile_AN_activityFactor',
             required: true
         },
         {
             title: 'User Downlink Experience Rate（Mbps）',
-            key: 'an_exp_data_rate_dl',
+            key: 'sliceProfile_AN_expDataRateDL',
             required: true
         },
         {
             title: 'User Uplink Experience Rate（Mbps）',
-            key: 'an_exp_data_rate_ul',
+            key: 'sliceProfile_AN_expDataRateUL',
             required: true
         },
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
-            key: 'an_area_traffic_cap_dl',
+            key: 'sliceProfile_AN_areaTrafficCapDL',
             required: true
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
-            key: 'an_area_traffic_cap_ul',
-            required: true
+            key: 'sliceProfile_AN_areaTrafficCapUL',
+            required: true,
         },
         {
             title: 'Script Name',
@@ -244,7 +244,7 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Overall User Density',
-            key: 'an_overalluser_density',
+            key: 'sliceProfile_AN_overallUserDensity',
             required: true
         },
         {
@@ -254,21 +254,39 @@ export const CORE_FORM_ITEMS = {
             options: [
                 {
                     title: 'ip_address',
-                    key: 'an_ip_address',
+                    key: 'sliceProfile_AN_ipAddress',
                     holder: 'IpAddress'
                 },
                 {
                     title: 'logical_link',
-                    key: 'an_logical_link',
+                    key: 'sliceProfile_AN_logicInterfaceId',
                     holder: 'LogicId'
                 },
                 {
                     title: 'nexthop_info',
-                    key: 'an_nexthop_info',
+                    key: 'sliceProfile_AN_nextHopInfo',
                     holder: 'NextHop'
                 }
             ]
         },
+        // {
+        //     title: 'ip_address',
+        //     key: 'an_coverage_area_ta_list',
+        //     required: true,
+        //     holder: 'IpAddress'
+        // },
+        // {
+        //     title: 'logical_link',
+        //     key: 'sliceProfile_AN_logicInterfaceId',
+        //     required: true,
+        //     holder: 'LogicalId'
+        // },
+        // {
+        //     title: 'nexthop_info',
+        //     key: 'sliceProfile_AN_nextHopInfo',
+        //     required: true,
+        //     holder: 'NextHop'
+        // },
         {
             title: 'Coverage Area Ta List',
             key: 'an_coverage_area_ta_list',
@@ -361,14 +379,32 @@ export const CORE_FORM_ITEMS = {
         },
         {
             title: 'Max Number of PUD Session',
-            key: 'cn_max_number_of_pud_session',
+            key: 'sliceProfile_CN_maxNumberofPDUSession',
             required: true
         },
         {
             title: 'OverAll User Density',
-            key: 'cn_overalluser_density',
+            key: 'sliceProfile_CN_overallUserDensity',
             required: true
         },
+        // {
+        //     title: 'ip-address',
+        //     key: 'sliceProfile_CN_ipAddress',
+        //     required: true,
+        //     holder: 'IpAddress'
+        // },
+        // {
+        //     title: 'logical_link',
+        //     key: 'sliceProfile_CN_logicInterfaceId',
+        //     required: true,
+        //     holder: 'LogicId'
+        // },
+        // {
+        //     title: 'cn_nexthop_info',
+        //     key: 'sliceProfile_CN_nextHopInfo',
+        //     required: true,
+        //     holder: 'NextHop'
+        // },
         {
             title:'Endpoint',
             key:"cn_Endpoint",
@@ -376,17 +412,17 @@ export const CORE_FORM_ITEMS = {
             options: [
                 {
                     title: 'ip_address',
-                    key: 'cn_ip_address',
+                    key: 'sliceProfile_CN_ipAddress',
                     holder: 'IpAddress'
                 },
                 {
                     title: 'logical_link',
-                    key: 'cn_logical_link',
+                    key: 'sliceProfile_CN_logicInterfaceId',
                     holder: 'LogicId'
                 },
                 {
                     title: 'nexthop_info',
-                    key: 'cn_nexthop_info',
+                    key: 'sliceProfile_CN_nextHopInfo',
                     holder: 'NextHop'
                 }
             ]
