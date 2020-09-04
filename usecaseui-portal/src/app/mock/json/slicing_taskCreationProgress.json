@@ -9,6 +9,9 @@
         "cn_progress": 60,
         "an_status":"finished",
         "tn_status":"processing",
-        "cn_status":"processing"
+        "cn_status":"error",
+        "an_statusDescription":"",
+        "tn_statusDescription":"",
+        "cn_statusDescription":""
     }
 }

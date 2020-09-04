@@ -21,7 +21,19 @@
             "resource_sharing_level": "shared",
             "area_traffic_cap_ul": "300",
             "area_traffic_cap_dl": "300",
-            "max_number_of_ues": "10000"
+            "max_number_of_ues": "10000",
+            "serviceProfile_Availability":"",
+            "serviceProfile_PLMNIdList":"",
+            "serviceProfile_Reliability":"test-Reliability",
+            "serviceProfile_ULThptPerUE":"1000",
+            "serviceProfile_DLThptPerUE":"2000",
+            "serviceProfile_ULThptPerSlice":"3000",
+            "serviceProfile_DLThptPerSlice":"4000",
+            "serviceProfile_MaxPktSize":"10000",
+            "serviceProfile_MaxNumberofConns":"12345",
+            "serviceProfile_TermDensity":"500",
+            "serviceProfile_Jitter":"10",
+            "serviceProfile_SurvivalTime":"10"
         },
         "nst_info": {
             "nst_id": "46da8cf8-0878-48ac-bea3-f2200959411a",

@@ -22,7 +22,6 @@ export const TASK_PROCESSING_STATUS = [
 ]
 
 export const BUSINESS_REQUIREMENT = [
-
 		{
 			title: 'Slicing Business Name',
 			key: 'service_name'
@@ -31,14 +30,14 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'S-NSSAI',
 			key: 'service_snssai'
 		},
-		// {
-		// 	title: 'Data Rate Downlink (Mbps) ',
-		// 	key: 'exp_data_rate_dl'
-		// },
-		// {
-		// 	title: 'Data Rate Uplink (Mbps) ',
-		// 	key: 'exp_data_rate_ul'
-		// },
+		{
+			title: 'Data Rate Downlink (Mbps) ',
+			key: 'exp_data_rate_dl'
+		},
+		{
+			title: 'Data Rate Uplink (Mbps) ',
+			key: 'exp_data_rate_ul'
+		},
 		{
 			title: 'Mobility',
 			key: 'ue_mobility_level'
@@ -64,53 +63,69 @@ export const BUSINESS_REQUIREMENT = [
 			title: 'Max Number of UEs',
 			key: 'max_number_of_ues'
 		},
-		// {
-		// 	title: 'Uplink Regional Traffic Density（Mbps/km ）',
-		// 	key: 'area_traffic_cap_ul'
-		// },
-		// {
-		// 	title: 'Downlink Regional Traffic Density（Mbps/km ）',
-		// 	key: 'area_traffic_cap_dl'
-        // },
+		{
+			title: 'Uplink Regional Traffic Density（Mbps/km ）',
+			key: 'area_traffic_cap_ul'
+		},
+		{
+			title: 'Downlink Regional Traffic Density（Mbps/km ）',
+			key: 'area_traffic_cap_dl'
+        },
+        {
+			title: 'Availability',
+			key: 'serviceProfile_Availability'
+        },
+        {
+			title: 'PLMNIdList',
+			key: 'serviceProfile_PLMNIdList'
+        },
+        {
+			title: 'Reliability',
+			key: 'serviceProfile_Reliability'
+        },
         {
 			title: 'Uplink throughput per UE',
-			key: 'uLThptPerUE'
+			key: 'serviceProfile_ULThptPerUE'
         },
         {
 			title: 'Downlink throughput per UE',
-			key: 'dLThptPerUE'
+			key: 'serviceProfile_DLThptPerUE'
         },
         {
 			title: 'Uplink throughput per network slice',
-			key: 'uLThptPerSlice'
+			key: 'serviceProfile_ULThptPerSlice'
         },
         {
 			title: 'Downlink throughput per network slice',
-			key: 'dLThptPerSlice'
+			key: 'serviceProfile_DLThptPerSlice'
+        },
+        {
+			title: 'Maximum packet size',
+			key: 'serviceProfile_MaxPktSize'
         },
         {
 			title: 'Maximum Number of Connections',
-			key: 'maxPktSize'
+			key: 'serviceProfile_MaxNumberofConns'
         },
         {
 			title: 'Terminal density',
-			key: 'termDensity'
+			key: 'serviceProfile_TermDensity'
         },
         {
-			title: 'Jitter',
-			key: 'jitter'
+			title: 'jitter',
+			key: 'serviceProfile_Jitter'
         },
         {
-			title: 'SurvivalTime',
-			key: 'survivalTime'
+			title: 'survivalTime',
+			key: 'serviceProfile_SurvivalTime'
         },
+        
 		[
             {
                 title: 'Area',
                 key: 'area'
             }
         ]
-
 ]
 
 
