@@ -171,8 +171,9 @@ export class SlicingTaskModelComponent implements OnInit {
                 'an_area_traffic_cap_ul',
                 'an_script_name',
                 'an_overalluser_density',
-                 'an_Endpoint',
-                 "an_enableNSSISelection"
+                'an_Endpoint',
+                'an_enableNSSISelection',
+                'an_max_number_of_pud_session'
             ]), an_coverage_area_ta_list: area};
         this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'tn_jitter', 'tn_service_snssai',"tn_enableNSSISelection"]);
         this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
@@ -189,7 +190,8 @@ export class SlicingTaskModelComponent implements OnInit {
           'cn_script_name',
           'cn_overalluser_density',
           'cn_Endpoint',
-          "cn_enableNSSISelection"
+          'cn_enableNSSISelection',
+          'cn_max_number_of_pud_session'
         ])};
       } else {
         this.message.error(result_message || 'Failed to get data')

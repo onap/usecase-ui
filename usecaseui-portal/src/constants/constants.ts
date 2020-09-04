@@ -371,7 +371,8 @@ export const CORE_FORM_ITEMS = {
                 },
                 {
                     title: 'nexthop_info',
-                    key: 'cn_nexthop_info'
+                    key: 'cn_nexthop_info',
+                    holder: 'NextHop'
                 }
             ]
         },
