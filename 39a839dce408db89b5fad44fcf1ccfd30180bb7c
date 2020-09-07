@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d390c3f_05231c74",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2020-09-07T01:45:31Z",
+      "side": 1,
+      "message": "please delete the unnecessary imports and logs",
+      "range": {
+        "startLine": 6,
+        "startChar": 9,
+        "endLine": 6,
+        "endChar": 19
+      },
+      "revId": "39a839dce408db89b5fad44fcf1ccfd30180bb7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
