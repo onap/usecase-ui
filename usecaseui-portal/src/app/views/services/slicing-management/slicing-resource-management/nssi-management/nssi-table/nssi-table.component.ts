@@ -48,21 +48,17 @@ export class NssiTableComponent implements OnInit {
             paramsObj["instanceStatus"] = this.selectedValue.toLocaleLowerCase();
             this.isSelect = true;
         }
-        this.myhttp.getSlicingNssiList(paramsObj, this.isSelect).subscribe(res => {
-            const {result_header: {result_code}, result_body: {nssi_service_instances, record_number}} = res;
+        let getSlicingNssiListFailedCallback  = () => {
             this.loading = false;
-            if (+result_code === 200) {
-                this.total = record_number;
-                this.loading = false;
-                if (nssi_service_instances !== null && nssi_service_instances.length > 0) {
-                    this.listOfData = nssi_service_instances;
-                }
-            }else{
-                this.message.error(res.result_header.result_message)
+        }
+        this.myhttp.getSlicingNssiList(paramsObj, this.isSelect, getSlicingNssiListFailedCallback).then(res => {
+            const { result_body: {nssi_service_instances, record_number} } = res;
+            this.loading = false;
+            this.total = record_number;
+            this.loading = false;
+            if (nssi_service_instances !== null && nssi_service_instances.length > 0) {
+                this.listOfData = nssi_service_instances;
             }
-        }, (res) => {
-            this.loading = false;
-            this.message.error(res)
         })
     }
 

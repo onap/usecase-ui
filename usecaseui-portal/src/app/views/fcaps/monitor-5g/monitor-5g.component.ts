@@ -52,26 +52,19 @@ export class Monitor5gComponent implements OnInit {
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        this.myhttp.getSlicingBusinessList(paramsObj, false).subscribe(res => {
-            const { result_header: { result_code }, result_body: { slicing_business_list, record_number } } = res;
-            this.loading = false;
-            if (+result_code === 200) {
-                this.total = record_number;
-                this.loading = false;
-                this.listOfData = [].concat(slicing_business_list);
-                this.getChartsData();
-            }else {
-                console.log("getBusinessList false");
-                this.isSpinningTraffic = false;
-                this.isSpinningOnlineuser = false;
-                this.isSpinningBandwidth = false;
-            }
-        },(res) => {
+        let getSlicingBusinessListFailedCallback = () => {
             this.loading = false;
             this.isSpinningTraffic = false;
             this.isSpinningOnlineuser = false;
             this.isSpinningBandwidth = false;
-            console.error(res);
+        }
+        this.myhttp.getSlicingBusinessList(paramsObj, false, getSlicingBusinessListFailedCallback).then(res => {
+            const { result_body: { slicing_business_list, record_number } } = res;
+            this.loading = false;
+            this.total = record_number;
+            this.loading = false;
+            this.listOfData = [].concat(slicing_business_list);
+            this.getChartsData();
         })
     }
     disabledDate = (current: Date): boolean => {
@@ -118,10 +111,13 @@ export class Monitor5gComponent implements OnInit {
         this.fetchBandwidthData(requestBody, time);
     }
     fetchTrafficData(service_list, time) {
-        this.myhttp.getFetchTraffic(service_list, time).subscribe(res => {
+        let getFetchTrafficFailedCallback  = () => {
             this.isSpinningTraffic = false;
-            const { result_header: { result_code }, result_body: { slicing_usage_traffic_list } } = res;
-            if (+result_code === 200 && slicing_usage_traffic_list.length > 0) {
+        }
+        this.myhttp.getFetchTraffic(service_list, time, getFetchTrafficFailedCallback).then(res => {
+            this.isSpinningTraffic = false;
+            const { result_body: { slicing_usage_traffic_list } } = res;
+            if (slicing_usage_traffic_list.length > 0) {
                 this.trafficData = [];
                 this.trafficLegend = [];
                 slicing_usage_traffic_list.forEach((item) => {
@@ -151,88 +147,81 @@ export class Monitor5gComponent implements OnInit {
                     }]
                 };
             }
-        },(res) => {
-            this.isSpinningTraffic = false;
-            console.error(res);
         })
     }
     fetchOnlineusersData(service_list, time) {
-        this.myhttp.getFetchOnlineusers(service_list, time).subscribe(res => {
+        let getFetchOnlineusersFailedCallback  = () => {
             this.isSpinningOnlineuser = false;
-            const { result_header: { result_code }, result_body: { slicing_online_user_list } } = res;
-            if (+result_code === 200) {
-                this.onlineuserXAxis = [];
-                this.onlineusersData = [];
-                this.onlineuserLegend = [];
-                let filterList = [];
-                filterList = this.filterData(slicing_online_user_list);
-                filterList[0].online_user_list.map((key) => {
-                    let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
-                    this.onlineuserXAxis.push(date)
-                });
-                filterList.forEach((item) => {
-                    this.onlineuserLegend.push(item.service_id);
-                    this.onlineusersData.push({
-                        name: item.service_id,
-                        type: 'line',
-                        data: this.getOnlineuserSeriesData(item)
-                    })
-                });
-                this.onlineuserChartData = {
-                    legend: {
-                        bottom: '0px',
-                        type: 'scroll',
-                        data: this.onlineuserLegend
-                    },
-                    xAxis: {
-                        data: this.onlineuserXAxis
-                    },
-                    series: this.onlineusersData
-                };
-            }
-        },(res) => {
+        }
+        this.myhttp.getFetchOnlineusers(service_list, time, getFetchOnlineusersFailedCallback).then(res => {
             this.isSpinningOnlineuser = false;
-            console.error(res);
+            const { result_body: { slicing_online_user_list } } = res;
+            this.onlineuserXAxis = [];
+            this.onlineusersData = [];
+            this.onlineuserLegend = [];
+            let filterList = [];
+            filterList = this.filterData(slicing_online_user_list);
+            filterList[0].online_user_list.map((key) => {
+                let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
+                this.onlineuserXAxis.push(date)
+            });
+            filterList.forEach((item) => {
+                this.onlineuserLegend.push(item.service_id);
+                this.onlineusersData.push({
+                    name: item.service_id,
+                    type: 'line',
+                    data: this.getOnlineuserSeriesData(item)
+                })
+            });
+            this.onlineuserChartData = {
+                legend: {
+                    bottom: '0px',
+                    type: 'scroll',
+                    data: this.onlineuserLegend
+                },
+                xAxis: {
+                    data: this.onlineuserXAxis
+                },
+                series: this.onlineusersData
+            };
         })
     }
     fetchBandwidthData(service_list, time) {
-        this.myhttp.getFetchBandwidth(service_list, time).subscribe(res => {
+        let getFetchBandwidthFailedCallback  = () => {
             this.isSpinningBandwidth = false;
-            const { result_header: { result_code }, result_body: { slicing_total_bandwidth_list } } = res;
-            if (+result_code === 200) {
-                this.bandwidthXAxis = [];
-                this.bandwidthData = [];
-                this.bandwidthLegend = [];
-                let filterList = [];
-                filterList = this.filterData(slicing_total_bandwidth_list);
-                console.log(filterList,"filterList----slicing_total_bandwidth");
-                filterList[0].total_bandwidth_list.map((key) => {
-                    let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
-                    this.bandwidthXAxis.push(date)
-                });
-                filterList.forEach((item) => {
-                    this.bandwidthLegend.push(item.service_id);
-                    this.bandwidthData.push({
-                        name: item.service_id,
-                        type: 'line',
-                        data: this.getBandwidthSeriesData(item)
-                    })
-                });
-                this.bandwidthChartData = {
-                    legend: {
-                        bottom: '0px',
-                        type: 'scroll',
-                        data: this.bandwidthLegend
-                    },
-                    xAxis: {
-                        data: this.bandwidthXAxis
-                    },
-                    series: this.bandwidthData
-                };
-            }
-        },(res) => {
+        }
+        this.myhttp.getFetchBandwidth(service_list, time, getFetchBandwidthFailedCallback).then(res => {
             this.isSpinningBandwidth = false;
-            console.error(res);
+            const { result_body: { slicing_total_bandwidth_list } } = res;
+            this.bandwidthXAxis = [];
+            this.bandwidthData = [];
+            this.bandwidthLegend = [];
+            let filterList = [];
+            filterList = this.filterData(slicing_total_bandwidth_list);
+            console.log(filterList,"filterList----slicing_total_bandwidth");
+            filterList[0].total_bandwidth_list.map((key) => {
+                let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
+                this.bandwidthXAxis.push(date)
+            });
+            filterList.forEach((item) => {
+                this.bandwidthLegend.push(item.service_id);
+                this.bandwidthData.push({
+                    name: item.service_id,
+                    type: 'line',
+                    data: this.getBandwidthSeriesData(item)
+                })
+            });
+            this.bandwidthChartData = {
+                legend: {
+                    bottom: '0px',
+                    type: 'scroll',
+                    data: this.bandwidthLegend
+                },
+                xAxis: {
+                    data: this.bandwidthXAxis
+                },
+                series: this.bandwidthData
+            };
         })
     }
     getOnlineuserSeriesData(item) {

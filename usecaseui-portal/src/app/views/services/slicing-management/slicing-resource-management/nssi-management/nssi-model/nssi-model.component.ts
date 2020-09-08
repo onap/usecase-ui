@@ -22,18 +22,14 @@ export class NssiModelComponent implements OnInit {
       this.getNssiDetail()
   }
     getNssiDetail(){
-        this.myhttp.getSlicingNssiDetail(this.nssiId).subscribe(res => {
+        this.myhttp.getSlicingNssiDetail(this.nssiId).then(res => {
             this.isSpinning = false;
-            const {result_header: {result_code}, result_body: {hosted_nsi_list} } = res;
-            if (+result_code === 200) {
-                this.nsiList = hosted_nsi_list.map((item)=>{
-                    if(item.service_instance_id !==null){
-                        return item
-                    }
-                });
-            }else{
-                this.message.error(res.result_header.result_message)
-            }
+            const { result_body: {hosted_nsi_list} } = res;
+            this.nsiList = hosted_nsi_list.map((item)=>{
+                if(item.service_instance_id !==null){
+                    return item
+                }
+            });
         })
     }
     showSingleNsiDetail(data){

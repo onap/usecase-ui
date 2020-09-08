@@ -193,20 +193,14 @@ export class BusinessOrderComponent implements OnInit {
         let paramsObj = {
             slicing_order_info: this.slicing_order_info
         };
-        console.log(paramsObj, "-----paramsObj");
         this.isSpinning = true;
-        this.myhttp.csmfSlicingPurchase(paramsObj).subscribe(res => {
-            const {result_header: {result_code}} = res;
-            this.isSpinning = false;
-            if (+result_code === 200) {
-                this.handleCancel();
-            }else{
-                this.message.error(res.result_header.result_message)
-            }
-        }, (err) => {
-            this.message.error(err);
+        let csmfSlicingPurchaseFailedCallback  = () => {
             this.handleCancel();
             this.isSpinning = false;
+        }
+        this.myhttp.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback).then(res => {
+            this.isSpinning = false;
+            this.handleCancel();
         })
     }
 }

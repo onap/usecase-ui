@@ -15,56 +15,58 @@
 */
 
 import axios from 'axios';
-
-export default function http(url: string, data: object = {}, method: any = 'get', query?: string | object): any {
-  return new Promise((resolve, reject) => {
-    method = method.trim().toLocaleLowerCase()
-    let promise: any;
-    if (method === 'get' || method === 'delete') {
-      let options: object;
-      if (JSON.stringify(data) === '{}') {
-        options = { method, url };
-      } else {
-        options = { method, url, params: data };
-      }
-
-      if (method === 'delete') {
-
-      }
-
-      promise = axios(options);
-
-    } else if (method === 'post' || method === 'put') {
-      if (method === 'post' && query) {
-        let params: string = '';
-        if (<string>query) {
-          query = JSON.parse((<string>query));
-        }
-        Object.keys(query).forEach(item => {
-          params += '&' + item + '=' + query[item];
-        })
-        params = params.slice(1);
-        url += '?' + params;
-      }
-      promise = axios({
-        method,
-        url,
-        data,
-      })
-    }
-    promise
-      .then((response) => {
-        if (response.status === 200 || 304) {
-          resolve(response.data)
+import { NzMessageService } from 'ng-zorro-antd';
+import { Injectable } from '@angular/core';
+@Injectable()
+export class Http {
+  constructor(private message: NzMessageService) {
+  }
+  httpAxios(method: any = 'get', url: string, data?:string | object, callback?:any): any {
+    return new Promise((resolve, reject) => {
+      method = method.trim().toLocaleLowerCase()
+      let promise: any;
+      if (method === 'get' || method === 'delete') {
+        let options: object;
+        if (JSON.stringify(data) === '{}') {
+          options = { method, url };
         } else {
-          reject(response)
+          options = { method, url, params: data };
         }
-      })
-      .catch((error) => {
-        reject(error.message)
-      })
+        promise = axios(options);
 
-  })
+      } else if (method === 'put' || method === 'post') {
+        promise = axios({
+          url,
+          method,
+          data
+        })
+      }
+      promise
+        .then((response) => {
+          console.log(response,"------> response")
+          if (response.status === 200 || 304) {
+            const { result_header: { result_code, result_message } } = response.data
+            if(+result_code === 200){
+              resolve(response.data)
+            }else{
+              // let res = {
+              //   message:this.message.error(result_message || "Network exception, please try again."),
+              //   callbackFunction:callback
+              // }
+              // reject(res)
+              this.message.error(result_message || "Network exception, please try again.")
+              if(callback)callback();
+            } 
+          } else {
+            if(callback)callback();
+            this.message.error("Network exception, please try again.")
+          }
+        })
+        .catch((error) => {
+          this.message.error(error || "Network exception, please try again.")
+        })
+
+    })
+  }
+
 }
-
-

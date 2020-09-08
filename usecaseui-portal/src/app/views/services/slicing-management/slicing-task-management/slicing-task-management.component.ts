@@ -38,15 +38,11 @@ export class SlicingTaskManagementComponent implements OnInit {
   getTaskList(): void {
     const { pageNum, pageSize } = this;
     this.loading = true;
-    this.myhttp.getSlicingTaskList(pageNum, pageSize).subscribe(res => {
-      const { result_header: { result_code }, result_body } = res
-      if (+result_code === 200) {
-        const { slicing_task_list, record_number } = result_body;
-        this.dataFormatting(slicing_task_list);
-        this.total = record_number;
-      } else {
-        this.message.error('Failed to get form data');
-      }
+    this.myhttp.getSlicingTaskList(pageNum, pageSize).then(res => {
+      const { result_body } = res;
+      const { slicing_task_list, record_number } = result_body;
+      this.dataFormatting(slicing_task_list);
+      this.total = record_number;
       this.loading = false;
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');
@@ -67,15 +63,11 @@ export class SlicingTaskManagementComponent implements OnInit {
   getListOfProcessingStatus(): void {
     const { selectedValue, pageNum, pageSize } = this;
     this.loading = true;
-    this.myhttp.getTaskProcessingStatus(selectedValue, pageNum + '', pageSize + '').subscribe(res => {
-      const { result_header: { result_code }, result_body } = res
-      if (+result_code === 200) {
-        const { slicing_task_list, record_number } = result_body;
+    this.myhttp.getTaskProcessingStatus(selectedValue, pageNum + '', pageSize + '').then(res => {
+      const { result_body } = res
+      const { slicing_task_list, record_number } = result_body;
         this.dataFormatting(slicing_task_list)
         this.total = record_number;
-      } else {
-        this.message.error('Failed to get form data');
-      }
       this.loading = false;
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');

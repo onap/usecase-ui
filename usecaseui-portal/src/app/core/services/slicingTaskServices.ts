@@ -15,11 +15,13 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-
+import { Http } from '../../shared/utils/http';
 @Injectable()
 export class SlicingTaskServices {
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private Http: Http
+        ) { }
     baseUrl: string = '/api/usecaseui-server/v1/uui-slicing/nsmf';
     url = {
         slicingTaskList: this.baseUrl + "/task/business/pageNo/{pageNo}/pageSize/{pageSize}",
@@ -67,7 +69,7 @@ export class SlicingTaskServices {
         const url = this.url.slicingTaskList
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-        return this.http.get<any>(url);
+            return this.Http.httpAxios("get", url)
     }
     // Get list based on task processing status
     getTaskProcessingStatus(processingStatus: string, pageNo: string, pageSize: string) {
@@ -75,118 +77,119 @@ export class SlicingTaskServices {
             .replace('{processingStatus}', processingStatus)
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
     // Get 
     getAuditInfo(taskId: string) {
         const url = this.url.auditInfo.replace('{taskId}', taskId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
     getSlicingInstance(pageNo: string, pageSize: string) {
         const url = this.url.slicingInstance
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
-    getSlicingSubnetInstance(nsiId: string) {
+    getSlicingSubnetInstance(nsiId: string, failedCallback?:any) {
         const url = this.url.slicingSubnetInstance.replace('{nsiId}', nsiId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url,null,failedCallback);
     }
-    getSubnetInContext(context: string, pageNo: string, pageSize: string) {
+    getSubnetInContext(context: string, pageNo: string, pageSize: string, failedCallback?:any) {
         const url = this.url.subnetInContext
             .replace('{environmentContext}', context)
             .replace('{pageNo}', pageNo)
             .replace('{pageSize}', pageSize);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url,null,failedCallback);
     }
-    submitSlicing(reqbody) {
-        return this.http.put<any>(this.url.submitSlicing, reqbody)
+    submitSlicing(reqbody, failedCallback?:any) {
+        return this.Http.httpAxios("put", this.url.submitSlicing,reqbody, failedCallback);
     }
-    getSlicingBasicInfo(taskId: string) {
+    getSlicingBasicInfo(taskId: string, failedCallback?:any) {
         const url = this.url.slicingBasicInfo.replace('{taskId}', taskId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
-    getSlicingCreateProgress(taskId: string) {
+    getSlicingCreateProgress(taskId: string, failedCallback?:any) {
         const url = this.url.slicingCreateProgress.replace('{taskId}', taskId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null ,failedCallback);
     }
 
     // Get slicing business list
-    getSlicingBusinessList(paramsObj: any, isSelect: boolean) {
+    getSlicingBusinessList(paramsObj: any, isSelect: boolean, failedCallback?:any) {
         let url = this.url.slicingBusinessList.replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         if (isSelect) {
             url = this.url.slicingBusinesQueryOfStatus.replace("{businessStatus}", paramsObj.businessStatus).replace("{pageNo}", paramsObj.pageNo)
                 .replace("{pageSize}", paramsObj.pageSize);
         }
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null ,failedCallback);
     }
     // change slicing business activate status
-    changeActivateSlicingService(paramsObj: any, activate: boolean) {
+    changeActivateSlicingService(paramsObj: any, activate: boolean, failedCallback?:any) {
         let url = this.url.activateSlicingService.replace("{serviceId}", paramsObj.serviceId);
         if (!activate) {
             url = this.url.deactivateSlicingService.replace("{serviceId}", paramsObj.serviceId)
         }
-        return this.http.put<any>(url, paramsObj);
+        return this.Http.httpAxios("put", url, paramsObj, failedCallback);
     }
     // terminate slicing business
-    terminateSlicingService(paramsObj: any) {
+    terminateSlicingService(paramsObj: any, failedCallback?:any) {
         const url = this.url.terminateSlicingService.replace('{serviceId}', paramsObj.serviceId);
-        return this.http.delete<any>(url);
+        return this.Http.httpAxios("delete", url, null ,failedCallback);
     }
     // query slicing business progress
-    getSlicingBusinessProgress(paramsObj: any) {
+    getSlicingBusinessProgress(paramsObj: any, failedCallback?:any) {
         let url = this.url.queryOperationProgress.replace("{serviceId}", paramsObj.serviceId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
     //get slicingBusinessDetail
     getSlicingBusinessDetail(businessId: string) {
         let url = this.url.slicingBusinessDetail.replace("{businessId}", businessId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
     // Get slicing nsi list
-    getSlicingNsiList(paramsObj, isSelect: boolean) {
+    getSlicingNsiList(paramsObj, isSelect: boolean, failedCallback?:any) {
         let url = this.url.slicingNsiList.replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         if (isSelect) {
             url = this.url.slicingNsiQueryOfStatus.replace("{instanceStatus}", paramsObj.instanceStatus).replace("{pageNo}", paramsObj.pageNo)
                 .replace("{pageSize}", paramsObj.pageSize);
         }
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
     //get slicingNsiDetail
     getSlicingNsiDetail(nsiId: string) {
         let url = this.url.slicingNsiDetail.replace("{nsiId}", nsiId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
     // Get slicing nssi list
-    getSlicingNssiList(paramsObj, isSelect: boolean) {
+    getSlicingNssiList(paramsObj, isSelect: boolean, failedCallback?:any) {
         let url = this.url.slicingNssiList.replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
         if (isSelect) {
             url = this.url.slicingNssiQueryOfStatus.replace("{instanceStatus}", paramsObj.instanceStatus).replace("{pageNo}", paramsObj.pageNo)
                 .replace("{pageSize}", paramsObj.pageSize);
         }
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
     //get slicingNssiDetail
     getSlicingNssiDetail(nssiId: string) {
         let url = this.url.slicingNssiDetail.replace("{nssiId}", nssiId);
-        return this.http.get<any>(url);
+        return this.Http.httpAxios("get", url);
     }
     // Get CSMF slicing business list
-    getCSMFSlicingBusinessList(paramsObj: any) {
+    getCSMFSlicingBusinessList(paramsObj: any, failedCallback?:a) {
         let url = this.url.csmfSlicingBusinessList.replace("{status}", paramsObj.status).replace("{pageNo}", paramsObj.pageNo)
             .replace("{pageSize}", paramsObj.pageSize);
-        return this.http.get<any>(url);
+            return this.Http.httpAxios("get", url, null, failedCallback);
     }
     // change CSMF slicing business activate status
-    csmfChangeActivate(paramsObj, activate: boolean) {
+    csmfChangeActivate(paramsObj, activate: boolean, failedCallback?:any) {
         let url = this.url.csmfActivate.replace("{serviceId}", paramsObj.serviceId);
         if (!activate) {
             url = this.url.csmfDeactivate.replace("{serviceId}", paramsObj.serviceId)
         }
-        return this.http.put<any>(url, paramsObj);
+        // return this.http.put<any>(url, paramsObj);
+        return this.Http.httpAxios("put", url, paramsObj, failedCallback);
     }
     // terminate CSMF slicing business
     csmfTerminate(paramsObj) {
@@ -198,23 +201,23 @@ export class SlicingTaskServices {
         let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
         return this.http.get<any>(url);
     }
-    csmfSlicingPurchase(paramsObj: any){
+    csmfSlicingPurchase(paramsObj: any, failedCallback?:any){
         let url = this.url.csmfPurchase;
-        return this.http.post<any>(url, paramsObj);
+        return this.Http.httpAxios("post", url, paramsObj, failedCallback);
     }
 
     //monitor 5G
-    getFetchTraffic(service_list, time) {
+    getFetchTraffic(service_list, time, failedCallback?:any) {
         let url = this.url.fetchTraffic.replace("{queryTimestamp}", time);
-        return this.http.post<any>(url, service_list);
+        return this.Http.httpAxios("post", url, service_list, failedCallback);
     }
-    getFetchOnlineusers(service_list, time) {
+    getFetchOnlineusers(service_list, time, failedCallback?:any) {
         let url = this.url.fetchOnlineusers.replace("{queryTimestamp}", time);
-        return this.http.post<any>(url, service_list);
+        return this.Http.httpAxios("post", url, service_list, failedCallback);
     }
-    getFetchBandwidth(service_list, time) {
+    getFetchBandwidth(service_list, time, failedCallback?:any) {
         let url = this.url.fetchBandwidth.replace("{queryTimestamp}", time);
-        return this.http.post<any>(url, service_list);
+        return this.Http.httpAxios("post", url, service_list, failedCallback);
     }
 
 }
