@@ -1,5 +1,4 @@
 import {Component, OnInit, Input, SimpleChanges} from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
 import { TASK_PROCESSING_STATUS } from '@src/constants/constants';
 
@@ -10,7 +9,7 @@ import { TASK_PROCESSING_STATUS } from '@src/constants/constants';
 })
 export class SlicingTaskManagementComponent implements OnInit {
 
-  constructor(private myhttp: SlicingTaskServices, private message: NzMessageService) { }
+  constructor(private myhttp: SlicingTaskServices) { }
 
   @Input() currentTabTitle;
 
@@ -38,14 +37,13 @@ export class SlicingTaskManagementComponent implements OnInit {
   getTaskList(): void {
     const { pageNum, pageSize } = this;
     this.loading = true;
-    this.myhttp.getSlicingTaskList(pageNum, pageSize).then(res => {
-      const { result_body } = res;
-      const { slicing_task_list, record_number } = result_body;
+    let getSlicingTaskListFailedCallback  = () => {
+      this.loading = false;
+    }
+    this.myhttp.getSlicingTaskList(pageNum, pageSize, getSlicingTaskListFailedCallback).then(res => {
+      const { slicing_task_list, record_number } = res.result_body;
       this.dataFormatting(slicing_task_list);
       this.total = record_number;
-      this.loading = false;
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
       this.loading = false;
     })
   }
@@ -63,15 +61,15 @@ export class SlicingTaskManagementComponent implements OnInit {
   getListOfProcessingStatus(): void {
     const { selectedValue, pageNum, pageSize } = this;
     this.loading = true;
-    this.myhttp.getTaskProcessingStatus(selectedValue, pageNum + '', pageSize + '').then(res => {
+    let getTaskProcessingStatusFailedCallback  = () => {
+      this.loading = false;
+      this.listOfData = [];
+    }
+    this.myhttp.getTaskProcessingStatus(selectedValue, pageNum + '', pageSize + '', getTaskProcessingStatusFailedCallback).then(res => {
       const { result_body } = res
       const { slicing_task_list, record_number } = result_body;
         this.dataFormatting(slicing_task_list)
         this.total = record_number;
-      this.loading = false;
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
-      this.listOfData = [];
       this.loading = false;
     })
   }
