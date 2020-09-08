@@ -24,23 +24,19 @@ export class NsiModelComponent implements OnInit {
       this.getNsiDetail()
   }
     getNsiDetail() {
-        this.myhttp.getSlicingNsiDetail(this.nsiId).subscribe(res => {
+        this.myhttp.getSlicingNsiDetail(this.nsiId).then(res => {
             this.isSpinning = false;
-            const {result_header: {result_code}, result_body: {hosted_business_list,included_nssi_list} } = res;
-            if (+result_code === 200) {
-                this.businessList = hosted_business_list.map((item)=>{
-                    if(item.service_instance_id !==null){
-                        return item
-                    }
-                });
-                this.nssiList = included_nssi_list.map((item)=>{
-                    if(item.service_instance_id !==null){
-                        return item
-                    }
-                });
-            }else{
-                this.message.error(res.result_header.result_message)
-            }
+            const { result_body: {hosted_business_list,included_nssi_list} } = res;
+            this.businessList = hosted_business_list.map((item)=>{
+                if(item.service_instance_id !==null){
+                    return item
+                }
+            });
+            this.nssiList = included_nssi_list.map((item)=>{
+                if(item.service_instance_id !==null){
+                    return item
+                }
+            });
         })
     }
     showBusinessDetail(data){

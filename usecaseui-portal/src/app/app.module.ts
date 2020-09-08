@@ -67,6 +67,8 @@ import { PieComponent } from './shared/components/charts/pie/pie.component';
 import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
 // common function util
 import { Util } from './shared/utils/utils';
+// common function http
+import { Http } from './shared/utils/http';
 // Custom service
 import { ServiceListService } from './core/services/serviceList.service';
 import { HomesService } from './core/services/homes.service';
@@ -115,6 +117,7 @@ import { fakeBackendProvider } from '../../testBE/FakeBackendInterceptor';
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: NZ_I18N, useValue: en_US },
     Util,
+    Http,
     ServiceListService,
     HomesService,
     onboardService,

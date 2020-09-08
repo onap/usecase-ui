@@ -29,27 +29,22 @@ export class SlicingBusinessModelComponent implements OnInit {
     }
 
     getDetail() {
-        this.myhttp.getSlicingBusinessDetail(this.businessId).subscribe(res => {
+        this.myhttp.getSlicingBusinessDetail(this.businessId).then(res => {
             this.isSpinning = false;
-            const { result_body, result_header: { result_code } } = res;
-            if (+result_code === 200) {
-                const { business_demand_info, business_demand_info: { coverage_area_ta_list }, nst_info, nsi_info } = result_body;
-                business_demand_info.area = coverage_area_ta_list.map(item => {
-                    item = item.split(';').join('-');
-                    return item
-                });
-                // area : Front-end analog data
-                let area = ["Haidian District;Beijing;Beijing", "Xicheng District;Beijing;Beijing", "Changping District;Beijing;Beijing"].map(item => {
-                    item = item.split(';').join(' - ');
-                    return item
-                });
-                this.businessRequirement = [{ ...business_demand_info, area }];
-                this.NSTinfo = [nst_info];
-                if (nsi_info.nsi_id !== null) {
-                    this.nsiInfo = [nsi_info];
-                }
-            }else{
-                this.message.error(res.result_header.result_message)
+            const { business_demand_info, business_demand_info: { coverage_area_ta_list }, nst_info, nsi_info } = res.result_body;
+            business_demand_info.area = coverage_area_ta_list.map(item => {
+                item = item.split(';').join('-');
+                return item
+            });
+            // area : Front-end analog data
+            let area = ["Haidian District;Beijing;Beijing", "Xicheng District;Beijing;Beijing", "Changping District;Beijing;Beijing"].map(item => {
+                item = item.split(';').join(' - ');
+                return item
+            });
+            this.businessRequirement = [{ ...business_demand_info, area }];
+            this.NSTinfo = [nst_info];
+            if (nsi_info.nsi_id !== null) {
+                this.nsiInfo = [nsi_info];
             }
         })
     }

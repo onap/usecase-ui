@@ -102,104 +102,99 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   getautidInfo(): void {
-    this.http.getAuditInfo(this.taskId).subscribe( res => {
-      const { result_header: { result_code, result_message } } = res;
+    this.http.getAuditInfo(this.taskId).then( res => {
       this.isSpinning = false;
-      if (+result_code === 200) {
-        const {
-          business_demand_info,
-          nst_info,
-          nsi_nssi_info,
-          ...checkInfo
-        } = res.result_body;
-        // 处理配置审核详情数据
-        this.checkDetail = [{...checkInfo, 'service_snssai': business_demand_info.service_snssai}];
-        // 业务需求信息数据
-        business_demand_info.area = business_demand_info.coverage_area_ta_list.map(item => {
-          item = item.split(';').join(' - ')
-          return item
-        })
-        // 前端模拟数据
-        let areaList = ["Haidian District;Beijing;Beijing", "Xicheng District;Beijing;Beijing", "Changping District;Beijing;Beijing"].map(item => {
-          item = item.split(';').join(' - ')
-          return item
-        })
-        this.businessRequirement = [{ ...business_demand_info, area: areaList }];
-        // 匹配NST信息
-        this.NSTinfo = [nst_info];
-        // 共享切片实例
-        this.selectedServiceId = nsi_nssi_info.suggest_nsi_id;
-        this.selectedServiceName = nsi_nssi_info.suggest_nsi_name;
-        // an/tn/cn 3 select box switches parameters of Matching Shared NSSI
-        this.enableNSSISelectionList = [nsi_nssi_info.an_enableNSSISelection,nsi_nssi_info.tn_enableNSSISelection,nsi_nssi_info.cn_enableNSSISelection];
-        if (!this.selectedServiceId || !this.selectedServiceName) {
-          this.isDisabled.map((item,index)=>{
-            this.isDisabled[index] = false
-          })
-        }
+      const {
+        business_demand_info,
+        nst_info,
+        nsi_nssi_info,
+        ...checkInfo
+      } = res.result_body;
+      // 处理配置审核详情数据
+      this.checkDetail = [{...checkInfo, 'service_snssai': business_demand_info.service_snssai}];
+      // 业务需求信息数据
+      business_demand_info.area = business_demand_info.coverage_area_ta_list.map(item => {
+        item = item.split(';').join(' - ')
+        return item
+      })
+      // 前端模拟数据
+      let areaList = ["Haidian District;Beijing;Beijing", "Xicheng District;Beijing;Beijing", "Changping District;Beijing;Beijing"].map(item => {
+        item = item.split(';').join(' - ')
+        return item
+      })
+      this.businessRequirement = [{ ...business_demand_info, area: areaList }];
+      // 匹配NST信息
+      this.NSTinfo = [nst_info];
+      // 共享切片实例
+      this.selectedServiceId = nsi_nssi_info.suggest_nsi_id;
+      this.selectedServiceName = nsi_nssi_info.suggest_nsi_name;
+      // an/tn/cn 3 select box switches parameters of Matching Shared NSSI
+      this.enableNSSISelectionList = [nsi_nssi_info.an_enableNSSISelection,nsi_nssi_info.tn_enableNSSISelection,nsi_nssi_info.cn_enableNSSISelection];
+      if (!this.selectedServiceId || !this.selectedServiceName) {
         this.isDisabled.map((item,index)=>{
-          if(this.enableNSSISelectionList[index]){
-            this.isDisabled[index] = false
-          }
+          this.isDisabled[index] = false
         })
-        this.slicingInstances = {
-          currentPage: '1',
-          pageSize: '10',
-          isLoading: false,
-          total: 0,
-          flag: false,
-          list: [{
-            service_instance_id: this.selectedServiceId,
-            service_instance_name: this.selectedServiceName
-          }]
-        }
-        // 子网实例
-        let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_suggest_nssi_id', 'tn_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
-        this.subnetDataFormatting(subnetData, 0);
-        // 前端模拟数据
-        let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"];
-        this.slicingSubnet[0].params = {...this.pick(nsi_nssi_info, [
-                'sliceProfile_AN_sNSSAI',
-                'sliceProfile_AN_resourceSharingLevel',
-                'sliceProfile_AN_uEMobilityLevel',
-                'an_latency',
-                'sliceProfile_AN_maxNumberofUEs',
-                'sliceProfile_AN_activityFactor',
-                'sliceProfile_AN_expDataRateDL',
-                'sliceProfile_AN_expDataRateUL',
-                'sliceProfile_AN_areaTrafficCapDL',
-                'sliceProfile_AN_areaTrafficCapUL',
-                'an_script_name',
-                'sliceProfile_AN_overallUserDensity',
-                'an_enableNSSISelection',
-                'sliceProfile_AN_maxNumberofPDUSession',
-                'sliceProfile_AN_ipAddress',
-                'sliceProfile_AN_logicInterfaceId',
-                'sliceProfile_AN_nextHopInfo'
-            ]), an_coverage_area_ta_list: area};
-        this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'sliceProfile_TN_jitte', 'sliceProfile_TN_sNSSAI',"tn_enableNSSISelection"]);
-        this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
-          'cn_service_snssai',
-          'cn_resource_sharing_level',
-          'cn_ue_mobility_level',
-          'cn_latency',
-          'cn_max_number_of_ues',
-          'cn_activity_factor',
-          'cn_exp_data_rate_dl',
-          'cn_exp_data_rate_ul',
-          'cn_area_traffic_cap_dl',
-          'cn_area_traffic_cap_ul',
-          'cn_script_name',
-          'sliceProfile_CN_overallUserDensity',
-          'cn_enableNSSISelection',
-          'sliceProfile_CN_maxNumberofPDUSession',
-          'sliceProfile_CN_logicInterfaceId',
-          'sliceProfile_CN_ipAddress',
-          'sliceProfile_CN_nextHopInfo'
-        ])};
-      } else {
-        this.message.error(result_message || 'Failed to get data')
       }
+      this.isDisabled.map((item,index)=>{
+        if(this.enableNSSISelectionList[index]){
+          this.isDisabled[index] = false
+        }
+      })
+      this.slicingInstances = {
+        currentPage: '1',
+        pageSize: '10',
+        isLoading: false,
+        total: 0,
+        flag: false,
+        list: [{
+          service_instance_id: this.selectedServiceId,
+          service_instance_name: this.selectedServiceName
+        }]
+      }
+      // 子网实例
+      let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_suggest_nssi_id', 'tn_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
+      this.subnetDataFormatting(subnetData, 0);
+      // 前端模拟数据
+      let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"];
+      this.slicingSubnet[0].params = {...this.pick(nsi_nssi_info, [
+              'sliceProfile_AN_sNSSAI',
+              'sliceProfile_AN_resourceSharingLevel',
+              'sliceProfile_AN_uEMobilityLevel',
+              'an_latency',
+              'sliceProfile_AN_maxNumberofUEs',
+              'sliceProfile_AN_activityFactor',
+              'sliceProfile_AN_expDataRateDL',
+              'sliceProfile_AN_expDataRateUL',
+              'sliceProfile_AN_areaTrafficCapDL',
+              'sliceProfile_AN_areaTrafficCapUL',
+              'an_script_name',
+              'sliceProfile_AN_overallUserDensity',
+              'an_enableNSSISelection',
+              'sliceProfile_AN_maxNumberofPDUSession',
+              'sliceProfile_AN_ipAddress',
+              'sliceProfile_AN_logicInterfaceId',
+              'sliceProfile_AN_nextHopInfo'
+          ]), an_coverage_area_ta_list: area};
+      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'sliceProfile_TN_jitte', 'sliceProfile_TN_sNSSAI',"tn_enableNSSISelection"]);
+      this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
+        'cn_service_snssai',
+        'cn_resource_sharing_level',
+        'cn_ue_mobility_level',
+        'cn_latency',
+        'cn_max_number_of_ues',
+        'cn_activity_factor',
+        'cn_exp_data_rate_dl',
+        'cn_exp_data_rate_ul',
+        'cn_area_traffic_cap_dl',
+        'cn_area_traffic_cap_ul',
+        'cn_script_name',
+        'sliceProfile_CN_overallUserDensity',
+        'cn_enableNSSISelection',
+        'sliceProfile_CN_maxNumberofPDUSession',
+        'sliceProfile_CN_logicInterfaceId',
+        'sliceProfile_CN_ipAddress',
+        'sliceProfile_CN_nextHopInfo'
+      ])};
     }, ({ status, statusText }) => {
       this.message.error(status + ' (' + statusText + ')');
       this.isSpinning = false;
@@ -226,16 +221,12 @@ export class SlicingTaskModelComponent implements OnInit {
 
   getSlicingInstances(pageNo: string, pageSize: string): void {
     this.slicingInstances.isLoading = true;
-    this.http.getSlicingInstance(pageNo, pageSize).subscribe(res => {
-      const { result_header: { result_code, result_message }, result_body } = res;
+    this.http.getSlicingInstance(pageNo, pageSize).then(res => {
+      const { result_body } = res;
       setTimeout(() => {
-        if (+result_code === 200) {
-          const { nsi_service_instances, record_number } = result_body;
-          this.slicingInstances.total = record_number;
-          this.slicingInstances.list.push(...nsi_service_instances);
-        } else {
-          this.message.error(result_message || 'Failed to get slicing instance ID')
-        }
+        const { nsi_service_instances, record_number } = result_body;
+        this.slicingInstances.total = record_number;
+        this.slicingInstances.list.push(...nsi_service_instances);
         this.slicingInstances.isLoading = false;
         this.slicingInstances.flag = false;
       }, 2000)
@@ -255,16 +246,13 @@ export class SlicingTaskModelComponent implements OnInit {
     })
     this.selectedServiceName = '';
     // 获取切片子网实例数据
-    this.http.getSlicingSubnetInstance(this.selectedServiceId).subscribe(res => {
-      const { result_header: { result_code, result_message }, result_body, record_number} = res;
-      if (+result_code === 200) {
-        this.subnetDataFormatting(result_body, record_number)
-      } else {
-        this.subnetDataFormatting({}, 1);
-        this.message.error(result_message || 'Failed to get slicing subnet instance ID')
-      }
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
+
+    let getSlicingSubnetInstanceFailedCallback = () => {
+      this.subnetDataFormatting({}, 1);
+    };
+    this.http.getSlicingSubnetInstance(this.selectedServiceId, getSlicingSubnetInstanceFailedCallback).then(res => {
+      const { result_body, record_number} = res;
+      this.subnetDataFormatting(result_body, record_number)
     })
     this.slicingInstances.list.forEach(item => {
       if (item.service_instance_id === this.selectedServiceId) {
@@ -336,23 +324,19 @@ export class SlicingTaskModelComponent implements OnInit {
   getSubnetInstances(instance: any): void {
     instance.isLoading = true;
     const { context, currentPage, pageSize } = instance;
-    this.http.getSubnetInContext(context, currentPage, pageSize).subscribe(res => {
-      const { result_header: { result_code, result_message }, result_body } = res;
-      if (+result_code === 200) {
-        const { nssi_service_instances, record_number } = result_body;
-        this.slicingSubnet.map(item => {
-          if (item.context === context) {
-            item.total = record_number;
-            item.instances.push(...nssi_service_instances);
-          }
-        })
-      } else {
-        this.message.error(result_message || 'Failed to get slicing subnet instance ID');
-      }
+    let getSubnetInContextFailedCallback = () => {
       instance.isLoading = false;
       instance.flag = false;
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
+    };
+    this.http.getSubnetInContext(context, currentPage, pageSize,getSubnetInContextFailedCallback).then(res => {
+      const { result_body } = res;
+      const { nssi_service_instances, record_number } = result_body;
+      this.slicingSubnet.map(item => {
+        if (item.context === context) {
+          item.total = record_number;
+          item.instances.push(...nssi_service_instances);
+        }
+      })
       instance.isLoading = false;
       instance.flag = false;
     })
@@ -406,13 +390,11 @@ export class SlicingTaskModelComponent implements OnInit {
     delete businessRequirement[0].area
     let reqBody = { ...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info };
     delete reqBody.service_snssai;
-    this.http.submitSlicing(reqBody).subscribe(res => {
-      const { result_header: { result_code } } = res;
-      if (+result_code === 200) {
-        this.notification1.notificationSuccess('Task', 'Sumbit', this.taskId)
-      } else {
-        this.notification1.notificationFailed('Task', 'Sumbit', this.taskId)
-      }
+    let submitSlicingFailedCallback =  () => {
+      this.notification1.notificationFailed('Task', 'Sumbit', this.taskId)
+    }
+    this.http.submitSlicing(reqBody,submitSlicingFailedCallback).then(res => {
+      this.notification1.notificationSuccess('Task', 'Sumbit', this.taskId)
       this.loading = false;
       this.handleCancel(true);
     }, ({ status, statusText }) => {
