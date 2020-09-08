@@ -65,30 +65,30 @@ export class SlicingTaskServices {
 
 
     // Get slicing order task list
-    getSlicingTaskList(pageNo: string, pageSize: string) {
+    getSlicingTaskList(pageNo: string, pageSize: string, failedCallback?:any) {
         const url = this.url.slicingTaskList
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-            return this.Http.httpAxios("get", url)
+            return this.Http.httpAxios("get", url, null, failedCallback)
     }
     // Get list based on task processing status
-    getTaskProcessingStatus(processingStatus: string, pageNo: string, pageSize: string) {
+    getTaskProcessingStatus(processingStatus: string, pageNo: string, pageSize: string, failedCallback?:any) {
         const url = this.url.taskProcessingStatus
             .replace('{processingStatus}', processingStatus)
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-        return this.Http.httpAxios("get", url);
+            return this.Http.httpAxios("get", url, null, failedCallback)
     }
     // Get 
-    getAuditInfo(taskId: string) {
+    getAuditInfo(taskId: string, failedCallback?:any) {
         const url = this.url.auditInfo.replace('{taskId}', taskId);
-        return this.Http.httpAxios("get", url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
-    getSlicingInstance(pageNo: string, pageSize: string) {
+    getSlicingInstance(pageNo: string, pageSize: string, failedCallback?:any) {
         const url = this.url.slicingInstance
             .replace("{pageNo}", pageNo)
             .replace("{pageSize}", pageSize);
-        return this.Http.httpAxios("get", url);
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
     getSlicingSubnetInstance(nsiId: string, failedCallback?:any) {
         const url = this.url.slicingSubnetInstance.replace('{nsiId}', nsiId);
@@ -188,19 +188,18 @@ export class SlicingTaskServices {
         if (!activate) {
             url = this.url.csmfDeactivate.replace("{serviceId}", paramsObj.serviceId)
         }
-        // return this.http.put<any>(url, paramsObj);
         return this.Http.httpAxios("put", url, paramsObj, failedCallback);
     }
     // terminate CSMF slicing business
-    csmfTerminate(paramsObj) {
-        const url = this.url.csmfTerminate.replace('{serviceId}', paramsObj.serviceId);
-        return this.http.delete<any>(url);
-    }
-    // query CSMF slicing business progress
-    csmfSlicingProgress(paramsObj) {
-        let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
-        return this.http.get<any>(url);
-    }
+    // csmfTerminate(paramsObj) {
+    //     const url = this.url.csmfTerminate.replace('{serviceId}', paramsObj.serviceId);
+    //     return this.http.delete<any>(url);
+    // }
+    // // query CSMF slicing business progress
+    // csmfSlicingProgress(paramsObj) {
+    //     let url = this.url.csmfGetProgress.replace("{serviceId}", paramsObj.serviceId);
+    //     return this.http.get<any>(url);
+    // }
     csmfSlicingPurchase(paramsObj: any, failedCallback?:any){
         let url = this.url.csmfPurchase;
         return this.Http.httpAxios("post", url, paramsObj, failedCallback);

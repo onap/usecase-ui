@@ -49,11 +49,6 @@ export class Http {
             if(+result_code === 200){
               resolve(response.data)
             }else{
-              // let res = {
-              //   message:this.message.error(result_message || "Network exception, please try again."),
-              //   callbackFunction:callback
-              // }
-              // reject(res)
               this.message.error(result_message || "Network exception, please try again.")
               if(callback)callback();
             } 

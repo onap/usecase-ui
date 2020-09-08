@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
 import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
 import { indexDebugNode } from '@angular/core/src/debug/debug_node';
 
@@ -15,7 +14,7 @@ export class SlicingTaskModelComponent implements OnInit {
   @Output() cancel = new EventEmitter<object>();
   @ViewChild('notification') notification1: any;
 
-  constructor(private http: SlicingTaskServices, private message: NzMessageService) { }
+  constructor(private http: SlicingTaskServices) { }
 
   // 配置审核详情
   checkDetail: any[] = [{}];
@@ -102,7 +101,10 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   getautidInfo(): void {
-    this.http.getAuditInfo(this.taskId).then( res => {
+    let getAuditInfoFailedCallback  = () => {
+      this.isSpinning = false;
+    } 
+    this.http.getAuditInfo(this.taskId, getAuditInfoFailedCallback).then( res => {
       this.isSpinning = false;
       const {
         business_demand_info,
@@ -195,9 +197,6 @@ export class SlicingTaskModelComponent implements OnInit {
         'sliceProfile_CN_ipAddress',
         'sliceProfile_CN_nextHopInfo'
       ])};
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
-      this.isSpinning = false;
     })
   }
 
@@ -221,7 +220,11 @@ export class SlicingTaskModelComponent implements OnInit {
 
   getSlicingInstances(pageNo: string, pageSize: string): void {
     this.slicingInstances.isLoading = true;
-    this.http.getSlicingInstance(pageNo, pageSize).then(res => {
+    let getSlicingInstanceFailedCallback  = () => {
+      this.slicingInstances.isLoading = false;
+      this.slicingInstances.flag = false;
+    }
+    this.http.getSlicingInstance(pageNo, pageSize, getSlicingInstanceFailedCallback).then(res => {
       const { result_body } = res;
       setTimeout(() => {
         const { nsi_service_instances, record_number } = result_body;
@@ -230,10 +233,6 @@ export class SlicingTaskModelComponent implements OnInit {
         this.slicingInstances.isLoading = false;
         this.slicingInstances.flag = false;
       }, 2000)
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
-      this.slicingInstances.isLoading = false;
-      this.slicingInstances.flag = false;
     })
   }
 
@@ -391,15 +390,13 @@ export class SlicingTaskModelComponent implements OnInit {
     let reqBody = { ...checkDetail[0], business_demand_info: businessRequirement[0], nst_info: NSTinfo[0], nsi_nssi_info };
     delete reqBody.service_snssai;
     let submitSlicingFailedCallback =  () => {
+      this.loading = false;
       this.notification1.notificationFailed('Task', 'Sumbit', this.taskId)
     }
     this.http.submitSlicing(reqBody,submitSlicingFailedCallback).then(res => {
       this.notification1.notificationSuccess('Task', 'Sumbit', this.taskId)
       this.loading = false;
       this.handleCancel(true);
-    }, ({ status, statusText }) => {
-      this.message.error(status + ' (' + statusText + ')');
-      this.loading = false;
     })
   }
 }
