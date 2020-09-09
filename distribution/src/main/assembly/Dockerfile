@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-MAINTAINER "Lu Ji" <lu.ji3@zte.com.cn>
-
 EXPOSE 8443
 
 RUN apt-get update && \
