@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 EXPOSE 8443
 
 RUN apt-get update && \
-    apt-get install -y -qq --no-install-recommends openjdk-11-jdk
+    apt-get install -y openjdk-11-jdk
 
 #configure the JDK
 RUN sed -i 's|#networkaddress.cache.ttl=-1|networkaddress.cache.ttl=10|' /usr/lib/jvm/java-11-openjdk-amd64/jre/lib/security/java.security
