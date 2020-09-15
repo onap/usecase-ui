@@ -3,6 +3,10 @@ FROM ubuntu:16.04
 EXPOSE 8443
 
 RUN apt-get update && \
+    apt-get install -y python-software-properties && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:openjdk-r/ppa && \
+    apt-get update && \
     apt-get install -y openjdk-11-jdk
 
 #configure the JDK
