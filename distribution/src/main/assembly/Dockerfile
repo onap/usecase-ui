@@ -10,9 +10,9 @@ RUN apt-get update && \
     apt-get install -y openjdk-11-jdk
 
 #configure the JDK
-RUN sed -i 's|#networkaddress.cache.ttl=-1|networkaddress.cache.ttl=10|' /usr/lib/jvm/java-11-openjdk-amd64/jre/lib/security/java.security
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
-ENV PATH $PATH:/usr/lib/jvm/java-11-openjdk-amd64/jre/bin:/usr/lib/jvm/java-11-openjdk-amd64/bin
+RUN sed -i 's|#networkaddress.cache.ttl=-1|networkaddress.cache.ttl=10|' /usr/lib/jvm/java-11-*/conf/security/java.security
+ENV JAVA_HOME /usr/lib/jvm/java-11-*
+ENV PATH $PATH:/usr/lib/jvm/java-11-*/jre/bin
 ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib
 ENV JRE_HOME ${JAVA_HOME}/jre
 
