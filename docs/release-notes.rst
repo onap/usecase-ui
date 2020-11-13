@@ -11,6 +11,47 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 3.0.6
+--------------
+
+:Release Date: 2020-11-19
+
+**New Features**
+ - KPI monitoring GUI : In G release, usecase-ui-server change the monitoring data origin of 5G slicing to DCAE for better and quicker performance.
+ - 5G network GUI : In G release, usecase-ui supports the connection of AN, TN and CN.
+ - Java: In G release, usecase-ui-server and usecase-ui update all the pods to Java 11 for the requirement of community.
+ 
+**Released Components**
+ - usecase-ui  3.0.6
+ - usecase-ui-server  3.0.6
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
+
+**Quick Links**
+ - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+ - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
 Version: 3.0.4
 --------------
 
