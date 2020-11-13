@@ -58,10 +58,14 @@ export class CheckProcessModelComponent implements OnInit {
 			// 处理配置审核详情数据
 			this.checkDetail = [{ task_id, task_name, create_time, processing_status, service_snssai }];
 			// 业务需求信息数据
-			business_demand_info.area = coverage_area_ta_list.map(item => {
-				item = item.split(';').join(' - ')
-				return item
-			})
+			if(coverage_area_ta_list !== null){
+				business_demand_info.area = coverage_area_ta_list.map(item => {
+					item = item.split(';').join(' - ')
+					return item
+				})
+			}else{
+				business_demand_info.area = []
+			  }
 			// 前端模拟数据
 			let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"].map(item => {
 				item = item.split(';').join(' - ')
