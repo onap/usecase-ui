@@ -40,22 +40,24 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	ngOnChanges() {
 		if(this.title){
-			this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
-			this.formData = JSON.parse(JSON.stringify(this.detailData));
-			this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
-            if(this.formData !==undefined && Object.keys(this.formData).length!==0){
-				this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
-            }
-            // -------> 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
-            if(this.EndpointEnable){
-				this.EndpointInputs = this.Util.pick(this.formData, this.keyList)// no?
-            }else{
-                this.coreFormItems.map((item,index)=>{
-                    if(item.title === 'Endpoint'){
-                        this.coreFormItems.splice(index,1)
-                    }
-                })
-            }
+   this.formData = JSON.parse(JSON.stringify(this.detailData));
+   if (this.title === 'An' || this.title === 'Cn') {
+    this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
+    this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
+    if(this.formData !==undefined && Object.keys(this.formData).length!==0){
+     this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
+    }
+    if(this.EndpointEnable){
+     this.EndpointInputs = this.Util.pick(this.formData, this.keyList)// no?
+    }else{
+     this.coreFormItems.map((item,index)=>{
+      if(item.title === 'Endpoint'){
+       this.coreFormItems.splice(index,1)
+      }
+     })
+    }
+   }
+
 		}
         //-------> Comment: Above code
 		if (this.title === 'An') {
@@ -210,7 +212,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	endCheckBeforeSubmit () : Array<any>{
 		// check params of Endpoint
 		let result: Array<any> = [true, ''];
-		const endPointList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options;
+		const endPointList = this.coreFormItems&&this.coreFormItems.length!==0?this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options:{};
 		let ipKey = '';
 		let logicalKey = '';
 		for (let item of endPointList) {

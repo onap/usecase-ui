@@ -137,17 +137,17 @@ export const TRANSFRER_FORM_ITEMS = [
     },
 	{
         title: 'Latency (ms)',
-        key: 'tn_latency',
+        key: 'tn_bh_latency',
         required: true
     },
     {
         title: 'Jitter',
-        key: 'sliceProfile_TN_jitte',
+        key: 'sliceProfile_TN_BH_jitte',
         required: false,
     },
 	{
 		title: 'MaxBandwidth',
-        key: 'tn_bandwidth',
+        key: 'tn_bh_bandwidth',
         required: true
 	},
 ]

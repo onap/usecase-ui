@@ -6,8 +6,8 @@
     "result_body": {
         "an_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411a",
         "an_suggest_nssi_name": "eMBB AN instance1",
-        "tn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411b",
-        "tn_suggest_nssi_name": "eMBB TN instance2",
+        "tn_bh_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411b",
+        "tn_bh_suggest_nssi_name": "eMBB TN instance2",
         "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411c",
         "cn_suggest_nssi_name": "eMBB CN instance3"
     }

@@ -135,7 +135,7 @@ export class SlicingTaskModelComponent implements OnInit {
       this.selectedServiceId = nsi_nssi_info.suggest_nsi_id;
       this.selectedServiceName = nsi_nssi_info.suggest_nsi_name;
       // an/tn/cn 3 select box switches parameters of Matching Shared NSSI
-      this.enableNSSISelectionList = [nsi_nssi_info.an_enableNSSISelection,nsi_nssi_info.tn_enableNSSISelection,nsi_nssi_info.cn_enableNSSISelection];
+      this.enableNSSISelectionList = [nsi_nssi_info.an_enableNSSISelection,nsi_nssi_info.tn_bh_enableNSSISelection,nsi_nssi_info.cn_enableNSSISelection];
       if (!this.selectedServiceId || !this.selectedServiceName) {
         this.isDisabled.map((item,index)=>{
           this.isDisabled[index] = false
@@ -158,7 +158,7 @@ export class SlicingTaskModelComponent implements OnInit {
         }]
       }
       // 子网实例
-      let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_suggest_nssi_id', 'tn_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
+      let subnetData = this.pick(nsi_nssi_info, ['an_suggest_nssi_id', 'an_suggest_nssi_name', 'tn_bh_suggest_nssi_id', 'tn_bh_suggest_nssi_name', 'cn_suggest_nssi_id', 'cn_suggest_nssi_name']);
       this.subnetDataFormatting(subnetData, 0);
       // 前端模拟数据
       let area = ["Beijing;Beijing;Haidian District", "Beijing;Beijing;Xicheng District", "Beijing;Beijing;Changping District"];
@@ -181,7 +181,7 @@ export class SlicingTaskModelComponent implements OnInit {
               'sliceProfile_AN_logicInterfaceId',
               'sliceProfile_AN_nextHopInfo'
           ]), an_coverage_area_ta_list: area};
-      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_latency', 'tn_bandwidth', 'tn_script_name', 'sliceProfile_TN_jitte', 'sliceProfile_TN_sNSSAI',"tn_enableNSSISelection"]);
+      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_bh_latency', 'tn_bh_bandwidth', 'tn_bh_script_name', 'sliceProfile_TN_BH_jitte', 'sliceProfile_TN_BH _sNSSAI',"tn_bh_enableNSSISelection"]);
       this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
         'cn_service_snssai',
         'cn_resource_sharing_level',
@@ -265,7 +265,7 @@ export class SlicingTaskModelComponent implements OnInit {
   }
 
   subnetDataFormatting ( subnetData?: any, total?: number): void{
-    const { an_suggest_nssi_id, an_suggest_nssi_name, tn_suggest_nssi_id, tn_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = subnetData;
+    const { an_suggest_nssi_id, an_suggest_nssi_name, tn_bh_suggest_nssi_id, tn_bh_suggest_nssi_name, cn_suggest_nssi_id, cn_suggest_nssi_name } = subnetData;
     this.slicingSubnet[0].slicingId = an_suggest_nssi_id;
     this.slicingSubnet[0].slicingName = an_suggest_nssi_name;
     this.slicingSubnet[0].total = total;
@@ -275,13 +275,13 @@ export class SlicingTaskModelComponent implements OnInit {
       service_instance_name: an_suggest_nssi_name
     }];
 
-    this.slicingSubnet[1].slicingId = tn_suggest_nssi_id;
-    this.slicingSubnet[1].slicingName = tn_suggest_nssi_name;
+    this.slicingSubnet[1].slicingId = tn_bh_suggest_nssi_id;
+    this.slicingSubnet[1].slicingName = tn_bh_suggest_nssi_name;
     this.slicingSubnet[1].total = total;
     this.slicingSubnet[1].currentPage = '1';
     this.slicingSubnet[1].instances = [{
-      service_instance_id: tn_suggest_nssi_id,
-      service_instance_name: tn_suggest_nssi_name
+      service_instance_id: tn_bh_suggest_nssi_id,
+      service_instance_name: tn_bh_suggest_nssi_name
     }];
 
     this.slicingSubnet[2].slicingId = cn_suggest_nssi_id;
@@ -383,8 +383,8 @@ export class SlicingTaskModelComponent implements OnInit {
       an_suggest_nssi_id: slicingSubnet[0].slicingId,
       an_suggest_nssi_name: slicingSubnet[0].slicingName,
       ...slicingSubnet[0].params,
-      tn_suggest_nssi_id: slicingSubnet[1].slicingId,
-      tn_suggest_nssi_name: slicingSubnet[1].slicingName,
+      tn_bh_suggest_nssi_id: slicingSubnet[1].slicingId,
+      tn_bh_suggest_nssi_name: slicingSubnet[1].slicingName,
       ...slicingSubnet[1].params,
       cn_suggest_nssi_id: slicingSubnet[2].slicingId,
       cn_suggest_nssi_name: slicingSubnet[2].slicingName,
