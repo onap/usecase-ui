@@ -39,6 +39,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	 }
 
 	ngOnChanges() {
+		// test
 		if(this.title){
    this.formData = JSON.parse(JSON.stringify(this.detailData));
    if (this.title === 'An' || this.title === 'Cn') {
