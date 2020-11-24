@@ -14,7 +14,7 @@ coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GU
 Version: 3.0.6
 --------------
 
-:Release Date: 2020-11-19
+:Release Date: 2020-11-24
 
 **New Features**
  - KPI monitoring GUI : In G release, usecase-ui-server change the monitoring data origin of 5G slicing to DCAE for better and quicker performance.
