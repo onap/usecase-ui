@@ -132,7 +132,7 @@ export const BUSINESS_REQUIREMENT = [
 export const TRANSFRER_FORM_ITEMS = [
     {
         title: 'S-NSSAI',
-        key: 'iceProfile_TN_sNSSAI',
+        key: 'sliceProfile_TN_BH_sNSSAI',
         required: true
     },
 	{

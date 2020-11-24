@@ -181,7 +181,7 @@ export class SlicingTaskModelComponent implements OnInit {
               'sliceProfile_AN_logicInterfaceId',
               'sliceProfile_AN_nextHopInfo'
           ]), an_coverage_area_ta_list: area};
-      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_bh_latency', 'tn_bh_bandwidth', 'tn_bh_script_name', 'sliceProfile_TN_BH_jitte', 'sliceProfile_TN_BH _sNSSAI',"tn_bh_enableNSSISelection"]);
+      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_bh_latency', 'tn_bh_bandwidth', 'tn_bh_script_name', 'sliceProfile_TN_BH_jitte', 'sliceProfile_TN_BH_sNSSAI',"tn_bh_enableNSSISelection"]);
       this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
         'cn_service_snssai',
         'cn_resource_sharing_level',

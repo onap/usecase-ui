@@ -34,3 +34,6 @@ node/
 node_modules/
 foo/
 holmes/
+
+# build
+usecase-ui/

@@ -33,7 +33,7 @@
 							[nzStatus]="item.status" [nzIcon]="item.status === 'processing'? 'anticon anticon-spin anticon-loading' : null"
 						> 
 						</nz-step>
-						<nz-step [nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" [nzIcon]="item.status === 'processing' ? 'loading': null"> </nz-step>
+						<nz-step [nzStatus]="item.status === 'finish' ? 'finish' : 'wait'" [nzIcon]="item.status === 'finish' ? null: 'wait'"> </nz-step>
 					</nz-steps>
 					<p *ngIf="!data[0].length" [ngStyle]="{marginBottom: 0}">No data</p>
 				</nz-list-item>

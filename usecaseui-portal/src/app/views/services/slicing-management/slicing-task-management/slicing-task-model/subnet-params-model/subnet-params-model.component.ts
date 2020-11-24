@@ -40,23 +40,23 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	ngOnChanges() {
 		if(this.title){
-   this.formData = JSON.parse(JSON.stringify(this.detailData));
-   if (this.title === 'An' || this.title === 'Cn') {
-    this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
-    this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
-    if(this.formData !==undefined && Object.keys(this.formData).length!==0){
-     this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
-    }
-    if(this.EndpointEnable){
-     this.EndpointInputs = this.Util.pick(this.formData, this.keyList)// no?
-    }else{
-     this.coreFormItems.map((item,index)=>{
-      if(item.title === 'Endpoint'){
-       this.coreFormItems.splice(index,1)
-      }
-     })
-    }
-   }
+			this.formData = JSON.parse(JSON.stringify(this.detailData));
+			if (this.title === 'An' || this.title === 'Cn') {
+				this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
+				this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
+				if(this.formData !==undefined && Object.keys(this.formData).length!==0){
+				this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
+				}
+				if(this.EndpointEnable){
+				this.EndpointInputs = this.Util.pick(this.formData, this.keyList)// no?
+				}else{
+				this.coreFormItems.map((item,index)=>{
+				if(item.title === 'Endpoint'){
+				this.coreFormItems.splice(index,1)
+				}
+				})
+				}
+			}
 
 		}
         //-------> Comment: Above code

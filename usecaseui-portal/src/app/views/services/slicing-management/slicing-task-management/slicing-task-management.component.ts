@@ -32,7 +32,9 @@ export class SlicingTaskManagementComponent implements OnInit {
         }
     }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('11.24 1732')
+  }
 
   getTaskList(): void {
     const { pageNum, pageSize } = this;
