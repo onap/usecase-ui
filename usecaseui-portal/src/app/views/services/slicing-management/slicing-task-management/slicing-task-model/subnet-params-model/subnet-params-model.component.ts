@@ -283,7 +283,18 @@ export class SubnetParamsModelComponent implements OnInit {
 			params = {...this.formData};
 		}
 		// Verify that each item is not empty, include special handeling of area_list
-		if (this.Util.deepCheck(params) && this.areaCheckBeforeSubmit(params)) {
+		console.log(params)
+		let checkParams = params
+		if (this.title === 'An' || this.title === 'Cn') {
+			checkParams = this.coreFormItems.filter((item) => {
+				return item.required === true
+			})
+		} else if (this.title = 'Tn') {
+			checkParams = this.transferFormItems.filter((item) => {
+				return item.required === true
+			})
+		}
+		if (this.Util.deepCheck(checkParams) && this.areaCheckBeforeSubmit(params)) {
 			this.paramsDataChange.emit(params);
 			this.handleCancel();
 		} else {

@@ -230,22 +230,22 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
             key: 'sliceProfile_AN_areaTrafficCapDL',
-            required: true
+            required: false
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
             key: 'sliceProfile_AN_areaTrafficCapUL',
-            required: true,
+            required: false
         },
         {
             title: 'Script Name',
             key: 'an_script_name',
-            required: true
+            required: false
         },
         {
             title: 'Overall User Density',
             key: 'sliceProfile_AN_overallUserDensity',
-            required: true
+            required: false
         },
         {
             title:'Endpoint',
@@ -365,17 +365,17 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
             key: 'cn_area_traffic_cap_dl',
-            required: true
+            required: false
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
             key: 'cn_area_traffic_cap_ul',
-            required: true
+            required: false
         },
         {
             title: 'Script Name',
             key: 'cn_script_name',
-            required: true
+            required: false
         },
         {
             title: 'Max Number of PUD Session',
@@ -385,7 +385,7 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'OverAll User Density',
             key: 'sliceProfile_CN_overallUserDensity',
-            required: true
+            required: false
         },
         // {
         //     title: 'ip-address',
