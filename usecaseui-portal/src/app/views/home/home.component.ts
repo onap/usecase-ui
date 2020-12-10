@@ -59,10 +59,6 @@ export class HomeComponent implements OnInit {
     this.seriverChart.resize(this.services.nativeElement.offsetHeight, 250)
   }
 
-  ngOnDestroy() {
-    this.resizeMark.unsubscribe()
-  }
-
   // services
   serviceNumber: number = 0;
   serviceChartData: Object;

@@ -31,6 +31,13 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
 
     ngOnInit() {}
 
+    ngOnDestroy() {
+        console.log(this.progressingTimer)
+        this.progressingTimer.forEach((item) => {
+            clearInterval(item.timer)
+        })
+    }
+
     selectedValue: string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
     pageIndex: number = 1;

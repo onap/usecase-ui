@@ -145,14 +145,10 @@ export class CreateModelComponent implements OnInit {
     this.http.getTemplateParameters(types, chosedtemplates)
         .subscribe((data) => {
           this.loadingAnimateShow = false;
-          if (!data || !data.status) {
+          if (!data || !data.status || data.status == "FAILED") {
             this.temParametersTips = true;
             this.isVisible = true;
-            this.msg.error('Back end data format error')
-          }
-          else if (data.status == "FAILED") {
-            this.temParametersTips = true;
-            this.isVisible = true;
+            this.msg.error('Template parsing failed');
           } else {
             this.cancel.emit(false);
             this.temParametersTips = false;

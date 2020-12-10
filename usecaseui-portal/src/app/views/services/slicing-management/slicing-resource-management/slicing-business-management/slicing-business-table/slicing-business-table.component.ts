@@ -32,6 +32,11 @@ export class SlicingBusinessTableComponent implements OnInit {
     ngOnInit() {
 
     }
+    ngOnDestroy() {
+        this.progressingTimer.forEach((item) => {
+            clearInterval(item.timer)
+        })
+    }
     selectedValue: string = BUSINESS_STATUS[0];
     listOfData: any[] = [];
     pageIndex: number = 1;
