@@ -150,7 +150,7 @@ Also, run the script `npm run changelog` can generate all the `feat` and `fix` c
 ### Contributor
 
 ```
-Copyright 2019 CMCC Corporation.
+Copyright 2019-2021 CMCC Corporation.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
