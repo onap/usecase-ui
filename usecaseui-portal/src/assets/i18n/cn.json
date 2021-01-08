@@ -9,6 +9,7 @@
   "i18nTextDefine_SotnEline": "SOTN Eline",
   "i18nTextDefine_Mangement_5g": "5G切片管理",
   "i18nTextDefine_PackageManagement": "包管理",
+  "i18nTextDefine_Test": "测试",
   "i18nTextDefine_Alarm": "告警",
   "i18nTextDefine_Performance": "性能",
   "i18nTextDefine_NetworkTopology": "网络拓扑",
@@ -88,7 +89,7 @@
   "i18nTextDefine_InstanceUpdatedSuccessfully":"更新成功",
   "i18nTextDefine_InstanceUpdateFailed":"更新失败",
   "i18nTextDefine_Close":"关闭",
-  "i18nTextDefine_Templateparsingfailed": "模板解析失败"
+  "i18nTextDefine_Templateparsingfailed": "模板解析失败",
   "i18nTextDefine_domainService":"Domain Services",
 
   "ccvpn-creation-component": "--:",
