@@ -15,6 +15,7 @@
 */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { JumpGuard } from "./guard/jump.guard";
 
 
 import { HomeComponent } from './views/home/home.component';
@@ -40,6 +41,8 @@ import { TestComponent } from './test/test.component';
 
 // import { DetailsComponent } from './details/details.component';
 
+// all routes including other projects must be recorded here
+
 const ServicesChildRoutes: Routes = [
   { path: 'services-list', component: ServicesListComponent },
   { path: 'onboard-vnf-vm', component: OnboardVnfVmComponent },
@@ -47,7 +50,7 @@ const ServicesChildRoutes: Routes = [
 ]
 
 const routes: Routes = [
-  { path: 'text', component: TestComponent },
+  { path: 'test', component: TestComponent, canActivate:[JumpGuard]}, // this is used for vue, All non angular items must be added with routing guard to decide the jump
   { path: 'home', component: HomeComponent },
   { path: 'management', component: ManagementComponent },
   { path: 'fcaps', component: FcapsComponent },
@@ -65,11 +68,12 @@ const routes: Routes = [
   { path: 'performance/performance-vm', component: PerformanceVmComponent },
   { path: 'network/ccvpn-network', component: CcvpnNetworkComponent },
   { path: 'network/mdons-network', component: MdonsNetworkComponent },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[JumpGuard]
 })
 export class AppRoutingModule { }

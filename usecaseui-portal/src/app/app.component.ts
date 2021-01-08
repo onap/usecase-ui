@@ -19,6 +19,7 @@ import { ServiceListService } from "./core/services/serviceList.service";
 import { HomesService } from "./core/services/homes.service";
 import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/map';
+import { menu } from './const/index'
 
 @Component({
     selector: 'app-root',
@@ -28,9 +29,14 @@ import 'rxjs/add/operator/map';
 export class AppComponent {
 
     public url: string = 'home';
+    menuItem: Object = menu.MENU_ITEM;
+
     constructor(private translate: TranslateService, private myhttp: HomesService, private router: Router, ) {
         this.currentLanguageGet();
         this.getUrl();
+    }
+    ngOnInit () {
+        console.log(this.menuItem)
     }
 
     // Get the current routing path

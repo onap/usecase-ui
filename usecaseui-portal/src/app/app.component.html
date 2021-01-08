@@ -122,6 +122,13 @@
         </ul>
 
       </li>
+      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'test'}">
+        <a routerLink="test">
+          <span title>
+            <span>{{"i18nTextDefine_Test" | translate}} </span>
+          </span>
+        </a>
+      </li>
       <hr>
     </ul>
   </nz-sider>
