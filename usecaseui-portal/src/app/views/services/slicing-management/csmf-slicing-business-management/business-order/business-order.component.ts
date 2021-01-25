@@ -36,7 +36,8 @@ export class BusinessOrderComponent implements OnInit {
         expDataRateUL: null,
         resourceSharingLevel: "shared",
         uEMobilityLevel: "stationary",
-        coverageArea: ''
+        coverageArea: '',
+        coverageAreaNumber: null
     };
     areaList: any[] = [];
     isSpinning: boolean = false;
@@ -152,7 +153,8 @@ export class BusinessOrderComponent implements OnInit {
             expDataRateUL: null,
             resourceSharingLevel: "shared",
             uEMobilityLevel: "stationary",
-            coverageArea: ''
+            coverageArea: '',
+            coverageAreaNumber: null
         };
     }
 
@@ -169,15 +171,21 @@ export class BusinessOrderComponent implements OnInit {
     }
 
     handleOk(): void {
+        const coverage_list: string[] = [];
+        let coverageAreaNumber = null;
+        let coverageAreas;
+        
         COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-            if (item.key !== 'resourceSharingLevel' && item.key !== 'uEMobilityLevel' && item.key !== 'coverageArea') {
+            if (item.key !== 'resourceSharingLevel' && item.key !== 'uEMobilityLevel' && item.key !== 'coverageArea' && item.key !== 'coverageAreaNumber') {
                 this.Util.validator(item.title,item.key, this.slicing_order_info[item.key], index, this.rulesText, this.validateRulesShow)
+            }else if(item.key === 'coverageAreaNumber'){
+                coverageAreaNumber = this.slicing_order_info[item.key]
             }
         });
         if (this.validateRulesShow.indexOf(true) > -1) {
             return
         }
-        const coverage_list: string[] = [];
+        
         this.areaList.forEach(item => {
             let str = '';
             item.forEach(area => {
@@ -185,16 +193,24 @@ export class BusinessOrderComponent implements OnInit {
             });
             coverage_list.push(str.substring(0, str.length - 1));
         });
+        
         if (coverage_list.length > 1) {
-            this.slicing_order_info.coverageArea = coverage_list.join('|')
+            coverageAreas = coverage_list.join('|')
         } else {
-            this.slicing_order_info.coverageArea = coverage_list.toString();
+            coverageAreas = coverage_list.toString();
         }
-        let paramsObj = {
+        if(coverageAreaNumber){
+            this.slicing_order_info.coverageArea = `${coverageAreas}-${coverageAreaNumber}`;
+        }else{
+            this.slicing_order_info.coverageArea = `${coverageAreas}`;
+        }
+        delete this.slicing_order_info.coverageAreaNumber
+
+        const paramsObj = {
             slicing_order_info: this.slicing_order_info
         };
         this.isSpinning = true;
-        let csmfSlicingPurchaseFailedCallback  = () => {
+        const csmfSlicingPurchaseFailedCallback  = () => {
             this.handleCancel();
             this.isSpinning = false;
         }

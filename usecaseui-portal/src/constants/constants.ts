@@ -554,6 +554,10 @@ export const COMMUNICATION_FORM_ITEMS = [
     {
         title: 'Area',
         key: 'coverageArea'
+    },
+    {
+        title: 'Coverage Area Number',
+        key: 'coverageAreaNumber'
     }
 ]
 

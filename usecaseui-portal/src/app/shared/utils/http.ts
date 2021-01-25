@@ -43,7 +43,6 @@ export class Http {
       }
       promise
         .then((response) => {
-          console.log(response,"------> response")
           if (response.status === 200 || 304) {
             const { result_header: { result_code, result_message } } = response.data
             if(+result_code === 200){
