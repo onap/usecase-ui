@@ -35,7 +35,7 @@ export class Util {
     getRulesText(words: string, title: string, index: number, rulesText: any[]){
         return rulesText[index] = words + title
     };
-    validator(title: string, key: string, val: any, index: number, rulesText: any[], validateRulesShow: any[]) {
+    validator(title: string="", key: string="", val: any="", index: number=0, rulesText: any[]=[], validateRulesShow: any[]=[]) {
         let maxNumberReg = /^([1-9]\d{0,4}|100000)$/, // Check integer between 1 ~ 100000
             expDataRateReg  = /^([1-9]\d{2}|[1-3]\d{3}|3000)$/, // Check integer between 100 ~ 3000
             latencyReg = /^1[0-9]$|^[2-9]\d$|^1\d{2}$|^200$/; // Check integers between 10 and 200

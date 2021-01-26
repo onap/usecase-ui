@@ -1,27 +1,53 @@
 export const COMMUNICATION_FORM_ITEMS = [
+    /***
+        title: MARK THE ITEM NAME,
+        key:  MARK THE ITEM KEY,
+        type: MARKE THE ITEM TYPE, CAN BE ADDED IF NECESSARY: input/select/radio/city-select
+        required: IF REQUIRED, 
+        scoped: IF SCOPED NUMBERS, CAN BE EMITTED IF NOT
+        placeholder: IF PLACEHOLDER, CAN BE EMITTED IF NOT
+        options: IF ITEM NEEDS OPTIONS, CAN BE EMITTED IF NOT
+    ***/
     {
         title: 'Communication Service Name',
-        key: 'name'
+        key: 'name',
+        type:"input",
+        required:true 
+
     },
     {
         title: 'Max Number of UEs',
-        key: 'maxNumberofUEs'
+        key: 'maxNumberofUEs',
+        type:"input",
+        scoped:true, 
+        required:true
     },
     {
         title: 'Data Rate Downlink (Mbps)',
-        key: 'expDataRateDL'
+        key: 'expDataRateDL',
+        type:"input",
+        scoped:true,
+        required:true
     },
     {
         title: 'Latency',
-        key: 'latency'
+        key: 'latency',
+        type:"input",
+        scoped:true,
+        required:true
     },
     {
         title: 'Data Rate Uplink (Mbps)',
-        key: 'expDataRateUL'
+        key: 'expDataRateUL',
+        type:"input",
+        scoped:true,
+        required:true
     },
     {
         title: 'Resource Sharing Level',
         key: 'resourceSharingLevel',
+        type:"radio",
+        required:true
         options: [
             {
                 title: 'Shared',
@@ -36,6 +62,8 @@ export const COMMUNICATION_FORM_ITEMS = [
     {
         title: 'Mobility',
         key: 'uEMobilityLevel',
+        type:"select",
+        required:true
         options: [
             {
                 title: 'Stationary',
@@ -57,11 +85,16 @@ export const COMMUNICATION_FORM_ITEMS = [
     },
     {
         title: 'Area',
-        key: 'coverageArea'
+        key: 'coverageArea',
+        type:"city-select",
+        required:true
     },
     {
         title: 'Coverage Area Number',
-        key: 'coverageAreaNumber'
+        key: 'coverageAreaNumber',
+        type:"input",
+        placeholder:"Please enter the coverage area number. use , to separate them if necessary"
+        required:false
     }
 ]
 
