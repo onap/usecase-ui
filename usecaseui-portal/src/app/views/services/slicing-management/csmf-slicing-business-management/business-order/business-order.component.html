@@ -4,48 +4,41 @@
         <div class="subnet_params_container">
             <form nz-form>
                 <nz-form-item *ngFor="let item of comunicationFormItems; let i = index">
-                    <nz-form-label [nzSpan]="6" nzRequired *ngIf=" item.title !== 'Coverage Area Number' "
-                        [nzFor]="item.key">
-                        {{ item.title }}
-                    </nz-form-label>
-                    <nz-form-label [nzSpan]="6" *ngIf="item.title === 'Coverage Area Number' " [nzFor]="item.key">
+                    <nz-form-label [nzSpan]="6" [nzRequired]="item.required" [nzFor]=" item.key">
                         {{ item.title }}
                     </nz-form-label>
                     <nz-form-control [nzSpan]="15">
                         <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
                             [(ngModel)]="slicing_order_info[item.key]"
                             [ngClass]="{'error-input-border':validateRulesShow[i] === true}"
-                            *ngIf=" item.title === 'Communication Service Name' "
-                            (blur)="this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow)" />
+                            *ngIf=" item.type === 'input'&&!item.scoped "
+                            [placeholder]="item.placeholder?item.placeholder:''"
+                            (blur)="item.required?this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow):this.Util.validator()" />
                         <nz-tooltip [nzTitle]="tooltipText" [nzPlacement]="'right'" [nzTrigger]="'focus'">
-                            <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
+                            <input nz-input nz-tooltip [id]="item.key" [name]="item.key" *ngIf="item.scoped"
                                 [(ngModel)]="slicing_order_info[item.key]"
                                 [ngClass]="{'error-input-border':validateRulesShow[i] === true}"
-                                *ngIf=" item.title !== 'Communication Service Name' && item.title !== 'Coverage Area Number'&&item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' "
                                 (blur)="this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow)"
                                 (focus)="changeTooltipText(item.title)" />
                         </nz-tooltip>
                         <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
-                            *ngIf="item.title === 'Resource Sharing Level'">
+                            *ngIf="item.type === 'radio'">
                             <label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
                                 {{ option.title }}
                             </label>
                         </nz-radio-group>
                         <nz-select [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
-                            *ngIf="item.title === 'Mobility'">
+                            *ngIf="item.type === 'select'">
                             <nz-option [nzValue]="option.key" [nzLabel]="option.title"
                                 *ngFor="let option of item.options">
                             </nz-option>
                         </nz-select>
-                        <nz-form-explain
-                            *ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' && item.title !== 'Area' && validateRulesShow[i]"
-                            class="validateRules">{{rulesText[i]}}
+                        <nz-form-explain *ngIf="item.type === 'input' && validateRulesShow[i]" class="validateRules">
+                            {{rulesText[i]}}
                         </nz-form-explain>
-                        <input nz-input nz-tooltip [id]="item.key" [name]="item.key"
-                            [(ngModel)]="slicing_order_info[item.key]" *ngIf=" item.title === 'Coverage Area Number' "
-                            placeholder="Please enter the coverage area number. use , to separate them if necessary " />
                     </nz-form-control>
-                    <div *ngIf="item.key === 'coverageArea'">
+
+                    <div *ngIf="item.type === 'city-select'">
                         <div *ngFor="let area of areaList; let i = index">
                             <nz-form-control [nzSpan]="!ind ? 3 : 4" [nzOffset]="i && !ind ? 6 : 0"
                                 class="subnet_params_area" *ngFor="let item of area; let ind = index">
