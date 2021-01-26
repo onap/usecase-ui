@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {COMMUNICATION_FORM_ITEMS, COMMUNICATION_FORM_ADDRESS} from "../../../../../../constants/constants";
+import {COMMUNICATION_FORM_ITEMS, COMMUNICATION_FORM_ADDRESS} from "./constants";
 import { Util } from '../../../../../shared/utils/utils';
 import {SlicingTaskServices} from "../../../../../core/services/slicingTaskServices";
 import {NzMessageService} from "ng-zorro-antd";
@@ -174,7 +174,7 @@ export class BusinessOrderComponent implements OnInit {
         const coverage_list: string[] = [];
         let coverageAreaNumber = null;
         let coverageAreas;
-        
+
         COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
             if (item.key !== 'resourceSharingLevel' && item.key !== 'uEMobilityLevel' && item.key !== 'coverageArea' && item.key !== 'coverageAreaNumber') {
                 this.Util.validator(item.title,item.key, this.slicing_order_info[item.key], index, this.rulesText, this.validateRulesShow)
