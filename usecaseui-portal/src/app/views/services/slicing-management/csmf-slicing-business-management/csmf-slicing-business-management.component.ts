@@ -49,7 +49,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     businessOrderShow: boolean = false;
     getCSMFBusinessList(): void {
         this.loading = true;
-        this.listOfData = [];
+        // this.listOfData = []; //solve the problem of blank screen after each operation
         const paramsObj = {
             status: this.selectedValue.toLocaleLowerCase(),
             pageNo: this.pageIndex,
@@ -60,10 +60,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
         }
         this.myhttp.getCSMFSlicingBusinessList(paramsObj, getCSMFSlicingBusinessListFailedCallback).then(res => {
             const { result_body: { slicing_order_list, record_number } } = res;
-            setTimeout(() => {
-                this.loading = false;
-            }, 100);
-            
+            this.loading = false;
             this.total = record_number;
             if (slicing_order_list !== null && slicing_order_list.length > 0) {
                 this.listOfData = slicing_order_list.map((item, index) => {
@@ -72,9 +69,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                         const updata = (prodata: { operation_progress: string }) => {
                             item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                         };
-                        const obj = {
-                            serviceId: item.order_id
-                        };
+                        const obj = { serviceId: item.order_id };
                         if (item.last_operation_type.toUpperCase() === 'DELETE') this.terminateStart[index] = true
                         else this.terminateStart[index] = false;
                         this.queryProgress(obj, index, updata).then(() => {
@@ -84,7 +79,7 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
                     }
                     return item
                 });
-            }
+            }   
         })
     }
 
