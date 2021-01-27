@@ -40,10 +40,8 @@ export class BusinessOrderComponent implements OnInit {
         coverageAreaNumber: null
     };
     areaList: any[] = [];
-    isSpinning: boolean = false;
     validateRulesShow: any[] = [];
     rulesText: any[] = [];
-    tooltipText: string = 'Scope: 1-100000';
 
     AreaFormatting(): void {
         let areaList = ['Beijing;Beijing;Haidian District;Wanshoulu Street'];
@@ -71,7 +69,7 @@ export class BusinessOrderComponent implements OnInit {
     }
 
     creatAreaList(): void {
-        let arr = [
+        const arr = [
             {
                 key: 'province',
                 selected: '',
@@ -156,30 +154,16 @@ export class BusinessOrderComponent implements OnInit {
             coverageArea: '',
             coverageAreaNumber: null
         };
-    }
-
-    changeTooltipText(title: string): void {
-        if (title === 'Max Number of UEs') {
-            this.tooltipText = 'Scope: 1-100000'
-        } else if (title === 'Data Rate Downlink (Mbps)' || title === 'Data Rate Uplink (Mbps)') {
-            this.tooltipText = 'Scope: 100-3000'
-        } else if (title === 'Latency') {
-            this.tooltipText = 'Scope: 10-200'
-        } else if (title === 'Use Interval (Month)') {
-            this.tooltipText = 'Scope: ≥1'
-        }
+        this.validateRulesShow = []
     }
 
     handleOk(): void {
         const coverage_list: string[] = [];
-        let coverageAreaNumber = null;
         let coverageAreas;
 
         COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-            if (item.key !== 'resourceSharingLevel' && item.key !== 'uEMobilityLevel' && item.key !== 'coverageArea' && item.key !== 'coverageAreaNumber') {
+            if (item.required && item.type==="input") {
                 this.Util.validator(item.title,item.key, this.slicing_order_info[item.key], index, this.rulesText, this.validateRulesShow)
-            }else if(item.key === 'coverageAreaNumber'){
-                coverageAreaNumber = this.slicing_order_info[item.key]
             }
         });
         if (this.validateRulesShow.indexOf(true) > -1) {
@@ -193,12 +177,12 @@ export class BusinessOrderComponent implements OnInit {
             });
             coverage_list.push(str.substring(0, str.length - 1));
         });
-        
         if (coverage_list.length > 1) {
             coverageAreas = coverage_list.join('|')
         } else {
             coverageAreas = coverage_list.toString();
         }
+        const coverageAreaNumber = this.slicing_order_info["coverageAreaNumber"];
         if(coverageAreaNumber){
             this.slicing_order_info.coverageArea = `${coverageAreas}-${coverageAreaNumber}`;
         }else{
@@ -209,14 +193,16 @@ export class BusinessOrderComponent implements OnInit {
         const paramsObj = {
             slicing_order_info: this.slicing_order_info
         };
-        console.log(paramsObj,"===>paramsObj")
-        this.isSpinning = true;
         const csmfSlicingPurchaseFailedCallback  = () => {
             this.handleCancel();
-            this.isSpinning = false;
         }
         this.myhttp.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback).then(res => {
-            this.isSpinning = false;
+            const result = res.result_header;
+            if(result&&result.result_code&&+result.result_code===200){
+                console.log(res)
+            }else{
+                this.message.create('error','Network error')
+            }
             this.handleCancel();
         })
     }

@@ -32,7 +32,6 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     ngOnInit() {}
 
     ngOnDestroy() {
-        console.log(this.progressingTimer)
         this.progressingTimer.forEach((item) => {
             clearInterval(item.timer)
         })
@@ -51,26 +50,29 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     getCSMFBusinessList(): void {
         this.loading = true;
         this.listOfData = [];
-        let paramsObj = {
+        const paramsObj = {
             status: this.selectedValue.toLocaleLowerCase(),
             pageNo: this.pageIndex,
             pageSize: this.pageSize
         };
-        let getCSMFSlicingBusinessListFailedCallback  = () => {
+        const getCSMFSlicingBusinessListFailedCallback  = () => {
             this.loading = false;
         }
         this.myhttp.getCSMFSlicingBusinessList(paramsObj, getCSMFSlicingBusinessListFailedCallback).then(res => {
             const { result_body: { slicing_order_list, record_number } } = res;
-            this.loading = false;
+            setTimeout(() => {
+                this.loading = false;
+            }, 100);
+            
             this.total = record_number;
             if (slicing_order_list !== null && slicing_order_list.length > 0) {
                 this.listOfData = slicing_order_list.map((item, index) => {
                     item.order_creation_time = moment(Number(item.order_creation_time)).format('YYYY-MM-DD HH:mm:ss');
                     if (item.last_operation_progress && item.last_operation_type && Number(item.last_operation_progress) < 100) {
-                        let updata = (prodata: { operation_progress: string }) => {
+                        const updata = (prodata: { operation_progress: string }) => {
                             item.last_operation_progress = prodata.operation_progress || item.last_operation_progress;
                         };
-                        let obj = {
+                        const obj = {
                             serviceId: item.order_id
                         };
                         if (item.last_operation_type.toUpperCase() === 'DELETE') this.terminateStart[index] = true
@@ -120,23 +122,20 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
             },
             nzCancelText: 'No',
             nzOnCancel: () => {
-                let singleSlicing = Object.assign({}, this.listOfData[i]);
+                const singleSlicing = Object.assign({}, this.listOfData[i]);
                 this.listOfData[i] = singleSlicing;
                 this.listOfData = [...this.listOfData];
             }
         });
     }
     changeActivate(paramsObj: any, isActivate: boolean, index: number): void {
-        this.loading = true;
-        let changeActivateFailedCallback = () => {
-            this.loading = false;
-            let singleSlicing = Object.assign({}, this.listOfData[index]);
+        const changeActivateFailedCallback = () => {
+            const singleSlicing = Object.assign({}, this.listOfData[index]);
             this.listOfData[index] = singleSlicing;
             this.listOfData = [...this.listOfData];
             this.getCSMFBusinessList();
         }
         this.myhttp.changeActivateSlicingService(paramsObj, isActivate, changeActivateFailedCallback).then((res) => {
-            this.loading = false;
             this.getCSMFBusinessList();
         })
     }
@@ -146,15 +145,12 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
             nzTitle: 'Are you sure you want to terminate this task?',
             nzContent: '<b>Name:&nbsp;</b>' + slicing.order_name,
             nzOnOk: () => {
-                let paramsObj = { serviceId: slicing.order_id };
+                const paramsObj = { serviceId: slicing.order_id };
                 this.terminateStart[index] = true;
-                this.loading = true;
-                let terminateFailedCallback  = () => {
-                    this.loading = false;
+                const terminateFailedCallback  = () => {
                     this.terminateStart[index] = false;
                 }
                 this.myhttp.terminateSlicingService(paramsObj, terminateFailedCallback).then(res => {
-                    this.loading = false;
                     this.getCSMFBusinessList();
                 })
             },
@@ -166,8 +162,8 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
     }
     queryProgress(obj:any, index:number, callback:any) {
         return new Promise(res => {
-            let requery = () => {
-                let queryProgressFailedCallback  = () => {
+            const requery = () => {
+                const queryProgressFailedCallback  = () => {
                     this.progressingTimer.forEach((item) => {
                         if (item.serviceId === obj.serviceId) {
                             clearInterval(item.timer);

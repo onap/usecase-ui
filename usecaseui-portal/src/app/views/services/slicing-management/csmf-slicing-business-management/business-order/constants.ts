@@ -1,39 +1,26 @@
 export const COMMUNICATION_FORM_ITEMS = [
-    /***
-        title: MARK THE ITEM NAME,
-        key:  MARK THE ITEM KEY,
-        type: MARKE THE ITEM TYPE, CAN BE ADDED IF NECESSARY: input/select/radio/city-select
-        required: IF REQUIRED, 
+    /*******
+        title /MUST/: MARK THE ITEM NAME,
+        key /MUST/:  MARK THE ITEM KEY,
+        type /MUST/: MARKE THE ITEM TYPE, CAN BE ADDED IF NECESSARY: input/select/radio/city-select
+        required /MUST/: IF REQUIRED, 
         scoped: IF SCOPED NUMBERS, CAN BE EMITTED IF NOT
+        scopedText: SCOPED NUMBERS' DESCRIPTION. IF SCOPED NUMBERS EXITS, IT'S A MUST
         placeholder: IF PLACEHOLDER, CAN BE EMITTED IF NOT
         options: IF ITEM NEEDS OPTIONS, CAN BE EMITTED IF NOT
-    ***/
+    ********/
     {
         title: 'Communication Service Name',
         key: 'name',
         type:"input",
         required:true 
-
     },
     {
         title: 'Max Number of UEs',
         key: 'maxNumberofUEs',
         type:"input",
         scoped:true, 
-        required:true
-    },
-    {
-        title: 'Data Rate Downlink (Mbps)',
-        key: 'expDataRateDL',
-        type:"input",
-        scoped:true,
-        required:true
-    },
-    {
-        title: 'Latency',
-        key: 'latency',
-        type:"input",
-        scoped:true,
+        scopedText:'Scope: 1-100000',
         required:true
     },
     {
@@ -41,6 +28,23 @@ export const COMMUNICATION_FORM_ITEMS = [
         key: 'expDataRateUL',
         type:"input",
         scoped:true,
+        scopedText:'Scope: 100-3000',
+        required:true
+    },
+    {
+        title: 'Data Rate Downlink (Mbps)',
+        key: 'expDataRateDL',
+        type:"input",
+        scoped:true,
+        scopedText:'Scope: 100-3000',
+        required:true
+    },
+    {
+        title: 'Latency',
+        key: 'latency',
+        type:"input",
+        scoped:true,
+        scopedText:'Scope: 10-200',
         required:true
     },
     {
@@ -185,7 +189,7 @@ export const COMMUNICATION_FORM_ADDRESS = [
             "name": "Shanghai City",
             "county": [{
                 "id": "2001",
-                "name": "udongxin District",
+                "name": "Pudongxin District",
                 "street": [
                     {
                         "id": "200101",

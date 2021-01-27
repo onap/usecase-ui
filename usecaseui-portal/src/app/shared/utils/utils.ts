@@ -104,13 +104,13 @@ export class Util {
 				if (!this.deepCheck(target[i])) {
 					return false;
 				}
-			  }
+			}
 		} else if (type === '[object Object]') {
 			for (const prop in target) {
 				if (target.hasOwnProperty(prop)) {
-				  if (!this.deepCheck(target[prop])) {
-					  return false;
-				  }
+                    if (!this.deepCheck(target[prop])) {
+                        return false;
+                    }
 				}
 			}
 		} else {
@@ -124,10 +124,10 @@ export class Util {
     }
     pick(obj: object, arr: Array<string>): Object {
         return arr.reduce((iter, val) => {
-          if(val in obj) {
-            iter[val] = obj[val];
-          }
-          return iter;
+            if(val in obj) {
+                iter[val] = obj[val];
+            }
+            return iter;
         }, {});
       }
 }
