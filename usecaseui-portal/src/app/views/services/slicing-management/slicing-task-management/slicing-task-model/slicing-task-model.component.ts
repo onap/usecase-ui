@@ -72,6 +72,7 @@ export class SlicingTaskModelComponent implements OnInit {
   isShowParams: boolean;
   paramsTitle: string;
   params: any;
+  noPassPara: string[];
   // 获取数据loading
   isSpinning: boolean = false;
   loading: boolean = false;
@@ -181,7 +182,22 @@ export class SlicingTaskModelComponent implements OnInit {
               'sliceProfile_AN_logicInterfaceId',
               'sliceProfile_AN_nextHopInfo'
           ]), an_coverage_area_ta_list: area};
-      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, ['tn_bh_latency', 'tn_bh_bandwidth', 'tn_bh_script_name', 'sliceProfile_TN_BH_jitte', 'sliceProfile_TN_BH_sNSSAI',"tn_bh_enableNSSISelection"]);
+      this.slicingSubnet[1].params = this.pick(nsi_nssi_info, [
+        'tn_bh_latency', 
+        'tn_bh_bandwidth', 
+        'tn_bh_script_name', 
+        'sliceProfile_TN_BH_jitte', 
+        'sliceProfile_TN_BH_sNSSAI',
+        'tn_bh_enableNSSISelection', 
+        'sliceProfile_TN_resourceSharingLevel',
+        'sliceProfile_CN_logicInterfaceId',
+        'sliceProfile_CN_ipAddress',
+        'sliceProfile_CN_nextHopInfo',
+        'sliceProfile_AN_ipAddress',
+        'sliceProfile_AN_logicInterfaceId',
+        'sliceProfile_AN_nextHopInfo',
+        'tn_connection_links', 
+        'tn_connection_links_option']);
       this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
         'cn_service_snssai',
         'cn_resource_sharing_level',
@@ -369,7 +385,9 @@ export class SlicingTaskModelComponent implements OnInit {
     const index = this.paramsTitle === 'An' ? 0 : (this.paramsTitle === 'Tn' ? 1 : 2);
     this.slicingSubnet[index].params = params
   }
-
+  noPassParaChange (noPassPara: string[]): void {
+    this.noPassPara = noPassPara
+  }
   handleCancel(bool: boolean = false) {
     this.showDetail = false;
     this.cancel.emit({ showDetail: this.showDetail, bool });
@@ -377,6 +395,15 @@ export class SlicingTaskModelComponent implements OnInit {
   handleOk() {
     this.loading = true;
     const { selectedServiceId, selectedServiceName, slicingSubnet, checkDetail, businessRequirement, NSTinfo } = this;
+    // slicingSubnet[1] is about Tn,
+    // Delete parameters that do not need to be passed
+		this.noPassPara.forEach((item) => {
+			for (let val in slicingSubnet[1].params) {
+				if (val === item) {
+					delete slicingSubnet[1].params[val]
+				}	
+			}
+    })
     const nsi_nssi_info: object = {
       suggest_nsi_id: selectedServiceId,
       suggest_nsi_name: selectedServiceName,

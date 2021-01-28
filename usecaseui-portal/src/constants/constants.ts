@@ -133,7 +133,7 @@ export const TRANSFRER_FORM_ITEMS = [
     {
         title: 'S-NSSAI',
         key: 'sliceProfile_TN_BH_sNSSAI',
-        required: true
+        required: true,
     },
 	{
         title: 'Latency (ms)',
@@ -149,7 +149,100 @@ export const TRANSFRER_FORM_ITEMS = [
 		title: 'MaxBandwidth',
         key: 'tn_bh_bandwidth',
         required: true
-	},
+    },
+    {
+        title: 'Resource Sharing Level', // select
+        key: 'sliceProfile_TN_resourceSharingLevel', // :new
+        required: true,
+        options: [
+            {
+                title: 'Shared',
+                key: 'shared'
+            },
+            {
+                title: 'Non-shared',
+                key: 'non-shared'
+            }
+        ]
+    },
+    {
+        title: 'Connection Links',// table
+        key: 'tn_connection_links', // :new
+        required: false, // combined
+        options: {
+            title: 'connection_links_option',
+            key: 'tn_connection_links_option'
+        },
+        disable: false,
+        header: [
+            {
+                title: 'ID',
+                key: 'id'
+            },
+            {
+                title: 'AN',
+                key: 'AN'
+            },
+            {
+                title: 'CN',
+                key: 'CN'
+            },
+            {
+                title: 'TN',
+                key: 'TN'
+            },
+            {
+                title: 'Properties',
+                key: 'properties'
+            }
+        ]
+    },
+    {
+        title:'AN Endpoint', // input group
+        key:"an_Endpoint",
+        required: false,
+        disable: false,
+        options: [
+            {
+                title: 'ip_address',
+                key: 'sliceProfile_AN_ipAddress',
+                holder: 'IpAddress'
+            },
+            {
+                title: 'logical_link',
+                key: 'sliceProfile_AN_logicInterfaceId',
+                holder: 'LogicId'
+            },
+            {
+                title: 'nexthop_info',
+                key: 'sliceProfile_AN_nextHopInfo',
+                holder: 'NextHop'
+            }
+        ]
+    },
+    {
+        title:'CN Endpoint',
+        key:"cn_Endpoint",
+        required: false,
+        disable: false,
+        options: [
+            {
+                title: 'ip_address',
+                key: 'sliceProfile_CN_ipAddress',
+                holder: 'IpAddress'
+            },
+            {
+                title: 'logical_link',
+                key: 'sliceProfile_CN_logicInterfaceId',
+                holder: 'LogicId'
+            },
+            {
+                title: 'nexthop_info',
+                key: 'sliceProfile_CN_nextHopInfo',
+                holder: 'NextHop'
+            }
+        ]
+    },
 ]
 
 export const CORE_FORM_ITEMS = {

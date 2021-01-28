@@ -34,7 +34,8 @@
         </nz-list-item>
         <nz-list-item nz-row nzType="flex" nzJustify="start" [nzGutter]="8">
           <p class="listitem_subtitle" nz-col nzSpan="24">Matching Shared NSSI：</p>
-          <nz-card *ngFor="let item of slicingSubnet,let i = index" nzType="inner" nz-col nzSpan="24" [nzTitle]="item.title">
+          <nz-card *ngFor="let item of slicingSubnet,let i = index" nzType="inner" nz-col nzSpan="24"
+            [nzTitle]="item.title">
             <div nz-row [nzGutter]="8">
               <div nz-col nzSpan="12">
                 NSSI ID：
@@ -75,6 +76,7 @@
   <button nz-button nzType="primary" [nzLoading]='loading' (click)="handleOk()">OK</button>
 </ng-template>
 <app-subnet-params-model [showModel]="isShowParams" *ngIf="isShowParams" [detailData]="params" [title]="paramsTitle"
-  (cancel)="isShowParams=$event" (paramsDataChange)="changeParams($event)">
+  (cancel)="isShowParams=$event" (paramsDataChange)="changeParams($event)"
+  (noPassParaChange)="noPassParaChange($event)">
 </app-subnet-params-model>
 <app-notification #notification [isServicesList]="false" [parentComponent]="'slicing'"></app-notification>
