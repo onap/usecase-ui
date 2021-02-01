@@ -25,7 +25,6 @@ export class SubnetParamsModelComponent implements OnInit {
 	areaList: any[] = [];
     // 2020.08.17  Add 3 parameters for Endpoint, Comment: The following code
     NexthopInfoOptions = NexthopInfo_Options;
-	EndpointInputs: object = {};
 	ANEndpointInputs: object = {};
 	CNEndpointInputs: object = {};
 	ANkeyList: string[] = [];
@@ -51,7 +50,6 @@ export class SubnetParamsModelComponent implements OnInit {
 			this.formData = JSON.parse(JSON.stringify(this.detailData));
 			if (this.title === 'An' || this.title === 'Cn') {
 				this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
-				this.keyList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options.map((val) => {return val.key});
 				}
 			else if (this.title === 'Tn') {
 				this.ANkeyList = this.transferFormItems.find((item) => {return item.title === 'AN Endpoint'}).options.map((val) => {return val.key})
@@ -71,19 +69,11 @@ export class SubnetParamsModelComponent implements OnInit {
 				this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
 			}
 			if(this.EndpointEnable){
-				if (this.title === 'An' || this.title === 'Cn') {
-					this.EndpointInputs = this.Util.pick(this.formData, this.keyList)
-				} else if (this.title === 'Tn') {
+				if (this.title === 'Tn') {
 					this.ANEndpointInputs = this.Util.pick(this.formData, this.ANkeyList)
 					this.CNEndpointInputs = this.Util.pick(this.formData, this.CNkeyList)
 			} else {
-				if (this.title === 'An' || this.title === 'Cn') {
-					this.coreFormItems.map((item,index)=>{
-						if (item.title === 'Endpoint') {
-							this.coreFormItems.splice(index,1)
-						}
-					})
-				} else if (this.title === 'Tn') {
+				if (this.title === 'Tn') {
 					this.transferFormItems.map((item,index)=>{
 						if (item.title === 'AN Endpoint' || item.title === 'CN Endpoint') {
 							this.coreFormItems.splice(index,1)
@@ -288,14 +278,9 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	endCheckBeforeSubmit (endpoint, required) : Array<any>{
 		// check params of Endpoint
-			console.log('end', endpoint)
 			let result: Array<any> = [true, ''];
 			let endPointList;
-			if (this.title === 'An' || this.title === 'Cn') {
-				endPointList = this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).options
-			} else {
-				endPointList = this.transferFormItems.find((item) => {return item.title === 'AN Endpoint'}).options
-			}
+			endPointList = this.transferFormItems.find((item) => {return item.title === 'AN Endpoint'}).options
 			let ipKey = '';
 			let logicalKey = '';
 			let nextKey = ''
@@ -361,9 +346,7 @@ export class SubnetParamsModelComponent implements OnInit {
 		// Verify that items of EndPoint is correct
 		if (this.EndpointEnable) {
 			let endCheckResult = []
-			if (this.title === 'An' || this.title === 'Cn') {
-				endCheckResult = this.endCheckBeforeSubmit(this.EndpointInputs, this.coreFormItems.find((item) => {return item.title === 'Endpoint'}).required)
-			} else if (this.title === 'Tn') {
+			if (this.title === 'Tn') {
 				const ANendCheckResult = this.endCheckBeforeSubmit(this.ANEndpointInputs, this.transferFormItems.find((item) => {return item.title === 'AN Endpoint'}).required)
 				const CNendCheckResult = this.endCheckBeforeSubmit(this.CNEndpointInputs, this.transferFormItems.find((item) => {return item.title === 'CN Endpoint'}).required)
 				if (ANendCheckResult[0] && CNendCheckResult[0]) {
@@ -382,9 +365,7 @@ export class SubnetParamsModelComponent implements OnInit {
 			}
 			// replace the params about endPoint
 			for (let prop in this.formData) {
-				if ((this.title === 'An' || this.title === 'Cn') && typeof this.EndpointInputs[prop] !== 'undefined') {
-					this.formData[prop] = this.EndpointInputs[prop];
-				} else if (this.title === 'Tn' && typeof this.ANEndpointInputs[prop] !== 'undefined') {
+				if (this.title === 'Tn' && typeof this.ANEndpointInputs[prop] !== 'undefined') {
 					this.formData[prop] = this.ANEndpointInputs[prop];
 				} else if (this.title === 'Tn' && typeof this.CNEndpointInputs[prop] !== 'undefined') {
 					this.formData[prop] = this.CNEndpointInputs[prop];

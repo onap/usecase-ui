@@ -178,9 +178,6 @@ export class SlicingTaskModelComponent implements OnInit {
               'sliceProfile_AN_overallUserDensity',
               'an_enableNSSISelection',
               'sliceProfile_AN_maxNumberofPDUSession',
-              'sliceProfile_AN_ipAddress',
-              'sliceProfile_AN_logicInterfaceId',
-              'sliceProfile_AN_nextHopInfo'
           ]), an_coverage_area_ta_list: area};
       this.slicingSubnet[1].params = this.pick(nsi_nssi_info, [
         'tn_bh_latency', 
@@ -213,9 +210,6 @@ export class SlicingTaskModelComponent implements OnInit {
         'sliceProfile_CN_overallUserDensity',
         'cn_enableNSSISelection',
         'sliceProfile_CN_maxNumberofPDUSession',
-        'sliceProfile_CN_logicInterfaceId',
-        'sliceProfile_CN_ipAddress',
-        'sliceProfile_CN_nextHopInfo'
       ])};
     })
   }

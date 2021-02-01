@@ -154,6 +154,7 @@ export const TRANSFRER_FORM_ITEMS = [
         title: 'Resource Sharing Level', // select
         key: 'sliceProfile_TN_resourceSharingLevel', // :new
         required: true,
+        type: '',
         options: [
             {
                 title: 'Shared',
@@ -341,46 +342,6 @@ export const CORE_FORM_ITEMS = {
             required: false
         },
         {
-            title:'Endpoint',
-            key:"an_Endpoint",
-            required: true,
-            options: [
-                {
-                    title: 'ip_address',
-                    key: 'sliceProfile_AN_ipAddress',
-                    holder: 'IpAddress'
-                },
-                {
-                    title: 'logical_link',
-                    key: 'sliceProfile_AN_logicInterfaceId',
-                    holder: 'LogicId'
-                },
-                {
-                    title: 'nexthop_info',
-                    key: 'sliceProfile_AN_nextHopInfo',
-                    holder: 'NextHop'
-                }
-            ]
-        },
-        // {
-        //     title: 'ip_address',
-        //     key: 'an_coverage_area_ta_list',
-        //     required: true,
-        //     holder: 'IpAddress'
-        // },
-        // {
-        //     title: 'logical_link',
-        //     key: 'sliceProfile_AN_logicInterfaceId',
-        //     required: true,
-        //     holder: 'LogicalId'
-        // },
-        // {
-        //     title: 'nexthop_info',
-        //     key: 'sliceProfile_AN_nextHopInfo',
-        //     required: true,
-        //     holder: 'NextHop'
-        // },
-        {
             title: 'Coverage Area Ta List',
             key: 'an_coverage_area_ta_list',
             required: true
@@ -498,28 +459,6 @@ export const CORE_FORM_ITEMS = {
         //     required: true,
         //     holder: 'NextHop'
         // },
-        {
-            title:'Endpoint',
-            key:"cn_Endpoint",
-            required: true,
-            options: [
-                {
-                    title: 'ip_address',
-                    key: 'sliceProfile_CN_ipAddress',
-                    holder: 'IpAddress'
-                },
-                {
-                    title: 'logical_link',
-                    key: 'sliceProfile_CN_logicInterfaceId',
-                    holder: 'LogicId'
-                },
-                {
-                    title: 'nexthop_info',
-                    key: 'sliceProfile_CN_nextHopInfo',
-                    holder: 'NextHop'
-                }
-            ]
-        },
     ]
 }
 
