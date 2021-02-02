@@ -56,12 +56,13 @@ export class SubnetParamsModelComponent implements OnInit {
 				this.CNkeyList = this.transferFormItems.find((item) => {return item.title === 'CN Endpoint'}).options.map((val) => {return val.key})
 				this.keyList = this.ANkeyList.concat(this.CNkeyList)
 				this.formData['tn_connection_links_option'].forEach((item) => { // add init selection status
-					if (this.formData['tn_connection_links']!== null && this.formData['tn_connection_links'].indexOf(item.id) !== -1) {
+					if (typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links'] !== '' && this.formData['tn_connection_links'] !== null && item.id === this.formData['tn_connection_links']) {
 						item.checked = true
 					} else {
 						item.checked = false
 					}
 				})
+				console.log(this.formData['tn_connection_links_option'])
 				this.judgeTn() // init judge
 			}
 			// If the endpoint related parameters from the back end are incomplete, delete the endpoint item
@@ -98,10 +99,10 @@ export class SubnetParamsModelComponent implements OnInit {
 				item.checked = false
 			})
 			this.formData['tn_connection_links'] = null
+			this.notPassPara = ['tn_connection_links', 'tn_connection_links_option']
 			this.transferFormItems.forEach((item) => {
 				if (item.title === 'Connection Links') {
 					item.disable = true
-					this.notPassPara = ['tn_connection_links', 'tn_connection_links_option']
 				} else if (item.title === 'AN Endpoint' || item.title === 'CN Endpoint') {
 					item.required = true
 					item.disable = false
@@ -112,15 +113,16 @@ export class SubnetParamsModelComponent implements OnInit {
 				if (item.title === 'Connection Links') {
 					item.disable = false
 				} else if (item.title === 'AN Endpoint' || item.title === 'CN Endpoint') {
-					if (this.formData['tn_connection_links']!==null && this.formData['tn_connection_links'].length !== 0) {
+					if (typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links']!==null && this.formData['tn_connection_links'] !== '') {
 						item.disable = true
 						item.required = false
 						this.notPassPara = ['tn_connection_links_option']
 						this.notPassPara = this.notPassPara.concat(this.ANkeyList, this.CNkeyList)
-						console.log('not', this.notPassPara)
-					} else if (this.formData['tn_connection_links']!==null && this.formData['tn_connection_links'].length === 0) {
+					} else { //:todo
+						this.formData['tn_connection_links'] = ''
 						item.disable = false
 						item.required = true
+						this.notPassPara = ['tn_connection_links_option']
 					}
 				}
 			})
@@ -158,12 +160,16 @@ export class SubnetParamsModelComponent implements OnInit {
 		}
 	}
 
-	changeLinkCheck (id: string, e: boolean) : void{ // update the selection state
-		this.formData['tn_connection_links_option'].find((item) => {
-			return item.id === id
-		}).checked = e
-		const checkedList = this.formData['tn_connection_links_option'].filter((item) => {return item.checked === true})
-		this.formData['tn_connection_links'] = checkedList.map((item) => {return item.id}) //  get the selected id
+	changeLinkCheck (id: string) : void{ // update the selection state
+		this.formData['tn_connection_links_option'].forEach((item) => {
+			if (item.id === id) {
+				item.checked = true
+			} else {
+				item.checked = false
+			}
+		})
+		console.log(this.formData['tn_connection_links_option'])
+		this.formData['tn_connection_links'] = id //  get the selected id
 		this.judgeTn()
 	}
 
@@ -386,17 +392,26 @@ export class SubnetParamsModelComponent implements OnInit {
 		} else {
 			params = {...this.formData};
 		}
-		// Verify that each item exclude endpoint is not empty, include special handeling of area_list
-		let checkParams = params
-		if (this.title === 'An' || this.title === 'Cn') {
-			checkParams = this.coreFormItems.filter((item) => {
-				return item.required === true
-			})
-		} else if (this.title = 'Tn') {
-			checkParams = this.transferFormItems.filter((item) => {
-				return item.required === true
-			})
-		}
+        // Verify that each item exclude endpoint is not empty, include special handeling of area_list
+        let checkParams : object= params
+        let requireKeyList :string[] = []
+        let targetFormItems : any[] = []
+        if (this.title === 'An' || this.title === 'Cn') {
+            targetFormItems = this.coreFormItems
+        } else if (this.title = 'Tn') {
+            targetFormItems = this.transferFormItems
+        }
+        for (let item of targetFormItems) {
+            if (typeof item.required !== 'undefined' && item.required) {
+                if (typeof item.type !== 'undefined' && item.type !== 'endpoint')
+                    {
+                        requireKeyList.push(item.key)
+                    }
+            }
+        }
+        console.log(requireKeyList)
+        checkParams = this.Util.pick(params, requireKeyList)
+        console.log(checkParams)
 		if (this.Util.deepCheck(checkParams) && this.areaCheckBeforeSubmit(params)) {
 			this.paramsDataChange.emit(params);
 			this.noPassParaChange.emit(this.notPassPara)

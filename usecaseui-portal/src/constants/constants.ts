@@ -134,27 +134,31 @@ export const TRANSFRER_FORM_ITEMS = [
         title: 'S-NSSAI',
         key: 'sliceProfile_TN_BH_sNSSAI',
         required: true,
+        type: 'input'
     },
 	{
         title: 'Latency (ms)',
         key: 'tn_bh_latency',
-        required: true
+        required: true,
+        type: 'input'
     },
     {
         title: 'Jitter',
         key: 'sliceProfile_TN_BH_jitte',
         required: false,
+        type: 'input'
     },
 	{
 		title: 'MaxBandwidth',
         key: 'tn_bh_bandwidth',
-        required: true
+        required: true,
+        type: 'input'
     },
     {
         title: 'Resource Sharing Level', // select
         key: 'sliceProfile_TN_resourceSharingLevel', // :new
         required: true,
-        type: '',
+        type: 'radio',
         options: [
             {
                 title: 'Shared',
@@ -170,6 +174,7 @@ export const TRANSFRER_FORM_ITEMS = [
         title: 'Connection Links',// table
         key: 'tn_connection_links', // :new
         required: false, // combined
+        type: 'table',
         options: {
             title: 'connection_links_option',
             key: 'tn_connection_links_option'
@@ -201,6 +206,7 @@ export const TRANSFRER_FORM_ITEMS = [
     {
         title:'AN Endpoint', // input group
         key:"an_Endpoint",
+        type: 'endpoint',
         required: false,
         disable: false,
         options: [
@@ -224,6 +230,7 @@ export const TRANSFRER_FORM_ITEMS = [
     {
         title:'CN Endpoint',
         key:"cn_Endpoint",
+        type: 'endpoint',
         required: false,
         disable: false,
         options: [
@@ -251,12 +258,14 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'S-NSSAI',
             key: 'sliceProfile_AN_sNSSAI',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Resource Sharing Level',
             key: 'sliceProfile_AN_resourceSharingLevel',
             required: true,
+            type: 'radio',
             options: [
                 {
                     title: 'Shared',
@@ -272,6 +281,7 @@ export const CORE_FORM_ITEMS = {
             title: 'Mobility',
             key: 'sliceProfile_AN_uEMobilityLevel',
             required: true,
+            type: 'select',
             options: [
                 {
                     title: 'Stationary',
@@ -294,69 +304,82 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Latency (ms)',
             key: 'an_latency',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Max Number of PUD Session',
             key: 'sliceProfile_AN_maxNumberofPDUSession',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Max Number of UEs',
             key: 'sliceProfile_AN_maxNumberofUEs',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Activity Factor (%)',
             key: 'sliceProfile_AN_activityFactor',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'User Downlink Experience Rate（Mbps）',
             key: 'sliceProfile_AN_expDataRateDL',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'User Uplink Experience Rate（Mbps）',
             key: 'sliceProfile_AN_expDataRateUL',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
             key: 'sliceProfile_AN_areaTrafficCapDL',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
             key: 'sliceProfile_AN_areaTrafficCapUL',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Script Name',
             key: 'an_script_name',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Overall User Density',
             key: 'sliceProfile_AN_overallUserDensity',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Coverage Area Ta List',
             key: 'an_coverage_area_ta_list',
-            required: true
+            required: true,
+            type: 'area'
         }
     ],
     "Cn": [
         {
             title: 'S-NSSAI',
             key: 'cn_service_snssai',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Resource Sharing Level',
             key: 'cn_resource_sharing_level',
             required: true,
+            type: 'radio',
             options: [
                 {
                     title: 'Shared',
@@ -372,6 +395,7 @@ export const CORE_FORM_ITEMS = {
             title: 'Mobility',
             key: 'cn_ue_mobility_level',
             required: true,
+            type: 'select',
             options: [
                 {
                     title: 'Stationary',
@@ -394,52 +418,62 @@ export const CORE_FORM_ITEMS = {
         {
             title: 'Latency (ms)',
             key: 'cn_latency',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Max Number of UEs',
             key: 'cn_max_number_of_ues',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Activity Factor (%)',
             key: 'cn_activity_factor',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'User Downlink Experience Rate（Mbps）',
             key: 'cn_exp_data_rate_dl',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'User Uplink Experience Rate（Mbps）',
             key: 'cn_exp_data_rate_ul',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'Downlink Regional Traffic Density（Mbps/km ）',
             key: 'cn_area_traffic_cap_dl',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Uplink Regional Traffic Density（Mbps/km ）',
             key: 'cn_area_traffic_cap_ul',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Script Name',
             key: 'cn_script_name',
-            required: false
+            required: false,
+            type: 'input'
         },
         {
             title: 'Max Number of PUD Session',
             key: 'sliceProfile_CN_maxNumberofPDUSession',
-            required: true
+            required: true,
+            type: 'input'
         },
         {
             title: 'OverAll User Density',
             key: 'sliceProfile_CN_overallUserDensity',
-            required: false
+            required: false,
+            type: 'input'
         },
         // {
         //     title: 'ip-address',

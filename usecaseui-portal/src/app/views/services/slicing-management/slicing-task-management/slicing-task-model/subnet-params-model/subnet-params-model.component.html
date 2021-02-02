@@ -57,7 +57,8 @@
 					</nz-input-group>
 					<!-- connection links table -->
 					<div *ngIf="item.title === 'Connection Links'">
-						<nz-table #basicTable [nzData]="[{}]" nzShowPagination="false">
+						<nz-table #basicTable [nzData]="this.formData[item.options.key]" nzShowPagination="true"
+							nzPageSize="2">
 							<thead>
 								<tr>
 									<th *ngFor="let val of item.header" class="subnet_td">{{val.title}}</th>
@@ -65,14 +66,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let t of formData[item.options.key]">
+								<tr *ngFor="let t of basicTable.data">
 									<td *ngFor="let val of item.header" class="subnet_td">
 										{{t[val.key]}}
 									</td>
-									<td nzShowCheckbox="true" [nzChecked]="t.checked"
+									<!-- <td nzShowCheckbox="true" [nzChecked]="t.checked"
 										(nzCheckedChange)="changeLinkCheck(t.id, $event)" [nzDisabled]="item.disable"
 										class="subnet_td">
-										<!-- <input type="checkbox" ng-model="t.checked" ng-change="nzCheckedChange(t.id)"> -->
+									</td> -->
+									<td>
+										<input type="radio" name="linkcheck" [value]="t.id"
+											(click)="changeLinkCheck(t.id)" [checked]="t.checked"
+											[disabled]="item.disable" class="table_radio" />
 									</td>
 								</tr>
 							</tbody>
