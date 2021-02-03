@@ -57,26 +57,28 @@
 					</nz-input-group>
 					<!-- connection links table -->
 					<div *ngIf="item.title === 'Connection Links'">
-						<nz-table #basicTable [nzData]="this.formData[item.options.key]" nzShowPagination="true"
-							nzPageSize="2">
+						<nz-table #basicTable [nzData]="connectionLinkTable" nzShowPagination="true" nzPageSize="2">
 							<thead>
 								<tr>
-									<th *ngFor="let val of item.header" class="subnet_td">{{val.title}}</th>
+									<th *ngFor="let val of connectionTableHeader" class="subnet_td">{{val}}</th>
 									<th class="subnet_td"> action </th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr *ngFor="let t of basicTable.data">
-									<td *ngFor="let val of item.header" class="subnet_td">
-										{{t[val.key]}}
+									<td *ngFor="let val of connectionTableHeader" class="subnet_td">
+										<div *ngIf="isObject(t[val])">
+											<div *ngFor="let key of objectKeys(t[val])">
+												{{key}}: {{t[val][key]}}
+											</div>
+										</div>
+										<div *ngIf="!isObject(t[val])">
+											{{t[val]}}
+										</div>
 									</td>
-									<!-- <td nzShowCheckbox="true" [nzChecked]="t.checked"
-										(nzCheckedChange)="changeLinkCheck(t.id, $event)" [nzDisabled]="item.disable"
-										class="subnet_td">
-									</td> -->
 									<td>
-										<input type="radio" name="linkcheck" [value]="t.id"
-											(click)="changeLinkCheck(t.id)" [checked]="t.checked"
+										<input type="radio" name="linkcheck" [value]="t.linkId"
+											(click)="changeLinkCheck(t.linkId)" [checked]="t.checked"
 											[disabled]="item.disable" class="table_radio" />
 									</td>
 								</tr>

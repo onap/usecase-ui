@@ -1,0 +1,71 @@
+{
+    "result_header": {
+        "result_code": "200",
+        "result_message": "5Gslicingorderqueryresult."
+    },
+    "result_body": {
+        "record_number": 2,
+        "connection_links_list": [{
+                "linkId": "233errt4545",
+                "anInfo": {
+                    "ipAddress": "1.1.1.1",
+                    "logicId": "dff34444",
+                    "nextHop": "sddsweedffsdsssss"
+                },
+                "cnInfo": {
+                    "ipAddress": "1.1.1.1",
+                    "logicId": "dff34444",
+                    "nextHop": "sddsweedffsdsssss"
+                },
+                "properties": {
+                    "latency": "20",
+                    "jitter": "dffd",
+                    "maxBandwidth": "200",
+                    "resourceSharingLevel": "shared"
+                },
+                "test": {
+                    "test1": "1111",
+                    "test2": "2222"
+                }
+            },
+            {
+                "linkId": "233errt4546",
+                "anInfo": {
+                    "ipAddress": "2.2.2.2",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "cnInfo": {
+                    "ipAddress": "1.1.1.12",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "properties": {
+                    "latency": "202",
+                    "jitter": "dffd2",
+                    "maxBandwidth": "2002",
+                    "resourceSharingLevel": "shared2"
+                }
+            },
+            {
+                "linkId": "233errt4547",
+                "anInfo": {
+                    "ipAddress": "2.2.2.23",
+                    "logicId": "dff3444423",
+                    "nextHop": "sddsweedffsdsssss23"
+                },
+                "cnInfo": {
+                    "ipAddress": "1.1.1.123",
+                    "logicId": "dff3444423",
+                    "nextHop": "sddsweedffsdsssss23"
+                },
+                "properties": {
+                    "latency": "2023",
+                    "jitter": "",
+                    "maxBandwidth": "20023",
+                    "resourceSharingLevel": "shared23"
+                }
+            }
+        ]
+    }
+}

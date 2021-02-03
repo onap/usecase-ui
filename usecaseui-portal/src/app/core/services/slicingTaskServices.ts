@@ -59,7 +59,8 @@ export class SlicingTaskServices {
         //monitor 5G
         fetchTraffic: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/trafficData",
         fetchOnlineusers: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/onlineUsers",
-        fetchBandwidth: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/bandwidth"
+        fetchBandwidth: this.baseUrl + "/monitoring/queryTimestamp/{queryTimestamp}/bandwidth",
+        getConnectionLinkTable: this.baseUrl + "/connectionlinktable" // :todo
     }
 
 
@@ -217,6 +218,10 @@ export class SlicingTaskServices {
     getFetchBandwidth(service_list, time, failedCallback?:any) {
         let url = this.url.fetchBandwidth.replace("{queryTimestamp}", time);
         return this.Http.httpAxios("post", url, service_list, failedCallback);
+    }
+    getConnectionLinkTable( failedCallback?:any ) { // :todo
+        let url = this.url.getConnectionLinkTable;
+        return this.Http.httpAxios("get", url, null, failedCallback);
     }
 
 }
