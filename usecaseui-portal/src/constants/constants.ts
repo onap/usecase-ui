@@ -175,33 +175,7 @@ export const TRANSFRER_FORM_ITEMS = [
         key: 'tn_connection_links', // :new
         required: false, // combined
         type: 'table',
-        options: {
-            title: 'connection_links_option',
-            key: 'tn_connection_links_option'
-        },
-        disable: false,
-        header: [
-            {
-                title: 'ID',
-                key: 'id'
-            },
-            {
-                title: 'AN',
-                key: 'AN'
-            },
-            {
-                title: 'CN',
-                key: 'CN'
-            },
-            {
-                title: 'TN',
-                key: 'TN'
-            },
-            {
-                title: 'Properties',
-                key: 'properties'
-            }
-        ]
+        disable: false
     },
     {
         title:'AN Endpoint', // input group

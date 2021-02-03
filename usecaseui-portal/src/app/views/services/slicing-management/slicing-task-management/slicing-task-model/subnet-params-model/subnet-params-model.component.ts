@@ -3,6 +3,8 @@ import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS , NexthopInfo_Options } 
 import { NzMessageService } from "ng-zorro-antd";
 import { stringify } from '@angular/core/src/util';
 import { Util } from '../../../../../../shared/utils/utils';
+import { SlicingTaskServices } from '@src/app/core/services/slicingTaskServices';
+
 
 @Component({
 	selector: 'app-subnet-params-model',
@@ -29,16 +31,20 @@ export class SubnetParamsModelComponent implements OnInit {
 	CNEndpointInputs: object = {};
 	ANkeyList: string[] = [];
 	CNkeyList: string[] = [];
-	EndpointEnable: boolean = true;  // Whether to enable the three parameters of Endpoint
+	EndpointEnable: boolean = false;  // Whether to enable the three parameters of Endpoint
 	keyList: string[] = []; // keys of endPoint
 	specialParaTN: string[] = ['Resource Sharing Level', 'Connection Links', 'AN Endpoint', 'CN Endpoint'];
 	// Parameters not passed to the back end
 	notPassPara: string[] = ['tn_connection_links'];
+	connectionLinkTable: any[] = [];
+	connectionTableHeader: string[] = [];
+	objectKeys = Object.keys;
     //  Comment: Above code
 
 	constructor(
 		private message: NzMessageService,
-		private Util: Util
+		private Util: Util,
+		private http: SlicingTaskServices
 		) {
 		}
 
@@ -50,56 +56,100 @@ export class SubnetParamsModelComponent implements OnInit {
 			this.formData = JSON.parse(JSON.stringify(this.detailData));
 			if (this.title === 'An' || this.title === 'Cn') {
 				this.coreFormItems = this.title === 'An'?CORE_FORM_ITEMS.An:this.title === 'Cn'?CORE_FORM_ITEMS.Cn:[];
-				}
+			}
 			else if (this.title === 'Tn') {
+				this.getConnectionLinkTable();
 				this.ANkeyList = this.transferFormItems.find((item) => {return item.title === 'AN Endpoint'}).options.map((val) => {return val.key})
 				this.CNkeyList = this.transferFormItems.find((item) => {return item.title === 'CN Endpoint'}).options.map((val) => {return val.key})
 				this.keyList = this.ANkeyList.concat(this.CNkeyList)
-				this.formData['tn_connection_links_option'].forEach((item) => { // add init selection status
-					if (typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links'] !== '' && this.formData['tn_connection_links'] !== null && item.id === this.formData['tn_connection_links']) {
-						item.checked = true
-					} else {
-						item.checked = false
-					}
-				})
-				console.log(this.formData['tn_connection_links_option'])
-				this.judgeTn() // init judge
-			}
-			// If the endpoint related parameters from the back end are incomplete, delete the endpoint item
-			if(this.formData !==undefined && Object.keys(this.formData).length!==0) {
-				this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
-			}
-			if(this.EndpointEnable){
-				if (this.title === 'Tn') {
+				if (typeof this.formData !== 'undefined' && Object.keys(this.formData).length !== 0) {
+					this.EndpointEnable = this.keyList.every((item) => {return this.formData.hasOwnProperty(item)})
+				}
+				if(this.EndpointEnable){
 					this.ANEndpointInputs = this.Util.pick(this.formData, this.ANkeyList)
 					this.CNEndpointInputs = this.Util.pick(this.formData, this.CNkeyList)
-			} else {
-				if (this.title === 'Tn') {
+				} else {
 					this.transferFormItems.map((item,index)=>{
 						if (item.title === 'AN Endpoint' || item.title === 'CN Endpoint') {
-							this.coreFormItems.splice(index,1)
+							this.transferFormItems.splice(index,1)
 						}
 					})
 				}
 			}
+			// If the endpoint related parameters from the back end are incomplete, delete the endpoint item
 			//-------> Comment: Above code
 			if (this.title === 'An') {
 					this.AreaFormatting();
 			}
-			}
 		}
 	}
+
+	addCheckStatus () {
+		this.connectionLinkTable.forEach((item) => {
+			if (item.hasOwnProperty('linkId') && typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links'] !== '' && this.formData['tn_connection_links'] !== null && item['linkId'] === this.formData['tn_connection_links']) {
+				item.checked = true
+			} else {
+				item.checked = false
+			}
+		})
+	}
+
 	changeResourceShare () {
 		this.judgeTn()
 	}
 
+	isObject (val) {
+		if (Object.prototype.toString.call(val) === '[object Object]') {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	getConnectionLinkTable (): void{
+		this.http.getConnectionLinkTable(this.getConnetionFailed).then ((res) => {
+			this.connectionLinkTable = res.result_body.connection_links_list
+			this.addCheckStatus() // add init check status for connection link table
+			this.judgeTn() // init judge
+			this.getTableHeader()
+		})
+	}
+
+	getTableHeader (): void { // Find the common key of all data
+		let keyList :any[] = this.connectionLinkTable.map((item) => {
+			return Object.keys(item)
+		})
+		this.connectionTableHeader = this.Util.intersection(keyList).filter((item) => {
+			return item !== 'checked'
+		})
+		// Filter redundant items in table data
+		this.connectionLinkTable.forEach((item) => {
+			for (let key in item) {
+				if (key !== 'linkId' && key !== 'checked' && this.connectionTableHeader.indexOf(key) === -1) {
+					delete item[key]
+				} else {
+					// Filter out the null values in each item
+					for (let i in item[key]) {
+						if (i === 'jitter' && (item[key][i] === '' || item[key][i] === 'null' || item[key][i] === null)) {
+							delete item[key][i]
+						}
+					}
+				}
+			}
+		})
+	}
+
+	getConnetionFailed () {
+		console.log('failed')
+	}
+
 	judgeTn (): void {
 		if (this.formData['sliceProfile_TN_resourceSharingLevel'] === 'non-shared') {
-			this.formData['tn_connection_links_option'].forEach ((item) => {
+			this.connectionLinkTable.forEach ((item) => {
 				item.checked = false
 			})
 			this.formData['tn_connection_links'] = null
-			this.notPassPara = ['tn_connection_links', 'tn_connection_links_option']
+			this.notPassPara = ['tn_connection_links']
 			this.transferFormItems.forEach((item) => {
 				if (item.title === 'Connection Links') {
 					item.disable = true
@@ -113,16 +163,16 @@ export class SubnetParamsModelComponent implements OnInit {
 				if (item.title === 'Connection Links') {
 					item.disable = false
 				} else if (item.title === 'AN Endpoint' || item.title === 'CN Endpoint') {
-					if (typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links']!==null && this.formData['tn_connection_links'] !== '') {
+					if (typeof this.formData['tn_connection_links'] !== 'undefined' && this.formData['tn_connection_links'] !== null && this.formData['tn_connection_links'] !== '') {
 						item.disable = true
 						item.required = false
-						this.notPassPara = ['tn_connection_links_option']
+						this.notPassPara = []
 						this.notPassPara = this.notPassPara.concat(this.ANkeyList, this.CNkeyList)
 					} else { //:todo
 						this.formData['tn_connection_links'] = ''
 						item.disable = false
 						item.required = true
-						this.notPassPara = ['tn_connection_links_option']
+						this.notPassPara = []
 					}
 				}
 			})
@@ -161,14 +211,13 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	changeLinkCheck (id: string) : void{ // update the selection state
-		this.formData['tn_connection_links_option'].forEach((item) => {
-			if (item.id === id) {
+		this.connectionLinkTable.forEach((item) => {
+			if (item['linkId'] === id) {
 				item.checked = true
 			} else {
 				item.checked = false
 			}
 		})
-		console.log(this.formData['tn_connection_links_option'])
 		this.formData['tn_connection_links'] = id //  get the selected id
 		this.judgeTn()
 	}
@@ -409,9 +458,7 @@ export class SubnetParamsModelComponent implements OnInit {
                     }
             }
         }
-        console.log(requireKeyList)
         checkParams = this.Util.pick(params, requireKeyList)
-        console.log(checkParams)
 		if (this.Util.deepCheck(checkParams) && this.areaCheckBeforeSubmit(params)) {
 			this.paramsDataChange.emit(params);
 			this.noPassParaChange.emit(this.notPassPara)

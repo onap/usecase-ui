@@ -117,6 +117,7 @@ module.exports =
         "/uui-slicing/nsmf/resource/nssi/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list",
         "/uui-slicing/nsmf/resource/nssi/instanceStatus/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize": "/slicing_nssi_list_activated",
         "/uui-slicing/nsmf/resource/nssi/:nssiId/details":"/getSlicingNssiDetail",
+        "/uui-slicing/nsmf/connectionlinktable": "/tn_connectionLinkTable", // :todo
         ///////<-------------CSMF slicing_business--------->/////
         "/uui-slicing/csmf/5gSlicing/orders/status/:status/pageNo/:pageNo/pageSize/:pageSize": "/csmf_slicing_businessData",
         "/POST/uui-slicing/csmf/5gSlicing": "/csmf_slicing_purchase",

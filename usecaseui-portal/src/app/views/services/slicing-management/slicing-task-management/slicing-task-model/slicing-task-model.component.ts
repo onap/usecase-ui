@@ -193,8 +193,7 @@ export class SlicingTaskModelComponent implements OnInit {
         'sliceProfile_AN_ipAddress',
         'sliceProfile_AN_logicInterfaceId',
         'sliceProfile_AN_nextHopInfo',
-        'tn_connection_links', 
-        'tn_connection_links_option']);
+        'tn_connection_links']);
       this.slicingSubnet[2].params = {...this.pick(nsi_nssi_info, [
         'cn_service_snssai',
         'cn_resource_sharing_level',
@@ -391,13 +390,15 @@ export class SlicingTaskModelComponent implements OnInit {
     const { selectedServiceId, selectedServiceName, slicingSubnet, checkDetail, businessRequirement, NSTinfo } = this;
     // slicingSubnet[1] is about Tn,
     // Delete parameters that do not need to be passed
-		this.noPassPara.forEach((item) => {
-			for (let val in slicingSubnet[1].params) {
-				if (val === item) {
-					delete slicingSubnet[1].params[val]
-				}	
-			}
-    })
+    if (this.noPassPara.length !== 0 ) {
+      this.noPassPara.forEach((item) => {
+        for (let val in slicingSubnet[1].params) {
+          if (val === item) {
+            delete slicingSubnet[1].params[val]
+          }	
+        }
+      })
+    }
     const nsi_nssi_info: object = {
       suggest_nsi_id: selectedServiceId,
       suggest_nsi_name: selectedServiceName,

@@ -130,4 +130,8 @@ export class Util {
             return iter;
         }, {});
       }
+
+    intersection(inputs: any[]) : any[]{
+        return inputs.reduce((a, b) => a.filter(c => b.includes(c)))
+    }
 }
