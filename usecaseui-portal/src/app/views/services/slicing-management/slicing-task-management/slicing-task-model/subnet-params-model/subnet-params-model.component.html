@@ -1,6 +1,7 @@
 <nz-modal [(nzVisible)]="showModel" [nzTitle]="title + 'Parameter'" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
 	nzWidth="960px">
 	<div class="subnet_params_container">
+		<!-- TN interface -->
 		<form nz-form *ngIf="title === 'Tn'">
 			<nz-form-item *ngFor="let item of transferFormItems">
 				<nz-form-label [nzSpan]="7" [nzRequired]="item.required" [nzFor]="item.key"
@@ -9,10 +10,9 @@
 				</nz-form-label>
 				<nz-form-control [nzSpan]="16">
 					<input nz-input [(ngModel)]="formData[item.key]" [name]="item.key" [id]="item.key"
-						[readOnly]="item.title === 'S-NSSAI'" [disabled]="item.title === 'S-NSSAI'"
-						[placeholder]="inputHolder(item.title)" *ngIf="specialParaTN.indexOf(item.title)===-1" />
-					<nz-radio-group [name]=" item.key" [(ngModel)]="formData[item.key]"
-						*ngIf="item.title==='Resource Sharing Level'" (ngModelChange)="changeResourceShare()">
+						[disabled]="item.disable" [placeholder]="inputHolder(item.title)" *ngIf="item.type==='input'" />
+					<nz-radio-group [name]=" item.key" [(ngModel)]="formData[item.key]" *ngIf="item.type==='radio'"
+						(ngModelChange)="changeResourceShare()">
 						<label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
 							{{ option.title }}
 						</label>
@@ -56,7 +56,7 @@
 						</div>
 					</nz-input-group>
 					<!-- connection links table -->
-					<div *ngIf="item.title === 'Connection Links'">
+					<div *ngIf="item.type==='table-radio'">
 						<nz-table #basicTable [nzData]="connectionLinkTable" nzShowPagination="true" nzPageSize="2">
 							<thead>
 								<tr>
@@ -85,38 +85,37 @@
 							</tbody>
 						</nz-table>
 					</div>
+					<!-- Prompt whether the detection value is empty -->
 					<div class="validation_alert" *ngIf="item.required">
 						{{Util.isEmpty(formData[item.key])? 'can not be empty!':' '}}</div>
 				</nz-form-control>
 			</nz-form-item>
 		</form>
+		<!-- AN interface or CN interface -->
 		<form nz-form *ngIf="title === 'An' || title === 'Cn'">
 			<nz-form-item *ngFor="let item of coreFormItems">
-				<nz-form-label [nzSpan]="item.key === 'an_coverage_area_ta_list'?7:13" [nzRequired]="item.required"
-					*ngIf=" item.title !== 'Endpoint' || EndpointEnable " [ngStyle]="labelStyle(item.required)">
+				<nz-form-label [nzSpan]="item.type === 'city-select'?7:13" [nzRequired]="item.required"
+					[ngStyle]="labelStyle(item.required)">
 					{{ item.title }}
 				</nz-form-label>
-				<nz-form-control nzSpan="8" *ngIf="item.key !== 'an_coverage_area_ta_list'">
+				<nz-form-control nzSpan="8" *ngIf="item.type !== 'city-select'">
 					<input nz-input [id]="item.key" [name]="item.key" [(ngModel)]="formData[item.key]"
-						[readOnly]="item.title === 'S-NSSAI'" [disabled]="item.title === 'S-NSSAI'"
-						*ngIf=" item.title !== 'Resource Sharing Level' && item.title !== 'Mobility' "
+						[disabled]="item.disable" *ngIf=" item.type === 'input'"
 						[placeholder]="inputHolder(item.title)" />
-					<nz-radio-group [name]="item.key" [(ngModel)]="formData[item.key]"
-						*ngIf="item.title === 'Resource Sharing Level'">
+					<nz-radio-group [name]="item.key" [(ngModel)]="formData[item.key]" *ngIf="item.type === 'radio'">
 						<label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
 							{{ option.title }}
 						</label>
 					</nz-radio-group>
-					<nz-select [name]="item.key" [(ngModel)]="formData[item.key]" *ngIf="item.title === 'Mobility'">
+					<nz-select [name]="item.key" [(ngModel)]="formData[item.key]" *ngIf="item.type === 'select'">
 						<nz-option [nzValue]="option.key" [nzLabel]="option.title" *ngFor="let option of item.options">
 						</nz-option>
 					</nz-select>
 					<div class="validation_alert" *ngIf="item.required">
 						{{Util.isEmpty(formData[item.key])? 'can not be empty!':' '}}</div>
-					<!-- Comment: The following code-->
-					<!-- Comment: Above code-->
 				</nz-form-control>
-				<div *ngIf="title === 'An' && item.key === 'an_coverage_area_ta_list'">
+				<!-- Address selection needs special treatment -->
+				<div *ngIf="title === 'An' && item.type === 'city-select'">
 					<div *ngFor="let area of areaList; let i = index">
 						<nz-form-control [nzSpan]="!ind ? 4 : 4" [nzOffset]="i && !ind ? 7 : 0"
 							class="subnet_params_area" *ngFor="let item of area; let ind = index">
