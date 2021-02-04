@@ -1,0 +1,25 @@
+<div class="city-select">
+  <div *ngFor="let area of areaList; let i = index">
+    <nz-form-control [nzSpan]="!ind ? 4 : 4" [nzOffset]="i && !ind ? 7 : 0" class="subnet_params_area"
+      *ngFor="let item of area; let ind = index">
+      <nz-select [(ngModel)]="item.selected" [name]="'area' + i + ind" (nzOpenChange)="handleChange(area, item)"
+        (ngModelChange)=" handleChangeSelected(area, item) ">
+        <nz-option [nzValue]="op.name" [nzLabel]="op.name" *ngFor="let op of item.options">
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+    <nz-form-control [nzSpan]="1">
+      <div class="validation_alert_area">{{checkArea(area)}}</div>
+    </nz-form-control>
+    <nz-form-control [nzSpan]="1" [nzOffset]="2">
+      <button nz-button nzType="primary" type="button" nzSize="small" class="subnet_params_button" *ngIf="!i"
+        (click)="creatAreaList()">
+        <i nz-icon class="anticon anticon-plus subnet_params_icon"></i>
+      </button>
+      <button nz-button nzType="primary" type="button" nzSize="small" class="subnet_params_button" *ngIf="i"
+        (click)="deleteAreaList(i)">
+        <i nz-icon class="anticon anticon-minus subnet_params_icon"></i>
+      </button>
+    </nz-form-control>
+  </div>
+</div>

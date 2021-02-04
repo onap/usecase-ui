@@ -6,7 +6,7 @@ import {
 	EventEmitter,
 	ElementRef,
 } from "@angular/core";
-import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS, ADDRESS } from "./constants";
+import { TRANSFRER_FORM_ITEMS, CORE_FORM_ITEMS } from "./constants";
 import { NzMessageService } from "ng-zorro-antd";
 import { stringify } from "@angular/core/src/util";
 import { Util } from "../../../../../../shared/utils/utils";
@@ -323,88 +323,9 @@ export class SubnetParamsModelComponent implements OnInit {
 		});
 	}
 
-	creatAreaList(): void {
-		let arr = [
-			{
-				key: "province",
-				selected: "",
-				options: [],
-			},
-			{
-				key: "city",
-				selected: "",
-				options: [],
-			},
-			{
-				key: "district",
-				selected: "",
-				options: [],
-			},
-		];
-		this.areaList.push(arr);
-	}
-
-	deleteAreaList(index: number): void {
-		this.areaList.splice(index, 1);
-	}
-
-	handleChange(area: any[], areaItem: any): void {
-		if (areaItem.key === "province" && areaItem.options.length <= 1) {
-			areaItem.options = ADDRESS;
-		} else if (areaItem.key === "city" && areaItem.options.length <= 1) {
-			ADDRESS.forEach((item) => {
-				if (item.name === area[0].selected) {
-					areaItem.options = item.city;
-				}
-			});
-		} else if (
-			areaItem.key === "district" &&
-			areaItem.options.length <= 1
-		) {
-			ADDRESS.forEach((item: any) => {
-				item.city.forEach((city) => {
-					if (city.name === area[1].selected) {
-						areaItem.options = city.county;
-					}
-				});
-			});
-		}
-	}
-
-	handleChangeSelected(area: any[], areaItem: any) {
-		if (areaItem.key === "province") {
-			area[1].selected = "";
-			area[1].options = [];
-			area[2].selected = "";
-			area[2].options = [];
-		} else if (areaItem.key === "city") {
-			area[2].selected = "";
-			area[2].options = [];
-		}
-	}
-
 	handleCancel(): void {
 		this.showModel = false;
 		this.cancel.emit(this.showModel);
-	}
-
-	// prompt text for each item of area_list
-	checkArea(area: any): string {
-		if (
-			area.every((item) => {
-				return item.selected === "";
-			})
-		) {
-			return "empty";
-		}
-		if (
-			area.some((item) => {
-				return item.selected === "";
-			})
-		) {
-			return "incomplete";
-		}
-		return "";
 	}
 
 	// special handling for address

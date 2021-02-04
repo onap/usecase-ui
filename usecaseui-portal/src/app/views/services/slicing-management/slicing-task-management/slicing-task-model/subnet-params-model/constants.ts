@@ -4,12 +4,11 @@
     type /MUST/: MARKE THE ITEM TYPE, CAN BE ADDED IF NECESSARY: input/select/radio/city-select/select/table-radio/endpoint
     required /MUST/: IF REQUIRED, 
     disable /MUST/: IF DISABLED,
-    scoped: IF SCOPED NUMBERS, CAN BE EMITTED IF NOT
-    scopedText: SCOPED NUMBERS' DESCRIPTION. IF SCOPED NUMBERS EXITS, IT'S A MUST
     placeholder: IF PLACEHOLDER, CAN BE EMITTED IF NOT
     options: IF ITEM NEEDS OPTIONS, CAN BE EMITTED IF NOT
 ********/
 
+// Tn
 export const TRANSFRER_FORM_ITEMS = [
 	{
 		title: "S-NSSAI",
@@ -113,6 +112,7 @@ export const TRANSFRER_FORM_ITEMS = [
 	},
 ];
 
+// An and Cn
 export const CORE_FORM_ITEMS = {
 	An: [
 		{
@@ -364,50 +364,3 @@ export const CORE_FORM_ITEMS = {
 		},
 	],
 };
-
-export const ADDRESS = [
-	{
-		id: "1",
-		name: "Beijing",
-		city: [
-			{
-				id: "101",
-				name: "Beijing",
-				county: [
-					{
-						id: "1001",
-						name: "Haiding District",
-					},
-					{
-						id: "1002",
-						name: "Xicheng District",
-					},
-					{
-						id: "1003",
-						name: "Changping District",
-					},
-				],
-			},
-		],
-	},
-	{
-		id: "2",
-		name: "Shanghai",
-		city: [
-			{
-				id: "201",
-				name: "Shanghai City",
-				county: [
-					{
-						id: "2001",
-						name: "Pudongxin District",
-					},
-					{
-						id: "2002",
-						name: "Jingan District",
-					},
-				],
-			},
-		],
-	},
-];
