@@ -57,7 +57,8 @@
 					</nz-input-group>
 					<!-- connection links table -->
 					<div *ngIf="item.type==='table-radio'">
-						<nz-table #basicTable [nzData]="connectionLinkTable" nzShowPagination="true" nzPageSize="2">
+						<nz-table #basicTable [nzData]="connectionLinkTable" nzShowPagination="true"
+							[nzPageSize]="pageSize" (nzPageIndexChange)="pageIndexChange($event)">
 							<thead>
 								<tr>
 									<th *ngFor="let val of connectionTableHeader" class="subnet_td">{{val}}</th>

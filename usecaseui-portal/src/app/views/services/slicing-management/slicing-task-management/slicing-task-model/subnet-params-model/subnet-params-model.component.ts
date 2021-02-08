@@ -47,6 +47,9 @@ export class SubnetParamsModelComponent implements OnInit {
 	notPassPara: string[] = ["tn_connection_links"];
 	connectionLinkTable: any[] = [];
 	connectionTableHeader: string[] = [];
+	pageSize: number = 2;
+	recordNum: number = 0;
+	hasPageNo: number[] = [];
 	objectKeys = Object.keys;
 	//  Comment: Above code
 
@@ -69,7 +72,9 @@ export class SubnetParamsModelComponent implements OnInit {
 						? CORE_FORM_ITEMS.Cn
 						: [];
 			} else if (this.title === "Tn") {
-				this.getConnectionLinkTable();
+				const pageNo = 1; // start from page 1
+				const pageSize = this.pageSize;
+				this.getConnectionLinkTable(pageNo, pageSize);
 				this.ANkeyList = this.transferFormItems
 					.find((item) => {
 						return item.title === "AN Endpoint";
@@ -149,12 +154,56 @@ export class SubnetParamsModelComponent implements OnInit {
 		}
 	}
 
-	getConnectionLinkTable(): void {
+	getConnectionLinkTable(pageNo, pageSize): void {
+		const pageObj = {
+			pageNo: pageNo,
+			pageSize: pageSize,
+		};
 		this.http
-			.getConnectionLinkTable(this.getConnetionFailed)
+			.getConnectionLinkTable(pageObj, this.getConnetionFailed)
 			.then((res) => {
-				this.connectionLinkTable =
-					res.result_body.connection_links_list;
+				if (pageNo === 1) {
+					// the first page
+					this.connectionLinkTable =
+						res.result_body.connection_links_list;
+					this.recordNum = res.result_body.record_number;
+					// Use default value to occupy
+					let defaultItem: object = {};
+					if (this.connectionLinkTable.length !== 0) {
+						defaultItem = JSON.parse(
+							JSON.stringify(this.connectionLinkTable[0])
+						);
+						for (let key in defaultItem) {
+							if (!this.isObject(defaultItem[key])) {
+								defaultItem[key] = "";
+							}
+							// else {
+							// 	for (let i in defaultItem[key]) {
+							// 		defaultItem[key][i] = "";
+							// 	}
+							// }
+						}
+						for (let i = pageSize; i < this.recordNum; i++) {
+							this.connectionLinkTable.push(defaultItem);
+						}
+					}
+					this.hasPageNo = [1];
+				} else if (pageNo > 1) {
+					// delete the default page of the page and add the actual data of the page
+					const startIndex = pageSize * (pageNo - 1);
+					const endIndex = startIndex + pageSize - 1;
+					this.connectionLinkTable.splice(startIndex, pageSize);
+					const frontArr = this.connectionLinkTable.slice(
+						0,
+						startIndex
+					);
+					const backArr = this.connectionLinkTable.slice(startIndex);
+					this.connectionLinkTable = frontArr.concat(
+						res.result_body.connection_links_list,
+						backArr
+					);
+				}
+				this.hasPageNo.push(pageNo);
 				this.addCheckStatus(); // add init check status for connection link table
 				this.judgeTn(); // init judge
 				this.getTableHeader();
@@ -197,6 +246,12 @@ export class SubnetParamsModelComponent implements OnInit {
 		});
 	}
 
+	pageIndexChange(e) {
+		// judge whether there is data of the page, if not, request it from the back end
+		if (this.hasPageNo.indexOf(e) === -1) {
+			this.getConnectionLinkTable(e, this.pageSize);
+		}
+	}
 	getConnetionFailed() {
 		console.log("failed");
 	}
