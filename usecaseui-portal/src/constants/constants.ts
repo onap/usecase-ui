@@ -10,29 +10,6 @@
     options: IF ITEM NEEDS OPTIONS, CAN BE EMITTED IF NOT
 ********/
 
-export const TASK_PROCESSING_STATUS = [
-	{
-		title: "All",
-		value: "all",
-	},
-	{
-		title: "Planning",
-		value: "Planning",
-	},
-	{
-		title: "WaitingToConfirm",
-		value: "WaitingToConfirm",
-	},
-	{
-		title: "Creating",
-		value: "Creating",
-	},
-	{
-		title: "Completed",
-		value: "Completed",
-	},
-];
-
 export const BUSINESS_REQUIREMENT = [
 	{
 		title: "Slicing Business Name",

@@ -30,6 +30,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	formData: any;
 	coreFormItems: any = [];
 	areaList: any[] = [];
+	areaLevel: number = 3;
 	ANEndpointInputs: object = {};
 	CNEndpointInputs: object = {};
 	ANkeyList: string[] = [];
@@ -302,6 +303,7 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	AreaFormatting() {
 		let areaList = [...this.formData.an_coverage_area_ta_list];
+		console.log(this.areaList);
 		this.areaList = areaList.map((item: any) => {
 			let arr = item.split(";");
 			item = arr.map((ite, index) => {
@@ -321,6 +323,7 @@ export class SubnetParamsModelComponent implements OnInit {
 			});
 			return item;
 		});
+		console.log(this.areaList);
 	}
 
 	handleCancel(): void {
