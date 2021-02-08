@@ -30,6 +30,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	formData: any;
 	coreFormItems: any = [];
 	areaList: any[] = [];
+	areaLevel: number = 3;
 	ANEndpointInputs: object = {};
 	CNEndpointInputs: object = {};
 	ANkeyList: string[] = [];

@@ -1,10 +1,13 @@
 /*******
     Input
-    areaList /MUST/: Selected region data
+	areaList /MUST/: Selected region data
+	level /MUST/: 
+	- 3: province;city;district
+	- 4: province;city;district;street
 ********/
 import { Component, OnInit } from "@angular/core";
 import { Input } from "@angular/core";
-import { ADDRESS } from "./constants";
+import { LEVEL3ADDRESS, LEVEL4ADDRESS } from "./constants";
 
 @Component({
 	selector: "app-city-select",
@@ -13,16 +16,74 @@ import { ADDRESS } from "./constants";
 })
 export class CitySelectComponent implements OnInit {
 	@Input() areaList: any[];
+	@Input() level: number;
+	defaultOptions: any[];
 
 	constructor() {}
 
 	ngOnInit() {}
-	ngOnChanges() {}
+	ngOnChanges() {
+		this.chooseDefaultOptions();
+	}
+	chooseDefaultOptions(): void {
+		// options for selection box
+		switch (this.level) {
+			case 3:
+				this.defaultOptions = LEVEL3ADDRESS;
+				break;
+			case 4:
+				this.defaultOptions = LEVEL4ADDRESS;
+				break;
+			default:
+				this.defaultOptions = LEVEL3ADDRESS;
+				break;
+		}
+	}
+
+	computeSpan(ind: number) {
+		// Space occupation of each selection box
+		let res: number = 4;
+		switch (this.level) {
+			case 4:
+				if (ind === 0 || ind === 1 || ind === 2) {
+					res = 3;
+				} else {
+					res = 4;
+				}
+				break;
+			default:
+				// 3 or others
+				res = 4;
+				break;
+		}
+		return res;
+	}
+	computeOffset(ind: number, i: number) {
+		// the offset of each selection box
+		let res: number = 0;
+		switch (this.level) {
+			case 4:
+				if (i && !ind) {
+					res = 7;
+				} else {
+					res = 0;
+				}
+				break;
+			default:
+				if (i && !ind) {
+					res = 7;
+				} else {
+					res = 0;
+				}
+				break;
+		}
+		return res;
+	}
 	handleChange(area: any[], areaItem: any): void {
 		if (areaItem.key === "province" && areaItem.options.length <= 1) {
-			areaItem.options = ADDRESS;
+			areaItem.options = this.defaultOptions;
 		} else if (areaItem.key === "city" && areaItem.options.length <= 1) {
-			ADDRESS.forEach((item) => {
+			this.defaultOptions.forEach((item) => {
 				if (item.name === area[0].selected) {
 					areaItem.options = item.city;
 				}
@@ -31,10 +92,22 @@ export class CitySelectComponent implements OnInit {
 			areaItem.key === "district" &&
 			areaItem.options.length <= 1
 		) {
-			ADDRESS.forEach((item: any) => {
+			this.defaultOptions.forEach((item: any) => {
 				item.city.forEach((city) => {
 					if (city.name === area[1].selected) {
-						areaItem.options = city.county;
+						areaItem.options = city.district;
+					}
+				});
+			});
+		} else if (areaItem.key === "street" && areaItem.options.length <= 1) {
+			this.defaultOptions.forEach((item: any) => {
+				item.city.forEach((city) => {
+					if (city.name === area[1].selected) {
+						city.district.forEach((district) => {
+							if (district.name === area[2].selected) {
+								areaItem.options = district.street;
+							}
+						});
 					}
 				});
 			});
@@ -42,15 +115,13 @@ export class CitySelectComponent implements OnInit {
 	}
 
 	handleChangeSelected(area: any[], areaItem: any) {
-		if (areaItem.key === "province") {
-			area[1].selected = "";
-			area[1].options = [];
-			area[2].selected = "";
-			area[2].options = [];
-		} else if (areaItem.key === "city") {
-			area[2].selected = "";
-			area[2].options = [];
-		}
+		let areaItemIndex = area.indexOf(areaItem);
+		area.map((item, index) => {
+			if (index > areaItemIndex) {
+				item.selected = "";
+				item.options = [];
+			}
+		});
 	}
 
 	// prompt text for each item of area_list
@@ -73,23 +144,51 @@ export class CitySelectComponent implements OnInit {
 	}
 
 	creatAreaList(): void {
-		let arr = [
-			{
-				key: "province",
-				selected: "",
-				options: [],
-			},
-			{
-				key: "city",
-				selected: "",
-				options: [],
-			},
-			{
-				key: "district",
-				selected: "",
-				options: [],
-			},
-		];
+		let arr: any[] = [];
+		switch (this.level) {
+			case 4:
+				arr = [
+					{
+						key: "province",
+						selected: "",
+						options: [],
+					},
+					{
+						key: "city",
+						selected: "",
+						options: [],
+					},
+					{
+						key: "district",
+						selected: "",
+						options: [],
+					},
+					{
+						key: "street",
+						selected: "",
+						options: [],
+					},
+				];
+				break;
+			default:
+				arr = [
+					{
+						key: "province",
+						selected: "",
+						options: [],
+					},
+					{
+						key: "city",
+						selected: "",
+						options: [],
+					},
+					{
+						key: "district",
+						selected: "",
+						options: [],
+					},
+				];
+		}
 		this.areaList.push(arr);
 	}
 

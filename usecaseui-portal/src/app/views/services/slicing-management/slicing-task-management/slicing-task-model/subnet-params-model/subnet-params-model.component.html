@@ -116,7 +116,7 @@
 				</nz-form-control>
 				<!-- Address selection needs special treatment -->
 				<div *ngIf="title === 'An' && item.type === 'city-select'">
-					<app-city-select [areaList]="areaList"></app-city-select>
+					<app-city-select [areaList]="areaList" [level]="areaLevel"></app-city-select>
 				</div>
 			</nz-form-item>
 		</form>
