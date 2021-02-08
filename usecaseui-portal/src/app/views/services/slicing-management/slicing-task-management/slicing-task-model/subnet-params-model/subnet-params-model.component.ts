@@ -142,9 +142,9 @@ export class SubnetParamsModelComponent implements OnInit {
 		});
 	}
 
-	changeResourceShare() {
-		this.judgeTn();
-	}
+	// changeResourceShare() {
+	// 	this.judgeTn();
+	// }
 
 	isObject(val) {
 		if (Object.prototype.toString.call(val) === "[object Object]") {
@@ -168,40 +168,43 @@ export class SubnetParamsModelComponent implements OnInit {
 						res.result_body.connection_links_list;
 					this.recordNum = res.result_body.record_number;
 					// Use default value to occupy
-					let defaultItem: object = {};
-					if (this.connectionLinkTable.length !== 0) {
-						defaultItem = JSON.parse(
-							JSON.stringify(this.connectionLinkTable[0])
-						);
-						for (let key in defaultItem) {
-							if (!this.isObject(defaultItem[key])) {
-								defaultItem[key] = "";
-							}
-							// else {
-							// 	for (let i in defaultItem[key]) {
-							// 		defaultItem[key][i] = "";
-							// 	}
-							// }
-						}
-						for (let i = pageSize; i < this.recordNum; i++) {
-							this.connectionLinkTable.push(defaultItem);
-						}
-					}
+					// let defaultItem: object = {};
+					// if (this.connectionLinkTable.length !== 0) {
+					// 	defaultItem = JSON.parse(
+					// 		JSON.stringify(this.connectionLinkTable[0])
+					// 	);
+					// 	for (let key in defaultItem) {
+					// 		if (!this.isObject(defaultItem[key])) {
+					// 			defaultItem[key] = "";
+					// 		}
+					// 		// else {
+					// 		// 	for (let i in defaultItem[key]) {
+					// 		// 		defaultItem[key][i] = "";
+					// 		// 	}
+					// 		// }
+					// 	}
+					// 	for (let i = pageSize; i < this.recordNum; i++) {
+					// 		this.connectionLinkTable.push(defaultItem);
+					// 	}
+					// }
 					this.hasPageNo = [1];
 				} else if (pageNo > 1) {
 					// delete the default page of the page and add the actual data of the page
-					const startIndex = pageSize * (pageNo - 1);
-					const endIndex = startIndex + pageSize - 1;
-					this.connectionLinkTable.splice(startIndex, pageSize);
-					const frontArr = this.connectionLinkTable.slice(
-						0,
-						startIndex
-					);
-					const backArr = this.connectionLinkTable.slice(startIndex);
-					this.connectionLinkTable = frontArr.concat(
-						res.result_body.connection_links_list,
-						backArr
-					);
+					// const startIndex = pageSize * (pageNo - 1);
+					// const endIndex = startIndex + pageSize - 1;
+					// this.connectionLinkTable.splice(startIndex, pageSize);
+					// const frontArr = this.connectionLinkTable.slice(
+					// 	0,
+					// 	startIndex
+					// );
+					// const backArr = this.connectionLinkTable.slice(startIndex);
+					// this.connectionLinkTable = frontArr.concat(
+					// 	res.result_body.connection_links_list,
+					// 	backArr
+					// );
+					this.connectionLinkTable =
+						res.result_body.connection_links_list;
+					this.recordNum = res.result_body.record_number;
 				}
 				this.hasPageNo.push(pageNo);
 				this.addCheckStatus(); // add init check status for connection link table
@@ -248,9 +251,9 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	pageIndexChange(e) {
 		// judge whether there is data of the page, if not, request it from the back end
-		if (this.hasPageNo.indexOf(e) === -1) {
-			this.getConnectionLinkTable(e, this.pageSize);
-		}
+		// if (this.hasPageNo.indexOf(e) === -1) {
+		this.getConnectionLinkTable(e, this.pageSize);
+		// }
 	}
 	getConnetionFailed() {
 		console.log("failed");
@@ -261,10 +264,11 @@ export class SubnetParamsModelComponent implements OnInit {
 			this.formData["sliceProfile_TN_resourceSharingLevel"] ===
 			"non-shared"
 		) {
-			this.connectionLinkTable.forEach((item) => {
-				item.checked = false;
-			});
-			this.formData["tn_connection_links"] = null;
+			//:todo clear??
+			// this.connectionLinkTable.forEach((item) => {
+			// 	item.checked = false;
+			// });
+			// this.formData["tn_connection_links"] = null;
 			this.notPassPara = ["tn_connection_links"];
 			this.transferFormItems.forEach((item) => {
 				if (item.title === "Connection Links") {

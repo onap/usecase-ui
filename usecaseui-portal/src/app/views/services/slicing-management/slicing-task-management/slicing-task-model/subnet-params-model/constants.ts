@@ -42,7 +42,7 @@ export const TRANSFRER_FORM_ITEMS = [
 		title: "Resource Sharing Level", // select
 		key: "sliceProfile_TN_resourceSharingLevel", // :new
 		required: true,
-		disable: false,
+		disable: true,
 		type: "radio",
 		options: [
 			{

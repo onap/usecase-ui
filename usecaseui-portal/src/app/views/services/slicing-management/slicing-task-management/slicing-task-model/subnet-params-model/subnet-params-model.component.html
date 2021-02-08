@@ -12,7 +12,7 @@
 					<input nz-input [(ngModel)]="formData[item.key]" [name]="item.key" [id]="item.key"
 						[disabled]="item.disable" [placeholder]="inputHolder(item.title)" *ngIf="item.type==='input'" />
 					<nz-radio-group [name]=" item.key" [(ngModel)]="formData[item.key]" *ngIf="item.type==='radio'"
-						(ngModelChange)="changeResourceShare()">
+						[disabled]="item.disable">
 						<label nz-radio [nzValue]="option.key" *ngFor="let option of item.options">
 							{{ option.title }}
 						</label>
@@ -58,7 +58,8 @@
 					<!-- connection links table -->
 					<div *ngIf="item.type==='table-radio'">
 						<nz-table #basicTable [nzData]="connectionLinkTable" nzShowPagination="true"
-							[nzPageSize]="pageSize" (nzPageIndexChange)="pageIndexChange($event)">
+							[nzPageSize]="pageSize" (nzPageIndexChange)="pageIndexChange($event)"
+							nzFrontPagination="false" [nzTotal]="recordNum">
 							<thead>
 								<tr>
 									<th *ngFor="let val of connectionTableHeader" class="subnet_td">{{val}}</th>
