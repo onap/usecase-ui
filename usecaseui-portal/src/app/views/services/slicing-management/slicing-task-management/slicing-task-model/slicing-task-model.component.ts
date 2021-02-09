@@ -79,7 +79,7 @@ export class SlicingTaskModelComponent implements OnInit {
 	isShowParams: boolean;
 	paramsTitle: string;
 	params: any;
-	noPassPara: string[];
+	noPassPara: string[] = [];
 	// 获取数据loading
 	isSpinning: boolean = false;
 	loading: boolean = false;

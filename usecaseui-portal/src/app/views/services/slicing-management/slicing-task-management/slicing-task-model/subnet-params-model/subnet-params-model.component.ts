@@ -62,6 +62,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	ngOnInit() {}
 
 	ngOnChanges() {
+		// It is excuted every time you open it
 		if (this.title) {
 			this.formData = JSON.parse(JSON.stringify(this.detailData));
 			if (this.title === "An" || this.title === "Cn") {
@@ -384,6 +385,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	handleCancel(): void {
+		this.noPassParaChange.emit(this.notPassPara);
 		this.showModel = false;
 		this.cancel.emit(this.showModel);
 	}
