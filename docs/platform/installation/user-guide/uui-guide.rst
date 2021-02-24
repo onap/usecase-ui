@@ -69,6 +69,7 @@ https://wiki.onap.org/display/DW/UUI
 
 This module consists of two parts. 
 The first part is CSMF component which provides the functions of creating network slicing and displaying the created slicing. Also, customers can use this page to activate, deactivate and terminate the slcing.
+In Honolulu Release, the coverageArea number param is added. Users could input the grid numbers to specify the area where they want the slicing service to cover.
 
 |CSMF Management Page|
 
