@@ -98,7 +98,7 @@ export const COMMUNICATION_FORM_ITEMS = [
 		key: "coverageAreaNumber",
 		type: "input",
 		placeholder:
-			"Please enter the coverage area number. use , to separate them if necessary",
+			"Please enter the coverage area number. Use a comma (,) to separate them if necessary",
 		required: false,
 	},
 ];
