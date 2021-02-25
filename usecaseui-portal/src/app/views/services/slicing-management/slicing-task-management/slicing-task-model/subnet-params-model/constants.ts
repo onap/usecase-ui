@@ -57,7 +57,7 @@ export const TRANSFRER_FORM_ITEMS = [
 	},
 	{
 		title: "Connection Links", // table
-		key: "tn_connection_links", // :new
+		key: "sliceProfile_TN_connection_links", // :new
 		required: false, // combined
 		type: "table-radio",
 		disable: false,

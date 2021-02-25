@@ -70,7 +70,7 @@
             "sliceProfile_TN_BH_sST": "test_sliceProfile_TN_BH _sST",
             "sliceProfile_TN_BH_sNSSAI": "test_tn_service_snssai_01",
             "sliceProfile_TN_resourceSharingLevel": "shared",
-            "tn_connection_links": "233errt4545",
+            "sliceProfile_TN_connection_links": "233errt4545",
             "tn_bh_enableNSSISelection": false,
             "cn_suggest_nssi_id": "46da8cf8-0878-48ac-bea3-f2200959411c",
             "cn_suggest_nssi_name": "eMBB CNinstance3",

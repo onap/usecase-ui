@@ -234,7 +234,7 @@ export class SlicingTaskModelComponent implements OnInit {
 					"sliceProfile_AN_ipAddress",
 					"sliceProfile_AN_logicInterfaceId",
 					"sliceProfile_AN_nextHopInfo",
-					"tn_connection_links",
+					"sliceProfile_TN_connection_links",
 				]);
 				this.slicingSubnet[2].params = {
 					...this.pick(nsi_nssi_info, [
