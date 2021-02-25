@@ -18,13 +18,16 @@ export class SlicingBusinessModelComponent implements OnInit {
     }
 
     @Input() businessId;
+    @Input() outerData;
     businessRequirement: any[];
     NSTinfo: any[] = [];
     nsiInfo: any[] = [];
     taskModel: boolean = false;
     isSpinning: boolean = true;
+    status: string = ""
     ngOnInit() {
-        console.log(this.businessId, "id");
+        console.log(this.businessId, "id",this.outerData);
+        this.status = this.outerData.orchestration_status
         this.getDetail()
     }
 
