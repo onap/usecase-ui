@@ -2,13 +2,8 @@
     <app-basic-info [businessRequirement]="businessRequirement" [NSTinfo]="NSTinfo" [taskModel]="taskModel">
     </app-basic-info>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'Slicing NSI :'" [nzFooter]="null">
-    <nz-table
-            #basicTable
-            [nzData]="nsiInfo"
-            [nzShowPagination]="false"
-            nzHideOnSinglePage
-                class="model-table-padding"
-    >
+        <nz-table #basicTable [nzData]="nsiInfo" [nzShowPagination]="false" nzHideOnSinglePage
+            class="model-table-padding">
             <thead>
                 <tr>
                     <th>Service Instance Id</th>
@@ -32,5 +27,10 @@
                 </ng-template>
             </tbody>
         </nz-table>
+    </nz-list>
+    <nz-list class="taskmodel_list" nzBordered [nzHeader]="'End to End Topology:'" [nzFooter]="null">
+        <div>status:{{status}}</div>
+        <img style="width: 100%;" src="assets/images/slicing-business-management/example.png" alt="example" />
+        <!-- <img src="assets/images/slicing-business-management/server.svg" /> -->
     </nz-list>
 </nz-spin>

@@ -178,7 +178,8 @@ export class SlicingBusinessTableComponent implements OnInit {
             nzOkText: null,
             nzCancelText: null,
             nzComponentParams: {
-                businessId: data.service_instance_id
+                businessId: data.service_instance_id,
+                outerData:data
             }
         })
     }
