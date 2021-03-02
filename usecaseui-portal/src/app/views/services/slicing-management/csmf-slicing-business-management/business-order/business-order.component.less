@@ -30,3 +30,43 @@
 .error-input-border {
   border-color: red !important;
 }
+
+.detail-wrap{
+  width: 300px;
+  height: 450px;
+  background: rgba(0, 0, 0, .8);
+  line-height: 20px;
+  border-radius: 4px;
+  text-indent: 2em;
+  position: absolute;
+  right: -200px;
+  top: -458px;
+  color:#ffffff;
+  p{
+    padding: 10px 10px 0 10px;
+
+  }
+}
+.detail-icon{
+  position: absolute;
+   right: -16px;
+cursor: pointer;
+
+}
+
+.detail-wrap::before{
+  content: '';
+    display: block;
+    position: absolute;
+    right: 178px;
+    bottom: -16px;
+    border: 20px solid transparent;
+    border: 8px solid transparent;
+    border-top: 8px solid  rgba(0, 0, 0, .8);
+}
+.detail-img{
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+}
