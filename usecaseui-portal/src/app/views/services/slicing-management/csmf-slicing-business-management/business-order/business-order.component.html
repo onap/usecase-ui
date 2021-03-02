@@ -7,13 +7,18 @@
                     {{ item.title }}
                 </nz-form-label>
                 <nz-form-control [nzSpan]="16">
-                    <nz-tooltip [nzTitle]="item.scoped&&item.scopedText?item.scopedText:''" [nzPlacement]="'right'"
+                    <nz-tooltip    [nzTitle]="item.scoped&&item.scopedText?item.scopedText:''" [nzPlacement]="'right'"
                         [nzTrigger]="'focus'">
-                        <input nz-input nz-tooltip [id]="item.key" [name]="item.key" *ngIf="item.type === 'input'"
+                        <input nz-input nz-tooltip   [id]="item.key" [name]="item.key" *ngIf="item.type === 'input'"
                             [(ngModel)]="slicing_order_info[item.key]"
                             [ngClass]="{'error-input-border' : validateRulesShow[i] === true}"
                             [placeholder]="item.placeholder ? item.placeholder : ''"
                             (blur)="item.required ? this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow) : this.Util.validator()" />
+                            <div *ngIf="item.coverflag" class="detail-wrap">
+                               <p>Note: If coverageArea is not at all provided by the user (as it is an optional input, and also optional in Service Profile), we will assume that the entire network is required to be covered. For Coverage Area Number, please enter the rectangle grid numbers corresponding to the physical coverage areas that you see on the map image. The following image shows the rectangular grid numbers for a coverage area, you can take it as an example:</p> 
+                                <img src="../../../../../../assets/images/coverageAreaMap.png" class="detail-img"/>
+                            </div>
+                            <span class="detail-icon" *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)" (mouseleave)="detailFn(item.coverflag)" >?</span>
                     </nz-tooltip>
                     <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
                         *ngIf="item.type === 'radio'">

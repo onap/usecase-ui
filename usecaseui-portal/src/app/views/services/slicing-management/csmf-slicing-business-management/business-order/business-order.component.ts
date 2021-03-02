@@ -21,6 +21,13 @@ export class BusinessOrderComponent implements OnInit {
 	ngOnChanges() {
 		this.AreaFormatting();
 	}
+    detailFn(flag){
+	  COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
+		  if(item.key=='coverageAreaNumber'){
+			item["coverflag"] = flag == true ? false:true
+		  }
+	  })
+	}
 
 	@Input() showModel: boolean;
 	@Output() cancel = new EventEmitter<boolean>();
