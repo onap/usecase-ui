@@ -41,11 +41,6 @@ committers:
     company: 'CMCC'
     id: 'shentao999'
     timezone: 'China/Beijing'
-  - name: 'Huabing Zhao'
-    email: 'zhaohuabing@gmail.com'
-    company: 'ZTE'
-    id: 'Huabing_Zhao'
-    timezone: 'China/Chengdu'
   - name: 'Chuyi Guo'
     email: 'guochuyi@chinamobile.com'
     company: 'CMCC'
@@ -66,17 +61,16 @@ tsc:
   changes:
     - type: 'Addition'
       name: 'Ran Xu'
-      link: 'https://wiki.onap.org/display/DW/
-        Ran+Xu+-+Committer+Promotion+Request'
+      link: 'https://wiki.onap.org/display/DW/Ran+Xu+-+Committer+Promotion+Request'
     - type: 'Removal'
       name: 'Amichai Hemli'
-      link: 'https://wiki.onap.org/display/DW/
-        Amichai+Hemli+-+Committer+Removal+Request'
+      link: 'https://wiki.onap.org/display/DW/Amichai+Hemli+-+Committer+Removal+Request'
     - type: 'Removal'
       name: 'Xin Jin'
-      link: 'https://wiki.onap.org/display/DW/
-        Xin+Jin+-+Committer+Removal+Request'
+      link: 'https://wiki.onap.org/display/DW/Xin+Jin+-+Committer+Removal+Request'
     - type: 'Addition'
       name: 'He Keguang'
-      link: 'https://wiki.onap.org/display/DW/
-        He+Keguang+-+Committer+Promotion+Request'
+      link: 'https://wiki.onap.org/display/DW/He+Keguang+-+Committer+Promotion+Request'
+    - type: 'Removal'
+      name: 'Huabing Zhao'
+      link: 'https://wiki.onap.org/display/DW/Huabing+Zhao+-+Committer+Removal+Request'
