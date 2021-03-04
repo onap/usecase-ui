@@ -1,0 +1,49 @@
+.subnet_params_container {
+  padding-left: 3%;
+}
+.subnet_params_container .subnet_params_area {
+  margin-right: 5px;
+}
+.subnet_params_container .ant-btn-icon-only {
+  padding: 0 5px !important;
+}
+.subnet_params_container .subnet_params_button {
+  margin-top: 7px;
+  margin-left: 10px;
+}
+.subnet_params_container .subnet_params_icon {
+  font-size: 14px;
+}
+.subnet_params_container .audio_class {
+  height: 130px;
+}
+.subnet_params_container .audio_class .recode_class {
+  margin-top: 30px;
+  position: relative;
+}
+.subnet_params_container .audio_class .recode_class span {
+  font-size: 26px;
+}
+.subnet_params_container .audio_class .recode_class .audioBtn {
+  font-size: 30px;
+  position: absolute;
+  top: 8px;
+  left: 66px;
+}
+.subnet_params_container .audio_class .recode_class .anticon-pause-circle-o {
+  color: red;
+}
+.subnet_params_container .audio_class .play_class {
+  font-size: 26px;
+  margin-top: 20px;
+}
+.ant-form-item {
+  margin-top: 20px;
+  margin-bottom: -5px;
+}
+.validateRules {
+  color: red;
+}
+.error-input-border {
+  border-color: red!important;
+}
