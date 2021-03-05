@@ -102,3 +102,4 @@ export const COMMUNICATION_FORM_ITEMS = [
 		required: false,
 	},
 ];
+export const MASKTEXT = "Note: If coverageArea is not at all provided by the user (as it is an optional input, and also optional in Service Profile), we will assume that the entire network is required to be covered. For Coverage Area Number, please enter the rectangle grid numbers corresponding to the physical coverage areas that you see on the map image. The following image shows the rectangular grid numbers for a coverage area, you can take it as an example:"

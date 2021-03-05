@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { COMMUNICATION_FORM_ITEMS } from "./constants";
+import { COMMUNICATION_FORM_ITEMS,MASKTEXT } from "./constants";
 import { Util } from "../../../../../shared/utils/utils";
 import { SlicingTaskServices } from "../../../../../core/services/slicingTaskServices";
 import { NzMessageService } from "ng-zorro-antd";
@@ -16,7 +16,10 @@ export class BusinessOrderComponent implements OnInit {
 		private Util: Util
 	) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+       console.log('MASKTEXT',MASKTEXT)
+	   this.masktext = MASKTEXT
+	}
 
 	ngOnChanges() {
 		this.AreaFormatting();
@@ -47,7 +50,7 @@ export class BusinessOrderComponent implements OnInit {
 	validateRulesShow: any[] = [];
 	rulesText: any[] = [];
 	areaLevel: number = 4;
-
+    masktext: string = "";
 	AreaFormatting(): void {
 		let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
 		this.areaList = areaList.map((item: any) => {
