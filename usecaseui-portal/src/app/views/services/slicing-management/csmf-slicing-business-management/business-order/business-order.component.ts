@@ -19,17 +19,19 @@ export class BusinessOrderComponent implements OnInit {
 	ngOnInit() {}
 
 	ngOnChanges() {
-		this.AreaFormatting();
-	}
-    detailFn(flag){
-	  COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-		  if(item.key=='coverageAreaNumber'){
-			item["coverflag"] = flag == true ? false:true
-		  }
-	  })
+    let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
+    if (this.modelParams && this.showModel) {
+      this.slicing_order_info = {...this.modelParams};
+      if (this.slicing_order_info.coverageArea) {
+        areaList = [];
+        areaList.push(this.slicing_order_info.coverageArea.split(" ").join(";"));
+      }
+    }
+		this.AreaFormatting(areaList);
 	}
 
-	@Input() showModel: boolean;
+  @Input() showModel: boolean;
+  @Input() modelParams: any;
 	@Output() cancel = new EventEmitter<boolean>();
 	comunicationFormItems = COMMUNICATION_FORM_ITEMS;
 	slicing_order_info = {
@@ -48,8 +50,7 @@ export class BusinessOrderComponent implements OnInit {
 	rulesText: any[] = [];
 	areaLevel: number = 4;
 
-	AreaFormatting(): void {
-		let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
+	AreaFormatting(areaList): void {
 		this.areaList = areaList.map((item: any) => {
 			let arr = item.split(";");
 			item = arr.map((it, index) => {

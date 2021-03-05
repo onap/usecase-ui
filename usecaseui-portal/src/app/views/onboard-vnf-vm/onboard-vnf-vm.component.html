@@ -57,10 +57,26 @@
     <!-- table -->
     <nz-spin [nzSpinning]="isSpinning" class="listContainer">
         <div class="mask" *ngIf="isSpinning"></div>
-        <nz-table #nzTable [nzData]="currentTab === 'NS'? nsTableData: (currentTab === 'VNF'? vnfTableData : pnfTableData)" nzShowSizeChanger [nzFrontPagination]="true"
-            [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [(nzPageSize)]="pageSize"
-            [(nzPageIndex)]='pageIndex' nzSize="middle">
-            <thead>
+        <nz-table
+          #nzTable 
+          [nzData]="currentTab === 'NS'
+            ? nsTableData
+            : (currentTab === 'VNF'
+              ? vnfTableData
+              : (currentTab === 'PNF'
+                ? pnfTableData
+                : modelTableData
+                )
+              )"
+          nzShowSizeChanger
+          [nzFrontPagination]="true"
+          [nzShowQuickJumper]="true"
+          [nzPageSizeOptions]="[5,10,15,20]"
+          [(nzPageSize)]="pageSize"
+          [(nzPageIndex)]='pageIndex'
+          nzSize="middle"
+        >
+            <thead *ngIf="currentTab !== 'NLP Model Reource'">
                 <tr class="theadColor">
                     <th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
                     <th nzWidth="15%"> {{"i18nTextDefine_Name" | translate}} </th>
@@ -70,6 +86,16 @@
                     <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
                     <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>
                 </tr>
+            </thead>
+            <thead *ngIf="currentTab === 'NLP Model Reource'">
+              <tr class="theadColor">
+                  <th nzWidth="8%"> {{"i18nTextDefine_NO" | translate}} </th>
+                  <th nzWidth="18%"> {{"i18nTextDefine_Name" | translate}} </th>
+                  <th nzWidth="18%"> {{"i18nTextDefine_Size" | translate}} </th>
+                  <th nzWidth="18%"> {{"i18nTextDefine_CreateTime" | translate}} </th>
+                  <th nzWidth="18%"> {{"i18nTextDefine_Status" | translate}} </th>
+                  <th nzWidth="20%"> {{"i18nTextDefine_Operation" | translate}} </th>
+              </tr>
             </thead>
             <tbody *ngIf="currentTab === 'NS'">
                 <tr *ngFor="let item of nzTable.data;let i = index;">
@@ -116,6 +142,23 @@
                         <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"></i>
                     </td>
                 </tr> 
+            </tbody>
+            <tbody *ngIf="currentTab === 'NLP Model Reource'">
+              <tr *ngFor="let item of nzTable.data;let i = index;">
+                  <td>{{i+1}}</td>
+                  <td>{{item.modelName}}</td>
+                  <td>{{item.size}}</td>
+                  <td>{{item.createTime}}</td>
+                  <td>{{item.active ? 'Active' : 'Inactive'}}</td>
+                  <td>
+                      <button nz-button nzType="primary" class="buy-button" (click)="showDeleteConfirm(item.id)">
+                          Delete
+                      </button>
+                      <button nz-button nzType="primary" class="buy-button" (click)="activedModelFile(item)">
+                          Actived
+                      </button>
+                  </td>
+              </tr>
             </tbody>
         </nz-table>
     </nz-spin>
