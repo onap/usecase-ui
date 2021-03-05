@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
 import { SlicingTaskServices } from "@src/app/core/services/slicingTaskServices";
 import { TASK_PROCESSING_STATUS } from "./constants";
+import { INTERVAL_TIME } from "../constant";
 
 @Component({
 	selector: "app-slicing-task-management",
@@ -24,6 +25,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 	total: number = 1;
 	pageSize: string = "10";
 	pageNum: string = "1";
+	intervalTime: number = INTERVAL_TIME;
 
 	ngOnChanges(changes: SimpleChanges) {
 		if (
@@ -161,7 +163,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 				this.loading = true;
 				setTimeout(() => {
 					this.getTaskList();
-				}, 5000);
+				}, this.intervalTime);
 			}
 		}
 	}

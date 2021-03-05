@@ -30,7 +30,62 @@
     </nz-list>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'End to End Topology:'" [nzFooter]="null">
         <div>status:{{status}}</div>
-        <img style="width: 100%;" src="assets/images/slicing-business-management/example.png" alt="example" />
+        <!-- <img style="width: 100%;" src="assets/images/slicing-business-management/example.png" alt="example" /> -->
         <!-- <img src="assets/images/slicing-business-management/server.svg" /> -->
+        <div class="warp">
+            <div class="header">
+                <p>AN</p>
+                <p>TN</p>
+                <p>CN</p>
+            </div>
+            <ul class="list-box">
+                <li>
+                    <p>
+                        <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
+                    </p>
+                    <p>{{outerData.anVersion}}</p>
+                </li>
+                <li class="vLan-line">
+                    <p >
+                       vLan:{{outerData.vLanText}}
+                    </p>
+                    <p class="online-vlan"></p>
+                </li>
+                <li>
+                    <p>{{outerData.tnVersion}}</p>
+                    <p>
+                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                    </p>
+                    <p>{{outerData.tnText}}<br/>Gateway</p>
+                </li>
+                <li class="three-box" >
+                    <p>{{outerData.mbps}} Mbps/yyyG</p>
+                    <p>
+                       {{outerData.msText}} ms
+                    </p>
+                    <p  [ngClass]="{'online-type':outerData.orchestration_status!=='deactivated','offline-type':outerData.orchestration_status=='deactivated'}"></p>
+                    <p class="">Link Type:{{outerData.linkType}}</p>
+                </li>
+                <li>
+                    <p>{{outerData.tnEndVersion}}</p>
+                    <p>
+                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                    </p>
+                    <p>{{outerData.tnEndText}}<br/>Gateway</p>
+                </li>
+                <li class="vLan-line">
+                    <p >
+                       vLan:{{outerData.cnVlan}}
+                    </p>
+                    <p class="online-vlan"></p>
+                </li>
+                <li>
+                    <p>
+                        <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
+                    </p>
+                    <p>{{outerData.cnVersion}}</p>
+                </li>
+            </ul>
+        </div>
     </nz-list>
 </nz-spin>

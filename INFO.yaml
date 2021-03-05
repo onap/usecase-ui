@@ -41,11 +41,6 @@ committers:
     company: 'CMCC'
     id: 'shentao999'
     timezone: 'China/Beijing'
-  - name: 'Huabing Zhao'
-    email: 'zhaohuabing@gmail.com'
-    company: 'ZTE'
-    id: 'Huabing_Zhao'
-    timezone: 'China/Chengdu'
   - name: 'Chuyi Guo'
     email: 'guochuyi@chinamobile.com'
     company: 'CMCC'
@@ -80,3 +75,7 @@ tsc:
       name: 'He Keguang'
       link: 'https://wiki.onap.org/display/DW/
         He+Keguang+-+Committer+Promotion+Request'
+    - type: 'Removal'
+      name: 'Huabing Zhao'
+      link: 'https://wiki.onap.org/display/DW/
+        Huabing+Zhao+-+Committer+Removal+Request'

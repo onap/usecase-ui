@@ -24,9 +24,24 @@ export class SlicingBusinessModelComponent implements OnInit {
     nsiInfo: any[] = [];
     taskModel: boolean = false;
     isSpinning: boolean = true;
-    status: string = ""
+    status: string = "";
     ngOnInit() {
         console.log(this.businessId, "id",this.outerData);
+        const param = {
+            anVersion:'10.2.3.4.5',
+            vLanText:'111',
+            tnVersion:'10.0.1.1.1',
+            tnText:'TN EDGEText',
+            mbps:'333',
+            msText:'555',
+            linkType:'p2p/mp2p',
+            tnEndVersion:'10.1.1.1',
+            tnEndText:'TN EDGEText',
+            cnVlan:'66',
+            cnVersion:'1.1.2.3'
+        }
+        this.outerData = {...this.outerData,...param}
+        console.log('new',this.outerData)
         this.status = this.outerData.orchestration_status
         this.getDetail()
     }
@@ -46,6 +61,7 @@ export class SlicingBusinessModelComponent implements OnInit {
             });
             this.businessRequirement = [{ ...business_demand_info, area }];
             this.NSTinfo = [nst_info];
+            console.log('ngs',this.NSTinfo)
             if (nsi_info.nsi_id !== null) {
                 this.nsiInfo = [nsi_info];
             }
