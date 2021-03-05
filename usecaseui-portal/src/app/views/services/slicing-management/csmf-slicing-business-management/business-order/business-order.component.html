@@ -18,7 +18,7 @@
                                <p>Note: If coverageArea is not at all provided by the user (as it is an optional input, and also optional in Service Profile), we will assume that the entire network is required to be covered. For Coverage Area Number, please enter the rectangle grid numbers corresponding to the physical coverage areas that you see on the map image. The following image shows the rectangular grid numbers for a coverage area, you can take it as an example:</p> 
                                 <img src="../../../../../../assets/images/coverageAreaMap.png" class="detail-img"/>
                             </div>
-                            <span class="detail-icon" *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)" (mouseleave)="detailFn(item.coverflag)" >?</span>
+                            <img src="../../../../../../assets/images/ask-img.png" alt="" class="detail-icon" *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)" (mouseleave)="detailFn(item.coverflag)" />
                     </nz-tooltip>
                     <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
                         *ngIf="item.type === 'radio'">
