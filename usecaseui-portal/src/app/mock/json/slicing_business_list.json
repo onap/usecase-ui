@@ -13,7 +13,18 @@
         "service_snssai": "1-010101",
         "orchestration_status": "processing",
         "last_operation_type": "processing",
-        "last_operation_progress": 80
+        "last_operation_progress": 80,
+        "anVersion":"10.2.3.4.5",
+        "vLanText":"111",
+        "tnVersion":"10.0.1.1.1",
+        "tnText":"TN EDGEText",
+        "mbps":"111",
+        "msText":"111",
+        "linkType":"p2p/mp2p",
+        "tnEndVersion":"10.1.1.1",
+        "tnEndText":"TN EDGEText",
+        "cnVlan":"11",
+        "cnVersion":"1.1.2.3"
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9267",
@@ -22,7 +33,18 @@
         "service_snssai": "1-010101",
         "orchestration_status": "activated",
         "last_operation_type": "activated",
-        "last_operation_progress": 10
+        "last_operation_progress": 10,
+        "anVersion":"10.2.3.4.5",
+        "vLanText":"222",
+        "tnVersion":"10.0.1.1.1",
+        "tnText":"TN EDGEText",
+        "mbps":"222",
+        "msText":"222",
+        "linkType":"p2p/mp2p",
+        "tnEndVersion":"10.1.1.1",
+        "tnEndText":"TN EDGEText",
+        "cnVlan":"22",
+        "cnVersion":"1.1.2.3"
       },
       {
         "service_instance_id": "23edd22b-a0b2-449f-be87-d094159b9271",
@@ -31,7 +53,18 @@
         "service_snssai": "1-010101",
         "orchestration_status": "deactivated",
         "last_operation_type": "deactivated",
-        "last_operation_progress": 100
+        "last_operation_progress": 100,
+         "anVersion":"10.2.3.4.5",
+        "vLanText":"333",
+        "tnVersion":"10.0.1.1.1",
+        "tnText":"TN EDGEText",
+        "mbps":"333",
+        "msText":"333",
+        "linkType":"p2p/mp2p",
+        "tnEndVersion":"10.1.1.1",
+        "tnEndText":"TN EDGEText",
+        "cnVlan":"33",
+        "cnVersion":"1.1.2.3"
       }
     ]
   }
