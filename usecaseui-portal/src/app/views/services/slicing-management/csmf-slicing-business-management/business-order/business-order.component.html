@@ -15,7 +15,9 @@
                             [placeholder]="item.placeholder ? item.placeholder : ''"
                             (blur)="item.required ? this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow) : this.Util.validator()" />
                             <div *ngIf="item.coverflag" class="detail-wrap">
-                               <p>{{masktext}}</p> 
+                               <p>
+                                   {{ masktext }}
+                                </p> 
                                 <img src="../../../../../../assets/images/coverageAreaMap.png" class="detail-img"/>
                             </div>
                             <img src="../../../../../../assets/images/ask-img.png" alt="" class="detail-icon" *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)" (mouseleave)="detailFn(item.coverflag)" />
@@ -32,7 +34,7 @@
                         </nz-option>
                     </nz-select>
                     <nz-form-explain *ngIf="item.type === 'input' && validateRulesShow[i]" class="validateRules">
-                        {{rulesText[i]}}
+                        {{ rulesText[i] }}
                     </nz-form-explain>
                 </nz-form-control>
 

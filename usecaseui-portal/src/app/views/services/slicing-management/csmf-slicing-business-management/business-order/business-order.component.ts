@@ -16,10 +16,7 @@ export class BusinessOrderComponent implements OnInit {
 		private Util: Util
 	) {}
 
-	ngOnInit() {
-       console.log('MASKTEXT',MASKTEXT)
-	   this.masktext = MASKTEXT
-	}
+	ngOnInit() {}
 
 	ngOnChanges() {
 		this.AreaFormatting();
@@ -50,7 +47,7 @@ export class BusinessOrderComponent implements OnInit {
 	validateRulesShow: any[] = [];
 	rulesText: any[] = [];
 	areaLevel: number = 4;
-    masktext: string = "";
+    masktext: string = MASKTEXT ;
 	AreaFormatting(): void {
 		let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
 		this.areaList = areaList.map((item: any) => {
