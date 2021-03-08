@@ -31,7 +31,7 @@ export class OnboardVnfVmComponent implements OnInit {
   @ViewChild('notification') notification: any;
 
   // upload
-  tabs: string[] = ['NS', 'VNF', 'PNF'];
+  tabs: string[] = ['NS', 'VNF', 'PNF', 'NLP Model Reource'];
   currentTab: string = 'NS'
   fileList: UploadFile[] = [];
   uploading: boolean = false;
@@ -43,6 +43,7 @@ export class OnboardVnfVmComponent implements OnInit {
   nsTableData: any[];
   vnfTableData: any[];
   pnfTableData: any[];
+  modelTableData: any[];
   status: string = "Onboard Available";
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -55,7 +56,8 @@ export class OnboardVnfVmComponent implements OnInit {
   url = {
     ns: '/api/nsd/v1/ns_descriptors/*_*/nsd_content',
     vnf: '/api/vnfpkgm/v1/vnf_packages/*_*/package_content',
-    pnf: '/api/nsd/v1/pnf_descriptors/*_*/pnfd_content'
+    pnf: '/api/nsd/v1/pnf_descriptors/*_*/pnfd_content',
+    model: '/api/usecaseui-server/v1/intent/uploadModel'
   };
 
   file: {
@@ -94,6 +96,9 @@ export class OnboardVnfVmComponent implements OnInit {
       case 'PNF':
         this.getTablePnfData()
         break
+      case 'NLP Model Reource':
+        this.getTableModelData();
+        break
     }
   }
 
@@ -113,8 +118,10 @@ export class OnboardVnfVmComponent implements OnInit {
       API = 'createNetworkServiceData';
     } else if (this.currentTab === 'VNF') {
       API = 'createVnfData';
-    } else {
+    } else if (this.currentTab === 'PNF') {
       API = 'createPnfData';
+    } else {
+      return false;
     }
     this.myhttp.getCreatensData(API, this.requestBody)//on-line
       .subscribe((data) => {
@@ -128,8 +135,58 @@ export class OnboardVnfVmComponent implements OnInit {
   // Drag and drop and click the upload button
   onClick(): void {
     this.display = 'none';
-    let tab = this.currentTab === 'NS' ? 'ns' : (this.currentTab === 'VNF' ? 'vnf' : 'pnf')
-    this.handleUpload(this.url[tab].replace("*_*", this.infoId));
+    let tab = this.currentTab === 'NS' ? 'ns' : (this.currentTab === 'VNF' ? 'vnf' : (this.currentTab === 'PNF' ? 'pnf' : 'model'));
+    let url = tab === "model" ? this.url[tab] : this.url[tab].replace("*_*", this.infoId);
+    tab === "model" ? this.handleUploadModel(url) : this.handleUpload(url);
+  }
+
+  handleUploadModel(url: string): void {
+    const formData = new FormData();
+    // tslint:disable-next-line:no-any
+    this.fileList.forEach((file: any) => {
+      formData.set('file', file);
+    });
+    this.uploading = true;
+    this.file = {
+      name: this.fileList[0].name,
+      uid: this.fileList[0].uid,
+      progress: 0,
+      status: true,
+      success: 0
+    };
+    let requery = (file) => {
+      file.progress += 3;
+      setTimeout(() => {
+        if (file.progress < 100) {
+          requery(file)
+        }
+      }, 100)
+    };
+    requery(this.file);
+    const req = new HttpRequest('POST', url, formData, {
+      reportProgress: true,
+      withCredentials: true
+    });
+    //Upload pre-empty array
+    this.fileList = [];
+    this.http.request(req)
+      .pipe(filter(e => e instanceof HttpResponse))
+      .subscribe(
+        (event: {}) => {
+          this.file.progress = 100;
+          this.file.status = false;
+          this.uploading = false;
+          this.msg.success('upload successfully.');
+          this.getTableModelData();
+        },
+        err => {
+          this.file.progress = 100;
+          this.file.status = false;
+          this.file.success = 1;
+          this.uploading = false;
+          this.msg.error('upload failed.');
+        }
+      );
   }
 
   handleUpload(url: string): void {
@@ -244,6 +301,22 @@ export class OnboardVnfVmComponent implements OnInit {
       })
   }
 
+  // Get Model list
+  getTableModelData() {
+    this.isSpinning = true;
+    this.myhttp.getOnboardTableModelData()
+      .subscribe((data) => {
+        data.forEach(element => {
+          element['size'] = `${element['size']}K`;
+        })
+        this.modelTableData = data;
+        this.isSpinning = false;   //loading hide
+      }, (err) => {
+        console.error(err);
+        this.isSpinning = false;
+      })
+  }
+
   // confirm
   showConfirm(requestBody: object, id: string): void {
     let API = this.currentTab === 'NS' ? 'getNsonboard' : 'getVnfonboard';
@@ -333,17 +406,20 @@ export class OnboardVnfVmComponent implements OnInit {
       API = 'deleteNsIdData';
     } else if (this.currentTab === 'VNF') {
       API = 'deleteVnfIdData';
-    } else {
+    } else if (this.currentTab === 'PNF') {
       API = 'deletePnfIdData';
+    } else {
+      API = 'deleteModelIdData';
     }
     this.myhttp[API](pkgid)
       .subscribe((data) => {
         resolve()
-          if(data.status === 'FAILED'){
-              this.notification.notificationFailed(this.currentTab, 'delete', pkgid);
-          }else {
-              this.notification.notificationSuccess(this.currentTab, 'delete', pkgid);
-          }
+        let tipTitle = this.currentTab === 'NLP Model Reource' ? 'MODELREOURCE' : this.currentTab
+        if(data.status === 'FAILED'){
+            this.notification.notificationFailed(tipTitle, 'delete', pkgid);
+        }else {
+            this.notification.notificationSuccess(tipTitle, 'delete', pkgid);
+        }
         //refresh list after successful deletion
         switch (this.currentTab) {
           case 'NS':
@@ -355,10 +431,30 @@ export class OnboardVnfVmComponent implements OnInit {
           case 'PNF':
             this.getTablePnfData();
             break
+          case 'NLP Model Reource':
+            this.getTableModelData();
+            break
         }
       }, (err) => {
         console.log(err);
         this.notification.notificationFailed(this.currentTab, 'delete', pkgid);
       })
+  }
+
+  // Actived Model Resource
+  activedModelFile(data) {
+    console.log('actived model');
+    let url = `/api/usecaseui-server/v1/intent/activeModel?modelId=${data.id}`;
+    this.myhttp.getOnboardTableActiveModelData(url)
+      .subscribe((data) => {
+        if(data.status === 'FAILED'){
+          this.msg.success('Actived Failed');
+          return;
+        }
+        this.msg.success('Actived Successfully');
+        this.getTableModelData();
+      }, (err) => {
+        console.error(err);
+      });
   }
 }

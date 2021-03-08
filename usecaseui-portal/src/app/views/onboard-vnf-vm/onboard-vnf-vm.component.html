@@ -16,108 +16,151 @@
 
 <!-- tab -->
 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-    <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)"></nz-tab>
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="handleTabChange(tab)"></nz-tab>
 </nz-tabset>
 <div class="list">
-    <!-- upload -->
-    <div  class="listUploadContainer">
-        <div class="listupload">
-            <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
-                <p class="ant-upload-drag-icon">
-                    <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
-                </p>
-                <p class="ant-upload-text"> {{"i18nTextDefine_Click_CSAR_File" | translate}} </p>
-                <p class="ant-upload-hint"></p>
-            </nz-upload>
-            <button nz-button [nzLoading]="uploading" (click)="onClick()" [disabled]="fileList.length == 0" class="upload">
-                {{ uploading ? 'Uploading' : 'Start Upload' }}
-            </button>
-        </div>
-        <div class="listlin"></div>
-        <div class="listfile">
-            <div class="listFileTitle"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
-            <div class="nouploadfile" [style.display]="display">{{"i18nTextDefine_Nofileuploading" | translate}}</div>
-            <div class="listfilebgc" *ngIf="file">
-                <i class="anticon anticon-link icon"></i>
-                <div class="color" [ngClass]="{'progress':file.status}">{{file.name}}</div>
-                <div class="color" *ngIf="file.status">
-                    <nz-progress [nzPercent]="file.progress" [nzShowInfo]="false"></nz-progress>
-                </div>
-                <div class="color" *ngIf="!file.status">
-                    <span *ngIf="file.success === 0">{{"i18nTextDefine_File_upload_completed" | translate}}</span>
-                    <span *ngIf="file.success === 1">{{"i18nTextDefine_File_upload_failed" | translate}}</span>
-                </div>
-                <div *ngIf="!file.status">
-                    <i class="anticon anticon-check-circle success" *ngIf="file.success === 0"></i>
-                    <i class="anticon anticon-exclamation-circle fail"  *ngIf="file.success === 1"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- table -->
-    <nz-spin [nzSpinning]="isSpinning" class="listContainer">
-        <div class="mask" *ngIf="isSpinning"></div>
-        <nz-table #nzTable [nzData]="currentTab === 'NS'? nsTableData: (currentTab === 'VNF'? vnfTableData : pnfTableData)" nzShowSizeChanger [nzFrontPagination]="true"
-            [nzShowQuickJumper]="true" [nzPageSizeOptions]="[5,10,15,20]" [(nzPageSize)]="pageSize"
-            [(nzPageIndex)]='pageIndex' nzSize="middle">
-            <thead>
-                <tr class="theadColor">
-                    <th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
-                    <th nzWidth="15%"> {{"i18nTextDefine_Name" | translate}} </th>
-                    <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
-                    <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
-                    <th nzWidth="15%" *ngIf="currentTab !== 'PNF'"> {{"i18nTextDefine_OperationalState" | translate}} </th>
-                    <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
-                    <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>
-                </tr>
-            </thead>
-            <tbody *ngIf="currentTab === 'NS'">
-                <tr *ngFor="let item of nzTable.data;let i = index;">
-                    <td>{{i+1}}</td>    
-                    <td>{{item.nsdName || item.name }}</td>     
-                    <td>{{item.nsdVersion || item.version}}</td>
-                    <td>{{item.nsdOnboardingState ? item.nsdOnboardingState : status}}</td>                       
-                    <td>{{item.nsdOperationalState}}</td>
-                    <td>{{item.nsdUsageState}}</td>
-                    <td>
-                        <i [ngClass]="{'cannotclick': isUpdate}"
-                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
-                            *ngIf="item.uuid"></i>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
-                            *ngIf="item.id"></i>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody *ngIf="currentTab === 'VNF'">
-                <tr *ngFor="let item of nzTable.data;let i = index;">
-                    <td>{{i+1}}</td>
-                    <td>{{item.vnfProductName || item.name }}</td>     
-                    <td>{{item.vnfdVersion || item.version}}</td>
-                    <td>{{item.onboardingState}}</td>
-                    <td>{{item.operationalState}}</td>
-                    <td>{{item.usageState}}</td>
-                    <td>
-                        <i [ngClass]="{'cannotclick': isUpdate}"
-                            class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
-                            *ngIf="item.uuid"></i>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
-                            *ngIf="item.id"></i>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody *ngIf="currentTab === 'PNF'" >
-                <tr *ngFor="let item of nzTable.data; let i = index;">
-                    <td>{{i+1}}</td>
-                    <td>{{item.pnfdName}}</td>
-                    <td>{{item.pnfdVersion}}</td>
-                    <td>{{item.pnfdOnboardingState}}</td>
-                    <td>{{item.pnfdUsageState}}</td>
-                    <td>
-                        <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"></i>
-                    </td>
-                </tr> 
-            </tbody>
-        </nz-table>
-    </nz-spin>
+  <!-- upload -->
+  <div  class="listUploadContainer">
+      <div class="listupload">
+          <nz-upload nzType="drag" [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+              <p class="ant-upload-drag-icon">
+                  <i nz-icon type="inbox" class="anticon anticon-inbox"></i>
+              </p>
+              <p class="ant-upload-text"> {{"i18nTextDefine_Click_CSAR_File" | translate}} </p>
+              <p class="ant-upload-hint"></p>
+          </nz-upload>
+          <button nz-button [nzLoading]="uploading" (click)="onClick()" [disabled]="fileList.length == 0" class="upload">
+              {{ uploading ? 'Uploading' : 'Start Upload' }}
+          </button>
+      </div>
+      <div class="listlin"></div>
+      <div class="listfile">
+          <div class="listFileTitle"> {{"i18nTextDefine_Uploaded_files" | translate}} </div>
+          <div class="nouploadfile" [style.display]="display">{{"i18nTextDefine_Nofileuploading" | translate}}</div>
+          <div class="listfilebgc" *ngIf="file">
+              <i class="anticon anticon-link icon"></i>
+              <div class="color" [ngClass]="{'progress':file.status}">{{file.name}}</div>
+              <div class="color" *ngIf="file.status">
+                  <nz-progress [nzPercent]="file.progress" [nzShowInfo]="false"></nz-progress>
+              </div>
+              <div class="color" *ngIf="!file.status">
+                  <span *ngIf="file.success === 0">{{"i18nTextDefine_File_upload_completed" | translate}}</span>
+                  <span *ngIf="file.success === 1">{{"i18nTextDefine_File_upload_failed" | translate}}</span>
+              </div>
+              <div *ngIf="!file.status">
+                  <i class="anticon anticon-check-circle success" *ngIf="file.success === 0"></i>
+                  <i class="anticon anticon-exclamation-circle fail"  *ngIf="file.success === 1"></i>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- table -->
+  <nz-spin [nzSpinning]="isSpinning" class="listContainer">
+      <div class="mask" *ngIf="isSpinning"></div>
+      <nz-table
+        #nzTable 
+        [nzData]="currentTab === 'NS'
+          ? nsTableData
+          : (currentTab === 'VNF'
+            ? vnfTableData
+            : (currentTab === 'PNF'
+              ? pnfTableData
+              : modelTableData
+              )
+            )"
+        nzShowSizeChanger
+        [nzFrontPagination]="true"
+        [nzShowQuickJumper]="true"
+        [nzPageSizeOptions]="[5,10,15,20]"
+        [(nzPageSize)]="pageSize"
+        [(nzPageIndex)]='pageIndex'
+        nzSize="middle"
+      >
+          <thead *ngIf="currentTab !== 'NLP Model Reource'">
+              <tr class="theadColor">
+                  <th nzWidth="15%"> {{"i18nTextDefine_NO" | translate}} </th>
+                  <th nzWidth="15%"> {{"i18nTextDefine_Name" | translate}} </th>
+                  <th nzWidth="15%"> {{"i18nTextDefine_Version" | translate}} </th>
+                  <th nzWidth="15%"> {{"i18nTextDefine_OnboardingState" | translate}} </th>
+                  <th nzWidth="15%" *ngIf="currentTab !== 'PNF'"> {{"i18nTextDefine_OperationalState" | translate}} </th>
+                  <th nzWidth="10%"> {{"i18nTextDefine_UsageState" | translate}} </th>
+                  <th nzWidth="15%"> {{"i18nTextDefine_Operationbutton" | translate}} </th>
+              </tr>
+          </thead>
+          <thead *ngIf="currentTab === 'NLP Model Reource'">
+            <tr class="theadColor">
+                <th nzWidth="8%"> {{"i18nTextDefine_NO" | translate}} </th>
+                <th nzWidth="18%"> {{"i18nTextDefine_Name" | translate}} </th>
+                <th nzWidth="18%"> {{"i18nTextDefine_Size" | translate}} </th>
+                <th nzWidth="18%"> {{"i18nTextDefine_CreateTime" | translate}} </th>
+                <th nzWidth="18%"> {{"i18nTextDefine_Status" | translate}} </th>
+                <th nzWidth="20%"> {{"i18nTextDefine_Operation" | translate}} </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="currentTab === 'NS'">
+              <tr *ngFor="let item of nzTable.data;let i = index;">
+                  <td>{{i+1}}</td>    
+                  <td>{{item.nsdName || item.name }}</td>     
+                  <td>{{item.nsdVersion || item.version}}</td>
+                  <td>{{item.nsdOnboardingState ? item.nsdOnboardingState : status}}</td>                       
+                  <td>{{item.nsdOperationalState}}</td>
+                  <td>{{item.nsdUsageState}}</td>
+                  <td>
+                      <i [ngClass]="{'cannotclick': isUpdate}"
+                          class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
+                          *ngIf="item.uuid"></i>
+                      <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
+                          *ngIf="item.id"></i>
+                  </td>
+              </tr>
+          </tbody>
+          <tbody *ngIf="currentTab === 'VNF'">
+              <tr *ngFor="let item of nzTable.data;let i = index;">
+                  <td>{{i+1}}</td>
+                  <td>{{item.vnfProductName || item.name }}</td>     
+                  <td>{{item.vnfdVersion || item.version}}</td>
+                  <td>{{item.onboardingState}}</td>
+                  <td>{{item.operationalState}}</td>
+                  <td>{{item.usageState}}</td>
+                  <td>
+                      <i [ngClass]="{'cannotclick': isUpdate}"
+                          class="anticon anticon-upload upicon" #upload_icon (click)="updataService(item.uuid)"
+                          *ngIf="item.uuid"></i>
+                      <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"
+                          *ngIf="item.id"></i>
+                  </td>
+              </tr>
+          </tbody>
+          <tbody *ngIf="currentTab === 'PNF'" >
+              <tr *ngFor="let item of nzTable.data; let i = index;">
+                  <td>{{i+1}}</td>
+                  <td>{{item.pnfdName}}</td>
+                  <td>{{item.pnfdVersion}}</td>
+                  <td>{{item.pnfdOnboardingState}}</td>
+                  <td>{{item.pnfdUsageState}}</td>
+                  <td>
+                      <i class="anticon anticon-delete" (click)="showDeleteConfirm(item.id)"></i>
+                  </td>
+              </tr> 
+          </tbody>
+          <tbody *ngIf="currentTab === 'NLP Model Reource'">
+            <tr *ngFor="let item of nzTable.data;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{item.modelName}}</td>
+                <td>{{item.size}}</td>
+                <td>{{item.createTime}}</td>
+                <td>{{item.active ? 'Active' : 'Inactive'}}</td>
+                <td>
+                    <button nz-button nzType="primary" class="buy-button" (click)="showDeleteConfirm(item.id)">
+                        Delete
+                    </button>
+                    <button nz-button nzType="primary" class="buy-button" (click)="activedModelFile(item)">
+                        Actived
+                    </button>
+                </td>
+            </tr>
+          </tbody>
+      </nz-table>
+  </nz-spin>
 </div>
 <app-notification #notification [isServicesList]="false"></app-notification>

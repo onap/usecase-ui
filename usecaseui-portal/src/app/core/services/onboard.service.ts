@@ -27,12 +27,14 @@ export class onboardService {
         onboardTableData: this.baseUrl + "/uui-lcm/ns-packages",
         onboardDataVNF: this.baseUrl + "/uui-lcm/vnf-packages",
         onboardDataPNF: this.baseUrl + "/uui-lcm/pnf-packages",
+        onboardDataModel: this.baseUrl + "/intent/listModel",
         sdc_nsListData: this.baseUrl + "/uui-lcm/sdc-ns-packages", // GET
         sdc_vnfListData: this.baseUrl + "/uui-lcm/sdc-vf-packages", // GET
         onboardNs: this.baseUrl + "/uui-lcm/ns-packages", //POST
-     
+        analysisInput: this.baseUrl + "/intent/predict", //POST
         onboardVNF: this.baseUrl + "/uui-lcm/vf-packages", //POST
         deleteNspack: this.baseUrl + "/uui-lcm/deleteNsdPackage",
+        deleteModelpack: this.baseUrl + "/intent/deleteModel",
         // Delete Vnf vfc package
         deleteVnfPack: this.baseUrl + "/uui-lcm/deleteVnfPackage",
         // Delete Pnf package
@@ -64,6 +66,17 @@ export class onboardService {
     getOnboardTablePnfData() {
         return this.http.get<any>(this.url.onboardDataPNF);
     }
+    // MODEL Data
+    getOnboardTableModelData() {
+      return this.http.get<any>(this.url.onboardDataModel);
+    }
+     // MODEL Data
+    getOnboardTableActiveModelData(url) {
+      return this.http.get<any>(url);
+    }
+    analysisInputText(requestBody) {
+      return this.http.post<any>(this.url["analysisInput"], requestBody);
+    }
     //onboard sdc ns
     getNsonboard(requestBody) {
         return this.http.post<any>(this.url["onboardNs"], requestBody);
@@ -87,7 +100,11 @@ export class onboardService {
         let params = new HttpParams({ fromObject: {"pnfdInfoId":paramsObj }});
         return this.http.delete<any>(this.url.deletePnfPack , {params});
     }
-
+    // Delete model package
+    deleteModelIdData(paramsObj) {
+      let params = new HttpParams({ fromObject: { "modelId": paramsObj }});
+      return this.http.delete<any>(this.url.deleteModelpack,{params});
+    }
     // The following APIs function are not optimizable-------------------
 
     //create--Get the id after dragging the file before uploading
