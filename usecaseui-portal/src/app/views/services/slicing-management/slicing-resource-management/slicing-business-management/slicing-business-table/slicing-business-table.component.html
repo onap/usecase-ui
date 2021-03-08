@@ -61,9 +61,8 @@
                             </div>
                         </td>
                         <td>
-                            <!-- [ngClass]="{'cannotclick':data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100'}"   -->
                             <a (click)="showdetail(data)"
-                            >View
+                            [ngClass]="{'cannotclick':data.last_operation_type && data.last_operation_progress && data.last_operation_progress !== '100'}">View
                                 Detail</a>
                         </td>
                     </tr>
