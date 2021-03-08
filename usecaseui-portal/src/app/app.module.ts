@@ -71,6 +71,7 @@ import {
 } from "@angular/common";
 // common function util
 import { Util } from "./shared/utils/utils";
+import { Recorder} from './shared/utils/recorder';
 // common function http
 import { Http } from "./shared/utils/http";
 // Custom service
@@ -110,6 +111,7 @@ import { NsiModelComponent } from "./views/services/slicing-management/slicing-r
 import { NssiModelComponent } from "./views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component";
 import { CsmfSlicingBusinessManagementComponent } from "./views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component";
 import { BusinessOrderComponent } from "./views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component";
+import { InputBusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/input-business-order/input-business-order.component';
 import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
 import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
 import { ManageServiceComponent } from "./views/services/sotn-management/manage-service/manage-service.component";
@@ -122,7 +124,8 @@ import { CitySelectComponent } from "./shared/components/city-select/city-select
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		{ provide: NZ_I18N, useValue: en_US },
 		Util,
-		Http,
+    Http,
+    Recorder,
 		ServiceListService,
 		HomesService,
 		onboardService,
@@ -180,7 +183,8 @@ import { CitySelectComponent } from "./shared/components/city-select/city-select
 		NsiModelComponent,
 		NssiModelComponent,
 		CsmfSlicingBusinessManagementComponent,
-		BusinessOrderComponent,
+    BusinessOrderComponent,
+    InputBusinessOrderComponent,
 		MdonsCreationComponent,
 		MdonsDetailComponent,
 		DisableControlDirective,
