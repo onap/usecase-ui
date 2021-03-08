@@ -88,9 +88,13 @@
   "i18nTextDefine_InstanceUpdatedSuccessfully":"更新成功",
   "i18nTextDefine_InstanceUpdateFailed":"更新失败",
   "i18nTextDefine_Close":"关闭",
-  "i18nTextDefine_Templateparsingfailed": "模板解析失败"
+  "i18nTextDefine_Templateparsingfailed":"模板解析失败",
   "i18nTextDefine_domainService":"Domain Services",
-
+  "i18nTextDefine_CreateTime":"上传时间",
+  "i18nTextDefine_Activated":"是否激活",
+  "i18nTextDefine_Operation":"操作",
+  "i18nTextDefine_Size": "大小",
+  
   "ccvpn-creation-component": "--:",
   "i18nTextDefine_InstanceCreation": "实例创建",
   "i18nTextDefine_InstanceTopology": "实例拓扑",
@@ -115,6 +119,7 @@
   "i18nTextDefine_NS": "NS",
   "i18nTextDefine_PNF": "PNF",
   "i18nTextDefine_VNF": "VNF",
+  "i18nTextDefine_MODELREOURCE": "NLP Model Reource",
   "i18nTextDefine_UsageState": "使用状态",
   "i18nTextDefine_Operationbutton": "操作按钮",
 
