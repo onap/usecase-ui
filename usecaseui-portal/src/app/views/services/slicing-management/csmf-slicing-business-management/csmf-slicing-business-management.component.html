@@ -8,6 +8,7 @@
       </nz-select>
     </div>
     <button nz-button nzType="primary" class="buy-button" (click)="OrderModelShow()">Create</button>
+    <button nz-button nzType="primary" class="buy-button" (click)="inputOrderModelShow()">Smart Create</button>
   </div>
   <div class="slicing-resource-table-list">
     <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" nzShowSizeChanger
@@ -68,5 +69,6 @@
       </tbody>
     </nz-table>
   </div>
-  <app-business-order [showModel]="businessOrderShow" (cancel)="orderModelClose($event)"></app-business-order>
+  <app-input-business-order [showModel]="inputBusinessOrderShow" (modalOpreation)="inputOrderModelClose($event)"></app-input-business-order>
+  <app-business-order [modelParams]="orderForm" [showModel]="businessOrderShow" (cancel)="orderModelClose($event)"></app-business-order>
 </div>

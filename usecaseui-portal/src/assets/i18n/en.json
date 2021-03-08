@@ -113,6 +113,7 @@
   "i18nTextDefine_NS": "NS",
   "i18nTextDefine_PNF": "PNF",
   "i18nTextDefine_VNF": "VNF",
+  "i18nTextDefine_MODELREOURCE": "NLP Model Reource",
   "i18nTextDefine_UsageState": "Usage State",
   "i18nTextDefine_Operationbutton": "Operation button",
 
@@ -170,5 +171,9 @@
   "i18nTextDefine_NearEnd": "Near End",
   "i18nTextDefine_FarEnd": "Far End",
   "i18nTextDefine_ExternalNetworkMessage":"Note: Both the endpoints would be changed to ENNI.",
-  "i18nTextDefine_domainService":"Domain Services"
+  "i18nTextDefine_domainService":"Domain Services",
+  "i18nTextDefine_CreateTime": "Upload Time",
+  "i18nTextDefine_Activated": "Activated",
+  "i18nTextDefine_Operation": "Opreation",
+  "i18nTextDefine_Size":"Size"
 }

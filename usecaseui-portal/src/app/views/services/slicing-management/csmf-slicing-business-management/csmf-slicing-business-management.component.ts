@@ -47,7 +47,9 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
 	statusOptions: any[] = BUSINESS_STATUS;
 	progressingTimer: any[] = [];
 	terminateStart: any[] = [];
-	businessOrderShow: boolean = false;
+        businessOrderShow: boolean = false;
+        inputBusinessOrderShow: boolean = false;
+        orderForm: any;
 	getCSMFBusinessList(): void {
 		this.loading = true;
 		// this.listOfData = []; //solve the problem of blank screen after each operation
@@ -232,10 +234,22 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
 	}
 
 	OrderModelShow(): void {
-		this.businessOrderShow = true;
+            this.orderForm = null;
+	    this.businessOrderShow = true;
 	}
 	orderModelClose($event: any): void {
-		this.businessOrderShow = $event;
-		this.getCSMFBusinessList();
-	}
+	    this.businessOrderShow = $event;
+	    this.getCSMFBusinessList();
+        }
+        inputOrderModelShow(): void {
+            this.inputBusinessOrderShow = true;
+        }
+        inputOrderModelClose($event: any): void {
+            this.inputBusinessOrderShow = false;
+            if ($event.cancel) {
+                return;
+            }
+            this.orderForm = $event.param;
+            this.businessOrderShow = true;
+        }
 }
