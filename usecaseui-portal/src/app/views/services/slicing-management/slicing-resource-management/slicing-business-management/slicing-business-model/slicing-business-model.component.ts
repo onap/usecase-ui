@@ -25,6 +25,7 @@ export class SlicingBusinessModelComponent implements OnInit {
     taskModel: boolean = false;
     isSpinning: boolean = true;
     status: string = "";
+    businessDetailInfo : any = {}
     ngOnInit() {
         this.status = this.outerData.orchestration_status
         this.getDetail()
@@ -33,7 +34,8 @@ export class SlicingBusinessModelComponent implements OnInit {
     getDetail() {
         this.myhttp.getSlicingBusinessDetail(this.businessId).then(res => {
             this.isSpinning = false;
-            const { business_demand_info, business_demand_info: { coverage_area_ta_list }, nst_info, nsi_info } = res.result_body;
+            const { business_demand_info, business_demand_info: { coverage_area_ta_list }, nst_info, nsi_info ,business_detail_info} = res.result_body;
+            this.businessDetailInfo = business_detail_info
             business_demand_info.area = coverage_area_ta_list.map(item => {
                 item = item.split(';').join('-');
                 return item

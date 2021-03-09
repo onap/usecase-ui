@@ -44,6 +44,17 @@
       "nsi_name": "slicing-01-eMBB",
       "nsi_type": "eMBB",
       "nsi_orchestration-status": "activated"
+    },
+    "business_detail_info":{
+      "anVersion":"10.2.3.4.5",
+        "vLanText":"11111",
+        "tnVersion":"10.0.1.1.1",
+        "mbps":"11111",
+        "msText":"11111",
+        "linkType":"p2p/mp2p",
+        "tnEndVersion":"10.1.1.1",
+        "cnVlan":"11",
+        "cnVersion":"1.1.2.3"
     }
   }
 }
