@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a263c86_0b250d20",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0be5f88c_f63d3cc3",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 28
+      },
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8beb70_7925003e",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c38f3f_583203e9",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 17
+      },
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1cb5de7_5fbfe7c8",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f9a013_7b27203d",
+        "filename": "usecaseui-portal/src/app/views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5495
+      },
+      "writtenOn": "2021-03-09T02:34:58Z",
+      "side": 1,
+      "message": "Please change the code indent",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 3
+      },
+      "revId": "1304f3921a7cd82142fbb4be038f5d6a09cb3329",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
