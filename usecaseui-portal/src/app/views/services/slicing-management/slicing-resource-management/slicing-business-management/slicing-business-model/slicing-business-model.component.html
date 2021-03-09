@@ -43,31 +43,31 @@
                     <p>
                         <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
                     </p>
-                    <p>{{outerData.anVersion}}</p>
+                    <p>{{businessDetailInfo.anVersion}}</p>
                 </li>
                 <li class="vLan-line">
                     <p >
-                       vLan:{{outerData.vLanText}}
+                       vLan:{{businessDetailInfo.vLanText}}
                     </p>
                     <p class="online-vlan"></p>
                 </li>
                 <li>
-                    <p>{{outerData.tnVersion}}</p>
+                    <p>{{businessDetailInfo.tnVersion}}</p>
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
                     <p>TN EDGEText<br/>Gateway</p>
                 </li>
                 <li class="three-box" >
-                    <p>{{outerData.mbps}} Mbps/yyyG</p>
+                    <p>{{businessDetailInfo.mbps}} Mbps/yyyG</p>
                     <p>
-                       {{outerData.msText}} ms
+                       {{businessDetailInfo.msText}} ms
                     </p>
-                    <p  [ngClass]="{'online-type':outerData.orchestration_status!=='deactivated','offline-type':outerData.orchestration_status=='deactivated'}"></p>
-                    <p class="">Link Type:{{outerData.linkType}}</p>
+                    <p  [ngClass]="{'online-type':businessDetailInfo.orchestration_status!=='deactivated','offline-type':businessDetailInfo.orchestration_status=='deactivated'}"></p>
+                    <p class="">Link Type:{{businessDetailInfo.linkType}}</p>
                 </li>
                 <li>
-                    <p>{{outerData.tnEndVersion}}</p>
+                    <p>{{businessDetailInfo.tnEndVersion}}</p>
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
@@ -75,7 +75,7 @@
                 </li>
                 <li class="vLan-line">
                     <p >
-                       vLan:{{outerData.cnVlan}}
+                       vLan:{{businessDetailInfo.cnVlan}}
                     </p>
                     <p class="online-vlan"></p>
                 </li>
@@ -83,7 +83,7 @@
                     <p>
                         <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
                     </p>
-                    <p>{{outerData.cnVersion}}</p>
+                    <p>{{businessDetailInfo.cnVersion}}</p>
                 </li>
             </ul>
         </div>
