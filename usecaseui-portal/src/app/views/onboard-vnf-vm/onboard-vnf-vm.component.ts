@@ -448,7 +448,7 @@ export class OnboardVnfVmComponent implements OnInit {
     this.myhttp.getOnboardTableActiveModelData(url)
       .subscribe((data) => {
         if(data.status === 'FAILED'){
-          this.msg.success('Actived Failed');
+          this.msg.error('Actived Failed');
           return;
         }
         this.msg.success('Actived Successfully');
