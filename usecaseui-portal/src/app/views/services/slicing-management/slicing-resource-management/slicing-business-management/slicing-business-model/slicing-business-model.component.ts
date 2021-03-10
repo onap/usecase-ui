@@ -28,6 +28,7 @@ export class SlicingBusinessModelComponent implements OnInit {
     businessDetailInfo : any = {}
     ngOnInit() {
         this.status = this.outerData.orchestration_status
+        console.log('status',this.status)
         this.getDetail()
     }
 

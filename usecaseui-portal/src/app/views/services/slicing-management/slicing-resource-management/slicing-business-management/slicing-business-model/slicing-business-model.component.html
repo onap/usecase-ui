@@ -29,7 +29,7 @@
         </nz-table>
     </nz-list>
     <nz-list class="taskmodel_list" nzBordered [nzHeader]="'End to End Topology:'" [nzFooter]="null">
-        <div>status:{{status}}</div>
+        <!-- <div>status:{{status}}</div> -->
         <!-- <img style="width: 100%;" src="assets/images/slicing-business-management/example.png" alt="example" /> -->
         <!-- <img src="assets/images/slicing-business-management/server.svg" /> -->
         <div class="warp">
@@ -49,21 +49,21 @@
                     <p >
                        vLan:{{businessDetailInfo.vLanText}}
                     </p>
-                    <p class="online-vlan"></p>
+                    <p [ngClass]="{'online-type':status!=='deactivated','offline-type':status=='deactivated'}"></p>
                 </li>
                 <li>
                     <p>{{businessDetailInfo.tnVersion}}</p>
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
-                    <p>TN EDGEText<br/>Gateway</p>
+                    <p>PE</p>
                 </li>
                 <li class="three-box" >
-                    <p>{{businessDetailInfo.mbps}} Mbps/yyyG</p>
+                    <p>{{businessDetailInfo.mbps}} Mbps</p>
                     <p>
                        {{businessDetailInfo.msText}} ms
                     </p>
-                    <p  [ngClass]="{'online-type':businessDetailInfo.orchestration_status!=='deactivated','offline-type':businessDetailInfo.orchestration_status=='deactivated'}"></p>
+                    <p  [ngClass]="{'online-type':status!=='deactivated','offline-type':status=='deactivated'}"></p>
                     <p class="">Link Type:{{businessDetailInfo.linkType}}</p>
                 </li>
                 <li>
@@ -71,13 +71,13 @@
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
-                    <p>TN EDGEText<br/>Gateway</p>
+                    <p>PE</p>
                 </li>
                 <li class="vLan-line">
                     <p >
                        vLan:{{businessDetailInfo.cnVlan}}
                     </p>
-                    <p class="online-vlan"></p>
+                    <p [ngClass]="{'online-type':status!=='deactivated','offline-type':status=='deactivated'}"></p>
                 </li>
                 <li>
                     <p>

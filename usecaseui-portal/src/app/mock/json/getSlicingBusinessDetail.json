@@ -54,7 +54,8 @@
         "linkType":"p2p/mp2p",
         "tnEndVersion":"10.1.1.1",
         "cnVlan":"11",
-        "cnVersion":"1.1.2.3"
+        "cnVersion":"1.1.2.3",
+        "orchestration_status":"active"
     }
   }
 }
