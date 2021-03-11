@@ -128,21 +128,23 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	addCheckStatus() {
-		this.connectionLinkTable.forEach((item) => {
-			if (
-				item.hasOwnProperty("linkId") &&
-				typeof this.formData["sliceProfile_TN_connection_links"] !==
-					"undefined" &&
-				this.formData["sliceProfile_TN_connection_links"] !== "" &&
-				this.formData["sliceProfile_TN_connection_links"] !== null &&
-				item["linkId"] ===
-					this.formData["sliceProfile_TN_connection_links"]
-			) {
-				item.checked = true;
-			} else {
-				item.checked = false;
-			}
-		});
+		if(this.connectionLinkTable && this.connectionLinkTable.length>0){
+			this.connectionLinkTable.forEach((item) => {
+				if (
+					item.hasOwnProperty("linkId") &&
+					typeof this.formData["sliceProfile_TN_connection_links"] !==
+						"undefined" &&
+					this.formData["sliceProfile_TN_connection_links"] !== "" &&
+					this.formData["sliceProfile_TN_connection_links"] !== null &&
+					item["linkId"] ===
+						this.formData["sliceProfile_TN_connection_links"]
+				) {
+					item.checked = true;
+				} else {
+					item.checked = false;
+				}
+			});
+		}
 	}
 
 	// changeResourceShare() {
@@ -218,6 +220,7 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	getTableHeader(): void {
 		// Find the common key of all data
+		if(this.connectionLinkTable && this.connectionLinkTable.length>0){
 		let keyList: any[] = this.connectionLinkTable.map((item) => {
 			return Object.keys(item);
 		});
@@ -250,6 +253,7 @@ export class SubnetParamsModelComponent implements OnInit {
 				}
 			}
 		});
+	   }
 	}
 
 	pageIndexChange(e) {

@@ -45,7 +45,7 @@
       "nsi_type": "eMBB",
       "nsi_orchestration-status": "activated"
     },
-    "business_detail_info":{
+    "tn_bh_slice_task_info":{
       "anVersion":"10.2.3.4.5",
         "vLanText":"11111",
         "tnVersion":"10.0.1.1.1",
