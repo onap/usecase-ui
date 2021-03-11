@@ -43,11 +43,15 @@
                     <p>
                         <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
                     </p>
-                    <p>{{businessDetailInfo.anVersion}}</p>
+                    <!-- <p *ngIf="isshowran" class="ran_text">{{rantext}}</p> -->
+                    <p>{{businessDetailInfo.anVersion}}
+                        <!-- <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                        class="detail-icon"
+                        (mouseover)="detailFn(false,'ran')" (mouseleave)="detailFn(false,'ran')" /></p> -->
                 </li>
                 <li class="vLan-line">
                     <p >
-                       vLan:{{businessDetailInfo.vLanText}}
+                       Vlan ID:{{businessDetailInfo.vLanText}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
@@ -75,7 +79,7 @@
                 </li>
                 <li class="vLan-line">
                     <p >
-                       vLan:{{businessDetailInfo.cnVlan}}
+                       Vlan ID:{{businessDetailInfo.cnVlan}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
@@ -83,7 +87,12 @@
                     <p>
                         <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
                     </p>
-                    <p>{{businessDetailInfo.cnVersion}}</p>
+                    <!-- <p *ngIf="isshowran" class="cor_text">{{rantext}}</p> -->
+                    <p>{{businessDetailInfo.cnVersion}}
+                        <!-- <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                        class="core_icon"
+                        (mouseover)="detailFn(true,'core')" (mouseleave)="detailFn(false,'core')" /> -->
+                    </p>
                 </li>
             </ul>
         </div>

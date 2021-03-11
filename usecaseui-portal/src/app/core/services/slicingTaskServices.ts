@@ -96,7 +96,7 @@ export class SlicingTaskServices {
 			this.baseUrl +
 			"/monitoring/queryTimestamp/{queryTimestamp}/bandwidth",
 		getConnectionLinkTable:
-			"/api/usecaseui-server/v1/uui-slicing/csmf/5gSlicing/connectionLinks/pageNo/{pageNo}/pageSize/{pageSize}", // :todo
+			"/api/usecaseui-server/v1/uui-slicing/nsmf/task/connectionLinks/pageNo/{pageNo}/pageSize/{pageSize}", // :todo
 	};
 
 	// Get slicing order task list

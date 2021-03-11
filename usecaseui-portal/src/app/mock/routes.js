@@ -152,7 +152,7 @@ module.exports = {
 	"/uui-slicing/nsmf/resource/nssi/instanceStatus/:instanceStatus/instances/pageNo/:pageNo/pageSize/:pageSize":
 		"/slicing_nssi_list_activated",
 	"/uui-slicing/nsmf/resource/nssi/:nssiId/details": "/getSlicingNssiDetail",
-	"/uui-slicing/csmf/5gSlicing/connectionLinks/pageNo/:pageNo/pageSize/:pageSize":
+	"/uui-slicing/nsmf/task/connectionLinks/pageNo/:pageNo/pageSize/:pageSize":
 		"/tn_connectionLinkTable", // :todo
 	///////<-------------CSMF slicing_business--------->/////
 	"/uui-slicing/csmf/5gSlicing/orders/status/:status/pageNo/:pageNo/pageSize/:pageSize":
