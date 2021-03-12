@@ -63,7 +63,7 @@
 							<thead>
 								<tr>
 									<th *ngFor="let val of connectionTableHeader" class="subnet_td">{{val}}</th>
-									<th class="subnet_td"> action </th>
+									<th class="subnet_td">{{connectionLinkTable.length!==0?'action':''}} </th>
 								</tr>
 							</thead>
 							<tbody>
