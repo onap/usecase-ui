@@ -43,35 +43,36 @@
                     <p>
                         <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
                     </p>
-                    <!-- <p *ngIf="isshowran" class="ran_text">{{rantext}}</p> -->
-                    <p>{{businessDetailInfo.anVersion}}
-                        <!-- <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                    <p *ngIf="isshowran" class="ran_text">{{rantext}}</p>
+                    <p>{{businessDetailInfo.an_ip_adrress}}
+                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
                         class="detail-icon"
-                        (mouseover)="detailFn(false,'ran')" (mouseleave)="detailFn(false,'ran')" /></p> -->
+                        *ngIf="businessDetailInfo.an_ip_adrress"
+                        (mouseover)="detailFn(false,'ran')" (mouseleave)="detailFn(false,'ran')" /></p>
                 </li>
                 <li class="vLan-line">
                     <p >
-                       Vlan ID:{{businessDetailInfo.vLanText}}
+                       Vlan ID:{{businessDetailInfo.an_interface_id}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
                 <li>
-                    <p>{{businessDetailInfo.tnVersion}}</p>
+                    <p class="fantask">{{ businessDetailInfo.an_nextHop_info }}</p>
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
                     <p>PE</p>
                 </li>
                 <li class="three-box" >
-                    <p>{{businessDetailInfo.mbps}} Mbps</p>
+                    <p>{{ businessDetailInfo.max_bandWidth }} Mbps</p>
                     <p>
-                       {{businessDetailInfo.msText}} ms
+                       {{ businessDetailInfo.lantency }} ms
                     </p>
                     <p  [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
-                    <p class="">Link Type:{{businessDetailInfo.linkType}}</p>
+                    <p class="">Link Type:{{businessDetailInfo.link_type}}</p>
                 </li>
                 <li>
-                    <p>{{businessDetailInfo.tnEndVersion}}</p>
+                    <p class="fantask">{{businessDetailInfo.cn_nextHop_info}}</p>
                     <p>
                         <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
                     </p>
@@ -79,7 +80,7 @@
                 </li>
                 <li class="vLan-line">
                     <p >
-                       Vlan ID:{{businessDetailInfo.cnVlan}}
+                       Vlan ID:{{businessDetailInfo.cn_interface_id}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
@@ -87,11 +88,12 @@
                     <p>
                         <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
                     </p>
-                    <!-- <p *ngIf="isshowran" class="cor_text">{{rantext}}</p> -->
-                    <p>{{businessDetailInfo.cnVersion}}
-                        <!-- <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                    <p *ngIf="isshowcore" class="cor_text">{{rantext}}</p>
+                    <p>{{businessDetailInfo.cn_ip_adrress}}
+                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
                         class="core_icon"
-                        (mouseover)="detailFn(true,'core')" (mouseleave)="detailFn(false,'core')" /> -->
+                        *ngIf="businessDetailInfo.cn_ip_adrress"
+                        (mouseover)="detailFn(true,'core')" (mouseleave)="detailFn(false,'core')" />
                     </p>
                 </li>
             </ul>

@@ -45,17 +45,46 @@
       "nsi_type": "eMBB",
       "nsi_orchestration-status": "activated"
     },
-    "tn_bh_slice_task_info":{
-      "anVersion":"10.2.3.4.5",
-        "vLanText":"11111",
-        "tnVersion":"10.0.1.1.1",
-        "mbps":"11111",
-        "msText":"11111",
-        "linkType":"p2p/mp2p",
-        "tnEndVersion":"10.1.1.1",
-        "cnVlan":"11",
-        "cnVersion":"1.1.2.3",
-        "orchestration_status":"active"
+    "connection_link":{
+      "an_slice_task_info": {
+        "suggestNssiId": null,
+        "suggestNSSIName": null,
+        "progress": null,
+        "status": null,
+        "statusDescription": null,
+        "sliceProfile": null,
+        "scriptName": null,
+        "enableNSSISelection": null,
+        "ip_adrress": "10.2.3.4.5",
+        "interface_id": "vlan ID",
+        "nextHop_info": "1111"
+      },
+      "cn_slice_task_info": {
+        "suggestNssiId": null,
+        "suggestNSSIName": null,
+        "progress": null,
+        "status": null,
+        "statusDescription": null,
+        "sliceProfile": null,
+        "scriptName": null,
+        "enableNSSISelection": null,
+        "ip_adrress":"10.5.6.4.5",
+        "interface_id": "vlan ID",
+        "nextHop_info": "1112"
+      },
+      "tn_bh_slice_task_info": {
+        "suggestNssiId": null,
+        "suggestNSSIName": null,
+        "progress": null,
+        "status": null,
+        "statusDescription": null,
+        "scriptName": null,
+        "enableNSSISelection": null,
+        "sliceProfile": null,
+        "lantency":"ms",
+        "max_bandWidth": "Mbss",
+        "link_type": "sdsa"
+      }
     }
   }
 }
