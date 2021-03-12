@@ -105,9 +105,10 @@ module.exports = {
 		"/DELETE_uui-lcm_deleteVnfPackage",
 	"/DELETE/uui-lcm/deletePnfPackage?pnfdInfoId:id":
 		"/DELETE_uui-lcm_deletePnfPackage",
-	"/POST/uui-lcm/ns-packages": "/POST_uui-lcm_ns-packages",
+  "/POST/uui-lcm/ns-packages": "/POST_uui-lcm_ns-packages",
 	"/POST/uui-lcm/vf-packages": "/POST_uui-lcm_vf-packages",
-	"/POST/uui-lcm/:jsonData": "/POST_uui-lcm_create",
+  "/POST/uui-lcm/:jsonData": "/POST_uui-lcm_create",
+  "/POST/intent/predict": "/POST_intent_predict",
 
 	///////<-------------slicing--------->/////
 	"/uui-slicing/nsmf/task/business/pageNo/:pageNo/pageSize/:pageSize":

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import { Util } from '../../../../../shared/utils/utils';
 import { onboardService } from '../../../../../core/services/onboard.service';
 import { Recorder } from '../../../../../shared/utils/recorder';
@@ -10,7 +11,12 @@ import { Recorder } from '../../../../../shared/utils/recorder';
 })
 export class InputBusinessOrderComponent implements OnInit {
 
-  constructor(private Util: Util, private Recorder: Recorder, private myhttp: onboardService) { }
+  constructor(
+    private Util: Util,
+    private Recorder: Recorder,
+    private myhttp: onboardService,
+    private msg: NzMessageService
+  ) { }
 
   @Input() showModel: boolean;
   @Output() modalOpreation = new EventEmitter();
@@ -83,7 +89,7 @@ export class InputBusinessOrderComponent implements OnInit {
         this.modalOpreation.emit({ "cancel": false, "param": orderForm });
       }, (err) => {
         this.clickRepeat = false;
-        console.log(err);
+        this.msg.error(`Error: Request failed with status code ${err.status}`);
       })
   }
   startAudio(): void {

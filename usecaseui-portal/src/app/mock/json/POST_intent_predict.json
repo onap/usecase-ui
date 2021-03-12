@@ -1,0 +1,10 @@
+{
+  "maxNumberofUEs": "10",
+  "latency": "10",
+  "name": "exclusive slicing service",
+  "uEMobilityLevel": "stationary",
+  "expDataRateUL": "1000",
+  "expDataRateDL": "1000",
+  "resourceSharingLevel": "non-shared",
+  "coverageArea": "Beijing Beijing Haiding Wanshoulu"
+}
