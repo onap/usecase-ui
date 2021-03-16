@@ -68,7 +68,10 @@ https://wiki.onap.org/display/DW/UUI
 * 5G Slicing Management
 
 This module consists of two parts. 
-The first part is CSMF component which provides the functions of creating network slicing and displaying the created slicing. Also, customers can use this page to activate, deactivate and terminate the slcing.
+The first part is CSMF component which provides the functions of creating network slicing and displaying the created slicing. Also, customers can use this page to activate, deactivate and terminate the slicing. 
+In Honolulu Release, the coverageArea number param is added. Users could input the grid numbers to specify the area where they want the slicing service to cover. For Coverage Area Number, please enter the rectangle grid numbers corresponding to the physical coverage areas on the sample image shown on GUI.
+
+Note: The sample image file is named as 'coverageAreaMap.png' and it is stored in the frontend project of usecase-ui: ``usecase-ui\usecaseui-portal\src\assets\images\coverageAreaMap.png``. If the map of a different region is required, you can replace the sample image with the same name in the frontend project. And you also need to re-release the frontend project docker container.
 
 |CSMF Management Page|
 
