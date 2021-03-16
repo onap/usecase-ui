@@ -27,7 +27,7 @@ export class InputBusinessOrderComponent implements OnInit {
   radioValue: String = 'text';
   isPlay: boolean = false;
   clickRepeat: boolean = false;
-
+  isDisable: boolean = true;
   ngOnInit() {
     this.validateRulesShow = [];
     this.rulesText = [];
@@ -94,10 +94,12 @@ export class InputBusinessOrderComponent implements OnInit {
   }
   startAudio(): void {
     this.isPlay = true;
+    this.isDisable = true;
     this.Recorder.beforeStartRecord();
   }
   stopAudio(): void {
     this.isPlay = false;
+    this.isDisable = false;
     this.Recorder.stopRecord();
   }
   playAudio(): void {

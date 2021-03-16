@@ -22,14 +22,14 @@
       </form>
       <div *ngIf='radioValue === "audio"' class="audio_class">
         <div class="recode_class">
-          <span>Sound Recording: </span>
+          <span>Sound Recording : </span>
           <i *ngIf='!isPlay' class="anticon anticon-play-circle-o audioBtn" (click)="startAudio()"></i>
           <i *ngIf='isPlay' class="anticon anticon-pause-circle-o audioBtn" (click)="stopAudio()"></i>
           
         </div>
         <div class="play_class">
-          <span>Audition: </span>
-          <button (click)="playAudio()">Click To Play</button>
+          <span>Audition : </span>
+          <button nz-button nzType="default" [disabled]='isDisable' (click)="playAudio()">Click To Play</button>
           <audio class="audio-node" id="audio_id" autoplay></audio>
         </div>
       </div>
