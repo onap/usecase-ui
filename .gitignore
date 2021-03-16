@@ -37,3 +37,6 @@ holmes/
 
 # build
 usecase-ui/
+
+#setting
+.vscode/
