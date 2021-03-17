@@ -86,9 +86,8 @@ export class BusinessOrderComponent implements OnInit {
 	handleOk(): void {
 		const coverage_list: string[] = [];
 		let coverageAreas;
-
 		COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-			if (item.required && item.type === "input") {
+			if (item.required && item.type === "input" ) {
 				this.Util.validator(
 					item.title,
 					item.key,
@@ -102,14 +101,26 @@ export class BusinessOrderComponent implements OnInit {
 		if (this.validateRulesShow.indexOf(true) > -1) {
 			return;
 		}
-
-		this.areaList.forEach((item) => {
+		for(var i=0;i<this.areaList.length;i++){
+			const _item = this.areaList[i]
 			let str = "";
-			item.forEach((area) => {
+			for(var j=0;j<_item.length;j++){
+				const area = _item[j]
 				str += area.selected + ";";
-			});
+				if(!area.selected){
+					this.message.error("Please Area the form");
+					return;
+				   }
+			}
 			coverage_list.push(str.substring(0, str.length - 1));
-		});
+		}
+		// this.areaList.forEach((item) => {
+		// 	let str = "";
+		// 	item.forEach((area) => {
+		// 		str += area.selected + ";";
+		// 	});
+		// 	coverage_list.push(str.substring(0, str.length - 1));
+		// });
 		if (coverage_list.length > 1) {
 			coverageAreas = coverage_list.join("|");
 		} else {
@@ -123,6 +134,7 @@ export class BusinessOrderComponent implements OnInit {
 		} else {
 			this.slicing_order_info.coverageArea = `${coverageAreas}`;
 		}
+		console.log('jjjjkkk',this.slicing_order_info.coverageArea)
 		delete this.slicing_order_info.coverageAreaNumber;
 
 		const paramsObj = {
@@ -131,6 +143,7 @@ export class BusinessOrderComponent implements OnInit {
 		const csmfSlicingPurchaseFailedCallback = () => {
 			this.handleCancel();
 		};
+		
 		this.myhttp
 			.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback)
 			.then((res) => {
