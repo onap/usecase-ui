@@ -41,59 +41,57 @@
             <ul class="list-box">
                 <li>
                     <p>
-                        <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
+                        <img src="../../../../../../../assets/images/an-img.png" class="anImg" />
                     </p>
                     <p *ngIf="isshowran" class="ran_text">{{rantext}}</p>
                     <p class="ran_adrress">{{businessDetailInfo.an_ip_adrress}}
-                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
-                        class="detail-icon"
-                        *ngIf="businessDetailInfo.an_ip_adrress"
-                        (mouseover)="detailFn(false,'ran')" (mouseleave)="detailFn(false,'ran')" /></p>
+                        <img src="../../../../../../../assets/images/ask-img.png" alt="" class="detail-icon"
+                            *ngIf="businessDetailInfo.an_ip_adrress" (mouseover)="detailFn(false,'ran')"
+                            (mouseleave)="detailFn(false,'ran')" /></p>
                 </li>
                 <li class="vLan-line">
-                    <p >
-                       Vlan ID:{{businessDetailInfo.an_interface_id}}
+                    <p>
+                        Vlan ID:{{businessDetailInfo.an_interface_id}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
                 <li>
                     <p class="fantask">{{ businessDetailInfo.an_nextHop_info }}</p>
                     <p>
-                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg" />
                     </p>
                     <p>PE</p>
                 </li>
-                <li class="three-box" >
+                <li class="three-box">
                     <p>{{ businessDetailInfo.max_bandWidth }} Mbps</p>
                     <p>
-                       {{ businessDetailInfo.lantency }} ms
+                        {{ businessDetailInfo.lantency }} ms
                     </p>
-                    <p  [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
+                    <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                     <p class="">Link Type:{{businessDetailInfo.link_type}}</p>
                 </li>
                 <li>
                     <p class="fantask">{{businessDetailInfo.cn_nextHop_info}}</p>
                     <p>
-                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg" />
                     </p>
                     <p>PE</p>
                 </li>
                 <li class="vLan-line">
-                    <p >
-                       Vlan ID:{{businessDetailInfo.cn_interface_id}}
+                    <p>
+                        Vlan ID:{{businessDetailInfo.cn_interface_id}}
                     </p>
                     <p [ngClass]="{'online-type':status=='activated','offline-type':status!=='activated'}"></p>
                 </li>
                 <li>
                     <p>
-                        <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
+                        <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud" />
                     </p>
                     <p *ngIf="isshowcore" class="cor_text">{{rantext}}</p>
                     <p class="cn_adrress">{{businessDetailInfo.cn_ip_adrress}}
-                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
-                        class="core_icon"
-                        *ngIf="businessDetailInfo.cn_ip_adrress"
-                        (mouseover)="detailFn(true,'core')" (mouseleave)="detailFn(false,'core')" />
+                        <img src="../../../../../../../assets/images/ask-img.png" alt="" class="core_icon"
+                            *ngIf="businessDetailInfo.cn_ip_adrress" (mouseover)="detailFn(true,'core')"
+                            (mouseleave)="detailFn(false,'core')" />
                     </p>
                 </li>
             </ul>
