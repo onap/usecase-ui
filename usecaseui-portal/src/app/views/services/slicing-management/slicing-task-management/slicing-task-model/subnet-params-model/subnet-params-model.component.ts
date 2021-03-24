@@ -50,6 +50,7 @@ export class SubnetParamsModelComponent implements OnInit {
 	pageSize: number = 2;
 	recordNum: number = 0;
 	hasPageNo: number[] = [];
+	loading = false;
 	objectKeys = Object.keys;
 	//  Comment: Above code
 
@@ -164,6 +165,7 @@ export class SubnetParamsModelComponent implements OnInit {
 			pageNo: pageNo,
 			pageSize: pageSize,
 		};
+		this.loading = true;
 		this.http
 			.getConnectionLinkTable(pageObj, this.getConnetionFailed)
 			.then((res) => {
@@ -267,9 +269,10 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	judgeTn(): void {
+		console.log('fprm',this.formData)
 		if (
 			this.formData["sliceProfile_TN_resourceSharingLevel"] ===
-			"non-shared"
+			"non-shared" || this.formData["sliceProfile_TN_resourceSharingLevel"]==null
 		) {
 			//:todo clear??
 			// this.connectionLinkTable.forEach((item) => {

@@ -41,11 +41,11 @@
             <ul class="list-box">
                 <li>
                     <p>
-                        <img src="../../../../../../../assets/images/an-img.png" class="anImg"/>
+                        <img src="assets/images/an-img.png" class="anImg" alt=""/>
                     </p>
                     <p *ngIf="isshowran" class="ran_text">{{rantext}}</p>
                     <p class="ran_adrress">{{businessDetailInfo.an_ip_adrress}}
-                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                        <img src="assets/images/ask-img.png" alt="" 
                         class="detail-icon"
                         *ngIf="businessDetailInfo.an_ip_adrress"
                         (mouseover)="detailFn(false,'ran')" (mouseleave)="detailFn(false,'ran')" /></p>
@@ -59,7 +59,7 @@
                 <li>
                     <p class="fantask">{{ businessDetailInfo.an_nextHop_info }}</p>
                     <p>
-                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                        <img src="assets/images/tn-edge-img.png" class="tnImg" alt=""/>
                     </p>
                     <p>PE</p>
                 </li>
@@ -74,7 +74,7 @@
                 <li>
                     <p class="fantask">{{businessDetailInfo.cn_nextHop_info}}</p>
                     <p>
-                        <img src="../../../../../../../assets/images/tn-edge-img.png" class="tnImg"/>
+                        <img src="assets/images/tn-edge-img.png" class="tnImg" alt=""/>
                     </p>
                     <p>PE</p>
                 </li>
@@ -86,11 +86,11 @@
                 </li>
                 <li>
                     <p>
-                        <img src="../../../../../../../assets/images/cn-cloud-img.jpg" class="cnCloud"/>
+                        <img src="assets/images/cn-cloud-img.jpg" class="cnCloud" alt=""/>
                     </p>
                     <p *ngIf="isshowcore" class="cor_text">{{rantext}}</p>
                     <p class="cn_adrress">{{businessDetailInfo.cn_ip_adrress}}
-                        <img src="../../../../../../../assets/images/ask-img.png" alt="" 
+                        <img src="assets/images/ask-img.png" alt="" 
                         class="core_icon"
                         *ngIf="businessDetailInfo.cn_ip_adrress"
                         (mouseover)="detailFn(true,'core')" (mouseleave)="detailFn(false,'core')" />
