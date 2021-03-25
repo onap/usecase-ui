@@ -40,7 +40,7 @@ export const TRANSFRER_FORM_ITEMS = [
 	},
 	{
 		title: "Resource Sharing Level", // select
-		key: "sliceProfile_TN_resourceSharingLevel", // :new
+		key: "sliceProfile_TN_BH_resourceSharingLevel", // :new
 		required: true,
 		disable: true,
 		type: "radio",
@@ -57,7 +57,7 @@ export const TRANSFRER_FORM_ITEMS = [
 	},
 	{
 		title: "Connection Links", // table
-		key: "sliceProfile_TN_connection_links", // :new
+		key: "sliceProfile_TN_BH_connection_links", // :new
 		required: false, // combined
 		type: "table-radio",
 		disable: false,

@@ -227,7 +227,7 @@ export class SlicingTaskModelComponent implements OnInit {
 					"sliceProfile_TN_BH_jitte",
 					"sliceProfile_TN_BH_sNSSAI",
 					"tn_bh_enableNSSISelection",
-					"sliceProfile_TN_resourceSharingLevel",
+					"sliceProfile_TN_BH_resourceSharingLevel",
 					"sliceProfile_CN_logicInterfaceId",
 					"sliceProfile_CN_ipAddress",
 					"sliceProfile_CN_nextHopInfo",

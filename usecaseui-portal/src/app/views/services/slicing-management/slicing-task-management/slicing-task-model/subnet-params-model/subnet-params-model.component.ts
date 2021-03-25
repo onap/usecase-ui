@@ -44,7 +44,7 @@ export class SubnetParamsModelComponent implements OnInit {
 		"CN Endpoint",
 	];
 	// Parameters not passed to the back end
-	notPassPara: string[] = ["sliceProfile_TN_connection_links"];
+	notPassPara: string[] = ["sliceProfile_TN_BH_connection_links"];
 	connectionLinkTable: any[] = [];
 	connectionTableHeader: string[] = [];
 	pageSize: number = 2;
@@ -134,13 +134,15 @@ export class SubnetParamsModelComponent implements OnInit {
 			this.connectionLinkTable.forEach((item) => {
 				if (
 					item.hasOwnProperty("linkId") &&
-					typeof this.formData["sliceProfile_TN_connection_links"] !==
-						"undefined" &&
-					this.formData["sliceProfile_TN_connection_links"] !== "" &&
-					this.formData["sliceProfile_TN_connection_links"] !==
+					typeof this.formData[
+						"sliceProfile_TN_BH_connection_links"
+					] !== "undefined" &&
+					this.formData["sliceProfile_TN_BH_connection_links"] !==
+						"" &&
+					this.formData["sliceProfile_TN_BH_connection_links"] !==
 						null &&
 					item["linkId"] ===
-						this.formData["sliceProfile_TN_connection_links"]
+						this.formData["sliceProfile_TN_BH_connection_links"]
 				) {
 					item.checked = true;
 				} else {
@@ -275,16 +277,16 @@ export class SubnetParamsModelComponent implements OnInit {
 	judgeTn(): void {
 		console.log("fprm", this.formData);
 		if (
-			this.formData["sliceProfile_TN_resourceSharingLevel"] ===
+			this.formData["sliceProfile_TN_BH_resourceSharingLevel"] ===
 				"non-shared" ||
-			this.formData["sliceProfile_TN_resourceSharingLevel"] == null
+			this.formData["sliceProfile_TN_BH_resourceSharingLevel"] == null
 		) {
 			//:todo clear??
 			// this.connectionLinkTable.forEach((item) => {
 			// 	item.checked = false;
 			// });
-			// this.formData["sliceProfile_TN_connection_links"] = null;
-			this.notPassPara = ["sliceProfile_TN_connection_links"];
+			// this.formData["sliceProfile_TN_BH_connection_links"] = null;
+			this.notPassPara = ["sliceProfile_TN_BH_connection_links"];
 			this.transferFormItems.forEach((item) => {
 				if (item.title === "Connection Links") {
 					item.disable = true;
@@ -297,7 +299,8 @@ export class SubnetParamsModelComponent implements OnInit {
 				}
 			});
 		} else if (
-			this.formData["sliceProfile_TN_resourceSharingLevel"] === "shared"
+			this.formData["sliceProfile_TN_BH_resourceSharingLevel"] ===
+			"shared"
 		) {
 			this.transferFormItems.forEach((item) => {
 				if (item.title === "Connection Links") {
@@ -308,11 +311,12 @@ export class SubnetParamsModelComponent implements OnInit {
 				) {
 					if (
 						typeof this.formData[
-							"sliceProfile_TN_connection_links"
+							"sliceProfile_TN_BH_connection_links"
 						] !== "undefined" &&
-						this.formData["sliceProfile_TN_connection_links"] !==
+						this.formData["sliceProfile_TN_BH_connection_links"] !==
 							null &&
-						this.formData["sliceProfile_TN_connection_links"] !== ""
+						this.formData["sliceProfile_TN_BH_connection_links"] !==
+							""
 					) {
 						item.disable = true;
 						item.required = false;
@@ -323,7 +327,8 @@ export class SubnetParamsModelComponent implements OnInit {
 						);
 					} else {
 						//:todo
-						this.formData["sliceProfile_TN_connection_links"] = "";
+						this.formData["sliceProfile_TN_BH_connection_links"] =
+							"";
 						item.disable = false;
 						item.required = true;
 						this.notPassPara = [];
@@ -373,7 +378,7 @@ export class SubnetParamsModelComponent implements OnInit {
 				item.checked = false;
 			}
 		});
-		this.formData["sliceProfile_TN_connection_links"] = id; //  get the selected id
+		this.formData["sliceProfile_TN_BH_connection_links"] = id; //  get the selected id
 		this.judgeTn();
 	}
 
