@@ -4,7 +4,7 @@
         "result_message": "5Gslicingorderqueryresult."
     },
     "result_body": {
-        "record_number": 2,
+        "record_number": 4,
         "connection_links_list": [{
                 "linkId": "233errt4545",
                 "anInfo": {
@@ -30,6 +30,44 @@
             },
             {
                 "linkId": "233errt4546",
+                "anInfo": {
+                    "ipAddress": "2.2.2.2",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "cnInfo": {
+                    "ipAddress": "1.1.1.12",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "properties": {
+                    "latency": "202",
+                    "jitter": "dffd2",
+                    "maxBandwidth": "2002",
+                    "resourceSharingLevel": "shared2"
+                }
+            },
+            {
+                "linkId": "233errt4547",
+                "anInfo": {
+                    "ipAddress": "2.2.2.2",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "cnInfo": {
+                    "ipAddress": "1.1.1.12",
+                    "logicId": "dff344442",
+                    "nextHop": "sddsweedffsdsssss2"
+                },
+                "properties": {
+                    "latency": "202",
+                    "jitter": "dffd2",
+                    "maxBandwidth": "2002",
+                    "resourceSharingLevel": "shared2"
+                }
+            },
+            {
+                "linkId": "233errt4548",
                 "anInfo": {
                     "ipAddress": "2.2.2.2",
                     "logicId": "dff344442",

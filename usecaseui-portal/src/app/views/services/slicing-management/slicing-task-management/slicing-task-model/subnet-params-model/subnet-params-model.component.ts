@@ -49,8 +49,9 @@ export class SubnetParamsModelComponent implements OnInit {
 	connectionTableHeader: string[] = [];
 	pageSize: number = 2;
 	recordNum: number = 0;
-	hasPageNo: number[] = [];
+	// hasPageNo: number[] = [];
 	loading = false;
+	loadingDelay = 100;
 	objectKeys = Object.keys;
 	//  Comment: Above code
 
@@ -129,14 +130,15 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	addCheckStatus() {
-		if(this.connectionLinkTable && this.connectionLinkTable.length>0){
+		if (this.connectionLinkTable && this.connectionLinkTable.length > 0) {
 			this.connectionLinkTable.forEach((item) => {
 				if (
 					item.hasOwnProperty("linkId") &&
 					typeof this.formData["sliceProfile_TN_connection_links"] !==
 						"undefined" &&
 					this.formData["sliceProfile_TN_connection_links"] !== "" &&
-					this.formData["sliceProfile_TN_connection_links"] !== null &&
+					this.formData["sliceProfile_TN_connection_links"] !==
+						null &&
 					item["linkId"] ===
 						this.formData["sliceProfile_TN_connection_links"]
 				) {
@@ -171,7 +173,7 @@ export class SubnetParamsModelComponent implements OnInit {
 			.then((res) => {
 				if (pageNo === 1) {
 					// the first page
-					this.loading = false
+					this.loading = false;
 					this.connectionLinkTable =
 						res.result_body.connection_links_list;
 					this.recordNum = res.result_body.record_number;
@@ -195,7 +197,7 @@ export class SubnetParamsModelComponent implements OnInit {
 					// 		this.connectionLinkTable.push(defaultItem);
 					// 	}
 					// }
-					this.hasPageNo = [1];
+					// this.hasPageNo = [1];
 				} else if (pageNo > 1) {
 					// delete the default page of the page and add the actual data of the page
 					// const startIndex = pageSize * (pageNo - 1);
@@ -213,8 +215,9 @@ export class SubnetParamsModelComponent implements OnInit {
 					this.connectionLinkTable =
 						res.result_body.connection_links_list;
 					this.recordNum = res.result_body.record_number;
+					this.loading = false;
 				}
-				this.hasPageNo.push(pageNo);
+				// this.hasPageNo.push(pageNo);
 				this.addCheckStatus(); // add init check status for connection link table
 				this.judgeTn(); // init judge
 				this.getTableHeader();
@@ -223,40 +226,40 @@ export class SubnetParamsModelComponent implements OnInit {
 
 	getTableHeader(): void {
 		// Find the common key of all data
-		if(this.connectionLinkTable && this.connectionLinkTable.length>0){
-		let keyList: any[] = this.connectionLinkTable.map((item) => {
-			return Object.keys(item);
-		});
-		this.connectionTableHeader = this.Util.intersection(keyList).filter(
-			(item) => {
-				return item !== "checked";
-			}
-		);
-		// Filter redundant items in table data
-		this.connectionLinkTable.forEach((item) => {
-			for (let key in item) {
-				if (
-					key !== "linkId" &&
-					key !== "checked" &&
-					this.connectionTableHeader.indexOf(key) === -1
-				) {
-					delete item[key];
-				} else {
-					// Filter out the null values in each item
-					for (let i in item[key]) {
-						if (
-							i === "jitter" &&
-							(item[key][i] === "" ||
-								item[key][i] === "null" ||
-								item[key][i] === null)
-						) {
-							delete item[key][i];
+		if (this.connectionLinkTable && this.connectionLinkTable.length > 0) {
+			let keyList: any[] = this.connectionLinkTable.map((item) => {
+				return Object.keys(item);
+			});
+			this.connectionTableHeader = this.Util.intersection(keyList).filter(
+				(item) => {
+					return item !== "checked";
+				}
+			);
+			// Filter redundant items in table data
+			this.connectionLinkTable.forEach((item) => {
+				for (let key in item) {
+					if (
+						key !== "linkId" &&
+						key !== "checked" &&
+						this.connectionTableHeader.indexOf(key) === -1
+					) {
+						delete item[key];
+					} else {
+						// Filter out the null values in each item
+						for (let i in item[key]) {
+							if (
+								i === "jitter" &&
+								(item[key][i] === "" ||
+									item[key][i] === "null" ||
+									item[key][i] === null)
+							) {
+								delete item[key][i];
+							}
 						}
 					}
 				}
-			}
-		});
-	   }
+			});
+		}
 	}
 
 	pageIndexChange(e) {
@@ -270,10 +273,11 @@ export class SubnetParamsModelComponent implements OnInit {
 	}
 
 	judgeTn(): void {
-		console.log('fprm',this.formData)
+		console.log("fprm", this.formData);
 		if (
 			this.formData["sliceProfile_TN_resourceSharingLevel"] ===
-			"non-shared" || this.formData["sliceProfile_TN_resourceSharingLevel"]==null
+				"non-shared" ||
+			this.formData["sliceProfile_TN_resourceSharingLevel"] == null
 		) {
 			//:todo clear??
 			// this.connectionLinkTable.forEach((item) => {
