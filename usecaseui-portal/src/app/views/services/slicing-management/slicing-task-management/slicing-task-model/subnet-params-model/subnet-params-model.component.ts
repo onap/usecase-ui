@@ -171,6 +171,7 @@ export class SubnetParamsModelComponent implements OnInit {
 			.then((res) => {
 				if (pageNo === 1) {
 					// the first page
+					this.loading = false
 					this.connectionLinkTable =
 						res.result_body.connection_links_list;
 					this.recordNum = res.result_body.record_number;
