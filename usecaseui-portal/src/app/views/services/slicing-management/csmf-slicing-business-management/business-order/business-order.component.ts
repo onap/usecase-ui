@@ -8,12 +8,14 @@ import { NzMessageService } from "ng-zorro-antd";
 	selector: "app-business-order",
 	templateUrl: "./business-order.component.html",
 	styleUrls: ["./business-order.component.less"],
+	
 })
 export class BusinessOrderComponent implements OnInit {
+	loading: boolean = false
 	constructor(
 		private myhttp: SlicingTaskServices,
 		private message: NzMessageService,
-		private Util: Util
+		private Util: Util,
 	) {}
 
 	ngOnInit() {}
@@ -99,6 +101,7 @@ export class BusinessOrderComponent implements OnInit {
 	}
 
 	handleOk(): void {
+		this.loading = true
 		const coverage_list: string[] = [];
 		let coverageAreas;
 		COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
@@ -155,6 +158,7 @@ export class BusinessOrderComponent implements OnInit {
 			.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback)
 			.then((res) => {
 				const result = res.result_header;
+				this.loading = false
 				if (
 					result &&
 					result.result_code &&

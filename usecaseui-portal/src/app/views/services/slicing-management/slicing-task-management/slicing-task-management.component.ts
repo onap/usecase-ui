@@ -68,7 +68,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 			this.getTaskList();
 		}
 	}
-
+	
 	getListOfProcessingStatus(): void {
 		const { selectedValue, pageNum, pageSize } = this;
 		this.loading = true;
