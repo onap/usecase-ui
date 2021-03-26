@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { COMMUNICATION_FORM_ITEMS,MASKTEXT } from "./constants";
+import { COMMUNICATION_FORM_ITEMS, MASKTEXT } from "./constants";
 import { Util } from "../../../../../shared/utils/utils";
 import { SlicingTaskServices } from "../../../../../core/services/slicingTaskServices";
 import { NzMessageService } from "ng-zorro-antd";
@@ -19,26 +19,28 @@ export class BusinessOrderComponent implements OnInit {
 	ngOnInit() {}
 
 	ngOnChanges() {
-	    let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
-            if (this.modelParams && this.showModel) {
-                this.slicing_order_info = {...this.modelParams};
-                if (this.slicing_order_info.coverageArea) {
-                    areaList = [];
-                    areaList.push(this.slicing_order_info.coverageArea.split(" ").join(";"));
-                }
-            }
-	    this.AreaFormatting(areaList);
+		let areaList = ["Beijing;Beijing;Haidian District;Wanshoulu Street"];
+		if (this.modelParams && this.showModel) {
+			this.slicing_order_info = { ...this.modelParams };
+			if (this.slicing_order_info.coverageArea) {
+				areaList = [];
+				areaList.push(
+					this.slicing_order_info.coverageArea.split(" ").join(";")
+				);
+			}
+		}
+		this.AreaFormatting(areaList);
 	}
-        detailFn(flag){
-	  COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-	      if(item.key=='coverageAreaNumber'){
-		  item["coverflag"] = flag == true ? false:true
-	      }
-	  })
+	detailFn(flag) {
+		COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
+			if (item.key == "coverageAreaNumber") {
+				item["coverflag"] = flag == true ? false : true;
+			}
+		});
 	}
 
-        @Input() showModel: boolean;
-        @Input() modelParams: any;
+	@Input() showModel: boolean;
+	@Input() modelParams: any;
 	@Output() cancel = new EventEmitter<boolean>();
 	comunicationFormItems = COMMUNICATION_FORM_ITEMS;
 	slicing_order_info = {
@@ -56,7 +58,8 @@ export class BusinessOrderComponent implements OnInit {
 	validateRulesShow: any[] = [];
 	rulesText: any[] = [];
 	areaLevel: number = 4;
-        masktext: string = MASKTEXT ;
+	masktext: string = MASKTEXT;
+	loading: boolean = false;
 	AreaFormatting(areaList): void {
 		this.areaList = areaList.map((item: any) => {
 			let arr = item.split(";");
@@ -102,7 +105,7 @@ export class BusinessOrderComponent implements OnInit {
 		const coverage_list: string[] = [];
 		let coverageAreas;
 		COMMUNICATION_FORM_ITEMS.forEach((item, index) => {
-			if (item.required && item.type === "input" ) {
+			if (item.required && item.type === "input") {
 				this.Util.validator(
 					item.title,
 					item.key,
@@ -116,19 +119,19 @@ export class BusinessOrderComponent implements OnInit {
 		if (this.validateRulesShow.indexOf(true) > -1) {
 			return;
 		}
-		for(const key in this.areaList){
-			const value  = this.areaList[key]
-			 let str = "";
-			 for(const val of value){
-				 const area = val
-				 str += area.selected + ";";
-				 if(!area.selected){
-					 this.message.error("Please complete the form");
-					 return;
-					 }
-			 }
-			 coverage_list.push(str.substring(0, str.length - 1));
-		 }
+		for (const key in this.areaList) {
+			const value = this.areaList[key];
+			let str = "";
+			for (const val of value) {
+				const area = val;
+				str += area.selected + ";";
+				if (!area.selected) {
+					this.message.error("Please complete the form");
+					return;
+				}
+			}
+			coverage_list.push(str.substring(0, str.length - 1));
+		}
 		if (coverage_list.length > 1) {
 			coverageAreas = coverage_list.join("|");
 		} else {
@@ -150,7 +153,7 @@ export class BusinessOrderComponent implements OnInit {
 		const csmfSlicingPurchaseFailedCallback = () => {
 			this.handleCancel();
 		};
-		
+		this.loading = true;
 		this.myhttp
 			.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback)
 			.then((res) => {
@@ -164,6 +167,7 @@ export class BusinessOrderComponent implements OnInit {
 				} else {
 					this.message.create("error", "Network error");
 				}
+				this.loading = false;
 				this.handleCancel();
 			});
 	}

@@ -1,5 +1,5 @@
-<nz-modal [(nzVisible)]="showModel" nzTitle="Create Communication Service" (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()" nzWidth="80%">
+<nz-modal [(nzVisible)]="showModel" nzTitle="Create Communication Service" (nzOnCancel)="handleCancel()" nzWidth="80%"
+    [nzFooter]="modalFooter">
     <div class="subnet_params_container">
         <form nz-form>
             <nz-form-item *ngFor="let item of comunicationFormItems; let i = index">
@@ -7,20 +7,22 @@
                     {{ item.title }}
                 </nz-form-label>
                 <nz-form-control [nzSpan]="16">
-                    <nz-tooltip    [nzTitle]="item.scoped&&item.scopedText?item.scopedText:''" [nzPlacement]="'right'"
+                    <nz-tooltip [nzTitle]="item.scoped&&item.scopedText?item.scopedText:''" [nzPlacement]="'right'"
                         [nzTrigger]="'focus'">
-                        <input nz-input nz-tooltip   [id]="item.key" [name]="item.key" *ngIf="item.type === 'input'"
+                        <input nz-input nz-tooltip [id]="item.key" [name]="item.key" *ngIf="item.type === 'input'"
                             [(ngModel)]="slicing_order_info[item.key]"
                             [ngClass]="{'error-input-border' : validateRulesShow[i] === true}"
                             [placeholder]="item.placeholder ? item.placeholder : ''"
                             (blur)="item.required ? this.Util.validator(item.title,item.key,slicing_order_info[item.key],i,rulesText,validateRulesShow) : this.Util.validator()" />
-                            <div *ngIf="item.coverflag" class="detail-wrap">
-                               <p>
-                                   {{ masktext }}
-                                </p> 
-                                <img src="assets/images/coverageAreaMap.png" class="detail-img"/>
-                            </div>
-                            <img src="assets/images/ask-img.png" alt="" class="detail-icon" *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)" (mouseleave)="detailFn(item.coverflag)" />
+                        <div *ngIf="item.coverflag" class="detail-wrap">
+                            <p>
+                                {{ masktext }}
+                            </p>
+                            <img src="assets/images/coverageAreaMap.png" class="detail-img" />
+                        </div>
+                        <img src="assets/images/ask-img.png" alt="" class="detail-icon"
+                            *ngIf="item.key === 'coverageAreaNumber'" (mouseover)="detailFn(item.coverflag)"
+                            (mouseleave)="detailFn(item.coverflag)" />
                     </nz-tooltip>
                     <nz-radio-group [name]="item.key" [(ngModel)]="slicing_order_info[item.key]"
                         *ngIf="item.type === 'radio'">
@@ -44,4 +46,9 @@
             </nz-form-item>
         </form>
     </div>
+    <ng-template #modalFooter>
+        <span>Modal Footer:</span>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">OK</button>
+    </ng-template>
 </nz-modal>
