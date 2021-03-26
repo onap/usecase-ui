@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
 import { SlicingTaskServices } from "@src/app/core/services/slicingTaskServices";
 import { TASK_PROCESSING_STATUS } from "./constants";
-import { INTERVAL_TIME } from "../constant";
 
 @Component({
 	selector: "app-slicing-task-management",
@@ -25,7 +24,6 @@ export class SlicingTaskManagementComponent implements OnInit {
 	total: number = 1;
 	pageSize: string = "10";
 	pageNum: string = "1";
-	intervalTime: number = INTERVAL_TIME;
 
 	ngOnChanges(changes: SimpleChanges) {
 		if (
@@ -41,22 +39,13 @@ export class SlicingTaskManagementComponent implements OnInit {
 
 	getTaskList(): void {
 		const { pageNum, pageSize } = this;
-		this.loading = true;
-		let getSlicingTaskListFailedCallback = () => {
+		this.loading = true; // todo
+		this.myhttp.getSlicingTaskList(pageNum, pageSize).then((res) => {
+			const { slicing_task_list, record_number } = res.result_body;
+			this.dataFormatting(slicing_task_list);
+			this.total = record_number;
 			this.loading = false;
-		};
-		this.myhttp
-			.getSlicingTaskList(
-				pageNum,
-				pageSize,
-				getSlicingTaskListFailedCallback
-			)
-			.then((res) => {
-				const { slicing_task_list, record_number } = res.result_body;
-				this.dataFormatting(slicing_task_list);
-				this.total = record_number;
-				this.loading = false;
-			});
+		});
 	}
 
 	processingStatusChange(): void {
@@ -160,10 +149,7 @@ export class SlicingTaskManagementComponent implements OnInit {
 			if (this.selectedValue && this.selectedValue !== "all") {
 				this.getListOfProcessingStatus();
 			} else {
-				this.loading = true;
-				setTimeout(() => {
-					this.getTaskList();
-				}, this.intervalTime);
+				this.getTaskList();
 			}
 		}
 	}
