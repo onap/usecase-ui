@@ -39,7 +39,8 @@ export class SlicingTaskManagementComponent implements OnInit {
 
 	getTaskList(): void {
 		const { pageNum, pageSize } = this;
-		this.loading = true; // todo
+		this.loading = true;
+		this.listOfData = [];
 		this.myhttp.getSlicingTaskList(pageNum, pageSize).then((res) => {
 			const { slicing_task_list, record_number } = res.result_body;
 			this.dataFormatting(slicing_task_list);
@@ -60,6 +61,8 @@ export class SlicingTaskManagementComponent implements OnInit {
 
 	getListOfProcessingStatus(): void {
 		const { selectedValue, pageNum, pageSize } = this;
+		
+		this.listOfData = [];
 		this.loading = true;
 		let getTaskProcessingStatusFailedCallback = () => {
 			this.loading = false;
