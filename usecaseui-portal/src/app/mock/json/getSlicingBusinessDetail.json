@@ -56,7 +56,7 @@
         "scriptName": null,
         "enableNSSISelection": null,
         "ip_adrress": "10.2.3.4.5",
-        "interface_id": "vlan ID",
+        "interface_id": "7878787878",
         "nextHop_info": "1111"
       },
       "cn_slice_task_info": {
@@ -69,7 +69,7 @@
         "scriptName": null,
         "enableNSSISelection": null,
         "ip_adrress":"10.5.6.4.5",
-        "interface_id": "vlan ID",
+        "interface_id": "121212",
         "nextHop_info": "1112"
       },
       "tn_bh_slice_task_info": {
@@ -81,9 +81,9 @@
         "scriptName": null,
         "enableNSSISelection": null,
         "sliceProfile": null,
-        "lantency":"ms",
-        "max_bandWidth": "Mbss",
-        "link_type": "sdsa"
+        "lantency":"100",
+        "max_bandWidth": "100",
+        "link_type": "01010"
       }
     }
   }
