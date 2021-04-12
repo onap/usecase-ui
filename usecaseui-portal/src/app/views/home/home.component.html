@@ -20,11 +20,11 @@
     <div class="services" #services>
       <h4>{{"i18nTextDefine_SERVICES" | translate}}</h4>
       <app-pie [initData]="serviceChartInit" [chartData]="serviceChartData" #seriverChart></app-pie>
-      <div>
-        <h5><span>{{"i18nTextDefine_Total" | translate}}:</span> {{serviceNumber}}
-          <span>{{"i18nTextDefine_cutomers_and" | translate}}</span> {{serviceNumber}}
-          <span>{{"i18nTextDefine_service_instance" | translate}}</span></h5>
-      </div>
+      <h5>
+        <span>{{"i18nTextDefine_Total" | translate}}:</span> {{serviceNumber}}
+        <span>{{"i18nTextDefine_cutomers_and" | translate}}</span> {{serviceNumber}}
+        <span>{{"i18nTextDefine_service_instance" | translate}}</span>
+      </h5>
       <p class="tip">
         <span (click)="goback_services()">{{"i18nTextDefine_ViewDetails" | translate}}</span>
       </p>
@@ -76,9 +76,6 @@
       <div class="poerformance">
         <app-pie [initData]="VMAlarmChartInit" [chartData]="VMAlarmChartData"></app-pie>
         <p class="alarm-name"> {{"i18nTextDefine_VM_Alarm" | translate}} </p>
-        <!-- <p class="tip">
-          <a href="#">{{"i18nTextDefine_ViewDetails" | translate}}</a>
-        </p> -->
       </div>
     </div>
     <div class="rb-content">
