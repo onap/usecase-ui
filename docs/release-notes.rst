@@ -11,10 +11,10 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
-Version: 4.0.0
+Version: 4.0.1
 --------------
 
-:Release Date: 2021-03-25
+:Release Date: 2021-04-15
 
 **New Features**
  - IBN service : In H release, a new IBN NLP micro-service is added and the ability of creating CSMF service is expanded, creating by NLP input.
@@ -22,9 +22,8 @@ Version: 4.0.0
  - Slicing Coverage Area: In H release, usecase-ui supports the specific coverage area number param while creating slicing service. Users can input the grid number in base of CPS service division.
  
 **Released Components**
- - usecase-ui  4.0.0
- - usecase-ui-server  4.0.0
- - usecase-ui-nlp  1.0.0
+ - usecase-ui  4.0.1
+ - usecase-ui-server  4.0.1
 
 **Bug Fixes**
 	NA
