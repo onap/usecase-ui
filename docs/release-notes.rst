@@ -11,6 +11,47 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 4.0.0
+--------------
+
+:Release Date: 2021-04-15
+
+**New Features**
+ - IBN service : In H release, a new IBN NLP micro-service is added and the ability of creating CSMF service is expanded, creating by NLP input.
+ - E2E endpoint enhancement: In H release, usecase-ui supports the presentation of the relationship between AN, TN and CN.
+ - Slicing Coverage Area: In H release, usecase-ui supports the specific coverage area number param while creating slicing service. Users can input the grid number in base of CPS service division.
+ 
+**Released Components**
+ - usecase-ui  4.0.1
+ - usecase-ui-server  4.0.1
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
+items that remain open have been assessed for risk and determined to be false positive. 
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
+
+**Quick Links**
+ - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+ - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
 Version: 3.0.6
 --------------
 
