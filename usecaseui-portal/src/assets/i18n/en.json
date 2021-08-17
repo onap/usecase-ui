@@ -147,6 +147,7 @@
   "i18nTextDefine_PartnerNetwork": "Partner Network",
   "i18nTextDefine_HostUrl": "Host Url",
   "i18nTextDefine_DeleteLink": "Delete Link",
+  "i18nTextDefine_Connectivity": "Connectivity",
 
   "sotn-component": "--:",
   "i18nTextDefine_subscriptionType": "Service Type",

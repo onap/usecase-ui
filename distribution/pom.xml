@@ -34,6 +34,7 @@
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <linux64outputdir>target/assembly/linux64</linux64outputdir>
         <dockeroutput>target/version/${usecaseui.version}</dockeroutput>
+        <docker.push.registry>localhost:5000</docker.push.registry>
     </properties>
 
     <build>
@@ -201,7 +202,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/usecase-ui</name>
+                                    <name>${docker.push.registry}/onap/usecase-ui</name>
                                     <build>
                                         <cleanup>try</cleanup>
                                         <dockerFileDir>${basedir}/${dockeroutput}</dockerFileDir>

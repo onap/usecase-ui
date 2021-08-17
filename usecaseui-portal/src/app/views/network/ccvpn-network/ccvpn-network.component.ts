@@ -13,10 +13,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import * as d3 from 'd3';
+import {Component, OnInit} from '@angular/core';
+import * as d3 from 'd3'
 import * as $ from 'jquery';
-import { networkHttpservice } from '../../../core/services/networkHttpservice.service';
+import {networkHttpservice} from '../../../core/services/networkHttpservice.service';
+import {EventQueueService} from "../../../core/services/eventQueue.service";
+import {AppEvent} from "@src/app/core/services/appEvent";
+import {AppEventType} from "@src/app/core/services/appEventType";
 
 @Component({
     selector: 'app-ccvpn-network',
@@ -25,61 +28,63 @@ import { networkHttpservice } from '../../../core/services/networkHttpservice.se
 })
 export class CcvpnNetworkComponent implements OnInit {
 
-    constructor(private myhttp: networkHttpservice) {
+   constructor(private myhttp: networkHttpservice,
+                private eventDispatcher: EventQueueService) {
     }
 
     ngOnInit() {
         let thisNg = this;
-        thisNg.getD3Data();
+        this.isSpinning = true;
+        this.myhttp.getConnectivities()
+            .subscribe((data) => {
+                if(data){
+                    for (let conn of data["connectivity"]) {
+                        if (conn["vpn-type"] === "mdsc"){
+                            this.connectivityList.push({ "name": conn["connectivity-id"],
+                                                        "id": conn["connectivity-id"],
+                                                        "relationship-list" : conn["relationship-list"]
+                            });
+                        }
+                    }
+                    if (this.connectivityList.length !== 0) {
+                        this.connectivitySelected = this.connectivityList[0];
+                        this.choseConnectivity(this.connectivitySelected);
 
-
-        //Local cloud TP port connection, click on the right to expand the details
-        $('#tpContainer').on('click', '.line-port', function () {
-            thisNg.isVisible = false;
-            thisNg.delBoxisVisible = true;
-            thisNg.delcloud = false;
-
-            thisNg.delTp1 = $(this).attr('data-tp1');
-            thisNg.delTp2 = $(this).attr('data-tp2');
-            thisNg.delNode1 = $(this).attr('data-node1');
-            thisNg.delNode2 = $(this).attr('data-node2');
-            thisNg.delVersion = $(this).attr('data-version');
-            thisNg.delLinkname = $(this).attr('data-link');
-            thisNg.delcloudUrl = null;
-            thisNg.delLinkIndex = $(this);
-
-            let dataD3 = thisNg.d3Data;
-            for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
-                if (dataD3[p]['name'] == thisNg.delTp1) {
-                    thisNg.network.push(dataD3[p]['source']['name']);
+                    };
                 }
-                if (dataD3[p]['name'] == thisNg.delTp2) {
-                    thisNg.network.push(dataD3[p]['source']['name']);
-                }
-            }
-            thisNg.delNetwork1 = thisNg.network[0];
-            thisNg.delNetwork2 = thisNg.network[1];
-        });
+            },
+                 (err) => {
+                     console.log(err);
+                 });
+        this.myhttp.getLogicalLinksData()
+            .subscribe((data) => {
+                    if (data) {
+                        for (let ll of data["logical-link"]){
+                            // Filter layer1 logical link
+                            //if (ll["relationship-list"] !== undefined &&
+                            //    ll["relationship-list"]["relationship"].length) {
+                            thisNg.logicalLinks.push(ll);
+                            //}
+                        }
+                        let tpMapping = thisNg.getPnfTpMapping(thisNg.logicalLinks);
 
-        //External cloud connection, click on the right to expand the details
-        $('#tpContainer').on('click', '.cloudline', function () {
-            thisNg.isVisible = false;
-            thisNg.delBoxisVisible = true;
-            thisNg.delcloud = true;
+                        let links = thisNg.getLinks( thisNg.logicalLinks, tpMapping);
+                        let tps = thisNg.getNodes(tpMapping);
+                        console.log(links);
+                        console.log(tps);
 
-            thisNg.delTp1 = $(this).attr('data-tp1');
-            thisNg.delTp2 = $(this).attr('data-tp2');
-            thisNg.delNode1 = $(this).attr('data-node1');
-            thisNg.delNode2 = $(this).attr('data-node2');
-            thisNg.delVersion = $(this).attr('data-version');
-            thisNg.delNetwork1 = $(this).attr('data-network');
-            thisNg.delNetwork2 = $(this).attr('data-cloudnetwork');
-            thisNg.delcloudUrl = $(this).attr('data-url');
-            thisNg.delLinkname = $(this).attr('data-link');
-            thisNg.aaiId = $(this).attr('data-aaiid');
-            thisNg.getCloudUrl(thisNg.aaiId);
-        });
+                        thisNg.drawTopo(tps, links);
+
+                    }
+                    this.isSpinning = false;
+                },
+                (err) => {
+                    console.log(err);
+                })
     }
+
+    connectivityList = [];
+    connectivitySelected = { name: null, id: null };
 
     addLinkDisabled = true;
     nonetwork = false;
@@ -88,6 +93,9 @@ export class CcvpnNetworkComponent implements OnInit {
     inputshow = false;
     delBoxisVisible = false;
     isSpinning = true;
+
+    pnfs = [];
+    layer1Tps = [];
 
     d3Data = [];//D3Render the required data
     logicalLinks = [];//logicalLinks Existing connection data returned by the interface
@@ -129,12 +137,25 @@ export class CcvpnNetworkComponent implements OnInit {
     winWidth = $('#tpContainer').width();
     winHeight = $('#tpContainer').height();
     charge = -300;
+    SEPERATOR = '-';
 
-    imgmap = {
-        '1': 'assets/images/cloud-county1.png',
-        '2': 'assets/images/tp.png',
-        '3': 'assets/images/cloud-out.png',
+
+    imgMap = {
+        'pnf': 'assets/images/site.png',
+        'tp': 'assets/images/tp.png'
     };
+
+    //### SELECTION - store the selected node ###
+    //### EDITING - store the drag mode (either 'drag' or 'add_link') ###
+    svcEditorGlobal = {
+        selection: null
+    }
+    svcContainerOpt = {
+        containerId : "svcContainer",
+        width: 1000,
+        height: this.winHeight
+    };
+
     tpoption = {
         container: '#tpContainer',
         data: '',
@@ -142,1127 +163,907 @@ export class CcvpnNetworkComponent implements OnInit {
         height: this.winHeight
     };
 
-    showForm(): void {
-        if (this.addLinkDisabled == false) {
-            this.isVisible = true;
-            this.delBoxisVisible = false;
-        }
-    }
+    /**
+     * Redraw the selected L2 ethernet service.
+     * @param {Array<object>} treeData parsed from AAI connectivity.
+     */
+    drawService(treeData) {
+        //Model of service graph
+        let graph = {
+            nodes: [
+            ],
+            links: [
+            ],
+            objectify: (function() {
+                /* resolve node IDs (not optimized at all!)
+                */
+                var l, n, _i, _len, _ref, _results;
+                _ref = graph.links;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    l = _ref[_i];
+                    _results.push((function() {
+                        var _j, _len2, _ref2, _results2;
+                        _ref2 = graph.nodes;
+                        _results2 = [];
+                        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+                            n = _ref2[_j];
+                            if (l.source === n.id) {
+                                l.source = n;
+                                continue;
+                            }
+                            if (l.target === n.id) {
+                                l.target = n;
+                                continue;
+                            } else {
+                                _results2.push(void 0);
+                            }
+                        }
+                        return _results2;
+                    })());
+                }
+                return _results;
+            }),
+            remove: (function(condemned) {
+                /* remove the given node or link from the graph, also deleting dangling links if a node is removed
+                */      if (Array.prototype.indexOf.call(this.nodes, condemned) >= 0) {
+                    this.nodes = this.nodes.filter(function(n) {
+                        return n !== condemned;
+                    });
+                    return this.links = this.links.filter(function(l) {
+                        return l.source.id !== condemned.id && l.target.id !== condemned.id;
+                    });
+                } else if (Array.prototype.indexOf.call(this.links, condemned) >= 0) {
+                    return this.links = this.links.filter(function(l) {
+                        return l !== condemned;
+                    });
+                }
+            }),
+            last_index: 0,
+            add_node: (function(type) {
+                var n;
+                n = {
+                    id: this.last_index++,
+                    x: 960 / 2,
+                    y: 500 / 2,
+                    type: type
+                };
+                this.nodes.push(n);
+                return n;
+            }),
+            add_link: (function(source, target) {
+                /* avoid links to self
+                */
+                var l, link, _i, _len, _ref;
+                if (source === target) return null;
+                /* avoid link duplicates
+                */
+                _ref = this.links;
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    link = _ref[_i];
+                    if (link.source === source && link.target === target) return null;
+                }
+                l = {
+                    source: source,
+                    target: target
+                };
+                this.links.push(l);
+                return l;
+            })
+        };
 
-    hideForm(): void {
-        this.isVisible = false;
-        this.delBoxisVisible = false;
-        this.linkName = null;
-        this.networkVal1 = null;//Initialize the default data of the network1 drop-down box
-        this.networkVal2 = null;//Initialize the network2 drop-down box default data
-        this.selectedNode1 = null;//Initialize the default data of the node1 drop-down box
-        this.selectedNode2 = null;//Initialize the default data of the node2 drop-down box
-        this.selecteTpName1 = null;//Initialize the default data of the TP1 drop-down box
-        this.selecteTpName2 = null;//Initialize the default data of the TP2 drop-down box
-        this.cloudUrl = null;//External cloud URL address
-        this.cloudNetwork = null;//External cloud network name
-        this.cloudNode = null;//External cloud Node name
-        this.cloudTp = null;//External cloud Tp name
-    }
+        var nodeList = treeData.map(obj => {
+            let rObj = {};
+            rObj["id"] = obj["id"];
+            rObj["x"] = 500;
+            rObj["y"] = 500;
+            rObj["type"] = obj["type"];
+            return rObj;
+            })
 
-    //Get cloud image data
-    getD3Data() {
-        this.isSpinning = true;
-        this.myhttp.getNetworkD3Data()
-            .subscribe((data) => {
-                this.isSpinning = false;
-                if (data.length == 0) {
-                    this.addLinkDisabled = false;
-                    this.nonetwork = true;
-                    return;
+         var linkList = [] ;
+         for (var i = 0, e = treeData.length; i < e; i++){
+             for (var j = i+1, k = e; j < k; j++){
+                linkList.push({
+                                 source: treeData[i].id,
+                                 target: treeData[j].id
+                             });
                 }
-                this.nonetwork = false;
-                for (let ii = 0; ii < data.length; ii++) {//Determine if there is external cloud information in the data, and kick it out.
-                    if (data[ii]['aaiId'] != null) {
-                        this.dataCloud = data.splice(ii, 1);
-                    }
-                }
+         }
+        graph.nodes = nodeList;
+        graph.links = linkList;
+        graph.objectify();
+        var _this = this;
+        var margin = {top: 20, right: 120, bottom: 20, left: 120},
+            width = 1000 - margin.right - margin.left,
+            height = 350 - margin.top - margin.bottom;
+        //clean existing element
+        d3.select("div#" + this.svcContainerOpt.containerId).selectAll("*").remove();
 
-                for (let i = 0; i < data.length; i++) {
-                    let name1 = {}, name2 = {};
-                    let nodess = [];
-                    name1['name'] = name2['network'] = data[i]['networkId'];
-                    name1['type'] = '1';
-                    name1['source'] = i;
-                    this.d3Data.push(name1);
-                    for (let c = 0; c < data[i]["pnfs"].length; c++) {
-                        nodess.push(data[i]['pnfs'][c]['pnfName']);
-                        this.nodeOption1[name2['network']] = nodess;
-                    }
-                    this.networkOption.push(name2);
-                }
-                for (let i = 0; i < data.length; i++) {
-                    let tp_length = data[i]['tps'].length;
-                    for (let h = 0; h < tp_length; h++) {
-                        let name2 = {};
-                        let interface_name = data[i]['tps'][h]['interface-name'];
-                        name2['name'] = interface_name;
-                        name2['type'] = '2';
-                        name2['source'] = i;
-                        this.d3Data.push(name2);
-                    }
-                }
-                for (let b = 0; b < this.d3Data.length; b++) {
-                    this.d3Data[b]['target'] = b;
-                }
-                this.initPosition(this.d3Data);
-                setTimeout(this.render(this.d3Data, this.imgmap, this.dataCloud, this.charge, data), 0);
-            }, (err) => {
-                console.log(err);
+        let svg = d3.select("div#" + this.svcContainerOpt.containerId).append("svg")
+            .attr("width", width + margin.right + margin.left)
+            .attr("height", height + margin.top + margin.bottom);
+        let container = svg.append("g").style("fill", "transparent");
+
+        let vis = container.append('g');
+        container.call(d3.behavior.zoom().scaleExtent([0.5, 8])
+            .on('zoom', function(){
+                vis.attr('transform', "translate(" + d3.event.translate  + ")scale(" + d3.event.scale + ")");
+            }));
+
+        vis.append('rect')
+            .attr('class', 'overlay')
+            .attr('x', -500000)
+            .attr('y', -500000)
+            .attr('width', 1000000)
+            .attr('height', 1000000)
+            .on('click', function(d) {
+                _this.svcEditorGlobal.selection = null;
+                d3.selectAll('.node').classed('selected', false);
+                return d3.selectAll('.link').classed('selected', false);
             });
+        let colorify = d3.scale.category10();
+        /* initialize the force layout
+        */
+        let force = d3.layout.force().size([width, height]).charge(-400).linkDistance(160)
+            .on('tick', (function(e) {
+            /* update nodes and links
+            */
+                let k = 16 * e.alpha;
+                graph.nodes.forEach(function(o, i) {
+                    if (o["type"] === "root"){
+                        o["x"] +=  k
+            //o["x"] += i & 2 ? k : -k;
 
-    }
-
-    //Get the initial connection status of the cloud image getlogicalLinksData
-    getLinksData() {
-        this.myhttp.getLogicalLinksData()
-            .subscribe((data) => {
-                if (data["status"] == "FAILED") {
-                    return;
-                }
-                for (let i = 0; i < data["logical-link"].length; i++) {//Determine whether there is an external cloud connection in the obtained connection, and kick it out.
-                    if (data['logical-link'][i]['relationship-list']['relationship'].length > 2) {
-                        this.dataCloudLink = data['logical-link'].splice(i, 1);
+                    } else if (o["type"] === "leaf") {
+                        o["x"] +=  -k;
+            //o["x"] += i & 2 ? k : -k;
                     }
-                }
-
-                for (let i = 0; i < data["logical-link"].length; i++) {
-                    let textval = [];
-                    textval[0] = data['logical-link'][i]['relationship-list']['relationship'][0]['relationship-data'][1]['relationship-value'];//tp1
-                    textval[1] = data['logical-link'][i]['relationship-list']['relationship'][1]['relationship-data'][1]['relationship-value'];//tp2
-                    textval[2] = data['logical-link'][i]['resource-version'];//version
-                    textval[3] = data['logical-link'][i]['relationship-list']['relationship'][0]['relationship-data'][0]['relationship-value'];//node1
-                    textval[4] = data['logical-link'][i]['relationship-list']['relationship'][1]['relationship-data'][0]['relationship-value'];//node2
-                    textval[5] = data['logical-link'][i]['operational-status'];
-                    textval[6] = data['logical-link'][i]['link-name'];
-                    this.logicalLinks.push(textval);
-                    this.chose(textval);
-                }
-                if (this.dataCloudLink.length > 0) {
-                    this.getcloudLine(this.dataCloudLink);
-                }
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //D3Cloud rendering
-    render(nodes, imgmap, dataCloud, charge, dataD3) {
-        let thiss = this;
-        let _this = this.tpoption,
-            width = null,
-            height = _this.height;
-        if (_this.width > 800) {
-            width = _this.width;
-        } else {
-            width = 800;
-        }
-        if (dataD3.length <= 4) {
-            charge = -300;
-        } else if (dataD3.length > 4 && dataD3.length <= 6) {
-            charge = -160;
-        } else if (dataD3.length > 6 && dataD3.length <= 10) {
-            charge = -110;
-        } else {
-            charge = -100;
-        }
-        let svg = d3.select(_this.container).append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('id', 'content-svg')
-            .style('pointer-events', 'all')
-            .style('position', 'absolute')
-            .style('top', '1%')
-            .style('right', '2%'),
-            graph = svg.append('g').attr('class', 'graph').attr('id', 'graph'),
-
-            _g_nodes = graph.selectAll('g.node')
-                .data(nodes)
-                .enter()
-                .append('g')
-                .style('display', function (d) {
-                    let display = 'block';
-                    switch (d.type) {
-                        case '1':
-                            display = 'none';
-                            break;
-                        case '2':
-                            display = 'none';
-                            break;
-                        default:
-                            break;
-                    }
-                    return display;
-                })
-                .style('cursor', 'pointer')
-                .attr('class', 'node'),
-
-            _g_lines = graph.selectAll('line.line')
-                .data(nodes)
-                .enter()
-                .append('g')
-                .style('display', 'none')
-                .attr('class', 'line');
-
-
-        _g_lines.append('line')
-            .style('stroke', '#93c62d'
-            )
-            .style('stroke-width', 2);
-
-        _g_nodes.append('image')
-            .attr('width', function (d) {
-                let width = 40;
-                switch (d.type) {
-                    case '1':
-                        width = 4.4 * width;
-                        break;
-                    case '2':
-                        width = 0.12 * width;
-                        break;
-                    default:
-                        break;
-                }
-                return width;
-            })
-            .attr('height', function (d) {
-                let height = 20;
-                switch (d.type) {
-                    case '1':
-                        height = 3.5 * height;
-                        break;
-                    case '2':
-                        height = 0.2 * height;
-                        break;
-                    default:
-                        break;
-                }
-                return height;
-            })
-            .attr('xlink:href', function (d) {
-                return imgmap[d.type];
-            });
-
-        _g_nodes.append('text')
-            .text(function (d) {
-                return d.name;
-            })
-            .style('transform', function (d) {
-                let x = null;
-                let y = null;
-                switch (d.type) {
-                    case '1':
-                        x = 7;
-                        y = -7;
-                        break;
-                    case '2':
-                        x = 1;
-                        y = -2;
-                        break;
-                    default:
-                        break;
-                }
-                return 'translate(' + x + '%,' + y + '%)';
-            })
-            .style('font-size', function (d) {
-                let size = 14;
-                switch (d.type) {
-                    case '1':
-                        size = 14;
-                        break;
-                    case '2':
-                        size = 12;
-                        break;
-                    default:
-                        break;
-                }
-                return size;
-            })
-            .style('fill', function (d) {
-                let color = '#666';
-                switch (d.type) {
-                    case '1':
-                        color = '#666';
-                        break;
-                    case '2':
-                        color = '#666';
-                        break;
-                    default:
-                        break;
-                }
-                return color;
-            })
-            .style('font-weight', '500');
-
-
-        //Add custom attributes online
-        _g_lines.each(function (d, i) {
-            let _this = d3.select(this);
-            if (d.name) {
-                _this.attr('data-text', d.name);
-            }
-        });
-
-        let force = d3.layout.force()
-            .size([1000, this.winHeight])
-            .linkDistance(5)
-            // .theta(0.6)
-            .charge(charge)
-            .nodes(nodes)
-            .links(nodes)
-            .start();
-
-        force.on('tick', function () {
-            if (force.alpha() <= 0.04) {
-
-                _g_nodes.style('display', function (d) {
-                    let display = 'block';
-                    switch (d.type) {
-                        case '1':
-                            display = 'block';
-                            break;
-                        case '2':
-                            display = 'none';
-                            break;
-                        default:
-                            break;
-                    }
-                    return display;
                 });
-
-                nodes.forEach(function (d, i) {
-                    d.x = d.x - 25 < 0 ? 25 : d.x;
-                    d.x = d.x + 25 > width ? width - 25 : d.x;
-                    d.y = d.y - 15 < 0 ? 15 : d.y;
-                    d.y = d.y + 15 > height ? height - 15 : d.y;
-                });
-
-                _g_nodes.attr('transform', function (d) {
-
-                    let image = d3.select(this).select('image')[0][0],
-                        halfWidth = parseFloat(image.attributes[0]['value']) / 2,
-                        halfHeight = parseFloat(image.attributes[1]['value']) / 2;
-                    let xx = d.x - halfWidth,
-                        yy = d.y - halfHeight;
-                    return 'translate(' + xx + ',' + yy + ')';
-                });
-
-                _g_lines.select('line')
-                    .attr('x1', function (d) {
-                        return d.source.x;
-                    })
-                    .attr('y1', function (d) {
-                        return d.source.y;
-                    })
-                    .attr('x2', function (d) {
-                        return d.target.x;
-                    })
-                    .attr('y2', function (d) {
-                        return d.target.y;
+                vis.selectAll('.node').attr('transform', function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
                     });
 
-                _g_nodes.select('text').attr('dy', function (d) {
-                    let image = this.previousSibling,
-                        height = parseFloat(image.attributes[1]['value']),
-                        fontSize = 12;
-                    return height + 1.5 * fontSize;
+
+                //#svcContainer > svg > g > g > g:nth-child(3) > text
+                //_this.svcEditorGlobal.selection
+                return vis.selectAll('.link').attr('x1', function(d) {
+                    return d.source.x;
+                }).attr('y1', function(d) {
+                        return d.source.y;
+                }).attr('x2', function(d) {
+                        return d.target.x;
+                }).attr('y2', function(d) {
+                        return d.target.y;
                 });
-            }
+            }));
+        let nodeDragging = force.drag().on('dragstart', function (d){
+            d3.event.sourceEvent.stopPropagation();
+            d.fixed = true;
+        })
+
+        let topoNodeSync = _this.eventDispatcher.on(AppEventType.UserNodeDrag)
+            .subscribe(event => {
+                //console.log(event);
+                let pnfId: string  = event.payload.id;
+                let pnfId_short: string = pnfId.substr(pnfId.lastIndexOf('-')+1);
+                vis.selectAll('.node > circle').attr('stroke-width', function(d) {
+                    if (d.id.startsWith(pnfId_short)){
+                        return "4px";
+                    }
+                    return "1px";
+                });
+            });
+
+        // DELETION - pressing DEL deletes the selection
+        // CREATION - pressing N creates a new node
+        // d3.select(window).on('keydown', function() {
+        //     if (d3.event.keyCode === 46) {
+        //         if (global.selection != null) {
+        //             graph.remove(global.selection);
+        //             global.selection = null;
+        //             return update();
+        //         }
+        //     } else if (d3.event.keyCode === 78) {
+        //         graph.add_node();
+        //         return update();
+        //     }
+        // });
+
+        //Parameter for Editing tools
+        let toolbar = $("<div class='toolbar'></div>");
+        $("div#" + this.svcContainerOpt.containerId).append(toolbar);
+        toolbar.append($("<svg\n" +
+            "    class='active tool'\n    " +
+            "data-tool='pointer'\n" +
+            "    xmlns='http://www.w3.org/2000/svg'\n" +
+            "    version='1.1'\n" +
+            "    width='32'\n" +
+            "    height='32'\n" +
+            "    fill='#b52d0c'" +
+            "    viewBox='0 0 128 128'>\n" +
+            "    <g transform='translate(881.10358,-356.22543)'>\n" +
+            "      <g transform='matrix(0.8660254,-0.5,0.5,0.8660254,-266.51112,-215.31898)'>\n" +
+            "        <path\n" +
+            "           d='m -797.14902,212.29589 a 5.6610848,8.6573169 0 0 0 -4.61823,4.3125 l -28.3428,75.0625 a 5.6610848,8.6573169 0 0 0 4.90431,13 l 56.68561,0 a 5.6610848,8.6573169 0 0 0 4.9043,-13 l -28.3428,-75.0625 a 5.6610848,8.6573169 0 0 0 -5.19039,-4.3125 z m 0.28608,25.96875 18.53419,49.09375 -37.06838,0 18.53419,-49.09375 z'\n        />\n" +
+            "        <path\n" +
+            "           d='m -801.84375,290.40625 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,35.25 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-35.25 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 z'\n        />\n" +
+            "      </g>\n" +
+            "    </g>\n" +
+            "</svg>"));
+        toolbar.append($("<svg\n" +
+            "    class='tool'\n" +
+            "    data-tool='add_node'\n" +
+            "    xmlns='http://www.w3.org/2000/svg'\n" +
+            "    version='1.1'\n" +
+            "    width='32'\n" +
+            "    height='32'\n" +
+            "    viewBox='0 0 128 128'>\n" +
+            "    <g transform='translate(720.71649,-356.22543)'>\n" +
+            "      <g transform='translate(-3.8571429,146.42857)'>\n" +
+            "        <path\n           d='m -658.27638,248.37149 c -1.95543,0.19978 -3.60373,2.03442 -3.59375,4 l 0,12.40625 -12.40625,0 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,10 c -0.007,0.1353 -0.007,0.27095 0,0.40625 0.19978,1.95543 2.03442,3.60373 4,3.59375 l 12.40625,0 0,12.4375 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-12.4375 12.4375,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-10 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -12.4375,0 0,-12.40625 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -10,0 c -0.1353,-0.007 -0.27095,-0.007 -0.40625,0 z'\n" +
+            "        />\n" +
+            "        <path\n" +
+            "           d='m -652.84375,213.9375 c -32.97528,0 -59.875,26.86847 -59.875,59.84375 0,32.97528 26.89972,59.875 59.875,59.875 32.97528,0 59.84375,-26.89972 59.84375,-59.875 0,-32.97528 -26.86847,-59.84375 -59.84375,-59.84375 z m 0,14 c 25.40911,0 45.84375,20.43464 45.84375,45.84375 0,25.40911 -20.43464,45.875 -45.84375,45.875 -25.40911,0 -45.875,-20.46589 -45.875,-45.875 0,-25.40911 20.46589,-45.84375 45.875,-45.84375 z'\n" +
+            "        />\n" +
+            "      </g>\n" +
+            "    </g>\n" +
+            "</svg>"));
+        toolbar.append($("<svg\n" +
+            "    class='tool'\n" +
+            "    data-tool='add_link'\n" +
+            "    xmlns='http://www.w3.org/2000/svg'\n" +
+            "    version='1.1'\n" +
+            "    width='32'\n" +
+            "    height='32'\n" +
+            "    viewBox='0 0 128 128'>\n" +
+            "<g transform='translate(557.53125,-356.22543)'>\n" +
+            "    <g transform='translate(20,0)'>\n" +
+            "      <path\n" +
+            "         d='m -480.84375,360 c -15.02602,0 -27.375,12.31773 -27.375,27.34375 0,4.24084 1.00221,8.28018 2.75,11.875 l -28.875,28.875 c -3.59505,-1.74807 -7.6338,-2.75 -11.875,-2.75 -15.02602,0 -27.34375,12.34898 -27.34375,27.375 0,15.02602 12.31773,27.34375 27.34375,27.34375 15.02602,0 27.375,-12.31773 27.375,-27.34375 0,-4.26067 -0.98685,-8.29868 -2.75,-11.90625 L -492.75,411.96875 c 3.60156,1.75589 7.65494,2.75 11.90625,2.75 15.02602,0 27.34375,-12.34898 27.34375,-27.375 C -453.5,372.31773 -465.81773,360 -480.84375,360 z m 0,14 c 7.45986,0 13.34375,5.88389 13.34375,13.34375 0,7.45986 -5.88389,13.375 -13.34375,13.375 -7.45986,0 -13.375,-5.91514 -13.375,-13.375 0,-7.45986 5.91514,-13.34375 13.375,-13.34375 z m -65.375,65.34375 c 7.45986,0 13.34375,5.91514 13.34375,13.375 0,7.45986 -5.88389,13.34375 -13.34375,13.34375 -7.45986,0 -13.34375,-5.88389 -13.34375,-13.34375 0,-7.45986 5.88389,-13.375 13.34375,-13.375 z'\n" +
+            "      />\n      <path\n" +
+            "         d='m -484.34375,429.25 c -1.95543,0.19978 -3.60373,2.03442 -3.59375,4 l 0,12.40625 -12.40625,0 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,10 c -0.007,0.1353 -0.007,0.27095 0,0.40625 0.19978,1.95543 2.03442,3.60373 4,3.59375 l 12.40625,0 0,12.4375 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-12.4375 12.4375,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-10 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -12.4375,0 0,-12.40625 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -10,0 c -0.1353,-0.007 -0.27095,-0.007 -0.40625,0 z'\n" +
+            "      />\n" +
+            "    </g>\n" +
+            "  </g>\n" +
+            "</svg>"));
+        let library = $("<div class='library'></div></div>");
+        toolbar.append(library);
+
+        ['PON', 'ETH'].forEach(function(type) {
+            var new_btn;
+            new_btn = $("<svg width='42' height='42'>\n" +
+                "    <g class='node'>\n" +
+                "        <circle\n" +
+                "            cx='21'\n" +
+                "            cy='21'\n" +
+                "            r='18'\n" +
+                "            stroke='" + (colorify(type)) + "'\n" +
+                "            fill='" + (d3.hcl(colorify(type)).brighter(3)) + "'\n" +
+                "        >\n" +
+                "        <title>" + (type) + " UNI</title>   \n" +
+                "       </circle>" +
+                "    </g>\n" +
+                "</svg>");
+            new_btn.bind('click', function() {
+                graph.add_node(type);
+                return update();
+            });
+            library.append(new_btn);
+            return library.hide();
         });
 
-        force.on('end', function () {
-            force.stop();
-            if (dataCloud.length > 0) {
-                thiss.getoutCloud(dataCloud, imgmap);
+        let tool = 'pointer';
+        let new_link_source = null;
+        let drag_link;
+        vis.on('mousemove.add_link', (function(d) {
+            /* check if there is a new link in creation
+            */
+            var p;
+            if (new_link_source != null) {
+                /* update the draggable link representation
+                */
+                p = d3.mouse(vis.node());
+                return drag_link.attr('x1', new_link_source.x).attr('y1', new_link_source.y).attr('x2', p[0]).attr('y2', p[1]);
             }
-            thiss.getLinksData();
-            thiss.addLinkDisabled = false;
+        })).on('mouseup.add_link', (function(d) {
+            new_link_source = null;
+            /* remove the draggable link representation, if exists
+            */
+            if (drag_link != null) return drag_link.remove();
+        }));
+        d3.selectAll('.tool').on('click', function() {
+            var new_tool, nodes;
+            d3.selectAll('.tool').classed('active', false).style("fill", "#a3a4c3");
+            d3.select(this).classed('active', true).style("fill", "#b52d0c");
+            new_tool = $(this).data('tool');
+            nodes = vis.selectAll('.node');
+
+            //mode change to add_link
+            if (new_tool === 'add_link' && tool !== 'add_link') {
+                /* remove drag handlers from nodes
+                */
+                nodes.on('mousedown.drag', null).on('touchstart.drag', null);
+                /* add drag handlers for the add_link tool
+                */
+                nodes.call(drag_add_link);
+            } else if (new_tool !== 'add_link' && tool === 'add_link') {
+                /* remove drag handlers for the add_link tool
+                */
+                nodes.on('mousedown.add_link', null).on('mouseup.add_link', null);
+                /* add drag behavior to nodes
+                */
+                nodes.call(nodeDragging);
+            }
+            if (new_tool === 'add_node') {
+                library.show();
+            } else {
+                library.hide();
+            }
+            return tool = new_tool;
+        });
+        update();
+        function update() {
+            /* update the layout
+      */
+            var links, new_nodes, nodes;
+            force.nodes(graph.nodes).links(graph.links).start();
+            /* create nodes and links
+            */
+            /* (links are drawn with insert to make them appear under the nodes)
+            */
+            /* also define a drag behavior to drag nodes
+            */
+            /* dragged nodes become fixed
+            */
+            nodes = vis.selectAll('.node').data(graph.nodes, function(d) {
+                return d.id;
+            });
+            new_nodes = nodes.enter().append('g').attr('class', 'node');
+/*            .on('click', (function(d) {
+                /!* SELECTION
+                *!/
+                _this.svcEditorGlobal.selection = d;
+                d3.selectAll('.node').classed('selected', function(d2) {
+                    return d2 === d;
+                });
+                return d3.selectAll('.link').classed('selected', false);
+            }));*/
+            links = vis.selectAll('.link').data(graph.links, function(d) {
+                return "" + d.source.id + "->" + d.target.id;
+            });
+
+            links.enter().insert('line', '.node').attr('class', 'link').on('click', (function(d) {
+                /* SELECTION
+                */
+                _this.svcEditorGlobal.selection = d;
+                d3.selectAll('.link').classed('selected', function(d2) {
+                    return d2 === d;
+                });
+                return d3.selectAll('.node').classed('selected', false);
+            }));
+            links
+                .style("stroke-width", "6px")
+                .style("stroke", "gray")
+                .style("opacity", "0.5");
+
+            links.exit().remove();
+            /* TOOLBAR - add link tool initialization for new nodes
+            */
+            if (tool === 'add_link') {
+                new_nodes.call(drag_add_link);
+            } else {
+                new_nodes.call(nodeDragging);
+            }
+            new_nodes.append('circle').attr('r', 18).attr('stroke', function(d) {
+                return colorify(d.type);
+            }).attr('fill', function(d) {
+                return d3.hcl(colorify(d.type)).brighter(3);
+            });
+            /* draw the label
+            */
+            new_nodes.append('text').text(function(d) {
+                return d.id;
+            }).attr('dy', '0.35em').attr('fill', function(d) {
+                return colorify(d.type);
+            });
+            return nodes.exit().remove();
+        };
+        function drag_add_link (selection) {
+            return selection.on('mousedown.add_link', (function(d) {
+                var p;
+                new_link_source = d;
+                /* create the draggable link representation
+                */
+                p = d3.mouse(vis.node());
+                drag_link = vis.insert('line', '.node').attr('class', 'drag_link').attr('x1', d.x).attr('y1', d.y).attr('x2', p[0]).attr('y2', p[1]);
+                drag_link
+                    .style("stroke-width", "6px")
+                    .style("stroke", "gray")
+                    .style("opacity", "0.5");
+                /* prevent pan activation
+                */
+                d3.event.stopPropagation();
+                /* prevent text selection
+                */
+                return d3.event.preventDefault();
+            })).on('mouseup.add_link', (function(d) {
+                /* add link and update, but only if a link is actually added
+                */      if (graph.add_link(new_link_source, d) != null) return update();
+            }));
+        };
+
+
+    }
+
+    /**
+     * Redraw the underlay network topology.
+     * @param {Array<object>} nodes parsed from AAI logicalLinks.
+     * @param {Array<object>} lines parsed from AAI logicalLinks.
+     */
+    drawTopo(nodes: Array<object>, lines: Array<object>){
+        let margin = {top: 20, right: 120, bottom: 20, left: 120},
+            width = 1000 - margin.right - margin.left,
+            height = 350 - margin.top - margin.bottom;
+
+        let thisNg = this;
+
+        let nodeById = d3.map();
+
+        nodes.forEach(function(node) {
+            nodeById.set(node["id"], node);
         });
 
-    };
+        lines.forEach(function(link) {
+            link["source"] = nodeById.get(link["source"]);
+            link["target"] = nodeById.get(link["target"]);
+        });
 
-    //Topology drag and drop effect
-    getDragBehavior(force) {
+        let svg = d3.select("div#tpContainer").append("svg")
+            .attr("width", width + margin.right + margin.left)
+            .attr("height", height + margin.top + margin.bottom)
+            .style("pointer-events", "all");
 
-        return d3.behavior.drag()
-            .origin(function (d) {
-                return d;
+        let graph = svg.append("g").attr("class", "graph");
+
+        let force = d3.layout.force()
+            .nodes(nodes)
+            .links(lines)
+            .size([width, height])
+            /*            .linkStrength(function(d){
+                            switch(d.type){
+                                case 1:
+                                    return 0.15;
+                                case 2:
+                                default:
+                                    return 0.1;
+                            }
+                        })*/
+            //.gravity(0)
+            //.gravity(0)
+            .linkDistance(function (d) {
+                        return 150;
             })
-            .on('dragstart', dragstart)
-            .on('drag', dragging)
-            .on('dragend', dragend);
+            .charge(function(d) {
+                return -600;
+            })
+            .start();
+
+        let drag = force.drag()
+            .on("dragstart", dragstart)
+            .on("dragend", dragend);
+
+        let _g_lines = graph.selectAll("line.line")
+                .data(lines)
+                .enter()
+                .append("g")
+                .attr("class", "line");
+
+        let  _g_nodes = graph.selectAll("g.node")
+                .data(nodes)
+                .enter()
+                .append("g")
+                .attr("class", "node")
+                .call(drag);
+        _g_lines.append("line")
+            .style('stroke', function (d) {
+                if(d.type === 2){
+                    return "#000000";
+                } else {
+                    return '#93c62d';
+                }
+
+            })
+            .style("stroke-width", 4);
+
+
+        _g_nodes.append("image")
+            .attr("width", function (d) {
+                switch (d.group) {
+                    case 'pnf':
+                        return 70;
+                    case 'tp':
+                    default:
+                        return 10;
+                }
+            })
+            .attr("height", function (d) {
+                switch (d.group) {
+                    case 'pnf':
+                        return 70;
+                    case 'tp':
+                    default:
+                        return 10;
+                }
+            })
+            .attr("xlink:href", function (d) {
+                return thisNg.imgMap[d.group];
+            });
+
+        _g_nodes.append("text")
+            .text(function (d) {
+                return d.id.substr( d.id.lastIndexOf('-')+1);
+            })
+            .style('font-size', '12')
+            .style('fill', '#333');
+
+        //_g_nodes.each(function (d, i) {
+            var selection = d3.select(this);
+/*            if (d.status == '0') {
+                selection.append("g").attr("class", "error-tip")
+                    .append("image").attr("xlink:href", function (d) {
+                    return imgMap['error-tip'];
+                });
+            }*/
+       // });
+
+        _g_lines.each(function (d, i) {
+            var _this = d3.select(this);
+            if (d.type === 1) {
+                _this.append("text")
+                    .text("100GB")
+                    .style('fill', 'rgb(255,198,22)')
+                    .style('font-size', '11');
+
+                _this.append("rect")
+                    .attr("fill", function (d) {
+                        return '#555';
+                    })
+                    .attr("width", function (d) {
+                        return 4;
+                    })
+                    .attr("height", function (d) {
+                        return 4;
+                    })
+                    .append("animate");
+
+                _this.select("rect").append("animate");
+            } else {
+                _this.append("image")
+                    .attr("xlink:href", function () {
+                        return thisNg.imgMap['link-cut'];
+                    });
+            }
+        });
+
+
+        force.on("tick", function (e) {
+
+            _g_lines.select("line").attr("x1", function (d) {
+                return d.source.x;
+            })
+                .attr("y1", function (d) {
+                    return d.source.y;
+                })
+                .attr("x2", function (d) {
+                    return d.target.x;
+                })
+                .attr("y2", function (d) {
+                    return d.target.y;
+                });
+            _g_lines.select("image").attr("x", function (d) {
+                var x1 = d.source.x,
+                    x2 = d.target.x,
+                    x = x1 - (x1 - x2) / 2;
+                return x - 8;
+            })
+                .attr("y", function (d) {
+                    var y1 = d.source.y,
+                        y2 = d.target.y,
+                        y = y1 - (y1 - y2) / 2;
+                    return y - 15;
+                });
+
+            _g_lines.select("text")
+                .attr('x', function (d) {
+                    var x1 = d.source.x,
+                        x2 = d.target.x,
+                        halfX = x1 - (x1 - x2) / 2,
+                        x3 = x1 - (x1 - halfX) / 2;
+                    return x3;
+                })
+                .attr('y', function (d) {
+                    var y1 = d.source.y,
+                        y2 = d.target.y,
+                        halfY = y1 - (y1 - y2) / 2,
+                        y3 = y1 - (y1 - halfY) / 2;
+                    y3 = y3 - 5;
+                    return y3;
+                })
+                .attr("transform", function (d) {
+                    var x1 = d.source.x,
+                        x2 = d.target.x,
+                        y1 = d.source.y,
+                        y2 = d.target.y,
+                        x = x1 - (x1 - x2) / 2,
+                        y = y1 - (y1 - y2) / 2,
+                        rightAngleSide1 = Math.abs(y2 - y1),
+                        rightAngleSide2 = Math.abs(x2 - x1),
+                        _asin = 0,
+                        _rotateAngle = 0,
+                        x3 = x1 - (x1 - x) / 2,
+                        y3 = y1 - (y1 - y) / 2;
+
+                    if (x1 < x2) {
+                        _asin = (y2 - y1) / Math.sqrt(Math.pow(rightAngleSide1, 2) + Math.pow(
+                            rightAngleSide2, 2));
+                        _rotateAngle = Math.asin(_asin) * 180 / Math.PI;
+                    } else {
+                        _asin = (y1 - y2) / Math.sqrt(Math.pow(rightAngleSide1, 2) + Math.pow(
+                            rightAngleSide2, 2));
+                        _rotateAngle = Math.asin(_asin) * 180 / Math.PI;
+                        _rotateAngle = _rotateAngle < 0 ? (180 + _rotateAngle) : -(180 -
+                            _rotateAngle);
+                    }
+                    return 'rotate(' + (_rotateAngle) + ',' + x3 + ' ' + y3 + ')';
+                });
+
+            _g_lines.select("rect")
+                .attr('x', function (d) {
+                    return d.source.x - 1;
+                })
+                .attr('y', function (d) {
+                    return d.source.y - 1;
+                })
+                .selectAll('animate').each(function (d, i) {
+                if (i == 0) {
+                    d3.select(this)
+                        .attr("attributeName", function (d) {
+                            return 'x';
+                        })
+                        .attr("from", function (d) {
+                            return d.source.x - 1;
+                        })
+                        .attr("to", function (d) {
+                            return d.target.x;
+                        });
+                } else {
+                    d3.select(this)
+                        .attr("attributeName", function (d) {
+                            return 'y';
+                        })
+                        .attr("from", function (d) {
+                            return d.source.y - 1;
+                        })
+                        .attr("to", function (d) {
+                            return d.target.y;
+                        });
+                }
+
+                d3.select(this).attr("attributeType", "XML")
+                    .attr("dur", function (d) {
+                        return '1.5s';
+                    })
+                    .attr("repeatCount", "indefinite");
+
+            })
+/*            let k = 6 * e.alpha;
+            nodes.forEach(function(o, i) {
+                if (o["layer"] === "Otn"){
+                    o["y"] +=  k
+                    //o["x"] += i & 2 ? k : -k;
+
+                } else if (o["layer"] === "Eth") {
+                    o["y"] +=  -k;
+                    //o["x"] += i & 2 ? k : -k;
+                }
+            });*/
+
+            _g_nodes.attr("transform", function (d) {
+                if(d.group === 'pnf') {
+                    var image = d3.select(this).select("image")[0][0],
+                        halfWidth = parseFloat("70") / 2,
+                        halfHeight = parseFloat("70") / 2;
+
+                    return 'translate(' + (d.x - halfWidth) + ',' + (d.y - halfHeight) + ')';
+                } else {
+                    return 'translate(' + (d.x) + ',' + (d.y) + ')';
+                }
+
+            });
+
+            _g_nodes.select("text").attr('dy', function (d) {
+                var image = this.previousSibling,
+                    height = parseFloat("10"),
+                    fontSize = parseFloat(this.style.fontSize);
+
+                return height + 1.5 * fontSize;
+            });
+
+            _g_nodes.select(".error-tip").attr("transform", function (d) {
+
+                var image = this.parentNode.firstChild,
+                    width = parseFloat("70");
+
+                return 'translate(' + 0.8 * width + ',0)';
+
+            });
+
+        });
+
+
+        function dblclick(d) {
+            d3.select(this).classed("fixed", d.fixed = false);
+        }
 
         function dragstart(d) {
-            d3.event.sourceEvent.stopPropagation();
-            d3.select(this).classed('dragging', true);
-            force.start();
+            d3.select(this).classed("fixed", d.fixed = true);
+            thisNg.eventDispatcher.dispatch(new AppEvent(AppEventType.UserNodeDrag, d));
         }
-
-        function dragging(d) {
-            d.x = d3.event.x;
-            d.y = d3.event.y;
-        }
-
         function dragend(d) {
-            d3.select(this).classed('dragging', false);
+
         }
 
-    }
-
-    //Initialize node location
-    initPosition(datas) {
-        let origin = [this.tpoption.width / 2, this.tpoption.height / 2];
-        let points = this.getVertices(origin, Math.min(this.tpoption.width / 2, this.tpoption.height / 2), datas.length);
-        datas.forEach((item, i) => {
-            item.x = points[i].x;
-            item.y = points[i].y;
-        });
-    }
-
-    //Get anchor points based on polygons
-    getVertices(origin, r, n) {
-        if (typeof n !== 'number') return;
-        let ox = origin[0];
-        let oy = origin[1];
-        let angle = 30 * n / n;
-        let i = 0;
-        let points = [];
-        let tempAngle = 0;
-        while (i < n) {
-            tempAngle = (i * angle * Math.PI) / 180;
-            points.push({
-                x: ox - r * Math.sin(tempAngle),
-                y: oy - r * Math.cos(tempAngle),
-            });
-            i++;
-        }
-        return points;
-    }
-
-    //Rendering an external cloud
-    getoutCloud(dataCloud, imgmap) {
-        let _this = this,
-            width;
-        let networkId = dataCloud[0]['networkId'];
-        if (_this.tpoption.width > 800) {
-            width = _this.tpoption.width;
-        } else {
-            width = 800;
-        }
-        let svg = d3.select('#content-svg');
-        svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
-        let out = d3.select('#out');
-        out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
-        out.append('text').text(networkId)
-            .style('transform', 'translate(0，0)')
-            .style('font-size', '16')
-            .style('font-weight', '400')
-            .attr('dx', '40')
-            .attr('dy', '70')
-            .style('fill', '#666');
-    }
-
-    //External cloud connection
-    getcloudLine(dataCloudLink) {
-        let textval = [];
-        textval[0] = dataCloudLink[0]['relationship-list']['relationship'][0]['relationship-data'][1]['relationship-value'];//tp1
-        textval[1] = dataCloudLink[0]['relationship-list']['relationship'][1]['relationship-data'][1]['relationship-value'];//tp2
-        textval[2] = dataCloudLink[0]['resource-version'];//version
-        textval[3] = dataCloudLink[0]['relationship-list']['relationship'][0]['relationship-data'][0]['relationship-value'];//node1
-        textval[4] = dataCloudLink[0]['relationship-list']['relationship'][1]['relationship-data'][0]['relationship-value'];//node2
-        textval[5] = dataCloudLink[0]['operational-status'];//status
-        textval[6] = dataCloudLink[0]['relationship-list']['relationship'][2]['relationship-data'][0]['relationship-value'];//aaiId
-        textval[7] = this.dataCloud[0]['networkId'];
-        let dataD3 = this.d3Data;
-        let arr = [
-            textval[0],
-            textval[1]
-        ];
-        for (let p = 0; p < dataD3.length; p++) {//Determine which Domain network the two tp ports belong to
-            for (let pp = 0; pp < arr.length; pp++) {//Determine which Domain network the two tp ports belong to
-                if (dataD3[p]['name'] == arr[pp]) {
-                    textval[8] = dataD3[p]['source']['name'];//network1
-                }
+        function color (d){
+            const scale = d3.scaleOrdinal(d3.schemeCategory10);
+            switch(d.group){
+                case "pnf":
+                    return  scale(1);
+                case "tp":
+                    return  scale(2);
+                default:
+                    return  scale(9);
             }
         }
-        textval[9] = dataCloudLink[0]['link-name'];
-        let lines_json = {};
-        let _this = this,
-            width;
-        if (_this.tpoption.width > 800) {
-            width = _this.tpoption.width;
-        } else {
-            width = 800;
+    }
+
+    choseConnectivity(item) {
+        if (this.connectivitySelected !== item) this.connectivitySelected = item;
+           this.drawService(this.getSvcTree());
+    }
+
+    getSvcTree(): Array<object> {
+            let tree = []
+            let rel = this.connectivitySelected["relationship-list"]["relationship"] || null;
+            if (rel){
+                   tree = rel.filter(rl => rl["related-to"] === "uni")
+                        .map(obj => {
+                               let rObj ={};
+                               rObj["id"] = obj["relationship-data"][0]["relationship-value"],
+                               rObj["type"] = "leaf";
+                               return rObj;
+                        })
+            }
+            return tree;
+    }
+
+    getNodes(ptMapping: Array<object>) : Array<object>{
+        let nodes = [];
+        for (let pnf of ptMapping){
+            if (pnf["layer"] === 2){
+                continue;
+            }
+            let name = pnf["pnfName"];
+            let newNode = {
+                "id" : name,
+                "group": "pnf",
+                "radius" : 2,
+                "layer" : pnf["layer"] === 2? "Eth" : "Otn"
+            }
+            nodes.push(newNode);
         }
-        for (let i = 0; i < $(".node").length; i++) {
-            if ($('.node').eq(i).find('text').html() == textval[8]) {
-                //Get the x, y coordinates of the second level
-                let translates = $('.node').eq(i).css('transform');
-                lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
-                lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
-                lines_json['x2'] = width - 100;
-                lines_json['y2'] = 100;
+        return nodes;
+    }
+
+    getLinks(logicalLinks: Array<object>, ptMapping: Array<object>) : Array<object> {
+        let links = [];
+        for (let ll of logicalLinks){
+            let lkName:string = ll["link-name"];
+            let topoIdIdx:number = lkName.lastIndexOf("topologyId-");
+            if (topoIdIdx !== -1 && lkName.charAt(topoIdIdx + 11) === '2'){
+                //Ignore
+                continue;
+            } else if (typeof ll["relationship-list"] === 'undefined' ||
+                           typeof ll["relationship-list"]["relationship"] === 'undefined'){
+                continue;
             }
-        }
-        let x1 = lines_json['x1'];
-        let y1 = lines_json['y1'];
-        let x2 = lines_json['x2'];
-        let y2 = lines_json['y2'];
-        let color = '#14bb58';
-        if (textval[5] == 'up') {
-            color = '#14bb58';
-        } else {
-            color = 'red';
-        }
-        let line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
-        let svg = d3.select('#graph');
-        $('.cloudline').remove();
-        $('#graph').prepend(line);
-        $('.cloudline').attr({
-            x1: x1 + 100,
-            y1: y1 + 10,
-            x2: x2,
-            y2: y2,
-            'data-tp1': textval[0],
-            'data-tp2': textval[1],
-            'data-version': textval[2],
-            'data-node1': textval[3],
-            'data-node2': textval[4],
-            'data-network': textval[8],
-            'data-cloudnetwork': textval[7],
-            'data-url': '',
-            'data-aaiid': textval[6],
-            'data-link': textval[9],
-        });
-        svg.html(svg.html());
-        this.getCloudUrl(textval[6]);
-        this.getExtAAIIdVersion(textval[6]);
-    }
-
-
-    //Query external cloud host url address
-    getCloudUrl(aaiId) {
-        this.myhttp.queryCloudUrl(aaiId)
-            .subscribe((data) => {
-                this.delcloudUrl = data['service-url'];
-                $('.cloudline').attr({
-                    'data-url': data['service-url']
-                });
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Query external cloud ext-aai-id resource-version
-    getExtAAIIdVersion(aaiId) {
-        this.myhttp.queryExtAAIIdVersion(aaiId)
-            .subscribe((data) => {
-                this.delVersion = data["resource-version"];
-                $('.cloudline').attr({
-                    'data-version': data["resource-version"],
-                });
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-
-    //The right form drop-down box data is filled with three levels of linkage
-    //Left Port
-    network1Change(value: string): void {
-        this.selectedNode1 = this.nodeOption1[value][0];
-        this.getPInterfaces1();
-    }
-
-    node1Change(): void {
-        this.getPInterfaces1();
-    }
-
-    //Get the TP data under the specified node
-    getPInterfaces1() {
-        let params = {
-            pnfName: this.selectedNode1,
-        };
-        this.myhttp.getPInterfacesData(params)
-            .subscribe((data) => {
-                this.tpOption1 = [];
-                for (let i = 0; i < data.length; i++) {
-                    let tpName = data[i]['interface-name'];
-                    this.tpOption1.push(tpName);
-                }
-                this.selecteTpName1 = this.tpOption1[0];
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Right Port
-    network2Change(value: string): void {
-        this.selectedNode2 = this.nodeOption1[value][0];
-        this.getPInterfaces2();
-    }
-
-    node2Change(): void {
-        this.getPInterfaces2();
-    }
-
-    //Get the TP data under the specified node
-    getPInterfaces2() {
-        let params = {
-            pnfName: this.selectedNode2,
-        };
-        this.myhttp.getPInterfacesData(params)
-            .subscribe((data) => {
-                this.tpOption2 = [];
-                for (let i = 0; i < data.length; i++) {
-                    let tpName = data[i]['interface-name'];
-                    this.tpOption2.push(tpName);
-                }
-                this.selecteTpName2 = this.tpOption2[0];
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Submit form, connect
-    submitForm(): void {
-        //When the page ONAP is not selected, the local cloud TP connection
-        let _thiss = this;
-        if (this.inputshow == false) {
-            if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.networkVal2 == null || this.selectedNode2 == null || this.selecteTpName2 == null) {
-                alert('The service port cannot be empty. Please select the port information.');
-                return;
-            } else if (this.networkVal1 == this.networkVal2) {
-                alert('The TP port under the same cloud service cannot be connected!');
-                return;
-            }
-            let tp_links = [],
-                tp1 = this.selecteTpName1,
-                tp2 = this.selecteTpName2;
-            for (let i = 0; i < $(".line-port").length; i++) {
-                let data_text1 = $('.line-port').eq(i).attr('data-tp1');
-                let data_text2 = $('.line-port').eq(i).attr('data-tp2');
-                tp_links.push(data_text1);
-                tp_links.push(data_text2);
-            }
-            if (tp_links.indexOf(tp1) != -1 || tp_links.indexOf(tp2) != -1) {
-                alert('This port number connection already exists!');
-                return;
-            }
-            this.createTpLinks();
-
-        } else {
-            //When the page ONAP is selected, the external cloud is created, and the connection is made.
-            if (this.linkName == null || this.networkVal1 == null || this.selectedNode1 == null || this.selecteTpName1 == null || this.cloudUrl == null || this.cloudNetwork == null || this.cloudNode == null || this.cloudTp == null) {
-                alert('The service port cannot be empty. Please fill in the complete port information.');
-                return;
-            }
-            let tp_links = [],
-                tp1 = this.selecteTpName1;
-            for (let i = 0; i < $(".line-port").length; i++) {
-                let data_text1 = $('.line-port').eq(i).attr('data-tp1');
-                tp_links.push(data_text1);
-            }
-            if (tp_links.indexOf(tp1) != -1) {
-                alert('This port number connection already exists!');
-                return;
-            }
-
-            let time = this.cloudNetwork + new Date().getTime();//Create aaiid for the external cloud, this identifier is unique and cannot be repeated
-            this.createCloudUrls(time)
-        }
-    }
-
-    //Create tp connection call interface createLink
-    createTpLinks() {
-        let params = {
-            'link-name': this.linkName,
-            'link-type': 'cross-link',
-            'operational-status': 'up',
-            'relationship-list': {
-                'relationship': [
-                    {
-                        'related-to': 'p-interface',
-                        'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode1 + '/p-interfaces/p-interface/' + this.selecteTpName1,
-                        'relationship-data': [
-                            {
-                                'relationship-key': 'pnf.pnf-id',
-                                'relationship-value': this.selectedNode1
-                            },
-                            {
-                                'relationship-key': 'p-interface.p-interface-id',
-                                'relationship-value': this.selecteTpName1,
-                            }
-                        ]
-                    },
-                    {
-                        'related-to': 'p-interface',
-                        'related-link': '/aai/v14/network/pnfs/pnf/' + this.selectedNode2 + '/p-interfaces/p-interface/' + this.selecteTpName2,
-                        'relationship-data': [
-                            {
-                                'relationship-key': 'pnf.pnf-id',
-                                'relationship-value': this.selectedNode2
-                            },
-                            {
-                                'relationship-key': 'p-interface.p-interface-id',
-                                'relationship-value': this.selecteTpName2
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-        this.myhttp.createLink(params)
-            .subscribe((data) => {
-                if (data['status'] == 'SUCCESS') {
-                    this.queryAddLink();
-                }
-            }, (err) => {
-                console.log(err);
-                console.log('Create connection interface call failed');
-            });
-    }
-
-    //Query the newly added connection immediately after creating the tp cable
-    queryAddLink() {
-        let linkName = this.linkName,
-            selecteTpName1 = this.selecteTpName1,
-            selecteTpName2 = this.selecteTpName2,
-            selectedNode1 = this.selectedNode1,
-            selectedNode2 = this.selectedNode2;
-        let params = {
-            'link-name': linkName,
-        };
-        this.myhttp.querySpecificLinkInfo(params)
-            .subscribe((data) => {
-                let version = data['resource-version'],
-                    operational_status = data['operational-status'],
-                    linkname = data['link-name'];
-                let textval = [selecteTpName1, selecteTpName2, version, selectedNode1, selectedNode2, operational_status, linkname];
-                this.hideForm();
-                this.chose(textval);
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Connection between two TP coordinates
-    chose(textval) {
-        let lines_json = {};
-        lines_json['tp1'] = textval[0];
-        lines_json['tp2'] = textval[1];
-        lines_json['version'] = textval[2];
-        lines_json['node1'] = textval[3];
-        lines_json['node2'] = textval[4];
-        lines_json['status'] = textval[5];
-        lines_json['linkname'] = textval[6];
-        for (let i = 0; i < $(".node").length; i++) {
-            if ($('.node').eq(i).find('text').html() == textval[0]) {
-                $('.node').eq(i).show();
-                //Get the x, y coordinates of the second level
-                let translates = $('.node').eq(i).css('transform');
-                lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
-                lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
-            }
-            if ($('.node').eq(i).find('text').html() == textval[1]) {
-                $('.node').eq(i).show();
-                let translates = $('.node').eq(i).css('transform');
-                lines_json['x2'] = parseFloat(translates.substring(7).split(',')[4]);
-                lines_json['y2'] = parseFloat(translates.substring(7).split(',')[5]);
-            }
-        }
-        this.addLine(lines_json);
-    }
-
-    //Connection between two TPs
-    addLine(lines) {
-        let tp1 = lines.tp1;
-        let tp2 = lines.tp2;
-        let version = lines.version;
-        let node1 = lines.node1;
-        let node2 = lines.node2;
-        let status = lines.status;
-        let linkname = lines.linkname;
-        let x1 = lines.x1;
-        let y1 = lines.y1;
-        let x2 = lines.x2;
-        let y2 = lines.y2;
-        let color = '#14bb58';
-        if (status == 'up') {
-            color = '#14bb58';
-        } else {
-            color = 'red';
-        }
-        let line = '<line class=\'line line-port line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
-        let svg = d3.select('#graph');
-        $('#graph').prepend(line);
-        $('.line').first().attr({
-            x1: x1,
-            y1: y1,
-            x2: x2,
-            y2: y2,
-            'data-tp1': tp1,
-            'data-tp2': tp2,
-            'data-version': version,
-            'data-node1': node1,
-            'data-node2': node2,
-            'data-link': linkname
-        });
-        svg.html(svg.html());
-    }
-
-    //After creating an external cloud connection, query the connection immediately
-    queryOutCloudLink(time) {
-        let networkVal1 = this.networkVal1,
-            selectedNode1 = this.selectedNode1,
-            selecteTpName1 = this.selecteTpName1,
-            cloudUrl = this.cloudUrl,
-            cloudNetWork = this.cloudNetwork,
-            cloudNode = this.cloudNode,
-            cloudTp = this.cloudTp,
-            linkname = this.linkName;
-        let params = {
-            'link-name': linkname,
-        };
-        this.myhttp.querySpecificLinkInfo(params)
-            .subscribe((data) => {
-                let status = data['operational-status'];
-                let link_name = data['link-name'];
-                this.outCloudShow = true;
-                this.hideForm();
-                this.outCloud(this.imgmap);
-                setTimeout(this.cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name, time), 0);
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Add external cloud
-    outCloud(imgmap) {
-        let _this = this,
-            width;
-        if (_this.tpoption.width > 800) {
-            width = _this.tpoption.width;
-        } else {
-            width = 800;
-        }
-        let svg = d3.select('#content-svg');
-        svg.append('g').attr('class', 'out').attr('id', 'out').style({ 'display': 'block' }).attr('transform', 'translate(' + (width - 200) + ',0)');
-        let out = d3.select('#out');
-        out.append('image').style('width', '200').style('height', '118').attr('xlink:href', imgmap['3']);
-        out.append('text').text('Partner Network')
-            .style('transform', 'translate(0，0)')
-            .style('font-size', '16')
-            .style('font-weight', 'bold')
-            .attr('dx', '40')
-            .attr('dy', '70')
-            .style('fill', '#fff');
-    }
-
-    //Add external cloud connection
-    cloudLine(networkVal1, selectedNode1, selecteTpName1, cloudUrl, cloudNetWork, cloudNode, cloudTp, status, link_name, time) {
-        let lines_json = {};
-        let _this = this,
-            width;
-        if (_this.tpoption.width > 800) {
-            width = _this.tpoption.width;
-        } else {
-            width = 800;
-        }
-        for (let i = 0; i < $(".node").length; i++) {
-            if ($('.node').eq(i).find('text').html() == networkVal1) {
-                //Get the x, y coordinates of the second level
-                let translates = $('.node').eq(i).css('transform');
-                lines_json['x1'] = parseFloat(translates.substring(7).split(',')[4]);
-                lines_json['y1'] = parseFloat(translates.substring(7).split(',')[5]);
-                lines_json['x2'] = width - 100;
-                lines_json['y2'] = 100;
-            }
-        }
-        let x1 = lines_json['x1'];
-        let y1 = lines_json['y1'];
-        let x2 = lines_json['x2'];
-        let y2 = lines_json['y2'];
-        let color = '#14bb58';
-        if (status == 'up') {
-            color = '#14bb58';
-        } else {
-            color = 'red';
-        }
-        let line = '<line class=\'line cloudline line-click\' stroke=\'' + color + '\' stroke-width=\'2\' style=\'cursor:pointer\'></line>';
-        let svg = d3.select('#graph');
-        $('.cloudline').remove();
-        $('#graph').prepend(line);
-        $('.cloudline').attr({
-            x1: x1 + 100,
-            y1: y1 + 10,
-            x2: x2,
-            y2: y2,
-            'data-tp1': selecteTpName1,
-            'data-tp2': cloudTp,
-            'data-node1': selectedNode1,
-            'data-node2': cloudNode,
-            'data-network': networkVal1,
-            'data-cloudnetwork': cloudNetWork,
-            'data-url': cloudUrl,
-            'data-aaiid': time,
-            'data-link': link_name
-        });
-        svg.html(svg.html());
-        this.getExtAAIIdVersion(time);
-    }
-
-    //Create an external cloud, call the following 5 interfaces when connecting:createCloudNetwork,createPnfs,createCloudTp,createCloudLinks,createCloudUrls
-    createCloudNetwork(time) {
-        let _thiss = this;
-        let params = {
-            '-xmlns': 'http://org.onap.aai.inventory/v14',
-            'in-maint': 'false',
-            "network-id": this.cloudNetwork,
-            "provider-id": "",
-            "client-id": "",
-            "te-topo-id": "",
-            "relationship-list": {
-                "relationship": [{
-                    "related-to": "ext-aai-network",
-                    'related-link': '/aai/v14/network/ext-aai-networks/ext-aai-network/' + time
-                }]
-            }
-        };
-
-        //Do some asynchronous operations
-        _thiss.myhttp.createNetwrok(params)
-            .subscribe((data) => {
-                if (data["status"] == "SUCCESS") {
-                    _thiss.createPnfs(time)
-                }
-            }, (err) => {
-                console.log(err);
-            });
-
-    }
-
-    createPnfs(time) {
-        let _thiss = this;
-        let params = {
-            "-xmlns": "http://org.onap.aai.inventory/v14",
-            "pnf-name": this.cloudNode,
-            "pnf-id": this.cloudNode,
-            "in-maint": "true",
-            "relationship-list": {
-                "relationship": [
-                    {
-                        "related-to": "ext-aai-network",
-                        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-                        "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
-                        "relationship-data": {
-                            "relationship-key": "ext-aai-network.aai-id",
-                            "relationship-value": time
+            //pnf to pnf
+            let endpoints = [];
+            for (let pi of ll["relationship-list"]["relationship"]) {
+                if (pi["related-to"] === "p-interface"){
+                    for (let rd of pi["relationship-data"]){
+                        if (rd["relationship-key"] === "pnf.pnf-name"){
+                            endpoints.push(rd["relationship-value"]);
                         }
-                    },
-                    {
-                        "related-to": "network-resource",
-                        "relationship-label": "tosca.relationships.network.LinksTo",
-                        "related-link": "/aai/v14/network/network-resources/network-resource/" + this.cloudNetwork
                     }
-                ]
+                }
             }
-        };
-
-        //Do some asynchronous operations
-        _thiss.myhttp.createPnf(params)
-            .subscribe((data) => {
-                if (data["status"] == "SUCCESS") {
-                    _thiss.createCloudTp(time)
+            if (endpoints.length === 2){
+                let newlk = {
+                    "source": endpoints[0],
+                    "target": endpoints[1],
+                    "type" : 1
                 }
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    createCloudTp(time) {
-        let _thiss = this;
-        let params = {
-            "-xmlns": "http://org.onap.aai.inventory/v14",
-            "interface-name": this.cloudTp,
-            "speed-value": "1000000",
-            "in-maint": "true",
-            "network-ref": "",
-            "transparent": "true",
-            "operational-status": "up"
-        };
-
-        let cloudNodeName = this.cloudNode;
-        //Do some asynchronous operations
-        _thiss.myhttp.createTp(params, cloudNodeName)
-            .subscribe((data) => {
-                if (data["status"] == "SUCCESS") {
-                    _thiss.createCloudLinks(time)
-                }
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    createCloudLinks(time) {
-        let _thiss = this;
-        let params = {
-            "-xmlns": "http://org.onap.aai.inventory/v14",
-            "link-name": this.linkName,
-            "in-maint": "false",
-            "link-type": "cross-link",
-            "speed-value": "",
-            "operational-status": "up",
-            "relationship-list": {
-                "relationship": [
-                    {
-                        "related-to": "p-interface",
-                        "relationship-label": "tosca.relationships.network.LinksTo",
-                        "related-link": "/aai/v14/network/pnfs/pnf/" + this.selectedNode1 + "/p-interfaces/p-interface/" + this.selecteTpName1,
-                        "relationship-data": [
-                            {
-                                "relationship-key": "pnf.pnf-name",
-                                "relationship-value": this.selectedNode1
-                            },
-                            {
-                                "relationship-key": "p-interface.interface-name",
-                                "relationship-value": this.selecteTpName1
-                            }
-                        ],
-                        "related-to-property": [{
-                            "property-key": "p-interface.prov-status"
-                        }]
-                    },
-                    {
-                        "related-to": "p-interface",
-                        "relationship-label": "tosca.relationships.network.LinksTo",
-                        "related-link": "/aai/v14/network/pnfs/pnf/" + this.cloudNode + "/p-interfaces/p-interface/" + this.cloudTp,
-                        "relationship-data": [
-                            {
-                                "relationship-key": "pnf.pnf-name",
-                                "relationship-value": this.cloudNode
-                            },
-                            {
-                                "relationship-key": "p-interface.interface-name",
-                                "relationship-value": this.cloudTp
-                            }
-                        ],
-                        "related-to-property": [{
-                            "property-key": "p-interface.prov-status"
-                        }]
-                    },
-                    {
-                        "related-to": "ext-aai-network",
-                        "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-                        "related-link": "/aai/v14/network/ext-aai-networks/ext-aai-network/" + time,
-                        "relationship-data": [
-                            {
-                                "relationship-key": "ext-aai-network.aai-id",
-                                "relationship-value": time
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-
-        //Do some asynchronous operations
-        _thiss.myhttp.createCloudLink(params)
-            .subscribe((data) => {
-                // resolve(data['status']);
-                if (data["status"] == "SUCCESS") {
-                    _thiss.queryOutCloudLink(time);
-                }
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    createCloudUrls(time) {
-        let _thiss = this;
-        let params = {
-            '-xmlns': 'http://org.onap.aai.inventory/v14',
-            'aai-id': time,
-            'esr-system-info': {
-                'esr-system-info-id': 'example-esr-system-info-id-val-0',
-                'service-url': this.cloudUrl,
-                'user-name': 'demo',
-                'password': 'demo123456!',
-                'system-type': 'ONAP'
-            }
-        };
-        _thiss.myhttp.createCloudUrl(params)
-            .subscribe((data) => {
-                if (data['status'] == 'SUCCESS') {
-                    _thiss.createCloudNetwork(time);
-                }
-            }, (err) => {
-                console.log(err);
-            });
-    }
-
-    //Local cloud TP port Delete connection Call interface deleteLink
-    delLink(): void {
-        let deltp1 = this.delTp1,
-            deltp2 = this.delTp2,
-            version = this.delVersion,
-            dellinkname = this.delLinkname,
-            delLinkIndex = this.delLinkIndex;
-        let params = {
-            'logical-link': dellinkname,
-            'resource-version': version,
-        };
-        this.myhttp.deleteLink(params)
-            .subscribe((data) => {
-                if (data['status'] == 'SUCCESS') {
-                    this.delLine(deltp1, deltp2);
-                    delLinkIndex.remove();
-                }
-            }, (err) => {
-                console.log(err);
-                console.log('Deleting a connection interface call failed');
-            });
-    }
-
-    delLine(val1, val2) {
-        this.delBoxisVisible = false;
-        for (let i = 0; i < $(".node").length; i++) {
-            if ($('.node').eq(i).find('text').html() == val1) {
-                $('.node').eq(i).hide();
-            }
-            if ($('.node').eq(i).find('text').html() == val2) {
-                $('.node').eq(i).hide();
+                links.push(newlk);
             }
         }
+        return links;
     }
 
+    getPnfTpMapping(logicalLinks: Array<object>) {
+        let pnfs = [];
+        let pnfVisited = {};
+        let pnfIndex: number = 0;
+        for (let ll of logicalLinks){
+            let lkName:string = ll["link-name"];
+            let topoIdIdx:number = lkName.lastIndexOf("topologyId-");
+            if (topoIdIdx !== -1 && lkName.charAt(topoIdIdx + 11) === '2'){
+                //Ethernet layer logical-link
+                let lastDashIdx:number = lkName.lastIndexOf("-");
+                let pnfName: string = lkName.replace("linkId", "nodeId").substr(0, lastDashIdx);
+                let uniName: string = lkName.substr( lastDashIdx+1);
 
-    //External cloud Delete connection Call interface deleteCloudLink
-    delCloudLink(): void {
-        let deltp1 = this.delTp1,
-            deltp2 = this.delTp2,
-            version = this.delVersion,
-            aaiId = this.aaiId;
-        let params = {
-            "aaiId": aaiId,
-            "version": version,
-        };
-        this.myhttp.deleteCloudLink(params)
-            .subscribe((data) => {
-                if (data['status'] == 'SUCCESS') {
-                    this.delLine(deltp1, deltp2);
-                    $('.cloudline').remove();
-                    $('#out').remove();
+                if (pnfVisited[pnfName]){
+                    let idx: number = parseInt(pnfVisited[pnfName].substr(1));
+                    pnfs[idx].tps[uniName] = true;
+                } else {
+                    pnfVisited[pnfName] = '#' + pnfIndex;
+                    let newPnf = {
+                        "pnfName" : pnfName,
+                        "tps" : {
+                        },
+                        "layer" :2
+                    }
+                    newPnf.tps[uniName] = true;
+                    pnfs.push(newPnf);
+                    pnfIndex++;
+
                 }
-            }, (err) => {
-                console.log(err);
-                console.log('Deleting a connection interface call failed');
-            });
-    }
+                continue;
+            } else if (ll["relationship-list"] === undefined ||
+                    ll["relationship-list"]["relationship"].length === 0 ){
+                continue;
+            }
+            for (let pi of ll["relationship-list"]["relationship"]) {
+                if (pi["related-to"] === "p-interface"){
+                    let pnfName:string;
+                    let tpName:string;
+                    for (let rd of pi["relationship-data"]){
+                        if (rd["relationship-key"] === "pnf.pnf-name"){
+                            pnfName = rd["relationship-value"];
+                        } else if (rd["relationship-key"] === "p-interface.interface-name"){
+                            tpName = rd["relationship-value"];
+                        }
+                    }
+                    if (pnfVisited[pnfName]){
+                        let idx: number = parseInt(pnfVisited[pnfName].substr(1));
+                        pnfs[idx].tps[tpName] = true;
+                    } else {
+                        pnfVisited[pnfName] = '#' + pnfIndex;
+                        let newPnf = {
+                            "pnfName" : pnfName,
+                            "tps" : {
+                            },
+                            "layer" : 1
+                        }
+                        newPnf.tps[tpName] = true;
+                        pnfs.push(newPnf);
+                        pnfIndex++;
 
+                    }
+                }
+            }
+        }
+        return pnfs;
+    }
 }

@@ -1,25 +1,25 @@
 {
   "logical-link": [
     {
-      "link-name": "cross-link-1",
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.2-22",
       "in-maint": false,
-      "link-type": "cross-link",
-      "resource-version": "1536029865021",
-      "operational-status": "up",
+      "link-type": "point-to-point",
+      "resource-version": "1632418647894",
+      "link-id": "10.1.1.2-22",
       "relationship-list": {
         "relationship": [
           {
             "related-to": "p-interface",
             "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v13/network/pnfs/pnf/pnf2000/p-interfaces/p-interface/nodeId-78.78.78.78-ltpId-1",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-22",
             "relationship-data": [
               {
                 "relationship-key": "pnf.pnf-name",
-                "relationship-value": "pnf2000"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2"
               },
               {
                 "relationship-key": "p-interface.interface-name",
-                "relationship-value": "nodeId-78.78.78.78-ltpId-1"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-22"
               }
             ],
             "related-to-property": [
@@ -31,15 +31,15 @@
           {
             "related-to": "p-interface",
             "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v13/network/pnfs/pnf/pnf1000/p-interfaces/p-interface/nodeId-79.79.79.79-ltpId-1",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-12",
             "relationship-data": [
               {
                 "relationship-key": "pnf.pnf-name",
-                "relationship-value": "pnf1000"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3"
               },
               {
                 "relationship-key": "p-interface.interface-name",
-                "relationship-value": "nodeId-79.79.79.79-ltpId-1"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-12"
               }
             ],
             "related-to-property": [
@@ -52,25 +52,62 @@
       }
     },
     {
-      "link-name": "cross-link-2",
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-2-linkId-10.1.1.1-1000001",
       "in-maint": false,
-      "link-type": "cross-link",
-      "resource-version": "1536029865021",
-      "operational-status": "up",
+      "link-type": "point-to-point",
+      "resource-version": "1632418637582",
+      "link-id": "10.1.1.1-1000001"
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-2-linkId-10.1.1.1-2000001",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418638991",
+      "link-id": "10.1.1.1-2000001"
+    },
+    {
+      "link-name": "51000",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418711940",
+      "link-role": "cross-domain",
+      "link-id": "10.1.1.2-12",
       "relationship-list": {
         "relationship": [
           {
+            "related-to": "te-link-attribute",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/te-link-attributes/te-link-attribute/10.1.1.2-12",
+            "relationship-data": [
+              {
+                "relationship-key": "te-link-attribute.id",
+                "relationship-value": "10.1.1.2-12"
+              }
+            ]
+          },
+          {
+            "related-to": "te-link-attribute",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/te-link-attributes/te-link-attribute/10.2.1.1-22",
+            "relationship-data": [
+              {
+                "relationship-key": "te-link-attribute.id",
+                "relationship-value": "10.2.1.1-22"
+              }
+            ]
+          },
+          {
             "related-to": "p-interface",
             "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v13/network/pnfs/pnf/pnf3000/p-interfaces/p-interface/nodeId-80.80.80.80-ltpId-2",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-12",
             "relationship-data": [
               {
                 "relationship-key": "pnf.pnf-name",
-                "relationship-value": "pnf3000"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2"
               },
               {
                 "relationship-key": "p-interface.interface-name",
-                "relationship-value": "nodeId-80.80.80.80-ltpId-2"
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-12"
               }
             ],
             "related-to-property": [
@@ -82,36 +119,690 @@
           {
             "related-to": "p-interface",
             "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v13/network/pnfs/pnf/pnf-cloud/p-interfaces/p-interface/cloud-tp",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-22",
             "relationship-data": [
               {
                 "relationship-key": "pnf.pnf-name",
-                "relationship-value": "pnf-cloud"
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1"
               },
               {
                 "relationship-key": "p-interface.interface-name",
-                "relationship-value": "cloud-tp"
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-22"
               }
             ],
             "related-to-property": [
               {
                 "property-key": "p-interface.prov-status"
-              }
-            ]
-          },
-          {
-            "related-to": "ext-aai-network",
-            "relationship-label": "org.onap.relationships.inventory.BelongsTo",
-            "related-link": "/aai/v13/network/ext-aai-networks/ext-aai-network/gongjie666",
-            "relationship-data": [
-              {
-                "relationship-key": "ext-aai-network.aai-id",
-                "relationship-value": "gongjie666"
               }
             ]
           }
         ]
       }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.3-12",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418648333",
+      "link-id": "10.1.1.3-12",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "52000",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418711437",
+      "link-role": "cross-domain",
+      "link-id": "10.1.1.3-8",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "te-link-attribute",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/te-link-attributes/te-link-attribute/10.1.1.3-8",
+            "relationship-data": [
+              {
+                "relationship-key": "te-link-attribute.id",
+                "relationship-value": "10.1.1.3-8"
+              }
+            ]
+          },
+          {
+            "related-to": "te-link-attribute",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/te-link-attributes/te-link-attribute/10.2.1.3-12",
+            "relationship-data": [
+              {
+                "relationship-key": "te-link-attribute.id",
+                "relationship-value": "10.2.1.3-12"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-8",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-8"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.3-22",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418649331",
+      "link-id": "10.1.1.3-22",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-6",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-6"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.2-2",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418647397",
+      "link-id": "10.1.1.2-2",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-2",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-2"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "tranportEp_src_ID_111_2",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418767038",
+      "link-name2": "tranportEp_dst_ID_212_1",
+      "link-id": "111-2-212-1"
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.2-22",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418710116",
+      "link-id": "10.2.1.2-22",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.1-12",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418648797",
+      "link-id": "10.1.1.1-12",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-2",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.2-ltpId-2"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-1-linkId-10.1.1.1-6",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418650687",
+      "link-id": "10.1.1.1-6",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-6",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1-ltpId-6"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3/p-interfaces/p-interface/networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.3-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-2-linkId-10.2.1.2-512",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418701065",
+      "link-id": "10.2.1.2-512"
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.1-12",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418710752",
+      "link-id": "10.2.1.1-12",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-12",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-12"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.2-5",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418710349",
+      "link-id": "10.2.1.2-5",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-3",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-3"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-5",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-5"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.3-3",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418710549",
+      "link-id": "10.2.1.3-3",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-3",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-3"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-5",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.2-ltpId-5"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.3-22",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418710961",
+      "link-id": "10.2.1.3-22",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-9",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-9"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "networkId-providerId-10-clientId-0-topologyId-2-linkId-10.1.1.3-1000001",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418639304",
+      "link-id": "10.1.1.3-1000001"
+    },
+    {
+      "link-name": "networkId-providerId-20-clientId-0-topologyId-1-linkId-10.2.1.1-9",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418709796",
+      "link-id": "10.2.1.1-9",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-22",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.3-ltpId-22"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          },
+          {
+            "related-to": "p-interface",
+            "relationship-label": "tosca.relationships.network.LinksTo",
+            "related-link": "/aai/v24/network/pnfs/pnf/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1/p-interfaces/p-interface/networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-9",
+            "relationship-data": [
+              {
+                "relationship-key": "pnf.pnf-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1"
+              },
+              {
+                "relationship-key": "p-interface.interface-name",
+                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-1-nodeId-10.2.1.1-ltpId-9"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "p-interface.prov-status"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "link-name": "tranportEp_src_ID_113_1",
+      "in-maint": false,
+      "link-type": "point-to-point",
+      "resource-version": "1632418777509",
+      "link-name2": "tranportEp_dst_ID_212_1",
+      "link-id": "113-1-212-1"
     }
   ]
 }

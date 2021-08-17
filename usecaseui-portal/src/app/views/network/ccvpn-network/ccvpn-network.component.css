@@ -71,7 +71,6 @@
   margin: 0;
   color: #3C4F8C;
   margin-left: 10px;
-  display: inline-block;
 }
 .model .title-modelshow{
   color: #A0AACD;
@@ -112,6 +111,7 @@
   margin: 5px 10% 15px;
   width: 80%;
 }
+
 
 
 

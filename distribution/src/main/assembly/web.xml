@@ -172,7 +172,8 @@
   <!--                       SecurityManager.                               -->
   <!--                                                                      -->
   <!--   errorOnUseBeanInvalidClassAttribute                                -->
-  <!--                       Should Jasper issue an error when the value of -->
+  <!--                       Should Jasper issue an error when the value of -->
+
   <!--                       the class attribute in an useBean action is    -->
   <!--                       not a valid bean class?  [true]                -->
   <!--                                                                      -->
@@ -3113,7 +3114,8 @@
         <extension>plf</extension>
         <mime-type>application/vnd.pocketlearn</mime-type>
     </mime-mapping>
-    <mime-mapping>
+    <mime-mapping>
+
         <extension>pls</extension>
         <mime-type>audio/x-scpls</mime-type>
     </mime-mapping>
@@ -4204,7 +4206,8 @@
         <mime-type>application/vnd.stardivision.writer</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>vox</extension>
+        <extension>vox</extension>
+
         <mime-type>application/x-authorware-bin</mime-type>
     </mime-mapping>
     <mime-mapping>
@@ -4456,7 +4459,8 @@
         <extension>xdf</extension>
         <mime-type>application/xcap-diff+xml</mime-type>
     </mime-mapping>
-    <mime-mapping>
+    <mime-mapping>
+
         <extension>xdm</extension>
         <mime-type>application/vnd.syncml.dm+xml</mime-type>
     </mime-mapping>

@@ -16,13 +16,40 @@
 <nz-spin [nzSpinning]="isSpinning" nzSize="large">
 <div class="model">
   <!--chart-->
-  <button nz-button nzType="primary" *ngIf="!nonetwork" style="margin-top: 2px;display: inline-block" (click)="showForm()"
-          [disabled]='isVisible' [attr.disabled] ='isVisible?true:undefined'>
-    {{"i18nTextDefine_CreateLink" | translate}}
-  </button>
+  <div class="action ant-tabs-bar">
+    <span>
+        <i class="icon">
+            <img src="assets/images/service-type.png"alt="">
+        </i>
+        {{"i18nTextDefine_Connectivity" | translate}} :
+    </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+      <button nz-button nz-dropdown><span>{{connectivitySelected.name}}</span> <i class="anticon anticon-down"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="choseConnectivity(item)" *ngFor="let item of connectivityList">
+          <a title="{{item.name}}">{{item.name}}</a>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+<!--    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()">
+      <i *ngIf="width>1200" class="anticon anticon-plus"></i>
+      <span> {{"i18nTextDefine_Create" | translate}} </span>
+    </button>-->
+  </div>
+
   <h2 *ngIf="!nonetwork" [ngClass]="{'title-modelshow':isVisible == true}">
     Please configure network links for registered devices and partner system.
   </h2>
+  <h3  [ngClass]="{'title-modelshow':isVisible == true}">
+    Service Instances:
+  </h3>
+  <div id="svcContainer" style="overflow: hidden;">
+  </div>
+  <h3  [ngClass]="{'title-modelshow':isVisible == true}">
+    Network Topology:
+  </h3>
   <div id="tpContainer" style="overflow: hidden;">
     <div *ngIf="nonetwork" style="padding: 20px">
       <h2>

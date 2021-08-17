@@ -27,6 +27,7 @@ export class networkHttpservice {
     url = {
         "getNetworkD3Data": this.baseUrl+"/uui-sotn/getNetWorkResources",
         "getLogicalLinksData": this.baseUrl+"/uui-sotn/getLogicalLinks",
+        "getPnfsData": this.baseUrl+"/uui-sotn/getPnfs",
         "deleteCloud": this.baseUrl+"/uui-sotn/deleteExtNetWork",
         "getPInterfacesData": this.baseUrl+"/uui-sotn/getPinterfaceByPnfName/",
         "createLink": this.baseUrl+"/uui-sotn/createLink/",
@@ -39,6 +40,7 @@ export class networkHttpservice {
         "createCloudLink": this.baseUrl+"/uui-sotn/createLink/",
         "createCloudUrl": this.baseUrl+"/uui-sotn/createHostUrl/",
         "deleteLink": this.baseUrl+"/uui-sotn/deleteLink/",
+        "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivityInfo",
 
     };
 
@@ -46,6 +48,10 @@ export class networkHttpservice {
     //d3data
     getNetworkD3Data() {
         return this.http.get<any>(this.url["getNetworkD3Data"]);
+    }
+    // GET AAI PNF(s) data
+    getPnfsData() {
+        return this.http.get<any>(this.url["getPnfsData"]);
     }
     //Initialize the connection logical-links
     getLogicalLinksData() {
@@ -76,6 +82,11 @@ export class networkHttpservice {
     queryExtAAIIdVersion(aaiId) {
         return this.http.get<any>(this.url["queryExtAAIIdVersion"] + aaiId);
     }
+
+    getConnectivities(){
+        return this.http.get<any>(this.url["getConnectivities"]);
+    }
+
     //Create an external cloud newwork interface
     createNetwrok(paramsObj) {
         return this.http.put<any>(this.url["createNetwrok"] + paramsObj["network-id"], paramsObj);
