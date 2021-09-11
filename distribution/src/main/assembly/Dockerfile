@@ -3,7 +3,7 @@ FROM nexus3.onap.org:10001/onap/integration-java11:9.0.0
 EXPOSE 8443
 
 USER root
-RUN apk update && apk add shadow
+RUN apk update && apk add shadow && apk add bash
 
 
 #configure the JDK
