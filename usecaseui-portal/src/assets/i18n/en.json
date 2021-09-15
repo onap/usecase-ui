@@ -8,6 +8,7 @@
   "i18nTextDefine_ServicesList": "Lifecycle Management",
   "i18nTextDefine_SotnEline": "SOTN Eline",
   "i18nTextDefine_Mangement_5g": "5G Slicing Management",
+  "i18nTextDefine_IntentBasedServices": "Intent-based Services",
   "i18nTextDefine_PackageManagement": "Package Management",
   "i18nTextDefine_Alarm": "Alarm",
   "i18nTextDefine_Performance": "Performance",
@@ -41,6 +42,7 @@
   "i18nTextDefine_Description":"Description",
   "i18nTextDefine_UseCase":"Use Case",
   "i18nTextDefine_Status":"Status",
+  "i18nTextDefine_Type": "Type",
   "i18nTextDefine_Action":"Action",
   "i18nTextDefine_Template":"Template",
   "i18nTextDefine_Orchestrator":"Orchestrator",
@@ -161,6 +163,7 @@
   "i18nTextDefine_orderService":"Order Service",
   "i18nTextDefine_monitorService":"Monitor Service", 
   "i18nTextDefine_manageService":"Manage Service",
+  "i18nTextDefine_cloudLeasedLine":"Cloud Leased Line",
 
 
   "mdons-network-component":"--:",
