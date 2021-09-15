@@ -1,0 +1,42 @@
+<nz-modal
+  [(nzVisible)]="samrtCloudLeasedLineShowFlag"
+  nzTitle="Create Cloud Leased Line"
+  (nzOnCancel)="handleCancel(true)"
+  (nzOnOk)="handleOk()"
+  nzWidth="450px"
+  nzHeight="600px"
+>
+  <div class="subnet_params_container">
+    <nz-radio-group [(ngModel)]="radioValue">
+      <label nz-radio nzValue="text">Text Input</label>
+      <label nz-radio nzValue="audio">Audio Input</label>
+    </nz-radio-group>
+    <form nz-form *ngIf='radioValue === "text"' class='text-form-class'>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24">
+          <textarea [id]="communicationMessage" nz-tooltip
+            [ngClass]="{'error-input-border':validateRulesShow[0] === true}" nz-input
+            placeholder="Please input communicationMessage" [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+            [(ngModel)]="communicationMessage" name="communicationMessage"
+            (blur)="this.Util.validator('communicationMessage','communicationMessage',communicationMessage,0,rulesText,validateRulesShow)">
+          </textarea>
+          <nz-form-explain *ngIf="validateRulesShow[0]" class="validateRules">{{rulesText[0]}}
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <div *ngIf='radioValue === "audio"' class="audio_class">
+      <div class="recode_class">
+        <span>Sound Recording : </span>
+        <i *ngIf='!isPlay' class="anticon anticon-play-circle-o audioBtn" (click)="startAudio()"></i>
+        <i *ngIf='isPlay' class="anticon anticon-pause-circle-o audioBtn" (click)="stopAudio()"></i>
+        
+      </div>
+      <div class="play_class">
+        <span>Audition : </span>
+        <button nz-button nzType="default" [disabled]='isDisable' (click)="playAudio()">Click To Play</button>
+        <audio class="audio-node" id="audio_id" autoplay></audio>
+      </div>
+    </div>
+  </div>
+</nz-modal>
