@@ -1,0 +1,41 @@
+nz-select {
+  width: 200px;
+}
+
+.task_status {
+  margin-bottom: 20px;
+
+  span {
+    margin-right: 5%;
+  }
+}
+
+.action-icon {
+  display: inline-block;
+  vertical-align: top;
+}
+
+i.anticon {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 2px 15px;
+  vertical-align: inherit !important;
+
+  &:hover {
+    color: #147dc2;
+  }
+}
+
+.cannotclick {
+  pointer-events: none;
+  color: #aaa;
+  opacity: 0.6;
+}
+
+.buy-button {
+  float: right;
+  margin-right: 2%;
+}
+::ng-deep .ant-table-row .buy-button {
+  float: left;
+}

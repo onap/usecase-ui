@@ -69,6 +69,10 @@
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/slicing-management'}">
             <a routerLink='services/slicing-management'> {{"i18nTextDefine_Mangement_5g" | translate}} </a>
           </li>
+          <!-- Intent-based Services -->
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'services/intent-based-services'}">
+            <a routerLink='services/intent-based-services'> {{"i18nTextDefine_IntentBasedServices" | translate}} </a>
+          </li>
         </ul>
       </li>
       <hr>
@@ -118,6 +122,9 @@
         <ul>
           <li nz-menu-item [ngClass]="{'activeMenuList': url === 'fcaps/5gslicing'}">
             <a routerLink='fcaps/5gslicing'> {{"i18nTextDefine_Monitor_5g" | translate}} </a>
+          </li>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'fcaps/monitor_service'}">
+            <a routerLink='fcaps/monitor_service'> {{"i18nTextDefine_monitorService" | translate}} </a>
           </li>
         </ul>
 
