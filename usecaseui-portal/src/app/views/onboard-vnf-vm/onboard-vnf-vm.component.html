@@ -89,11 +89,12 @@
           </thead>
           <thead *ngIf="currentTab === 'NLP Model Reource'">
             <tr class="theadColor">
-                <th nzWidth="8%"> {{"i18nTextDefine_NO" | translate}} </th>
-                <th nzWidth="18%"> {{"i18nTextDefine_Name" | translate}} </th>
-                <th nzWidth="18%"> {{"i18nTextDefine_Size" | translate}} </th>
-                <th nzWidth="18%"> {{"i18nTextDefine_CreateTime" | translate}} </th>
-                <th nzWidth="18%"> {{"i18nTextDefine_Status" | translate}} </th>
+                <th nzWidth="5%"> {{"i18nTextDefine_NO" | translate}} </th>
+                <th nzWidth="15%"> {{"i18nTextDefine_Name" | translate}} </th>
+                <th nzWidth="15%"> {{"i18nTextDefine_Size" | translate}} </th>
+                <th nzWidth="15%"> {{"i18nTextDefine_CreateTime" | translate}} </th>
+                <th nzWidth="15%"> {{"i18nTextDefine_Status" | translate}} </th>
+                <th nzWidth="15%"> {{"i18nTextDefine_Type" | translate}} </th>
                 <th nzWidth="20%"> {{"i18nTextDefine_Operation" | translate}} </th>
             </tr>
           </thead>
@@ -150,6 +151,7 @@
                 <td>{{item.size}}</td>
                 <td>{{item.createTime}}</td>
                 <td>{{item.active ? 'Active' : 'Inactive'}}</td>
+                <td>{{item.type || '--'}}</td>
                 <td>
                     <button nz-button nzType="primary" class="buy-button" (click)="showDeleteConfirm(item.id)">
                         Delete
@@ -163,4 +165,8 @@
       </nz-table>
   </nz-spin>
 </div>
+<app-nlp-upload-dialog
+  [isShowFlag]="nlpDialogFlag"
+  (returnNlpType)="receiveNlpType($event)"
+></app-nlp-upload-dialog>
 <app-notification #notification [isServicesList]="false"></app-notification>
