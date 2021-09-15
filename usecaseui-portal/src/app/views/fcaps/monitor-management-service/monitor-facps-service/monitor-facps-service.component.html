@@ -1,0 +1,39 @@
+<div class="main">
+  <div class="divCls">
+    <table>
+      <tr>
+        <td>
+            <nz-form-label class= "colm-s-1 lblCls" [nzSm]="6" [nzXs]="24" nzRequired nzFor="capacity">FinishedInstance</nz-form-label>
+        </td>
+        <td>
+          <nz-select
+            id="subscriptionType"
+            class= "colm-s-2"
+            [(ngModel)]="instanceId"
+            (ngModelChange)="queryInstancePerformance($event)"
+            nzAllowClear
+          >
+            <nz-option
+              *ngFor="let option of instanceLists"
+              [nzValue]="option.instanceId"
+              [nzLabel]="option.name"
+            ></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="flexDiv">
+    <div class="topocontainer">
+      <div
+        id="chartLine"
+        echarts 
+        [initOpts]="initOpts"
+        [options]="lineOption" 
+        [merge]="updateOption"
+        (chartInit)="chartInit($event)">
+          Line Chart
+      </div>
+    </div>
+  </div>
+</div>

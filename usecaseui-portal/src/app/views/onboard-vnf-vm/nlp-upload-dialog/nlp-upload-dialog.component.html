@@ -1,0 +1,30 @@
+<nz-modal
+  [(nzVisible)]="isShowFlag"
+  nzTitle="NLP Model Type"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  nzWidth="450px"
+  nzHeight="600px"
+>
+  <div class="subnet_params_container">
+    <form nz-form class='text-form-class'>
+      <nz-form-item>
+        <nz-form-label
+          [nzSpan]="7"
+          [nzFor]="nlpType"
+        >
+          Type
+        </nz-form-label>
+        <nz-form-control [nzSpan]="10">
+          <nz-select
+            [name]="nlpType"
+            [(ngModel)]="nlpType"
+          >
+            <nz-option nzValue="nlp" nzLabel="nlp"></nz-option>
+            <nz-option nzValue="intent" nzLabel="intent"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-modal>

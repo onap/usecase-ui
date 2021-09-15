@@ -14,11 +14,11 @@
     limitations under the License.
 */
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { NzMessageService, NzModalService, UploadFile } from 'ng-zorro-antd';
+import { filter } from 'rxjs/operators';
 import { onboardService } from '../../core/services/onboard.service';
 import { slideToRight } from '../../shared/utils/animates';
-import { NzMessageService, UploadFile, NzModalService } from 'ng-zorro-antd';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-onboard-vnf-vm',
@@ -37,6 +37,10 @@ export class OnboardVnfVmComponent implements OnInit {
   uploading: boolean = false;
   infoId: string;
   display: string = 'block';
+
+  // nlp dialog
+  nlpDialogFlag: boolean = false;
+  nlpType: string = '';
 
   // table
   isSpinning: boolean = false;
@@ -59,6 +63,20 @@ export class OnboardVnfVmComponent implements OnInit {
     pnf: '/api/nsd/v1/pnf_descriptors/*_*/pnfd_content',
     model: '/api/usecaseui-server/v1/intent/uploadModel'
   };
+
+  tabMap = {
+    NS: 'ns',
+    VNF: 'vnf',
+    PNF: 'pnf',
+    'NLP Model Reource': 'model',
+  }
+
+  currentTabApi = {
+    NS: 'createNetworkServiceData',
+    VNF: 'createVnfData',
+    PNF: 'createPnfData',
+    'NLP Model Reource': '',
+  }
 
   file: {
     name: string,
@@ -113,31 +131,51 @@ export class OnboardVnfVmComponent implements OnInit {
 
   beforeUpload = (file: UploadFile): boolean => {
     this.fileList.splice(0, 1, file);
-    let API: string;
-    if (this.currentTab === 'NS') {
-      API = 'createNetworkServiceData';
-    } else if (this.currentTab === 'VNF') {
-      API = 'createVnfData';
-    } else if (this.currentTab === 'PNF') {
-      API = 'createPnfData';
-    } else {
+    let API: string = this.currentTabApi[this.currentTab];
+    
+    if (!API) {
       return false;
     }
-    this.myhttp.getCreatensData(API, this.requestBody)//on-line
+    
+    this.myhttp.getCreatensData(API, this.requestBody)
       .subscribe((data) => {
         this.infoId = data["id"];
       }, (err) => {
         console.log(err);
-      })
+      });
+    
     return false;
   }
 
+  onClick() {
+    if (this.currentTab === 'NLP Model Reource') {
+      this.nlpDialogFlag = true;
+      return;
+    }
+    this.startUploadFile();
+  }
+
+  receiveNlpType(data) {
+    this.nlpDialogFlag = false;
+    if (data.cancel) {
+      return;
+    }
+    this.nlpType = data.nlpType;
+    this.startUploadFile();
+  }
+
   // Drag and drop and click the upload button
-  onClick(): void {
+  startUploadFile(): void {
     this.display = 'none';
-    let tab = this.currentTab === 'NS' ? 'ns' : (this.currentTab === 'VNF' ? 'vnf' : (this.currentTab === 'PNF' ? 'pnf' : 'model'));
-    let url = tab === "model" ? this.url[tab] : this.url[tab].replace("*_*", this.infoId);
-    tab === "model" ? this.handleUploadModel(url) : this.handleUpload(url);
+    let tab = this.tabMap[this.currentTab];
+    let url;
+    if (tab === "model") {
+      url = this.url[tab];
+      this.handleUploadModel(url);
+      return;
+    }
+    url = this.url[tab].replace("*_*", this.infoId);
+    this.handleUpload(url);
   }
 
   handleUploadModel(url: string): void {
@@ -243,24 +281,36 @@ export class OnboardVnfVmComponent implements OnInit {
     this.isSpinning = true;
     //ns vfc lists 
     this.myhttp.getOnboardTableData()
-      .subscribe((data) => {
-        this.nsTableData = data;
-        //ns sdc list
-        this.myhttp.getSDC_NSTableData()
-          .subscribe((data) => {
-            this.isSpinning = false; //loading hide
-            let nsData = data;
-            // this.NSTableData.map((nsvfc) => { nsvfc.sameid = nsData.find((nssdc) => { return nsvfc.id == nssdc.uuid }) && nsvfc.id; return nsvfc; });
-            let sameData = nsData.filter((nssdc) => { return !this.nsTableData.find((nsvfc) => { return nsvfc.id == nssdc.uuid }) });
-            this.nsTableData = this.nsTableData.concat(sameData);
-          }, (err) => {
-            this.msg.error(err);
-            this.isSpinning = false;
-          })
-      }, (err) => {
-        this.msg.error(err);
-        this.isSpinning = false;
-      })
+      .subscribe(
+        (data) => {
+          this.nsTableData = data;
+          //ns sdc list
+          this.myhttp.getSDC_NSTableData()
+            .subscribe(
+              (data) => {
+                this.isSpinning = false; //loading hide
+                if (!data) {
+                  return;
+                }
+                let nsData = data;
+                let sameData = nsData.filter((nssdc) => {
+                  return !this.nsTableData.find((nsvfc) => {
+                    return nsvfc.id == nssdc.uuid
+                  })
+                });
+                this.nsTableData = this.nsTableData.concat(sameData);
+              },
+              (err) => {
+                this.msg.error(err);
+                this.isSpinning = false;
+              }
+            )
+        },
+        (err) => {
+          this.msg.error(err);
+          this.isSpinning = false;
+        }
+      )
   }
 
   // Get the vnf list
@@ -443,7 +493,6 @@ export class OnboardVnfVmComponent implements OnInit {
 
   // Actived Model Resource
   activedModelFile(data) {
-    console.log('actived model');
     let url = `/api/usecaseui-server/v1/intent/activeModel?modelId=${data.id}`;
     this.myhttp.getOnboardTableActiveModelData(url)
       .subscribe((data) => {
