@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e2b01e3_d5308522",
+        "filename": "usecaseui-portal/src/app/app-routing.module.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2021-09-16T06:27:40Z",
+      "side": 1,
+      "message": "Please keep the order in the original code",
+      "revId": "1a0d3bcb8d2d74cf70a85ecedf0c50e70767a68b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12bf3d54_4ad07ff9",
+        "filename": "usecaseui-portal/src/app/app.module.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2021-09-16T06:27:40Z",
+      "side": 1,
+      "message": "Please keep the order in the original code",
+      "revId": "1a0d3bcb8d2d74cf70a85ecedf0c50e70767a68b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

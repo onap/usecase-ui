@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28008f69_51740971",
+        "filename": "usecaseui-portal/proxy.conf.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2021-09-16T06:27:40Z",
+      "side": 0,
+      "message": "This should only be an example IP and does not need to be modified",
+      "revId": "9c8070280f88e0094acb83ee78251bb4f9690e2e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
