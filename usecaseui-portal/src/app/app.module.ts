@@ -13,111 +13,110 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+//Registered language pack
+import { HashLocationStrategy, LocationStrategy, registerLocaleData } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import en from "@angular/common/locales/en";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { HttpClient } from "@angular/common/http";
-import { NgZorroAntdModule } from "ng-zorro-antd";
-import { NZ_I18N, en_US } from "ng-zorro-antd";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { en_US, NgZorroAntdModule, NZ_I18N } from "ng-zorro-antd";
 import { NgxEchartsModule } from "ngx-echarts";
-
+import { AppRoutingModule } from "./app-routing.module";
+//Custom component
+import { AppComponent } from "./app.component";
 //Custom Directive
 import { DisableControlDirective } from "./core/Directives/disable-control.directive";
+import { HomesService } from "./core/services/homes.service";
+import { intentBaseService } from "./core/services/intentBase.service";
+import { ManagemencsService } from "./core/services/managemencs.service";
+import { networkHttpservice } from "./core/services/networkHttpservice.service";
+import { onboardService } from "./core/services/onboard.service";
+// Custom service
+import { ServiceListService } from "./core/services/serviceList.service";
+// slicingTask service
+import { SlicingTaskServices } from "./core/services/slicingTaskServices";
+import { TextService } from "./core/services/text.service";
+import { BasicInfoComponent } from "./shared/components/basic-info/basic-info.component";
+import { BarComponent } from "./shared/components/charts/bar/bar.component";
+import { LineComponent } from "./shared/components/charts/line/line.component";
+import { PieComponent } from "./shared/components/charts/pie/pie.component";
+import { CitySelectComponent } from "./shared/components/city-select/city-select/city-select.component";
+import { DetailsComponent } from "./shared/components/details/details.component";
+import { GraphiclistComponent } from "./shared/components/graphiclist/graphiclist.component";
+import { NotificationComponent } from "./shared/components/notification/notification.component";
+import { PerformanceDetailsComponent } from "./shared/components/performance-details/performance-details.component";
+// common function http
+import { Http } from "./shared/utils/http";
+import { Recorder } from './shared/utils/recorder';
+// common function util
+import { Util } from "./shared/utils/utils";
+import { TestComponent } from "./test/test.component";
+import { AlarmComponent } from "./views/alarm/alarm.component";
+import { FcapsComponent } from "./views/fcaps/fcaps.component";
+import { Monitor5gComponent } from "./views/fcaps/monitor-5g/monitor-5g.component";
+import { MonitorFacpsServiceComponent } from "./views/fcaps/monitor-management-service/monitor-facps-service/monitor-facps-service.component";
+import { MonitorManagementService } from "./views/fcaps/monitor-management-service/monitor-management-service.component";
+import { HomeComponent } from "./views/home/home.component";
+import { CustomerComponent } from "./views/management/customer/customer.component";
+import { ManagementComponent } from "./views/management/management.component";
+import { CcvpnNetworkComponent } from "./views/network/ccvpn-network/ccvpn-network.component";
+import { MdonsNetworkComponent } from "./views/network/mdons-network/mdons-network.component";
+import { NlpUploadDialogComponent } from "./views/onboard-vnf-vm/nlp-upload-dialog/nlp-upload-dialog.component";
+import { OnboardVnfVmComponent } from "./views/onboard-vnf-vm/onboard-vnf-vm.component";
+import { PerformanceVmComponent } from "./views/performance/performance-vm/performance-vm.component";
+import { PerformanceVnfComponent } from "./views/performance/performance-vnf/performance-vnf.component";
+import { PerformanceComponent } from "./views/performance/performance.component";
+import { CloudLeasedLineModalComponent } from './views/services/intent-based-services/cloud-leased-line-modal/cloud-leased-line-modal.component';
+import { CloudLeasedLineComponent } from './views/services/intent-based-services/cloud-leased-line/cloud-leased-line.component';
+import { IntentBasedServicesComponent } from './views/services/intent-based-services/intent-based-services.component';
+import { SmartCloudLeasedModalComponent } from './views/services/intent-based-services/smart-cloud-leased-modal/smart-cloud-leased-modal.component';
+import { CcvpnCreationComponent } from "./views/services/services-list/ccvpn-creation/ccvpn-creation.component";
+import { CcvpnDetailComponent } from "./views/services/services-list/ccvpn-detail/ccvpn-detail.component";
+import { CreateModelComponent } from "./views/services/services-list/create-model/create-model.component";
+import { DeleteModelComponent } from "./views/services/services-list/delete-model/delete-model.component";
+import { E2eCreationComponent } from "./views/services/services-list/e2e-creation/e2e-creation.component";
+import { E2eDetailComponent } from "./views/services/services-list/e2e-detail/e2e-detail.component";
+import { HealModelComponent } from "./views/services/services-list/heal-model/heal-model.component";
+import { MdonsCreationComponent } from "./views/services/services-list/mdons-creation/mdons-creation.component";
+import { MdonsDetailComponent } from "./views/services/services-list/mdons-detail/mdons-detail.component";
+import { ScaleModelComponent } from "./views/services/services-list/scale-model/scale-model.component";
+import { ServicesListComponent } from "./views/services/services-list/services-list.component";
+import { TopCardComponent } from "./views/services/services-list/top-card/top-card.component";
+import { BusinessOrderComponent } from "./views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component";
+import { CsmfSlicingBusinessManagementComponent } from "./views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component";
+import { InputBusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/input-business-order/input-business-order.component';
+import { SlicingManagementComponent } from "./views/services/slicing-management/slicing-management.component";
+import { NsiModelComponent } from "./views/services/slicing-management/slicing-resource-management/nsi-management/nsi-model/nsi-model.component";
+import { NsiTableComponent } from "./views/services/slicing-management/slicing-resource-management/nsi-management/nsi-table/nsi-table.component";
+import { NssiModelComponent } from "./views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component";
+import { NssiTableComponent } from "./views/services/slicing-management/slicing-resource-management/nssi-management/nssi-table/nssi-table.component";
+import { SlicingBusinessModelComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-model/slicing-business-model.component";
+import { SlicingBusinessTableComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-table/slicing-business-table.component";
+import { SlicingResourceManagementComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-resource-management.component";
+import { CheckProcessModelComponent } from "./views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component";
+import { SlicingTaskManagementComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-management.component";
+import { SlicingTaskModelComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component";
+import { SubnetParamsModelComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component";
+import { ManageServiceComponent } from "./views/services/sotn-management/manage-service/manage-service.component";
+import { MonitorServiceComponent } from "./views/services/sotn-management/monitor-service/monitor-service.component";
+import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
+import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
 
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
 }
 
-import { AppRoutingModule } from "./app-routing.module";
 
-//Registered language pack
-import { registerLocaleData } from "@angular/common";
-import en from "@angular/common/locales/en";
 registerLocaleData(en);
 
-//Custom component
-import { AppComponent } from "./app.component";
-import { HomeComponent } from "./views/home/home.component";
-import { ManagementComponent } from "./views/management/management.component";
-import { ServicesListComponent } from "./views/services/services-list/services-list.component";
-import { OnboardVnfVmComponent } from "./views/onboard-vnf-vm/onboard-vnf-vm.component";
-import { AlarmComponent } from "./views/alarm/alarm.component";
-import { PerformanceComponent } from "./views/performance/performance.component";
-import { PerformanceVnfComponent } from "./views/performance/performance-vnf/performance-vnf.component";
-import { PerformanceVmComponent } from "./views/performance/performance-vm/performance-vm.component";
-import { CcvpnNetworkComponent } from "./views/network/ccvpn-network/ccvpn-network.component";
-import { CcvpnDetailComponent } from "./views/services/services-list/ccvpn-detail/ccvpn-detail.component";
-import { CcvpnCreationComponent } from "./views/services/services-list/ccvpn-creation/ccvpn-creation.component";
-import { MdonsDetailComponent } from "./views/services/services-list/mdons-detail/mdons-detail.component";
-import { MdonsCreationComponent } from "./views/services/services-list/mdons-creation/mdons-creation.component";
-import { MdonsNetworkComponent } from "./views/network/mdons-network/mdons-network.component";
 
-import { DetailsComponent } from "./shared/components/details/details.component";
-import { GraphiclistComponent } from "./shared/components/graphiclist/graphiclist.component";
-import { E2eCreationComponent } from "./views/services/services-list/e2e-creation/e2e-creation.component";
 
-import { BarComponent } from "./shared/components/charts/bar/bar.component";
-import { LineComponent } from "./shared/components/charts/line/line.component";
-import { PieComponent } from "./shared/components/charts/pie/pie.component";
 
-import {
-	PathLocationStrategy,
-	LocationStrategy,
-	HashLocationStrategy,
-} from "@angular/common";
-// common function util
-import { Util } from "./shared/utils/utils";
-import { Recorder} from './shared/utils/recorder';
-// common function http
-import { Http } from "./shared/utils/http";
-// Custom service
-import { ServiceListService } from "./core/services/serviceList.service";
-import { HomesService } from "./core/services/homes.service";
-import { onboardService } from "./core/services/onboard.service";
-import { networkHttpservice } from "./core/services/networkHttpservice.service";
-// slicingTask service
-import { SlicingTaskServices } from "./core/services/slicingTaskServices";
 
-import { PerformanceDetailsComponent } from "./shared/components/performance-details/performance-details.component";
-import { E2eDetailComponent } from "./views/services/services-list/e2e-detail/e2e-detail.component";
-import { CustomerComponent } from "./views/management/customer/customer.component";
-import { ManagemencsService } from "./core/services/managemencs.service";
-import { FcapsComponent } from "./views/fcaps/fcaps.component";
-import { TestComponent } from "./test/test.component";
-import { TextService } from "./core/services/text.service";
-import { TopCardComponent } from "./views/services/services-list/top-card/top-card.component";
-import { CreateModelComponent } from "./views/services/services-list/create-model/create-model.component";
-import { DeleteModelComponent } from "./views/services/services-list/delete-model/delete-model.component";
-import { NotificationComponent } from "./shared/components/notification/notification.component";
-import { ScaleModelComponent } from "./views/services/services-list/scale-model/scale-model.component";
-import { HealModelComponent } from "./views/services/services-list/heal-model/heal-model.component";
-import { Monitor5gComponent } from "./views/fcaps/monitor-5g/monitor-5g.component";
-import { SlicingManagementComponent } from "./views/services/slicing-management/slicing-management.component";
-import { SlicingTaskManagementComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-management.component";
-import { SlicingResourceManagementComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-resource-management.component";
-import { SlicingTaskModelComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-model/slicing-task-model.component";
-import { SubnetParamsModelComponent } from "./views/services/slicing-management/slicing-task-management/slicing-task-model/subnet-params-model/subnet-params-model.component";
-import { SlicingBusinessTableComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-table/slicing-business-table.component";
-import { BasicInfoComponent } from "./shared/components/basic-info/basic-info.component";
-import { CheckProcessModelComponent } from "./views/services/slicing-management/slicing-task-management/check-process-model/check-process-model.component";
-import { NsiTableComponent } from "./views/services/slicing-management/slicing-resource-management/nsi-management/nsi-table/nsi-table.component";
-import { NssiTableComponent } from "./views/services/slicing-management/slicing-resource-management/nssi-management/nssi-table/nssi-table.component";
-import { SlicingBusinessModelComponent } from "./views/services/slicing-management/slicing-resource-management/slicing-business-management/slicing-business-model/slicing-business-model.component";
-import { NsiModelComponent } from "./views/services/slicing-management/slicing-resource-management/nsi-management/nsi-model/nsi-model.component";
-import { NssiModelComponent } from "./views/services/slicing-management/slicing-resource-management/nssi-management/nssi-model/nssi-model.component";
-import { CsmfSlicingBusinessManagementComponent } from "./views/services/slicing-management/csmf-slicing-business-management/csmf-slicing-business-management.component";
-import { BusinessOrderComponent } from "./views/services/slicing-management/csmf-slicing-business-management/business-order/business-order.component";
-import { InputBusinessOrderComponent } from './views/services/slicing-management/csmf-slicing-business-management/input-business-order/input-business-order.component';
-import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
-import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
-import { ManageServiceComponent } from "./views/services/sotn-management/manage-service/manage-service.component";
-import { MonitorServiceComponent } from "./views/services/sotn-management/monitor-service/monitor-service.component";
-import { fakeBackendProvider } from "../../testBE/FakeBackendInterceptor";
-import { CitySelectComponent } from "./shared/components/city-select/city-select/city-select.component";
 
 @NgModule({
 	providers: [
@@ -129,6 +128,7 @@ import { CitySelectComponent } from "./shared/components/city-select/city-select
 		ServiceListService,
 		HomesService,
 		onboardService,
+    intentBaseService,
 		networkHttpservice,
 		ManagemencsService,
 		TextService,
@@ -141,6 +141,7 @@ import { CitySelectComponent } from "./shared/components/city-select/city-select
 		ManagementComponent,
 		ServicesListComponent,
 		OnboardVnfVmComponent,
+    NlpUploadDialogComponent,
 
 		AlarmComponent,
 
@@ -169,6 +170,12 @@ import { CitySelectComponent } from "./shared/components/city-select/city-select
 		ScaleModelComponent,
 		HealModelComponent,
 		Monitor5gComponent,
+    MonitorManagementService,
+    MonitorFacpsServiceComponent,
+    IntentBasedServicesComponent,
+    CloudLeasedLineComponent,
+    CloudLeasedLineModalComponent,
+    SmartCloudLeasedModalComponent,
 		SlicingManagementComponent,
 		SlicingTaskManagementComponent,
 		SlicingResourceManagementComponent,
