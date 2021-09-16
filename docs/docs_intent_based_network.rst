@@ -53,7 +53,14 @@ NLP Server
 Three NLP algorithms are considered to be applied in current solutions: 
 - BERT (Bidirectional Encoder Representations from Transformers)：developed by researchers at Google AI Language. It has caused a stir in the Machine Learning community by presenting state-of-the-art results in a wide variety of NLP tasks. BERT’s key technical innovation is applying the bidirectional training of Transformer, a popular attention model, to language modelling.
 
+Scope of Istanbul release
+-----------------------
+The scope for Istanbul developed in AAI focuses on Intent Instance Management 
 
+The storage and management of AAI-based Intent Instance are realized in the R9 version.
+Intent Instance is created to save the users' real-time intent (network parameters) and connected service ID (CCNVPN service ID / E2E Slicing customer service intent ID) in AAI.
+ 
+The user's intent is stored from the UUI or SO to the intent instance in the AAI, and then DCAE calls the intent instance in the AAI through the interface.
 
 Impacted Modules for Honolulu
 ---------------------------
@@ -68,6 +75,9 @@ the natural language, which then sends the user input to the IBN component and d
 the response information to the user.  This process can be repeated several times 
 until the dialog completes and a new Intent is formed in the IBN component.
 
+Target of R9: support multiple usecase services, so it is not a sub-node of any usecase in AAI. 
+
+The IBN will be expect to provide unawares service to users. Multiple usecases services could be changed by IBN instead of the users, so it should be an independent node in AAI.
 
 
 Functional Test Cases
