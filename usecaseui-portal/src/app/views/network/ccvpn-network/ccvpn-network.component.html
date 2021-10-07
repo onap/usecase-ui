@@ -1,5 +1,6 @@
 <!--
     Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2022 Huawei Canada Limited. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -21,36 +22,46 @@
         <i class="icon">
             <img src="assets/images/service-type.png"alt="">
         </i>
-        {{"i18nTextDefine_Connectivity" | translate}} :
+        {{"i18nTextDefine_CCVPNLayer" | translate}} :
     </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-      <button nz-button nz-dropdown><span>{{connectivitySelected.name}}</span> <i class="anticon anticon-down"></i>
+      <button nz-button nz-dropdown><span>{{layerSelected.name}}</span> <i class="anticon anticon-down"></i>
       </button>
       <ul nz-menu>
-        <li nz-menu-item (click)="choseConnectivity(item)" *ngFor="let item of connectivityList">
+        <li nz-menu-item (click)="changeLayer(item)" *ngFor="let item of layerList">
           <a title="{{item.name}}">{{item.name}}</a>
         </li>
       </ul>
     </nz-dropdown>
 
+    <span>
+        <i class="icon">
+            <img src="assets/images/service-type.png"alt="">
+        </i>
+        {{"i18nTextDefine_CCVPNService" | translate}} :
+    </span>
+    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
+      <button nz-button nz-dropdown><span>{{serviceSelected}}</span> <i class="anticon anticon-down"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="chooseService(svcInstId)" *ngFor="let svcInstId of getKeys(servicesMap)">
+          <a title="{{svcInstId}}">{{svcInstId}}</a>
+        </li>
+      </ul>
+    </nz-dropdown>
 <!--    <button class="create" nz-button [nzType]="'primary'" (click)="createModal()">
       <i *ngIf="width>1200" class="anticon anticon-plus"></i>
       <span> {{"i18nTextDefine_Create" | translate}} </span>
     </button>-->
   </div>
 
-  <h2 *ngIf="!nonetwork" [ngClass]="{'title-modelshow':isVisible == true}">
+  <!-- <h2 *ngIf="!nonetwork" [ngClass]="{'title-modelshow':isVisible == true}">
     Please configure network links for registered devices and partner system.
-  </h2>
-  <h3  [ngClass]="{'title-modelshow':isVisible == true}">
-    Service Instances:
-  </h3>
-  <div id="svcContainer" style="overflow: hidden;">
-  </div>
+  </h2> -->
   <h3  [ngClass]="{'title-modelshow':isVisible == true}">
     Network Topology:
   </h3>
-  <div id="tpContainer" style="overflow: hidden;">
+  <div #tpContainer id="tpContainer" style="overflow: hidden;">
     <div *ngIf="nonetwork" style="padding: 20px">
       <h2>
         There is not any terminal device can be used for configuration
@@ -65,6 +76,61 @@
       <p>No network available</p>
     </div>
   </div>
+  <div class="slicing-resource-table">
+    <div class="slicing-resource-table-list">
+      <nz-table
+              #basicTable
+              [nzData]="getValues(servicesMap)"
+              [nzFrontPagination]="false"
+              nzShowSizeChanger
+              [nzPageSizeOptions]="[6,8,10]"
+              [nzTotal]='total'
+              [(nzPageSize)]="pageSize"
+              [(nzPageIndex)]='pageIndex'
+              [nzLoading]="loading"
+              (nzPageIndexChange)="searchData()"
+              (nzPageSizeChange)="searchData(true)"
+      >
+        <thead>
+        <tr>
+          <th>Service Instance Id</th>
+          <th>Service Type</th>
+          <th>VLAN</th>
+          <th>Bandwidth</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+          <tr>
+            <td>{{ data.id }}</td>
+            <td>Cloud Lease Line</td>
+            <td>{{ data.vlan }}</td>
+            <td>{{ data.bw }}</td>
+            <td>
+              Activated
+            </td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+  <!--<div #tableContainer id="tableContainer" style="overflow: hidden;">
+    <div *ngIf="nonetwork" style="padding: 20px">
+      <h2>
+        There is not any terminal device can be used for configuration
+      </h2>
+      <br>
+      <h2>
+        please register external network into ONAP.
+      </h2>
+    </div>
+    <div class="no-network" *ngIf="nonetwork">
+      <img src="assets/images/no-network-available.png" alt="No network available">
+      <p>No network available</p>
+    </div>
+  </div> -->
   <!--Popup-->
   <div class="creation" id="d3_form" *ngIf="isVisible==true">
     <span class="v_color"></span>

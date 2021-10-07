@@ -1,0 +1,45 @@
+{
+  "network-policy-id": "933dacc1-56e0-4b94-8808-4d099ebc4de5",
+  "network-policy-fqdn": "cll-101",
+  "resource-version": "1642347889712",
+  "name": "TSCi policy",
+  "type": "SLA",
+  "latency": 2,
+  "max-bandwidth": 3000,
+  "relationship-list": {
+    "relationship": [
+      {
+        "related-to": "allotted-resource",
+        "relationship-label": "org.onap.relationships.inventory.Uses",
+        "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101/allotted-resources/allotted-resource/cll-101-network-001",
+        "relationship-data": [
+          {
+            "relationship-key": "customer.global-customer-id",
+            "relationship-value": "IBNCustomer"
+          },
+          {
+            "relationship-key": "service-subscription.service-type",
+            "relationship-value": "IBN"
+          },
+          {
+            "relationship-key": "service-instance.service-instance-id",
+            "relationship-value": "cll-101"
+          },
+          {
+            "relationship-key": "allotted-resource.id",
+            "relationship-value": "cll-101-network-001"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "allotted-resource.description"
+          },
+          {
+            "property-key": "allotted-resource.allotted-resource-name",
+            "property-value": "network_cll-101-network-001"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 /*
     Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2022 Huawei Canada Limited. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -40,7 +41,9 @@ export class networkHttpservice {
         "createCloudLink": this.baseUrl+"/uui-sotn/createLink/",
         "createCloudUrl": this.baseUrl+"/uui-sotn/createHostUrl/",
         "deleteLink": this.baseUrl+"/uui-sotn/deleteLink/",
-        "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivityInfo",
+        "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivities",
+        "getNetworkRoutes": this.baseUrl + "/uui-sotn/getNetworkRoutes",
+
 
     };
 
@@ -85,6 +88,9 @@ export class networkHttpservice {
 
     getConnectivities(){
         return this.http.get<any>(this.url["getConnectivities"]);
+    }
+    getNetworkRoutes(){
+        return this.http.get<any>(this.url["getNetworkRoutes"]);
     }
 
     //Create an external cloud newwork interface

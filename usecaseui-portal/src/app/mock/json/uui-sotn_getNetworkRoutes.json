@@ -1,0 +1,100 @@
+{
+  "network-route": [
+    {
+      "route-id": "tranportEp_src_ID_111_2_b",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "47",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-2000001",
+      "address-family": "ipv4",
+      "resource-version": "1639531193721"
+    },
+    {
+      "route-id": "tranportEp_dst_ID_213_1",
+      "type": "ROOT",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "58",
+      "next-hop": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.3-ltpId-512",
+      "address-family": "ipv4",
+      "resource-version": "1639671964193"
+    },
+    {
+      "route-id": "tranportEp_src_ID_111_1",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "47",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001",
+      "address-family": "ipv4",
+      "resource-version": "1638832222138"
+    },
+    {
+      "route-id": "tranportEp_src_ID_113_1",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "47",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001",
+      "address-family": "ipv4",
+      "resource-version": "1638832227889"
+    },
+    {
+      "route-id": "tranportEp_src_ID_113_1_b",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "58",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001",
+      "address-family": "ipv4",
+      "resource-version": "1639531171688"
+    },
+    {
+      "route-id": "tranportEp_src_ID_111_1_b",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "58",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001",
+      "address-family": "ipv4",
+      "resource-version": "1639531188572"
+    },
+    {
+      "route-id": "tranportEp_dst_ID_212_1",
+      "type": "ROOT",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "47",
+      "next-hop": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512",
+      "address-family": "ipv4",
+      "resource-version": "1638832188801"
+    },
+    {
+      "route-id": "tranportEp_src_ID_111_2",
+      "type": "LEAF",
+      "role": "3gppTransportEP",
+      "function": "3gppTransportEP",
+      "ip-address": "10.2.3.4",
+      "prefix-length": 24,
+      "logical-interface-id": "47",
+      "next-hop": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-2000001",
+      "address-family": "ipv4",
+      "resource-version": "1639764290900"
+    }
+  ]
+}

@@ -23,7 +23,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { EventQueueService } from "@src/app/core/services/eventQueue.service";
 import { en_US, NgZorroAntdModule, NZ_I18N } from "ng-zorro-antd";
 import { NgxEchartsModule } from "ngx-echarts";
 import { AppRoutingModule } from "./app-routing.module";
@@ -135,7 +134,6 @@ registerLocaleData(en);
 		ManagemencsService,
 		TextService,
 		SlicingTaskServices,
-		EventQueueService,
 		// fakeBackendProvider
 	],
 	declarations: [

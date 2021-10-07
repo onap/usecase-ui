@@ -1,0 +1,40 @@
+{
+  "vpn-binding": [
+    {
+      "vpn-id": "f9097e3d-3578-44cf-a0cd-e41c36d6d2ad",
+      "vpn-name": "eb884038-da90-4c69-b35b-77af51e7ba72",
+      "vpn-platform": "rocks",
+      "vpn-region": "http://192.168.198.6:28181",
+      "customer-vpn-id": "4",
+      "route-distinguisher": "6",
+      "access-provider-id": "20",
+      "access-client-id": "0",
+      "access-topology-id": "1",
+      "src-access-node-id": "10.2.1.3",
+      "src-access-ltp-id": "MTI=",
+      "dst-access-node-id": "10.2.1.2",
+      "operational-status": "Activated",
+      "resource-version": "1642347908632",
+      "vpn-description": "onos",
+      "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+    },
+    {
+      "vpn-id": "56de3da0-bed1-4ecc-af22-39bc03c19dc0",
+      "vpn-name": "eb884038-da90-4c69-b35b-77af51e7ba72",
+      "vpn-platform": "rocks",
+      "vpn-region": "http://192.168.198.6:18181",
+      "customer-vpn-id": "4",
+      "route-distinguisher": "6",
+      "access-provider-id": "10",
+      "access-client-id": "0",
+      "access-topology-id": "1",
+      "src-access-node-id": "10.1.1.1",
+      "dst-access-node-id": "10.1.1.3",
+      "dst-access-ltp-id": "OA==",
+      "operational-status": "Activated",
+      "resource-version": "1642347908997",
+      "vpn-description": "onos",
+      "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1"
+    }
+  ]
+}
