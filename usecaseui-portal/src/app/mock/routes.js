@@ -63,6 +63,8 @@ module.exports = {
 		"/uui-lcm_services_updateService",
 	"/uui-sotn/getPnfInfo/:name": "/uui-sotn_getPnfInfo",
 	"/uui-sotn/getConnectivityInfo/:id": "/uui-sotn_getConnectivityInfo",
+	"/uui-sotn/getConnectivities": "/uui-sotn_getConnectivities",
+	"/uui-sotn/getNetworkRouteByRouteId/:id" : "/:id",
 	"/uui-sotn/getPinterfaceByVpnId/:id": "/uui-sotn_getPinterfaceByVpnId",
 	"/POST/uui-lcm/healNetworkServiceInstance?ns_instance_id=:ns_instance_id":
 		"/uui-lcm_healNetworkServiceInstance",

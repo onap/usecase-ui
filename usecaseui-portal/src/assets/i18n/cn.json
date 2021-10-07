@@ -154,6 +154,8 @@
   "i18nTextDefine_HostUrl": "主机网址",
   "i18nTextDefine_deleteLink": "删除链接",
   "i18nTextDefine_Connectivty": "L3业务实例",
+  "i18nTextDefine_CCVPNLayer": "网络层",
+  "i18nTextDefine_CCVPNService": "业务名",
 
   "sotn-component": "--:",
   "i18nTextDefine_subscriptionType": "订购类型",

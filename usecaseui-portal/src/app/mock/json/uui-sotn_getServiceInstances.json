@@ -1,0 +1,129 @@
+{
+  "service-instance-id": "cll-101",
+  "service-instance-name": "cloud-leased-line-101",
+  "service-type": "CLL",
+  "service-role": "cll",
+  "environment-context": "cll",
+  "model-invariant-id": "6790ab0e-034f-11eb-adc1-0242ac120002",
+  "model-version-id": "6790ab0e-034f-11eb-adc1-0242ac120002",
+  "resource-version": "1642347911420",
+  "orchestration-status": "created",
+  "relationship-list": {
+    "relationship": [
+      {
+        "related-to": "connectivity",
+        "relationship-label": "org.onap.relationships.inventory.PartOf",
+        "related-link": "/aai/v24/network/connectivities/connectivity/edffb684-fad8-4b61-bc50-e7b80edbfcca",
+        "relationship-data": [
+          {
+            "relationship-key": "connectivity.connectivity-id",
+            "relationship-value": "edffb684-fad8-4b61-bc50-e7b80edbfcca"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "connectivity.etht-svc-name",
+            "property-value": "cll-link-3"
+          }
+        ]
+      },
+      {
+        "related-to": "connectivity",
+        "relationship-label": "org.onap.relationships.inventory.PartOf",
+        "related-link": "/aai/v24/network/connectivities/connectivity/0af5ed1f-f224-46a9-8ef6-5d085bd44959",
+        "relationship-data": [
+          {
+            "relationship-key": "connectivity.connectivity-id",
+            "relationship-value": "0af5ed1f-f224-46a9-8ef6-5d085bd44959"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "connectivity.etht-svc-name",
+            "property-value": "cll-link-3"
+          }
+        ]
+      },
+      {
+        "related-to": "connectivity",
+        "relationship-label": "org.onap.relationships.inventory.PartOf",
+        "related-link": "/aai/v24/network/connectivities/connectivity/74279c52-3c66-4769-b90c-5b3f7599ec97",
+        "relationship-data": [
+          {
+            "relationship-key": "connectivity.connectivity-id",
+            "relationship-value": "74279c52-3c66-4769-b90c-5b3f7599ec97"
+          }
+        ],
+        "related-to-property": [
+          {
+            "property-key": "connectivity.etht-svc-name",
+            "property-value": "cll-link-3"
+          }
+        ]
+      }
+    ]
+  },
+  "allotted-resources": {
+    "allotted-resource": [
+      {
+        "id": "cll-101-network-001",
+        "resource-version": "1642347907298",
+        "type": "TsciNetwork",
+        "allotted-resource-name": "network_cll-101-network-001",
+        "relationship-list": {
+          "relationship": [
+            {
+              "related-to": "logical-link",
+              "relationship-label": "org.onap.relationships.inventory.ComposedOf",
+              "related-link": "/aai/v24/network/logical-links/logical-link/tranportEp_src_ID_111_2",
+              "relationship-data": [
+                {
+                  "relationship-key": "logical-link.link-name",
+                  "relationship-value": "tranportEp_src_ID_111_2"
+                }
+              ],
+              "related-to-property": [
+                {
+                  "property-key": "logical-link.link-description"
+                }
+              ]
+            },
+            {
+              "related-to": "logical-link",
+              "relationship-label": "org.onap.relationships.inventory.ComposedOf",
+              "related-link": "/aai/v24/network/logical-links/logical-link/tranportEp_src_ID_111_1",
+              "relationship-data": [
+                {
+                  "relationship-key": "logical-link.link-name",
+                  "relationship-value": "tranportEp_src_ID_111_1"
+                }
+              ],
+              "related-to-property": [
+                {
+                  "property-key": "logical-link.link-description"
+                }
+              ]
+            },
+            {
+              "related-to": "network-policy",
+              "relationship-label": "org.onap.relationships.inventory.Uses",
+              "related-link": "/aai/v24/network/network-policies/network-policy/933dacc1-56e0-4b94-8808-4d099ebc4de5",
+              "relationship-data": [
+                {
+                  "relationship-key": "network-policy.network-policy-id",
+                  "relationship-value": "933dacc1-56e0-4b94-8808-4d099ebc4de5"
+                }
+              ],
+              "related-to-property": [
+                {
+                  "property-key": "network-policy.network-policy-fqdn",
+                  "property-value": "cll-101"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

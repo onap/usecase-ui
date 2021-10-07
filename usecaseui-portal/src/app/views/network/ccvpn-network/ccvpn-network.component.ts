@@ -1,5 +1,6 @@
 /*
     Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+    Copyright (C) 2022 Huawei Canada Limited. All rights reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,13 +14,46 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3'
 import * as $ from 'jquery';
 import {networkHttpservice} from '../../../core/services/networkHttpservice.service';
-import {EventQueueService} from "../../../core/services/eventQueue.service";
-import {AppEvent} from "@src/app/core/services/appEvent";
-import {AppEventType} from "@src/app/core/services/appEventType";
+
+// Customizable colors for edge, domain, node and font
+const DOMAIN_COLOR = 'lightcyan'
+const NODE_COLOR = 'DeepSkyBlue'
+const CE_COLOR = 'Gray'
+const FONT_COLOR = 'Navy'
+const TITLE_COLOR = '#0da9e2' //'linear-gradient(90deg, #07a9e1 0%, #30d9c4 100%)'
+
+// Customizable colors for endpoint CRUD status
+const EP_COLOR_MAP = new Map([
+    ['create', 'RoyalBlue'],
+    ['retrieve', 'ForestGreen'],
+    ['update', 'orange'],
+    ['delete', 'red'],
+])
+
+enum NodePosition {
+  L2_NODE_POS = 'l2_node_pos',
+}
+
+declare var mxGraph: any;
+declare var mxCell: any;
+declare var mxHierarchicalLayout: any;
+declare var mxRubberband: any;
+declare var mxKeyHandler: any;
+declare var mxConstants: any;
+declare var mxCellRenderer: any;
+declare var mxVertexHandler: any;
+declare var mxGraphHandler: any;
+declare var mxGraphSelectionModel: any;
+declare var mxFastOrganicLayout: any;
+declare var mxStackLayout: any;
+declare var mxParallelEdgeLayout: any;
+declare var mxPerimeter: any;
+declare var mxEdgeStyle: any;
+declare var mxAbstractCanvas2D: any;
 
 @Component({
     selector: 'app-ccvpn-network',
@@ -28,63 +62,305 @@ import {AppEventType} from "@src/app/core/services/appEventType";
 })
 export class CcvpnNetworkComponent implements OnInit {
 
-   constructor(private myhttp: networkHttpservice,
-                private eventDispatcher: EventQueueService) {
-    }
+    @ViewChild('tpContainer') graphContainer: ElementRef;
+    @ViewChild('tableContainer') tableContainer: ElementRef;
+
+    constructor(private myhttp: networkHttpservice) {}
 
     ngOnInit() {
+    }
+
+    reqNumber = 0
+    controllers = []
+    onap = {}
+    domainMap = new Map<any, any>()
+    enniMap = new Map()
+    sliceMap = new Map()
+    tunnelsMap = new Map()
+    e2eTunnels = []
+    e2eTunnelMap = new Map()
+    servicesMap = new Map()
+    e2eServices = []
+    e2eServiceMap = new Map()
+    defBandwidth = 1
+    currentLayer = 1
+    currentCloud = ''
+    currentSlice = 'Physical'
+    isNodeName = true
+    isMoreLabels = true
+    storage = window.localStorage
+
+    graph = null;
+    gLayers = [];
+    graphScale = 1;
+    tunnelTable = null;
+    serviceTable = null;
+    edgeLayout = null;
+    organicLayout = null;
+    stackLayout = null;
+
+    // Constants
+    readonly DOMAIN_STYLE = 'fillColor=' + DOMAIN_COLOR + ';shape=rectangle;strokeColor=none;gradientColor=none;' +
+            'verticalLabelPosition=top;verticalAlign=bottom;autosize=1;resizable=1;rounded=1;opacity=50;fontStyle=1';
+    readonly CPE_STYLE = 'fillColor=' + CE_COLOR + ';shape=rectangle;rounded=1';
+    readonly CLOUD_STYLE = 'fillColor=' + CE_COLOR + ';shape=cloud';
+    readonly LINK_STYLE = 'strokeWidth=3;edgeStyle=null'
+    readonly UNI_LINK_STYLE = 'strokeWidth=2;edgeStyle=null;strokeColor=' + CE_COLOR
+    readonly TUNNEL_STYLE = 'strokeWidth=2;curved=1'
+    readonly SERVICE_STYLE = 'strokeWidth=1;curved=1'
+
+    ngAfterViewInit() {
         let thisNg = this;
-        this.isSpinning = true;
-        this.myhttp.getConnectivities()
-            .subscribe((data) => {
-                if(data){
-                    for (let conn of data["connectivity"]) {
-                        if (conn["vpn-type"] === "mdsc"){
-                            this.connectivityList.push({ "name": conn["connectivity-id"],
-                                                        "id": conn["connectivity-id"],
-                                                        "relationship-list" : conn["relationship-list"]
-                            });
+        this.graph = new mxGraph(this.graphContainer.nativeElement);
+        this.graph.setPanning(true)
+        this.graph.setTooltips(true)
+        this.graph.setHtmlLabels(true)
+        this.graph.cellsDisconnectable = false
+        this.graph.cellsEditable = false
+        this.graph.cellsCloneable = false
+        this.graph.foldingEnabled = false
+        this.graph.edgeLabelsMovable = false
+        this.graph.autoExtend = false
+        this.graph.gridEnabled = false
+        this.graph.model.maintainEdgeParent = false;
+        this.graphScale = 1;
+
+        new mxRubberband(this.graph);
+        new mxKeyHandler(this.graph);
+        //mxLog.show = () => { }
+        mxConstants.VERTEX_SELECTION_STROKEWIDTH = 1
+        mxConstants.EDGE_SELECTION_STROKEWIDTH = 5
+        // mxConstants.EDGE_SELECTION_DASHED = false
+        mxConstants.LOCKED_HANDLE_FILLCOLOR = 'none'
+        mxConstants.HANDLE_STROKECOLOR = 'none'
+        mxConstants.INVALID_COLOR = '#000000'
+        // Keeps the font sizes independent of the scale
+        mxCellRenderer.prototype.getTextScale = function (state) {
+            return 1
+        }
+        mxVertexHandler.prototype.constrainGroupByChildren = true
+        mxGraphHandler.prototype.maxLivePreview = 16
+        mxGraphHandler.prototype.removeCellsFromParent = false
+        mxGraphHandler.prototype.isPropagateSelectionCell =
+            function (cell, immediate, me) {
+                return false
+            }
+        const CELL_ADDED = mxGraphSelectionModel.prototype.cellAdded
+        mxGraphSelectionModel.prototype.cellAdded = function (cell) {
+            CELL_ADDED.call(this, cell)
+            if (cell.isEdge()) this.addCells([cell.source, cell.target])
+        }
+        const CELL_REMOVED = mxGraphSelectionModel.prototype.cellRemoved
+        mxGraphSelectionModel.prototype.cellRemoved = function (cell) {
+            CELL_REMOVED.call(this, cell)
+            if (cell.isVertex()) {
+                this.removeCells(cell.edges)
+            }
+        }
+
+        // Creates a layout algorithm to be used with the graph
+        this.organicLayout = new mxFastOrganicLayout(this.graph);
+        // Moves stuff wider apart than usual 50
+        this.organicLayout.forceConstant = 80;
+        this.stackLayout = new mxStackLayout(this.graph)
+        this.edgeLayout = new mxParallelEdgeLayout(this.graph)
+        this.edgeLayout.spacing = 15
+
+        // Sets default vertex style
+        this.setObjValues(this.graph.stylesheet.getDefaultVertexStyle(), {
+            STYLE_SHAPE: mxConstants.SHAPE_ELLIPSE,
+            STYLE_PERIMETER: mxPerimeter.EllipsePerimeter,
+            STYLE_FILLCOLOR: NODE_COLOR,
+            STYLE_GRADIENTCOLOR: 'white',
+            STYLE_STROKECOLOR: '#1B78C8',
+            STYLE_FONTCOLOR: FONT_COLOR,
+            STYLE_FONTSIZE: '14',
+            STYLE_VERTICAL_LABEL_POSITION: 'bottom',
+            STYLE_VERTICAL_ALIGN: 'top',
+            STYLE_RESIZABLE: '0',
+        }, mxConstants)
+
+        // Sets default edge style
+        this.setObjValues(this.graph.stylesheet.getDefaultEdgeStyle(), {
+            STYLE_FONTCOLOR: 'black',
+            STYLE_FONTSIZE: '14',
+            STYLE_STROKECOLOR: 'black',
+            STYLE_EDGE: mxEdgeStyle.TopToBottom,
+            STYLE_ENDARROW: 'none',
+            STYLE_LABEL_BACKGROUNDCOLOR: 'white',
+            STYLE_TEXT_OPACITY: '70',
+        }, mxConstants)
+
+        // Gets label from custom user object
+        // TODO:
+        this.graph.convertValueToString = function (cell) {
+            if (cell.isEdge() && !cell.value.uni && !this.isMoreLabels) return ''
+            return (cell.value && cell.value.label) ? cell.value.label : '';
+        }
+
+        // Installs a custom tooltip for cells
+        this.graph.getTooltipForCell = function (cell) {
+            let tooltip = ''
+            for (let key of Object.keys(cell.value).sort()) {
+                if (key === 'label' || cell.value[key] === '' || key[0] == '$' ||
+                    !thisNg.isBasicType(cell.value[key])) continue
+                tooltip += '<b>' + key + ': </b>' + cell.value[key] + '\n'
+            }
+            return tooltip
+        }
+
+        // Installs a popupmenu handler.
+        this.graph.popupMenuHandler.factoryMethod = this.createPopupMenu
+        document.body.onmousedown = function () {
+            let popupMenu = document.body.getElementsByClassName('mxPopupMenu')
+            if (popupMenu.length) document.body.removeChild(popupMenu[0])
+        }
+
+        var dragStatus = 0
+        // Listen to the Mouseup event to update table and json data view
+        this.graph.addMouseListener({
+            mouseDown: function (sender, evt) {
+                dragStatus = 1
+            },
+            mouseMove: function (sender, evt) {
+                if (dragStatus == 1) dragStatus = 2
+            },
+            mouseUp: function (sender, evt) {
+                if (dragStatus == 2) {
+                    if (sender.getSelectionCount() >= 1) {
+                        this.clientNodeLabelLayout()
+                    }
+                }
+                dragStatus = 0
+
+                this.deselectTableRow()
+                let cell = null
+                if (!evt.evt.defaultPrevented) {
+                    if (!evt.state) return
+                    else cell = evt.state.cell
+                } else {
+                    if (sender.getSelectionCount() == 1) {
+                        cell = sender.getSelectionCell()
+                    } else if (sender.getSelectionCount() == 3) {
+                        for (let item of sender.getSelectionCells()) {
+                            if (item.isEdge()) {
+                                if (!cell) cell = item
+                                else {
+                                    cell = null;
+                                    break
+                                }
+                            }
                         }
                     }
-                    if (this.connectivityList.length !== 0) {
-                        this.connectivitySelected = this.connectivityList[0];
-                        this.choseConnectivity(this.connectivitySelected);
-
-                    };
                 }
-            },
-                 (err) => {
-                     console.log(err);
-                 });
+                if (!cell || !cell.value) {
+                    return
+                }
+                let obj = null
+                if (obj = cell.value.controller) {
+                    this.showJsonData([obj], false)
+                } else if (obj = cell.value.node) {
+                    this.showJsonData(obj.uniSliceMap.get(this.currentSlice), false)
+                } else if (obj = cell.value.enni) {
+                    this.showJsonData([obj.data[0].link.data, obj.data[1].link.data], false)
+                } else if (obj = cell.value.inni) {
+                    this.showJsonData([obj.data[0].data, obj.data[1].data], false)
+                } else if (obj = cell.value.uni) {
+                    this.showJsonData(obj.data, false)
+                } else if (obj = cell.value.tunnel) {
+                    this.selectTableRow(cell.value.index)
+                    this.showJsonData(this.tunnelsMap.get(obj.name), false)
+                } else if (obj = cell.value.service) {
+                    this.selectTableRow(cell.value.index)
+                    this.showJsonData(this.servicesMap.get(obj.name), false)
+                }
+            }
+        })
+
+        this.isSpinning = true;
+        let reqCount = 0;
+
+        reqCount++;
         this.myhttp.getLogicalLinksData()
             .subscribe((data) => {
                     if (data) {
-                        for (let ll of data["logical-link"]){
-                            // Filter layer1 logical link
-                            //if (ll["relationship-list"] !== undefined &&
-                            //    ll["relationship-list"]["relationship"].length) {
+                        for (let ll of data["logical-link"]) {
                             thisNg.logicalLinks.push(ll);
-                            //}
                         }
-                        let tpMapping = thisNg.getPnfTpMapping(thisNg.logicalLinks);
-
-                        let links = thisNg.getLinks( thisNg.logicalLinks, tpMapping);
-                        let tps = thisNg.getNodes(tpMapping);
-                        console.log(links);
-                        console.log(tps);
-
-                        thisNg.drawTopo(tps, links);
-
                     }
-                    this.isSpinning = false;
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
                 },
                 (err) => {
                     console.log(err);
-                })
+            })
+
+        reqCount++;
+        this.myhttp.getPnfsData()
+            .subscribe((data) => {
+                    if (data) {
+                        for (let ll of data["pnf"]) {
+                            thisNg.pnfs.push(ll);
+                        }
+                    }
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
+                },
+                (err) => {
+                    console.log(err);
+            })
+
+        reqCount++;
+        this.myhttp.getConnectivities()
+            .subscribe((data) => {
+                    if (data) {
+                        for (let ll of data["connectivity"]) {
+                            thisNg.connectivities.push(ll);
+                        }
+                    }
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
+                },
+                (err) => {
+                    console.log(err);
+            })
+
+        reqCount++;
+        this.myhttp.getNetworkRoutes()
+            .subscribe((data) => {
+                    if (data) {
+                        for (let ll of data["network-route"]) {
+                            thisNg.networkroutes.push(ll);
+                        }
+                    }
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
+                },
+                (err) => {
+                    console.log(err);
+            })
     }
 
     connectivityList = [];
-    connectivitySelected = { name: null, id: null };
+    connectivitySelected = {name: null, id: null};
+    serviceGraphModel: { [k: string]: any } = {};
+
+    layerList = [
+                { value: 3, name: 'Service layer' },
+                { value: 2, name: 'Tunnel layer' },
+                { value: 1, name: 'Link layer' }]
+    layerSelected = { value: 1, name: 'Link layer' }
+    serviceList = [];
+    serviceSelected = '';
+
 
     addLinkDisabled = true;
     nonetwork = false;
@@ -95,10 +371,14 @@ export class CcvpnNetworkComponent implements OnInit {
     isSpinning = true;
 
     pnfs = [];
+    logicalLinks = [];//logicalLinks Existing connection data returned by the interface
+    connectivities = [];
+    networkroutes = [];
+
     layer1Tps = [];
 
     d3Data = [];//D3Render the required data
-    logicalLinks = [];//logicalLinks Existing connection data returned by the interface
+
     linkName = null;//Linked name link-name
     networkOption = [];//Form network drop-down box filled data
     nodeOption1 = {};//Node drop-down box filled data
@@ -139,19 +419,8 @@ export class CcvpnNetworkComponent implements OnInit {
     charge = -300;
     SEPERATOR = '-';
 
-
-    imgMap = {
-        'pnf': 'assets/images/site.png',
-        'tp': 'assets/images/tp.png'
-    };
-
-    //### SELECTION - store the selected node ###
-    //### EDITING - store the drag mode (either 'drag' or 'add_link') ###
-    svcEditorGlobal = {
-        selection: null
-    }
     svcContainerOpt = {
-        containerId : "svcContainer",
+        containerId: "svcContainer",
         width: 1000,
         height: this.winHeight
     };
@@ -163,907 +432,990 @@ export class CcvpnNetworkComponent implements OnInit {
         height: this.winHeight
     };
 
-    /**
-     * Redraw the selected L2 ethernet service.
-     * @param {Array<object>} treeData parsed from AAI connectivity.
-     */
-    drawService(treeData) {
-        //Model of service graph
-        let graph = {
-            nodes: [
-            ],
-            links: [
-            ],
-            objectify: (function() {
-                /* resolve node IDs (not optimized at all!)
-                */
-                var l, n, _i, _len, _ref, _results;
-                _ref = graph.links;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    l = _ref[_i];
-                    _results.push((function() {
-                        var _j, _len2, _ref2, _results2;
-                        _ref2 = graph.nodes;
-                        _results2 = [];
-                        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-                            n = _ref2[_j];
-                            if (l.source === n.id) {
-                                l.source = n;
-                                continue;
-                            }
-                            if (l.target === n.id) {
-                                l.target = n;
-                                continue;
-                            } else {
-                                _results2.push(void 0);
+    finishNetworkView() {
+        this.updateTopoData();
+        console.log(this.domainMap);
+        this.finishSotnView();
+    }
+
+    updateTopoData(){
+        let thisNg = this;
+        // Update the network topo data
+        // Update node data
+        for (let pnf of thisNg.pnfs){
+            let pnfId = pnf["pnf-id"];
+            let arr = pnfId.split('.');
+            let domainId = arr[1];
+            let domain = thisNg.domainMap.get(domainId);
+            if (!domain){
+              let sotnDomain = {
+                  domainId : domainId,
+                  nodeMap: new Map<any, any>(),
+                  localLinkMap: new Map<any, any>(),
+                  inniMap: new Map<any, any>(),
+                  uniMap: new Map<any, any>(),
+                  clientNodeMap: new Map<any, any>()
+              }
+              thisNg.domainMap.set(domainId, sotnDomain);
+              domain = sotnDomain;
+            }
+            let node = {
+                id: pnfId,
+                name: pnfId
+            }
+            domain.nodeMap.set(pnfId, node);
+        }
+
+        // Update serive data
+        for (let cn of this.connectivities){
+            if (cn['vpn-type'] === "mdsc"){
+                let svcInstId = this.getValueFromRelationList(cn, "service-instance", "service-instance.service-instance-id");
+                let bw = cn["bandwidth-profile-name"];
+                let cvlan = cn["cvlan"];
+                let svc = this.servicesMap.get(svcInstId);
+                if (!svc){
+                     svc = {
+                         name: svcInstId,
+                         id: svcInstId,
+                         connections: [],
+                         bw : bw,
+                         vlan : cvlan
+                     }
+                     this.servicesMap.set(svcInstId, svc);
+                }
+                if (!this.serviceSelected){
+                    this.serviceSelected = svcInstId;
+                }
+            }
+        }
+        // Update link data
+        for (let ll of thisNg.logicalLinks) {
+            let linkName = ll["link-name"];
+            let linkType = ll["link-type"];
+            let linkRole = ll["link-role"];
+            let linkId = ll["link-id"];
+
+            if (linkName.search("topologyId-2") >= 0) {
+            // uni links
+                let arr = linkId.split('-');
+                let arr1 = arr[0].split('.');
+                let domainId = arr1[1];
+                let domain = thisNg.domainMap.get(domainId);
+                let remoteNode = domain.nodeMap.get(arr[0]);
+                if (!remoteNode) continue;
+                let cpeNode = {
+                    networkNode: remoteNode,
+                    isCloud: arr[1].length <= 3 ? true: false
+                }
+
+                if (!domain) continue;
+                domain.clientNodeMap.set(linkId, cpeNode);
+                let uni = {
+                    srcNodeId: arr[0],
+                    srcUniTp: arr[1],
+                    dstNode: cpeNode
+                }
+                domain.uniMap.set(linkId, uni)
+            } else if (linkRole && linkRole.search("cross-domain") >= 0){
+            // enni link
+                let localLink: Array<any> = new Array();
+                let domainLocal:any = null;
+                let linkId = this.getJsonValue(ll, 'link-id');
+                let rlArr: Array<any> = this.getJsonValue(ll, 'relationship-list.relationship');
+                for (let rl of rlArr){
+
+                    if (rl['related-to'] === "p-interface"){
+                        let pnfNameS: String;
+                        let tpNameS: String;
+                        for (let rld of rl['relationship-data']){
+                            if (rld['relationship-key'] === 'p-interface.interface-name'){
+                                 let tpNameL = rld['relationship-value'];
+                                 let tpNameArr = tpNameL.split('-')
+                                 tpNameS = tpNameArr[tpNameArr.length - 1];
+                                 pnfNameS = tpNameArr[tpNameArr.length - 3];
+                                 if (!domainLocal){
+                                     let arr = pnfNameS.split('.');
+                                     let domainId = arr[1];
+                                     domainLocal = thisNg.domainMap.get(domainId);
+                                 }
                             }
                         }
-                        return _results2;
-                    })());
-                }
-                return _results;
-            }),
-            remove: (function(condemned) {
-                /* remove the given node or link from the graph, also deleting dangling links if a node is removed
-                */      if (Array.prototype.indexOf.call(this.nodes, condemned) >= 0) {
-                    this.nodes = this.nodes.filter(function(n) {
-                        return n !== condemned;
-                    });
-                    return this.links = this.links.filter(function(l) {
-                        return l.source.id !== condemned.id && l.target.id !== condemned.id;
-                    });
-                } else if (Array.prototype.indexOf.call(this.links, condemned) >= 0) {
-                    return this.links = this.links.filter(function(l) {
-                        return l !== condemned;
-                    });
-                }
-            }),
-            last_index: 0,
-            add_node: (function(type) {
-                var n;
-                n = {
-                    id: this.last_index++,
-                    x: 960 / 2,
-                    y: 500 / 2,
-                    type: type
-                };
-                this.nodes.push(n);
-                return n;
-            }),
-            add_link: (function(source, target) {
-                /* avoid links to self
-                */
-                var l, link, _i, _len, _ref;
-                if (source === target) return null;
-                /* avoid link duplicates
-                */
-                _ref = this.links;
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    link = _ref[_i];
-                    if (link.source === source && link.target === target) return null;
-                }
-                l = {
-                    source: source,
-                    target: target
-                };
-                this.links.push(l);
-                return l;
-            })
-        };
-
-        var nodeList = treeData.map(obj => {
-            let rObj = {};
-            rObj["id"] = obj["id"];
-            rObj["x"] = 500;
-            rObj["y"] = 500;
-            rObj["type"] = obj["type"];
-            return rObj;
-            })
-
-         var linkList = [] ;
-         for (var i = 0, e = treeData.length; i < e; i++){
-             for (var j = i+1, k = e; j < k; j++){
-                linkList.push({
-                                 source: treeData[i].id,
-                                 target: treeData[j].id
-                             });
-                }
-         }
-        graph.nodes = nodeList;
-        graph.links = linkList;
-        graph.objectify();
-        var _this = this;
-        var margin = {top: 20, right: 120, bottom: 20, left: 120},
-            width = 1000 - margin.right - margin.left,
-            height = 350 - margin.top - margin.bottom;
-        //clean existing element
-        d3.select("div#" + this.svcContainerOpt.containerId).selectAll("*").remove();
-
-        let svg = d3.select("div#" + this.svcContainerOpt.containerId).append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom);
-        let container = svg.append("g").style("fill", "transparent");
-
-        let vis = container.append('g');
-        container.call(d3.behavior.zoom().scaleExtent([0.5, 8])
-            .on('zoom', function(){
-                vis.attr('transform', "translate(" + d3.event.translate  + ")scale(" + d3.event.scale + ")");
-            }));
-
-        vis.append('rect')
-            .attr('class', 'overlay')
-            .attr('x', -500000)
-            .attr('y', -500000)
-            .attr('width', 1000000)
-            .attr('height', 1000000)
-            .on('click', function(d) {
-                _this.svcEditorGlobal.selection = null;
-                d3.selectAll('.node').classed('selected', false);
-                return d3.selectAll('.link').classed('selected', false);
-            });
-        let colorify = d3.scale.category10();
-        /* initialize the force layout
-        */
-        let force = d3.layout.force().size([width, height]).charge(-400).linkDistance(160)
-            .on('tick', (function(e) {
-            /* update nodes and links
-            */
-                let k = 16 * e.alpha;
-                graph.nodes.forEach(function(o, i) {
-                    if (o["type"] === "root"){
-                        o["x"] +=  k
-            //o["x"] += i & 2 ? k : -k;
-
-                    } else if (o["type"] === "leaf") {
-                        o["x"] +=  -k;
-            //o["x"] += i & 2 ? k : -k;
+                        let end = {
+                             pnfId : pnfNameS,
+                             tpId: tpNameS
+                        }
+                        localLink.push(end);
                     }
-                });
-                vis.selectAll('.node').attr('transform', function(d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    });
-
-
-                //#svcContainer > svg > g > g > g:nth-child(3) > text
-                //_this.svcEditorGlobal.selection
-                return vis.selectAll('.link').attr('x1', function(d) {
-                    return d.source.x;
-                }).attr('y1', function(d) {
-                        return d.source.y;
-                }).attr('x2', function(d) {
-                        return d.target.x;
-                }).attr('y2', function(d) {
-                        return d.target.y;
-                });
-            }));
-        let nodeDragging = force.drag().on('dragstart', function (d){
-            d3.event.sourceEvent.stopPropagation();
-            d.fixed = true;
-        })
-
-        let topoNodeSync = _this.eventDispatcher.on(AppEventType.UserNodeDrag)
-            .subscribe(event => {
-                //console.log(event);
-                let pnfId: string  = event.payload.id;
-                let pnfId_short: string = pnfId.substr(pnfId.lastIndexOf('-')+1);
-                vis.selectAll('.node > circle').attr('stroke-width', function(d) {
-                    if (d.id.startsWith(pnfId_short)){
-                        return "4px";
+                }
+                this.enniMap.set(linkId, {data: localLink});
+            } else if (linkType.search("Tsci") >= 0) {
+            // tunnel connection link
+                let srcEpId = this.getJsonValue(ll, "link-name");
+                let dstEpId = this.getJsonValue(ll, "link-name2");
+                let svcInstId = this.getValueFromRelationList(ll, "allotted-resource", "service-instance.service-instance-id");
+                let conn = {
+                    srcEpId: srcEpId,
+                    dstEpId: dstEpId,
+                    dstEpLtpId: '',
+                    srcEpLtpId: ''
+                }
+                for (let nr of this.networkroutes){
+                    if (nr['route-id'] === srcEpId){
+                        conn.srcEpLtpId = nr['next-hop'];
                     }
-                    return "1px";
-                });
-            });
-
-        // DELETION - pressing DEL deletes the selection
-        // CREATION - pressing N creates a new node
-        // d3.select(window).on('keydown', function() {
-        //     if (d3.event.keyCode === 46) {
-        //         if (global.selection != null) {
-        //             graph.remove(global.selection);
-        //             global.selection = null;
-        //             return update();
-        //         }
-        //     } else if (d3.event.keyCode === 78) {
-        //         graph.add_node();
-        //         return update();
-        //     }
-        // });
-
-        //Parameter for Editing tools
-        let toolbar = $("<div class='toolbar'></div>");
-        $("div#" + this.svcContainerOpt.containerId).append(toolbar);
-        toolbar.append($("<svg\n" +
-            "    class='active tool'\n    " +
-            "data-tool='pointer'\n" +
-            "    xmlns='http://www.w3.org/2000/svg'\n" +
-            "    version='1.1'\n" +
-            "    width='32'\n" +
-            "    height='32'\n" +
-            "    fill='#b52d0c'" +
-            "    viewBox='0 0 128 128'>\n" +
-            "    <g transform='translate(881.10358,-356.22543)'>\n" +
-            "      <g transform='matrix(0.8660254,-0.5,0.5,0.8660254,-266.51112,-215.31898)'>\n" +
-            "        <path\n" +
-            "           d='m -797.14902,212.29589 a 5.6610848,8.6573169 0 0 0 -4.61823,4.3125 l -28.3428,75.0625 a 5.6610848,8.6573169 0 0 0 4.90431,13 l 56.68561,0 a 5.6610848,8.6573169 0 0 0 4.9043,-13 l -28.3428,-75.0625 a 5.6610848,8.6573169 0 0 0 -5.19039,-4.3125 z m 0.28608,25.96875 18.53419,49.09375 -37.06838,0 18.53419,-49.09375 z'\n        />\n" +
-            "        <path\n" +
-            "           d='m -801.84375,290.40625 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,35.25 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-35.25 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 z'\n        />\n" +
-            "      </g>\n" +
-            "    </g>\n" +
-            "</svg>"));
-        toolbar.append($("<svg\n" +
-            "    class='tool'\n" +
-            "    data-tool='add_node'\n" +
-            "    xmlns='http://www.w3.org/2000/svg'\n" +
-            "    version='1.1'\n" +
-            "    width='32'\n" +
-            "    height='32'\n" +
-            "    viewBox='0 0 128 128'>\n" +
-            "    <g transform='translate(720.71649,-356.22543)'>\n" +
-            "      <g transform='translate(-3.8571429,146.42857)'>\n" +
-            "        <path\n           d='m -658.27638,248.37149 c -1.95543,0.19978 -3.60373,2.03442 -3.59375,4 l 0,12.40625 -12.40625,0 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,10 c -0.007,0.1353 -0.007,0.27095 0,0.40625 0.19978,1.95543 2.03442,3.60373 4,3.59375 l 12.40625,0 0,12.4375 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-12.4375 12.4375,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-10 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -12.4375,0 0,-12.40625 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -10,0 c -0.1353,-0.007 -0.27095,-0.007 -0.40625,0 z'\n" +
-            "        />\n" +
-            "        <path\n" +
-            "           d='m -652.84375,213.9375 c -32.97528,0 -59.875,26.86847 -59.875,59.84375 0,32.97528 26.89972,59.875 59.875,59.875 32.97528,0 59.84375,-26.89972 59.84375,-59.875 0,-32.97528 -26.86847,-59.84375 -59.84375,-59.84375 z m 0,14 c 25.40911,0 45.84375,20.43464 45.84375,45.84375 0,25.40911 -20.43464,45.875 -45.84375,45.875 -25.40911,0 -45.875,-20.46589 -45.875,-45.875 0,-25.40911 20.46589,-45.84375 45.875,-45.84375 z'\n" +
-            "        />\n" +
-            "      </g>\n" +
-            "    </g>\n" +
-            "</svg>"));
-        toolbar.append($("<svg\n" +
-            "    class='tool'\n" +
-            "    data-tool='add_link'\n" +
-            "    xmlns='http://www.w3.org/2000/svg'\n" +
-            "    version='1.1'\n" +
-            "    width='32'\n" +
-            "    height='32'\n" +
-            "    viewBox='0 0 128 128'>\n" +
-            "<g transform='translate(557.53125,-356.22543)'>\n" +
-            "    <g transform='translate(20,0)'>\n" +
-            "      <path\n" +
-            "         d='m -480.84375,360 c -15.02602,0 -27.375,12.31773 -27.375,27.34375 0,4.24084 1.00221,8.28018 2.75,11.875 l -28.875,28.875 c -3.59505,-1.74807 -7.6338,-2.75 -11.875,-2.75 -15.02602,0 -27.34375,12.34898 -27.34375,27.375 0,15.02602 12.31773,27.34375 27.34375,27.34375 15.02602,0 27.375,-12.31773 27.375,-27.34375 0,-4.26067 -0.98685,-8.29868 -2.75,-11.90625 L -492.75,411.96875 c 3.60156,1.75589 7.65494,2.75 11.90625,2.75 15.02602,0 27.34375,-12.34898 27.34375,-27.375 C -453.5,372.31773 -465.81773,360 -480.84375,360 z m 0,14 c 7.45986,0 13.34375,5.88389 13.34375,13.34375 0,7.45986 -5.88389,13.375 -13.34375,13.375 -7.45986,0 -13.375,-5.91514 -13.375,-13.375 0,-7.45986 5.91514,-13.34375 13.375,-13.34375 z m -65.375,65.34375 c 7.45986,0 13.34375,5.91514 13.34375,13.375 0,7.45986 -5.88389,13.34375 -13.34375,13.34375 -7.45986,0 -13.34375,-5.88389 -13.34375,-13.34375 0,-7.45986 5.88389,-13.375 13.34375,-13.375 z'\n" +
-            "      />\n      <path\n" +
-            "         d='m -484.34375,429.25 c -1.95543,0.19978 -3.60373,2.03442 -3.59375,4 l 0,12.40625 -12.40625,0 c -2.09434,2.1e-4 -3.99979,1.90566 -4,4 l 0,10 c -0.007,0.1353 -0.007,0.27095 0,0.40625 0.19978,1.95543 2.03442,3.60373 4,3.59375 l 12.40625,0 0,12.4375 c 2.1e-4,2.09434 1.90566,3.99979 4,4 l 10,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-12.4375 12.4375,0 c 2.09434,-2.1e-4 3.99979,-1.90566 4,-4 l 0,-10 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -12.4375,0 0,-12.40625 c -2.1e-4,-2.09434 -1.90566,-3.99979 -4,-4 l -10,0 c -0.1353,-0.007 -0.27095,-0.007 -0.40625,0 z'\n" +
-            "      />\n" +
-            "    </g>\n" +
-            "  </g>\n" +
-            "</svg>"));
-        let library = $("<div class='library'></div></div>");
-        toolbar.append(library);
-
-        ['PON', 'ETH'].forEach(function(type) {
-            var new_btn;
-            new_btn = $("<svg width='42' height='42'>\n" +
-                "    <g class='node'>\n" +
-                "        <circle\n" +
-                "            cx='21'\n" +
-                "            cy='21'\n" +
-                "            r='18'\n" +
-                "            stroke='" + (colorify(type)) + "'\n" +
-                "            fill='" + (d3.hcl(colorify(type)).brighter(3)) + "'\n" +
-                "        >\n" +
-                "        <title>" + (type) + " UNI</title>   \n" +
-                "       </circle>" +
-                "    </g>\n" +
-                "</svg>");
-            new_btn.bind('click', function() {
-                graph.add_node(type);
-                return update();
-            });
-            library.append(new_btn);
-            return library.hide();
-        });
-
-        let tool = 'pointer';
-        let new_link_source = null;
-        let drag_link;
-        vis.on('mousemove.add_link', (function(d) {
-            /* check if there is a new link in creation
-            */
-            var p;
-            if (new_link_source != null) {
-                /* update the draggable link representation
-                */
-                p = d3.mouse(vis.node());
-                return drag_link.attr('x1', new_link_source.x).attr('y1', new_link_source.y).attr('x2', p[0]).attr('y2', p[1]);
-            }
-        })).on('mouseup.add_link', (function(d) {
-            new_link_source = null;
-            /* remove the draggable link representation, if exists
-            */
-            if (drag_link != null) return drag_link.remove();
-        }));
-        d3.selectAll('.tool').on('click', function() {
-            var new_tool, nodes;
-            d3.selectAll('.tool').classed('active', false).style("fill", "#a3a4c3");
-            d3.select(this).classed('active', true).style("fill", "#b52d0c");
-            new_tool = $(this).data('tool');
-            nodes = vis.selectAll('.node');
-
-            //mode change to add_link
-            if (new_tool === 'add_link' && tool !== 'add_link') {
-                /* remove drag handlers from nodes
-                */
-                nodes.on('mousedown.drag', null).on('touchstart.drag', null);
-                /* add drag handlers for the add_link tool
-                */
-                nodes.call(drag_add_link);
-            } else if (new_tool !== 'add_link' && tool === 'add_link') {
-                /* remove drag handlers for the add_link tool
-                */
-                nodes.on('mousedown.add_link', null).on('mouseup.add_link', null);
-                /* add drag behavior to nodes
-                */
-                nodes.call(nodeDragging);
-            }
-            if (new_tool === 'add_node') {
-                library.show();
+                    if (nr['route-id'] === dstEpId){
+                        conn.dstEpLtpId = nr['next-hop'];
+                    }
+                }
+                let svc = this.servicesMap.get(svcInstId);
+                if (svc){
+                    svc.connections.push(conn);
+                }
             } else {
-                library.hide();
+            // local link
+                let localLink: Array<any> = new Array();
+                let domainLocal:any = null;
+                let linkId = this.getJsonValue(ll, 'link-id');
+                let rlArr: Array<any> = this.getJsonValue(ll, 'relationship-list.relationship');
+                for (let rl of rlArr){
+
+                    if (rl['related-to'] === "p-interface"){
+                        let pnfNameS: String;
+                        let tpNameS: String;
+                        for (let rld of rl['relationship-data']){
+                           if (rld['relationship-key'] === 'p-interface.interface-name'){
+                               let tpNameL = rld['relationship-value'];
+                               let tpNameArr = tpNameL.split('-')
+                               tpNameS = tpNameArr[tpNameArr.length - 1];
+                               pnfNameS = tpNameArr[tpNameArr.length - 3];
+                               if (!domainLocal){
+                                    let arr = pnfNameS.split('.');
+                                    let domainId = arr[1];
+                                    domainLocal = thisNg.domainMap.get(domainId);
+                               }
+                           }
+                        }
+                        let end = {
+                             pnfId : pnfNameS,
+                             tpId: tpNameS
+                        }
+                        localLink.push(end);
+                    }
+                }
+                localLink.sort(function(a, b){
+                return (a.pnfId + '-' + a.tpId).localeCompare(b.pnfId + '-' + b.tpId)});
+                if (!domainLocal) continue;
+                let srcNodeId = localLink[0].pnfId;
+                let srcTpId = localLink[0].tpId;
+                let srcNode = domainLocal.nodeMap.get(srcNodeId);
+                let dstNodeId = localLink[1].pnfId;
+                let dstTpId = localLink[1].tpId;
+                let dstNode = domainLocal.nodeMap.get(dstNodeId);
+                let inni = domainLocal.inniMap.get(srcNodeId + '-' + srcTpId);
+                if (!inni){
+                    let inni = {
+                        data: [linkId, null],
+                        srcNode: srcNode,
+                        srcTpId: srcTpId,
+                        dstNode: dstNode,
+                        dstTpId: dstTpId
+                    }
+                    domainLocal.inniMap.set(srcNodeId + '-' + srcTpId, inni);
+                } else {
+                    inni.data[1] = linkId;
+                }
             }
-            return tool = new_tool;
-        });
-        update();
-        function update() {
-            /* update the layout
-      */
-            var links, new_nodes, nodes;
-            force.nodes(graph.nodes).links(graph.links).start();
-            /* create nodes and links
-            */
-            /* (links are drawn with insert to make them appear under the nodes)
-            */
-            /* also define a drag behavior to drag nodes
-            */
-            /* dragged nodes become fixed
-            */
-            nodes = vis.selectAll('.node').data(graph.nodes, function(d) {
-                return d.id;
-            });
-            new_nodes = nodes.enter().append('g').attr('class', 'node');
-/*            .on('click', (function(d) {
-                /!* SELECTION
-                *!/
-                _this.svcEditorGlobal.selection = d;
-                d3.selectAll('.node').classed('selected', function(d2) {
-                    return d2 === d;
-                });
-                return d3.selectAll('.link').classed('selected', false);
-            }));*/
-            links = vis.selectAll('.link').data(graph.links, function(d) {
-                return "" + d.source.id + "->" + d.target.id;
-            });
+        }
+    }
 
-            links.enter().insert('line', '.node').attr('class', 'link').on('click', (function(d) {
-                /* SELECTION
-                */
-                _this.svcEditorGlobal.selection = d;
-                d3.selectAll('.link').classed('selected', function(d2) {
-                    return d2 === d;
-                });
-                return d3.selectAll('.node').classed('selected', false);
-            }));
-            links
-                .style("stroke-width", "6px")
-                .style("stroke", "gray")
-                .style("opacity", "0.5");
+    // main function that draws the topology view
+    finishSotnView() {
+        this.graph.model.clear()
+        this.graph.model.beginUpdate()
+        this.gLayers = [this.graph.getDefaultParent()]
+        for (let i = 0; i < 3; i++) {
+            this.gLayers.push(this.graph.model.root.insert(new mxCell()))
+        }
 
-            links.exit().remove();
-            /* TOOLBAR - add link tool initialization for new nodes
-            */
-            if (tool === 'add_link') {
-                new_nodes.call(drag_add_link);
-            } else {
-                new_nodes.call(nodeDragging);
+        // Insert domains
+        for (let [networkId, domain] of this.domainMap) {
+            domain.vertex = this.graph.insertVertex(this.gLayers[0], null, null, 0, 0, 0, 0, this.DOMAIN_STYLE)
+            domain.vertex.connectable = false
+            domain.vertex.value = {
+                label: '(DOMAIN: ' + domain.domainId + ')',
+                networkId: networkId
             }
-            new_nodes.append('circle').attr('r', 18).attr('stroke', function(d) {
-                return colorify(d.type);
-            }).attr('fill', function(d) {
-                return d3.hcl(colorify(d.type)).brighter(3);
-            });
-            /* draw the label
-            */
-            new_nodes.append('text').text(function(d) {
-                return d.id;
-            }).attr('dy', '0.35em').attr('fill', function(d) {
-                return colorify(d.type);
-            });
-            return nodes.exit().remove();
-        };
-        function drag_add_link (selection) {
-            return selection.on('mousedown.add_link', (function(d) {
-                var p;
-                new_link_source = d;
-                /* create the draggable link representation
-                */
-                p = d3.mouse(vis.node());
-                drag_link = vis.insert('line', '.node').attr('class', 'drag_link').attr('x1', d.x).attr('y1', d.y).attr('x2', p[0]).attr('y2', p[1]);
-                drag_link
-                    .style("stroke-width", "6px")
-                    .style("stroke", "gray")
-                    .style("opacity", "0.5");
-                /* prevent pan activation
-                */
-                d3.event.stopPropagation();
-                /* prevent text selection
-                */
-                return d3.event.preventDefault();
-            })).on('mouseup.add_link', (function(d) {
-                /* add link and update, but only if a link is actually added
-                */      if (graph.add_link(new_link_source, d) != null) return update();
-            }));
-        };
+            // Insert nodes
+            for (let [nodeId, node] of domain.nodeMap) {
+                node.vertex = this.graph.insertVertex(domain.vertex, null, null, 0, 0, 26, 26)
+                node.vertex.value = {
+                    nodeId: nodeId, name: node.name, label: node.name, node: node
+                }
+            }
+            // Insert INNI links
+            for (let [key, inni] of domain.inniMap) {
+                inni.edge = this.graph.insertEdge(this.gLayers[1], null, null,
+                    inni.srcNode.vertex, inni.dstNode.vertex, this.LINK_STYLE)
+                inni.edge.value = {
+                    linkId: key,
+                    inni: inni,
+                    domain: domain
+                }
+                //inni.srcNniTp.edge = inni.edge
+                //inni.dstNniTp.edge = inni.edge
+            }
 
+            // Insert client nodes
+            for (let [nodeName, clientNode] of domain.clientNodeMap) {
+                if (clientNode.isCloud) {
+                    clientNode.vertex = this.graph.insertVertex(domain.vertex, null, null, 0, 0, 52, 26, this.CLOUD_STYLE)
+                } else {
+                    clientNode.vertex = this.graph.insertVertex(domain.vertex, null, null, 0, 0, 26, 13, this.CPE_STYLE)
+                }
+                let labelName = nodeName.split('-')[1];
+                clientNode.vertex.value = {
+                    name: nodeName, label: labelName, clientNode: clientNode
+                }
+            }
+            // Insert UNI links
+            for (let [key, uni] of domain.uniMap) {
+                let srcNode = domain.nodeMap.get(uni.srcNodeId);
+                uni.edge = this.graph.insertEdge(domain.vertex, null, null,
+                    srcNode.vertex, uni.dstNode.vertex, this.UNI_LINK_STYLE)
+                uni.edge.value = {
+                    linkId: key, uni: uni, domain: domain,
+                    maximum: 1000000 / 1000000 + 'G',
+                    unused: 1000000 / 1000000 + 'G'
+                }
+                //uni.srcUniTp.edge = uni.edge
+            }
+            // Insert ENNI links
+            for (let [key, enni] of this.enniMap) {
+                let srcNode = null;
+                let dstNode = null;
+
+                for (let [, tmpDomain] of this.domainMap){
+                    srcNode = tmpDomain.nodeMap.get(enni.data[0].pnfId);
+                    if (srcNode) break;
+                }
+                for (let [, tmpDomain] of this.domainMap){
+                    dstNode = tmpDomain.nodeMap.get(enni.data[1].pnfId);
+                    if (dstNode) break;
+                }
+
+                enni.edge = this.graph.insertEdge(this.gLayers[1], null, {
+                plugId: key, enni: enni }, srcNode.vertex, dstNode.vertex, this.LINK_STYLE)
+            //enni.data[0].nniTp.edge = enni.edge
+            //enni.data[1].nniTp.edge = enni.edge
+            }
+        }
+
+            // Insert tunnel edges
+        for (let [id, svc] of this.servicesMap){
+            let localTunnelMap = new Map();
+            for (let conn of svc.connections){
+                let srcArr = conn.srcEpLtpId.split('-');
+                let srcNodeId = srcArr[srcArr.length-3];
+                let dstArr = conn.dstEpLtpId.split('-');
+                let dstNodeId = dstArr[dstArr.length-3];
+                if (!localTunnelMap.get(srcNodeId + '-' + dstNodeId)) {
+                    let srcNode = getNode(srcNodeId, this.domainMap);
+                    let dstNode = getNode(dstNodeId, this.domainMap);
+                    if(!srcNode.vertex || !dstNode.vertex) {
+                        continue;
+                    };
+                    let e2eTunnel = {
+                        name: id + '/' + srcNodeId + '-' + dstNodeId,
+                        srcNode: srcNode,
+                        dstNode: dstNode,
+                        e2eEdge: null,
+                        serviceId: id,
+                        srcVertex: srcNode.vertex,
+                        dstVertex: dstNode.vertex
+                    }
+                    e2eTunnel.e2eEdge =
+                    this.graph.insertEdge(this.gLayers[2], null, {
+                    tunnel: e2eTunnel, tunnelName: e2eTunnel.name
+                    }, e2eTunnel.srcNode.vertex, e2eTunnel.dstNode.vertex, this.TUNNEL_STYLE)
+                    localTunnelMap.set(srcNodeId + '-' + dstNodeId, e2eTunnel)
+                    this.e2eTunnels.push(e2eTunnel);
+                }
+            }
+        }
+
+
+
+        this.graph.model.endUpdate();
+        this.graph.zoomTo(this.graphScale);
+        this.autoLayout(1);
+        this.changeLayer({ value:1, name: 'Link Layer'});
+
+        if (this.serviceSelected){
+            this.chooseService(this.serviceSelected);
+        }
+        function getNode(nodeId, domainMap){
+            let arr = nodeId.split('.');
+            return domainMap.get(arr[1]).nodeMap.get(nodeId);
+        }
 
     }
 
-    /**
-     * Redraw the underlay network topology.
-     * @param {Array<object>} nodes parsed from AAI logicalLinks.
-     * @param {Array<object>} lines parsed from AAI logicalLinks.
-     */
-    drawTopo(nodes: Array<object>, lines: Array<object>){
-        let margin = {top: 20, right: 120, bottom: 20, left: 120},
-            width = 1000 - margin.right - margin.left,
-            height = 350 - margin.top - margin.bottom;
+    changeLayer(layer){
+       this.layerSelected = layer;
+       for (let i = 1; i < this.gLayers.length; i++) {
+           this.gLayers[i].setVisible(i == this.layerSelected.value)
+       }
+       this.graph.refresh()
+    }
 
-        let thisNg = this;
-
-        let nodeById = d3.map();
-
-        nodes.forEach(function(node) {
-            nodeById.set(node["id"], node);
-        });
-
-        lines.forEach(function(link) {
-            link["source"] = nodeById.get(link["source"]);
-            link["target"] = nodeById.get(link["target"]);
-        });
-
-        let svg = d3.select("div#tpContainer").append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
-            .style("pointer-events", "all");
-
-        let graph = svg.append("g").attr("class", "graph");
-
-        let force = d3.layout.force()
-            .nodes(nodes)
-            .links(lines)
-            .size([width, height])
-            /*            .linkStrength(function(d){
-                            switch(d.type){
-                                case 1:
-                                    return 0.15;
-                                case 2:
-                                default:
-                                    return 0.1;
-                            }
-                        })*/
-            //.gravity(0)
-            //.gravity(0)
-            .linkDistance(function (d) {
-                        return 150;
-            })
-            .charge(function(d) {
-                return -600;
-            })
-            .start();
-
-        let drag = force.drag()
-            .on("dragstart", dragstart)
-            .on("dragend", dragend);
-
-        let _g_lines = graph.selectAll("line.line")
-                .data(lines)
-                .enter()
-                .append("g")
-                .attr("class", "line");
-
-        let  _g_nodes = graph.selectAll("g.node")
-                .data(nodes)
-                .enter()
-                .append("g")
-                .attr("class", "node")
-                .call(drag);
-        _g_lines.append("line")
-            .style('stroke', function (d) {
-                if(d.type === 2){
-                    return "#000000";
-                } else {
-                    return '#93c62d';
-                }
-
-            })
-            .style("stroke-width", 4);
-
-
-        _g_nodes.append("image")
-            .attr("width", function (d) {
-                switch (d.group) {
-                    case 'pnf':
-                        return 70;
-                    case 'tp':
-                    default:
-                        return 10;
-                }
-            })
-            .attr("height", function (d) {
-                switch (d.group) {
-                    case 'pnf':
-                        return 70;
-                    case 'tp':
-                    default:
-                        return 10;
-                }
-            })
-            .attr("xlink:href", function (d) {
-                return thisNg.imgMap[d.group];
-            });
-
-        _g_nodes.append("text")
-            .text(function (d) {
-                return d.id.substr( d.id.lastIndexOf('-')+1);
-            })
-            .style('font-size', '12')
-            .style('fill', '#333');
-
-        //_g_nodes.each(function (d, i) {
-            var selection = d3.select(this);
-/*            if (d.status == '0') {
-                selection.append("g").attr("class", "error-tip")
-                    .append("image").attr("xlink:href", function (d) {
-                    return imgMap['error-tip'];
-                });
-            }*/
-       // });
-
-        _g_lines.each(function (d, i) {
-            var _this = d3.select(this);
-            if (d.type === 1) {
-                _this.append("text")
-                    .text("100GB")
-                    .style('fill', 'rgb(255,198,22)')
-                    .style('font-size', '11');
-
-                _this.append("rect")
-                    .attr("fill", function (d) {
-                        return '#555';
-                    })
-                    .attr("width", function (d) {
-                        return 4;
-                    })
-                    .attr("height", function (d) {
-                        return 4;
-                    })
-                    .append("animate");
-
-                _this.select("rect").append("animate");
-            } else {
-                _this.append("image")
-                    .attr("xlink:href", function () {
-                        return thisNg.imgMap['link-cut'];
-                    });
-            }
-        });
-
-
-        force.on("tick", function (e) {
-
-            _g_lines.select("line").attr("x1", function (d) {
-                return d.source.x;
-            })
-                .attr("y1", function (d) {
-                    return d.source.y;
-                })
-                .attr("x2", function (d) {
-                    return d.target.x;
-                })
-                .attr("y2", function (d) {
-                    return d.target.y;
-                });
-            _g_lines.select("image").attr("x", function (d) {
-                var x1 = d.source.x,
-                    x2 = d.target.x,
-                    x = x1 - (x1 - x2) / 2;
-                return x - 8;
-            })
-                .attr("y", function (d) {
-                    var y1 = d.source.y,
-                        y2 = d.target.y,
-                        y = y1 - (y1 - y2) / 2;
-                    return y - 15;
-                });
-
-            _g_lines.select("text")
-                .attr('x', function (d) {
-                    var x1 = d.source.x,
-                        x2 = d.target.x,
-                        halfX = x1 - (x1 - x2) / 2,
-                        x3 = x1 - (x1 - halfX) / 2;
-                    return x3;
-                })
-                .attr('y', function (d) {
-                    var y1 = d.source.y,
-                        y2 = d.target.y,
-                        halfY = y1 - (y1 - y2) / 2,
-                        y3 = y1 - (y1 - halfY) / 2;
-                    y3 = y3 - 5;
-                    return y3;
-                })
-                .attr("transform", function (d) {
-                    var x1 = d.source.x,
-                        x2 = d.target.x,
-                        y1 = d.source.y,
-                        y2 = d.target.y,
-                        x = x1 - (x1 - x2) / 2,
-                        y = y1 - (y1 - y2) / 2,
-                        rightAngleSide1 = Math.abs(y2 - y1),
-                        rightAngleSide2 = Math.abs(x2 - x1),
-                        _asin = 0,
-                        _rotateAngle = 0,
-                        x3 = x1 - (x1 - x) / 2,
-                        y3 = y1 - (y1 - y) / 2;
-
-                    if (x1 < x2) {
-                        _asin = (y2 - y1) / Math.sqrt(Math.pow(rightAngleSide1, 2) + Math.pow(
-                            rightAngleSide2, 2));
-                        _rotateAngle = Math.asin(_asin) * 180 / Math.PI;
-                    } else {
-                        _asin = (y1 - y2) / Math.sqrt(Math.pow(rightAngleSide1, 2) + Math.pow(
-                            rightAngleSide2, 2));
-                        _rotateAngle = Math.asin(_asin) * 180 / Math.PI;
-                        _rotateAngle = _rotateAngle < 0 ? (180 + _rotateAngle) : -(180 -
-                            _rotateAngle);
-                    }
-                    return 'rotate(' + (_rotateAngle) + ',' + x3 + ' ' + y3 + ')';
-                });
-
-            _g_lines.select("rect")
-                .attr('x', function (d) {
-                    return d.source.x - 1;
-                })
-                .attr('y', function (d) {
-                    return d.source.y - 1;
-                })
-                .selectAll('animate').each(function (d, i) {
-                if (i == 0) {
-                    d3.select(this)
-                        .attr("attributeName", function (d) {
-                            return 'x';
-                        })
-                        .attr("from", function (d) {
-                            return d.source.x - 1;
-                        })
-                        .attr("to", function (d) {
-                            return d.target.x;
-                        });
-                } else {
-                    d3.select(this)
-                        .attr("attributeName", function (d) {
-                            return 'y';
-                        })
-                        .attr("from", function (d) {
-                            return d.source.y - 1;
-                        })
-                        .attr("to", function (d) {
-                            return d.target.y;
-                        });
-                }
-
-                d3.select(this).attr("attributeType", "XML")
-                    .attr("dur", function (d) {
-                        return '1.5s';
-                    })
-                    .attr("repeatCount", "indefinite");
-
-            })
-/*            let k = 6 * e.alpha;
-            nodes.forEach(function(o, i) {
-                if (o["layer"] === "Otn"){
-                    o["y"] +=  k
-                    //o["x"] += i & 2 ? k : -k;
-
-                } else if (o["layer"] === "Eth") {
-                    o["y"] +=  -k;
-                    //o["x"] += i & 2 ? k : -k;
-                }
-            });*/
-
-            _g_nodes.attr("transform", function (d) {
-                if(d.group === 'pnf') {
-                    var image = d3.select(this).select("image")[0][0],
-                        halfWidth = parseFloat("70") / 2,
-                        halfHeight = parseFloat("70") / 2;
-
-                    return 'translate(' + (d.x - halfWidth) + ',' + (d.y - halfHeight) + ')';
-                } else {
-                    return 'translate(' + (d.x) + ',' + (d.y) + ')';
-                }
-
-            });
-
-            _g_nodes.select("text").attr('dy', function (d) {
-                var image = this.previousSibling,
-                    height = parseFloat("10"),
-                    fontSize = parseFloat(this.style.fontSize);
-
-                return height + 1.5 * fontSize;
-            });
-
-            _g_nodes.select(".error-tip").attr("transform", function (d) {
-
-                var image = this.parentNode.firstChild,
-                    width = parseFloat("70");
-
-                return 'translate(' + 0.8 * width + ',0)';
-
-            });
-
-        });
-
-
-        function dblclick(d) {
-            d3.select(this).classed("fixed", d.fixed = false);
-        }
-
-        function dragstart(d) {
-            d3.select(this).classed("fixed", d.fixed = true);
-            thisNg.eventDispatcher.dispatch(new AppEvent(AppEventType.UserNodeDrag, d));
-        }
-        function dragend(d) {
-
-        }
-
-        function color (d){
-            const scale = d3.scaleOrdinal(d3.schemeCategory10);
-            switch(d.group){
-                case "pnf":
-                    return  scale(1);
-                case "tp":
-                    return  scale(2);
-                default:
-                    return  scale(9);
+    chooseService(svcInstId) {
+        this.serviceSelected = svcInstId;
+        //clear the label and color of all UNI links
+        for (let [, domain] of this.domainMap) {
+            for (let [, uni] of domain.uniMap) {
+                this.graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, CE_COLOR, [uni.edge])
+                this.graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, CE_COLOR, [uni.dstNode.vertex])
+                this.graph.setCellStyles(mxConstants.STYLE_DASHED, '1', [uni.edge])
+                uni.edge.value.label = ''
+                uni.edge.value.endPoint = null
             }
         }
+
+        // Update the label and color of UNI links of current service
+        let service = this.servicesMap.get(this.serviceSelected);
+        if (service){
+           let bw = service.bw;
+           for (let conn of service.connections){
+               let srcUniLinkId = getShortName(conn.srcEpLtpId);
+               let dstUniLinkId = getShortName(conn.dstEpLtpId);
+               // left side uni link
+               let arr = srcUniLinkId.split('.');
+               let uni = this.domainMap.get(arr[1]).uniMap.get(srcUniLinkId);
+               colorUni(uni, this.graph, bw);
+               // right side uni
+               arr = dstUniLinkId.split('.');
+               uni = this.domainMap.get(arr[1]).uniMap.get(dstUniLinkId);
+               colorUni(uni, this.graph, bw);
+
+           }
+        }
+
+        // Update tunnel edges
+        for (let e2eTunnel of this.e2eTunnels) {
+            e2eTunnel.e2eEdge.setVisible(e2eTunnel.serviceId === svcInstId)
+        }
+        this.graph.refresh();
+
+        // Utility func
+        function getShortName(ltpId){
+            let arr = ltpId.split('-');
+            let nodeId = arr[arr.length-3];
+            let ltp = arr[arr.length-1];
+            return nodeId + '-' + ltp;
+        }
+        function colorUni(uni, graph, bw){
+            let bandwidth = parseInt(bw);
+            let newColor = EP_COLOR_MAP.get("update")
+            graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, newColor, [uni.edge])
+            graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, newColor, [uni.edge])
+            graph.setCellStyles(mxConstants.STYLE_DASHED, '0', [uni.edge])
+            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, newColor, [uni.dstNode.vertex])
+            if (!uni.edge.value.endpoints) {
+                uni.edge.value.endpoints = [];
+            }
+            uni.edge.value.endpoints.push(bandwidth);
+            let sum = uni.edge.value.endpoints.reduce((a, b) => a + b, 0);
+            uni.edge.value.label = sum +  'G' ;
+        }
+
+    }
+
+    getValueFromRelationList(rl, relatedTo, relatedKey){
+        let rlArr: Array<any> = this.getJsonValue(rl, 'relationship-list.relationship');
+        for (let rl of rlArr){
+            if (rl['related-to'] === relatedTo){
+                let pnfNameS: String;
+                let tpNameS: String;
+                for (let rld of rl['relationship-data']){
+                   if (rld['relationship-key'] === relatedKey){
+                       let val = rld['relationship-value'];
+                       if (val) return val;
+                   }
+                }
+            }
+        }
+        return null;
+    }
+    // get the key of an Endpoint
+    getEndPointKey(endPoint) {
+        return endPoint.networkId + '-' + endPoint.nodeId + '-' + endPoint.portId
+    }
+
+    // Get color from slice Id
+    getSliceColor(sliceId) {
+        // let colorId = sliceMap.get(sliceId)
+        // if (!sliceId || colorId >= SLICE_COLORS.length) colorId = 1
+        return 'black'
+    }
+
+    // Function to create a table from js array data
+    createJsonTable(data) {
+        let table = document.createElement('table')
+        table.className = 'display compact'
+        this.tableContainer.nativeElement.appendChild(table)
+
+        if (!data.length) return
+        let columns = []
+        for (let key of Object.keys(data[0])) {
+            if (this.isBasicType(data[0][key]) && key[0] != '$') {
+                columns.push({
+                    data: key, name: key,
+                    title: key.charAt(0).toUpperCase() + key.slice(1),
+                    defaultContent: ''
+                })
+            }
+        }
+        let dataTable = $(table).DataTable({
+            autoWidth: false,
+            dom: 'ti',
+            order: [],
+            select: {toggleable: false},
+            columnDefs: [{className: 'dt-center', targets: '_all'}],
+            columns: columns,
+            data: data
+        })
+        dataTable.on('user-select', function (e, dt, type, cell, originalEvent) {
+            if (dt.row('.selected').index() != cell.index().row)
+                this.selectTableRow(cell.index().row, true)
+            return false
+        })
+
+        return dataTable
+    }
+
+    // disable mouse for application
+    disableAppMouse(disabled) {
+        //header.style.pointerEvents = disabled ? 'none' : 'auto'
+        //container.style.pointerEvents = disabled ? 'none' : 'auto'
+        this.graph.setEnabled(!disabled)
+        document.body.style.cursor = disabled ? 'wait' : 'default'
     }
 
     choseConnectivity(item) {
         if (this.connectivitySelected !== item) this.connectivitySelected = item;
-           this.drawService(this.getSvcTree());
+        //this.drawService(this.getSvcTree());
     }
 
-    getSvcTree(): Array<object> {
-            let tree = []
-            let rel = this.connectivitySelected["relationship-list"]["relationship"] || null;
-            if (rel){
-                   tree = rel.filter(rl => rl["related-to"] === "uni")
-                        .map(obj => {
-                               let rObj ={};
-                               rObj["id"] = obj["relationship-data"][0]["relationship-value"],
-                               rObj["type"] = "leaf";
-                               return rObj;
-                        })
-            }
-            return tree;
-    }
-
-    getNodes(ptMapping: Array<object>) : Array<object>{
-        let nodes = [];
-        for (let pnf of ptMapping){
-            if (pnf["layer"] === 2){
-                continue;
-            }
-            let name = pnf["pnfName"];
-            let newNode = {
-                "id" : name,
-                "group": "pnf",
-                "radius" : 2,
-                "layer" : pnf["layer"] === 2? "Eth" : "Otn"
-            }
-            nodes.push(newNode);
+    _debounce(func: Function, delay: number) {
+        let inDebounce;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(inDebounce)
+            inDebounce = setTimeout(() => func.apply(context, args), delay);
         }
-        return nodes;
     }
 
-    getLinks(logicalLinks: Array<object>, ptMapping: Array<object>) : Array<object> {
-        let links = [];
-        for (let ll of logicalLinks){
-            let lkName:string = ll["link-name"];
-            let topoIdIdx:number = lkName.lastIndexOf("topologyId-");
-            if (topoIdIdx !== -1 && lkName.charAt(topoIdIdx + 11) === '2'){
-                //Ignore
-                continue;
-            } else if (typeof ll["relationship-list"] === 'undefined' ||
-                           typeof ll["relationship-list"]["relationship"] === 'undefined'){
-                continue;
-            }
-            //pnf to pnf
-            let endpoints = [];
-            for (let pi of ll["relationship-list"]["relationship"]) {
-                if (pi["related-to"] === "p-interface"){
-                    for (let rd of pi["relationship-data"]){
-                        if (rd["relationship-key"] === "pnf.pnf-name"){
-                            endpoints.push(rd["relationship-value"]);
-                        }
-                    }
-                }
-            }
-            if (endpoints.length === 2){
-                let newlk = {
-                    "source": endpoints[0],
-                    "target": endpoints[1],
-                    "type" : 1
-                }
-                links.push(newlk);
+    // Layout the label of client nodes
+    clientNodeLabelLayout() {
+        for (let [,sotnDomain] of this.domainMap) {
+            for (let [, clientNode] of sotnDomain.clientNodeMap) {
+                let vertex = clientNode.vertex
+                let remote = clientNode.networkNode.vertex
+                let isAbove = (vertex.geometry.y + vertex.geometry.height / 2) < (remote.geometry.y + remote.geometry.height / 2)
+                this.graph.setCellStyles(mxConstants.STYLE_VERTICAL_LABEL_POSITION, isAbove ? 'top' : 'bottom', [vertex])
+                this.graph.setCellStyles(mxConstants.STYLE_VERTICAL_ALIGN, isAbove ? 'bottom' : 'top', [vertex])
             }
         }
-        return links;
     }
 
-    getPnfTpMapping(logicalLinks: Array<object>) {
-        let pnfs = [];
-        let pnfVisited = {};
-        let pnfIndex: number = 0;
-        for (let ll of logicalLinks){
-            let lkName:string = ll["link-name"];
-            let topoIdIdx:number = lkName.lastIndexOf("topologyId-");
-            if (topoIdIdx !== -1 && lkName.charAt(topoIdIdx + 11) === '2'){
-                //Ethernet layer logical-link
-                let lastDashIdx:number = lkName.lastIndexOf("-");
-                let pnfName: string = lkName.replace("linkId", "nodeId").substr(0, lastDashIdx);
-                let uniName: string = lkName.substr( lastDashIdx+1);
+    // Center the graph in the container
+    centerGraph() {
 
-                if (pnfVisited[pnfName]){
-                    let idx: number = parseInt(pnfVisited[pnfName].substr(1));
-                    pnfs[idx].tps[uniName] = true;
-                } else {
-                    pnfVisited[pnfName] = '#' + pnfIndex;
-                    let newPnf = {
-                        "pnfName" : pnfName,
-                        "tps" : {
-                        },
-                        "layer" :2
-                    }
-                    newPnf.tps[uniName] = true;
-                    pnfs.push(newPnf);
-                    pnfIndex++;
+        let domains = this.graph.model.getChildVertices(this.gLayers[0])
+        if (!domains) return
+        let bounds = this.graph.getBoundingBoxFromGeometry(domains, false)
+        if (!bounds) return
+        this.graphScale = this.graph.view.scale
+        let dx = (this.graph.container.clientWidth / this.graphScale - bounds.width) / 2
+        let dy = (this.graph.container.clientHeight / this.graphScale - bounds.height) / 2
+        this.graph.view.setTranslate(dx < 0 ? 0 : dx, dy < 0 ? 0 : dy)
+        this.graph.refresh()
+    }
 
+    // Functions ..0.
+    // Create popup menu for graph
+    createPopupMenu(menu, cell, evt) {
+    }
+
+    // A utility function for setting the values of part of an Object's properties
+    setObjValues(obj, newValues, keyObj = null): void {
+        for (let key of Object.keys(newValues)) {
+            if (!keyObj) obj[key] = newValues[key]
+            else obj[keyObj[key]] = newValues[key]
+        }
+    }
+
+    // Save changed services to local storage
+    saveServices() {
+        let storedServices = []
+        for (let e2eService of this.e2eServices) {
+            let storedService = this.cloneWithSimpleProperties(e2eService)
+            storedService["endPoints"] = []
+            for (let endPointMap of [e2eService.rootEndPointMap, e2eService.leafEndPointMap]) {
+                for (let [, endPoint] of endPointMap) {
+                    if (endPoint.status == 'retrieve') continue
+                    storedService["endPoints"].push(this.cloneWithSimpleProperties(endPoint))
                 }
-                continue;
-            } else if (ll["relationship-list"] === undefined ||
-                    ll["relationship-list"]["relationship"].length === 0 ){
-                continue;
             }
-            for (let pi of ll["relationship-list"]["relationship"]) {
-                if (pi["related-to"] === "p-interface"){
-                    let pnfName:string;
-                    let tpName:string;
-                    for (let rd of pi["relationship-data"]){
-                        if (rd["relationship-key"] === "pnf.pnf-name"){
-                            pnfName = rd["relationship-value"];
-                        } else if (rd["relationship-key"] === "p-interface.interface-name"){
-                            tpName = rd["relationship-value"];
+            storedServices.push(storedService)
+        }
+        (this.storage)['actn-viewer-service'] = JSON.stringify(storedServices)
+    }
+
+    // Hold for next release
+    // Read stored services from local storage.
+    readServices() {
+        /* let storedServices = JSON.parse((this.storage)['actn-viewer-service'] || '[]')
+        for (let storedService of storedServices) {
+            let e2eService = this.e2eServiceMap.get(storedService.name)
+            if (!e2eService) { //not exist then add new one
+                e2eService = storedService
+                e2eService.leafEndPointMap = new Map()
+                e2eService.rootEndPointMap = new Map()
+                e2eService.active = false
+                for (let endPoint of e2eService.endPoints) {
+                    if (!endPoint.newBand) endPoint.newBand = endPoint.bandwidth
+                    this.addNewEndPointToService(e2eService, endPoint, 'create')
+                }
+                this.updateOneE2eService(e2eService)
+            } else { //otherwise update the status of endpoint
+                for (let storedEndPoint of storedService.endPoints) {
+                    let endPoint = e2eService.leafEndPointMap.get(storedEndPoint.id) || e2eService.rootEndPointMap.get(storedEndPoint.id)
+                    if (endPoint) {
+                        switch (storedEndPoint.status) {
+                            case 'create':
+                                break
+                            case 'delete':
+                                endPoint.status = 'delete';
+                                endPoint.newBand = 0;
+                                break
+                            case 'update':
+                                if (endPoint.bandwidth != storedEndPoint.newBand) {
+                                    endPoint.newBand = storedEndPoint.newBand
+                                    endPoint.status = 'update'
+                                }
                         }
-                    }
-                    if (pnfVisited[pnfName]){
-                        let idx: number = parseInt(pnfVisited[pnfName].substr(1));
-                        pnfs[idx].tps[tpName] = true;
                     } else {
-                        pnfVisited[pnfName] = '#' + pnfIndex;
-                        let newPnf = {
-                            "pnfName" : pnfName,
-                            "tps" : {
-                            },
-                            "layer" : 1
-                        }
-                        newPnf.tps[tpName] = true;
-                        pnfs.push(newPnf);
-                        pnfIndex++;
-
+                        this.addNewEndPointToService(e2eService, storedEndPoint, 'create')
                     }
+                }
+                this.updateRootBandwidth(e2eService)
+            }
+        } */
+    }
+
+    // add a new endpoint to e2e service
+    addNewEndPointToService(e2eService, endPoint, status) {
+        endPoint.edge = this.getUniEdgeFromEp(endPoint)
+        if (!endPoint.edge) return
+        endPoint.status = status
+        let endPointMap = endPoint.role == 'leaf-access' ? e2eService.leafEndPointMap : e2eService.rootEndPointMap
+        endPoint.id = endPoint.id || this.getEndPointKey(endPoint)
+        endPointMap.set(endPoint.id, endPoint)
+    }
+
+    // add a new uni to e2e service
+    addNewUni(e2eService, uni, isLeaf) {
+        let newEndPoint = {
+            networkId: uni.networkId,
+            nodeId: uni.srcNode.nodeId,
+            portId: uni.srcUniTp.tpId,
+            role: isLeaf ? 'leaf-access' : 'root-primary',
+            newBand: this.defBandwidth,
+        }
+        this.addNewEndPointToService(e2eService, newEndPoint, 'create')
+        this.updateCurrentCloud(e2eService)
+    }
+
+    deleteNewUni(e2eService, endPoint, isLeaf, doUpdate = true) {
+        let endPointMap = isLeaf ? e2eService.leafEndPointMap : e2eService.rootEndPointMap
+        endPointMap.delete(endPoint.id)
+        if (doUpdate) this.updateCurrentCloud(e2eService)
+    }
+
+    deleteOldUni(e2eService, endPoint) {
+        endPoint.status = 'delete'
+        endPoint.newBand = 0
+        this.updateCurrentCloud(e2eService)
+    }
+
+    cancelUniDeletion(e2eService, endPoint, doUpdate = true) {
+        endPoint.status = 'retrieve'
+        endPoint.newBand = endPoint.bandwidth
+        if (doUpdate) this.updateCurrentCloud(e2eService)
+    }
+
+    cancelUniModification(e2eService, endPoint, doUpdate = true) {
+        endPoint.status = 'retrieve'
+        endPoint.newBand = endPoint.bandwidth
+        if (doUpdate) this.updateCurrentCloud(e2eService)
+    }
+
+    updateCurrentCloud(e2eService) {
+        this.updateRootBandwidth(e2eService)
+        this.saveServices()
+        //this.showSotnCloud(this.currentCloud)
+    }
+
+    // Calculate and update the bandwidth of roots
+    updateRootBandwidth(e2eService) {
+        let newRootBand = 0
+        for (let [, endPoint] of e2eService.leafEndPointMap) {
+            newRootBand += endPoint.newBand
+        }
+        for (let [, endPoint] of e2eService.rootEndPointMap) {
+            if (endPoint.status == 'delete') continue
+            endPoint.newBand = newRootBand
+            if (endPoint.status == 'create') continue
+            endPoint.status = (endPoint.newBand != endPoint.bandwidth) ? 'update' : 'retrieve'
+        }
+        e2eService.changed = false
+        for (let endPointMap of [e2eService.leafEndPointMap, e2eService.rootEndPointMap]) {
+            for (let [, endPoint] of endPointMap) {
+                if (endPoint.status != 'retrieve') {
+                    e2eService.changed = true;
+                    break
+                }
+            }
+            if (e2eService.changed) break
+        }
+        this.serviceTable.row(e2eService.$index).data(e2eService)
+    }
+
+    // cancel all service changes
+    cancelAllCloudChanges(currentService) {
+        for (let endPointMap of [currentService.leafEndPointMap, currentService.rootEndPointMap]) {
+            for (let [, endPoint] of endPointMap) {
+                switch (endPoint.status) {
+                    case 'create':
+                        this.deleteNewUni(currentService, endPoint, endPoint.role == 'leaf-access', false)
+                        break
+                    case 'delete':
+                        this.cancelUniDeletion(currentService, endPoint, false)
+                        break
+                    case 'update':
+                        if (endPoint.role == 'leaf-access') {
+                            this.cancelUniModification(currentService, endPoint, false)
+                        }
+                        break
                 }
             }
         }
-        return pnfs;
+        currentService.changed = false
+        this.updateCurrentCloud(currentService)
     }
+
+    // function for interact with ONAP SO
+    onapApplyCloudChanges(currentService) {
+        alert('Future feature.')
+        // let newSliceServices = e2eServices.filter(service =>
+        //     service.sliceId == currentSlice && !service.active)
+        // if (newSliceServices.length == 0) return
+        // let connections = []
+        // newSliceServices.forEach((s, i) => {
+        //     connections.push({
+        //         epa: s.srcVertex.value.node.uniTpMap.get(s.srcPort).name.split(':')[0],
+        //         epb: s.dstVertex.value.node.uniTpMap.get(s.dstPort).name.split(':')[0],
+        //         bandwidth: s.bandwidth,
+        //         name: s.name,
+        //     })
+        // })
+        // let jsonData = jsonRender('ONAP_TS_ALLOCATE_TMPL',
+        //     { sliceId: currentSlice, connections: connections })
+        // setRestJsonData('POST', onap, 'allocate', jsonData, null, false)
+
+        // let jsonData = jsonRender('ONAP_TS_OTHERS_TMPL',
+        //     { sliceId: currentSlice })
+        // setRestJsonData(method, onap, action, jsonData, null, false)
+    }
+
+    // Reset the database of controllers
+/*    resetControllerData() {
+        let result = confirm('The data of all controllers will be reset to initial state.')
+        if (!result) return
+        let reqNumber = 0
+        for (let controller of controllers) {
+            setRestJsonData('POST', {controller: controller}, RPC_RESET_DATA_URL, null)
+        }
+    }*/
+
+    // Filter table by cloud Id
+    filterTable(table, cloudId) {
+        if (table) table.column('cloudId:name').search(cloudId, true).draw()
+    }
+
+    // Hide or show table
+    hideTable(table, hide) {
+        let index;
+        if (table && !hide) {
+            $(table.table().container()).show()
+            index = table.row({selected: true, search: 'applied'}).index()
+            if (index == null) {
+                this.tableContainer.nativeElement.scrollTo(0, 0)
+            } else {
+                table.row(index).node().scrollIntoView(false)
+            }
+        } else if (table && hide) {
+            $(table.table().container()).hide()
+        }
+    }
+
+    // Select table row
+    selectTableRow(index = null, click = false) {
+        this.graph.clearSelection()
+        if ((this.currentLayer == 1 || this.currentLayer == 2) && this.tunnelTable) {
+            let indexes
+            if (index == null) {
+                indexes = this.tunnelTable.rows({selected: true, search: 'applied'}).indexes()
+                if (indexes.length == 0) return this.tunnelTable.rows('.selected').deselect()
+                indexes = indexes.toArray()
+            } else {
+                this.tunnelTable.rows('.selected').deselect()
+                let node = this.tunnelTable.row(index).select().node()
+                if (!click) node.scrollIntoView(false)
+                this.serviceTable.rows('.selected').deselect()
+                indexes = [index]
+            }
+            for (let i in indexes) {
+                mxConstants.EDGE_SELECTION_COLOR = parseInt(i) % 2 ? '#0000FF' : '#00FF00'
+                this.graph.addSelectionCells((this.currentLayer == 1) ?
+                    this.e2eTunnels[indexes[i]].edges : [this.e2eTunnels[indexes[i]].e2eEdge])
+                this.showJsonData(this.tunnelsMap.get(this.e2eTunnels[indexes[i]].name), false)
+            }
+            mxConstants.EDGE_SELECTION_COLOR = '#00FF00'
+        } else if (this.currentLayer == 3 && this.serviceTable) {
+            if (index == null) {
+                index = this.serviceTable.row({selected: true, search: 'applied'}).index()
+                if (index == null) return this.serviceTable.rows('.selected').deselect()
+            } else {
+                this.serviceTable.rows('.selected').deselect()
+                let node = this.serviceTable.row(index).select().node()
+                if (!click) node.scrollIntoView(false)
+            }
+            this.graph.addSelectionCell(this.e2eServices[index].e2eEdge)
+            let currentService = this.e2eServices[index].name
+            this.showJsonData(this.servicesMap.get(this.e2eServices[index].name), false)
+            if (this.tunnelTable) this.tunnelTable.rows('.selected').deselect()
+        }
+    }
+
+    // Function to show the data of js object in JSON format
+    showJsonData(data, show = true) {
+        /*        $(jsonViewer).jsonViewer(data, { withLinks: false })
+                if (show) { popupWnd.show(); popupWnd.fit() }*/
+    }
+
+// A utility function for getting value from nested JSON data
+    getJsonValue(obj, path) {
+        if (!obj) return
+        let arr = path.split('.');
+        let tempObj = obj;
+        for (let e of arr) {
+            if (!e) continue
+            if (!(tempObj = tempObj[e]))
+                return;
+        }
+        return tempObj;
+    }
+
+// A utility function for getting the last part of a string split by :
+    getLastColonPart(longStr) {
+        if (!longStr) return ''
+        let strArray = longStr.split(':')
+        if (strArray.length > 1) return strArray[strArray.length - 1]
+        else return ''
+    }
+
+// A utility function for cloning a new object with simple properties of the source ojbect
+    cloneWithSimpleProperties(source) {
+        let target = {}
+        for (let key of Object.keys(source)) {
+            if (this.isBasicType(source[key])) {
+                target[key] = source[key]
+            }
+        }
+        return target
+    }
+
+// A utility function for copying same properties from the source to the target
+    copySameProperties(source, target) {
+        for (let key of Object.keys(source)) {
+            if (key in target) target[key] = source[key]
+        }
+    }
+
+// A utility function for getting a JSON Array
+    getJsonArray(obj, path) {
+        let tmpObj = this.getJsonValue(obj, path)
+        if (Array.isArray(tmpObj)) return tmpObj
+        else return
+    }
+
+// basic type of js object
+    isBasicType(obj) {
+        return /^(string|number|boolean)$/.test(typeof obj)
+    }
+
+
+    // Get uni edge from endpoint
+    getUniEdgeFromEp(ep) {
+        let node = this.getNodeFromId(ep.networkId, ep.nodeId)
+        if (!node || !ep.portId) return null
+        let uniTp = node.uniTpMap.get(ep.portId.toString())
+        if (uniTp) return uniTp.edge
+    }
+
+
+    // Get node from Ids
+    getNodeFromId(networkId, nodeId) {
+        if (!networkId || !nodeId) return
+        let domain = this.domainMap.get(networkId)
+        if (!domain) return
+        return domain.nodeMap.get(nodeId)
+    }
+
+    // Lay out the multi-domain topology automatically
+    autoLayout(layer = null) {
+        switch (layer || this.currentLayer) {
+            case 1: this.vertexLayout();
+            case 2: this.edgeLayout.execute((this.gLayers)[2]); break
+            case 3: this.edgeLayout.execute((this.gLayers)[3]); break
+        }
+    }
+    // Lay out domains and nodes automatically
+    vertexLayout() {
+        // Move nodes out of domain for layout
+        for (let [, sotnDomain] of this.domainMap) {
+            for (let [, node] of sotnDomain.nodeMap) {
+                this.graph.model.add((this.gLayers)[1], node.vertex)
+            }
+            for (let [, clientNode] of sotnDomain.clientNodeMap) {
+                this.graph.model.add((this.gLayers)[1], clientNode.vertex)
+            }
+        }
+        // Disconnect tunnel edge from source and target
+        for (let item of this.e2eTunnels) {
+            item.srcVertex.removeEdge(item.e2eEdge, true)
+            item.dstVertex.removeEdge(item.e2eEdge, false)
+        }
+
+        // Lay out the muti-domain topology including all nodes
+        this.graph.zoomTo(1);
+        this.organicLayout.execute(this.gLayers[1])
+        // get the center point of each domain
+        let centerPoints = []
+        for (let [, sotnDomain] of this.domainMap) {
+            let x = 0, y = 0
+            if (sotnDomain.nodeMap.size == 0) continue
+            for (let [, node] of sotnDomain.nodeMap) {
+                x += node.vertex.geometry.x
+                y += node.vertex.geometry.y
+            }
+            centerPoints.push({ x: x / sotnDomain.nodeMap.size, y: y / sotnDomain.nodeMap.size })
+        }
+        // calculate the rotation angel of topology in order to rotote it to horizontal direction
+        if (centerPoints.length >= 2) {
+            let theta = Math.atan2(centerPoints[centerPoints.length - 1].y - centerPoints[0].y,
+                centerPoints[centerPoints.length - 1].x - centerPoints[0].x) * 180 / Math.PI
+            let i = 0
+            for (let [, sotnDomain] of this.domainMap) {
+                for (let [, node] of sotnDomain.nodeMap) {
+                    rotateVertex(node.vertex, centerPoints[i], -theta)
+                }
+                for (let [, clientNode] of sotnDomain.clientNodeMap) {
+                    let vertex = clientNode.vertex
+                    rotateVertex(vertex, centerPoints[i], -theta)
+                    // shorten the length of uni link by 1/3
+                    let remote = clientNode.networkNode.vertex
+                    vertex.geometry.x = (vertex.geometry.x * 2 + remote.geometry.x) / 3
+                    vertex.geometry.y = (vertex.geometry.y * 2 + remote.geometry.y) / 3
+                }
+                i++
+            }
+        }
+        // resize the domains to just contain the nodes in each domain
+        for (let [, sotnDomain] of this.domainMap) {
+            let vertexes = []
+            for (let [, node] of sotnDomain.nodeMap) {
+                vertexes.push(node.vertex)
+            }
+            for (let [, clientNode] of sotnDomain.clientNodeMap) {
+                vertexes.push(clientNode.vertex)
+            }
+            let bounds = this.graph.getBoundingBoxFromGeometry(vertexes, false)
+            sotnDomain.vertex.geometry.setRect(bounds.x, bounds.y, bounds.width, bounds.height)
+        }
+        // Move nodes back to their orginal domain
+        for (let [, sotnDomain] of this.domainMap) {
+            for (let [, node] of sotnDomain.nodeMap) {
+                this.graph.model.add(sotnDomain.vertex, node.vertex)
+            }
+            for (let [, clientNode] of sotnDomain.clientNodeMap) {
+                this.graph.model.add(sotnDomain.vertex, clientNode.vertex)
+            }
+        }
+        // Reconnect tunnel edge to source and target
+        for (let item of this.e2eTunnels) {
+            item.srcVertex.insertEdge(item.e2eEdge, true)
+            item.dstVertex.insertEdge(item.e2eEdge, false)
+        }
+
+        this.clientNodeLabelLayout()
+        this.domainLayout(50, 50, 50)
+        this.centerGraph()
+
+        function rotateVertex(vertex, centerPoint, theta) {
+            let newPoint = mxAbstractCanvas2D.prototype.rotatePoint(
+                vertex.geometry.x, vertex.geometry.y, theta, centerPoint.x, centerPoint.y)
+            vertex.geometry.x = newPoint.x
+            vertex.geometry.y = newPoint.y
+        }
+    }
+    // Layout domains automatically with the same domain size
+    domainLayout(marginWidth, marginHeight, marginBetween) {
+        let domains = this.graph.model.getChildVertices(this.gLayers[0])
+        this.graph.cellsFolded(domains, false, false)
+        let maxWidth = 0, maxHeight = 0
+        for (let domain of domains) {
+            if (maxWidth < domain.geometry.width) maxWidth = domain.geometry.width
+            if (maxHeight < domain.geometry.height) maxHeight = domain.geometry.height
+        }
+        maxWidth += marginWidth;
+        maxHeight += marginHeight
+        // Center the nodes in the domain
+        for (let domain of domains) {
+            domain.geometry.width = maxWidth + marginBetween
+            domain.geometry.height = maxHeight
+            let nodes = this.graph.model.getChildVertices(domain)
+            let bounds = this.graph.getBoundingBoxFromGeometry(nodes, false)
+            let xOffset = (maxWidth / 2 - bounds.x - bounds.width / 2)
+            let yOffset = (maxHeight / 2 - bounds.y - bounds.height / 2)
+            for (let node of nodes) {
+                node.geometry.x += xOffset
+                node.geometry.y += yOffset
+            }
+        }
+        this.stackLayout.execute(this.gLayers[0])
+        for (let domain of domains) {
+            domain.geometry.width -= marginBetween
+        }
+    }
+    getKeys(map){
+        return Array.from(map.keys());
+    }
+    getValues(map){
+        return Array.from(map.values());
+    }
+
 }
