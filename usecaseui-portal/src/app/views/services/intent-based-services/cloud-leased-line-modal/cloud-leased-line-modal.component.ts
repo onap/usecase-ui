@@ -51,7 +51,12 @@ export class CloudLeasedLineModalComponent implements OnInit {
   queryAccessNodeInfo() {
     this.myHttp.queryAccessNodeInfo().subscribe(
       (response) => {
-        console.log(response);
+        const { code, data } = response;
+        if (code !== 200) {
+          return;
+        }
+        this.cloudPointOptions = [...data.cloudAccessNodeList];
+        this.nodeLists = [...data.accessNodeList];
       },
       (err) => {
         console.log(err);

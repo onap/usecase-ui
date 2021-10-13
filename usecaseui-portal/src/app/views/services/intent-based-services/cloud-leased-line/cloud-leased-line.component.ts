@@ -32,17 +32,22 @@ export class CloudLeasedLineComponent implements OnInit {
     2: 'Deleted',
     3: 'Inactive'
   }
-  // 列表数据源
+  // table lists
 	listOfData: any[] = [];
-  // 分页信息及总数
+  // pageSize or pageNum
 	pageIndex: number = 1;
 	pageSize: number = 10;
 	total: number = 0;
 	loading = false;
-  // 控制弹窗展示变量
+  // cantrol dialog show or hidden
   cloudLeasedLineShowFlag: boolean = false;
   smartCloudLeasedLineShowFlag: boolean = false;
-  // 初始化查询数据源
+  // resolve to dialog
+  resolveResult: any = null;
+  intervalTime: number = 5000;
+  progressingTimer: any[] = [];
+  
+  // init source data
 	getCloudLeasedLineList(): void {
     this.myHttp.getInstanceList({
       currentPage: this.pageIndex,
@@ -54,39 +59,85 @@ export class CloudLeasedLineComponent implements OnInit {
 				return;
       }
       this.total = data.totalRecords;
-      this.listOfData = [...data.list];
+      if (data.list === 0) {
+        return;
+      }
+      
+      this.listOfData = data.list.map((item, index) => {
+        if (item.status === 'Incomplete') {
+          const updateStatus = (prodata) => {
+            item.status = prodata.status || item.status;
+          };
+          
+          const obj = { serviceId: item.id };
+          this.queryStatus(obj, index, updateStatus).then(() => {
+            item.status = "Completed";
+            this.getCloudLeasedLineList();
+          });
+        } 
+        return item;
+      });
     }, (err) => {
       console.log(err);
     });
   }
-  // 分页信息变更查询数据
+
+  queryStatus(obj: any, index: number, callback: any) {
+    return new Promise((res) => {
+			const requery = () => {
+        const param = [obj.id];
+				this.myHttp.getInstanceStatus(param).subscribe((response) => {
+						if (
+							response.data.status && response.data.status === 'Incomplete') {
+							callback(response.data);
+							let progressSetTimeOut = setTimeout(() => {
+								requery();
+							}, this.intervalTime);
+							this.progressingTimer.push({
+								id: obj.id,
+								timer: progressSetTimeOut,
+							});
+						} else {
+							this.progressingTimer.forEach((item) => {
+								if (item.serviceId === obj.serviceId) {
+									clearInterval(item.timer);
+								}
+							});
+							res(response.data);
+						}
+					});
+			};
+			requery();
+		});
+  }
+
+  // change page message
   searchData(): void {
     this.getCloudLeasedLineList();
   }
-  // 解析结果传递到create弹窗
-  resolveResult: any;
-  // 弹窗加载
+  
+  // dialog show
 	cloudLeasedLineShow(): void {
 	  this.cloudLeasedLineShowFlag = true;
 	}
-  // 弹窗关闭
+  // dialog close
 	cloudLeasedLineClose(): void {
     this.cloudLeasedLineShowFlag = false;
     this.pageIndex = 1;
     this.pageSize = 10;
     this.getCloudLeasedLineList();
   }
-  // smart 弹窗加载
+  // smart dialog show
 	smartCloudLeasedLineShow(): void {
 	  this.smartCloudLeasedLineShowFlag = true;
 	}
-  // smart 弹窗关闭
+  // smart dialog close
 	smartCloudLeasedLineClose(data): void {
     this.smartCloudLeasedLineShowFlag = false;
     if (data.cancel) {
       return;
     }
-    this.cloudLeasedLineShowFlag = true;
+
     this.resolveResult = {
       name: 'test',
       instanceId: '123456',
@@ -96,8 +147,10 @@ export class CloudLeasedLineComponent implements OnInit {
       },
       cloudPointName: 'aaa',
     };
+
+    this.cloudLeasedLineShowFlag = true;
   }
-  // 跳转监控管理页面
+  // to monitor page
   goMonitorService(): void {
     this.router.navigateByUrl('/fcaps/monitor_service');
   }

@@ -183,6 +183,7 @@ export class OnboardVnfVmComponent implements OnInit {
     // tslint:disable-next-line:no-any
     this.fileList.forEach((file: any) => {
       formData.set('file', file);
+      formData.set('modelType', this.nlpType);
     });
     this.uploading = true;
     this.file = {
@@ -298,7 +299,8 @@ export class OnboardVnfVmComponent implements OnInit {
                     return nsvfc.id == nssdc.uuid
                   })
                 });
-                this.nsTableData = this.nsTableData.concat(sameData);
+                console.log(sameData);
+                this.nsTableData = [...this.nsTableData, ...sameData];
               },
               (err) => {
                 this.msg.error(err);

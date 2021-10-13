@@ -26,13 +26,14 @@ export class intentBaseService {
       getInstanceId: this.baseUrl + "/intent/getInstanceId",
       createIntentInstance: this.baseUrl + "/intent/createIntentInstance",
       getInstanceList: this.baseUrl + "/intent/getInstanceList",
+      getInstanceStatus: this.baseUrl + "/intent/getInstanceStatus",
       queryInstancePerformanceData: this.baseUrl + "/intent/queryInstancePerformanceData",
       getFinishedInstanceInfo: this.baseUrl + "/intent/getFinishedInstanceInfo",
       deleteIntentInstance: this.baseUrl + "/intent/deleteIntentInstance",
       activeIntentInstance: this.baseUrl + "/intent/activeIntentInstance",
       invalidIntentInstance: this.baseUrl + "/intent/invalidIntentInstance",
       queryAccessNodeInfo: this.baseUrl + "/intent/queryAccessNodeInfo",
-      intentInstancePredict: this.baseUrl + "/intent/intentInstancePredict"
+      intentInstancePredict: this.baseUrl + "/intent/predict"
     };
 
     //The following APIs function are optimizable------------------------
@@ -50,6 +51,10 @@ export class intentBaseService {
       return this.http.post<any>(this.url["getInstanceList"], requestBody);
     }
     
+    getInstanceStatus(requestBody) {
+      return this.http.post<any>(this.url["getInstanceStatus"], requestBody);
+    }
+
     queryInstancePerformanceData(requestBody) {
         return this.http.post<any>(this.url["queryInstancePerformanceData"], requestBody);
     }

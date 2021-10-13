@@ -40,8 +40,8 @@
                 *ngIf="item.type === 'select'"
               >
                 <nz-option
-                  [nzValue]="option.key"
-                  [nzLabel]="option.title"
+                  [nzValue]="option"
+                  [nzLabel]="option"
                   *ngFor="let option of cloudPointOptions"
                 >
                 </nz-option>
@@ -67,8 +67,8 @@
                     [(ngModel)]="cloud_leased_line_info[item.key].name"
                   >
                     <nz-option
-                      [nzValue]="option.key"
-                      [nzLabel]="option.title"
+                      [nzValue]="option"
+                      [nzLabel]="option"
                       *ngFor="let option of nodeLists"
                     >
                     </nz-option>

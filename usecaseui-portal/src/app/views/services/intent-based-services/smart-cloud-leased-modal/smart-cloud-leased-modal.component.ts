@@ -58,6 +58,7 @@ export class SmartCloudLeasedModalComponent implements OnInit {
   submitFormMessage(): void {
     let params = {
       "title": "predict",
+      "modelType": 'ccvpn',
       "text": this.communicationMessage
     };
     this.myhttp.intentInstancePredict(params).subscribe(

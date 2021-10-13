@@ -19,62 +19,7 @@ export class MonitorFacpsServiceComponent implements OnInit {
 	selectedSubscriptionType: string = "";
 	selectedServiceInstance: string = "";
 	selectedTopology: string = "";
-        instanceId: string = "";
-  chartData: any = {
-    xAxis: {
-      data: [
-        "2018-09-10 ",
-        "2018-09-11",
-        "2018-09-12",
-        "2018-09-13",
-        "2018-09-14",
-        "2018-09-15",
-        "2018-09-16",
-        "2018-09-17",
-        "2018-09-18",
-        "2018-09-19",
-        "2018-09-20",
-        "2018-09-21",
-        "2018-09-22"
-      ]
-    },
-    series: [
-      {
-        data: [
-          30,
-          45,
-          34,
-          35,
-          43,
-          56,
-          36,
-          53,
-          42,
-          45,
-          44,
-          35,
-          32
-        ] 
-      },
-      {
-        data: [
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60,
-          60
-        ]
-      }
-    ]
-  };
+  instanceId: string = "";
 	initData: any = {
 		height: 320,
 		option: {
@@ -106,6 +51,7 @@ export class MonitorFacpsServiceComponent implements OnInit {
 	updateOption: any;
 
 	instanceLists: any[] = [];
+  progressSetTimeOut: any;
 
   ngOnInit() {
     this.getFinishedInstanceInfo();
@@ -179,21 +125,31 @@ export class MonitorFacpsServiceComponent implements OnInit {
   }
 
 	queryInstancePerformance(instanceId) {
-    this.myHttp.queryInstancePerformanceData({ instanceId}).subscribe(
-      (response) => {
-        const { code, message, data } = response;
-        if (code !== 200) {
-          this.nzMessage.error(message);
-          return;
-        }
-        if(this.chartIntance){
-          this.updateOption = data;
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    )
-  }
+    const requery = () => {
+      this.myHttp.queryInstancePerformanceData({ instanceId}).subscribe(
+        (response) => {
+          const { code, message, data } = response;
+          if (code !== 200) {
+            this.nzMessage.error(message);
+          } else {
+            if(this.chartIntance) {
+              this.updateOption = data;
+            }
+          }
 
+          if (this.progressSetTimeOut) {
+            clearInterval(this.progressSetTimeOut);
+          }
+          
+          this.progressSetTimeOut = setTimeout(() => {
+            requery();
+          }, 5000);
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
+    }
+    requery();
+  }
 }

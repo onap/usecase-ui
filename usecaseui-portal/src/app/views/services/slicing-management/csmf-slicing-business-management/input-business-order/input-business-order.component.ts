@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { Util } from '../../../../../shared/utils/utils';
 import { onboardService } from '../../../../../core/services/onboard.service';
 import { Recorder } from '../../../../../shared/utils/recorder';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-input-business-order',
@@ -74,8 +74,9 @@ export class InputBusinessOrderComponent implements OnInit {
       return
     }
     let params = {
-          "title": "predict",
-          "text": this.communicationMessage
+      "title": "predict",
+      "modelType": '5gs',
+      "text": this.communicationMessage
     };
     this.myhttp["analysisInputText"](params)
       .subscribe((data) => {
