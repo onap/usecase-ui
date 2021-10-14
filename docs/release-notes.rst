@@ -11,6 +11,10 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 4.0.3
+--------------
+
+
 Version: 4.0.1
 --------------
 
