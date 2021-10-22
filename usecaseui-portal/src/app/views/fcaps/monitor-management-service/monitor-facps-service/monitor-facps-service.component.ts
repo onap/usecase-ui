@@ -87,12 +87,12 @@ export class MonitorFacpsServiceComponent implements OnInit {
           interval: 0,
           show: true,
           textStyle: {
-            color: "#a9a9a9", //更改坐标轴文字颜色
-            fontSize: 10 //更改坐标轴文字大小
+            color: "#a9a9a9",
+            fontSize: 10
           },
           rotate: 40,
-          showMinLabel: true,//显示最小值
-          showMaxLabel: true,//显示最大值
+          showMinLabel: true,
+          showMaxLabel: true,
 					color: "#3C4F8C",
 				},
 				data: this.initData.option.xAxis.data,
