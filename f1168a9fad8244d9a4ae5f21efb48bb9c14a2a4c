@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2902b31_46cbc0c2",
+        "filename": "usecaseui-portal/src/app/views/fcaps/monitor-management-service/monitor-facps-service/monitor-facps-service.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2021-10-22T07:38:04Z",
+      "side": 1,
+      "message": "Please use English for comments",
+      "revId": "f1168a9fad8244d9a4ae5f21efb48bb9c14a2a4c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
