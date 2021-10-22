@@ -29,9 +29,7 @@
                   [name]="item.key"
                   *ngIf="item.type === 'input'"
                   [(ngModel)]="cloud_leased_line_info[item.key]"
-                  [ngClass]="{'error-input-border' : validateRulesShow[i] === true}"
                   [placeholder]="item.placeholder ? item.placeholder : ''"
-                  (blur)="item.required ? this.Util.validator(item.title,item.key,cloud_leased_line_info[item.key],i,rulesText,validateRulesShow) : this.Util.validator()"
                 />
               </nz-tooltip>
               <nz-select
@@ -55,9 +53,7 @@
                     [id]="item.key"
                     [name]="item.key"
                     [(ngModel)]="cloud_leased_line_info[item.key].bandwidth"
-                    [ngClass]="{'error-input-border' : validateRulesShow[i] === true}"
                     [placeholder]="item.placeholder ? item.placeholder : ''"
-                    (blur)="item.required ? this.Util.validator(item.title,item.key,cloud_leased_line_info[item.key],i,rulesText,validateRulesShow) : this.Util.validator()"
                   />
                 </div>
                 <div>

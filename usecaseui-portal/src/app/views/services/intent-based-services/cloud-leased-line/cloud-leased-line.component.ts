@@ -64,17 +64,16 @@ export class CloudLeasedLineComponent implements OnInit {
       }
       
       this.listOfData = data.list.map((item, index) => {
-        if (item.status === 'Incomplete') {
+        if (this.statusObj[item.status] === 'Incomplete') {
           const updateStatus = (prodata) => {
             item.status = prodata.status || item.status;
           };
           
-          const obj = { serviceId: item.id };
+          const obj = { instanceId: item.instanceId };
           this.queryStatus(obj, index, updateStatus).then(() => {
-            item.status = "Completed";
-            this.getCloudLeasedLineList();
+            item.status = '1';
           });
-        } 
+        }
         return item;
       });
     }, (err) => {
@@ -85,27 +84,33 @@ export class CloudLeasedLineComponent implements OnInit {
   queryStatus(obj: any, index: number, callback: any) {
     return new Promise((res) => {
 			const requery = () => {
-        const param = [obj.id];
+        const param = {
+          ids: [obj.instanceId]
+        };
 				this.myHttp.getInstanceStatus(param).subscribe((response) => {
-						if (
-							response.data.status && response.data.status === 'Incomplete') {
-							callback(response.data);
-							let progressSetTimeOut = setTimeout(() => {
-								requery();
-							}, this.intervalTime);
-							this.progressingTimer.push({
-								id: obj.id,
-								timer: progressSetTimeOut,
-							});
-						} else {
-							this.progressingTimer.forEach((item) => {
-								if (item.serviceId === obj.serviceId) {
-									clearInterval(item.timer);
-								}
-							});
-							res(response.data);
-						}
-					});
+          const { code, data:{ IntentInstances } } = response;
+          if (code !== 200 || !IntentInstances || IntentInstances.length === 0) {
+            return;
+          }
+          const intentInstance = IntentInstances[0];
+          if (this.statusObj[intentInstance.status] === 'Incomplete') {
+            callback(intentInstance);
+            let progressSetTimeOut = setTimeout(() => {
+              requery();
+            }, this.intervalTime);
+            this.progressingTimer.push({
+              instanceId: obj.instanceId,
+              timer: progressSetTimeOut,
+            });
+          } else {
+            this.progressingTimer.forEach((item) => {
+              if (item.instanceId === obj.instanceId) {
+                clearInterval(item.timer);
+              }
+            });
+            res(intentInstance);
+          }
+				});
 			};
 			requery();
 		});
@@ -159,7 +164,12 @@ export class CloudLeasedLineComponent implements OnInit {
     this.myHttp.activeIntentInstance({
       instanceId: row.instanceId
     }).subscribe((data) => {
-      console.log(data);
+      const { code, message } = data;
+      if (code !== 200) {
+        this.nzMessage.error(message);
+        return;
+      }
+      this.getCloudLeasedLineList();
     }, (err) => {
       console.log(err);
     });
@@ -169,7 +179,12 @@ export class CloudLeasedLineComponent implements OnInit {
     this.myHttp.invalidIntentInstance({
       instanceId: row.instanceId
     }).subscribe((data) => {
-      console.log(data);
+      const { code, message } = data;
+      if (code !== 200) {
+        this.nzMessage.error(message);
+        return;
+      }
+      this.getCloudLeasedLineList();
     }, (err) => {
       console.log(err);
     });
@@ -177,7 +192,12 @@ export class CloudLeasedLineComponent implements OnInit {
 
   deleteCloudLeasedLine(row): void {
     this.myHttp.deleteIntentInstance(row.instanceId).subscribe((data) => {
-      console.log(data);
+      const { code, message } = data;
+      if (code !== 200) {
+        this.nzMessage.error(message);
+        return;
+      }
+      this.getCloudLeasedLineList();
     }, (err) => {
       console.log(err);
     });

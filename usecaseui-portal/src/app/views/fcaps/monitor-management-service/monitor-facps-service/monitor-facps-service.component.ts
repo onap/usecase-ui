@@ -42,6 +42,9 @@ export class MonitorFacpsServiceComponent implements OnInit {
           data: []
         }
 			],
+      tooltip: {
+        trigger: 'axis',
+      },
 		},
 	};
   
@@ -73,6 +76,7 @@ export class MonitorFacpsServiceComponent implements OnInit {
 				containLabel: true,
 			},
 			xAxis: {
+        type: "category",
 				axisTick: {
 					show: false,
 				},
@@ -80,6 +84,15 @@ export class MonitorFacpsServiceComponent implements OnInit {
 					show: false,
 				},
 				axisLabel: {
+          interval: 0,
+          show: true,
+          textStyle: {
+            color: "#a9a9a9", //更改坐标轴文字颜色
+            fontSize: 10 //更改坐标轴文字大小
+          },
+          rotate: 40,
+          showMinLabel: true,//显示最小值
+          showMaxLabel: true,//显示最大值
 					color: "#3C4F8C",
 				},
 				data: this.initData.option.xAxis.data,

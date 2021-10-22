@@ -21,7 +21,6 @@ export class CloudLeasedLineModalComponent implements OnInit {
   @Input() cloudLeasedLineShowFlag: boolean;
   @Output() cancelEmitter = new EventEmitter<boolean>();
   comunicationFormItems = COMMUNICATION_FORM_ITEMS;
-  validateRulesShow: any[] = [];
   isLoadingOne = false;
   nodeLists: any[] = [];
   cloudPointOptions: any[] = [];
@@ -81,11 +80,31 @@ export class CloudLeasedLineModalComponent implements OnInit {
   }
 
   submit(): void {
+    const paramOnj = { ...this.cloud_leased_line_info };
+    for (const iterator in paramOnj) {
+      if (this.isString(paramOnj[iterator]) && !paramOnj[iterator]) {
+        this.nzMessage.error(`Please enter ${iterator}`);
+        return;
+      }
+      if (!this.isString(paramOnj[iterator])) {
+        const { name, bandwidth} = paramOnj[iterator];
+        if (!name) {
+          this.nzMessage.error(`Please enter accessPointOne Name`);
+          return;
+        }
+
+        if (bandwidth !== 0 && !/^\+?[1-9][0-9]*$/.test(bandwidth)) {
+          this.nzMessage.error(`Please enter a positive integer accessPointOne bandwidth`);
+          return;
+        }
+      }
+    }
+    
     this.myHttp.createIntentInstance({
       ...this.cloud_leased_line_info
     }).subscribe(
       (data) => {
-        console.log(data);
+        this.nzMessage.success('Create IntentInstance Success!');
         this.cancel();
       },
       (err) => {
@@ -106,5 +125,9 @@ export class CloudLeasedLineModalComponent implements OnInit {
       cloudPointName: '',
     };
     this.cancelEmitter.emit();
+  }
+
+  isString(val) {
+    return Object.prototype.toString.call(val) === '[object String]';
   }
 }
