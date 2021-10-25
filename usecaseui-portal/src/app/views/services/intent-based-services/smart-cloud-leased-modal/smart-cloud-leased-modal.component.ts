@@ -37,10 +37,10 @@ export class SmartCloudLeasedModalComponent implements OnInit {
 
   ngOnChange() {}
 
-  handleCancel(flag): void {
+  handleCancel(flag, data=null): void {
     this.samrtCloudLeasedLineShowFlag = false;
     this.communicationMessage = "";
-    this.resolveEmitter.emit({ "cancel": flag });
+    this.resolveEmitter.emit({ cancel: flag, data: data});
   }
 
   handleOk(): void {
@@ -63,8 +63,7 @@ export class SmartCloudLeasedModalComponent implements OnInit {
     };
     this.myhttp.intentInstancePredict(params).subscribe(
       (response) => {
-        console.log(response);
-        this.handleCancel(false);
+        this.handleCancel(false, response);
       },
       (err) => {
         console.log(err);

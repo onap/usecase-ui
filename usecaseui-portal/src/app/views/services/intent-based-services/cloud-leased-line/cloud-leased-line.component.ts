@@ -137,22 +137,13 @@ export class CloudLeasedLineComponent implements OnInit {
 	  this.smartCloudLeasedLineShowFlag = true;
 	}
   // smart dialog close
-	smartCloudLeasedLineClose(data): void {
+	smartCloudLeasedLineClose(param): void {
     this.smartCloudLeasedLineShowFlag = false;
-    if (data.cancel) {
+    if (param.cancel) {
       return;
     }
 
-    this.resolveResult = {
-      name: 'test',
-      instanceId: '123456',
-      accessPointOne: {
-        name: 'aaa',
-        bandwidth: '20'
-      },
-      cloudPointName: 'aaa',
-    };
-
+    this.resolveResult = param.data;
     this.cloudLeasedLineShowFlag = true;
   }
   // to monitor page
