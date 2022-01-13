@@ -218,7 +218,7 @@ export class SlicingTaskModelComponent implements OnInit {
 						"an_enableNSSISelection",
 						"sliceProfile_AN_maxNumberofPDUSession",
 					]),
-					an_coverage_area_ta_list: area,
+					an_coverage_area_ta_list : nsi_nssi_info.an_coverage_area_ta_list,
 				};
 				this.slicingSubnet[1].params = this.pick(nsi_nssi_info, [
 					"tn_bh_latency",
