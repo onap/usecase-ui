@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { COMMUNICATION_FORM_ITEMS, MASKTEXT } from "./constants";
-import { Util } from "../../../../../shared/utils/utils";
-import { SlicingTaskServices } from "../../../../../core/services/slicingTaskServices";
 import { NzMessageService } from "ng-zorro-antd";
+import { SlicingTaskServices } from "../../../../../core/services/slicingTaskServices";
+import { Util } from "../../../../../shared/utils/utils";
+import { COMMUNICATION_FORM_ITEMS, MASKTEXT } from "./constants";
 
 @Component({
 	selector: "app-business-order",
@@ -24,9 +24,7 @@ export class BusinessOrderComponent implements OnInit {
 			this.slicing_order_info = { ...this.modelParams };
 			if (this.slicing_order_info.coverageArea) {
 				areaList = [];
-				areaList.push(
-					this.slicing_order_info.coverageArea.split(" ").join(";")
-				);
+				areaList.push(this.slicing_order_info.coverageArea);
 			}
 		}
 		this.AreaFormatting(areaList);

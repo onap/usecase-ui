@@ -1,7 +1,12 @@
 <nz-tabset [nzSelectedIndex]="selectedIndex" (nzSelectChange)="handleTabChange($event)" class="slicing">
+  <nz-tab [nzTitle]="'i18nTextDefine_intentBaseService' | translate">
+    <app-intent-based-predict
+      *ngIf="selectedIndex === 0"
+    ></app-intent-based-predict>
+  </nz-tab>
   <nz-tab [nzTitle]="'i18nTextDefine_cloudLeasedLine' | translate">
     <app-cloud-leased-line
-      *ngIf="selectedIndex === 0"
+      *ngIf="selectedIndex === 1"
     ></app-cloud-leased-line>
   </nz-tab>
 </nz-tabset>

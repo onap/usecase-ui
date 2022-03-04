@@ -33,7 +33,8 @@ export class intentBaseService {
       activeIntentInstance: this.baseUrl + "/intent/activeIntentInstance",
       invalidIntentInstance: this.baseUrl + "/intent/invalidIntentInstance",
       queryAccessNodeInfo: this.baseUrl + "/intent/queryAccessNodeInfo",
-      intentInstancePredict: this.baseUrl + "/intent/predict"
+      intentInstancePredict: this.baseUrl + "/intent/predict",
+      intentBasedUnifyPredict: this.baseUrl + "/intent/unifyPredict"
     };
 
     //The following APIs function are optimizable------------------------
@@ -82,5 +83,9 @@ export class intentBaseService {
 
     intentInstancePredict(requestBody) {
       return this.http.post<any>(this.url["intentInstancePredict"], requestBody);
+    }
+
+    intentBasedUnifyPredict(requestBody) {
+      return this.http.post<any>(this.url["intentBasedUnifyPredict"], requestBody);
     }
 }

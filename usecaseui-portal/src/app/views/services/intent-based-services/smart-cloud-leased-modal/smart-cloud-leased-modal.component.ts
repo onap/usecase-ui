@@ -63,7 +63,16 @@ export class SmartCloudLeasedModalComponent implements OnInit {
     };
     this.myhttp.intentInstancePredict(params).subscribe(
       (response) => {
-        this.handleCancel(false, response);
+        const { code, message, data } = response;
+        if (code !== 200) {
+          this.msg.error(message);
+          return;
+        }
+        let orderForm = {
+          ...data,
+          intentContent: this.communicationMessage
+        };
+        this.handleCancel(false, orderForm);
       },
       (err) => {
         console.log(err);

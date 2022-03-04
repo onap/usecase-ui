@@ -79,12 +79,18 @@ export class InputBusinessOrderComponent implements OnInit {
       "text": this.communicationMessage
     };
     this.myhttp["analysisInputText"](params)
-      .subscribe((data) => {
+      .subscribe((response) => {
         this.clickRepeat = false;
-        if (data === 0) {
+        const { code, message, data } = response;
+        if (code !== 200) {
+          this.msg.error(message);
           return;
         }
-        let orderForm = { ...data };
+        
+        let orderForm = {
+          ...data,
+          intentContent: this.communicationMessage
+        };
         this.communicationMessage = "";
         this.showModel = false;
         this.modalOpreation.emit({ "cancel": false, "param": orderForm });

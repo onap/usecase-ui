@@ -1,0 +1,42 @@
+<div class="subnet_params_container">
+  <div class="form_class">
+    <form nz-form class='text-form-class'>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24">
+          <textarea
+            [id]="communicationMessage"
+            nz-tooltip
+            nz-input
+            placeholder="Please input communicationMessage"
+            [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+            [(ngModel)]="communicationMessage"
+            name="communicationMessage">
+          </textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="submit">
+    <button
+      nz-button
+      nzType="primary"
+      nzSize="middle"
+      (click)="submitFormMessage()"
+      [nzLoading]="isConfirmCreating"
+      form="createForm">
+        <span>
+          Submit
+        </span>
+    </button>
+  </div>
+  <app-cloud-leased-line-modal
+    [modelParams]="modalParam"
+    [cloudLeasedLineShowFlag]="cloudModalShowFlag"
+    (cancelEmitter)="modalClose()"
+  ></app-cloud-leased-line-modal>
+  <app-business-order
+    [modelParams]="modalParam"
+    [showModel]="businessModalShowFlag"
+    (cancel)="modalClose()"
+  ></app-business-order>
+</div>

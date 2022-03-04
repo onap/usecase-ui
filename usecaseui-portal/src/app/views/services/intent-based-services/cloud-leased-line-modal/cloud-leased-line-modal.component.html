@@ -50,8 +50,8 @@
                   <input
                     nz-input
                     nz-tooltip
-                    [id]="item.key"
-                    [name]="item.key"
+                    [id]="item.rateName"
+                    [name]="item.rateName"
                     [(ngModel)]="cloud_leased_line_info[item.key].bandwidth"
                     [placeholder]="item.placeholder ? item.placeholder : ''"
                   />
@@ -59,7 +59,7 @@
                 <div>
                   <span>{{item.nodeName}}:</span>
                   <nz-select
-                    [name]="item.key"
+                    [name]="item.nodeName"
                     [(ngModel)]="cloud_leased_line_info[item.key].name"
                   >
                     <nz-option

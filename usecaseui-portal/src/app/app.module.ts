@@ -23,6 +23,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { EventQueueService } from "@src/app/core/services/eventQueue.service";
 import { en_US, NgZorroAntdModule, NZ_I18N } from "ng-zorro-antd";
 import { NgxEchartsModule } from "ngx-echarts";
 import { AppRoutingModule } from "./app-routing.module";
@@ -72,6 +73,7 @@ import { PerformanceVnfComponent } from "./views/performance/performance-vnf/per
 import { PerformanceComponent } from "./views/performance/performance.component";
 import { CloudLeasedLineModalComponent } from './views/services/intent-based-services/cloud-leased-line-modal/cloud-leased-line-modal.component';
 import { CloudLeasedLineComponent } from './views/services/intent-based-services/cloud-leased-line/cloud-leased-line.component';
+import { IntentBasedPredictComponent } from './views/services/intent-based-services/intent-based-predict/intent-based-predict.component';
 import { IntentBasedServicesComponent } from './views/services/intent-based-services/intent-based-services.component';
 import { SmartCloudLeasedModalComponent } from './views/services/intent-based-services/smart-cloud-leased-modal/smart-cloud-leased-modal.component';
 import { CcvpnCreationComponent } from "./views/services/services-list/ccvpn-creation/ccvpn-creation.component";
@@ -105,7 +107,6 @@ import { ManageServiceComponent } from "./views/services/sotn-management/manage-
 import { MonitorServiceComponent } from "./views/services/sotn-management/monitor-service/monitor-service.component";
 import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
 import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
-import { EventQueueService } from "@src/app/core/services/eventQueue.service";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -174,6 +175,7 @@ registerLocaleData(en);
 		Monitor5gComponent,
     MonitorManagementService,
     MonitorFacpsServiceComponent,
+    IntentBasedPredictComponent,
     IntentBasedServicesComponent,
     CloudLeasedLineComponent,
     CloudLeasedLineModalComponent,
