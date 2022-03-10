@@ -26,6 +26,22 @@ export const COMMUNICATION_FORM_ITEMS = [
 		type: "text",
 		required: true,
 	},
+  {
+		title: "Resource Protect Level",
+		key: "protect",
+		type: "radio",
+		required: true,
+		options: [
+			{
+				title: "Protect",
+				key: true,
+			},
+			{
+				title: "Non-Protect",
+				key: false,
+			},
+		],
+	},
 	{
 		title: "Access Point 1",
     nodeName: 'Name',

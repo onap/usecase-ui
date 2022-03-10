@@ -27,6 +27,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
   cloud_leased_line_info = {
 		name: '',
 		instanceId: '',
+    protect: false,
 		accessPointOne: {
       name: '',
       bandwidth: ''
@@ -82,6 +83,9 @@ export class CloudLeasedLineModalComponent implements OnInit {
   submit(): void {
     const paramOnj = { ...this.cloud_leased_line_info };
     for (const iterator in paramOnj) {
+      if (this.isBoolean(paramOnj[iterator])) {
+        continue;
+      }
       if (this.isString(paramOnj[iterator]) && !paramOnj[iterator]) {
         this.nzMessage.error(`Please enter ${iterator}`);
         return;
@@ -103,7 +107,12 @@ export class CloudLeasedLineModalComponent implements OnInit {
     this.myHttp.createIntentInstance({
       ...this.cloud_leased_line_info
     }).subscribe(
-      (data) => {
+      (response) => {
+        const { code, message } = response;
+        if (code !== 200) {
+          this.nzMessage.error(message);
+          return;
+        }
         this.nzMessage.success('Create IntentInstance Success!');
         this.cancel();
       },
@@ -118,6 +127,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
     this.cloud_leased_line_info = {
       name: '',
       instanceId: '',
+      protect: false,
       accessPointOne: {
         name: '',
         bandwidth: ''
@@ -128,6 +138,11 @@ export class CloudLeasedLineModalComponent implements OnInit {
   }
 
   isString(val) {
-    return Object.prototype.toString.call(val) === '[object String]';
+    return typeof val === 'string' || typeof val === 'number';
+    //return Object.prototype.toString.call(val) === '[object String]';
+  }
+
+  isBoolean(val) {
+    return typeof val === 'boolean';
   }
 }
