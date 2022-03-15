@@ -147,8 +147,14 @@ export class CloudLeasedLineComponent implements OnInit {
     this.cloudLeasedLineShowFlag = true;
   }
   // to monitor page
-  goMonitorService(): void {
-    this.router.navigateByUrl('/fcaps/monitor_service');
+  goMonitorService(data): void {
+    // this.router.navigateByUrl('/fcaps/monitor_service');navigate
+    this.router.navigate(['/fcaps/monitor_service'], {
+      queryParams: {
+        instanceId: data.instanceId
+      },
+      skipLocationChange: true
+    });
   }
 
   activeCloudLeasedLine(row): void {

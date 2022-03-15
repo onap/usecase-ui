@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from "ng-zorro-antd";
 import { intentBaseService } from "../../../../core/services/intentBase.service";
 
@@ -13,7 +14,8 @@ export class MonitorFacpsServiceComponent implements OnInit {
   constructor(
     private nzMessage: NzMessageService,
     private myHttp: intentBaseService,
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute
   ) {}
   
 	selectedSubscriptionType: string = "";
@@ -57,6 +59,14 @@ export class MonitorFacpsServiceComponent implements OnInit {
   progressSetTimeOut: any;
 
   ngOnInit() {
+    this.route.queryParams.subscribe(
+      params => {
+        this.instanceId= params['instanceId'];
+        if (this.instanceId) {
+          this.queryInstancePerformance(this.instanceId);
+        }
+      }
+    );
     this.getFinishedInstanceInfo();
 		this.initOpts = {
 			renderer: "canvas",
