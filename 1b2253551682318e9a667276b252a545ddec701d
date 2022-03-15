@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75000ca3_2f7842d0",
+        "filename": "usecaseui-portal/src/app/app.module.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please confirm whether it is intent or intention",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54daf3e3_dc153728",
+        "filename": "usecaseui-portal/src/app/core/services/intentBase.service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent uniformly",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fee8f01_80d3da1b",
+        "filename": "usecaseui-portal/src/app/views/services/intent-based-services/intention-instance/intention-instance.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent.",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a920fb_1d754262",
+        "filename": "usecaseui-portal/src/app/views/services/intent-based-services/intention-instance/intention-instance.component.less",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent.",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4528f3d_3bef8523",
+        "filename": "usecaseui-portal/src/app/views/services/intent-based-services/intention-instance/intention-instance.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent.",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0647b432_68414eea",
+        "filename": "usecaseui-portal/src/assets/i18n/cn.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent.",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df8d9d8e_8273fb6d",
+        "filename": "usecaseui-portal/src/assets/i18n/en.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2022-03-15T11:36:46Z",
+      "side": 1,
+      "message": "Please use the word intent.",
+      "revId": "1b2253551682318e9a667276b252a545ddec701d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
