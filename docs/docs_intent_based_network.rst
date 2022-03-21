@@ -23,6 +23,15 @@ The target architecture of the Intent-Based Network is divided into a Intent
 orchestration layer (hereinafter referred to as the Intent layer), a control 
 layer and a network layer.
 
+REQ-861 Smart Intent Guarantee - Intent Instance
+The new network applications, like E2E Slicing and CCVPN, provide different SLA services to customers. In this REQ, a scenario of intent guarantee is proposed to support the SLA requirements of users in run-time, as well as updating users’ intents. In R9, Intent instance will be developed to support the E2E Slicing and CCVPN.
+
+REQ-1074 Smart Intent Guarantee based on Closed-loop in R10
+In R10, the closed-loop will be developed to support the smart Intent E2E Slicing and CCVPN.
+
+REQ-1075 Network Services without Perception for Users based on IBN
+In R10, Network Services without perception for users based on IBN will be developed to support the E2E Slicing and CCVPN.
+
 
 Abbreviations
 -------------
