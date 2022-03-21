@@ -34,7 +34,10 @@ export class intentBaseService {
       invalidIntentInstance: this.baseUrl + "/intent/invalidIntentInstance",
       queryAccessNodeInfo: this.baseUrl + "/intent/queryAccessNodeInfo",
       intentInstancePredict: this.baseUrl + "/intent/predict",
-      intentBasedUnifyPredict: this.baseUrl + "/intent/unifyPredict"
+      intentBasedUnifyPredict: this.baseUrl + "/intent/unifyPredict",
+      getIntentInstanceList: this.baseUrl + "/intent/getIntentList",
+      delIntentInstance: this.baseUrl + "/intent/deleteIntent",
+      verifyIntentInstance: this.baseUrl + "/intent/verifyIntentInstance"
     };
 
     //The following APIs function are optimizable------------------------
@@ -87,5 +90,18 @@ export class intentBaseService {
 
     intentBasedUnifyPredict(requestBody) {
       return this.http.post<any>(this.url["intentBasedUnifyPredict"], requestBody);
+    }
+
+    getIntentInstanceList(paramsObj) {
+      return this.http.post<any>(this.url["getIntentInstanceList"], paramsObj);
+    }
+
+    delIntentInstance(id) {
+      let params = new HttpParams({ fromObject: { "id": id } });
+      return this.http.delete<any>(this.url['delIntentInstance'], { params });
+    }
+
+    verifyIntentInstance(paramsObj) {
+      return this.http.post<any>(this.url['verifyIntentInstance'], paramsObj);
     }
 }

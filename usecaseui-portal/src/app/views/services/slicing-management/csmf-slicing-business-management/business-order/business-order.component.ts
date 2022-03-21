@@ -51,6 +51,7 @@ export class BusinessOrderComponent implements OnInit {
 		uEMobilityLevel: "stationary",
 		coverageArea: "",
 		coverageAreaNumber: null,
+    intentContent: '',
 	};
 	areaList: any[] = [];
 	validateRulesShow: any[] = [];
@@ -95,6 +96,7 @@ export class BusinessOrderComponent implements OnInit {
 			uEMobilityLevel: "stationary",
 			coverageArea: "",
 			coverageAreaNumber: null,
+      intentContent: ''
 		};
 		this.validateRulesShow = [];
 	}
@@ -152,7 +154,18 @@ export class BusinessOrderComponent implements OnInit {
 			this.handleCancel();
 		};
 		this.loading = true;
-		this.myhttp
+
+    // csmfSlicingPurchaseWithContent
+    const { intentContent } = this.slicing_order_info;
+    if (intentContent) {
+      this.csmfSlicingPurchaseWithContent(paramsObj, csmfSlicingPurchaseFailedCallback);
+      return;
+    }
+    this.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback);
+	}
+
+  csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback): void {
+    this.myhttp
 			.csmfSlicingPurchase(paramsObj, csmfSlicingPurchaseFailedCallback)
 			.then((res) => {
 				const result = res.result_header;
@@ -168,5 +181,24 @@ export class BusinessOrderComponent implements OnInit {
 				this.loading = false;
 				this.handleCancel();
 			});
-	}
+  }
+
+  csmfSlicingPurchaseWithContent(paramsObj, csmfSlicingPurchaseFailedCallback): void {
+    this.myhttp
+			.csmfSlicingPurchaseWithContent(paramsObj, csmfSlicingPurchaseFailedCallback)
+			.then((res) => {
+				const result = res.result_header;
+				if (
+					result &&
+					result.result_code &&
+					+result.result_code === 200
+				) {
+					console.log(res);
+				} else {
+					this.message.create("error", "Network error");
+				}
+				this.loading = false;
+				this.handleCancel();
+			});
+  }
 }

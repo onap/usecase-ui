@@ -13,13 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-import { Injectable } from "@angular/core";
 import {
-	HttpClient,
-	HttpHeaders,
-	HttpParams,
-	HttpResponse,
+  HttpClient
 } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { Http } from "../../shared/utils/http";
 @Injectable()
 export class SlicingTaskServices {
@@ -85,6 +82,7 @@ export class SlicingTaskServices {
 		csmfGetProgress:
 			"/api/usecaseui/csmf/5gSlicing/service/{serviceId}/progress",
 		csmfPurchase: "/api/usecaseui-server/v1/uui-slicing/csmf/5gSlicing",
+    csmfPurchaseWithContent: '/api/usecaseui-server/v1/intent/csmf/5gSlicing',
 		//monitor 5G
 		fetchTraffic:
 			this.baseUrl +
@@ -294,7 +292,10 @@ export class SlicingTaskServices {
 		let url = this.url.csmfPurchase;
 		return this.Http.httpAxios("post", url, paramsObj, failedCallback);
 	}
-
+  csmfSlicingPurchaseWithContent(paramsObj: any, failedCallback?: any) {
+		let url = this.url.csmfPurchaseWithContent;
+		return this.Http.httpAxios("post", url, paramsObj, failedCallback);
+	}
 	//monitor 5G
 	getFetchTraffic(service_list, time, failedCallback?: any) {
 		let url = this.url.fetchTraffic.replace("{queryTimestamp}", time);

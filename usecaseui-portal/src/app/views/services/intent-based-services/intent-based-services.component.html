@@ -9,4 +9,9 @@
       *ngIf="selectedIndex === 1"
     ></app-cloud-leased-line>
   </nz-tab>
+  <nz-tab [nzTitle]="'i18nTextDefine_intentInstance' | translate">
+    <app-intent-instance
+      *ngIf="selectedIndex === 2"
+    ></app-intent-instance>
+  </nz-tab>
 </nz-tabset>

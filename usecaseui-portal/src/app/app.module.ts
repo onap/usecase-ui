@@ -74,6 +74,7 @@ import { CloudLeasedLineModalComponent } from './views/services/intent-based-ser
 import { CloudLeasedLineComponent } from './views/services/intent-based-services/cloud-leased-line/cloud-leased-line.component';
 import { IntentBasedPredictComponent } from './views/services/intent-based-services/intent-based-predict/intent-based-predict.component';
 import { IntentBasedServicesComponent } from './views/services/intent-based-services/intent-based-services.component';
+import { IntentInstanceComponent } from './views/services/intent-based-services/intent-instance/intent-instance.component';
 import { SmartCloudLeasedModalComponent } from './views/services/intent-based-services/smart-cloud-leased-modal/smart-cloud-leased-modal.component';
 import { CcvpnCreationComponent } from "./views/services/services-list/ccvpn-creation/ccvpn-creation.component";
 import { CcvpnDetailComponent } from "./views/services/services-list/ccvpn-detail/ccvpn-detail.component";
@@ -175,6 +176,7 @@ registerLocaleData(en);
     MonitorFacpsServiceComponent,
     IntentBasedPredictComponent,
     IntentBasedServicesComponent,
+    IntentInstanceComponent,
     CloudLeasedLineComponent,
     CloudLeasedLineModalComponent,
     SmartCloudLeasedModalComponent,
