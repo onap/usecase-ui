@@ -166,7 +166,7 @@
   "i18nTextDefine_manageService":"Manage Service",
   "i18nTextDefine_cloudLeasedLine":"Cloud Leased Line",
   "i18nTextDefine_intentBaseService":"Intent Based Services",
-
+  "i18nTextDefine_intentInstance":"Intent Instance Management",
 
   "mdons-network-component":"--:",
   "i18nTextDefine_InterDomainTitle": "Inter-domain link",
