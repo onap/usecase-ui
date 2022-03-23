@@ -130,6 +130,7 @@ export class CloudLeasedLineComponent implements OnInit {
     this.cloudLeasedLineShowFlag = false;
     this.pageIndex = 1;
     this.pageSize = 10;
+    this.resolveResult = null;
     this.getCloudLeasedLineList();
   }
   // smart dialog show
@@ -185,6 +186,21 @@ export class CloudLeasedLineComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  modifyCloudLeasedLine(row): void {
+    this.resolveResult = {
+      name: row.name,
+      instanceId: row.instanceId,
+      protect: row.protectStatus ? true : false,
+      accessPointOne: {
+        name: row.accessPointOneName,
+        bandwidth: row.accessPointOneBandWidth
+      },
+      cloudPointName: row.cloudPointName,
+      isUpdateFlag: true
+    };
+    this.cloudLeasedLineShowFlag = true;
   }
 
   deleteCloudLeasedLine(row): void {

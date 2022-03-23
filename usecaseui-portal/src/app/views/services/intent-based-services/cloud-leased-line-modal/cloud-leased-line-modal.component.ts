@@ -21,7 +21,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
   @Input() cloudLeasedLineShowFlag: boolean;
   @Output() cancelEmitter = new EventEmitter<boolean>();
   comunicationFormItems = COMMUNICATION_FORM_ITEMS;
-  isLoadingOne = false;
+  isUpdateFlag: boolean = false;
   nodeLists: any[] = [];
   cloudPointOptions: any[] = [];
   cloud_leased_line_info = {
@@ -40,6 +40,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
   ngOnChanges() {
     if (this.cloudLeasedLineShowFlag) {
       if (this.modelParams) {
+        this.isUpdateFlag = this.modelParams.isUpdateFlag;
         this.cloud_leased_line_info = { ...this.modelParams };
       } else {
         this.getInstanceId();
@@ -104,6 +105,35 @@ export class CloudLeasedLineModalComponent implements OnInit {
       }
     }
     
+    if (this.isUpdateFlag) {
+      this.updateIntentInstance();
+      return;
+    }
+    this.createIntentInstance();
+  }
+
+  updateIntentInstance(): void {
+    const { accessPointOne: { bandwidth } } = this.cloud_leased_line_info;
+    this.myHttp.updateIntentInstance({
+      instanceId: this.modelParams.instanceId,
+      bandwidth
+    }).subscribe(
+      (response) => {
+        const { code, message } = response;
+        if (code !== 200) {
+          this.nzMessage.error(message);
+          return;
+        }
+        this.nzMessage.success('Update IntentInstance Success!');
+        this.cancel();
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
+  createIntentInstance(): void {
     this.myHttp.createIntentInstance({
       ...this.cloud_leased_line_info
     }).subscribe(
@@ -124,6 +154,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
 
   cancel(): void {
     this.cloudLeasedLineShowFlag = false
+    this.isUpdateFlag = false
     this.cloud_leased_line_info = {
       name: '',
       instanceId: '',

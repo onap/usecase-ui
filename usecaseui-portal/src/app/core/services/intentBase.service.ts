@@ -32,6 +32,7 @@ export class intentBaseService {
       deleteIntentInstance: this.baseUrl + "/intent/deleteIntentInstance",
       activeIntentInstance: this.baseUrl + "/intent/activeIntentInstance",
       invalidIntentInstance: this.baseUrl + "/intent/invalidIntentInstance",
+      updateIntentInstance: this.baseUrl + "/intent/updateCCVPNInstance",
       queryAccessNodeInfo: this.baseUrl + "/intent/queryAccessNodeInfo",
       intentInstancePredict: this.baseUrl + "/intent/predict",
       intentBasedUnifyPredict: this.baseUrl + "/intent/unifyPredict",
@@ -80,6 +81,10 @@ export class intentBaseService {
       return this.http.post<any>(this.url["invalidIntentInstance"], requestBody);
     }
 
+    updateIntentInstance(requestBody) {
+      return this.http.post<any>(this.url["updateIntentInstance"], requestBody);
+    }
+    
     queryAccessNodeInfo() {
       return this.http.get<any>(this.url["queryAccessNodeInfo"]);
     }
