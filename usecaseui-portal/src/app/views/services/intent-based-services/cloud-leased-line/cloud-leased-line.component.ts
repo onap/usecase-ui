@@ -24,7 +24,11 @@ export class CloudLeasedLineComponent implements OnInit {
     this.getCloudLeasedLineList();
   }
 
-	ngOnDestroy() {}
+	ngOnDestroy() {
+    this.progressingTimer.forEach((item) => {
+      clearInterval(item.timer);
+    });
+  }
 
   statusObj: any = {
     0: 'Incomplete',

@@ -19,7 +19,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
 
   @Input() modelParams: any;
   @Input() cloudLeasedLineShowFlag: boolean;
-  @Output() cancelEmitter = new EventEmitter<boolean>();
+  @Output() cancelEmitter = new EventEmitter<any>();
   comunicationFormItems = COMMUNICATION_FORM_ITEMS;
   isUpdateFlag: boolean = false;
   nodeLists: any[] = [];
@@ -125,7 +125,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
           return;
         }
         this.nzMessage.success('Update IntentInstance Success!');
-        this.cancel();
+        this.cancel(true);
       },
       (err) => {
         console.log(err);
@@ -144,7 +144,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
           return;
         }
         this.nzMessage.success('Create IntentInstance Success!');
-        this.cancel();
+        this.cancel(true);
       },
       (err) => {
         console.log(err);
@@ -152,7 +152,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
     )
   }
 
-  cancel(): void {
+  cancel(flag): void {
     this.cloudLeasedLineShowFlag = false
     this.isUpdateFlag = false
     this.cloud_leased_line_info = {
@@ -165,7 +165,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
       },
       cloudPointName: '',
     };
-    this.cancelEmitter.emit();
+    this.cancelEmitter.emit(flag);
   }
 
   isString(val) {

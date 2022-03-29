@@ -39,7 +39,7 @@ export class BusinessOrderComponent implements OnInit {
 
 	@Input() showModel: boolean;
 	@Input() modelParams: any;
-	@Output() cancel = new EventEmitter<boolean>();
+	@Output() cancel = new EventEmitter<any>();
 	comunicationFormItems = COMMUNICATION_FORM_ITEMS;
 	slicing_order_info = {
 		name: null,
@@ -83,9 +83,12 @@ export class BusinessOrderComponent implements OnInit {
 		});
 	}
 
-	handleCancel(): void {
+	handleCancel(flag): void {
 		this.showModel = false;
-		this.cancel.emit(this.showModel);
+		this.cancel.emit({
+      closeFlag: false,
+      to5gPage: flag
+    });
 		this.slicing_order_info = {
 			name: null,
 			maxNumberofUEs: null,
@@ -151,7 +154,7 @@ export class BusinessOrderComponent implements OnInit {
 			slicing_order_info: this.slicing_order_info,
 		};
 		const csmfSlicingPurchaseFailedCallback = () => {
-			this.handleCancel();
+			this.handleCancel(true);
 		};
 		this.loading = true;
 
@@ -179,7 +182,7 @@ export class BusinessOrderComponent implements OnInit {
 					this.message.create("error", "Network error");
 				}
 				this.loading = false;
-				this.handleCancel();
+				this.handleCancel(true);
 			});
   }
 
@@ -198,7 +201,7 @@ export class BusinessOrderComponent implements OnInit {
 					this.message.create("error", "Network error");
 				}
 				this.loading = false;
-				this.handleCancel();
+				this.handleCancel(true);
 			});
   }
 }

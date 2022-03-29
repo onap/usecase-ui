@@ -32,11 +32,11 @@
   <app-cloud-leased-line-modal
     [modelParams]="modalParam"
     [cloudLeasedLineShowFlag]="cloudModalShowFlag"
-    (cancelEmitter)="modalClose()"
+    (cancelEmitter)="cloudModalClose($event)"
   ></app-cloud-leased-line-modal>
   <app-business-order
     [modelParams]="modalParam"
     [showModel]="businessModalShowFlag"
-    (cancel)="modalClose()"
+    (cancel)="businessModalClose($event)"
   ></app-business-order>
 </div>

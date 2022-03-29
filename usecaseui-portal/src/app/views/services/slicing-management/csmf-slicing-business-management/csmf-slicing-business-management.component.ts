@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import * as moment from "moment";
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
 import { BUSINESS_STATUS } from "../../../../../constants/constants";
 import { SlicingTaskServices } from ".././../../../core/services/slicingTaskServices";
-import { NzModalService, NzMessageService } from "ng-zorro-antd";
-import * as moment from "moment";
 import { INTERVAL_TIME } from "../constant";
 @Component({
 	selector: "app-csmf-slicing-business-management",
@@ -234,22 +234,22 @@ export class CsmfSlicingBusinessManagementComponent implements OnInit {
 	}
 
 	OrderModelShow(): void {
-            this.orderForm = null;
-	    this.businessOrderShow = true;
+    this.orderForm = null;
+    this.businessOrderShow = true;
 	}
 	orderModelClose($event: any): void {
-	    this.businessOrderShow = $event;
-	    this.getCSMFBusinessList();
-        }
-        inputOrderModelShow(): void {
-            this.inputBusinessOrderShow = true;
-        }
-        inputOrderModelClose($event: any): void {
-            this.inputBusinessOrderShow = false;
-            if ($event.cancel) {
-                return;
-            }
-            this.orderForm = $event.param;
-            this.businessOrderShow = true;
-        }
+    this.businessOrderShow = $event.closeFlag;
+    this.getCSMFBusinessList();
+  }
+  inputOrderModelShow(): void {
+    this.inputBusinessOrderShow = true;
+  }
+  inputOrderModelClose($event: any): void {
+    this.inputBusinessOrderShow = false;
+    if ($event.cancel) {
+        return;
+    }
+    this.orderForm = $event.param;
+    this.businessOrderShow = true;
+  }
 }

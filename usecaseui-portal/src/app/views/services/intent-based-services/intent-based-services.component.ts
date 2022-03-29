@@ -15,7 +15,12 @@ export class IntentBasedServicesComponent implements OnInit {
 
   ngOnInit() {
   }
+
   handleTabChange($event): void {
     this.selectedIndex = $event.index;
+  }
+
+  toCloudPage() {
+    this.selectedIndex = 1;
   }
 }

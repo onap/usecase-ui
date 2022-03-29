@@ -2,6 +2,7 @@
   <nz-tab [nzTitle]="'i18nTextDefine_intentBaseService' | translate">
     <app-intent-based-predict
       *ngIf="selectedIndex === 0"
+      (eventEmitter)="toCloudPage()"
     ></app-intent-based-predict>
   </nz-tab>
   <nz-tab [nzTitle]="'i18nTextDefine_cloudLeasedLine' | translate">

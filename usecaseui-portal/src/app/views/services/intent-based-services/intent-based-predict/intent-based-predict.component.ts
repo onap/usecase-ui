@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from "@angular/router";
 import { NzMessageService } from 'ng-zorro-antd';
 import { intentBaseService } from '../../../../core/services/intentBase.service';
 
@@ -10,10 +11,12 @@ import { intentBaseService } from '../../../../core/services/intentBase.service'
 export class IntentBasedPredictComponent implements OnInit {
 
   constructor(
+    private router:Router,
     private myhttp: intentBaseService,
     private msg: NzMessageService
   ) {}
   
+  @Output() eventEmitter = new EventEmitter<any>();
   // textarea input predict param
   communicationMessage: String = "";
   // button loading
@@ -64,10 +67,22 @@ export class IntentBasedPredictComponent implements OnInit {
     )
   }
 
-  modalClose() {
+  cloudModalClose(param) {
     this.cloudModalShowFlag = false;
-    this.businessModalShowFlag = false;
     this.modalParam = {};
     this.communicationMessage = '';
+    if (param) {
+      this.eventEmitter.emit();
+    }
+  }
+
+  businessModalClose(param) {
+    this.businessModalShowFlag = param.closeFlag;
+    this.modalParam = {};
+    this.communicationMessage = '';
+    const to5gPage = param.to5gPage;
+    if (to5gPage) {
+      this.router.navigate(['/services/slicing-management']);
+    }
   }
 }

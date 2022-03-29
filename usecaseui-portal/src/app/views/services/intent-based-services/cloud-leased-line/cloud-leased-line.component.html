@@ -74,6 +74,7 @@
                 Inactive
               </button>
               <button
+                *ngIf="data.status === '1'"
                 nz-button
                 nzType="primary"
                 class="buy-button"
