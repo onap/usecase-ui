@@ -41,11 +41,11 @@
         {{"i18nTextDefine_CCVPNService" | translate}} :
     </span>
     <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomLeft'">
-      <button nz-button nz-dropdown><span>{{serviceSelected}}</span> <i class="anticon anticon-down"></i>
+      <button nz-button nz-dropdown><span>{{serviceSelected && servicesMap.get(serviceSelected).name}}</span> <i class="anticon anticon-down"></i>
       </button>
       <ul nz-menu>
         <li nz-menu-item (click)="chooseService(svcInstId)" *ngFor="let svcInstId of getKeys(servicesMap)">
-          <a title="{{svcInstId}}">{{svcInstId}}</a>
+          <a title="{{servicesMap.get(svcInstId).name}}">{{servicesMap.get(svcInstId).name}}</a>
         </li>
       </ul>
     </nz-dropdown>
@@ -87,6 +87,7 @@
       >
         <thead>
         <tr>
+          <th>Ethernet Svc Name</th>
           <th>Service Instance Id</th>
           <th>Service Type</th>
           <th>VLAN</th>
@@ -97,6 +98,7 @@
         <tbody>
         <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
           <tr>
+            <td>{{ data.name }}</td>
             <td>{{ data.id }}</td>
             <td>Cloud Lease Line</td>
             <td>{{ data.vlan }}</td>

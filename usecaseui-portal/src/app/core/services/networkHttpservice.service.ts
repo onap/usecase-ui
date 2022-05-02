@@ -28,7 +28,7 @@ export class networkHttpservice {
     url = {
         "getNetworkD3Data": this.baseUrl+"/uui-sotn/getNetWorkResources",
         "getLogicalLinksData": this.baseUrl+"/uui-sotn/getLogicalLinks",
-        "getPnfsData": this.baseUrl+"/uui-sotn/getPnfs",
+        "getPnfsData": this.baseUrl+"/uui-sotn/getPnfInfo",
         "deleteCloud": this.baseUrl+"/uui-sotn/deleteExtNetWork",
         "getPInterfacesData": this.baseUrl+"/uui-sotn/getPinterfaceByPnfName/",
         "createLink": this.baseUrl+"/uui-sotn/createLink/",
@@ -41,10 +41,9 @@ export class networkHttpservice {
         "createCloudLink": this.baseUrl+"/uui-sotn/createLink/",
         "createCloudUrl": this.baseUrl+"/uui-sotn/createHostUrl/",
         "deleteLink": this.baseUrl+"/uui-sotn/deleteLink/",
-        "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivities",
-        "getNetworkRoutes": this.baseUrl + "/uui-sotn/getNetworkRoutes",
-
-
+        "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivityInfo",
+        "getNetworkRoutes": this.baseUrl + "/uui-sotn/getNetworkRouteInfo",
+        "getVpnBindings": this.baseUrl + "/uui-sotn/getVpnBindingInfo"
     };
 
     //The following APIs function are optimizable------------------------
@@ -91,6 +90,10 @@ export class networkHttpservice {
     }
     getNetworkRoutes(){
         return this.http.get<any>(this.url["getNetworkRoutes"]);
+    }
+
+    getVpnBindingsData(){
+        return this.http.get<any>(this.url["getVpnBindings"]);
     }
 
     //Create an external cloud newwork interface

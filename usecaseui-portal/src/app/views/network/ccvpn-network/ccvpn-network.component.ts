@@ -25,7 +25,7 @@ const NODE_COLOR = 'DeepSkyBlue'
 const CE_COLOR = 'Gray'
 const FONT_COLOR = 'Navy'
 const TITLE_COLOR = '#0da9e2' //'linear-gradient(90deg, #07a9e1 0%, #30d9c4 100%)'
-
+const DEFAULT_COLOR= '#0000FF'
 // Customizable colors for endpoint CRUD status
 const EP_COLOR_MAP = new Map([
     ['create', 'RoyalBlue'],
@@ -194,7 +194,7 @@ export class CcvpnNetworkComponent implements OnInit {
         // Gets label from custom user object
         // TODO:
         this.graph.convertValueToString = function (cell) {
-            if (cell.isEdge() && !cell.value.uni && !this.isMoreLabels) return ''
+            if (cell.isEdge() && !cell.value.uni && !thisNg.isMoreLabels) return '';
             return (cell.value && cell.value.label) ? cell.value.label : '';
         }
 
@@ -315,6 +315,23 @@ export class CcvpnNetworkComponent implements OnInit {
             })
 
         reqCount++;
+        this.myhttp.getVpnBindingsData()
+            .subscribe((data) => {
+                    if (data) {
+                        for (let ll of data["vpn-binding"]) {
+                            thisNg.vpnBindings.push(ll);
+                        }
+                    }
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
+                },
+                (err) => {
+                    console.log(err);
+            })
+
+        reqCount++;
         this.myhttp.getConnectivities()
             .subscribe((data) => {
                     if (data) {
@@ -373,6 +390,7 @@ export class CcvpnNetworkComponent implements OnInit {
     pnfs = [];
     logicalLinks = [];//logicalLinks Existing connection data returned by the interface
     connectivities = [];
+    vpnBindings = [];
     networkroutes = [];
 
     layer1Tps = [];
@@ -469,17 +487,22 @@ export class CcvpnNetworkComponent implements OnInit {
         // Update serive data
         for (let cn of this.connectivities){
             if (cn['vpn-type'] === "mdsc"){
-                let svcInstId = this.getValueFromRelationList(cn, "service-instance", "service-instance.service-instance-id");
+                let svcInstId = this.getValueFromRelationList(cn, "service-instance", "service-instance.service-instance-id")
+                                    .pop();
+                let svcInstName = cn["etht-svc-name"];
+                let uniList = this.getValueFromRelationList(cn, "uni", "uni.id");
                 let bw = cn["bandwidth-profile-name"];
                 let cvlan = cn["cvlan"];
                 let svc = this.servicesMap.get(svcInstId);
                 if (!svc){
                      svc = {
-                         name: svcInstId,
+                         name: svcInstName,
                          id: svcInstId,
                          connections: [],
                          bw : bw,
-                         vlan : cvlan
+                         vlan : cvlan,
+                         unis : uniList,
+                         otnEdges: []
                      }
                      this.servicesMap.set(svcInstId, svc);
                 }
@@ -552,7 +575,8 @@ export class CcvpnNetworkComponent implements OnInit {
             // tunnel connection link
                 let srcEpId = this.getJsonValue(ll, "link-name");
                 let dstEpId = this.getJsonValue(ll, "link-name2");
-                let svcInstId = this.getValueFromRelationList(ll, "allotted-resource", "service-instance.service-instance-id");
+                let svcInstId = this.getValueFromRelationList(ll, "allotted-resource", "service-instance.service-instance-id")
+                                    .pop();
                 let conn = {
                     srcEpId: srcEpId,
                     dstEpId: dstEpId,
@@ -626,6 +650,38 @@ export class CcvpnNetworkComponent implements OnInit {
                 }
             }
         }
+        // Hack: deson't work for more then 2 domain system
+        for (let ll of thisNg.vpnBindings) {
+            let svcInstId = ll["slice-id"];
+            let svc = this.servicesMap.get(svcInstId);
+            let srcNodeId = ll["src-access-node-id"];
+            let dstNodeId = ll["dst-access-node-id"];
+            let domainId = srcNodeId.split(".")[1];
+            let domain = thisNg.domainMap.get(domainId);
+            if (!svc || !domain){
+                continue;
+            }
+            for (let [, inni] of domain.inniMap){
+                if (srcNodeId === inni.srcNode.id){
+                    if (dstNodeId === inni.dstNode.id){
+                         svc.otnEdges.push(inni);
+                    }
+                }
+                if (dstNodeId === inni.srcNode.id){
+                    if (srcNodeId === inni.dstNode.id){
+                         svc.otnEdges.push(inni);
+                    }
+                }
+            }
+            // For enni link
+            if (!ll["src-access-ltp-id"]){
+                 for (let [key, enni] of this.enniMap) {
+                    if (dstNodeId === key.split("-")[0]){
+                        svc.otnEdges.push(enni);
+                    };
+                 }
+            }
+        }
     }
 
     // main function that draws the topology view
@@ -659,7 +715,8 @@ export class CcvpnNetworkComponent implements OnInit {
                 inni.edge.value = {
                     linkId: key,
                     inni: inni,
-                    domain: domain
+                    domain: domain,
+                    label: ""
                 }
                 //inni.srcNniTp.edge = inni.edge
                 //inni.dstNniTp.edge = inni.edge
@@ -777,7 +834,7 @@ export class CcvpnNetworkComponent implements OnInit {
                 this.graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, CE_COLOR, [uni.dstNode.vertex])
                 this.graph.setCellStyles(mxConstants.STYLE_DASHED, '1', [uni.edge])
                 uni.edge.value.label = ''
-                uni.edge.value.endPoint = null
+                uni.edge.value.endpoints = null
             }
         }
 
@@ -796,13 +853,31 @@ export class CcvpnNetworkComponent implements OnInit {
                arr = dstUniLinkId.split('.');
                uni = this.domainMap.get(arr[1]).uniMap.get(dstUniLinkId);
                colorUni(uni, this.graph, bw);
-
            }
         }
 
         // Update tunnel edges
         for (let e2eTunnel of this.e2eTunnels) {
             e2eTunnel.e2eEdge.setVisible(e2eTunnel.serviceId === svcInstId)
+        }
+
+        // clear the label of all inni links
+        for (let [, svc] of this.servicesMap) {
+            for (let ed of service.otnEdges){
+                this.graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, DEFAULT_COLOR, [ed.edge])
+                ed.edge.value.label = '';
+                ed.edge.value.endpoints = null
+            }
+        }
+        // Update the label of inni links of current service
+        console.log(service);
+        if (service){
+            let bw = service.bw;
+            for (let con of service.connections){
+                for (let ed of service.otnEdges){
+                    colorOtnEdge(ed, this.graph, bw);
+                }
+            }
         }
         this.graph.refresh();
 
@@ -827,11 +902,22 @@ export class CcvpnNetworkComponent implements OnInit {
             let sum = uni.edge.value.endpoints.reduce((a, b) => a + b, 0);
             uni.edge.value.label = sum +  'G' ;
         }
+        function colorOtnEdge(ed, graph, bw){
+            let bandwidth = parseInt(bw);
+            graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, EP_COLOR_MAP.get("update"), [ed.edge]);
+            if (!ed.edge.value.endpoints) {
+                ed.edge.value.endpoints = [];
+            }
+            ed.edge.value.endpoints.push(bandwidth);
+            let sum = ed.edge.value.endpoints.reduce((a, b) => a + b, 0);
+            ed.edge.value.label = sum + 'G';
+        }
 
     }
 
     getValueFromRelationList(rl, relatedTo, relatedKey){
         let rlArr: Array<any> = this.getJsonValue(rl, 'relationship-list.relationship');
+        let valList : Array<any> = [];
         for (let rl of rlArr){
             if (rl['related-to'] === relatedTo){
                 let pnfNameS: String;
@@ -839,12 +925,12 @@ export class CcvpnNetworkComponent implements OnInit {
                 for (let rld of rl['relationship-data']){
                    if (rld['relationship-key'] === relatedKey){
                        let val = rld['relationship-value'];
-                       if (val) return val;
+                       if (val) valList.push(val);
                    }
                 }
             }
         }
-        return null;
+        return valList;
     }
     // get the key of an Endpoint
     getEndPointKey(endPoint) {
