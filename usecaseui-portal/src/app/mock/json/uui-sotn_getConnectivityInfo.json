@@ -1,174 +1,25 @@
 {
   "connectivity": [
     {
-      "connectivity-id": "4b92586f-d180-4512-a50e-a7501d4f2a60",
-      "bandwidth-profile-name": "3",
-      "vpn-type": "leaf",
-      "cir": "3000000",
-      "eir": "3000000",
-      "coupling-flag": "-,OA==-,OA==",
-      "etht-svc-name": "cll-link-1",
-      "access-provider-id": "10",
-      "access-client-id": "0",
-      "access-topology-id": "2",
-      "access-node-id": "10.1.1.3",
-      "access-ltp-id": "1000001",
-      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service//service-data/networks/network//network-data/",
-      "cvlan": "47",
-      "operational-status": "Activated",
-      "resource-version": "1633101426107",
-      "relationship-list": {
-        "relationship": [
-          {
-            "related-to": "vpn-binding",
-            "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/vpn-bindings/vpn-binding/7f2713ed-c3dc-4595-bac0-9ab9bc2ae902",
-            "relationship-data": [
-              {
-                "relationship-key": "vpn-binding.vpn-id",
-                "relationship-value": "7f2713ed-c3dc-4595-bac0-9ab9bc2ae902"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "vpn-binding.vpn-name",
-                "property-value": "0cf7325b-020d-4382-beff-d23f050a1679"
-              },
-              {
-                "property-key": "vpn-binding.vpn-type"
-              }
-            ]
-          },
-          {
-            "related-to": "vpn-binding",
-            "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/vpn-bindings/vpn-binding/3742233f-bda7-45a5-b651-98efb930285d",
-            "relationship-data": [
-              {
-                "relationship-key": "vpn-binding.vpn-id",
-                "relationship-value": "3742233f-bda7-45a5-b651-98efb930285d"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "vpn-binding.vpn-name",
-                "property-value": "ff99411f-2ca2-4b59-b199-f3d828a2d407"
-              },
-              {
-                "property-key": "vpn-binding.vpn-type"
-              }
-            ]
-          },
-          {
-            "related-to": "service-instance",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
-            "relationship-data": [
-              {
-                "relationship-key": "customer.global-customer-id",
-                "relationship-value": "IBNCustomer"
-              },
-              {
-                "relationship-key": "service-subscription.service-type",
-                "relationship-value": "IBN"
-              },
-              {
-                "relationship-key": "service-instance.service-instance-id",
-                "relationship-value": "cll-101"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "service-instance.service-instance-name",
-                "property-value": "cloud-leased-line-101"
-              }
-            ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001"
-              }
-            ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001"
-              }
-            ]
-          },
-          {
-            "related-to": "service-instance",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-202",
-            "relationship-data": [
-              {
-                "relationship-key": "customer.global-customer-id",
-                "relationship-value": "IBNCustomer"
-              },
-              {
-                "relationship-key": "service-subscription.service-type",
-                "relationship-value": "IBN"
-              },
-              {
-                "relationship-key": "service-instance.service-instance-id",
-                "relationship-value": "cll-202"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "service-instance.service-instance-name",
-                "property-value": "cloud-leased-line-202"
-              }
-            ]
-          },
-          {
-            "related-to": "connectivity",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/e97f233f-02ce-4e5f-a2ab-382f994719ce",
-            "relationship-data": [
-              {
-                "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "e97f233f-02ce-4e5f-a2ab-382f994719ce"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "connectivity.etht-svc-name",
-                "property-value": "cll-link-1"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "connectivity-id": "e97f233f-02ce-4e5f-a2ab-382f994719ce",
+      "connectivity-id": "39d524f7-8f9f-4019-8429-6626e906bb2b",
       "bandwidth-profile-name": "3",
       "vpn-type": "mdsc",
       "cir": "3000000",
       "eir": "3000000",
-      "color-aware": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512",
-      "etht-svc-name": "cll-link-1",
-      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service//service-data/networks/network//network-data/",
+      "cbs": "",
+      "ebs": "",
+      "color-aware": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512-47",
+      "etht-svc-name": "cll-link-2",
+      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/cll-101/service-data/networks/network//network-data/",
       "cvlan": "47",
       "operational-status": "Created",
-      "resource-version": "1633101420677",
+      "resource-version": "1651090024007",
       "relationship-list": {
         "relationship": [
           {
             "related-to": "service-instance",
             "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
+            "related-link": "/aai/v21/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
             "relationship-data": [
               {
                 "relationship-key": "customer.global-customer-id",
@@ -189,44 +40,35 @@
                 "property-value": "cloud-leased-line-101"
               }
             ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001"
-              }
-            ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.3-ltpId-1000001"
-              }
-            ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512"
-              }
-            ]
-          },
+          }
+        ]
+      }
+    },
+    {
+      "connectivity-id": "88531ca5-154c-4731-9adb-7ccc18935c34",
+      "bandwidth-profile-name": "3",
+      "vpn-type": "leaf",
+      "cir": "3000000",
+      "eir": "3000000",
+      "cbs": "",
+      "ebs": "",
+      "coupling-flag": "-,OA==",
+      "etht-svc-name": "cll-link-2",
+      "access-provider-id": "10",
+      "access-client-id": "0",
+      "access-topology-id": "2",
+      "access-node-id": "10.1.1.1",
+      "access-ltp-id": "1000001",
+      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/cll-101/service-data/networks/network//network-data/",
+      "cvlan": "47",
+      "operational-status": "Activated",
+      "resource-version": "1651090154981",
+      "relationship-list": {
+        "relationship": [
           {
             "related-to": "service-instance",
             "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-202",
+            "related-link": "/aai/v21/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
             "relationship-data": [
               {
                 "relationship-key": "customer.global-customer-id",
@@ -238,47 +80,13 @@
               },
               {
                 "relationship-key": "service-instance.service-instance-id",
-                "relationship-value": "cll-202"
+                "relationship-value": "cll-101"
               }
             ],
             "related-to-property": [
               {
                 "property-key": "service-instance.service-instance-name",
-                "property-value": "cloud-leased-line-202"
-              }
-            ]
-          },
-          {
-            "related-to": "connectivity",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/4b92586f-d180-4512-a50e-a7501d4f2a60",
-            "relationship-data": [
-              {
-                "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "4b92586f-d180-4512-a50e-a7501d4f2a60"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "connectivity.etht-svc-name",
-                "property-value": "cll-link-1"
-              }
-            ]
-          },
-          {
-            "related-to": "connectivity",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/a3bc4be2-f2e5-408a-9517-43b94578a398",
-            "relationship-data": [
-              {
-                "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "a3bc4be2-f2e5-408a-9517-43b94578a398"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "connectivity.etht-svc-name",
-                "property-value": "cll-link-1"
+                "property-value": "cloud-leased-line-101"
               }
             ]
           }
@@ -286,69 +94,31 @@
       }
     },
     {
-      "connectivity-id": "a3bc4be2-f2e5-408a-9517-43b94578a398",
+      "connectivity-id": "28ef47d8-3d98-46bb-96c4-a51588d3700b",
       "bandwidth-profile-name": "3",
       "vpn-type": "root",
       "cir": "3000000",
       "eir": "3000000",
-      "color-aware": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512",
-      "coupling-flag": "-MTI=,-MTI=,",
-      "etht-svc-name": "cll-link-1",
+      "cbs": "",
+      "ebs": "",
+      "color-aware": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512-47",
+      "coupling-flag": "-MTI=,",
+      "etht-svc-name": "cll-link-2",
       "access-provider-id": "20",
       "access-client-id": "0",
       "access-topology-id": "2",
       "access-node-id": "10.2.1.2",
       "access-ltp-id": "512",
-      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service//service-data/networks/network//network-data/",
+      "connectivity-selflink": "restconf/config/GENERIC-RESOURCE-API:services/service/cll-101/service-data/networks/network//network-data/",
       "cvlan": "47",
       "operational-status": "Activated",
-      "resource-version": "1633101427096",
+      "resource-version": "1651090155886",
       "relationship-list": {
         "relationship": [
           {
-            "related-to": "vpn-binding",
-            "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/vpn-bindings/vpn-binding/44addcac-8052-4ed8-b3c2-536e13f4d5ca",
-            "relationship-data": [
-              {
-                "relationship-key": "vpn-binding.vpn-id",
-                "relationship-value": "44addcac-8052-4ed8-b3c2-536e13f4d5ca"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "vpn-binding.vpn-name",
-                "property-value": "0cf7325b-020d-4382-beff-d23f050a1679"
-              },
-              {
-                "property-key": "vpn-binding.vpn-type"
-              }
-            ]
-          },
-          {
-            "related-to": "vpn-binding",
-            "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/vpn-bindings/vpn-binding/1ed58980-24b7-42e4-890b-399cbf5660cd",
-            "relationship-data": [
-              {
-                "relationship-key": "vpn-binding.vpn-id",
-                "relationship-value": "1ed58980-24b7-42e4-890b-399cbf5660cd"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "vpn-binding.vpn-name",
-                "property-value": "ff99411f-2ca2-4b59-b199-f3d828a2d407"
-              },
-              {
-                "property-key": "vpn-binding.vpn-type"
-              }
-            ]
-          },
-          {
             "related-to": "service-instance",
             "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
+            "related-link": "/aai/v21/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-101",
             "relationship-data": [
               {
                 "relationship-key": "customer.global-customer-id",
@@ -367,59 +137,6 @@
               {
                 "property-key": "service-instance.service-instance-name",
                 "property-value": "cloud-leased-line-101"
-              }
-            ]
-          },
-          {
-            "related-to": "uni",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/network/unis/uni/networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512",
-            "relationship-data": [
-              {
-                "relationship-key": "uni.id",
-                "relationship-value": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512"
-              }
-            ]
-          },
-          {
-            "related-to": "service-instance",
-            "relationship-label": "org.onap.relationships.inventory.PartOf",
-            "related-link": "/aai/v24/business/customers/customer/IBNCustomer/service-subscriptions/service-subscription/IBN/service-instances/service-instance/cll-202",
-            "relationship-data": [
-              {
-                "relationship-key": "customer.global-customer-id",
-                "relationship-value": "IBNCustomer"
-              },
-              {
-                "relationship-key": "service-subscription.service-type",
-                "relationship-value": "IBN"
-              },
-              {
-                "relationship-key": "service-instance.service-instance-id",
-                "relationship-value": "cll-202"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "service-instance.service-instance-name",
-                "property-value": "cloud-leased-line-202"
-              }
-            ]
-          },
-          {
-            "related-to": "connectivity",
-            "relationship-label": "tosca.relationships.network.LinksTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/e97f233f-02ce-4e5f-a2ab-382f994719ce",
-            "relationship-data": [
-              {
-                "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "e97f233f-02ce-4e5f-a2ab-382f994719ce"
-              }
-            ],
-            "related-to-property": [
-              {
-                "property-key": "connectivity.etht-svc-name",
-                "property-value": "cll-link-1"
               }
             ]
           }
