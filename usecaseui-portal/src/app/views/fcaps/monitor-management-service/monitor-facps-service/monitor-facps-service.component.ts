@@ -79,7 +79,7 @@ export class MonitorFacpsServiceComponent implements OnInit {
 			legend: this.initData.option.legend,
 			dataZoom: this.initData.option.dataZoom,
 			grid: {
-				left: "0%",
+				left: "3%",
 				right: "3%",
 				top: "10%",
 				bottom: "18%",
@@ -116,6 +116,7 @@ export class MonitorFacpsServiceComponent implements OnInit {
 				},
 				axisLabel: {
 					color: "#3C4F8C",
+          formatter: '{value} KB'
 				},
 				splitLine: {
 					lineStyle: {
