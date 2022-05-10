@@ -80,18 +80,20 @@
     <div class="slicing-resource-table-list">
       <nz-table
               #basicTable
-              [nzData]="getValues(servicesMap)"
+              [nzData]="getTunnels()"
               [nzFrontPagination]="false"
               nzShowSizeChanger
               [nzPageSizeOptions]="[6,8,10]"
       >
         <thead>
         <tr>
-          <th>Ethernet Svc Name</th>
-          <th>Service Instance Id</th>
-          <th>Service Type</th>
-          <th>VLAN</th>
-          <th>Bandwidth</th>
+          <th>Cloud-Id</th>
+          <th>Tunnel-Id</th>
+          <th>Odu-Type</th>
+          <th>Odu0</th>
+          <th>Protection</th>
+          <th>Src-Node</th>
+          <th>Dst-Node</th>
           <th>Status</th>
         </tr>
         </thead>
@@ -100,9 +102,11 @@
           <tr>
             <td>{{ data.name }}</td>
             <td>{{ data.id }}</td>
-            <td>Cloud Lease Line</td>
-            <td>{{ data.vlan }}</td>
+            <td>ODUflex</td>
             <td>{{ data.bw }}</td>
+            <td>Unprotected</td>
+            <td>{{ data.srcId }}</td>
+            <td>{{ data.dstId }}</td>
             <td>
               Activated
             </td>
