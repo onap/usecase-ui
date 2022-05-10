@@ -1,0 +1,142 @@
+{
+  "uni": [
+    {
+      "id": "networkId-providerId-20-clientId-0-topologyId-2-nodeId-10.2.1.2-ltpId-512-47",
+      "tp-id": "512",
+      "cvlan": "47",
+      "data-owner": "cll-101",
+      "data-source": "6",
+      "resource-version": "1652193719443",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/d9897f66-6912-420a-9ee6-8bfb25b7c799",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "d9897f66-6912-420a-9ee6-8bfb25b7c799"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          },
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/400ef32d-2a6b-427b-afdd-68418ffa4981",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "400ef32d-2a6b-427b-afdd-68418ffa4981"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-1000001-47",
+      "tp-id": "1000001",
+      "cvlan": "47",
+      "data-owner": "cll-101",
+      "data-source": "3",
+      "resource-version": "1652193712992",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/d9897f66-6912-420a-9ee6-8bfb25b7c799",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "d9897f66-6912-420a-9ee6-8bfb25b7c799"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          },
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/ba80397f-d2d5-4db7-82c7-d09903e3d7ac",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "ba80397f-d2d5-4db7-82c7-d09903e3d7ac"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "networkId-providerId-10-clientId-0-topologyId-2-nodeId-10.1.1.1-ltpId-2000001-89",
+      "tp-id": "2000001",
+      "cvlan": "89",
+      "data-owner": "cll-101",
+      "data-source": "3",
+      "resource-version": "1652193720784",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/d9897f66-6912-420a-9ee6-8bfb25b7c799",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "d9897f66-6912-420a-9ee6-8bfb25b7c799"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          },
+          {
+            "related-to": "connectivity",
+            "relationship-label": "org.onap.relationships.inventory.PartOf",
+            "related-link": "/aai/v24/network/connectivities/connectivity/ca45be29-ba1c-4da5-b2b2-b3043057324a",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "ca45be29-ba1c-4da5-b2b2-b3043057324a"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
