@@ -43,7 +43,8 @@ export class networkHttpservice {
         "deleteLink": this.baseUrl+"/uui-sotn/deleteLink/",
         "getConnectivities": this.baseUrl+"/uui-sotn/getConnectivityInfo",
         "getNetworkRoutes": this.baseUrl + "/uui-sotn/getNetworkRouteInfo",
-        "getVpnBindings": this.baseUrl + "/uui-sotn/getVpnBindingInfo"
+        "getVpnBindings": this.baseUrl + "/uui-sotn/getVpnBindingInfo",
+        "getUnis": this.baseUrl + "/uui-sotn/getUniInfo"
     };
 
     //The following APIs function are optimizable------------------------
@@ -94,6 +95,10 @@ export class networkHttpservice {
 
     getVpnBindingsData(){
         return this.http.get<any>(this.url["getVpnBindings"]);
+    }
+
+    getUnisData(){
+        return this.http.get<any>(this.url["getUnis"]);
     }
 
     //Create an external cloud newwork interface

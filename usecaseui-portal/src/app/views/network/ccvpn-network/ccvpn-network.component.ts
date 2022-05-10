@@ -25,7 +25,7 @@ const NODE_COLOR = 'DeepSkyBlue'
 const CE_COLOR = 'Gray'
 const FONT_COLOR = 'Navy'
 const TITLE_COLOR = '#0da9e2' //'linear-gradient(90deg, #07a9e1 0%, #30d9c4 100%)'
-const DEFAULT_COLOR= '#0000FF'
+const DEFAULT_COLOR= '#000000'
 // Customizable colors for endpoint CRUD status
 const EP_COLOR_MAP = new Map([
     ['create', 'RoyalBlue'],
@@ -216,66 +216,66 @@ export class CcvpnNetworkComponent implements OnInit {
             if (popupMenu.length) document.body.removeChild(popupMenu[0])
         }
 
-        var dragStatus = 0
+//        var dragStatus = 0
         // Listen to the Mouseup event to update table and json data view
-        this.graph.addMouseListener({
-            mouseDown: function (sender, evt) {
-                dragStatus = 1
-            },
-            mouseMove: function (sender, evt) {
-                if (dragStatus == 1) dragStatus = 2
-            },
-            mouseUp: function (sender, evt) {
-                if (dragStatus == 2) {
-                    if (sender.getSelectionCount() >= 1) {
-                        this.clientNodeLabelLayout()
-                    }
-                }
-                dragStatus = 0
-
-                this.deselectTableRow()
-                let cell = null
-                if (!evt.evt.defaultPrevented) {
-                    if (!evt.state) return
-                    else cell = evt.state.cell
-                } else {
-                    if (sender.getSelectionCount() == 1) {
-                        cell = sender.getSelectionCell()
-                    } else if (sender.getSelectionCount() == 3) {
-                        for (let item of sender.getSelectionCells()) {
-                            if (item.isEdge()) {
-                                if (!cell) cell = item
-                                else {
-                                    cell = null;
-                                    break
-                                }
-                            }
-                        }
-                    }
-                }
-                if (!cell || !cell.value) {
-                    return
-                }
-                let obj = null
-                if (obj = cell.value.controller) {
-                    this.showJsonData([obj], false)
-                } else if (obj = cell.value.node) {
-                    this.showJsonData(obj.uniSliceMap.get(this.currentSlice), false)
-                } else if (obj = cell.value.enni) {
-                    this.showJsonData([obj.data[0].link.data, obj.data[1].link.data], false)
-                } else if (obj = cell.value.inni) {
-                    this.showJsonData([obj.data[0].data, obj.data[1].data], false)
-                } else if (obj = cell.value.uni) {
-                    this.showJsonData(obj.data, false)
-                } else if (obj = cell.value.tunnel) {
-                    this.selectTableRow(cell.value.index)
-                    this.showJsonData(this.tunnelsMap.get(obj.name), false)
-                } else if (obj = cell.value.service) {
-                    this.selectTableRow(cell.value.index)
-                    this.showJsonData(this.servicesMap.get(obj.name), false)
-                }
-            }
-        })
+//         this.graph.addMouseListener({
+//             mouseDown: function (sender, evt) {
+//                 dragStatus = 1
+//             },
+//             mouseMove: function (sender, evt) {
+//                 if (dragStatus == 1) dragStatus = 2
+//             },
+//             mouseUp: function (sender, evt) {
+//                 if (dragStatus == 2) {
+//                     if (sender.getSelectionCount() >= 1) {
+//                         this.clientNodeLabelLayout()
+//                     }
+//                 }
+//                 dragStatus = 0
+//
+//                 this.deselectTableRow()
+//                 let cell = null
+//                 if (!evt.evt.defaultPrevented) {
+//                     if (!evt.state) return
+//                     else cell = evt.state.cell
+//                 } else {
+//                     if (sender.getSelectionCount() == 1) {
+//                         cell = sender.getSelectionCell()
+//                     } else if (sender.getSelectionCount() == 3) {
+//                         for (let item of sender.getSelectionCells()) {
+//                             if (item.isEdge()) {
+//                                 if (!cell) cell = item
+//                                 else {
+//                                     cell = null;
+//                                     break
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//                 if (!cell || !cell.value) {
+//                     return
+//                 }
+//                 let obj = null
+//                 if (obj = cell.value.controller) {
+//                     this.showJsonData([obj], false)
+//                 } else if (obj = cell.value.node) {
+//                     this.showJsonData(obj.uniSliceMap.get(this.currentSlice), false)
+//                 } else if (obj = cell.value.enni) {
+//                     this.showJsonData([obj.data[0].link.data, obj.data[1].link.data], false)
+//                 } else if (obj = cell.value.inni) {
+//                     this.showJsonData([obj.data[0].data, obj.data[1].data], false)
+//                 } else if (obj = cell.value.uni) {
+//                     this.showJsonData(obj.data, false)
+//                 } else if (obj = cell.value.tunnel) {
+//                     this.selectTableRow(cell.value.index)
+//                     this.showJsonData(this.tunnelsMap.get(obj.name), false)
+//                 } else if (obj = cell.value.service) {
+//                     this.selectTableRow(cell.value.index)
+//                     this.showJsonData(this.servicesMap.get(obj.name), false)
+//                 }
+//             }
+//         })
 
         this.isSpinning = true;
         let reqCount = 0;
@@ -283,7 +283,7 @@ export class CcvpnNetworkComponent implements OnInit {
         reqCount++;
         this.myhttp.getLogicalLinksData()
             .subscribe((data) => {
-                    if (data) {
+                    if (data && !data["status"]) {
                         for (let ll of data["logical-link"]) {
                             thisNg.logicalLinks.push(ll);
                         }
@@ -300,7 +300,7 @@ export class CcvpnNetworkComponent implements OnInit {
         reqCount++;
         this.myhttp.getPnfsData()
             .subscribe((data) => {
-                    if (data) {
+                    if (data && !data["status"]) {
                         for (let ll of data["pnf"]) {
                             thisNg.pnfs.push(ll);
                         }
@@ -317,7 +317,7 @@ export class CcvpnNetworkComponent implements OnInit {
         reqCount++;
         this.myhttp.getVpnBindingsData()
             .subscribe((data) => {
-                    if (data) {
+                    if (data && !data["status"]) {
                         for (let ll of data["vpn-binding"]) {
                             thisNg.vpnBindings.push(ll);
                         }
@@ -334,7 +334,7 @@ export class CcvpnNetworkComponent implements OnInit {
         reqCount++;
         this.myhttp.getConnectivities()
             .subscribe((data) => {
-                    if (data) {
+                    if (data && !data["status"]) {
                         for (let ll of data["connectivity"]) {
                             thisNg.connectivities.push(ll);
                         }
@@ -351,9 +351,25 @@ export class CcvpnNetworkComponent implements OnInit {
         reqCount++;
         this.myhttp.getNetworkRoutes()
             .subscribe((data) => {
-                    if (data) {
+                    if (data && !data["status"]) {
                         for (let ll of data["network-route"]) {
                             thisNg.networkroutes.push(ll);
+                        }
+                    }
+                    if (--reqCount == 0) {
+                        thisNg.finishNetworkView();
+                        this.isSpinning = false;
+                    }
+                },
+                (err) => {
+                    console.log(err);
+            })
+       reqCount++;
+        this.myhttp.getUnisData()
+            .subscribe((data) => {
+                    if (data && !data["status"]) {
+                        for (let ll of data["uni"]) {
+                            thisNg.unis.push(ll);
                         }
                     }
                     if (--reqCount == 0) {
@@ -388,6 +404,7 @@ export class CcvpnNetworkComponent implements OnInit {
     isSpinning = true;
 
     pnfs = [];
+    unis = [];
     logicalLinks = [];//logicalLinks Existing connection data returned by the interface
     connectivities = [];
     vpnBindings = [];
@@ -451,8 +468,10 @@ export class CcvpnNetworkComponent implements OnInit {
     };
 
     finishNetworkView() {
+        if (!this.logicalLinks.length) return;
+        if (!this.pnfs.length) return;
         this.updateTopoData();
-        console.log(this.domainMap);
+        console.log("Domain Map: ", this.domainMap);
         this.finishSotnView();
     }
 
@@ -487,10 +506,10 @@ export class CcvpnNetworkComponent implements OnInit {
         // Update serive data
         for (let cn of this.connectivities){
             if (cn['vpn-type'] === "mdsc"){
-                let svcInstId = this.getValueFromRelationList(cn, "service-instance", "service-instance.service-instance-id")
-                                    .pop();
+                //let svcInstId = this.getValueFromRelationList(cn, "service-instance", "service-instance.service-instance-id")
+                //                    .pop();
                 let svcInstName = cn["etht-svc-name"];
-                let uniList = this.getValueFromRelationList(cn, "uni", "uni.id");
+                let svcInstId = svcInstName;
                 let bw = cn["bandwidth-profile-name"];
                 let cvlan = cn["cvlan"];
                 let svc = this.servicesMap.get(svcInstId);
@@ -501,7 +520,7 @@ export class CcvpnNetworkComponent implements OnInit {
                          connections: [],
                          bw : bw,
                          vlan : cvlan,
-                         unis : uniList,
+                         unis : [],
                          otnEdges: []
                      }
                      this.servicesMap.set(svcInstId, svc);
@@ -572,29 +591,6 @@ export class CcvpnNetworkComponent implements OnInit {
                 }
                 this.enniMap.set(linkId, {data: localLink});
             } else if (linkType.search("Tsci") >= 0) {
-            // tunnel connection link
-                let srcEpId = this.getJsonValue(ll, "link-name");
-                let dstEpId = this.getJsonValue(ll, "link-name2");
-                let svcInstId = this.getValueFromRelationList(ll, "allotted-resource", "service-instance.service-instance-id")
-                                    .pop();
-                let conn = {
-                    srcEpId: srcEpId,
-                    dstEpId: dstEpId,
-                    dstEpLtpId: '',
-                    srcEpLtpId: ''
-                }
-                for (let nr of this.networkroutes){
-                    if (nr['route-id'] === srcEpId){
-                        conn.srcEpLtpId = nr['next-hop'];
-                    }
-                    if (nr['route-id'] === dstEpId){
-                        conn.dstEpLtpId = nr['next-hop'];
-                    }
-                }
-                let svc = this.servicesMap.get(svcInstId);
-                if (svc){
-                    svc.connections.push(conn);
-                }
             } else {
             // local link
                 let localLink: Array<any> = new Array();
@@ -642,7 +638,8 @@ export class CcvpnNetworkComponent implements OnInit {
                         srcNode: srcNode,
                         srcTpId: srcTpId,
                         dstNode: dstNode,
-                        dstTpId: dstTpId
+                        dstTpId: dstTpId,
+                        id: srcNodeId + '-' + srcTpId
                     }
                     domainLocal.inniMap.set(srcNodeId + '-' + srcTpId, inni);
                 } else {
@@ -650,9 +647,10 @@ export class CcvpnNetworkComponent implements OnInit {
                 }
             }
         }
-        // Hack: deson't work for more then 2 domain system
+        let tunnels = [];
         for (let ll of thisNg.vpnBindings) {
-            let svcInstId = ll["slice-id"];
+            let svcInstId = this.getValueFromRelationList(ll, "connectivity", "property", "connectivity.etht-svc-name")
+               .pop()
             let svc = this.servicesMap.get(svcInstId);
             let srcNodeId = ll["src-access-node-id"];
             let dstNodeId = ll["dst-access-node-id"];
@@ -660,6 +658,65 @@ export class CcvpnNetworkComponent implements OnInit {
             let domain = thisNg.domainMap.get(domainId);
             if (!svc || !domain){
                 continue;
+            }
+            let tunnelSeg = {
+                id: ll["vpn-id"],
+                tunnelId: ll["vpn-name"],
+                srcNodeId: srcNodeId,
+                dstNodeId: dstNodeId
+            }
+            let exist = false;
+            for (let tl of svc.connections){
+                if (tl["id"] === ll["vpn-name"]){
+                    tl.segs.push(tunnelSeg)
+                    exist = true;
+                }
+            }
+            if (!exist){
+                let conn = {
+                    srcId: "",
+                    dstId: "",
+                    id: ll["vpn-name"],
+                    segs: [tunnelSeg]
+                }
+                svc.connections.push(conn);
+            }
+        }
+        for(let [id, svc] of thisNg.servicesMap){
+            for (let con of svc.connections){
+                con.segs.sort(function(a, b){
+                    return a.srcNodeId.split(".")[1] - b.dstNodeId.split(".")[1];
+                });
+                con.srcId = con.segs[0].srcNodeId;
+                con.dstId = con.segs[con.segs.length-1].dstNodeId;
+            }
+        }
+        for (let ll of thisNg.unis){
+            let ltpIdArr = ll["id"].split('-');
+            ltpIdArr.pop();
+            let ltpId = ltpIdArr.join("-");
+            let svcInstId = this.getValueFromRelationList(ll, "connectivity", "property", "connectivity.etht-svc-name")
+                                           .pop()
+            let svc = this.servicesMap.get(svcInstId);
+            if (!svc) continue;
+            let bw = ll["data-source"];
+            let uni = {
+                id: ltpId,
+                bw: bw
+            }
+            svc.unis.push(uni);
+        }
+        // Hack: deson't work for more then 2 domain system
+        for (let ll of thisNg.vpnBindings) {
+            let svcInstId = this.getValueFromRelationList(ll, "connectivity", "property", "connectivity.etht-svc-name")
+                                           .pop();
+            let svc = this.servicesMap.get(svcInstId);
+            let srcNodeId = ll["src-access-node-id"];
+            let dstNodeId = ll["dst-access-node-id"];
+            let domainId = srcNodeId.split(".")[1];
+            let domain = thisNg.domainMap.get(domainId);
+            if (!svc || !domain){
+                 continue;
             }
             for (let [, inni] of domain.inniMap){
                 if (srcNodeId === inni.srcNode.id){
@@ -681,6 +738,7 @@ export class CcvpnNetworkComponent implements OnInit {
                     };
                  }
             }
+            svc.otnEdges = Array.from(new Set(svc.otnEdges));
         }
     }
 
@@ -769,34 +827,30 @@ export class CcvpnNetworkComponent implements OnInit {
 
             // Insert tunnel edges
         for (let [id, svc] of this.servicesMap){
-            let localTunnelMap = new Map();
             for (let conn of svc.connections){
-                let srcArr = conn.srcEpLtpId.split('-');
-                let srcNodeId = srcArr[srcArr.length-3];
-                let dstArr = conn.dstEpLtpId.split('-');
-                let dstNodeId = dstArr[dstArr.length-3];
-                if (!localTunnelMap.get(srcNodeId + '-' + dstNodeId)) {
-                    let srcNode = getNode(srcNodeId, this.domainMap);
-                    let dstNode = getNode(dstNodeId, this.domainMap);
-                    if(!srcNode.vertex || !dstNode.vertex) {
-                        continue;
-                    };
-                    let e2eTunnel = {
-                        name: id + '/' + srcNodeId + '-' + dstNodeId,
+                let srcNodeId = conn.srcId;
+                let dstNodeId = conn.dstId;
+
+                let srcNode = getNode(srcNodeId, this.domainMap);
+                let dstNode = getNode(dstNodeId, this.domainMap);
+                if(!srcNode.vertex || !dstNode.vertex) {
+                    continue;
+                };
+                let e2eTunnel = {
+                        name: conn.id,
                         srcNode: srcNode,
                         dstNode: dstNode,
                         e2eEdge: null,
                         serviceId: id,
                         srcVertex: srcNode.vertex,
                         dstVertex: dstNode.vertex
-                    }
-                    e2eTunnel.e2eEdge =
-                    this.graph.insertEdge(this.gLayers[2], null, {
-                    tunnel: e2eTunnel, tunnelName: e2eTunnel.name
-                    }, e2eTunnel.srcNode.vertex, e2eTunnel.dstNode.vertex, this.TUNNEL_STYLE)
-                    localTunnelMap.set(srcNodeId + '-' + dstNodeId, e2eTunnel)
-                    this.e2eTunnels.push(e2eTunnel);
                 }
+                e2eTunnel.e2eEdge =
+                this.graph.insertEdge(this.gLayers[2], null, {
+                tunnel: e2eTunnel, tunnelName: e2eTunnel.name
+                    }, e2eTunnel.srcNode.vertex, e2eTunnel.dstNode.vertex, this.TUNNEL_STYLE)
+                this.e2eTunnels.push(e2eTunnel);
+
             }
         }
 
@@ -826,6 +880,7 @@ export class CcvpnNetworkComponent implements OnInit {
     }
 
     chooseService(svcInstId) {
+
         this.serviceSelected = svcInstId;
         //clear the label and color of all UNI links
         for (let [, domain] of this.domainMap) {
@@ -840,18 +895,13 @@ export class CcvpnNetworkComponent implements OnInit {
 
         // Update the label and color of UNI links of current service
         let service = this.servicesMap.get(this.serviceSelected);
+        console.log("Choosing service: ", service);
         if (service){
-           let bw = service.bw;
-           for (let conn of service.connections){
-               let srcUniLinkId = getShortName(conn.srcEpLtpId);
-               let dstUniLinkId = getShortName(conn.dstEpLtpId);
-               // left side uni link
+           for (let uniRecord of service.unis){
+               let srcUniLinkId = getShortName(uniRecord.id);
+               let bw = uniRecord.bw;
                let arr = srcUniLinkId.split('.');
                let uni = this.domainMap.get(arr[1]).uniMap.get(srcUniLinkId);
-               colorUni(uni, this.graph, bw);
-               // right side uni
-               arr = dstUniLinkId.split('.');
-               uni = this.domainMap.get(arr[1]).uniMap.get(dstUniLinkId);
                colorUni(uni, this.graph, bw);
            }
         }
@@ -863,20 +913,17 @@ export class CcvpnNetworkComponent implements OnInit {
 
         // clear the label of all inni links
         for (let [, svc] of this.servicesMap) {
-            for (let ed of service.otnEdges){
+            for (let ed of svc.otnEdges){
                 this.graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, DEFAULT_COLOR, [ed.edge])
                 ed.edge.value.label = '';
                 ed.edge.value.endpoints = null
             }
         }
         // Update the label of inni links of current service
-        console.log(service);
         if (service){
             let bw = service.bw;
-            for (let con of service.connections){
-                for (let ed of service.otnEdges){
-                    colorOtnEdge(ed, this.graph, bw);
-                }
+            for (let ed of service.otnEdges){
+                colorOtnEdge(ed, this.graph, bw);
             }
         }
         this.graph.refresh();
@@ -908,23 +955,25 @@ export class CcvpnNetworkComponent implements OnInit {
             if (!ed.edge.value.endpoints) {
                 ed.edge.value.endpoints = [];
             }
-            ed.edge.value.endpoints.push(bandwidth);
-            let sum = ed.edge.value.endpoints.reduce((a, b) => a + b, 0);
-            ed.edge.value.label = sum + 'G';
+            //ed.edge.value.endpoints.push(bandwidth);
+            //let sum = ed.edge.value.endpoints.reduce((a, b) => a + b, 0);
+            //ed.edge.value.label = sum + 'G';
         }
 
     }
 
-    getValueFromRelationList(rl, relatedTo, relatedKey){
-        let rlArr: Array<any> = this.getJsonValue(rl, 'relationship-list.relationship');
+    getValueFromRelationList(relationshipList, relatedTo, dataOrProperty, relatedKey){
+        let rlArr: Array<any> = this.getJsonValue(relationshipList, 'relationship-list.relationship');
         let valList : Array<any> = [];
         for (let rl of rlArr){
             if (rl['related-to'] === relatedTo){
-                let pnfNameS: String;
-                let tpNameS: String;
-                for (let rld of rl['relationship-data']){
-                   if (rld['relationship-key'] === relatedKey){
-                       let val = rld['relationship-value'];
+                let containerName = dataOrProperty === "data"? "relationship-data": "related-to-property";
+                let keyString = dataOrProperty === "data"? "relationship-key": "property-key";
+                let valString = dataOrProperty === "data"? 'relationship-value' : "property-value";
+
+                for (let rld of rl[containerName]){
+                   if (rld[keyString] === relatedKey){
+                       let val = rld[valString];
                        if (val) valList.push(val);
                    }
                 }
@@ -1502,6 +1551,21 @@ export class CcvpnNetworkComponent implements OnInit {
     }
     getValues(map){
         return Array.from(map.values());
+    }
+    getTunnels(){
+        let svc = this.servicesMap.get(this.serviceSelected);
+        if (svc){
+            let name = svc.name;
+            let bw = svc.bw;
+            return svc.connections.map(({id, srcId, dstId}) => ({
+                name: name,
+                id: id,
+                srcId: srcId,
+                dstId: dstId,
+                bw: bw
+            }));
+        }
+        return [];
     }
 
 }
