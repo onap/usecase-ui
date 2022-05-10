@@ -1,12 +1,12 @@
 {
   "vpn-binding": [
     {
-      "vpn-id": "c93dcdc9-fe9f-412c-bcf3-7d9a4151912e",
-      "vpn-name": "2c993a22-722f-4a5d-87e1-5b373362bc2c",
+      "vpn-id": "977dc0aa-f210-424b-9843-cc7e5cd47458",
+      "vpn-name": "9c627989-9605-4bf5-b050-14333dcd36c4",
       "vpn-platform": "rocks",
       "vpn-region": "http://192.168.198.6:28181",
-      "customer-vpn-id": "20",
-      "route-distinguisher": "14",
+      "customer-vpn-id": "1",
+      "route-distinguisher": "3",
       "access-provider-id": "20",
       "access-client-id": "0",
       "access-topology-id": "1",
@@ -16,7 +16,7 @@
       "dst-access-ltp-id": "",
       "operational-status": "Activated",
       "slice-id": "cll-101",
-      "resource-version": "1651090153178",
+      "resource-version": "1652193726436",
       "vpn-description": "onos",
       "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1",
       "relationship-list": {
@@ -24,11 +24,11 @@
           {
             "related-to": "connectivity",
             "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/28ef47d8-3d98-46bb-96c4-a51588d3700b",
+            "related-link": "/aai/v24/network/connectivities/connectivity/400ef32d-2a6b-427b-afdd-68418ffa4981",
             "relationship-data": [
               {
                 "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "28ef47d8-3d98-46bb-96c4-a51588d3700b"
+                "relationship-value": "400ef32d-2a6b-427b-afdd-68418ffa4981"
               }
             ],
             "related-to-property": [
@@ -42,12 +42,12 @@
       }
     },
     {
-      "vpn-id": "f825613f-6c9b-425d-9033-96bdb9e7ac88",
-      "vpn-name": "2c993a22-722f-4a5d-87e1-5b373362bc2c",
+      "vpn-id": "59324805-5e15-4d33-9d4f-f17db2ea7808",
+      "vpn-name": "9c627989-9605-4bf5-b050-14333dcd36c4",
       "vpn-platform": "rocks",
       "vpn-region": "http://192.168.198.6:18181",
-      "customer-vpn-id": "20",
-      "route-distinguisher": "14",
+      "customer-vpn-id": "1",
+      "route-distinguisher": "3",
       "access-provider-id": "10",
       "access-client-id": "0",
       "access-topology-id": "1",
@@ -57,7 +57,7 @@
       "dst-access-ltp-id": "OA==",
       "operational-status": "Activated",
       "slice-id": "cll-101",
-      "resource-version": "1651090153697",
+      "resource-version": "1652193726951",
       "vpn-description": "onos",
       "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1",
       "relationship-list": {
@@ -65,17 +65,98 @@
           {
             "related-to": "connectivity",
             "relationship-label": "tosca.relationships.network.BindsTo",
-            "related-link": "/aai/v24/network/connectivities/connectivity/88531ca5-154c-4731-9adb-7ccc18935c34",
+            "related-link": "/aai/v24/network/connectivities/connectivity/ba80397f-d2d5-4db7-82c7-d09903e3d7ac",
             "relationship-data": [
               {
                 "relationship-key": "connectivity.connectivity-id",
-                "relationship-value": "88531ca5-154c-4731-9adb-7ccc18935c34"
+                "relationship-value": "ba80397f-d2d5-4db7-82c7-d09903e3d7ac"
               }
             ],
             "related-to-property": [
               {
                 "property-key": "connectivity.etht-svc-name",
                 "property-value": "cll-link-2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vpn-id": "1eba3e7a-82c8-45f7-921b-34d3b5334ee5",
+      "vpn-name": "03c3917f-5849-4048-9a77-db20a592799a",
+      "vpn-platform": "rocks",
+      "vpn-region": "http://192.168.198.6:18181",
+      "customer-vpn-id": "4",
+      "route-distinguisher": "3",
+      "access-provider-id": "10",
+      "access-client-id": "0",
+      "access-topology-id": "1",
+      "src-access-node-id": "10.1.1.1",
+      "src-access-ltp-id": "",
+      "dst-access-node-id": "10.1.1.3",
+      "dst-access-ltp-id": "OA==",
+      "operational-status": "Activated",
+      "slice-id": "cll-101",
+      "resource-version": "1652193727458",
+      "vpn-description": "onos",
+      "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "tosca.relationships.network.BindsTo",
+            "related-link": "/aai/v24/network/connectivities/connectivity/ca45be29-ba1c-4da5-b2b2-b3043057324a",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "ca45be29-ba1c-4da5-b2b2-b3043057324a"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name",
+                "property-value": "cll-link-2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vpn-id": "ff3513c6-2582-4715-8aba-e9638e8de940",
+      "vpn-name": "03c3917f-5849-4048-9a77-db20a592799a",
+      "vpn-platform": "rocks",
+      "vpn-region": "http://192.168.198.6:28181",
+      "customer-vpn-id": "4",
+      "route-distinguisher": "3",
+      "access-provider-id": "20",
+      "access-client-id": "0",
+      "access-topology-id": "1",
+      "src-access-node-id": "10.2.1.3",
+      "src-access-ltp-id": "MTI=",
+      "dst-access-node-id": "10.2.1.2",
+      "dst-access-ltp-id": "",
+      "operational-status": "Activated",
+      "slice-id": "cll-101",
+      "resource-version": "1652193728020",
+      "vpn-description": "onos",
+      "ops-note": "networkId-providerId-10-clientId-0-topologyId-1-nodeId-10.1.1.1",
+      "relationship-list": {
+        "relationship": [
+          {
+            "related-to": "connectivity",
+            "relationship-label": "tosca.relationships.network.BindsTo",
+            "related-link": "/aai/v24/network/connectivities/connectivity/e9572e3b-1a4f-4897-bacf-a7747f33f161",
+            "relationship-data": [
+              {
+                "relationship-key": "connectivity.connectivity-id",
+                "relationship-value": "e9572e3b-1a4f-4897-bacf-a7747f33f161"
+              }
+            ],
+            "related-to-property": [
+              {
+                "property-key": "connectivity.etht-svc-name"
               }
             ]
           }
