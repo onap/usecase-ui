@@ -15,6 +15,7 @@
   "i18nTextDefine_NetworkTopology": "网络拓扑",
   "i18nTextDefine_CCVPNNetwork":"CCVPN网络",
   "i18nTextDefine_MDONSNetwork":"MDONS网络",
+  "i18nTextDefine_IntentManagement": "Intent Management",
 
   "home-component": "--:",
   "i18nTextDefine_SERVICES": "服务",

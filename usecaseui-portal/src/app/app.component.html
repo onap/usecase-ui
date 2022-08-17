@@ -129,6 +129,19 @@
         </ul>
 
       </li>
+      <!-- Intent Management -->
+      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'intent-management'}">
+        <a routerLink="intent-management">
+          <span title>
+            <i>
+              <img
+                src="{{url === 'intent-management' ? 'assets/images/intent-icon-active.png':'assets/images/intent-icon.png'}}"
+                alt="home">
+            </i>
+            <span>{{"i18nTextDefine_IntentManagement" | translate}} </span>
+          </span>
+        </a>
+      </li>
       <hr>
     </ul>
   </nz-sider>

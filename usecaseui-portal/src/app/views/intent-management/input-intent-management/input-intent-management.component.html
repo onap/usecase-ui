@@ -1,0 +1,46 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Add Intent" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()" nzWidth="50%" nzHeight="600px" class="intent-management-modal">
+  <div class="subnet_params_container">
+    <p>
+      <span class="required">*</span> Intent Name:
+      <input nz-input id="intent_name" [(ngModel)]="defaultParams.intentName" (ngModelChange)="changeIntentName($event)">
+      <span [className]="intentNameError?'intent-name-error':'intent-name-required'">The Intent Name is required</span>
+    </p>
+    <p class="title">
+      Expectation List
+      <button nz-button nzType="primary" class="add" (click)="inputIntentExpectationShow()">
+        {{"i18nTextDefine_Create" | translate}} </button>
+    </p>
+    <nz-table
+      #basicTable [nzData]="listOfData"
+      [nzFrontPagination]="false"
+      nzShowSizeChanger
+      [nzPageSizeOptions]="[5,10,15,20]"
+      [nzTotal]='total'
+      [(nzPageSize)]="pageSize"
+      [(nzPageIndex)]='pageIndex'
+    >
+      <thead>
+        <tr>
+          <th nzWidth="10%">No</th>
+          <th nzWidth="30%">Expectation Name</th>
+          <th nzWidth="23%">Target MOI</th>
+          <th nzWidth="15%">{{"i18nTextDefine_Action" | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{ data.expectationName }}</td>
+            <td>{{ data.targetMOI }}</td>
+            <td>
+              <em class="anticon anticon-edit" (click)="editExpectationList(data,i)"></em>
+              <em class="anticon anticon-delete" (click)="deleteExpectationList(i)"></em>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-modal>

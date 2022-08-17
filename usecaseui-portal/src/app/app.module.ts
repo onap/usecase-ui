@@ -107,6 +107,8 @@ import { ManageServiceComponent } from "./views/services/sotn-management/manage-
 import { MonitorServiceComponent } from "./views/services/sotn-management/monitor-service/monitor-service.component";
 import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
 import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
+import { IntentManagementComponent } from './views/intent-management/intent-management.component';
+import { InputIntentManagementComponent } from './views/intent-management/input-intent-management/input-intent-management.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -205,6 +207,8 @@ registerLocaleData(en);
 		MonitorServiceComponent,
 		MdonsNetworkComponent,
 		CitySelectComponent,
+		IntentManagementComponent,
+		InputIntentManagementComponent,
 	],
 	imports: [
 		BrowserModule,
