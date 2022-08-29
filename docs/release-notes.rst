@@ -11,6 +11,46 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
+Version: 5.1.0
+--------------
+
+:Release Date: 2022-08-29
+
+**New Features**
+ - intent-analysis
+
+**Released Components**
+ - usecase-ui  4.0.7
+ - usecase-ui-server  5.1.0
+
+**Bug Fixes**
+	NA
+
+**Known Issues**
+	NA
+
+**Security Notes**
+
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed,
+items that remain open have been assessed for risk and determined to be false positive.
+The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
+
+**Quick Links**
+ - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
+ - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
+ - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+
+**Upgrade Notes**
+	NA
+
+**Deprecation Notes**
+	NA
+
+**Other**
+	NA
+
+
+
 Version: 4.0.7
 --------------
 
@@ -32,8 +72,8 @@ Version: 4.0.7
 
 **Security Notes**
 
-Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed, 
-items that remain open have been assessed for risk and determined to be false positive. 
+Usecase-UI code has been formally scanned during build time using NexusIQ and all critical vulnerabilities have been addressed,
+items that remain open have been assessed for risk and determined to be false positive.
 The Usecase-UI open critical security vulnerabilities and their risk assessment have been documented as part of the project.
 
 **Quick Links**
