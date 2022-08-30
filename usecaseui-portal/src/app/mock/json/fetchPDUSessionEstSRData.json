@@ -1,0 +1,49 @@
+{
+    "result_header": {
+      "result_code": "200",
+      "result_message": "5G slicing service PDUSessionEstSR query result."
+    },
+    "result_body": {
+      "slicing_pDUSessionEstSR_list": [
+        {
+          "service_id": "service1",
+          "pdusessionEstSRInfoList": [
+            {
+              "timestamp": "1454171446000",
+              "pduSessionEstSR": "120"
+            },
+            {
+              "timestamp": "1454172447000",
+              "pduSessionEstSR": "200"
+            }
+          ]
+        },
+        {
+          "service_id": "service2",
+          "pdusessionEstSRInfoList": [
+            {
+              "timestamp": "1454171446000",
+              "pduSessionEstSR": "88"
+            },
+            {
+              "timestamp": "1454173447000",
+              "pduSessionEstSR": "144"
+            }
+          ]
+        },
+        {
+          "service_id": "service3",
+          "pdusessionEstSRInfoList": [
+            {
+              "timestamp": "1454171446000",
+              "pduSessionEstSR": "163"
+            },
+            {
+              "timestamp": "1454173447000",
+              "pduSessionEstSR": "85"
+            }
+          ]
+        }
+      ]
+    }
+  }
