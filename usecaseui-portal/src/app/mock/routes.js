@@ -172,6 +172,8 @@ module.exports = {
 		"/fetchOnlineusersData",
 	"/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/bandwidth":
 		"/fetchBandwidthData",
+	"/POST/uui-slicing/nsmf/monitoring/queryTimestamp/:queryTimestamp/pDUSessionEstSR":
+		"/fetchPDUSessionEstSRData",
 	///////<-------------general interface--------->/////
 	"/api/*": "/$1",
 	"/*/*": "/$1_$2",

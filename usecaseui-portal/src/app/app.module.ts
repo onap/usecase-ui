@@ -107,6 +107,7 @@ import { ManageServiceComponent } from "./views/services/sotn-management/manage-
 import { MonitorServiceComponent } from "./views/services/sotn-management/monitor-service/monitor-service.component";
 import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
 import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -211,6 +212,7 @@ registerLocaleData(en);
 		FormsModule,
 		ReactiveFormsModule,
 		HttpClientModule,
+		NgMultiSelectDropDownModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,

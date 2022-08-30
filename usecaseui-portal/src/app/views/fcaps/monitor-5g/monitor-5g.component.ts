@@ -3,6 +3,7 @@ import { SlicingTaskServices } from '.././../../core/services/slicingTaskService
 import { pieChartconfig, lineChartconfig } from './monitorEchartsConfig';
 import *as moment from 'moment';
 import * as differenceInDays from 'date-fns/difference_in_days';
+import { NzMessageService } from 'ng-zorro-antd';
 @Component({
     selector: 'app-monitor-5g',
     templateUrl: './monitor-5g.component.html',
@@ -11,7 +12,8 @@ import * as differenceInDays from 'date-fns/difference_in_days';
 export class Monitor5gComponent implements OnInit {
 
     constructor(
-        private myhttp: SlicingTaskServices
+        private myhttp: SlicingTaskServices,
+        private msg: NzMessageService
     ) {
     }
     today = new Date();
@@ -25,6 +27,7 @@ export class Monitor5gComponent implements OnInit {
     isSpinningTraffic: boolean =true;
     isSpinningOnlineuser: boolean =true;
     isSpinningBandwidth: boolean =true;
+    isSpinningPDUSessionEstSR: boolean =true;
 
     trafficData: any[] = [];
     trafficLegend: any[] = [];
@@ -42,9 +45,64 @@ export class Monitor5gComponent implements OnInit {
     bandwidthLegend: any[] = [];
     bandwidthChartInit: Object = lineChartconfig;
     bandwidthChartData: Object;
+
+    pDUSessionEstSRData: any[] = [];
+    pDUSessionEstSRXAxis: any[] = [];
+    pDUSessionEstSRLegend: any[] = [];
+    pDUSessionEstSRChartInit: Object = lineChartconfig;
+    pDUSessionEstSRChartData: Object;
+
+    dropdownList;
+    dropdownSettings;
+    selectedItems = [];
     ngOnInit() {
         this.getBusinessList()
+
+        this.dropdownList = this.getData();
+
+        this.dropdownSettings = {
+          singleSelection: false,
+          idField: 'item_id',
+          textField: 'item_text',
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          enableCheckAll: false
+        };
     }
+
+    onItemSelect($event){
+        let data = this.getData();
+        let selectedItem = data.filter(item => item.item_id == $event.item_id);
+        this.dropdownList = data.map(item => {
+          if(this.selectedItems.length >= 3){
+            item.isDisabled = true;
+          } else {
+            item.isDisabled = false;
+          }
+          return item;
+        })
+        if(this.selectedItems.length >= 3){
+          this.msg.warning(`More than 3 KPIs cannot be selected at a time`);
+        }
+      }
+
+      onItemDeSelect(){
+        if(this.selectedItems && this.selectedItems.length < 3){
+          this.dropdownList = this.dropdownList.map(item => {
+            item.isDisabled = false;
+            return item;
+          })
+        }
+      }
+
+      getData() : Array<any>{
+        return [
+          { item_id: 1, item_text: 'SlicingUseTraffic' },
+          { item_id: 2, item_text: 'NumberOfOnlineUsers'},
+          { item_id: 3, item_text: 'SlicingTotalBandwidth'},
+          { item_id: 4, item_text: 'PDUSessionEstSR' }
+        ];
+      }
 
     getBusinessList(): void {
         this.loading = true;
@@ -109,6 +167,7 @@ export class Monitor5gComponent implements OnInit {
         this.fetchTrafficData(requestBody, time);
         this.fetchOnlineusersData(requestBody, time);
         this.fetchBandwidthData(requestBody, time);
+        this.fetchPDUSessionEstSRData(requestBody, time);
     }
     fetchTrafficData(service_list, time) {
         let getFetchTrafficFailedCallback  = () => {
@@ -186,6 +245,44 @@ export class Monitor5gComponent implements OnInit {
             };
         })
     }
+    fetchPDUSessionEstSRData(service_list, time) {
+        let getFetchPDUSessionEstSRFailedCallback  = () => {
+            this.isSpinningPDUSessionEstSR = false;
+        }
+        this.myhttp.getFetchPDUSessionEstSR(service_list, time, getFetchPDUSessionEstSRFailedCallback).then(res => {
+            this.isSpinningPDUSessionEstSR = false;
+            const { result_body: { slicing_pDUSessionEstSR_list } } = res;
+            this.pDUSessionEstSRXAxis = [];
+            this.pDUSessionEstSRData = [];
+            this.pDUSessionEstSRLegend = [];
+            let filterList = [];
+            filterList = this.filterData(slicing_pDUSessionEstSR_list);
+            console.log(filterList,"filterList----slicing_pDUSessionEstSR");
+            filterList[0].pdusessionEstSRInfoList.map((key) => {
+                let date = moment(Number(key.timestamp)).format('YYYY-MM-DD/HH:mm').split("/")[1];
+                this.pDUSessionEstSRXAxis.push(date)
+            });
+            filterList.forEach((item) => {
+                this.pDUSessionEstSRLegend.push(item.service_id);
+                this.pDUSessionEstSRData.push({
+                    name: item.service_id,
+                    type: 'line',
+                    data: this.getPDUSessionEstSRSeriesData(item)
+                })
+            });
+            this.pDUSessionEstSRChartData = {
+                legend: {
+                    bottom: '0px',
+                    type: 'scroll',
+                    data: this.pDUSessionEstSRLegend
+                },
+                xAxis: {
+                    data: this.pDUSessionEstSRXAxis
+                },
+                series: this.pDUSessionEstSRData
+            };
+        })
+    }
     fetchBandwidthData(service_list, time) {
         let getFetchBandwidthFailedCallback  = () => {
             this.isSpinningBandwidth = false;
@@ -235,6 +332,13 @@ export class Monitor5gComponent implements OnInit {
         let datas = [];
         item.total_bandwidth_list.forEach((keys) => {
             datas.push(keys.total_bandwidth)
+        })
+        return datas
+    }
+    getPDUSessionEstSRSeriesData(item) {
+        let datas = [];
+        item.pdusessionEstSRInfoList.forEach((keys) => {
+            datas.push(keys.pduSessionEstSR)
         })
         return datas
     }
