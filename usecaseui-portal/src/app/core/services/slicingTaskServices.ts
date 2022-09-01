@@ -93,6 +93,9 @@ export class SlicingTaskServices {
 		fetchBandwidth:
 			this.baseUrl +
 			"/monitoring/queryTimestamp/{queryTimestamp}/bandwidth",
+		fetchPDUSessionEstSR:
+		    this.baseUrl +
+		    "/monitoring/queryTimestamp/{queryTimestamp}/pDUSessionEstSR",
 		getConnectionLinkTable:
 			"/api/usecaseui-server/v1/uui-slicing/nsmf/task/connectionLinks/pageNo/{pageNo}/pageSize/{pageSize}", // :todo
 	};
@@ -307,6 +310,10 @@ export class SlicingTaskServices {
 	}
 	getFetchBandwidth(service_list, time, failedCallback?: any) {
 		let url = this.url.fetchBandwidth.replace("{queryTimestamp}", time);
+		return this.Http.httpAxios("post", url, service_list, failedCallback);
+	}
+	getFetchPDUSessionEstSR(service_list, time, failedCallback?: any) {
+		let url = this.url.fetchPDUSessionEstSR.replace("{queryTimestamp}", time);
 		return this.Http.httpAxios("post", url, service_list, failedCallback);
 	}
 	// get the detail information of connection links

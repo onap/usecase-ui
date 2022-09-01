@@ -1,7 +1,7 @@
 <div class="monitor-content">
     <h1>Slicing business Monitor</h1>
     <div nz-row>
-        <div nz-col nzSpan="12" class="monitorDate">
+        <div nz-col nzSpan="10" class="monitorDate">
             <nz-date-picker
                     nzShowTime
                     [nzShowToday]="false"
@@ -14,29 +14,53 @@
                     (nzOnOpenChange)="onOpenChange($event)"
             ></nz-date-picker>
         </div>
+        <div nz-col nzSpan="3" class="charts">
+        <h3><nz-form-label class= "colm-s-1 lblCls">Supported KPIs</nz-form-label></h3>
+        </div>
+        <div nz-col nzSpan="8" class="charts">
+            <div class="drop-container">
+                <ng-multiselect-dropdown
+                [placeholder]="'Select KPIs'"
+                [settings]="dropdownSettings"
+                [data]="dropdownList"
+                (onSelect)="onItemSelect($event)"
+                (onDeSelect)="onItemDeSelect()"
+                [(ngModel)]="selectedItems">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
     </div>
-    <div nz-row nzType="flex" class="charts">
-        <div nz-col nzSpan="6" class="gutter-row col-boxshadow">
+    <div nz-row>
+    <div nz-col nzType="flex" class="charts" *ngFor="let data of selectedItems" [ngSwitch]="data.item_text">
+        <div nz-col nzSpan="6" class="gutter-row col-boxshadow" *ngSwitchCase="'SlicingUseTraffic'">
             <nz-spin [nzSpinning]="isSpinningTraffic">
                 <h4>Slicing Use Traffic</h4>
                 <app-pie [initData]="trafficChartInit" [chartData]="trafficChartData"></app-pie>
                 <div *ngIf="!isSpinningTraffic && trafficData.length === 0" class="nodata">NO Data</div>
             </nz-spin>
         </div>
-        <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
+        <div nz-col nzSpan="7" class="gutter-row col-boxshadow" *ngSwitchCase="'NumberOfOnlineUsers'">
             <nz-spin [nzSpinning]="isSpinningOnlineuser">
                 <h4>Number Of Online Users</h4>
                 <app-line [initData]="onlineuserChartInit" [chartData]="onlineuserChartData"></app-line>
                 <div *ngIf="!isSpinningOnlineuser && onlineusersData.length === 0" class="nodata">NO Data</div>
             </nz-spin>
         </div>
-        <div nz-col nzSpan="8" class="gutter-row col-boxshadow">
+        <div nz-col nzSpan="7" class="gutter-row col-boxshadow" *ngSwitchCase="'SlicingTotalBandwidth'">
             <nz-spin [nzSpinning]="isSpinningBandwidth">
                 <h4>Slicing Total Bandwidth</h4>
                 <app-line [initData]="bandwidthChartInit" [chartData]="bandwidthChartData"></app-line>
                 <div *ngIf="!isSpinningBandwidth && bandwidthData.length === 0" class="nodata">NO Data</div>
             </nz-spin>
         </div>
+        <div nz-col nzSpan="7" class="gutter-row col-boxshadow" *ngSwitchCase="'PDUSessionEstSR'">
+            <nz-spin [nzSpinning]="isSpinningPDUSessionEstSR">
+                <h4>PDUSessionEstSR</h4>
+                <app-line [initData]="pDUSessionEstSRChartInit" [chartData]="pDUSessionEstSRChartData"></app-line>
+                <div *ngIf="!isSpinningPDUSessionEstSR && pDUSessionEstSRData.length === 0" class="nodata">NO Data</div>
+            </nz-spin>
+        </div>
+    </div>
     </div>
     <div class="slicing-resource-table">
         <div class="slicing-resource-table-list">
