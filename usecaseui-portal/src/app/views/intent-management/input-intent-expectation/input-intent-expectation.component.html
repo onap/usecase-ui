@@ -1,0 +1,59 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Add Expectation" nzCentered (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()" nzWidth="52%" nzHeight="600px" class="intent-management-modal">
+    <div class="add-expectation-container">
+      <p class="expectation-p">
+        <span class="left"> Expectation Name:</span>
+        <input nz-input id="expectation_name" [(ngModel)]="this.defaultParams['expectationName']">
+      </p>
+      <p class="expectation-p">
+        <span class="left"> Expectation Type:</span>
+        <nz-select [(ngModel)]="this.defaultParams['expectationType']">
+          <nz-option [nzValue]="itemType.value" [nzLabel]="itemType.label" *ngFor="let itemType of expectationTypeList"></nz-option>
+        </nz-select>
+      </p>
+      <p class="expectation-p">
+        <span class="left"> Object Instance:</span>
+        <input nz-input id="object_instance" [(ngModel)]="this.defaultParams['expectationObject']['objectInstance']">
+      </p>
+      <p class="expectation-p">
+        <span class="left"> Object Type:</span>
+        <nz-select [(ngModel)]="this.defaultParams['expectationObject']['objectType']">
+          <nz-option [nzValue]="itemType.value" [nzLabel]="itemType.label" *ngFor="let itemType of expectationObjectTypeList"></nz-option>
+        </nz-select>
+      </p>
+      <div class="target-div">
+        <p class="title">
+          Target List
+          <button nz-button nzType="primary" class="add" (click)="inputIntentTargetShow()">
+            {{"i18nTextDefine_Create" | translate}} </button>
+        </p>
+        <nz-table
+          #basicTable [nzData]="listOfData"
+          [nzFrontPagination]="false"
+          [nzShowPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th nzWidth="10%">No</th>
+              <th nzWidth="20%">Target Name</th>
+              <th nzWidth="15%">{{"i18nTextDefine_Action" | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+              <tr>
+                <td>{{i+1}}</td>
+                <td>{{ data.targetName }}</td>
+                <td>
+                  <em class="anticon anticon-edit" (click)="editTargetList(data,i)"></em>
+                  <em class="anticon anticon-delete" (click)="deleteTargetList(i)"></em>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </nz-table>
+      </div>
+      
+    </div>
+  </nz-modal>
+<app-input-intent-state [showModel]="intentTargetShow" (modalOpreation)="inputIntentStateClose($event)" [editTargetTableData]="editTargetTableList"></app-input-intent-state>

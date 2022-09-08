@@ -1,0 +1,114 @@
+:host{
+  display: block;
+}
+.content {
+  padding: 40px;
+  min-height: 937px;
+  height: 100vh;
+  .title{
+    font-size: 30px;
+    color: #3C4F8C;
+    margin-bottom: 0.5em;
+    .add{
+      float: right;
+      margin-top: 7px;
+    }
+  }
+  .anticon-edit,.anticon-delete{
+    font-size: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
+.intent-management-modal{
+  .add-expectation-container:after{
+    content: '';
+    display: block;
+    clear: both;
+  }
+  p{
+    position: relative;
+  }
+  .ant-input{
+    width: 300px;
+  }
+  .title{
+    height: 32px;
+    line-height: 32px;
+    margin-bottom: 15px;
+    .add{
+      float: right;
+    }
+  }
+  .required{
+    color: #ff0000;
+  }
+  .intent-required{
+    display: none;
+  }
+  .intent-error{
+    position: absolute;
+    color: #ff0000;
+    top: 32px;
+    left: 110px;
+  }
+  .anticon-edit,.anticon-delete{
+    font-size: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+.intent-table{
+  margin-bottom: 15px;
+}
+.target-div{
+  float: left;
+  width: 100%;
+}
+.expectation-p{
+  position: relative;
+  float: left;
+  width: 50%;
+  .left{
+    float: left;
+    width: 40%;
+    height: 32px;
+    line-height: 32px;
+    text-align: right;
+    padding-right: 2%;
+  }
+  .ant-input{
+    float: left;
+    width: 58%;
+  }
+  .ant-select{
+    width: 58%;
+  }
+}
+.w50{
+  width: 50%;
+}
+.condition-type{
+  float: left;
+  width: 100%;
+  [nz-radio] {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin-left: 15%;
+    .ant-input{
+      width: 60%;
+    }
+  }
+  .ant-radio-group{
+    width: 50%;
+  }
+}
+.intent-condition-div{
+  width: 100%;
+  float: left;
+}
+.condition-operator-div{
+  margin-left: 50px;
+}

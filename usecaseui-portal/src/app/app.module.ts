@@ -35,6 +35,7 @@ import { intentBaseService } from "./core/services/intentBase.service";
 import { ManagemencsService } from "./core/services/managemencs.service";
 import { networkHttpservice } from "./core/services/networkHttpservice.service";
 import { onboardService } from "./core/services/onboard.service";
+import { IntentManagementService } from "./core/services/intentManagement.service";
 // Custom service
 import { ServiceListService } from "./core/services/serviceList.service";
 // slicingTask service
@@ -108,6 +109,11 @@ import { MonitorServiceComponent } from "./views/services/sotn-management/monito
 import { OrderServiceComponent } from "./views/services/sotn-management/order-service/order-service.component";
 import { SotnManagementComponent } from "./views/services/sotn-management/sotn-management.component";
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { IntentManagementComponent } from './views/intent-management/intent-management.component';
+import { InputIntentManagementComponent } from './views/intent-management/input-intent-management/input-intent-management.component';
+import { InputIntentExpectationComponent } from './views/intent-management/input-intent-expectation/input-intent-expectation.component';
+import { InputIntentStateComponent } from './views/intent-management/input-intent-state/input-intent-state.component';
+import { InputIntentConditionComponent } from './views/intent-management/input-intent-condition/input-intent-condition.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -136,6 +142,7 @@ registerLocaleData(en);
 		ManagemencsService,
 		TextService,
 		SlicingTaskServices,
+		IntentManagementService,
 		// fakeBackendProvider
 	],
 	declarations: [
@@ -206,6 +213,11 @@ registerLocaleData(en);
 		MonitorServiceComponent,
 		MdonsNetworkComponent,
 		CitySelectComponent,
+		IntentManagementComponent,
+		InputIntentManagementComponent,
+		InputIntentExpectationComponent,
+		InputIntentStateComponent,
+		InputIntentConditionComponent,
 	],
 	imports: [
 		BrowserModule,

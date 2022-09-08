@@ -1,0 +1,48 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Add Intent" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()" nzWidth="56%" nzHeight="600px" class="intent-management-modal">
+  <div class="subnet_params_container clearfix">
+    <p>
+      Intent Name:
+      <input nz-input id="intent_name" [(ngModel)]="this.defaultParams['intentName']">
+    </p>
+    <p class="title">
+      Expectation List
+      <button nz-button nzType="primary" class="add" (click)="inputIntentExpectationShow()">
+        {{"i18nTextDefine_Create" | translate}} </button>
+    </p>
+    <div class="intent-table">
+      <nz-table
+        #basicTable [nzData]="listOfData"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th nzWidth="8%">No</th>
+            <th nzWidth="20%">Expectation Name</th>
+            <th nzWidth="20%">Expectation Type</th>
+            <th nzWidth="15%">Object Type</th>
+            <th nzWidth="22%">Object Instance</th>
+            <th nzWidth="15%">{{"i18nTextDefine_Action" | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{ data.expectationName }}</td>
+              <td>{{ data.expectationType }}</td>
+              <td>{{ data.expectationObject.objectType }}</td>
+              <td>{{ data.expectationObject.objectInstance }}</td>
+              <td>
+                <em class="anticon anticon-edit" (click)="editExpectationList(data,i)"></em>
+                <em class="anticon anticon-delete" (click)="deleteExpectationList(i)"></em>
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</nz-modal>
+<app-input-intent-expectation [showModel]="intentExpectationShow" (modalOpreation)="inputIntentExpectationClose($event)" [editExpectationTableData]="editExpectationTableList"></app-input-intent-expectation>

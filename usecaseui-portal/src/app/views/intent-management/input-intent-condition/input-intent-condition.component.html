@@ -1,0 +1,24 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Add Condition" nzCentered (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()" nzWidth="44%" nzHeight="600px" class="intent-management-modal">
+  <div class="intent-condition-div clearfix">
+    <p class="expectation-p w50">
+      <span class="left"> Condition Name:</span>
+      <input nz-input id="condition_name" [(ngModel)]="this.defaultParams['conditionName']">
+    </p>
+      <p class="expectation-p w50">
+        <span class="left"> Operator:</span>
+        <nz-select *ngIf="conditionType === 'value'" [(ngModel)]="this.defaultParams['operator']" (ngModelChange)="handleChange($event)">
+          <nz-option [nzValue]="itemType.value" [nzLabel]="itemType.label" *ngFor="let itemType of operatorList"></nz-option>
+        </nz-select>
+      </p>
+      <div class="condition-type">
+        <nz-radio-group [(ngModel)]="conditionType">
+          <label nz-radio nzValue="value">
+            Condition Value
+            <input type="text" nz-input id="condition_value" [(ngModel)]="this.defaultParams['conditionValue']" *ngIf="conditionType === 'value'" placeholder="please input condition value" />
+          </label>
+          <label nz-radio nzValue="list" [nzDisabled]="true">Condition List</label>
+        </nz-radio-group>
+      </div>
+  </div>
+</nz-modal>

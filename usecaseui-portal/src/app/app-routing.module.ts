@@ -35,6 +35,7 @@ import { ManageServiceComponent } from './views/services/sotn-management/manage-
 import { MonitorServiceComponent } from './views/services/sotn-management/monitor-service/monitor-service.component';
 import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
 import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
+import { IntentManagementComponent } from './views/intent-management/intent-management.component';
 
 
 
@@ -69,6 +70,7 @@ const routes: Routes = [
   { path: 'performance/performance-vm', component: PerformanceVmComponent },
   { path: 'network/ccvpn-network', component: CcvpnNetworkComponent },
   { path: 'network/mdons-network', component: MdonsNetworkComponent },
+  { path: 'intent-management', component:IntentManagementComponent},
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

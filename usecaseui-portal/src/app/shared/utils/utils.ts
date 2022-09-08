@@ -134,4 +134,18 @@ export class Util {
     intersection(inputs: any[]) : any[]{
         return inputs.reduce((a, b) => a.filter(c => b.includes(c)))
     }
+
+    getUuid() {
+        let s = []
+        let hexDigits = '0123456789abcdef'
+        for (let i = 0; i < 36; i++) {
+          let _temp=Math.floor(Math.random() * 0x10)
+          s[i] = hexDigits.substring(_temp, _temp + 1)
+        }
+        s[14] = '4'
+        let _temp2=(s[19] & 0x3) | 0x8
+        s[19] = hexDigits.substring(_temp2, _temp2 + 1)
+        s[8] = s[13] = s[18] = s[23] = '-'
+        return s.join('')
+      }
 }

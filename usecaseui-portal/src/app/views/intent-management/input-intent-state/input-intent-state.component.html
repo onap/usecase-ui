@@ -1,0 +1,46 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Add Target" nzCentered (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()" nzWidth="48%" nzHeight="600px" class="intent-management-modal">
+  <div class="subnet_params_container clearfix">
+    <p>
+      <span class="left">Target Name:</span>
+      <input nz-input id="target_name" [(ngModel)]="this.defaultParams['targetName']">
+    </p>
+    <div class="intent-table">
+      <p class="title">
+        Condition List
+        <button nz-button nzType="primary" class="add" (click)="inputTargetConditionShow()">
+          {{"i18nTextDefine_Create" | translate}} </button>
+      </p>
+      <nz-table
+        #basicTable [nzData]="listOfData"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th nzWidth="10%">No</th>
+            <th nzWidth="20%">Condition Name</th>
+            <th nzWidth="20%">Operator</th>
+            <th nzWidth="35%">Condition Value</th>
+            <th nzWidth="15%">{{"i18nTextDefine_Action" | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{ data.conditionName }}</td>
+              <td>{{ data.operator }}</td>
+              <td>{{ data.conditionValue }}</td>
+              <td>
+                <em class="anticon anticon-edit" (click)="editConditionList(data,i)"></em>
+                <em class="anticon anticon-delete" (click)="deleteConditionList(i)"></em>
+              </td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</nz-modal>
+<app-input-intent-condition [showModel]="intentConditionShow" (modalOpreation)="inputIntentConditionClose($event)" [editConditionTableData]="editConditionTableList"></app-input-intent-condition>
