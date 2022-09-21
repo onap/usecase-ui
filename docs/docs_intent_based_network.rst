@@ -32,6 +32,10 @@ In R10, the closed-loop will be developed to support the smart Intent E2E Slicin
 REQ-1075 Network Services without Perception for Users based on IBN
 In R10, Network Services without perception for users based on IBN will be developed to support the E2E Slicing and CCVPN.
 
+REQ-1214 Maintenance and Enhancement of Intent-driven Closed-loop Autonomous Networks in R11
+Based on the closed-loop automation of ONAP, the proposal of Intent-driven Closed-loop Autonomous Networks is proposed for the smart operation of networks. In R11, the proposal enhances the functions of intent interaction and intent guarantee for CCVPN and E2E Slicing usecases.
+
+
 
 Abbreviations
 -------------
