@@ -35,6 +35,9 @@ In R10, Network Services without perception for users based on IBN will be devel
 REQ-1214 Maintenance and Enhancement of Intent-driven Closed-loop Autonomous Networks in R11
 Based on the closed-loop automation of ONAP, the proposal of Intent-driven Closed-loop Autonomous Networks is proposed for the smart operation of networks. In R11, the proposal enhances the functions of intent interaction and intent guarantee for CCVPN and E2E Slicing usecases.
 
+REQ-1267 General intent model and general intent interface requirements in R11
+For complex intent, such as the intent of cloud leased line, it is necessary to decompose the complex intent into sub intents of different dimensions, and implement the user's original intent through the execution of sub intents. So we need to deal with machin-machine intent, and for different intents or sub intents in the system, it is necessary to provide general intent model and general intent interface to ensure that all intents(especially machine-machine intents) operate according to the same expression and process. 
+
 
 
 Abbreviations
