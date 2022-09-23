@@ -39,10 +39,6 @@ export class IntentManagementComponent implements OnInit {
     if ($event.cancel) {
         return;
     }
-    if(this.currentIndex>-1){
-      this.listOfData[this.currentIndex]=$event.param
-      this.currentIndex=-1
-    }
     this.getIntentManagementData()
   }
   editIntentList(data,i): void {
