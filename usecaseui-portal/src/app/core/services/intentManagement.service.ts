@@ -26,7 +26,8 @@ export class IntentManagementService {
   url = {
     createIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
     getIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
-    deleteIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
+    deleteIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/",
+    updateIntentManagementData: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/"
   };
 
   // intentManagement
@@ -37,7 +38,9 @@ export class IntentManagementService {
     return this.http.post<any>(this.url["createIntentManagement"], requestBody);
   }
   deleteIntentManagementData(intentId) {
-    let params = new HttpParams({ fromObject: { "intentId": intentId } });
-    return this.http.delete<any>(this.url.deleteIntentManagement, { params });
-}
+    return this.http.delete<any>(this.url.deleteIntentManagement + intentId);
+  }
+  updateIntentManagementData(id, requestBody) {//更新接口未完成
+    return this.http.put<any>(this.url.updateIntentManagementData + id, requestBody);
+  }
 }

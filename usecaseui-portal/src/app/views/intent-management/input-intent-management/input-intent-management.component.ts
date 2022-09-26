@@ -67,12 +67,12 @@ export class InputIntentManagementComponent implements OnInit {
     this.modalOpreation.emit({ "cancel": true });
   }
   handleOk(): void {
-    this.showModel = false;
     if(JSON.stringify(this.editIntentTableData)==='{}'){
       this.defaultParams['intentId']=this.Util.getUuid()
+      this.createIntentInstance()
+    }else{
+      this.editIntentInstanceData()
     }
-    this.createIntentInstance()
-    this.modalOpreation.emit({ "cancel": false, "param": this.defaultParams });
     this.clearIntentData()
   }
   clearIntentData(): void{
@@ -138,7 +138,21 @@ export class InputIntentManagementComponent implements OnInit {
       ...this.defaultParams
     }).subscribe(
       (response) => {
+        this.showModel = false;
         this.modalOpreation.emit({ "cancel": false });
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+  editIntentInstanceData(): void {
+    let id = this.defaultParams['intentId'];
+    let obj = this.defaultParams;
+    this.myhttp.updateIntentManagementData(id,obj).subscribe(
+      (response) => {
+        this.showModel = false;
+        this.modalOpreation.emit({ "cancel": false});
       },
       (err) => {
         console.log(err);
