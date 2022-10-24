@@ -22,6 +22,7 @@ export class CloudLeasedLineModalComponent implements OnInit {
   @Output() cancelEmitter = new EventEmitter<any>();
   comunicationFormItems = COMMUNICATION_FORM_ITEMS;
   isUpdateFlag: boolean = false;
+  bandWidthLists: any[] = [];
   nodeLists: any[] = [];
   cloudPointOptions: any[] = [];
   cloud_leased_line_info = {
@@ -41,11 +42,23 @@ export class CloudLeasedLineModalComponent implements OnInit {
     if (this.cloudLeasedLineShowFlag) {
       if (this.modelParams) {
         this.isUpdateFlag = this.modelParams.isUpdateFlag;
+        if (this.modelParams.accessPointOne && this.modelParams.accessPointOne.bandwidth) {
+          if (this.modelParams.accessPointOne.bandwidth > 4000) {
+            this.modelParams.accessPointOne.bandwidth = 4000;
+          } else if (this.modelParams.accessPointOne.bandwidth > 3750) {
+            this.modelParams.accessPointOne.bandwidth = 3750;
+          } else if (this.modelParams.accessPointOne.bandwidth > 2500) {
+            this.modelParams.accessPointOne.bandwidth = 2500;
+          } else {
+            this.modelParams.accessPointOne.bandwidth = 1250;
+          }
+        }
         this.cloud_leased_line_info = { ...this.modelParams };
       } else {
         this.getInstanceId();
       }
       this.queryAccessNodeInfo();
+      this.initBandWidth();
     }
 	}
   
@@ -63,6 +76,27 @@ export class CloudLeasedLineModalComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  initBandWidth() {
+    this.bandWidthLists = [
+      {
+        value:1250,
+        label:"1.25 - 10"
+      },
+      {
+        value:2500,
+        label:"2.50 - 20"
+      },
+      {
+        value:3750,
+        label:"3.75 - 30"
+      },
+      {
+        value:4000,
+        label:"4.00 - 40"
+      }
+    ];
   }
 
   getInstanceId() {

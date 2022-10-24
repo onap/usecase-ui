@@ -45,7 +45,7 @@ export const COMMUNICATION_FORM_ITEMS = [
 	{
 		title: "Access Point 1",
     nodeName: 'Name',
-    rateName: 'Bandwidth',
+    rateName: 'Bandwidth(Gb/s) - Price($1000/month)',
 		key: "accessPointOne",
 		type: "node_select_one",
 		required: true,

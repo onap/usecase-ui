@@ -49,14 +49,26 @@
               <div *ngIf="item.type === 'node_select_one'">
                 <div>
                   <span>{{item.rateName}}:</span>
-                  <input
+                  <!-- <input
                     nz-input
                     nz-tooltip
                     [id]="item.rateName"
                     [name]="item.rateName"
                     [(ngModel)]="cloud_leased_line_info[item.key].bandwidth"
                     [placeholder]="item.placeholder ? item.placeholder : ''"
-                  />
+                  /> -->
+                  <nz-select
+                    [name]="item.rateName"
+                    [disabled]="isUpdateFlag"
+                    [(ngModel)]="cloud_leased_line_info[item.key].bandwidth"
+                  >
+                    <nz-option
+                      [nzValue]="option.value"
+                      [nzLabel]="option.label"
+                      *ngFor="let option of bandWidthLists"
+                    >
+                    </nz-option>
+                  </nz-select>
                 </div>
                 <div>
                   <span>{{item.nodeName}}:</span>
