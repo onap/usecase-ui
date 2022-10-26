@@ -16,18 +16,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { baseUrl } from '../models/dataInterface';
 
 @Injectable()
 export class IntentManagementService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = baseUrl.baseUrl;
   url = {
-    createIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
-    getIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
-    deleteIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/",
-    updateIntentManagementData: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/"
+    createIntentManagement:  "/api/usecaseui-intent-analysis/v1/intents",
+    getIntentManagement:  "/api/usecaseui-intent-analysis/v1/intents",
+    deleteIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/",
+    updateIntentManagementData: "/api/usecaseui-intent-analysis/v1/intents/"
   };
 
   // intentManagement

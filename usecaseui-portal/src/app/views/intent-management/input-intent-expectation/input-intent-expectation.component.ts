@@ -21,7 +21,7 @@ export class InputIntentExpectationComponent implements OnInit {
     expectationName:'',
     expectationType:'DELIVERY',
     expectationObject:{
-      objectType:'CLL_VPN',
+      objectType:'CCVPN',
       objectInstance:'',
     },
     expectationTargets:[]
@@ -42,7 +42,8 @@ export class InputIntentExpectationComponent implements OnInit {
       { label:'ASSURANCE', value:'ASSURANCE' }
     ]
     this.expectationObjectTypeList = [
-      { label:'CLL_VPN', value:'CLL_VPN' }
+      { label:'CCVPN', value:'CCVPN' },
+      { label:'SLICING', value:'SLICING' }
     ]
   }
 
@@ -81,7 +82,7 @@ export class InputIntentExpectationComponent implements OnInit {
       expectationName:'',
       expectationType:'DELIVERY',
       expectationObject:{
-        objectType:'CLL_VPN',
+        objectType:'CCVPN',
         objectInstance:'',
       },
       expectationTargets:[]
