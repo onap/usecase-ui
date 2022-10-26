@@ -1,5 +1,5 @@
 enum baseUrl{
-    baseUrl = '/api/usecaseui-server/v1'  //online
+    baseUrl = '/api/usecaseui-intent-analysis/v1'
     // baseUrl = 'https://192.168.235.25:30283/api/usecaseui-server/v1'    //local two
 }
 

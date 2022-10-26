@@ -24,10 +24,10 @@ export class IntentManagementService {
   constructor(private http: HttpClient) { }
   baseUrl = baseUrl.baseUrl;
   url = {
-    createIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
-    getIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents",
-    deleteIntentManagement: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/",
-    updateIntentManagementData: this.baseUrl + "/api/usecaseui-intent-analysis/v1/intents/"
+    createIntentManagement: this.baseUrl + "/intents",
+    getIntentManagement: this.baseUrl + "/intents",
+    deleteIntentManagement: this.baseUrl + "/intents/",
+    updateIntentManagementData: this.baseUrl + "/intents/"
   };
 
   // intentManagement
@@ -40,7 +40,7 @@ export class IntentManagementService {
   deleteIntentManagementData(intentId) {
     return this.http.delete<any>(this.url.deleteIntentManagement + intentId);
   }
-  updateIntentManagementData(id, requestBody) {//更新接口未完成
+  updateIntentManagementData(id, requestBody) {
     return this.http.put<any>(this.url.updateIntentManagementData + id, requestBody);
   }
 }
