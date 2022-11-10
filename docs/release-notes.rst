@@ -21,8 +21,10 @@ Version: 5.1.1
  - General intent model and general intent interface : Add intent analysis micro service in UUI; Add intent format input in UUI porta. 
  
 **Released Components**
- - usecase-ui  5.1.1
- - usecase-ui-server  5.1.2
+  - usecase-ui  5.1.1
+  - usecase-ui-server  5.1.3
+  - usecase-ui-intent-analysis  5.1.2
+  - usecase-ui-nlp  1.0.4
 
 **Bug Fixes**
 	NA
