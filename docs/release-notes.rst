@@ -14,7 +14,7 @@ coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GU
 Version: 5.1.1
 --------------
 
-:Release Date: 2022-10-27
+:Release Date: 2022-11-10
 
 **New Features**
  - IBN service : Add PyTorch framework to support more models (TenserFlow framework has been added since Honolulu Release); Improve the accuracy rate of intent translation with multiple models; Enhance the function of STT (speech to text).
