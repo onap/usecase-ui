@@ -4,7 +4,7 @@
 .. _uui_index:
 
 ONAP Usecase-UI
-==========
+===============
 
 |image0|
 
@@ -27,18 +27,18 @@ Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server.
 
 * Usecase UI (Frontend)
 
-	* providing customer and service type management GUI.
-	* providing E2E instance lifecycle management GUI.
-	* providing NS instance lifecycle management GUI.
-	* providing NS/VNF/PNF package management GUI.
-   * providing 5G Slicing network management and monitor GUI.
-	* providing network management GUI for OTN Domain.
+  * providing customer and service type management GUI.
+  * providing E2E instance lifecycle management GUI.
+  * providing NS instance lifecycle management GUI.
+  * providing NS/VNF/PNF package management GUI.
+  * providing 5G Slicing network management and monitor GUI.
+  * providing network management GUI for OTN Domain.
 
 * Usecase UI Server (Backend)
 
-	* providing postgreSQL for recording instance operation history.
-	* providing template analysis result via calling modeling parser.
-	* providing the way to call ONAP other components APIs.
+  * providing postgreSQL for recording instance operation history.
+  * providing template analysis result via calling modeling parser.
+  * providing the way to call ONAP other components APIs.
 
 
 .. toctree::
