@@ -34,10 +34,9 @@ Usecase-UI Docker Images
 
 For initialization of docker there are 2 deployment options currently adpoted in ONAP : using heat template and using OOM.
 From Casablanca release, OOM is the recommended way, so here mainly give the steps for OOM based deployment.
-For OOM deployment you can refer to the below links:
+For OOM deployment you can refer to the link below:
 
-https://onap.readthedocs.io/en/latest/submodules/oom.git/docs/oom_setup_kubernetes_rancher.html
-https://onap.readthedocs.io/en/latest/submodules/oom.git/docs/oom_quickstart_guide.html#quick-start-label
+ONAP Operations Manager: :ref:`oom<onap-oom:master_index>`
 
 1. First ensure Usecase-UI is marked true against field enabled in the oom/kubernetes/onap/values.yaml for successful deployment.
 
