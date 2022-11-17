@@ -52,7 +52,8 @@ Abbreviations
 
 
 Scope of Honolulu release
------------------------
+-------------------------
+
 The scope for Honolulu developed in UUI includes GUI, UUI-server, and NLP.
 
 GUI
@@ -70,7 +71,8 @@ Three NLP algorithms are considered to be applied in current solutions:
 - BERT (Bidirectional Encoder Representations from Transformers)：developed by researchers at Google AI Language. It has caused a stir in the Machine Learning community by presenting state-of-the-art results in a wide variety of NLP tasks. BERT’s key technical innovation is applying the bidirectional training of Transformer, a popular attention model, to language modelling.
 
 Scope of Istanbul release
------------------------
+-------------------------
+
 The scope for Istanbul developed in AAI focuses on Intent Instance Management 
 
 The storage and management of AAI-based Intent Instance are realized in the R9 version.
@@ -79,7 +81,7 @@ Intent Instance is created to save the users' real-time intent (network paramete
 The user's intent is stored from the UUI or SO to the intent instance in the AAI, and then DCAE calls the intent instance in the AAI through the interface.
 
 Impacted Modules for Honolulu
----------------------------
+-----------------------------
 
 U-UI
 ~~~~
