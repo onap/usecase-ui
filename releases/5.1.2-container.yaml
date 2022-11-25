@@ -1,0 +1,10 @@
+distribution_type: "container"
+container_release_tag: "5.1.2"
+project: "usecase-ui"
+container_pull_registry: nexus3.onap.org:10003
+container_push_registry: nexus3.onap.org:10002
+log_dir: "usecase-ui/job/usecase-ui-kohn-docker-java-daily/30"
+ref: "f9872bff827166ce2292e5d270b3fb5290e5b577"
+containers:
+    - name: "usecase-ui"
+      version: "5.1.0-STAGING-20221125T021652Z"
