@@ -11,19 +11,19 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
-Version: 5.1.1
+Version: 5.1.2
 --------------
 
-:Release Date: 2022-11-10
+:Release Date: 2022-11-28
 
 **New Features**
  - IBN service : Add PyTorch framework to support more models (TenserFlow framework has been added since Honolulu Release); Improve the accuracy rate of intent translation with multiple models; Enhance the function of STT (speech to text).
  - General intent model and general intent interface : Add intent analysis micro service in UUI; Add intent format input in UUI porta. 
  
 **Released Components**
-  - usecase-ui  5.1.1
+  - usecase-ui  5.1.2
   - usecase-ui-server  5.1.3
-  - usecase-ui-intent-analysis  5.1.2
+  - usecase-ui-intent-analysis  5.1.3
   - usecase-ui-nlp  1.0.4
 
 **Bug Fixes**
