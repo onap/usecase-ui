@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IntentManagementService } from '../../../core/services/intentManagement.service';
 import { Util } from '../../../shared/utils/utils';
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
   selector: 'app-input-intent-management',
@@ -11,7 +12,8 @@ export class InputIntentManagementComponent implements OnInit {
 
   constructor(
     private myhttp: IntentManagementService,
-    private Util: Util
+    private Util: Util,
+    private message: NzMessageService,
   ) { }
   defaultParams:Object={
     intentId:'',
@@ -140,9 +142,15 @@ export class InputIntentManagementComponent implements OnInit {
       (response) => {
         this.showModel = false;
         this.modalOpreation.emit({ "cancel": false });
+        if(response.result_header.result_code===200){
+          this.message.success('Created successfully');
+        }else{
+          this.message.error(response.result_header.result_message);
+        }
       },
       (err) => {
-        console.log(err);
+        this.showModel = false;
+        this.message.error('Created failed');
       }
     )
   }
@@ -153,9 +161,15 @@ export class InputIntentManagementComponent implements OnInit {
       (response) => {
         this.showModel = false;
         this.modalOpreation.emit({ "cancel": false});
+        if(response.result_header.result_code===200){
+          this.message.success('Modification succeeded');
+        }else{
+          this.message.error(response.result_header.result_message);
+        }
       },
       (err) => {
-        console.log(err);
+        this.showModel = false;
+        this.message.error('upload fail');
       }
     )
   }

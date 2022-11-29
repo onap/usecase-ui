@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IntentManagementService } from '../../core/services/intentManagement.service'
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
   selector: 'app-intent-management',
@@ -8,7 +9,10 @@ import { IntentManagementService } from '../../core/services/intentManagement.se
 })
 export class IntentManagementComponent implements OnInit {
 
-  constructor(private myhttp: IntentManagementService) { }
+  constructor(
+    private myhttp: IntentManagementService,
+    private message: NzMessageService,
+    ) { }
 
   ngOnInit() {
     this.getIntentManagementData()
@@ -23,10 +27,10 @@ export class IntentManagementComponent implements OnInit {
     this.myhttp.getIntentManagementData()
     .subscribe(
       (data) => {
-        this.listOfData=data
+        this.listOfData=data.result_body
       },
       (err) => {
-        console.error(err);
+        this.message.error('Failed to obtain intent data');
       }
     )
   }
@@ -49,8 +53,13 @@ export class IntentManagementComponent implements OnInit {
   deleteIntentList(data): void{
     this.myhttp.deleteIntentManagementData(data.intentId).subscribe((data) => {
       this.getIntentManagementData()
+      if(data.result_header.result_code===200){
+        this.message.success('Deleted successfully');
+      }else{
+        this.message.error(data.result_header.result_message);
+      }
     }, (err) => {
-      console.log(err);
-    });
+      this.message.error('Deletion failed');
+    }); 
   }
 }

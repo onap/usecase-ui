@@ -23,7 +23,7 @@ export class IntentManagementService {
   constructor(private http: HttpClient) { }
   url = {
     createIntentManagement:  "/api/usecaseui-intent-analysis/v1/intents",
-    getIntentManagement:  "/api/usecaseui-intent-analysis/v1/intents",
+    getIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/intentGenerateType/USERINPUT",
     deleteIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/",
     updateIntentManagementData: "/api/usecaseui-intent-analysis/v1/intents/"
   };
