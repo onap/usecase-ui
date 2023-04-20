@@ -114,6 +114,7 @@ import { InputIntentManagementComponent } from './views/intent-management/input-
 import { InputIntentExpectationComponent } from './views/intent-management/input-intent-expectation/input-intent-expectation.component';
 import { InputIntentStateComponent } from './views/intent-management/input-intent-state/input-intent-state.component';
 import { InputIntentConditionComponent } from './views/intent-management/input-intent-condition/input-intent-condition.component';
+import { IntentReportDetailComponent } from './views/intent-management/intent-report-detail/intent-report-detail.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -218,6 +219,7 @@ registerLocaleData(en);
 		InputIntentExpectationComponent,
 		InputIntentStateComponent,
 		InputIntentConditionComponent,
+		IntentReportDetailComponent,
 	],
 	imports: [
 		BrowserModule,

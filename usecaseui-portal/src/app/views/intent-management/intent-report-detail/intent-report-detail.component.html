@@ -1,0 +1,35 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Intent Report" (nzOnCancel)="handleCancel()"
+ nzWidth="56%" nzHeight="600px" [nzFooter]="null" class="intent-management-modal">
+<div class="subnet_params_container clearfix">
+  <p>
+    <span class="title" style="margin-right: 30px;">Intent Name: {{intentInfo['intentName']}}</span>
+    <span class="title">ID: {{intentInfo['intentId']}}</span>
+  </p>
+  <div class="intent-table">
+    <p>ReportTime: {{intentInfo['reportTime']}}</p>
+    <nz-table
+      #basicTable [nzData]="reportData"
+      [nzFrontPagination]="false"
+      [nzShowPagination]="false"
+      >
+      <thead>
+        <tr>
+          <th nzWidth="10%">No</th>
+          <th nzWidth="40%">Status </th>
+          <th nzWidth="50%">Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{ data.fulfillmentStatus }}</td>
+            <td>{{ data.notFulfilledReason }}</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+</nz-modal>

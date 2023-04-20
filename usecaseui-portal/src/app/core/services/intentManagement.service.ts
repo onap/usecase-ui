@@ -25,7 +25,8 @@ export class IntentManagementService {
     createIntentManagement:  "/api/usecaseui-intent-analysis/v1/intents",
     getIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/intentGenerateType/USERINPUT",
     deleteIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/",
-    updateIntentManagementData: "/api/usecaseui-intent-analysis/v1/intents/"
+    updateIntentManagementData: "/api/usecaseui-intent-analysis/v1/intents/",
+    getIntentReport: "/api/usecaseui-intent-analysis/v1/intentReport/"
   };
 
   // intentManagement
@@ -38,7 +39,10 @@ export class IntentManagementService {
   deleteIntentManagementData(intentId) {
     return this.http.delete<any>(this.url.deleteIntentManagement + intentId);
   }
-  updateIntentManagementData(id, requestBody) {//更新接口未完成
+  updateIntentManagementData(id, requestBody) {
     return this.http.put<any>(this.url.updateIntentManagementData + id, requestBody);
+  }
+  getIntentReportData(intentId){
+    return this.http.get<any>(this.url.getIntentReport+intentId);
   }
 }

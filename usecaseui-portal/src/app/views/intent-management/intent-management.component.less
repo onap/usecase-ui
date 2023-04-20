@@ -14,7 +14,7 @@
       margin-top: 7px;
     }
   }
-  .anticon-edit,.anticon-delete{
+  .anticon-edit,.anticon-delete,.anticon-menu-fold{
     font-size: 18px;
     margin-right: 10px;
     cursor: pointer;
@@ -53,7 +53,7 @@
     top: 32px;
     left: 110px;
   }
-  .anticon-edit,.anticon-delete{
+  .anticon-edit,.anticon-delete,.anticon-menu-fold{
     font-size: 18px;
     margin-right: 10px;
     cursor: pointer;
@@ -61,6 +61,10 @@
 }
 .intent-table{
   margin-bottom: 15px;
+  ::ng-deep ant-modal-body{
+    height: 300 !important;
+    overflow-y: auto !important;
+  }
 }
 .target-div{
   float: left;

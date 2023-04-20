@@ -26,10 +26,11 @@
   >
     <thead>
       <tr>
-        <th nzWidth="12%">No</th>
+        <th nzWidth="10%">No</th>
         <th nzWidth="30%">Intent ID</th>
         <th nzWidth="30%">Intent Name</th>
-        <th nzWidth="18%">{{"i18nTextDefine_Action" | translate}}</th>
+        <th nzWidth="15%">Status</th>
+        <th nzWidth="15%">{{"i18nTextDefine_Action" | translate}}</th>
       </tr>
     </thead>
     <tbody>
@@ -38,7 +39,9 @@
           <td>{{i+1}}</td>
           <td>{{ data.intentId }}</td>
           <td>{{ data.intentName }}</td>
+          <td>{{ data.intentStatus }}</td>
           <td>
+            <em class="anticon anticon-menu-fold" (click)="viewReport(data,i)"></em>
             <em class="anticon anticon-edit" (click)="editIntentList(data,i)"></em>
             <em class="anticon anticon-delete" (click)="deleteIntentList(data)"></em>
           </td>
@@ -48,3 +51,4 @@
   </nz-table>
 </div>
 <app-input-intent-management [showModel]="intentModuleShow" (modalOpreation)="inputIntentModuleClose($event)" [editIntentTableData]="editIntentTableList"></app-input-intent-management>
+<app-intent-report-detail [showModel]="intentReportDetailShow" (modalOpreation)="intentReportModuleClose($event)" [reportData]="reportData" [intentInfo]="intentInfo" ></app-intent-report-detail>
