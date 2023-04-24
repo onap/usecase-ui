@@ -38,6 +38,8 @@ Based on the closed-loop automation of ONAP, the proposal of Intent-driven Close
 REQ-1267 General intent model and general intent interface requirements in R11
 For complex intent, such as the intent of cloud leased line, it is necessary to decompose the complex intent into sub intents of different dimensions, and implement the user's original intent through the execution of sub intents. So we need to deal with machin-machine intent, and for different intents or sub intents in the system, it is necessary to provide general intent model and general intent interface to ensure that all intents(especially machine-machine intents) operate according to the same expression and process. 
 
+REQ-1411 Intent-driven Operating for Cloud-network Convergence Services (R12 London Release).
+Intent-based networking is applied to support the smart interaction between users (customers/operators) and networks. Based on the closed-loop automation of ONAP, the proposal of Intent-driven Closed-loop Autonomous Networks is proposed for the smart operation of networks. In R12, the proposal enhances the functions of Intent-driven Operating for Cloud-network Convergence Services based on CCVPN usecase.
 
 
 Abbreviations
