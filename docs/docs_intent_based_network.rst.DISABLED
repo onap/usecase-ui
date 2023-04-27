@@ -41,6 +41,14 @@ For complex intent, such as the intent of cloud leased line, it is necessary to 
 REQ-1411 Intent-driven Operating for Cloud-network Convergence Services (R12 London Release).
 Intent-based networking is applied to support the smart interaction between users (customers/operators) and networks. Based on the closed-loop automation of ONAP, the proposal of Intent-driven Closed-loop Autonomous Networks is proposed for the smart operation of networks. In R12, the proposal enhances the functions of Intent-driven Operating for Cloud-network Convergence Services based on CCVPN usecase.
 
+REQ-1408 Enhance general intent implementation solutions (R12 London Release).
+In London release, we continue plan to do deep research about general intent implementation. Mainly includes those work as below:
+1. Optimize the interaction between Intent Owner and Intent Hanler.
+2. Introduce AI-related technologies, focusing on the introduction of AI technology in the processes of intent formatting, intent translation, and intent decomposition.
+3. Implement more intent interfaces, such as intent negotiation, intent report, etc.
+4. Cooperate with third party projects and open source projects such as nephio to realize end-to-end intent.
+
+
 
 Abbreviations
 -------------
