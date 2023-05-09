@@ -40,7 +40,7 @@ export class IntentManagementComponent implements OnInit {
       (data) => {
         this.listOfData=data.result_body
         this.getIntentReportData(this.listOfData)
-        this.timer=setInterval(function(){
+        this.timer=setInterval(()=>{
         this.getIntentReportData(this.listOfData)
         },5000)
       },
