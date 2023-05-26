@@ -39,7 +39,8 @@ export class InputIntentExpectationComponent implements OnInit {
   ngOnInit() {
     this.expectationTypeList = [
       { label:'DELIVERY', value:'DELIVERY' },
-      { label:'ASSURANCE', value:'ASSURANCE' }
+      { label:'ASSURANCE', value:'ASSURANCE' },
+      { label:'REPORT', value:'REPORT' }
     ]
     this.expectationObjectTypeList = [
       { label:'CCVPN', value:'CCVPN' },
