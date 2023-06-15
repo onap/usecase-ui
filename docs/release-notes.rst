@@ -11,19 +11,19 @@ It provides self-service management GUI and monitor GUI for operators and end-us
 This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
 coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
 
-Version: 5.2.1
+Version: 5.2.2
 --------------
 
-:Release Date: 2023-06-01
+:Release Date: 2023-06-15
 
 **New Features**
  - IBN service : Remove dependency on AAF; Introduce AI technology to improve the intelligent level of intent processing; Enhance intent analysis server to support intent reporting; Enhance the functions of intent translation for Cloud-network Convergence Services.
  
 **Released Components**
-  - usecase-ui  5.2.1
-  - usecase-ui-server  5.2.1
-  - usecase-ui-intent-analysis  5.2.1
-  - usecase-ui-nlp  1.0.4
+  - usecase-ui  5.2.2
+  - usecase-ui-server  5.2.2
+  - usecase-ui-intent-analysis  5.2.2
+  - usecase-ui-nlp  1.0.5
 
 **Bug Fixes**
 	NA
