@@ -46,7 +46,6 @@ In London release, we continue plan to do deep research about general intent imp
 1. Optimize the interaction between Intent Owner and Intent Hanler.
 2. Introduce AI-related technologies, focusing on the introduction of AI technology in the processes of intent formatting, intent translation, and intent decomposition.
 3. Implement more intent interfaces, such as intent negotiation, intent report, etc.
-4. Cooperate with third party projects and open source projects such as nephio to realize end-to-end intent.
 
 
 
