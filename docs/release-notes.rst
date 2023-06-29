@@ -22,7 +22,7 @@ Version: 5.2.2
 **Released Components**
   - usecase-ui  5.2.2
   - usecase-ui-server  5.2.2
-  - usecase-ui-intent-analysis  5.2.2
+  - usecase-ui-intent-analysis  5.2.4
   - usecase-ui-nlp  1.0.5
 
 **Bug Fixes**
