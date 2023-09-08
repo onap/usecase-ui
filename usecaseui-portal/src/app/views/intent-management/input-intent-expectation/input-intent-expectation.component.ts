@@ -22,7 +22,7 @@ export class InputIntentExpectationComponent implements OnInit {
     expectationType:'DELIVERY',
     expectationObject:{
       objectType:'CCVPN',
-      objectInstance:'',
+      objectInstance:[],
     },
     expectationTargets:[]
   };
@@ -64,6 +64,7 @@ export class InputIntentExpectationComponent implements OnInit {
   handleOk(): void {
     if(JSON.stringify(this.editExpectationTableData)==='{}'){
       this.defaultParams['expectationId']=this.Util.getUuid()
+      this.defaultParams['expectationObject']['objectInstance']=this.defaultParams['expectationObject']['objectInstance'].split(',')
     }
     this.modalOpreation.emit({ "cancel": false, "param": this.defaultParams });
     this.clearExpectationData()
@@ -84,7 +85,7 @@ export class InputIntentExpectationComponent implements OnInit {
       expectationType:'DELIVERY',
       expectationObject:{
         objectType:'CCVPN',
-        objectInstance:'',
+        objectInstance:[],
       },
       expectationTargets:[]
     };

@@ -25,7 +25,7 @@ export class InputIntentManagementComponent implements OnInit {
         expectationType:'',
         expectationObject:{
           objectType:'',
-          objectInstance:''
+          objectInstance:[]
         },
         expectationTargets:[
           {
@@ -88,7 +88,7 @@ export class InputIntentManagementComponent implements OnInit {
           expectationType:'',
           expectationObject:{
             objectType:'',
-            objectInstance:''
+            objectInstance:[]
           },
           expectationTargets:[
             {
