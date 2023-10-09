@@ -43,7 +43,9 @@
     "ngx-echarts": "^2.2.0",
     "rxjs": "^5.5.12",
     "vis": "^4.21.0",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "angular2-datetimepicker": "^1.1.1",
+    "sweetalert2": "^4.3.3"
   },
   "devDependencies": {
     "@angular/cli": "~1.7.4",

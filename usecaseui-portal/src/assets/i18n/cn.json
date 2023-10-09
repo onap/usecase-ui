@@ -184,6 +184,8 @@
   "i18nTextDefine_ResourceVersion": "资源版本",
   "i18nTextDefine_NearEnd": "近端",
   "i18nTextDefine_FarEnd": "远端",
-  "i18nTextDefine_ExternalNetworkMessage":"注意：两个端点都将更改为ENNI。"
-	
+  "i18nTextDefine_ExternalNetworkMessage":"注意：两个端点都将更改为ENNI。",
+  "i18nTextDefine_exportData": "导出",
+  "i18nTextDefine_startTime": "起始时间",
+  "i18nTextDefine_endTime": "终止时间"
 }

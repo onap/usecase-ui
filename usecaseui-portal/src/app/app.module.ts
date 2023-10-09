@@ -115,6 +115,7 @@ import { InputIntentExpectationComponent } from './views/intent-management/input
 import { InputIntentStateComponent } from './views/intent-management/input-intent-state/input-intent-state.component';
 import { InputIntentConditionComponent } from './views/intent-management/input-intent-condition/input-intent-condition.component';
 import { IntentReportDetailComponent } from './views/intent-management/intent-report-detail/intent-report-detail.component';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -238,6 +239,7 @@ registerLocaleData(en);
 		NgZorroAntdModule.forRoot(),
 		NgxEchartsModule,
 		AppRoutingModule,
+		AngularDateTimePickerModule
 	],
 	bootstrap: [AppComponent],
 	entryComponents: [

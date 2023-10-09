@@ -5,6 +5,15 @@
     <span class="title" style="margin-right: 30px;">Intent Name: {{intentInfo['intentName']}}</span>
     <span class="title">ID: {{intentInfo['intentId']}}</span>
   </p>
+  <div class = "container">
+     <span>{{"i18nTextDefine_startTime" | translate}} :</span>
+     <angular2-date-picker [(ngModel)]="startDateTime" [settings]="settings"> </angular2-date-picker>
+
+     <span>{{"i18nTextDefine_endTime" | translate}} :</span>
+     <angular2-date-picker [(ngModel)]="endDateTime" [settings]="settings"> </angular2-date-picker>
+     <button (click)="exportData()"> {{"i18nTextDefine_exportData" | translate}} </button>
+  </div>
+  <br>
   <div class="intent-table">
     <p>ReportTime: {{intentInfo['reportTime']}}</p>
     <nz-table
