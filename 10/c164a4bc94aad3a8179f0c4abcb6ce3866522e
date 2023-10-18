@@ -1,0 +1,8 @@
+Code-Review+2: Keguang He <hekeguang@chinamobile.com>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Keguang He <hekeguang@chinamobile.com>
+Submitted-at: Wed, 18 Oct 2023 08:34:22 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/usecase-ui/+/135871
+Project: usecase-ui
+Branch: refs/heads/master
