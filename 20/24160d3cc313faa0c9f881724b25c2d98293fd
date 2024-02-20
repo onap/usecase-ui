@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Submitted-by: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Submitted-at: Tue, 20 Feb 2024 18:26:24 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/usecase-ui/+/137322
+Project: usecase-ui
+Branch: refs/heads/master
