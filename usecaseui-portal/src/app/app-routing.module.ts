@@ -36,6 +36,7 @@ import { MonitorServiceComponent } from './views/services/sotn-management/monito
 import { OrderServiceComponent } from './views/services/sotn-management/order-service/order-service.component';
 import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
 import { IntentManagementComponent } from './views/intent-management/intent-management.component';
+import { RobotComponent } from './views/robot/robot.component';
 
 
 
@@ -71,7 +72,8 @@ const routes: Routes = [
   { path: 'network/ccvpn-network', component: CcvpnNetworkComponent },
   { path: 'network/mdons-network', component: MdonsNetworkComponent },
   { path: 'intent-management', component:IntentManagementComponent},
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'robot', component: RobotComponent }
+  //{ path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

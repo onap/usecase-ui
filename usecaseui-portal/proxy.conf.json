@@ -5,8 +5,14 @@
         "logLevel": "debug",
         "changeOrigin": true
     },
-    "/api/usecaseui-intent-analysis/v1": {
-        "target": "https://192.168.235.25:30283",
+       "/api/usecaseui-intent-analysis/v1": {
+        "target": "http://localhost:8083",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/api/usecaseui-llm-adaptation/v1": {
+        "target": "http://localhost:8084",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true

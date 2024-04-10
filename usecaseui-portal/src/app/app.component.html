@@ -142,6 +142,19 @@
           </span>
         </a>
       </li>
+                 <!-- robot -->
+      <li nz-menu-item [ngClass]="{'activeMenuBar': url === 'robot'}">
+        <a routerLink="robot">
+          <span title>
+            <i>
+              <img
+                src="{{url === 'robot' ? 'assets/images/robot-active.png':'assets/images/robot-hui.png'}}"
+                alt="home">
+            </i>
+            <span>{{"i18nTextDefine_robot" | translate}} </span>
+          </span>
+        </a>
+      </li>
       <hr>
     </ul>
   </nz-sider>

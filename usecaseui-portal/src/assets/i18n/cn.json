@@ -187,5 +187,6 @@
   "i18nTextDefine_ExternalNetworkMessage":"注意：两个端点都将更改为ENNI。",
   "i18nTextDefine_exportData": "导出",
   "i18nTextDefine_startTime": "起始时间",
-  "i18nTextDefine_endTime": "终止时间"
+  "i18nTextDefine_endTime": "终止时间",
+  "i18nTextDefine_robot": "大模型"
 }
