@@ -29,7 +29,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "@types/resize-observer-browser": "^0.1.6",
-    "ng-multiselect-dropdown": "^0.2.14",
+    "angular2-datetimepicker": "^1.1.1",
     "axios": "^0.19.0",
     "core-js": "^2.4.1",
     "d3": "^3.5.17",
@@ -39,13 +39,14 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mxgraph": "^4.2.2",
+    "ng-multiselect-dropdown": "^0.2.14",
     "ng-zorro-antd": "^0.7.1",
     "ngx-echarts": "^2.2.0",
     "rxjs": "^5.5.12",
+    "sse": "https://github.com/mpetazzoni/sse.js.git",
+    "sweetalert2": "^4.3.3",
     "vis": "^4.21.0",
-    "zone.js": "^0.8.19",
-    "angular2-datetimepicker": "^1.1.1",
-    "sweetalert2": "^4.3.3"
+    "zone.js": "^0.8.19"
   },
   "devDependencies": {
     "@angular/cli": "~1.7.4",
