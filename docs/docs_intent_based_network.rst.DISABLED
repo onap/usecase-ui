@@ -47,6 +47,14 @@ In London release, we continue plan to do deep research about general intent imp
 2. Introduce AI-related technologies, focusing on the introduction of AI technology in the processes of intent formatting, intent translation, and intent decomposition.
 3. Implement more intent interfaces, such as intent negotiation, intent report, etc.
 
+REQ-1588 Introducing Generative AI Solution Based on Large Models
+In autonomous network, ONAP can provide capabilities for network orchestration and management. Introducing AI capabilities based on large models can empower ONAP with more intelligent decision-making, optimization abilities, and an enhanced customer experience. Therefore, we can incorporate various large models into ONAP and provide further integration capabilities with its existing functionalities.
+
+REQ-1589 Data Service Enhancements of Intent Driven Networks in R14
+Intent-based networking is applied to support the smart interaction between users (customers/operators) and networks. Based on the closed-loop automation of ONAP, the proposal of Intent-driven Closed-loop Autonomous Networks is proposed for the smart operation of networks. In R14, the proposal proposes data service enhancements for Intent Driven Networks based on CCVPN usecase.
+
+USECASEUI-833 Usecase UI Packages upgrades in direct dependencies for New Delhi release
+Updating vulnerable direct dependencies in the NewDelhi version
 
 
 Abbreviations
