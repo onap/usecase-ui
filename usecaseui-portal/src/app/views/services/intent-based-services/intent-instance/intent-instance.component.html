@@ -1,4 +1,14 @@
 <div class="intent-resource_tab">
+  <div nz-row class="header-row">
+    <button
+      nz-button
+      nzType="primary"
+      class="buy-button"
+      (click)="exportData()"
+    >
+    exportData
+    </button>
+  </div>
   <div class="intent-resource-table-list">
     <nz-table
       #basicTable [nzData]="listOfData"
