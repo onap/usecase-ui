@@ -50,6 +50,23 @@
       "message": "please merge",
       "revId": "db96b42d564c9b8c4e5e0d75abebc604745525b4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "759576c0_dff62409",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3091
+      },
+      "writtenOn": "2024-07-15T07:33:11Z",
+      "side": 1,
+      "message": "remerge",
+      "revId": "db96b42d564c9b8c4e5e0d75abebc604745525b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
