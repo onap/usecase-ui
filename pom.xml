@@ -16,12 +16,6 @@
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.onap.oparent</groupId>
-        <artifactId>oparent</artifactId>
-        <version>3.0.1</version>
-        <relativePath />
-    </parent>
 
     <groupId>org.onap.usecase-ui</groupId>
     <artifactId>usecase-ui-parent</artifactId>
@@ -42,20 +36,16 @@
         <tomcat.version>10.1.2</tomcat.version>
     </properties>
 
-    <!--distributionManagement>
+    <distributionManagement>
         <repository>
-            <id>onap-releases</id>
+            <id>ecomp-releases</id>
             <url>${nexusproxy}/${releaseNexusPath}</url>
         </repository>
         <snapshotRepository>
-            <id>onap-snapshots</id>
+            <id>ecomp-snapshots</id>
             <url>${nexusproxy}/${snapshotNexusPath}</url>
         </snapshotRepository>
-        <site>
-            <id>onap-site</id>
-            <url>dav:${nexusproxy}${siteNexusPath}</url>
-        </site>
-    </distributionManagement-->
+    </distributionManagement>
 
     <modules>
         <module>usecaseui-portal</module>
