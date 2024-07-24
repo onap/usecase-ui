@@ -6,10 +6,17 @@
 Usecase UI Release Notes
 ========================
 
-Usecase UI is composed of two parts that are usecase-ui and usecase-ui-server. 
-It provides self-service management GUI and monitor GUI for operators and end-users. 
-This project targets identifying all GUI requirements which operators and end-users need ONAP to support, 
-coordinating GUI parts of each ONAP subsystem, filling the gaps for improving GUI functionalities for use cases.
+The Usecase UI project provides operators and end users with an interactive interface for self-service management and monitoring,
+and provides a unified presentation interface support for the implementation of various use cases in the ONAP community.
+1.usecase-ui: From the perspective of use cases, it creates an intuitive and easy to use graphical user interface,
+which aims to provide an interactive experience of self-service management and monitoring for operators and end users.
+2.usecase-ui-server: Provides seamless integration with Usecase UI front-end services for other key components in the ONAP
+ecosystem through API interfaces, and is the core logical component of Usecase UI.
+3.usecase-ui-llm-adaptation: The module supports the configuration of a variety of large-scale models,
+and automatically identifies one or more of the most suitable large-scale models according to user input.
+So far, accurate answers to ONAP domain knowledge based on large-scale models have been achieved.
+4.usecase-ui-intent-analysis: Provides intention processing functions for network automation,
+including intention identification, analysis, decomposition, intent instance management,intent reporting and other functions.
 
 Version: 14.0.0
 ---------------
@@ -17,8 +24,9 @@ Version: 14.0.0
 :Release Date: 2024-06-13
 
 **New Features**
- - IBN service : Introducing Generative AI Solution Based on Large Models; Data Service Enhancements of Intent Driven Networks in R14; Updating vulnerable direct dependencies in the NewDelhi version.
- 
+ - IBN Service : Data Service Enhancements of Intent Driven Networks in R14;
+ - Large Model Service : Introducing Generative AI Solution Based on Large Models; Updating vulnerable direct dependencies in the NewDelhi version.
+
 **Released Components**
   - usecase-ui  14.0.0
   - usecase-ui-server  14.0.0
