@@ -1,0 +1,49 @@
+<nz-modal [(nzVisible)]="showModel" [nzTitle]="title" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()" nzWidth="56%" nzHeight="800px" class="intent-management-modal">
+  <div>
+      <div class="input-wrapper">
+          <span>Knowledge Base Name:</span>
+          <input nz-input  [(ngModel)]="knowledgeBase.name">
+      </div>
+      <br>
+      <div class="input-wrapper1">
+          <span> Knowledge Base Description:</span>
+          <textarea class="resizable-textarea" nz-input [(ngModel)]="knowledgeBase.description"></textarea>
+      </div>
+      <br>
+      <div class="input-wrapper">
+          <span>Operator Name:</span>
+          <nz-select
+                style="width: 200px;margin-left: 44px;"
+                nzPlaceHolder="Select Operator"
+                [(ngModel)]="selectedOperator"
+                (ngModelChange)="handleOperatorChange($event)"
+                >
+                <nz-option *ngFor="let operator of operators" [nzValue]="operator" [nzLabel]="operator.operatorName"></nz-option>
+          </nz-select>
+      </div>
+      <br>
+      <div class="input-wrapper">
+           <span> MaaS Platform Name:</span>
+           <nz-select
+                style="width: 200px; margin-left: 11px;"
+                nzPlaceHolder="Select MaaS"
+                [(ngModel)]="selectedPlatform"
+              >
+             <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform" [nzLabel]="platform.maaSPlatformName"></nz-option>
+           </nz-select>
+      </div>
+      <br>
+      <div class="input-wrapper2">
+          <span> File Upload:</span>
+<!--          <input type="file" id="file" name="file" (change)="onFileSelected($event.target.files)">-->
+          <nz-upload
+              [(nzFileList)]="fileList"
+              [nzBeforeUpload]="beforeUpload">
+              <button nz-button>
+                <i class="anticon anticon-upload"></i><span>Select File</span>
+              </button>
+          </nz-upload>
+      </div>
+  </div>
+</nz-modal>
