@@ -156,6 +156,25 @@
         </a>
       </li>
       <hr>
+       <li nz-submenu [ngClass]="{'activeMenuBar': url.indexOf('maas') === 0}" [nzOpen]="maasFlag">
+        <span title>
+          <i>
+            <img src="{{ url === 'maas' ? 'assets/images/robot-active.png':'assets/images/robot-hui.png'}}"
+              alt="home">
+          </i>
+          <span> {{"i18nTextDefine_mass" | translate}} </span>
+        </span>
+        <ul>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url === 'maas/knowledge-base-management'}">
+            <a routerLink='maas/knowledge-base-management'> {{"i18nTextDefine_knowledgebase" | translate}} </a>
+          </li>
+          <!-- <li nz-menu-item [ngClass]="{'activeMenuList': url === 'maas/build'}">
+            <a routerLink='maas/build'> {{"i18nTextDefine_mass_build" | translate}} </a>
+          </li>
+          <li nz-menu-item [ngClass]="{'activeMenuList': url.includes('maas/use')}">
+            <a routerLink='maas/use'> {{"i18nTextDefine_mass_use" | translate}} </a>
+          </li> -->
+        </ul>
     </ul>
   </nz-sider>
   <nz-layout class="main">

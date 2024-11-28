@@ -1,0 +1,6 @@
+<nz-modal [(nzVisible)]="showModel" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+    nzWidth="56%" nzHeight="800px" class="intent-management-modal">
+    <div>
+        <app-description-info [data]="data"></app-description-info>
+    </div>
+</nz-modal>

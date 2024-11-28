@@ -1,0 +1,36 @@
+<div class="content">
+  <p class="title">
+    {{ "i18nTextDefine_KnowledgeBaseList" | translate }}
+    <button nz-button nzType="primary" class="add" (click)="inputKnowledgeBaseModuleShow()">
+      {{"i18nTextDefine_Create" | translate}} </button>
+  </p>
+  <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <th nzWidth="25%" style="font-size: 20px;">{{"i18nTextDefine_NO" | translate}}</th>
+        <th nzWidth="25%" style="font-size: 20px;">{{"i18nTextDefine_Name" | translate}}</th>
+        <th nzWidth="25%" style="font-size: 20px;">{{"i18nTextDefine_Description" | translate}}</th>
+        <th nzWidth="25%" style="font-size: 20px;">{{"i18nTextDefine_Action" | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index">
+          <td>{{ i+1 }}</td>
+          <td>{{ data.knowledgeBaseName }}</td>
+          <td>{{ data.knowledgeBaseDescription }}</td>
+          <td>
+            <i class="anticon anticon-menu-fold" (click)="displayKnowledgeDetails(data)"></i>
+            <!-- <i class="anticon anticon-edit" (click)="editKnowedgeBase(data)"></i> -->
+            <i class="anticon anticon-delete" (click)="deleteKnowledgeBase(data)"></i>
+          </td>
+        </tr>
+    </tbody>
+  </nz-table>
+</div>
+<app-input-knowledge-base *ngIf="intentModuleShow" [showModel]="intentModuleShow"
+  (modalOpreation)="inputKnowledgeBaseModuleClose($event)"></app-input-knowledge-base>
+<app-knowledge-base-detail *ngIf="knowledgeBaseShow" [showModel]="knowledgeBaseShow" (modalOpreation)="knowledgeBaseDetailClose($event)"
+  [knowledgeBaseDetail]="knowledgeBaseDetail"></app-knowledge-base-detail>
+
+<!-- <app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModel]="editKnowledgeBaseShow" [knowledgeBaseId]="editKnowledgeBaseId"
+(modalOpreation)="editKnowledgeBaseModuleClose($event)"></app-edit-knowledge-base> -->
