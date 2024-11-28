@@ -37,8 +37,9 @@ import { OrderServiceComponent } from './views/services/sotn-management/order-se
 import { SotnManagementComponent } from './views/services/sotn-management/sotn-management.component';
 import { IntentManagementComponent } from './views/intent-management/intent-management.component';
 import { RobotComponent } from './views/robot/robot.component';
-
-
+// import { ApplicationManagementComponent } from './views/maas/build/application-management.component';
+// import { UseApplicationComponent } from './views/maas/use/use-application.component';
+import { KnowledgeBaseManagementComponent } from './views/maas/knowledge-base-management/knowledge-base-management.component';
 
 
 
@@ -72,8 +73,11 @@ const routes: Routes = [
   { path: 'network/ccvpn-network', component: CcvpnNetworkComponent },
   { path: 'network/mdons-network', component: MdonsNetworkComponent },
   { path: 'intent-management', component:IntentManagementComponent},
-  { path: 'robot', component: RobotComponent }
-  //{ path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'robot', component: RobotComponent },
+  // { path: 'maas/build', component: ApplicationManagementComponent },
+  // { path: 'maas/use', component: UseApplicationComponent },
+  { path: 'maas/knowledge-base-management', component: KnowledgeBaseManagementComponent },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

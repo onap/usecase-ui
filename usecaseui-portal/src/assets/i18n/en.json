@@ -187,5 +187,10 @@
   "i18nTextDefine_exportData": "Export Data",
   "i18nTextDefine_startTime": "Start Time",
   "i18nTextDefine_endTime": "End Time",
-  "i18nTextDefine_robot": "Large Model"
+  "i18nTextDefine_robot": "Large Model",
+  "i18nTextDefine_mass_build": "Q&A Manage",
+  "i18nTextDefine_mass_use": "Q&A Assistant",
+  "i18nTextDefine_mass": "MaaS",
+  "i18nTextDefine_knowledgebase": "Knowledge Base Manage",
+  "i18nTextDefine_KnowledgeBaseList": "Knowledge Base"
 }

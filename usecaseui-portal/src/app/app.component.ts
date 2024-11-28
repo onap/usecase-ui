@@ -26,7 +26,7 @@ import 'rxjs/add/operator/map';
     styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-
+    maasFlag = false;
     public url: string = 'home';
     constructor(private translate: TranslateService, private myhttp: HomesService, private router: Router, ) {
         this.currentLanguageGet();
@@ -38,6 +38,7 @@ export class AppComponent {
         this.router.events.map(event => {
             if (event instanceof NavigationEnd) {
                 this.url = event['urlAfterRedirects'].slice(1)
+                this.maasFlag = this.url.includes('maas');
             }
         }).subscribe(event => { })
     }
