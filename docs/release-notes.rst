@@ -40,7 +40,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -81,7 +81,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -123,7 +123,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -163,7 +163,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -202,7 +202,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -243,7 +243,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -284,7 +284,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -325,7 +325,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -370,7 +370,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -413,7 +413,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=51282547>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -453,7 +453,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=45285810>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA
@@ -493,7 +493,7 @@ The Usecase-UI open critical security vulnerabilities and their risk assessment 
 **Quick Links**
  - `Usecase-UI project page <https://wiki.onap.org/display/DW/Usecase+UI+Project>`_
  - `Passing Badge information for Usecase-UI <https://bestpractices.coreinfrastructure.org/en/projects/1759>`_
- - `Project Vulnerability Review Table for Usecase-UI <https://wiki.onap.org/pages/viewpage.action?pageId=41419068>`__
+ - `Project Vulnerability Review Table for Usecase-UI <https://lf-onap.atlassian.net/wiki/spaces/DW/pages/16399483/El+Alto+UsecaseUI+Security+Vulnerability+Reports>`__
 
 **Upgrade Notes**
 	NA

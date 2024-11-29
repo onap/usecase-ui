@@ -1,0 +1,61 @@
+<!--
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<div class="content">
+  <p class="title">
+    Application List
+    <button nz-button nzType="primary" class="add" (click)="inputIntentModuleShow()">
+      {{"i18nTextDefine_Create" | translate}} </button>
+  </p>
+  <nz-table
+    #basicTable [nzData]="listOfData"
+    [nzFrontPagination]="false"
+    [nzShowPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th nzWidth="9%" style="font-size: 20px;">No</th>
+        <th nzWidth="12%" style="font-size: 20px;">Application Name</th>
+        <th nzWidth="13%" style="font-size: 20px;">Application Description</th>
+        <th nzWidth="11%" style="font-size: 20px;">Application Type</th>
+        <th nzWidth="11%" style="font-size: 20px;">Operator</th>
+        <th nzWidth="11%" style="font-size: 20px;">MaaS</th>
+        <th nzWidth="11%" style="font-size: 20px;">Knowledge Base</th>
+        <th nzWidth="11%" style="font-size: 20px;">Large Model</th>
+        <th nzWidth="11%" style="font-size: 20px;">{{"i18nTextDefine_Action" | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{data.applicationName}}</td>
+          <td>{{data.applicationDescription}}</td>
+          <td>{{data.applicationType}}</td>
+          <td>{{data.operatorName}}</td>
+          <td>{{data.maaSPlatformName}}</td>
+          <td>{{data.knowledgeBaseName}}</td>
+          <td>{{data.largeModelName}}</td>
+          <td>
+             <i class="anticon anticon-menu-fold" (click)="displayApplicationDetails(data)"></i>
+             <i class="anticon anticon-delete" (click)="deleteIntentList(data)"></i>
+             <i class="anticon anticon-link" (click)="navigateToDetail(data)"></i>
+          </td>
+        </tr>
+    </tbody>
+  </nz-table>
+</div>
+<app-input-application-management *ngIf="intentModuleShow" [showModel]="intentModuleShow" (modalOpreation)="inputIntentModuleClose($event)"></app-input-application-management>
+<app-application-detail *ngIf="applicationShow" [showModel]="applicationShow" (modalOpreation)="applicationDetailClose()" [applicationDetail]="applicationDetail"></app-application-detail>
