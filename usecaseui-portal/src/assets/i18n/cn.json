@@ -188,5 +188,10 @@
   "i18nTextDefine_exportData": "导出",
   "i18nTextDefine_startTime": "起始时间",
   "i18nTextDefine_endTime": "终止时间",
-  "i18nTextDefine_robot": "大模型"
+  "i18nTextDefine_robot": "大模型",
+  "i18nTextDefine_mass_build": "构建",
+  "i18nTextDefine_mass_use": "使用",
+  "i18nTextDefine_mass": "MaaS",
+  "i18nTextDefine_knowledgebase": "知识库管理",
+  "i18nTextDefine_KnowledgeBaseList": "知识库"
 }
