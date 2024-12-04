@@ -13,9 +13,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<nz-modal [(nzVisible)]="showModel" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+<nz-modal [(nzVisible)]="showModal" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
     nzWidth="56%" nzHeight="800px" class="intent-management-modal">
-    <div>
-        <app-description-info [data]="data"></app-description-info>
-    </div>
+    <app-descriptions>
+        <app-descriptions-item nzTitle="Knowledge Base Name">{{knowledgeBaseDetail.knowledgeBaseName}}
+        </app-descriptions-item>
+        <app-descriptions-item nzTitle="Operator Name">{{knowledgeBaseDetail.operatorName}}
+        </app-descriptions-item>
+        <app-descriptions-item nzTitle="MaaS Platform Name">{{knowledgeBaseDetail.maaSPlatformName}}
+        </app-descriptions-item>
+        <app-descriptions-item nzTitle="Update Time">
+            {{knowledgeBaseDetail.updateTime}}
+        </app-descriptions-item>
+        <app-descriptions-item nzTitle="Files Name">
+            {{knowledgeBaseService.getFiles(knowledgeBaseDetail)}}
+        </app-descriptions-item>
+        <app-descriptions-item [nzSpan]="3"
+            nzTitle="Knowledge Base Description">{{knowledgeBaseDetail.knowledgeBaseDescription}}
+        </app-descriptions-item>
+    </app-descriptions>
 </nz-modal>

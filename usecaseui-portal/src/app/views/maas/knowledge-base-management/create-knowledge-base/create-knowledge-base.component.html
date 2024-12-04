@@ -13,13 +13,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<nz-modal [(nzVisible)]="showModel" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
   nzWidth="648px" nzHeight="800px">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <nz-form-item>
-      <nz-form-label [nzSpan]="8" nzFor="name">Knowledge Base Name</nz-form-label>
+      <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Knowledge Base Name</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <input type="text" nz-input formControlName="name">
+        <input type="text" nz-input formControlName="name" placeholder="Please input knowledge base name">
+        <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">
+          Please input knowledge base name!
+        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -29,26 +32,32 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="8" nzFor="selectedOperator">Operator Name</nz-form-label>
+      <nz-form-label [nzSpan]="8" nzFor="selectedOperator" nzRequired>Operator Name</nz-form-label>
       <nz-form-control [nzSpan]="12">
         <nz-select name="selectedOperator" nzPlaceHolder="Select Operator" formControlName="selectedOperator"
           (ngModelChange)="handleOperatorChange($event)">
           <nz-option *ngFor="let operator of operators" [nzValue]="operator"
             [nzLabel]="operator.operatorName"></nz-option>
         </nz-select>
+        <nz-form-explain
+          *ngIf="validateForm.get('selectedOperator').dirty && validateForm.get('selectedOperator').errors">Please
+          select operator!</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="8" nzFor="selectedPlatform">MaaS Platform Name</nz-form-label>
+      <nz-form-label [nzSpan]="8" nzFor="selectedPlatform" nzRequired>MaaS Platform Name</nz-form-label>
       <nz-form-control [nzSpan]="12">
         <nz-select nzPlaceHolder="Select MaaS" formControlName="selectedPlatform">
           <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform"
             [nzLabel]="platform.maaSPlatformName"></nz-option>
         </nz-select>
+        <nz-form-explain
+          *ngIf="validateForm.get('selectedPlatform').dirty && validateForm.get('selectedPlatform').errors">Please
+          select maas platform!</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="8" nzFor="fileList">File Upload</nz-form-label>
+      <nz-form-label [nzSpan]="8" nzFor="fileList" nzRequired>File Upload</nz-form-label>
       <nz-form-control [nzSpan]="12">
         <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
           <button nz-button>

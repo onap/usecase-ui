@@ -3,8 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from '@angular/common/http';
 import { SSE } from "sse.js";
 import { ActivatedRoute } from '@angular/router';
-import { IntentManagementService } from '../../../core/services/intentManagement.service'
-
+import { MaasService } from '@src/app/core/services/maas.service';
 
 @Component({
   selector: 'app-use-application',
@@ -22,53 +21,50 @@ export class UseApplicationComponent implements OnInit {
   options: any[] = [];
 
   constructor(
-  private http: HttpClient,
-  private message: NzMessageService,
-  private route: ActivatedRoute,
-  private myhttp: IntentManagementService,
+    private http: HttpClient,
+    private message: NzMessageService,
+    private route: ActivatedRoute,
+    private myhttp: MaasService,
   ) { }
+
   ngOnInit() {
-  this.getIntentManagementData();
-      this.route.queryParams.subscribe(params => {
+    this.fetchAllApplication();
+    this.route.queryParams.subscribe(params => {
       this.queryParams = params;
-      console.log(params.id);
-      this.selectedName = this.queryParams.id ;
+      this.selectedName = this.queryParams.id;
     });
   }
 
   submitQuestion() {
     const chatParam = {
-         applicationId: this.queryParams.id,
-         question: this.question
-     };
-     var source = new SSE(this.apiUrl,{headers: {'Content-Type': 'application/json'},payload: JSON.stringify(chatParam),method:'POST'});
-     var lin = this.question;
-     const length = this.chatHistory.length;
-     source.addEventListener('message',(event)=>{
-         const existingEntryIndex = this.chatHistory.findIndex(entry => entry.question === lin);
-         console.log(event.data);
-         if (existingEntryIndex !== -1) {
-             this.chatHistory[existingEntryIndex].answer += event.data.replace(/__SPACE__/g, ' ');
-         } else {
-             this.chatHistory.push({ question: lin, answer: event.data });
-         }
-     });
-     this.question = '';
-   }
-
-  getIntentManagementData():void{
-    this.myhttp.getAllApplication()
-    .subscribe(
-      (data) => {
-       this.options = data.result_body.map(item => ({
-        nzValue: item.applicationId,
-        nzLabel: item.applicationName
-      }));
-
-      },
-      () => {
-        this.message.error('Failed to obtain intent data');
+      applicationId: this.queryParams.id,
+      question: this.question
+    };
+    const source = new SSE(this.apiUrl, { headers: { 'Content-Type': 'application/json' }, payload: JSON.stringify(chatParam), method: 'POST' });
+    const lin = this.question;
+    source.addEventListener('message', (event) => {
+      const existingEntryIndex = this.chatHistory.findIndex(entry => entry.question === lin);
+      if (existingEntryIndex !== -1) {
+        this.chatHistory[existingEntryIndex].answer += event.data.replace(/__SPACE__/g, ' ');
+      } else {
+        this.chatHistory.push({ question: lin, answer: event.data });
       }
-    )
+    });
+    this.question = '';
+  }
+
+  fetchAllApplication(): void {
+    this.myhttp.getAllApplication()
+      .subscribe(
+        (data) => {
+          this.options = data.result_body.map(item => ({
+            nzValue: item.applicationId,
+            nzLabel: item.applicationName
+          }));
+        },
+        () => {
+          this.message.error('Failed to obtain intent data');
+        }
+      )
   }
 }
