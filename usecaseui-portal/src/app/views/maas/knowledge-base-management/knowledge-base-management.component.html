@@ -16,10 +16,10 @@
 <div class="content">
   <p class="title">
     {{ "i18nTextDefine_KnowledgeBaseList" | translate }}
-    <button nz-button nzType="primary" class="add" (click)="inputKnowledgeBaseModuleShow()">
+    <button nz-button nzType="primary" class="add" (click)="create()">
       {{"i18nTextDefine_Create" | translate}} </button>
   </p>
-  <nz-table #basicTable [nzData]="listOfData" [nzFrontPagination]="false" [nzShowPagination]="false">
+  <nz-table #basicTable [nzData]="data" [nzFrontPagination]="false" [nzShowPagination]="false">
     <thead>
       <tr>
         <th nzWidth="25%" style="font-size: 20px;">{{"i18nTextDefine_NO" | translate}}</th>
@@ -29,23 +29,24 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of basicTable.data; let i = index">
-          <td>{{ i+1 }}</td>
-          <td>{{ data.knowledgeBaseName }}</td>
-          <td>{{ data.knowledgeBaseDescription }}</td>
-          <td>
-            <i class="anticon anticon-menu-fold" (click)="displayKnowledgeDetails(data)"></i>
-            <!-- <i class="anticon anticon-edit" (click)="editKnowedgeBase(data)"></i> -->
-            <i class="anticon anticon-delete" (click)="deleteKnowledgeBase(data)"></i>
-          </td>
-        </tr>
+      <tr *ngFor="let data of basicTable.data; let i = index">
+        <td>{{ i+1 }}</td>
+        <td>{{ data.knowledgeBaseName }}</td>
+        <td>{{ data.knowledgeBaseDescription }}</td>
+        <td>
+          <em class="anticon anticon-menu-fold" (click)="displayKnowledgeDetails(data)"></em>
+          <!-- <em class="anticon anticon-edit" (click)="editKnowedgeBase(data)"></em> -->
+          <em class="anticon anticon-delete" (click)="deleteKnowledgeBase(data)"></em>
+        </td>
+      </tr>
     </tbody>
   </nz-table>
 </div>
-<app-input-knowledge-base *ngIf="intentModuleShow" [showModel]="intentModuleShow"
-  (modalOpreation)="inputKnowledgeBaseModuleClose($event)"></app-input-knowledge-base>
-<app-knowledge-base-detail *ngIf="knowledgeBaseShow" [showModel]="knowledgeBaseShow" (modalOpreation)="knowledgeBaseDetailClose($event)"
+<app-create-knowledge-base *ngIf="createModalShow" [showModal]="createModalShow"
+  (modalOpreation)="createModalClose($event)"></app-create-knowledge-base>
+<app-knowledge-base-detail *ngIf="knowledgeBaseShow" [showModal]="knowledgeBaseShow"
+  (modalOpreation)="knowledgeBaseDetailClose($event)"
   [knowledgeBaseDetail]="knowledgeBaseDetail"></app-knowledge-base-detail>
 
-<!-- <app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModel]="editKnowledgeBaseShow" [knowledgeBaseId]="editKnowledgeBaseId"
+<!-- <app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModal]="editKnowledgeBaseShow" [knowledgeBaseId]="knowledgeBaseId"
 (modalOpreation)="editKnowledgeBaseModuleClose($event)"></app-edit-knowledge-base> -->
