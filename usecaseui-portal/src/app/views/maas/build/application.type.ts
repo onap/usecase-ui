@@ -1,12 +1,14 @@
-export type application = {
-  "applicationId": string,
+export type Application = {
+  "applicationId"?: string,
   "applicationName": string,
   "applicationDescription": string,
   "applicationType": string,
   "operatorId": string,
   "operatorName": string,
-  "maasPlatformId": string,
-  "maasPlatformName": string,
+  "maasPlatformId"?: string,
+  "maasPlatformName"?: string,
+  "maaSPlatformId"?: string,
+  "maaSPlatformName"?: string,
   "knowledgeBaseName": string,
   "knowledgeBaseId": string,
   "largeModelName": string,
@@ -14,6 +16,6 @@ export type application = {
   "prompt": string,
   "temperature": number,
   "top_p": number,
-  "openingRemarks": string
+  "openingRemarks": string,
 }
 

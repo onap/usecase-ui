@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IntentManagementService } from '../../../core/services/intentManagement.service'
 import { NzMessageService } from "ng-zorro-antd";
-import { Router } from '@angular/router';
+import { MaasService } from '@src/app/core/services/maas.service';
+import { KnowledgeBase } from './knowledge-base.type';
 
 @Component({
   selector: 'app-knowledge-base-management',
@@ -10,28 +10,26 @@ import { Router } from '@angular/router';
 })
 export class KnowledgeBaseManagementComponent implements OnInit {
   editKnowledgeBaseShow = false;
-  editKnowledgeBaseId = '';
+  knowledgeBaseId = '';
+  data: KnowledgeBase[] = [];
+  createModalShow: boolean = false;
+  knowledgeBaseShow: boolean = false;
+  knowledgeBaseDetail: Object = {};
+
   constructor(
-    private myhttp: IntentManagementService,
-    private message: NzMessageService,
-    private router: Router
+    private myhttp: MaasService,
+    private message: NzMessageService
   ) { }
 
   ngOnInit() {
     this.getKnowledgeBaseData()
   }
 
-  listOfData: any[] = [];
-
-  intentModuleShow: boolean = false;
-  knowledgeBaseShow: boolean = false;
-  editIntentTableList: Object = {};
-  currentIndex: number = -1;
   getKnowledgeBaseData(): void {
     this.myhttp.getKnowledgeBaseRecord()
       .subscribe(
         (data) => {
-          this.listOfData = data.result_body
+          this.data = data.result_body
         },
         () => {
           this.message.error('Failed to obtain knowledgeBase data');
@@ -39,12 +37,11 @@ export class KnowledgeBaseManagementComponent implements OnInit {
       )
   }
 
-  inputKnowledgeBaseModuleShow(): void {
-    this.intentModuleShow = true;
+  create(): void {
+    this.createModalShow = true;
   }
-  inputKnowledgeBaseModuleClose($event: any): void {
-    console.log($event);
-    this.intentModuleShow = false;
+  createModalClose($event: any): void {
+    this.createModalShow = false;
     if ($event.cancel) {
       return;
     }
@@ -71,12 +68,11 @@ export class KnowledgeBaseManagementComponent implements OnInit {
       } else {
         this.message.error(data.result_header.result_message);
       }
-    }, (err) => {
+    }, () => {
       this.message.error('Deletion failed');
     });
   }
 
-  knowledgeBaseDetail: Object = {};
   displayKnowledgeDetails(data): void {
     this.knowledgeBaseShow = true;
     this.myhttp.getKnowledgeBaseById(data.knowledgeBaseId)
@@ -84,14 +80,14 @@ export class KnowledgeBaseManagementComponent implements OnInit {
         (data) => {
           this.knowledgeBaseDetail = data.result_body;
         },
-        (err) => {
+        () => {
           this.message.error('Failed to obtain knowledge base data');
         }
       )
   }
 
   editKnowedgeBase(data) {
-    this.editKnowledgeBaseId = data.knowledgeBaseId;
+    this.knowledgeBaseId = data.knowledgeBaseId;
     this.editKnowledgeBaseShow = true;
   }
 
