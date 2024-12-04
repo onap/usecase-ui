@@ -1,0 +1,68 @@
+.descriptions-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.descriptions-title {
+    flex: auto;
+    overflow: hidden;
+    color: #000000d9;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.5715;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.descriptions-view {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.descriptions-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.descriptions-row>td {
+    padding-bottom: 16px;
+}
+.descriptions-item {
+    padding-bottom: 0;
+    vertical-align: top;
+}
+
+.descriptions-item-container {
+    display: flex;
+}
+
+.descriptions-item-container .descriptions-item-label, .descriptions-item-container .descriptions-item-content {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.descriptions-item-label {
+    color: #000000d9;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5715;
+    text-align: start;
+}
+
+.descriptions-item-content {
+    display: table-cell;
+    flex: 1;
+    color: #000000d9;
+    font-size: 14px;
+    line-height: 1.5715;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.descriptions-item-label::after {
+    content: ":";
+    position: relative;
+    top: -.5px;
+    margin: 0 8px 0 2px;
+}
