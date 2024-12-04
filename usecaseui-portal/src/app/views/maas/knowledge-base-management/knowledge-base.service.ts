@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { knowledgeBase } from './knowledge-base.type';
+import { KnowledgeBase } from './knowledge-base.type';
 
 @Injectable()
 export class KnowledgeBaseService {
 
   constructor() { }
-  getFiles(v: knowledgeBase) {
+  getFiles(v: KnowledgeBase) {
     return v.filesName ? v.filesName.join(',') : '';
   }
 }

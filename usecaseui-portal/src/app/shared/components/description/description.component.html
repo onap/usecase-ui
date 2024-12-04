@@ -1,0 +1,25 @@
+<div *ngIf="nzTitle" class="descriptions-header">
+    <div class="descriptions-title">
+        {{ nzTitle }} 
+      </div>
+</div>
+<div class="descriptions-view">
+    <table class="descriptions-table">
+      <tbody>
+        <tr *ngFor="let row of itemMatrix; let i = index" class="descriptions-row">
+            <ng-container *ngFor="let item of row; trackBy item; let isLast = last">
+                <td class="descriptions-item" [colSpan]="item.span">
+                    <div class="descriptions-item-container">
+                      <span class="descriptions-item-label" [class.descriptions-item-no-colon]="!nzColon">
+                        {{ item.title }}
+                      </span>
+                      <span class="descriptions-item-content">
+                        <ng-template [ngTemplateOutlet]="item.content"></ng-template>
+                      </span>
+                    </div>
+                  </td>
+            </ng-container>
+        </tr>
+      </tbody>
+    </table>
+</div>

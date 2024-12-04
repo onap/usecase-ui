@@ -14,30 +14,31 @@
     limitations under the License.
 -->
 <div class="container">
-<div class="fixed-select-wrapper">
-    <nz-select nzPlaceHolder="Select Application" style="width: 200px;" [(ngModel)]="selectedName">
-         <nz-option *ngFor="let option of options" [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
-    </nz-select>
-</div>
-<div class="chat-container">
-    <div *ngFor="let chat of chatHistory">
-        <div class="question">
-            <img src="assets/images/user.png">
-            <span>{{ chat.question }}</span>
-        </div>
-        <br>
-        <div class="answer">
-            <img src="assets/images/answer.png">
-            <span>{{ chat.answer }}</span>
-        </div>
-        <br>
+    <div class="fixed-select-wrapper">
+        <nz-select nzPlaceHolder="Select Application" style="width: 200px;" [(ngModel)]="selectedName">
+            <nz-option *ngFor="let option of options" [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
+        </nz-select>
     </div>
-</div>
+    <div class="chat-container">
+        <div *ngFor="let chat of chatHistory">
+            <div class="question">
+                <img src="assets/images/user.png">
+                <span>{{ chat.question }}</span>
+            </div>
+            <br>
+            <div class="answer">
+                <img src="assets/images/answer.png">
+                <span>{{ chat.answer }}</span>
+            </div>
+            <br>
+        </div>
+    </div>
 
-<div class="input-wrapper">
-  <textarea nz-tooltip nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }" [(ngModel)]="question" class="text-input"></textarea>
-  <i class="icon" (click)="submitQuestion()">
-      <img src="assets/images/send.png">
-  </i>
-</div>
+    <div class="input-wrapper">
+        <textarea nz-tooltip nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }" [(ngModel)]="question"
+            class="text-input"></textarea>
+        <i class="icon" (click)="submitQuestion()">
+            <img src="assets/images/send.png">
+        </i>
+    </div>
 </div>

@@ -117,15 +117,6 @@ import { InputIntentConditionComponent } from './views/intent-management/input-i
 import { IntentReportDetailComponent } from './views/intent-management/intent-report-detail/intent-report-detail.component';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { RobotComponent } from './views/robot/robot.component';
-import { ApplicationManagementComponent } from './views/maas/build/application-management.component';
-import { InputApplicationManagementComponent } from './views/maas/build/input-application-management/input-application-management.component';
-import { UseApplicationComponent } from './views/maas/use/use-application.component';
-import { KnowledgeBaseManagementComponent } from './views/maas/knowledge-base-management/knowledge-base-management.component';
-import { InputKnowledgeBaseComponent } from './views/maas/knowledge-base-management/input-knowledge-base/input-knowledge-base.component';
-import { KnowledgeBaseDetailComponent } from './views/maas/knowledge-base-management/knowledge-base-detail/knowledge-base-detail.component';
-import { ApplicationDetailComponent } from './views/maas/build/application-detail/application-detail.component';
-import { DescriptionInfoComponent } from "./shared/components/description-info/description-info.component";
-// import { EditKnowledgeBaseComponent } from "./views/maas/knowledge-base-management/edit-knowledge-base/edit-knowledge-base.component";
 import { KnowledgeBaseService } from "./views/maas/knowledge-base-management/knowledge-base.service";
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
@@ -155,7 +146,6 @@ registerLocaleData(en);
 		TextService,
 		SlicingTaskServices,
 		IntentManagementService,
-		// fakeBackendProvider
 		KnowledgeBaseService
 	],
 	declarations: [
@@ -232,16 +222,7 @@ registerLocaleData(en);
 		InputIntentStateComponent,
 		InputIntentConditionComponent,
 		IntentReportDetailComponent,
-		KnowledgeBaseManagementComponent,
-		InputKnowledgeBaseComponent,
-		KnowledgeBaseDetailComponent,
-		DescriptionInfoComponent,
 		RobotComponent,
-		ApplicationManagementComponent,
-		InputApplicationManagementComponent,
-		UseApplicationComponent,
-		ApplicationDetailComponent,
-		// EditKnowledgeBaseComponent
 	],
 	imports: [
 		BrowserModule,
