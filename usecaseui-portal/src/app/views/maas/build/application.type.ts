@@ -1,12 +1,12 @@
-export type application = {
-  "applicationId": string,
+export type Application = {
+  "applicationId"?: string,
   "applicationName": string,
   "applicationDescription": string,
   "applicationType": string,
   "operatorId": string,
   "operatorName": string,
-  "maasPlatformId": string,
-  "maasPlatformName": string,
+  "maaSPlatformId": string,
+  "maaSPlatformName": string,
   "knowledgeBaseName": string,
   "knowledgeBaseId": string,
   "largeModelName": string,

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IntentManagementService } from '../../../core/services/intentManagement.service'
-import {NzMessageService} from "ng-zorro-antd";
+import { NzMessageService } from "ng-zorro-antd";
 import { Router } from '@angular/router';
+import { MaasService } from '@src/app/core/services/maas.service';
+import { Application } from './application.type';
 
 @Component({
   selector: 'app-application-management',
@@ -9,82 +10,76 @@ import { Router } from '@angular/router';
   styleUrls: ['./application-management.component.less']
 })
 export class ApplicationManagementComponent implements OnInit {
+  data: Application[] = [];
+  createModalShow = false;
+  applicationShow = false;
+  applicationDetail: Object = {};
 
   constructor(
-    private myhttp: IntentManagementService,
+    private myhttp: MaasService,
     private message: NzMessageService,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getAllApplicationData()
   }
 
-  listOfData: any[] = [];
-
-  intentModuleShow: boolean = false;
-  applicationShow: boolean = false;
-  editIntentTableList: Object={};
-  currentIndex: number=-1;
-  getAllApplicationData():void{
-     this.myhttp.getAllApplication()
-    .subscribe(
-      (data) => {
-        this.listOfData=data.result_body
-      },
-      (err) => {
-        this.message.error('Failed to obtain application data');
-      }
-    )
+  getAllApplicationData(): void {
+    this.myhttp.getAllApplication()
+      .subscribe(
+        (data) => {
+          this.data = data.result_body
+        },
+        () => {
+          this.message.error('Failed to obtain application data');
+        }
+      )
   }
 
-  inputIntentModuleShow(): void {
-    this.intentModuleShow = true;
+  create(): void {
+    this.createModalShow = true;
   }
-  inputIntentModuleClose($event: any): void {
-    this.intentModuleShow = false;
 
+  createModalClose($event: any): void {
+    this.createModalShow = false;
     if ($event.cancel) {
-        return;
+      return;
     }
     this.getAllApplicationData()
   }
- editIntentList(): void {
-    this.intentModuleShow = true
-  }
-  deleteIntentList(data): void{
+
+  delete(data): void {
     this.myhttp.deleteApplicationById(data.applicationId).subscribe((data) => {
       this.getAllApplicationData()
-      if(data.result_header.result_code===200){
+      if (data.result_header.result_code === 200) {
         this.message.success('Deleted successfully');
-      }else{
+      } else {
         this.message.error(data.result_header.result_message);
       }
-    }, (err) => {
+    }, () => {
       this.message.error('Deletion failed');
-    }); 
+    });
   }
 
-  navigateToDetail(data):void {
+  navigateToDetail(data): void {
     this.router.navigate(['maas/use'], { queryParams: { id: data.applicationId, name: data.applicationName } });
   }
 
-   applicationDetailClose(): void {
+  applicationDetailClose(): void {
     this.applicationShow = false;
   }
 
-  applicationDetail: Object={};
-   displayApplicationDetails(data): void {
-       this.applicationShow = true;
-        this.myhttp.getApplicationById(data.applicationId)
-        .subscribe(
-          (data) => {
-            this.applicationDetail=data.result_body;
-            console.log(data.result_body);
-          },
-          (err) => {
-            this.message.error('Failed to obtain knowledge base data');
-          }
-        )
+  displayApplicationDetails(data): void {
+    this.applicationShow = true;
+    this.myhttp.getApplicationById(data.applicationId)
+      .subscribe(
+        (data) => {
+          this.applicationDetail = data.result_body;
+        },
+        () => {
+          this.message.error('Failed to obtain knowledge base data');
+        }
+      )
   }
 }
