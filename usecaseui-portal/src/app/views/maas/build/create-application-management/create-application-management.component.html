@@ -1,0 +1,149 @@
+<!--
+    Copyright (C) 2019 CMCC, Inc. and others. All rights reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" nzOkText="Ok" (nzOnCancel)="handleCancel()"
+   (nzOnOk)="handleOk()" nzWidth="648px" nzHeight="800px">
+   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Application Name</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <input type="text" nz-input formControlName="name">
+           <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">
+            Please input application name!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="description">Application Description</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <textarea rows="2" nz-input formControlName="description"></textarea>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="applicationType" nzRequired>Application Type</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <nz-select name="applicationType" 
+           nzPlaceHolder="Select Application Type" formControlName="applicationType">
+             <nz-option nzValue="Knowledge Assistant" nzLabel="Knowledge Assistant"></nz-option>
+           </nz-select>
+           <nz-form-explain *ngIf="validateForm.get('applicationType').dirty && validateForm.get('applicationType').errors">
+            Please select application type!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="selectedOperator" nzRequired>Operator Name</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <nz-select name="selectedOperator"
+           nzPlaceHolder="Select Operator" formControlName="selectedOperator"
+           (ngModelChange)="handleOperatorChange($event)">
+            <nz-option *ngFor="let operator of operators" [nzValue]="operator"
+            [nzLabel]="operator.operatorName"></nz-option>
+           </nz-select>
+           <nz-form-explain *ngIf="validateForm.get('selectedOperator').dirty && validateForm.get('selectedOperator').errors">
+            Please select operator!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="selectedPlatform" nzRequired>MaaS Platform Name</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <nz-select name="selectedPlatform"
+           nzPlaceHolder="Select Platform" formControlName="selectedPlatform"
+           (ngModelChange)="handleMaasChange($event)">
+           <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform"
+           [nzLabel]="platform.maaSPlatformName"></nz-option>
+           </nz-select>
+           <nz-form-explain *ngIf="validateForm.get('selectedPlatform').dirty && validateForm.get('selectedPlatform').errors">
+            Please select maas platform!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="selectedModel" nzRequired>Model</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <nz-select name="selectedModel"
+           nzPlaceHolder="Select Model" formControlName="selectedModel">
+           <nz-option *ngFor="let model of filteredModels" [nzValue]="model" [nzLabel]="model.modelName"></nz-option>
+           </nz-select>
+           <nz-form-explain *ngIf="validateForm.get('selectedModel').dirty && validateForm.get('selectedModel').errors">
+            Please select model!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="selectKnowledgeBase" nzRequired>KnowLedge Base</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <nz-select name="selectKnowledgeBase"
+           nzPlaceHolder="Select KnowLedge Base" formControlName="selectKnowledgeBase">
+           <nz-option *ngFor="let knowledgeBase of knowledgeBases" [nzValue]="knowledgeBase"
+                  [nzLabel]="knowledgeBase.knowledgeBaseName"></nz-option>
+           </nz-select>
+           <nz-form-explain *ngIf="validateForm.get('selectKnowledgeBase').dirty && validateForm.get('selectKnowledgeBase').errors">
+            Please select knowLedge base!
+          </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="prompt">Prompt</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <textarea rows="2" nz-input formControlName="prompt"></textarea>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="openingRemarks">Opening Remarks</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+           <textarea rows="2" nz-input formControlName="openingRemarks"></textarea>
+         </nz-form-control>
+       </nz-form-item>
+       
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="temperature" nzRequired>temperature</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+            <nz-row class="slider-input-container">
+               <nz-col nzSpan="10">
+                  <nz-slider [nzMin]="0" [nzMax]="10" [nzStep]="1" (nzOnAfterChange)="handleTemperatureSliderChange($event)" formControlName="temperatureSlider" [nzDefaultValue]="temperature"></nz-slider>
+               </nz-col>
+               <div nz-col nzSpan="4">
+                  <nz-input-number class="nz-input-number-container" [nzMin]="0" [nzMax]="10"
+                  formControlName="temperature" 
+                  (ngModelChange)="handleTemperatureInputChange($event)"
+                  ></nz-input-number>
+               </div>
+            </nz-row>
+            <nz-form-explain *ngIf="validateForm.get('temperature').dirty && validateForm.get('temperature').errors">
+               Please input temperature!
+             </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+       <nz-form-item>
+         <nz-form-label [nzSpan]="8" nzFor="top_p" nzRequired>top_p</nz-form-label>
+         <nz-form-control [nzSpan]="12">
+            <nz-row class="slider-input-container">
+               <nz-col nzSpan="10">
+                  <nz-slider [nzMin]="0" [nzMax]="10" (nzOnAfterChange)="toppSliderChange($event)" [nzStep]="1" formControlName="top_pSlider" [nzDefaultValue]="top_p"></nz-slider>
+               </nz-col>
+               <div nz-col nzSpan="4">
+                  <nz-input-number class="nz-input-number-container" [nzMin]="0" [nzMax]="10" formControlName="top_p" (ngModelChange)="toppInputChange($event)"></nz-input-number>
+               </div>
+            </nz-row>
+            <nz-form-explain *ngIf="validateForm.get('top_p').dirty && validateForm.get('top_p').errors">
+               Please input top_p!
+             </nz-form-explain>
+         </nz-form-control>
+       </nz-form-item>
+   </form>
+</nz-modal>
