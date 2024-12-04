@@ -15,10 +15,6 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { knowledgeBase } from '../../views/maas/knowledge-base-management/knowledge-base.type'
-import { application } from '../../views/maas/build/application.type';
 @Injectable()
 export class IntentManagementService {
 
@@ -29,15 +25,7 @@ export class IntentManagementService {
     deleteIntentManagement: "/api/usecaseui-intent-analysis/v1/intents/",
     updateIntentManagementData: "/api/usecaseui-intent-analysis/v1/intents/",
     getIntentReport: "/api/usecaseui-intent-analysis/v1/intentReport/",
-    getKnowledgeBaseRecord: "/api/usecaseui-llm-adaptation/v1/knowledgeBase/query",
-    removeKnowledgeBase: "/api/usecaseui-llm-adaptation/v1/knowledgeBase/delete/",
-    getKnowledgeBaseById: "/api/usecaseui-llm-adaptation/v1/knowledgeBase/queryById/",
-    updateKnowledgeBaseRecord: "/api/usecaseui-llm-adaptation/v1/knowledgeBase/update",
-    maasUrl: "/api/usecaseui-llm-adaptation/v1/maas/getAll",
-    getAllApplication: "/api/usecaseui-llm-adaptation/v1/application/query",
-    deleteApplicationById: "/api/usecaseui-llm-adaptation/v1/application/delete/",
-    getApplicationById: "/api/usecaseui-llm-adaptation/v1/application/queryById/"
-  };
+};
   
   // intentManagement
   getIntentManagementData() {
@@ -54,31 +42,5 @@ export class IntentManagementService {
   }
   getIntentReportData(intentId) {
     return this.http.get<any>(this.url.getIntentReport + intentId);
-  }
-  getKnowledgeBaseRecord() {
-    return this.http.get<any>(this.url.getKnowledgeBaseRecord);
-  }
-
-  updateKnowledgeBase(body: any) {
-    return this.http.post<any>(this.url.updateKnowledgeBaseRecord, body);
-  }
-
-  deleteKnowledgeBaseData(index) {
-    return this.http.delete<any>(this.url.removeKnowledgeBase + index);
-  }
-  getMaaSPlatform() {
-    return this.http.get<any>(this.url.maasUrl);
-  }
-  getKnowledgeBaseById(index) {
-    return this.http.get<{result_body: Array<knowledgeBase>}>(this.url.getKnowledgeBaseById + index);
-  }
-  getAllApplication() {
-    return this.http.get<any>(this.url.getAllApplication);
-  }
-  deleteApplicationById(index) {
-    return this.http.delete<any>(this.url.deleteApplicationById + index);
-  }
-  getApplicationById(index) {
-    return this.http.get<any>(this.url.getApplicationById + index);
   }
 }

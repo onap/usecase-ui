@@ -13,7 +13,38 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<nz-modal [(nzVisible)]="showModel" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="showModal" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()"
    (nzOnOk)="handleOk()" nzWidth="56%" nzHeight="800px" >
-    <app-description-info [data]="data"></app-description-info>
+   <app-descriptions>
+    <app-descriptions-item nzTitle="Application Name">{{applicationDetail.applicationName}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Application Type">{{applicationDetail.applicationType}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Operator">{{applicationDetail.operatorName}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="MaaS">
+        {{applicationDetail.maaSPlatformName}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Large Model">
+        {{applicationDetail.largeModelName}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Knowledge Base">
+        {{applicationDetail.knowledgeBaseName}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Prompt">
+        {{applicationDetail.prompt}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Temperature">
+        {{applicationDetail.temperature}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Top_p">
+        {{applicationDetail.top_p}}
+    </app-descriptions-item>
+    <app-descriptions-item nzTitle="Opening Remarks">
+        {{applicationDetail.openingRemarks}}
+    </app-descriptions-item>
+    <app-descriptions-item [nzSpan]="3"
+        nzTitle="Application Description">{{applicationDetail.applicationDescription}}
+    </app-descriptions-item>
+</app-descriptions>
 </nz-modal>
