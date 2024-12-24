@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c68098_bcb35943",
+        "filename": "usecaseui-portal/src/app/views/maas/build/application.type.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2024-12-24T02:09:23Z",
+      "side": 1,
+      "message": "should be maaS",
+      "revId": "18d646f1ba7e2cc9e1d2ba51472e399fee7e5a46",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd02dd43_c05a986a",
+        "filename": "usecaseui-portal/src/app/views/maas/build/application.type.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6267
+      },
+      "writtenOn": "2024-12-24T02:09:23Z",
+      "side": 1,
+      "message": "Remove extra spaces",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "18d646f1ba7e2cc9e1d2ba51472e399fee7e5a46",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
