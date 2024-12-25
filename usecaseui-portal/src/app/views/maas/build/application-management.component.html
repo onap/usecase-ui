@@ -50,12 +50,14 @@
           <td>{{data.largeModelName}}</td>
           <td>
              <i class="anticon anticon-menu-fold" (click)="displayApplicationDetails(data)"></i>
-             <i class="anticon anticon-delete" (click)="delete(data)"></i>
+             <i class="anticon anticon-edit" (click)="edit(data)"></i>
+             <i class="anticon anticon-delete" (click)="showDeleteConfirm(data)"></i>
              <i class="anticon anticon-link" (click)="navigateToDetail(data)"></i>
           </td>
         </tr>
     </tbody>
   </nz-table>
 </div>
-<app-create-application-management *ngIf="createModalShow" [showModal]="createModalShow" (modalOpreation)="createModalClose($event)"></app-create-application-management>
+<app-create-application-management *ngIf="createModalShow" [showModal]="createModalShow" (modalOpreation)="createModalClose($event)" [existedNames]="existedNames"></app-create-application-management>
 <app-application-detail *ngIf="applicationShow" [showModal]="applicationShow" (modalOpreation)="applicationDetailClose()" [applicationDetail]="applicationDetail"></app-application-detail>
+<app-edit-application *ngIf="editModalShow" [showModal]="editModalShow" (modalOpreation)="editModalClose($event)" [applicationId]="applicationId"></app-edit-application>

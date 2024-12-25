@@ -10,28 +10,34 @@ import { KnowledgeBaseManagementComponent } from './knowledge-base-management/kn
 import { CreateKnowledgeBaseComponent } from './knowledge-base-management/create-knowledge-base/create-knowledge-base.component';
 import { KnowledgeBaseDetailComponent } from './knowledge-base-management/knowledge-base-detail/knowledge-base-detail.component';
 import { SharedModule } from '@src/app/shared/module/sharded.module';
-import { MaasService } from '@src/app/core/services/maas.service';
-// import { EditKnowledgeBaseComponent } from './knowledge-base-management/edit-knowledge-base/edit-knowledge-base.component';
+import { MaasApi } from '@src/app/api/maas.api';
+import { EditKnowledgeBaseComponent } from './knowledge-base-management/edit-knowledge-base/edit-knowledge-base.component';
+import { EditApplicationComponent } from './build/edit-application/edit-application.component';
+import { MaasService } from './maas-service.service';
+import { KnowledgeBaseService } from './knowledge-base-management/knowledge-base.service';
 
 @NgModule({
   providers: [
-    MaasService
+    MaasApi,
+    MaasService,
+    KnowledgeBaseService
   ],
   imports: [
     SharedModule,
-    MaasRoutingModule,
+    MaasRoutingModule
   ],
   declarations: [
     ApplicationManagementComponent,
-		CreateApplicationManagementComponent,
-		UseApplicationComponent,
-		ApplicationDetailComponent,
-		DescriptionComponent,
-		DescriptionItemComponent,
+    CreateApplicationManagementComponent,
+    UseApplicationComponent,
+    ApplicationDetailComponent,
+    DescriptionComponent,
+    DescriptionItemComponent,
     KnowledgeBaseManagementComponent,
-		CreateKnowledgeBaseComponent,
-		KnowledgeBaseDetailComponent,
-    // EditKnowledgeBaseComponent
+    CreateKnowledgeBaseComponent,
+    KnowledgeBaseDetailComponent,
+    EditKnowledgeBaseComponent,
+    EditApplicationComponent
   ]
 })
 export class MaasModule { }

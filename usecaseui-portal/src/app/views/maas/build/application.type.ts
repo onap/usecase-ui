@@ -1,3 +1,4 @@
+import { Response } from '../knowledge-base-management/knowledge-base.type';
 export type Application = {
   "applicationId"?: string,
   "applicationName": string,
@@ -5,10 +6,8 @@ export type Application = {
   "applicationType": string,
   "operatorId": string,
   "operatorName": string,
-  "maasPlatformId"?: string,
-  "maasPlatformName"?: string,
-  "maaSPlatformId"?: string,
-  "maaSPlatformName"?: string,
+  "maaSPlatformId": string,
+  "maaSPlatformName": string,
   "knowledgeBaseName": string,
   "knowledgeBaseId": string,
   "largeModelName": string,
@@ -18,4 +17,10 @@ export type Application = {
   "top_p": number,
   "openingRemarks": string,
 }
+
+export type ApplicationsResponse = Response<Application[]>;
+
+export type ApplicationResponse = Response<Application>;
+
+
 

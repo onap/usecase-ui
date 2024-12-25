@@ -1,0 +1,18 @@
+<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="submitForm()" nzWidth="648px" nzHeight="800px">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="checkForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Application Name</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="name" placeholder="Please input application name" />
+        <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">Please input application name</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="8" nzFor="description">Application Description</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea rows="2" formControlName="description" nz-input></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
