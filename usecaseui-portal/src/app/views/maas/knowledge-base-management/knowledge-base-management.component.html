@@ -35,8 +35,8 @@
         <td>{{ data.knowledgeBaseDescription }}</td>
         <td>
           <i class="anticon anticon-menu-fold" (click)="displayKnowledgeDetails(data)"></i>
-          <!-- <i class="anticon anticon-edit" (click)="editKnowedgeBase(data)"></i> -->
-          <i class="anticon anticon-delete" (click)="deleteKnowledgeBase(data)"></i>
+          <i class="anticon anticon-edit" (click)="editKnowedgeBase(data)"></i>
+          <i class="anticon anticon-delete" (click)="showDeleteConfirm(data)"></i>
         </td>
       </tr>
     </tbody>
@@ -45,8 +45,8 @@
 <app-create-knowledge-base *ngIf="createModalShow" [showModal]="createModalShow"
   (modalOpreation)="createModalClose($event)"></app-create-knowledge-base>
 <app-knowledge-base-detail *ngIf="knowledgeBaseShow" [showModal]="knowledgeBaseShow"
-  (modalOpreation)="knowledgeBaseDetailClose($event)"
+  (modalOpreation)="knowledgeBaseDetailClose()"
   [knowledgeBaseDetail]="knowledgeBaseDetail"></app-knowledge-base-detail>
 
-<!-- <app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModal]="editKnowledgeBaseShow" [knowledgeBaseId]="knowledgeBaseId"
-(modalOpreation)="editKnowledgeBaseModuleClose($event)"></app-edit-knowledge-base> -->
+<app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModal]="editKnowledgeBaseShow" [knowledgeBaseId]="knowledgeBaseId"
+(modalOpreation)="editKnowledgeBaseModuleClose($event)"></app-edit-knowledge-base>

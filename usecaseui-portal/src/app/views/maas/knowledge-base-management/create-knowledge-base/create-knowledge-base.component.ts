@@ -3,7 +3,9 @@ import { Util } from '../../../../shared/utils/utils';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MaasService } from '@src/app/core/services/maas.service';
+import { MaasApi } from '@src/app/api/maas.api';
+import { Operator } from 'rxjs';
+import { MaaSPlatform, Operators } from '../knowledge-base.type';
 
 @Component({
   selector: 'app-create-knowledge-base',
@@ -14,16 +16,13 @@ export class CreateKnowledgeBaseComponent implements OnInit {
   title = 'Add Knowledge Base';
   @Input() showModal: boolean;
   @Output() modalOpreation = new EventEmitter();
-
-  apiUrl = '/api/usecaseui-llm-adaptation/v1/knowledgeBase/create';
-  maasUrl = '/api/usecaseui-llm-adaptation/v1/operator/maas/getAll'
-  fileList: UploadFile[] = [];
-  operators: any[] = [];
-  filteredPlatforms: any[] = [];
+  fileList: File[] = [];
+  operators: Operators[] = [];
+  filteredPlatforms: MaaSPlatform[] = [];
   validateForm: FormGroup;
 
   constructor(
-    private myhttp: MaasService,
+    private myhttp: MaasApi,
     private Util: Util,
     private message: NzMessageService,
     private http: HttpClient,
@@ -40,7 +39,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
     });
   }
   fetchOperators(): void {
-    this.http.get<any>(this.maasUrl).subscribe(
+    this.myhttp.getOperators().subscribe(
       (response) => {
         this.operators = response.result_body;
       },
@@ -55,7 +54,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
   }
-  handleOperatorChange(value: any): void {
+  handleOperatorChange(value: Operators): void {
     if (value) {
       this.filteredPlatforms = value.maaSPlatformList;
     } else {
@@ -63,7 +62,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
     }
     this.validateForm.get('selectedPlatform').setValue(null);
   }
-  beforeUpload = (file: UploadFile): boolean => {
+  beforeUpload = (file: File): boolean => {
     this.fileList.push(file);
     return false;
   }
@@ -84,7 +83,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
     };
     const metaDataJson = JSON.stringify(metaData);
     formData.append('metaData', metaDataJson);
-    this.fileList.forEach((file: any) => {
+    this.fileList.forEach((file: File) => {
       formData.append('files', file);
     });
     return formData
@@ -96,7 +95,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
       this.showModal = true;
       return;
     }
-    this.http.post<any>(this.apiUrl, this.constructBody()).subscribe(
+    this.myhttp.createKnowledgeBase(this.constructBody()).subscribe(
       (response) => {
         if (response.result_header.result_code === 200) {
           this.message.success('Created successfully');

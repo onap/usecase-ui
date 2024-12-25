@@ -22,23 +22,46 @@
     <div class="chat-container">
         <div *ngFor="let chat of chatHistory">
             <div class="question">
-                <img src="assets/images/user.png">
-                <span>{{ chat.question }}</span>
+                <div class="question-icon">
+                    <div class="question-icon-actions">
+                        <span class="anticon anticon-copy question-action" (click)="copy(chat.question)"
+                            [nz-tooltip]="'maas.copy' | translate"></span>
+                        <span *ngIf="chat.status==='finished'" class="anticon anticon-delete question-action" (click)="deleteQuestion(chat.questionId)"
+                            [nz-tooltip]="'maas.delete' | translate"></span>
+                    </div>
+                    <div>
+                        <img src="assets/images/user.png">
+                    </div>
+                </div>
+                <div class="question-container">
+                    <span class="question-text">{{ chat.question }}</span>
+                </div>
             </div>
             <br>
-            <div class="answer">
-                <img src="assets/images/answer.png">
-                <span>{{ chat.answer }}</span>
+            <div>
+                <div class="answer-icon">
+                    <img src="assets/images/answer.png">
+                    <span class="anticon anticon-copy answer-action" (click)="copy(chat.answer)"
+                        [nz-tooltip]="'maas.copy' | translate"></span>
+                </div>
+                <span class="answer-text">
+                    <span class="answer" [ngClass]="{'hidden-cursor': chat.status==='finished'}" #answerText
+                        id="answerText">{{chat.answer}}</span>
+                </span>
             </div>
             <br>
         </div>
     </div>
 
     <div class="input-wrapper">
-        <textarea nz-tooltip nz-input [nzAutosize]="{ minRows: 2, maxRows: 2 }" [(ngModel)]="question"
-            class="text-input"></textarea>
-        <i class="icon" (click)="submitQuestion()">
-            <img src="assets/images/send.png">
-        </i>
+        <textarea nzAutosize nz-input [(ngModel)]="question" class="text-input question-input"></textarea>
+        <div class="send-wrapper" [ngClass]="{'stop-wrapper': isGeneratingAnswer}">
+            <div class="icon" (click)="doAction()"
+                [ngClass]="{'send-disabled': !isGeneratingAnswer &&!question, 'send-enabled': question && !isGeneratingAnswer, 'stop-generating': isGeneratingAnswer}"
+                [nz-tooltip]="isGeneratingAnswer ? stopGenerating : send">
+                <img [src]="isGeneratingAnswer ? 'assets/images/stop-generating.svg' : 'assets/images/send.svg'"
+                    [alt]="isGeneratingAnswer ? stopGenerating : send">
+            </div>
+        </div>
     </div>
 </div>
