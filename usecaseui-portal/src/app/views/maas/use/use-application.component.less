@@ -7,76 +7,147 @@
   display: flex;
   flex-direction: column;
 }
+
 .fixed-select-wrapper {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-    }
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
 .chat-container {
   margin: 60px 0;
   padding: 0 100px;
 }
+
 .question {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+  align-items: flex-end;
 }
-.record-input{
+
+.record-input {
   margin-left: 10px;
   resize: none;
 }
-.question span {
+
+.question-icon {
+  display: flex;
+}
+
+.question-icon-actions {
+  color: #8A95A7;
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #fff;
+  margin-right: 8px;
+  height: 24px;
+  margin-top:3px;
+}
+
+.question-icon-actions span:not(:first-child) {
+  border-left: 1px solid #fff;
+}
+
+.question-action {
+  width: 24px;
+  padding-top: 4px;
+}
+
+.question-container {
+  margin: 8px 0;
+}
+
+.question-text {
   background-color: white;
   font-size: 16px;
-  margin-left: 10px;
   padding: 10px;
   border-radius: 8px;
 }
-.question img {
+
+.answer-action {
+  height: 24px;
+  width: 24px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  padding-top: 3px;
+}
+
+#answerText {
+  font-size: 16px;
+  padding: 10px;
+  white-space: pre-line;
+  width: auto;
+  display: inline-block;
+  position: relative;
+  min-height: 40px;
+}
+
+.answer::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background-color: black;
+  position: absolute;
+  animation: blink 1s step-end infinite;
+  margin-top: 5px;
+}
+
+.hidden-cursor::after {
+  display: none;
+}
+
+.answer-text {
+  margin: 8px 0;
+  background-color: white;
+  display: inline-block;
+  border-radius: 8px;
+}
+
+.answer-container img, .answer-icon img, .question img{
   width: 28px;
   height: 28px;
 }
 
-.answer {
-  display: flex;
+.showing-answer {
+  display: inline-block;
 }
-.answer span{
-  background-color: white;
-  font-size: 16px;
-  margin-left: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  white-space: pre-line;
-}
-.answer img {
-  width: 28px;
-  height: 28px;
+
+.answer-done {
+  display: none;
 }
 
 .chat-input {
-    margin-top: 30px;
-    padding-left: 1100px;
+  margin-top: 30px;
+  padding-left: 1100px;
 }
 
 .input-wrapper {
   display: flex;
   justify-content: space-around;
-  width: e("calc(100% - 240px)");
   margin: 0 100px;
-  margin-left: 138px;
   padding: 10px;
   background: #fff;
   border-radius: 8px;
   border: 2px solid #8a2be2;
 }
 
+.question-input {
+  width: 100%;
+}
+
 .text-input {
-  width: e("calc(100% - 50px)");
   background-color: white;
   color: black;
   text-align: left;
   border: 0;
   resize: none;
+  padding-right: 40px;
 
   &:focus {
     border: 0 !important;
@@ -84,15 +155,68 @@
   }
 }
 
-.icon {
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
+.send-wrapper {
+  position: relative;
+  right: 16px;
 
-  >img {
-    width: 35px;
-    height: 31px;
-    margin-top: 15px;
-    margin-left: 15px;
+  .icon {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    // top: 50%;
+    left: 50%;
+    border-radius: 8px;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    >img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.stop-wrapper {
+  margin-right: 16px;
+}
+
+.send-disabled {
+  cursor: not-allowed;
+  background: rgb(229, 229, 229);
+  top: 50%;
+}
+
+.send-enabled {
+  // background: rgb(72, 127, 255);
+  background: #8a2be2;
+  cursor: pointer;
+  top: 50%;
+}
+
+@keyframes zoomStopIcon {
+  0% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+.stop-generating {
+  background: rgb(229, 229, 229);
+  animation: 0.4s ease 0s infinite alternate none running zoomStopIcon;
+  cursor: pointer;
+}
+
+
+@keyframes blink {
+  from, to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: black;
   }
 }

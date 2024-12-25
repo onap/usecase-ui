@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from "ng-zorro-antd";
-import { MaasService } from '@src/app/core/services/maas.service';
-import { KnowledgeBase } from './knowledge-base.type';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
+import { MaasApi } from '@src/app/api/maas.api';
+import { KnowledgeBase, modalClose } from './knowledge-base.type';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-knowledge-base-management',
@@ -17,8 +18,10 @@ export class KnowledgeBaseManagementComponent implements OnInit {
   knowledgeBaseDetail: Object = {};
 
   constructor(
-    private myhttp: MaasService,
-    private message: NzMessageService
+    private myhttp: MaasApi,
+    private message: NzMessageService,
+    private modalService: NzModalService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -40,7 +43,7 @@ export class KnowledgeBaseManagementComponent implements OnInit {
   create(): void {
     this.createModalShow = true;
   }
-  createModalClose($event: any): void {
+  createModalClose($event: modalClose): void {
     this.createModalShow = false;
     if ($event.cancel) {
       return;
@@ -48,7 +51,7 @@ export class KnowledgeBaseManagementComponent implements OnInit {
     this.getKnowledgeBaseData()
   }
 
-  editKnowledgeBaseModuleClose($event: any): void {
+  editKnowledgeBaseModuleClose($event: modalClose): void {
     this.editKnowledgeBaseShow = false;
     if ($event.cancel) {
       return;
@@ -56,11 +59,11 @@ export class KnowledgeBaseManagementComponent implements OnInit {
     this.getKnowledgeBaseData()
   }
 
-  knowledgeBaseDetailClose($event: any): void {
+  knowledgeBaseDetailClose(): void {
     this.knowledgeBaseShow = false;
   }
 
-  deleteKnowledgeBase(data): void {
+  deleteKnowledgeBase(data: KnowledgeBase): void {
     this.myhttp.deleteKnowledgeBaseData(data.knowledgeBaseId).subscribe((data) => {
       this.getKnowledgeBaseData()
       if (data.result_header.result_code === 200) {
@@ -86,9 +89,20 @@ export class KnowledgeBaseManagementComponent implements OnInit {
       )
   }
 
-  editKnowedgeBase(data) {
+  editKnowedgeBase(data: KnowledgeBase) {
     this.knowledgeBaseId = data.knowledgeBaseId;
     this.editKnowledgeBaseShow = true;
+  }
+
+  showDeleteConfirm(data: KnowledgeBase): void {
+    this.modalService.confirm({
+      nzTitle: this.translate.instant('maas.deleteTitle'),
+      nzContent: this.translate.instant('maas.knowledgeBase.deleteKnowledgeBaseContent'),
+      nzOkText: 'Yes',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteKnowledgeBase(data),
+      nzCancelText: 'No'
+    });
   }
 
 }

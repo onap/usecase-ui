@@ -1,0 +1,23 @@
+{
+    "i18nTextDefine_mass": "MaaS",
+    "i18nTextDefine_knowledgebase": "知识库管理",
+    "i18nTextDefine_KnowledgeBaseList": "知识库",
+    "maas": {
+        "send": "发送",
+        "stopGenerating": "停止生成",
+        "deleteTitle": "删除警告",
+        "copy_to_clipboard": "复制到剪贴板",
+        "copy_failed": "复制失败",
+        "copy": "复制",
+        "delete": "删除",
+        "nameDuplicateTip": "名称重复，请重新输入。",
+        "knowledgeBaseManagement": {
+            "deleteKnowledgeBaseContent": "确认删除该知识库？删除后数据无法恢复，请确认！"
+        },
+        "application": {
+            "deleteApplicationContent": "确认删除该应用？删除后数据无法恢复，请确认！",
+            "promptTip": "提示词需要大于20个字符"
+        }
+        
+    }
+}

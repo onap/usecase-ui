@@ -117,7 +117,6 @@ import { InputIntentConditionComponent } from './views/intent-management/input-i
 import { IntentReportDetailComponent } from './views/intent-management/intent-report-detail/intent-report-detail.component';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { RobotComponent } from './views/robot/robot.component';
-import { KnowledgeBaseService } from "./views/maas/knowledge-base-management/knowledge-base.service";
 export function HttpLoaderFactory(httpClient: HttpClient) {
 	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
 }
@@ -145,8 +144,7 @@ registerLocaleData(en);
 		ManagemencsService,
 		TextService,
 		SlicingTaskServices,
-		IntentManagementService,
-		KnowledgeBaseService
+		IntentManagementService
 	],
 	declarations: [
 		AppComponent,
