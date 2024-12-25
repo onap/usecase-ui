@@ -22,7 +22,12 @@
          <nz-form-control [nzSpan]="12">
            <input type="text" nz-input formControlName="name">
            <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">
-            Please input application name!
+            <ng-container *ngIf="validateForm.get('name').hasError('required')">
+              Please input application name
+            </ng-container>
+            <ng-container *ngIf="validateForm.get('name').hasError('duplicated')">
+              {{ 'maas.nameDuplicateTip' | translate}}
+            </ng-container>
           </nz-form-explain>
          </nz-form-control>
        </nz-form-item>
@@ -98,15 +103,22 @@
          </nz-form-control>
        </nz-form-item>
        <nz-form-item>
-         <nz-form-label [nzSpan]="8" nzFor="prompt">Prompt</nz-form-label>
+         <nz-form-label [nzSpan]="8" nzFor="prompt" nzRequired>Prompt</nz-form-label>
          <nz-form-control [nzSpan]="12">
-           <textarea rows="2" nz-input formControlName="prompt"></textarea>
+           <textarea #myTextarea id="myTextarea" rows="2" nz-input formControlName="prompt" [placeholder]="'maas.application.promptTip' | translate" maxlength="1000" minlength="20" (input)="updateCharCount()"></textarea>
+           <div #charCount id="charCount">0/1000</div>
+           <nz-form-explain *ngIf="validateForm.get('prompt').dirty && validateForm.get('prompt').errors">
+            {{ 'maas.application.promptTip' | translate}}
+          </nz-form-explain>
          </nz-form-control>
        </nz-form-item>
        <nz-form-item>
-         <nz-form-label [nzSpan]="8" nzFor="openingRemarks">Opening Remarks</nz-form-label>
+         <nz-form-label [nzSpan]="8" nzFor="openingRemarks" nzRequired>Opening Remarks</nz-form-label>
          <nz-form-control [nzSpan]="12">
            <textarea rows="2" nz-input formControlName="openingRemarks"></textarea>
+           <nz-form-explain *ngIf="validateForm.get('openingRemarks').dirty && validateForm.get('openingRemarks').errors">
+            Please input opening remarks!
+          </nz-form-explain>
          </nz-form-control>
        </nz-form-item>
        

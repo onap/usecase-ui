@@ -1,3 +1,4 @@
+import { Response } from '../knowledge-base-management/knowledge-base.type';
 export type Application = {
   "applicationId"?: string,
   "applicationName": string,
@@ -14,6 +15,12 @@ export type Application = {
   "prompt": string,
   "temperature": number,
   "top_p": number,
-  "openingRemarks": string
+  "openingRemarks": string,
 }
+
+export type ApplicationsResponse = Response<Application[]>;
+
+export type ApplicationResponse = Response<Application>;
+
+
 

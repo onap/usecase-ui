@@ -20,11 +20,11 @@ export class KnowledgeBaseDetailComponent implements OnInit {
 
   handleCancel(): void {
     this.showModal = false;
-    this.modalOpreation.emit({ "cancel": true });
+    this.modalOpreation.emit();
   }
 
   handleOk(): void {
     this.showModal = false;
-    this.modalOpreation.emit({ "cancel": true });
+    this.modalOpreation.emit();
   }
 }

@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng server",
-    "server": "ng serve --proxy-config proxy.conf.json",
+    "server": "npm run merge-i18n && ng serve --proxy-config proxy.conf.json",
+    "merge-i18n": "node merge-i18n.js",
     "build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
