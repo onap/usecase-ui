@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from "ng-zorro-antd";
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
 import { Router } from '@angular/router';
-import { MaasService } from '@src/app/core/services/maas.service';
+import { MaasApi } from '@src/app/api/maas.api';
 import { Application } from './application.type';
+import { modalClose } from '../knowledge-base-management/knowledge-base.type';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-application-management',
@@ -14,11 +16,16 @@ export class ApplicationManagementComponent implements OnInit {
   createModalShow = false;
   applicationShow = false;
   applicationDetail: Object = {};
+  editModalShow = false;
+  applicationId = '';
+  existedNames = [];
 
   constructor(
-    private myhttp: MaasService,
+    private myhttp: MaasApi,
     private message: NzMessageService,
-    private router: Router
+    private router: Router,
+    private modalService: NzModalService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -30,6 +37,7 @@ export class ApplicationManagementComponent implements OnInit {
       .subscribe(
         (data) => {
           this.data = data.result_body
+          this.existedNames = this.data.map(item => item.applicationName);
         },
         () => {
           this.message.error('Failed to obtain application data');
@@ -41,7 +49,7 @@ export class ApplicationManagementComponent implements OnInit {
     this.createModalShow = true;
   }
 
-  createModalClose($event: any): void {
+  createModalClose($event: modalClose): void {
     this.createModalShow = false;
     if ($event.cancel) {
       return;
@@ -49,7 +57,7 @@ export class ApplicationManagementComponent implements OnInit {
     this.getAllApplicationData()
   }
 
-  delete(data): void {
+  delete(data: Application): void {
     this.myhttp.deleteApplicationById(data.applicationId).subscribe((data) => {
       this.getAllApplicationData()
       if (data.result_header.result_code === 200) {
@@ -62,7 +70,7 @@ export class ApplicationManagementComponent implements OnInit {
     });
   }
 
-  navigateToDetail(data): void {
+  navigateToDetail(data: Application): void {
     this.router.navigate(['maas/use'], { queryParams: { id: data.applicationId, name: data.applicationName } });
   }
 
@@ -70,7 +78,7 @@ export class ApplicationManagementComponent implements OnInit {
     this.applicationShow = false;
   }
 
-  displayApplicationDetails(data): void {
+  displayApplicationDetails(data: Application): void {
     this.applicationShow = true;
     this.myhttp.getApplicationById(data.applicationId)
       .subscribe(
@@ -82,4 +90,30 @@ export class ApplicationManagementComponent implements OnInit {
         }
       )
   }
+
+  edit(data: Application) {
+    this.applicationId = data.applicationId;
+    this.editModalShow = true;
+  }
+
+  showDeleteConfirm(data: Application): void {
+    this.modalService.error({
+      nzTitle: this.translate.instant('maas.deleteTitle'),
+      nzContent: this.translate.instant('maas.application.deleteApplicationContent'),
+      nzOkText: 'Yes',
+      nzOkType: 'danger',
+      nzOnOk: () => this.delete(data),
+      nzCancelText: 'No',
+      nzIconType: 'warning',
+    });
+  }
+
+  editModalClose($event: modalClose): void {
+    this.editModalShow = false;
+    if ($event.cancel) {
+      return;
+    }
+    this.getAllApplicationData()
+  }
+
 }

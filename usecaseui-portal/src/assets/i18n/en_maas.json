@@ -1,0 +1,22 @@
+{
+    "i18nTextDefine_mass": "MaaS",
+    "i18nTextDefine_knowledgebase": "Knowledge Base Manage",
+    "i18nTextDefine_KnowledgeBaseList": "Knowledge Base",
+    "maas": {
+        "send": "Send",
+        "stopGenerating": "Stop Generating",
+        "deleteTitle": "Delete Warning",
+        "copy_to_clipboard": "Copy to Clipboard",
+        "copy_failed": "Copy Failed",
+        "copy": "Copy",
+        "delete": "Delete",
+        "nameDuplicateTip": "The name is duplicated, please re-enter it.",
+        "knowledgeBase": {
+            "deleteKnowledgeBaseContent": "Confirm deletion of this knowledge base? Data cannot be recovered after deletion, please confirm!"
+        },
+        "application": {
+            "deleteApplicationContent": "Confirm deletion of this application? Data cannot be recovered after deletion, please confirm!",
+            "promptTip": "The prompt needs to be larger than 20 characters."
+        }
+    }
+}
