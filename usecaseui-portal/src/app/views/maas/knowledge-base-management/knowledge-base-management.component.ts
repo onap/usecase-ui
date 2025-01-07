@@ -101,7 +101,8 @@ export class KnowledgeBaseManagementComponent implements OnInit {
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () => this.deleteKnowledgeBase(data),
-      nzCancelText: 'No'
+      nzCancelText: 'No',
+      nzIconType: 'warning',
     });
   }
 

@@ -15,7 +15,9 @@ import { EditKnowledgeBaseComponent } from './knowledge-base-management/edit-kno
 import { EditApplicationComponent } from './build/edit-application/edit-application.component';
 import { MaasService } from './maas-service.service';
 import { KnowledgeBaseService } from './knowledge-base-management/knowledge-base.service';
-
+import { MarkdownModule } from 'ngx-markdown';
+import { ClipboardModule } from 'ngx-clipboard';
+import { CodeBlockDirective } from './use/code-block.directive';
 @NgModule({
   providers: [
     MaasApi,
@@ -24,7 +26,9 @@ import { KnowledgeBaseService } from './knowledge-base-management/knowledge-base
   ],
   imports: [
     SharedModule,
-    MaasRoutingModule
+    MaasRoutingModule,
+    MarkdownModule.forChild(),
+    ClipboardModule
   ],
   declarations: [
     ApplicationManagementComponent,
@@ -37,7 +41,8 @@ import { KnowledgeBaseService } from './knowledge-base-management/knowledge-base
     CreateKnowledgeBaseComponent,
     KnowledgeBaseDetailComponent,
     EditKnowledgeBaseComponent,
-    EditApplicationComponent
+    EditApplicationComponent,
+    CodeBlockDirective
   ]
 })
 export class MaasModule { }

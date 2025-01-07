@@ -13,7 +13,6 @@ export type Chat = { question: string, answer: string, questionId: string, statu
   styleUrls: ['./use-application.component.less']
 })
 export class UseApplicationComponent implements OnInit {
-
   question: string;
   communicationMessage: string;
   chatHistory: Chat[] = [];
@@ -31,15 +30,14 @@ export class UseApplicationComponent implements OnInit {
     private route: ActivatedRoute,
     private myhttp: MaasApi,
     private translate: TranslateService,
-    private maasService: MaasService,
-    private renderer: Renderer2
+    private maasService: MaasService
   ) { }
 
-  ngOnInit() {
-    this.fetchAllApplication();
+  async ngOnInit() {
+    await this.fetchAllApplication();
     this.route.queryParams.subscribe(params => {
       this.queryParams = params;
-      this.selectedName = this.queryParams.id;
+      this.selectedName = this.queryParams.id || this.selectedName;
     });
   }
   
@@ -102,20 +100,17 @@ export class UseApplicationComponent implements OnInit {
     chat.answer += event.data.replace(/__SPACE__/g, ' ');
   }
 
-  fetchAllApplication(): void {
-    this.myhttp.getAllApplication()
-      .subscribe(
-        (data) => {
-          this.options = data.result_body.map(item => ({
-            nzValue: item.applicationId,
-            nzLabel: item.applicationName
-          }));
-          this.selectedName = this.options.length > 0 ? this.options[0].nzValue : '';
-        },
-        () => {
-          this.message.error('Failed to obtain intent data');
-        }
-      )
+  async fetchAllApplication(): Promise<void> {
+    try {
+      const data = await this.myhttp.getAllApplication().toPromise();
+      this.options = data.result_body.map(item => ({
+        nzValue: item.applicationId,
+        nzLabel: item.applicationName
+      }));
+      this.selectedName = this.options.length > 0 ? this.options[0].nzValue : '';
+    } catch {
+      this.message.error('Failed to obtain intent data');
+    }
   }
 
   async copy(content: string): Promise<void> {

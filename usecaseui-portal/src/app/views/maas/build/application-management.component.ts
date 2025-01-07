@@ -86,7 +86,7 @@ export class ApplicationManagementComponent implements OnInit {
           this.applicationDetail = data.result_body;
         },
         () => {
-          this.message.error('Failed to obtain knowledge base data');
+          this.message.error('Failed to obtain application data');
         }
       )
   }
@@ -97,7 +97,7 @@ export class ApplicationManagementComponent implements OnInit {
   }
 
   showDeleteConfirm(data: Application): void {
-    this.modalService.error({
+    this.modalService.confirm({
       nzTitle: this.translate.instant('maas.deleteTitle'),
       nzContent: this.translate.instant('maas.application.deleteApplicationContent'),
       nzOkText: 'Yes',
