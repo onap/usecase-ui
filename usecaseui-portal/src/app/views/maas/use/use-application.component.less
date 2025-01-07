@@ -9,15 +9,11 @@
 }
 
 .fixed-select-wrapper {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
+  padding: 20px 0 0 100px;
 }
 
 .chat-container {
-  margin: 60px 0;
+  margin: 20px 0;
   padding: 0 100px;
 }
 
@@ -43,14 +39,9 @@
   display: flex;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #fff;
   margin-right: 8px;
   height: 24px;
   margin-top:3px;
-}
-
-.question-icon-actions span:not(:first-child) {
-  border-left: 1px solid #fff;
 }
 
 .question-action {
@@ -59,43 +50,54 @@
 }
 
 .question-container {
-  margin: 8px 0;
+  border-radius: 8px;
+  background-color: white;
 }
 
 .question-text {
-  background-color: white;
   font-size: 16px;
-  padding: 10px;
-  border-radius: 8px;
 }
 
 .answer-action {
   height: 24px;
   width: 24px;
-  border: 1px solid #fff;
   border-radius: 8px;
   padding-top: 3px;
 }
 
-#answerText {
+.answer {
   font-size: 16px;
-  padding: 10px;
   white-space: pre-line;
   width: auto;
   display: inline-block;
   position: relative;
-  min-height: 40px;
 }
 
-.answer::after {
+.answer::after{
   content: '';
   display: inline-block;
-  width: 1px;
+  width: 2px;
   height: 16px;
   background-color: black;
   position: absolute;
   animation: blink 1s step-end infinite;
-  margin-top: 5px;
+  margin-top: -20px;
+}
+
+.answer-markdown::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 16px;
+  background-color: black;
+  position: absolute;
+  animation: blink 1s step-end infinite;
+  margin-top: -10px;
+}
+
+.answer-markdown {
+  font-size: 16px;
+  position: relative;
 }
 
 .hidden-cursor::after {
@@ -107,6 +109,7 @@
   background-color: white;
   display: inline-block;
   border-radius: 8px;
+  padding: 8px;
 }
 
 .answer-container img, .answer-icon img, .question img{
@@ -218,5 +221,421 @@
   }
   50% {
     background-color: black;
+  }
+}
+
+.copy-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #485264;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.default {
+  padding: 0 5px;
+}
+
+:host ::ng-deep .question-text p,
+:host ::ng-deep :host ::ng-deep .markdown p {
+  margin: 8px;
+}
+
+:host ::ng-deep .markdown ul,
+:host ::ng-deep .markdown ol {
+  padding-left: 14px;
+}
+
+:host ::ng-deep .markdown > *:first-child {
+  margin-top: 0 !important;
+}
+:host ::ng-deep .markdown > *:last-child {
+  margin-bottom: 0 !important;
+}
+:host ::ng-deep .markdown a.absent {
+  color: #cc0000;
+}
+:host ::ng-deep .markdown a.anchor {
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+  left: 0;
+  margin-left: -30px;
+  padding-left: 30px;
+  position: absolute;
+  top: 0;
+}
+:host ::ng-deep .markdown h1,
+:host ::ng-deep .markdown h2,
+:host ::ng-deep .markdown h3,
+:host ::ng-deep .markdown h4,
+:host ::ng-deep .markdown h5,
+:host ::ng-deep .markdown h6 {
+  cursor: text;
+  font-weight: bold;
+  margin: 10px 0;
+  padding: 0;
+  position: relative;
+}
+:host ::ng-deep .markdown h1 .mini-icon-link,
+:host ::ng-deep .markdown h2 .mini-icon-link,
+:host ::ng-deep .markdown h3 .mini-icon-link,
+:host ::ng-deep .markdown h4 .mini-icon-link,
+:host ::ng-deep .markdown h5 .mini-icon-link,
+:host ::ng-deep .markdown h6 .mini-icon-link {
+  display: none;
+}
+:host ::ng-deep .markdown h1:hover a.anchor,
+:host ::ng-deep .markdown h2:hover a.anchor,
+:host ::ng-deep .markdown h3:hover a.anchor,
+:host ::ng-deep .markdown h4:hover a.anchor,
+:host ::ng-deep .markdown h5:hover a.anchor,
+:host ::ng-deep .markdown h6:hover a.anchor {
+  line-height: 1;
+  margin-left: -22px;
+  padding-left: 0;
+  text-decoration: none;
+  top: 15%;
+}
+:host ::ng-deep .markdown h1:hover a.anchor .mini-icon-link,
+:host ::ng-deep .markdown h2:hover a.anchor .mini-icon-link,
+:host ::ng-deep .markdown h3:hover a.anchor .mini-icon-link,
+:host ::ng-deep .markdown h4:hover a.anchor .mini-icon-link,
+:host ::ng-deep .markdown h5:hover a.anchor .mini-icon-link,
+:host ::ng-deep .markdown h6:hover a.anchor .mini-icon-link {
+  display: inline-block;
+}
+:host ::ng-deep .markdown h1 tt,
+:host ::ng-deep .markdown h1 code,
+:host ::ng-deep .markdown h2 tt,
+:host ::ng-deep .markdown h2 code,
+:host ::ng-deep .markdown h3 tt,
+:host ::ng-deep .markdown h3 code,
+:host ::ng-deep .markdown h4 tt,
+:host ::ng-deep .markdown h4 code,
+:host ::ng-deep .markdown h5 tt,
+:host ::ng-deep .markdown h5 code,
+:host ::ng-deep .markdown h6 tt,
+:host ::ng-deep .markdown h6 code {
+  font-size: inherit;
+}
+:host ::ng-deep .markdown h1 {
+  font-size: 1.75rem;
+}
+:host ::ng-deep .markdown h2 {
+  font-size: 1.5rem;
+}
+:host ::ng-deep .markdown h3 {
+  font-size: 1.25rem;
+}
+:host ::ng-deep .markdown h4 {
+  font-size: 1rem;
+}
+:host ::ng-deep .markdown h5 {
+  font-size: 14px;
+}
+:host ::ng-deep .markdown h6 {
+  font-size: 12px;
+}
+:host ::ng-deep .markdown p,
+:host ::ng-deep .markdown blockquote,
+:host ::ng-deep .markdown ul,
+:host ::ng-deep .markdown ol,
+:host ::ng-deep .markdown dl,
+:host ::ng-deep .markdown table,
+:host ::ng-deep .markdown pre {
+  margin: 14px 0;
+}
+:host ::ng-deep .markdown > h2:first-child,
+:host ::ng-deep .markdown > h1:first-child,
+:host ::ng-deep .markdown > h1:first-child + h2,
+:host ::ng-deep .markdown > h3:first-child,
+:host ::ng-deep .markdown > h4:first-child,
+:host ::ng-deep .markdown > h5:first-child,
+:host ::ng-deep .markdown > h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+:host ::ng-deep .markdown a:first-child h1,
+:host ::ng-deep .markdown a:first-child h2,
+:host ::ng-deep .markdown a:first-child h3,
+:host ::ng-deep .markdown a:first-child h4,
+:host ::ng-deep .markdown a:first-child h5,
+:host ::ng-deep .markdown a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+:host ::ng-deep .markdown h1 + p,
+:host ::ng-deep .markdown h2 + p,
+:host ::ng-deep .markdown h3 + p,
+:host ::ng-deep .markdown h4 + p,
+:host ::ng-deep .markdown h5 + p,
+:host ::ng-deep .markdown h6 + p {
+  margin-top: 0;
+}
+:host ::ng-deep .markdown li p.first {
+  display: inline-block;
+}
+:host ::ng-deep .markdown ul,
+:host ::ng-deep .markdown ol {
+  padding-left: 2em;
+}
+:host ::ng-deep .markdown ul.no-list,
+:host ::ng-deep .markdown ol.no-list {
+  list-style-type: none;
+  padding: 0;
+}
+:host ::ng-deep .markdown ul li > *:first-child,
+:host ::ng-deep .markdown ol li > *:first-child {
+  margin-top: 0;
+}
+:host ::ng-deep .markdown ul,
+:host ::ng-deep .markdown ol {
+  padding-left: 14px;
+}
+:host ::ng-deep .markdown dl {
+  padding: 0;
+}
+:host ::ng-deep .markdown dl dt {
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
+  margin: 15px 0 5px;
+  padding: 0;
+}
+:host ::ng-deep .markdown dl dt:first-child {
+  padding: 0;
+}
+:host ::ng-deep .markdown dl dt > *:first-child {
+  margin-top: 0;
+}
+:host ::ng-deep .markdown dl dt > *:last-child {
+  margin-bottom: 0;
+}
+:host ::ng-deep .markdown dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+:host ::ng-deep .markdown dl dd > *:first-child {
+  margin-top: 0;
+}
+:host ::ng-deep .markdown dl dd > *:last-child {
+  margin-bottom: 0;
+}
+:host ::ng-deep .markdown blockquote {
+  border-left: 4px solid #dddddd;
+  color: #777777;
+  padding: 0 15px;
+}
+:host ::ng-deep .markdown blockquote > *:first-child {
+  margin-top: 0;
+}
+:host ::ng-deep .markdown blockquote > *:last-child {
+  margin-bottom: 0;
+}
+:host ::ng-deep .markdown table {
+  width: 100%;
+}
+:host ::ng-deep .markdown table th {
+  font-weight: bold;
+}
+:host ::ng-deep .markdown table th,
+:host ::ng-deep .markdown table td {
+  padding: 6px 13px;
+}
+:host ::ng-deep .markdown table tr {
+  background-color: #ffffff;
+}
+:host ::ng-deep .markdown table tr:nth-child(2n) {
+  background-color: #f0f0f0;
+}
+:host ::ng-deep .markdown img {
+  max-width: 100%;
+}
+:host ::ng-deep .markdown span.frame {
+  display: block;
+  overflow: hidden;
+}
+:host ::ng-deep .markdown span.frame > span {
+  border: 1px solid #dddddd;
+  display: block;
+  float: left;
+  margin: 13px 0 0;
+  overflow: hidden;
+  padding: 7px;
+  width: auto;
+}
+:host ::ng-deep .markdown span.frame span img {
+  display: block;
+  float: left;
+}
+:host ::ng-deep .markdown span.frame span span {
+  clear: both;
+  color: #333333;
+  display: block;
+  padding: 5px 0 0;
+}
+:host ::ng-deep .markdown span.align-center {
+  clear: both;
+  display: block;
+  overflow: hidden;
+}
+:host ::ng-deep .markdown span.align-center > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: center;
+}
+:host ::ng-deep .markdown span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+:host ::ng-deep .markdown span.align-right {
+  clear: both;
+  display: block;
+  overflow: hidden;
+}
+:host ::ng-deep .markdown span.align-right > span {
+  display: block;
+  margin: 13px 0 0;
+  overflow: hidden;
+  text-align: right;
+}
+:host ::ng-deep .markdown span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+:host ::ng-deep .markdown span.float-left {
+  display: block;
+  float: left;
+  margin-right: 13px;
+  overflow: hidden;
+}
+:host ::ng-deep .markdown span.float-left span {
+  margin: 13px 0 0;
+}
+:host ::ng-deep .markdown span.float-right {
+  display: block;
+  float: right;
+  margin-left: 13px;
+  overflow: hidden;
+}
+:host ::ng-deep .markdown span.float-right > span {
+  display: block;
+  margin: 13px auto 0;
+  overflow: hidden;
+  text-align: right;
+}
+:host ::ng-deep .markdown code,
+:host ::ng-deep .markdown tt {
+  border: 1px solid #dee0e2;
+  background-color: #f4f6f8;
+  border-radius: 3px;
+  margin: 0 2px;
+  padding: 0 5px;
+}
+:host ::ng-deep .markdown pre > code {
+  background: none repeat scroll 0 0 transparent;
+  border: medium none;
+  margin: 0;
+  padding: 0;
+}
+:host ::ng-deep .markdown .highlight pre,
+:host ::ng-deep .markdown pre {
+  border: 1px solid #cccccc;
+  border-radius: 3px 3px 3px 3px;
+  font-size: 14px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+}
+:host ::ng-deep .markdown pre code,
+:host ::ng-deep .markdown pre tt {
+  background-color: transparent !important;
+  border: medium none;
+}
+:host ::ng-deep .markdown hr {
+  margin: 10px 0;
+  border-color: #C4CBD7;
+}
+:host ::ng-deep .markdown {
+  tab-size: 4;
+  word-spacing: normal;
+  width: 100%;
+  font-size: 14px;
+
+  * {
+    word-break: break-word;
+  }
+
+  pre {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    // background-color: gray !important;
+    overflow-x: auto;
+    color: gray;
+    position: relative;
+  }
+
+  pre code {
+    width: 100%;
+  }
+
+  a {
+    text-decoration: underline;
+    color: #2B5FD9;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0px;
+    color: #383F50;
+
+    thead tr:first-child th {
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+      border-top-width: 1px;
+      border-color: #ccc;
+      background-color: rgba(236, 236, 241, 0.2);
+      overflow: hidden;
+
+      &:first-child {
+        border-top-left-radius: 0.375rem;
+      }
+      &:last-child {
+        border-right-width: 1px;
+        border-top-right-radius: 0.375rem;
+      }
+    }
+
+    td {
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+      border-color: #ccc;
+
+      &:last-of-type {
+        border-right-width: 1px;
+      }
+    }
+
+    tbody tr:last-child {
+      overflow: hidden;
+      td {
+        &:first-child {
+          border-bottom-left-radius: 0.375rem;
+        }
+        &:last-child {
+          border-bottom-right-radius: 0.375rem;
+        }
+      }
+    }
   }
 }

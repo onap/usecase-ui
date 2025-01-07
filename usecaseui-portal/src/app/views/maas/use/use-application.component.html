@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="question-container">
-                    <span class="question-text">{{ chat.question }}</span>
+                    <markdown class="question-text" [data]="chat.question"></markdown>
                 </div>
             </div>
             <br>
@@ -45,8 +45,11 @@
                         [nz-tooltip]="'maas.copy' | translate"></span>
                 </div>
                 <span class="answer-text">
-                    <span class="answer" [ngClass]="{'hidden-cursor': chat.status==='finished'}" #answerText
-                        id="answerText">{{chat.answer}}</span>
+                    <markdown appCodeBlock class="markdown answer-markdown" [ngClass]="{'hidden-cursor': chat.status==='finished'}" *ngIf="chat.answer else default" [data]="chat.answer"></markdown>
+                    <ng-template #default>
+                        <span class="answer default" [ngClass]="{'hidden-cursor': chat.status==='finished'}" #answerText>
+                        </span>
+                    </ng-template>
                 </span>
             </div>
             <br>

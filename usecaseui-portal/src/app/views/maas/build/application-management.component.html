@@ -27,27 +27,27 @@
   >
     <thead>
       <tr>
-        <th nzWidth="9%" style="font-size: 20px;">No</th>
-        <th nzWidth="12%" style="font-size: 20px;">Application Name</th>
-        <th nzWidth="13%" style="font-size: 20px;">Application Description</th>
-        <th nzWidth="11%" style="font-size: 20px;">Application Type</th>
-        <th nzWidth="11%" style="font-size: 20px;">Operator</th>
-        <th nzWidth="11%" style="font-size: 20px;">MaaS</th>
-        <th nzWidth="11%" style="font-size: 20px;">Knowledge Base</th>
-        <th nzWidth="11%" style="font-size: 20px;">Large Model</th>
-        <th nzWidth="11%" style="font-size: 20px;">{{"i18nTextDefine_Action" | translate}}</th>
+        <th nzWidth="9%" class="head-column">No</th>
+        <th nzWidth="12%" class="head-column">Application Name</th>
+        <th nzWidth="13%" class="head-column">Application Description</th>
+        <th nzWidth="11%" class="head-column">Application Type</th>
+        <th nzWidth="11%" class="head-column">Operator</th>
+        <th nzWidth="11%" class="head-column">MaaS</th>
+        <th nzWidth="11%" class="head-column">Knowledge Base</th>
+        <th nzWidth="11%" class="head-column">Large Model</th>
+        <th nzWidth="11%" class="head-column">{{"i18nTextDefine_Action" | translate}}</th>
       </tr>
     </thead>
     <tbody>
         <tr *ngFor="let data of basicTable.data; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{data.applicationName}}</td>
-          <td>{{data.applicationDescription}}</td>
-          <td>{{data.applicationType}}</td>
-          <td>{{data.operatorName}}</td>
-          <td>{{data.maaSPlatformName}}</td>
-          <td>{{data.knowledgeBaseName}}</td>
-          <td>{{data.largeModelName}}</td>
+          <td class="column">{{i+1}}</td>
+          <td class="column">{{data.applicationName}}</td>
+          <td class="column">{{data.applicationDescription}}</td>
+          <td class="column">{{data.applicationType}}</td>
+          <td class="column">{{data.operatorName}}</td>
+          <td class="column">{{data.maaSPlatformName}}</td>
+          <td class="column">{{data.knowledgeBaseName}}</td>
+          <td class="column">{{data.largeModelName}}</td>
           <td>
              <i class="anticon anticon-menu-fold" (click)="displayApplicationDetails(data)"></i>
              <i class="anticon anticon-edit" (click)="edit(data)"></i>
