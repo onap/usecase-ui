@@ -58,6 +58,5 @@
     </tbody>
   </nz-table>
 </div>
-<app-create-application-management *ngIf="createModalShow" [showModal]="createModalShow" (modalOpreation)="createModalClose($event)" [existedNames]="existedNames"></app-create-application-management>
+<app-create-application-management *ngIf="createModalShow || editModalShow" [showModal]="createModalShow || editModalShow" (modalOpreation)="createModalClose($event)" [existedNames]="existedNames" [isEdit]="editModalShow" [applicationId]="applicationId"></app-create-application-management>
 <app-application-detail *ngIf="applicationShow" [showModal]="applicationShow" (modalOpreation)="applicationDetailClose()" [applicationDetail]="applicationDetail"></app-application-detail>
-<app-edit-application *ngIf="editModalShow" [showModal]="editModalShow" (modalOpreation)="editModalClose($event)" [applicationId]="applicationId"></app-edit-application>

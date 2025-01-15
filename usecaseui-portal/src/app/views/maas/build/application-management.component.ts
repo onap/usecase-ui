@@ -51,6 +51,7 @@ export class ApplicationManagementComponent implements OnInit {
 
   createModalClose($event: modalClose): void {
     this.createModalShow = false;
+    this.editModalShow = false;
     if ($event.cancel) {
       return;
     }
@@ -106,14 +107,6 @@ export class ApplicationManagementComponent implements OnInit {
       nzCancelText: 'No',
       nzIconType: 'warning',
     });
-  }
-
-  editModalClose($event: modalClose): void {
-    this.editModalShow = false;
-    if ($event.cancel) {
-      return;
-    }
-    this.getAllApplicationData()
   }
 
 }

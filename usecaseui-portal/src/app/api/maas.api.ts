@@ -14,11 +14,10 @@
     limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { HttpClient } from '@angular/common/http';
 import { KnowledgeBaseResponse, KnowledgeBasesResponse, OperatorsResponse, ResponseHeader } from '../views/maas/knowledge-base-management/knowledge-base.type'
 import { Application, ApplicationResponse, ApplicationsResponse } from '../views/maas/build/application.type';
+import { Observable } from 'rxjs';
 @Injectable()
 export class MaasApi {
 
@@ -30,6 +29,8 @@ export class MaasApi {
     getKnowledgeBaseById: this.baseUrl + "knowledgeBase/queryById/",
     updateKnowledgeBaseRecord: this.baseUrl + "knowledgeBase/edit",
     createKnowledgeBase: this.baseUrl + "knowledgeBase/create",
+    removeFile: this.baseUrl + "knowledgeBase/file/delete/",
+    uploadFile: this.baseUrl + "knowledgeBase/file/upload",
     maasUrl: this.baseUrl + "maas/getAll",
     getAllApplication: this.baseUrl + "application/query",
     deleteApplicationById: this.baseUrl + "application/delete/",
@@ -80,12 +81,16 @@ export class MaasApi {
     return this.http.get<KnowledgeBasesResponse>(this.url.KnowledgeBaseByMaas + id);
   }
 
-  createApplication(body: Application) {
-    return this.http.post<ResponseHeader>(this.url.createApplicationUrl, body)
+  createApplication(url: string, body: Application) {
+    return this.http.post<ResponseHeader>(url, body)
   }
 
-  updateApplication(body: Application) {
-    return this.http.post<ResponseHeader>(this.url.updateApplication, body)
+  uploadFile(body: any) {
+    return this.http.post<ResponseHeader>(this.url.uploadFile, body)
+  }
+
+  removeFile(fileId: string): Observable<ResponseHeader> {
+    return this.http.delete<ResponseHeader>(this.url.removeFile + fileId)
   }
 
 }

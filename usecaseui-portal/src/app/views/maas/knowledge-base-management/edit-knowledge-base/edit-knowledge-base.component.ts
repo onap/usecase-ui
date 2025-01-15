@@ -23,7 +23,7 @@ export class EditKnowledgeBaseComponent implements OnInit {
     maaSPlatformName: '',
     maaSPlatformId: '',
     updateTime: '',
-    filesName: [],
+    fileList: [],
     operatorId: ''
   }
   knowledgeBase: KnowledgeBase = this.defalutKnowledgeBase;

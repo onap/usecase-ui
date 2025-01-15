@@ -77,16 +77,8 @@ export class KnowledgeBaseManagementComponent implements OnInit {
   }
 
   displayKnowledgeDetails(data): void {
+    this.knowledgeBaseId = data.knowledgeBaseId;
     this.knowledgeBaseShow = true;
-    this.myhttp.getKnowledgeBaseById(data.knowledgeBaseId)
-      .subscribe(
-        (data) => {
-          this.knowledgeBaseDetail = data.result_body;
-        },
-        () => {
-          this.message.error('Failed to obtain knowledge base data');
-        }
-      )
   }
 
   editKnowedgeBase(data: KnowledgeBase) {
