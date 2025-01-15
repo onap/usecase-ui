@@ -4,12 +4,15 @@ export type KnowledgeBase = {
   operatorName: string,
   maaSPlatformName: string,
   updateTime: string,
-  filesName: Array<string>,
   operatorId: string,
   maaSPlatformId: string,
-  knowledgeBaseId: string
+  knowledgeBaseId: string,
+  fileList: Array<File>,
 }
-
+export type File = {
+  fileId: string,
+  fileName: string
+}
 export type KnowledgeBaseResponse = Response<KnowledgeBase>
 
 export type KnowledgeBasesResponse = Response<Array<KnowledgeBase>>

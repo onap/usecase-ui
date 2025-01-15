@@ -4,8 +4,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Knowledge Base Name</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="name" placeholder="Please input knowledge base name" />
-        <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">Please input knowledge base name</nz-form-explain>
+        <input nz-input class="disabled-input" formControlName="name" placeholder="Please input knowledge base name"/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

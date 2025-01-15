@@ -45,8 +45,8 @@
 <app-create-knowledge-base *ngIf="createModalShow" [showModal]="createModalShow"
   (modalOpreation)="createModalClose($event)"></app-create-knowledge-base>
 <app-knowledge-base-detail *ngIf="knowledgeBaseShow" [showModal]="knowledgeBaseShow"
-  (modalOpreation)="knowledgeBaseDetailClose()"
-  [knowledgeBaseDetail]="knowledgeBaseDetail"></app-knowledge-base-detail>
+  (modalOpreation)="knowledgeBaseDetailClose()" [id]="knowledgeBaseId"
+  ></app-knowledge-base-detail>
 
 <app-edit-knowledge-base *ngIf="editKnowledgeBaseShow" [showModal]="editKnowledgeBaseShow" [knowledgeBaseId]="knowledgeBaseId"
 (modalOpreation)="editKnowledgeBaseModuleClose($event)"></app-edit-knowledge-base>

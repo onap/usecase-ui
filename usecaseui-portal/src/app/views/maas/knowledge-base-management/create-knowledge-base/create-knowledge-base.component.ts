@@ -35,7 +35,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
       name: [null, [Validators.required]],
       description: [null],
       selectedOperator: [null, [Validators.required]],
-      selectedPlatform: [null, [Validators.required]],
+      selectedPlatform: [null, [Validators.required]]
     });
   }
   fetchOperators(): void {

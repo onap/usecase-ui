@@ -15,7 +15,7 @@
 -->
 <nz-modal [(nzVisible)]="showModal" nzTitle="Knowledge Base Detail" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
     nzWidth="56%" nzHeight="800px" class="intent-management-modal">
-    <app-descriptions>
+    <app-descriptions *ngIf="knowledgeBaseDetail else LoadingTmp">
         <app-descriptions-item nzTitle="Knowledge Base Name">{{knowledgeBaseDetail.knowledgeBaseName}}
         </app-descriptions-item>
         <app-descriptions-item nzTitle="Operator Name">{{knowledgeBaseDetail.operatorName}}
@@ -25,11 +25,35 @@
         <app-descriptions-item nzTitle="Update Time">
             {{knowledgeBaseDetail.updateTime}}
         </app-descriptions-item>
-        <app-descriptions-item nzTitle="Files Name">
-            {{knowledgeBaseService.getFiles(knowledgeBaseDetail)}}
-        </app-descriptions-item>
         <app-descriptions-item [nzSpan]="3"
             nzTitle="Knowledge Base Description">{{knowledgeBaseDetail.knowledgeBaseDescription}}
         </app-descriptions-item>
+        <app-descriptions-item [nzSpan]="3" nzTitle="Files Name">
+            <div class="upload-file">
+                <nz-upload [nzAction]="url" [(nzFileList)]="fileList"  (nzChange)="handleChange($event)" nzName="files" [nzData]="nzdata">
+                    <button nz-button>
+                        <i class="anticon anticon-upload"></i>
+                        <span>Select File</span> 
+                    </button>
+                </nz-upload>
+                <div *ngFor="let file of displayFiles"
+                    class="ant-upload-list-item ant-upload-list-item- ng-trigger ng-trigger-itemState ng-star-inserted" [ngClass]="{'ant-upload-list-item-error': file.status === 'error'}">
+                    <div class="ant-upload-list-item-info">
+                        <span class="ng-tns-c15-6 ng-star-inserted">
+                            <i class="anticon anticon-paper-clip ng-star-inserted"></i>
+                            <span class="ant-upload-list-item-name ng-tns-c15-6 ng-star-inserted"
+                                title="fastgpt_README.md">{{file.fileName}}</span>
+                        </span>
+                    </div>
+                    <i class="anticon anticon-cross ng-tns-c15-6 ng-star-inserted" title="Remove file"
+                        (click)="removedFile(file)"></i>
+                </div>
+            </div>
+        </app-descriptions-item>
     </app-descriptions>
+    <ng-template #LoadingTmp>
+        <div class="loading">
+            <nz-spin class="upload-loading" [nzSize]="'large'"></nz-spin>
+        </div>
+    </ng-template>
 </nz-modal>
