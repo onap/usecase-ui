@@ -39,8 +39,8 @@
        </nz-form-item>
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="applicationType" nzRequired>Application Type</nz-form-label>
-         <nz-form-control [nzSpan]="12">
-           <nz-select name="applicationType" 
+         <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
+           <nz-select name="applicationType" [ngClass]="{'disabled-input': isEdit}"
            nzPlaceHolder="Select Application Type" formControlName="applicationType">
              <nz-option nzValue="Knowledge Assistant" nzLabel="Knowledge Assistant"></nz-option>
            </nz-select>
@@ -51,8 +51,8 @@
        </nz-form-item>
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="selectedOperator" nzRequired>Operator Name</nz-form-label>
-         <nz-form-control [nzSpan]="12">
-           <nz-select name="selectedOperator"
+         <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
+           <nz-select name="selectedOperator" [ngClass]="{'disabled-input': isEdit}"
            nzPlaceHolder="Select Operator" formControlName="selectedOperator"
            (ngModelChange)="handleOperatorChange($event)">
             <nz-option *ngFor="let operator of operators" [nzValue]="operator"
@@ -65,11 +65,11 @@
        </nz-form-item>
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="selectedPlatform" nzRequired>MaaS Platform Name</nz-form-label>
-         <nz-form-control [nzSpan]="12">
-           <nz-select name="selectedPlatform"
+         <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
+           <nz-select name="selectedPlatform" [ngClass]="{'disabled-input': isEdit}"
            nzPlaceHolder="Select Platform" formControlName="selectedPlatform"
            (ngModelChange)="handleMaasChange($event)">
-           <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform"
+           <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform.maaSPlatformId"
            [nzLabel]="platform.maaSPlatformName"></nz-option>
            </nz-select>
            <nz-form-explain *ngIf="validateForm.get('selectedPlatform').dirty && validateForm.get('selectedPlatform').errors">
@@ -82,7 +82,7 @@
          <nz-form-control [nzSpan]="12">
            <nz-select name="selectedModel"
            nzPlaceHolder="Select Model" formControlName="selectedModel">
-           <nz-option *ngFor="let model of filteredModels" [nzValue]="model" [nzLabel]="model.modelName"></nz-option>
+           <nz-option *ngFor="let model of filteredModels" [nzValue]="model.modelId" [nzLabel]="model.modelName"></nz-option>
            </nz-select>
            <nz-form-explain *ngIf="validateForm.get('selectedModel').dirty && validateForm.get('selectedModel').errors">
             Please select model!
@@ -94,7 +94,7 @@
          <nz-form-control [nzSpan]="12">
            <nz-select name="selectKnowledgeBase"
            nzPlaceHolder="Select KnowLedge Base" formControlName="selectKnowledgeBase">
-           <nz-option *ngFor="let knowledgeBase of knowledgeBases" [nzValue]="knowledgeBase"
+           <nz-option *ngFor="let knowledgeBase of knowledgeBases" [nzValue]="knowledgeBase.knowledgeBaseId"
                   [nzLabel]="knowledgeBase.knowledgeBaseName"></nz-option>
            </nz-select>
            <nz-form-explain *ngIf="validateForm.get('selectKnowledgeBase').dirty && validateForm.get('selectKnowledgeBase').errors">
