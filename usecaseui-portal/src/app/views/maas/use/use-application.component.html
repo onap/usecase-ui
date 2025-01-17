@@ -45,7 +45,7 @@
                         [nz-tooltip]="'maas.copy' | translate"></span>
                 </div>
                 <span class="answer-text">
-                    <markdown appCodeBlock class="markdown answer-markdown" [ngClass]="{'hidden-cursor': chat.status==='finished'}" *ngIf="chat.answer else default" [data]="chat.answer"></markdown>
+                    <markdown appCodeBlock="{{chat.status}}" class="markdown answer-markdown" [ngClass]="{'hidden-cursor': chat.status==='finished'}" *ngIf="chat.answer else default" [data]="chat.answer"></markdown>
                     <ng-template #default>
                         <span class="answer default" [ngClass]="{'hidden-cursor': chat.status==='finished'}" #answerText>
                         </span>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="input-wrapper">
-        <textarea nzAutosize nz-input [(ngModel)]="question" class="text-input question-input"></textarea>
+        <textarea #questionInput nzAutosize nz-input [(ngModel)]="question" class="text-input question-input" placeholder="{{'maas.questionPlaceholder' | translate}}" nzSize="small"></textarea>
         <div class="send-wrapper" [ngClass]="{'stop-wrapper': isGeneratingAnswer}">
             <div class="icon" (click)="doAction()"
                 [ngClass]="{'send-disabled': !isGeneratingAnswer &&!question, 'send-enabled': question && !isGeneratingAnswer, 'stop-generating': isGeneratingAnswer}"

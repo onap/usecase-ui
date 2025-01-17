@@ -199,6 +199,8 @@
     "application": {
       "deleteApplicationContent": "确认删除该应用？删除后数据无法恢复，请确认！",
       "promptTip": "提示词需要大于20个字符"
-    }
+    },
+    "questionPlaceholder": "输入问题，发送 [Enter]/换行 [Ctrl(Alt/Shift) + Enter]",
+    "is_chatting": "正在聊天中...请等待结束"
   }
 }

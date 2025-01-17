@@ -199,6 +199,8 @@
     "application": {
       "deleteApplicationContent": "Confirm deletion of this application? Data cannot be recovered after deletion, please confirm!",
       "promptTip": "The prompt needs to be larger than 20 characters."
-    }
+    },
+    "questionPlaceholder": "Enter a Question, Press [Enter] to Send / Press [Ctrl(Alt/Shift) + Enter] for New Line",
+    "is_chatting": "Chatting in progress... please wait until it finishes"
   }
 }
