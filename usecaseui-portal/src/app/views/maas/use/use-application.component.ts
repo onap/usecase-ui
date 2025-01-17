@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SSE } from "sse.js";
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ export type Chat = { question: string, answer: string, questionId: string, statu
   templateUrl: './use-application.component.html',
   styleUrls: ['./use-application.component.less']
 })
-export class UseApplicationComponent implements OnInit {
+export class UseApplicationComponent implements OnInit, OnDestroy {
   question: string;
   communicationMessage: string;
   chatHistory: Chat[] = [];
@@ -25,12 +25,16 @@ export class UseApplicationComponent implements OnInit {
   isGeneratingAnswer: boolean = false;
   stopGenerating = this.translate.instant('maas.stopGenerating');
   questionId = '';
+  @ViewChild('questionInput') questionInput: ElementRef;
+  private keydownListener: () => void;
+  perHight = 21;
   constructor(
     private message: NzMessageService,
     private route: ActivatedRoute,
     private myhttp: MaasApi,
     private translate: TranslateService,
-    private maasService: MaasService
+    private maasService: MaasService,
+    private renderer: Renderer2
   ) { }
 
   async ngOnInit() {
@@ -39,8 +43,15 @@ export class UseApplicationComponent implements OnInit {
       this.queryParams = params;
       this.selectedName = this.queryParams.id || this.selectedName;
     });
+    this.keydownListener = this.renderer.listen(this.questionInput.nativeElement, 'keydown', this.handleKeyDown.bind(this));
   }
   
+  ngOnDestroy() {
+    if (this.keydownListener) {
+      this.keydownListener();
+    }
+  }
+
   close() {
     if (this.currentSSE) {
       this.currentSSE.close();
@@ -124,5 +135,25 @@ export class UseApplicationComponent implements OnInit {
 
   deleteQuestion(questionId: string): void {
     this.chatHistory = this.chatHistory.filter(item => item.questionId !== questionId);
+  }
+
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      if (event.shiftKey || event.ctrlKey || event.altKey) {
+        const TextareaDom = this.questionInput.nativeElement;
+        const height = parseInt(TextareaDom.style.height.split('px')[0], 10) + this.perHight;
+        TextareaDom.style.height = `${height}px`;
+        if(event.ctrlKey || event.altKey) {
+          const index = TextareaDom.selectionStart;
+          const val = TextareaDom.value;
+          TextareaDom.value = `${val.slice(0, index)}\n${val.slice(index)}`;
+          TextareaDom.selectionStart = index + 1;
+          TextareaDom.selectionEnd = index + 1;
+        }
+      } else {
+        event.preventDefault();
+        this.doAction();
+      }
+    }
   }
 }
