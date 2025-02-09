@@ -16,15 +16,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {  servicesTableData,baseUrl } from '../models/dataInterface';
-import { retry, catchError } from 'rxjs/operators';
+import { servicesTableData } from '../models/dataInterface';
+import { catchError } from 'rxjs/operators';
+import { environment } from '@src/environments/environment';
 
 @Injectable()
 export class ServiceListService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = baseUrl.baseUrl;
-  
+  baseUrl = environment.backendUrl;
+
   url = {
     customers: this.baseUrl + "/uui-lcm/customers",
     serviceType: this.baseUrl + "/uui-lcm/customers/" + "*_*" + "/service-subscriptions",
@@ -219,7 +220,7 @@ export class ServiceListService {
     return this.http.get<any>(url);
   }
 
-  
+
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

@@ -1,6 +1,6 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { baseUrl } from '../../../../datainterface';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '@src/environments/environment';
 @Component({
   selector: 'app-manage-service',
   templateUrl: './manage-service.component.html',
@@ -25,7 +25,7 @@ export class ManageServiceComponent implements OnInit {
   uniInfo = [];
   mapped: any;
   myKeys = [] as Array<any>;
-  baseUrl = baseUrl.baseUrl
+  baseUrl = environment.backendUrl;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -58,10 +58,10 @@ export class ManageServiceComponent implements OnInit {
     this.selectedServiceInstance="";
     let url = this.baseUrl + "/uui-lcm/Sotnservices/ServiceInstances/"+subscriptionType;
     this.http.get<any>(url,httpOptions).subscribe((data) => {
-      this.serviceInstanceList = data.serviceInstanceList; 
+      this.serviceInstanceList = data.serviceInstanceList;
     }, (err) => {
       console.log(err);
-    });    
+    });
   }
 
   deleteSelectedService() {
@@ -81,8 +81,8 @@ export class ManageServiceComponent implements OnInit {
   }
 
 
-  
-  getSubscribedSites() {  
+
+  getSubscribedSites() {
     console.log("on change");
      let httpOptions = {
       headers: new HttpHeaders({

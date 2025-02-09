@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Network, Node, Edge } from 'vis';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { baseUrl } from '../../../../datainterface';
-import { getLocaleDateFormat } from '@angular/common';
+import { environment } from '@src/environments/environment';
 @Component({
   selector: 'app-monitor-service',
   templateUrl: './monitor-service.component.html',
@@ -17,7 +15,7 @@ export class MonitorServiceComponent implements OnInit {
   serviceInstanceList = [] as Array<any>;
 
   selectedTopology:string = 'i18nTextDefine_serviceTopology';
-  baseUrl = baseUrl.baseUrl
+  baseUrl = environment.backendUrl;
 
   title = 'Network';
     public nodes: Node;
@@ -41,10 +39,10 @@ export class MonitorServiceComponent implements OnInit {
         topologyType:"i18nTextDefine_resourceTopology",
       }
     ];
-  
-    
+
+
     networkOptions = {
-      layout: { 
+      layout: {
           randomSeed: 15
       },
       nodes: {
@@ -115,10 +113,10 @@ export class MonitorServiceComponent implements OnInit {
     };
     let url = this.baseUrl + "/uui-lcm/Sotnservices/ServiceInstances/" + subscriptionType;
     this.http.get<any>(url,httpOptions).subscribe((data) => {
-      this.serviceInstanceList = data.serviceInstanceList; 
+      this.serviceInstanceList = data.serviceInstanceList;
     }, (err) => {
       console.log(err);
-    });    
+    });
   }
 
   getTopologyInfo (topo) {
@@ -158,7 +156,7 @@ export class MonitorServiceComponent implements OnInit {
               </thead>\
               <tbody>\
           ';
-          Object.entries(filteredNode[0].dataNode).forEach(entry => {                
+          Object.entries(filteredNode[0].dataNode).forEach(entry => {
               if( entry[1] !== "null")
               {
                   t1 += '<tr class="popup-table-row">\
@@ -166,7 +164,7 @@ export class MonitorServiceComponent implements OnInit {
                       <td class="monitor-table-td-th   ">'+ entry[1] + '</td>\
                   </tr>\
                   ';
-              }    
+              }
           });
           t1 += '</tbody>\
           </table>\
@@ -214,14 +212,14 @@ export class MonitorServiceComponent implements OnInit {
   }
 
   // Getting sitedata Based On Type and ID
-  getSelectedsubscriptionInfo() {       
+  getSelectedsubscriptionInfo() {
       this.getData("");
       if (this.intervalData) {
           clearInterval(this.intervalData);
-      }        
+      }
   }
 
-  
+
   ngOnDestroy() {
       console.log('clear interval');
       if (this.intervalData) {

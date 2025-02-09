@@ -5,4 +5,5 @@
 
 export const environment = {
   production: false,
+  backendUrl: window.location.origin + '/api/usecaseui-server/v1',
 };
