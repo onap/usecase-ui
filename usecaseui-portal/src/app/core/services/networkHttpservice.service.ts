@@ -15,8 +15,8 @@
     limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { baseUrl } from '../models/dataInterface';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '@src/environments/environment';
 
 
 @Injectable()
@@ -24,7 +24,7 @@ export class networkHttpservice {
 
     constructor(private http: HttpClient) { }
 
-    baseUrl = baseUrl.baseUrl;//Online environment
+    baseUrl = environment.backendUrl;
     url = {
         "getNetworkD3Data": this.baseUrl+"/uui-sotn/getNetWorkResources",
         "getLogicalLinksData": this.baseUrl+"/uui-sotn/getLogicalLinks",

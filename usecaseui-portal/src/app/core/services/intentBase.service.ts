@@ -15,13 +15,13 @@
 */
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { baseUrl } from '../models/dataInterface';
+import { environment } from '@src/environments/environment';
 
 @Injectable()
 export class intentBaseService {
     constructor(private http: HttpClient) { }
 
-    baseUrl = baseUrl.baseUrl;
+    baseUrl = environment.backendUrl;
     url = {
       getInstanceId: this.baseUrl + "/intent/getInstanceId",
       createIntentInstance: this.baseUrl + "/intent/createIntentInstance",
@@ -47,7 +47,7 @@ export class intentBaseService {
     getInstanceId() {
         return this.http.get<any>(this.url["getInstanceId"]);
     }
-    
+
     createIntentInstance(requestBody) {
       return this.http.post<any>(this.url["createIntentInstance"], requestBody);
     }
@@ -55,7 +55,7 @@ export class intentBaseService {
     getInstanceList(requestBody) {
       return this.http.post<any>(this.url["getInstanceList"], requestBody);
     }
-    
+
     getInstanceStatus(requestBody) {
       return this.http.post<any>(this.url["getInstanceStatus"], requestBody);
     }
@@ -63,16 +63,16 @@ export class intentBaseService {
     queryInstancePerformanceData(requestBody) {
         return this.http.post<any>(this.url["queryInstancePerformanceData"], requestBody);
     }
-    
+
     getFinishedInstanceInfo() {
       return this.http.get<any>(this.url["getFinishedInstanceInfo"]);
     }
-    
+
     deleteIntentInstance(instanceId) {
         let params = new HttpParams({ fromObject: { "instanceId": instanceId } });
         return this.http.delete<any>(this.url.deleteIntentInstance, { params });
     }
-    
+
     activeIntentInstance(requestBody) {
       return this.http.post<any>(this.url["activeIntentInstance"], requestBody);
     }
@@ -84,7 +84,7 @@ export class intentBaseService {
     updateIntentInstance(requestBody) {
       return this.http.post<any>(this.url["updateIntentInstance"], requestBody);
     }
-    
+
     queryAccessNodeInfo() {
       return this.http.get<any>(this.url["queryAccessNodeInfo"]);
     }

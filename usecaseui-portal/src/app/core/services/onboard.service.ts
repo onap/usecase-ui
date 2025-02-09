@@ -14,15 +14,14 @@
     limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { baseUrl } from '../models/dataInterface';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '@src/environments/environment';
 
 @Injectable()
 export class onboardService {
     constructor(private http: HttpClient) { }
 
-    baseUrl = baseUrl.baseUrl;
+    baseUrl =environment.backendUrl;
     url = {
         onboardTableData: this.baseUrl + "/uui-lcm/ns-packages",
         onboardDataVNF: this.baseUrl + "/uui-lcm/vnf-packages",

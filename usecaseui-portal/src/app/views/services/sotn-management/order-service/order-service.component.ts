@@ -1,12 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {
-  FormBuilder,  
+  FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd';
-import { baseUrl } from '../../../../datainterface';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-order-service',
@@ -20,7 +20,7 @@ export class OrderServiceComponent implements OnInit {
   siteData:object = {};
   buttonDisabled:boolean = false;
   intervalData:any;
-  baseUrl = baseUrl.baseUrl
+  baseUrl = environment.backendUrl;
   expandDataSet = [
     { rowIdx: 1, name: 'i18nTextDefine_serviceInformation', expand: true },
     { rowIdx: 2, name: 'i18nTextDefine_vpnInformation', expand: true },
@@ -28,7 +28,7 @@ export class OrderServiceComponent implements OnInit {
   ];
   uni = {};
   sotnUni = [];
-  
+
   @Output() childEvent = new EventEmitter<string>();
 
   constructor(private fb: FormBuilder, private http: HttpClient, private message: NzMessageService) { }
@@ -58,7 +58,7 @@ export class OrderServiceComponent implements OnInit {
     });
   }
 
-  
+
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -78,7 +78,7 @@ export class OrderServiceComponent implements OnInit {
   deletesotnUni(data) {
     for(let i = 0; i < this.sotnUni.length; i++) {
       if(data.sotnuni_tpId == this.sotnUni[i].sotnuni_tpId) {
-        this.sotnUni.splice(i, 1); 
+        this.sotnUni.splice(i, 1);
       }
     }
   }
@@ -139,9 +139,9 @@ export class OrderServiceComponent implements OnInit {
        'Content-Type': 'application/json',
       })
     };
-    
+
     let url1 = this.baseUrl + '/uui-lcm/Sotnservices_unni';
-    this.http.post<any>(url1, body, httpOptions).subscribe((data) => { 
+    this.http.post<any>(url1, body, httpOptions).subscribe((data) => {
       let comp = this;
       this.message.info('Instantiation In Progress');
       this.intervalData = setInterval(() => {
