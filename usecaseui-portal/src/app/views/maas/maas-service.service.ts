@@ -11,4 +11,11 @@ export class MaasService {
     return `${timestamp}${randomNum}`;
   }
 
+  updateCharCount(textarea: HTMLTextAreaElement, charCount: HTMLElement) {
+    const charCountValue = textarea.value.length;
+    const maxLength = textarea.getAttribute('maxlength');
+    charCount.innerText = `${charCountValue}/${maxLength}`;
+  
+  }
+
 }

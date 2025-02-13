@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { KnowledgeBase } from '../knowledge-base.type';
 import { MaasApi } from '@src/app/api/maas.api';
+import { MaasService } from '../../maas-service.service';
 
 @Component({
   selector: 'app-edit-knowledge-base',
@@ -27,11 +28,15 @@ export class EditKnowledgeBaseComponent implements OnInit {
     operatorId: ''
   }
   knowledgeBase: KnowledgeBase = this.defalutKnowledgeBase;
+  loading = false;
+  @ViewChild('textarea') textarea: ElementRef;
+  @ViewChild('charCount') charCount: ElementRef;
 
   constructor(
     private myhttp: MaasApi,
     private message: NzMessageService,
     private fb: FormBuilder,
+    public maasService: MaasService
   ) { }
 
   ngOnInit() {
@@ -50,6 +55,7 @@ export class EditKnowledgeBaseComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.loading = true;
     this.checkForm();
     this.create();
   }
@@ -67,6 +73,7 @@ export class EditKnowledgeBaseComponent implements OnInit {
             name: this.knowledgeBase.knowledgeBaseName,
             description: this.knowledgeBase.knowledgeBaseDescription
           });
+          this.maasService.updateCharCount(this.textarea.nativeElement, this.charCount.nativeElement);
         },
         () => {
           this.message.error('Failed to obtain knowledge base data');
@@ -96,10 +103,12 @@ export class EditKnowledgeBaseComponent implements OnInit {
         } else {
           this.message.error(response.result_header.result_message);
         }
+        this.loading = false;
         this.modalOpreation.emit({ "cancel": false });
       },
-      (error) => {
-        console.log('Upload failed', error);
+      () => {
+        this.loading = false;
+        console.log('Upload failed');
       }
     );
   }

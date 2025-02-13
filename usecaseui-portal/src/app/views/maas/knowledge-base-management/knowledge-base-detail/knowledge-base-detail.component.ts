@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { KnowledgeBase } from '../knowledge-base.type';
 import { KnowledgeBaseService } from '../knowledge-base.service';
 import { MaasApi } from '@src/app/api/maas.api';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
@@ -38,19 +38,18 @@ export class KnowledgeBaseDetailComponent implements OnInit {
   removedFiles:string[] = [];
   url = `${(window as any).baseUrl}${this.myhttp.url.uploadFile}`;
   
-  ngOnInit() {
-    this.displayKnowledgeDetails(this.id);
+  async ngOnInit() {
+    await this.displayKnowledgeDetails(this.id);
   }
 
-  displayKnowledgeDetails(id: string) {
-    this.myhttp.getKnowledgeBaseById(id).subscribe(
-      (response) => {
-        this.knowledgeBaseDetail = response.result_body;
-      },
-      () => {
-        this.message.error('Failed to obtain knowledge base data');
-      }
-    );
+  async displayKnowledgeDetails(id: string) {
+    try {
+      const response = await this.myhttp.getKnowledgeBaseById(id).toPromise();
+      this.knowledgeBaseDetail = response.result_body;
+    } catch { 
+      this.knowledgeBaseDetail = null;
+      this.message.error('Failed to obtain knowledge base data');
+    }
   }
 
   handleCancel(): void {
@@ -63,13 +62,13 @@ export class KnowledgeBaseDetailComponent implements OnInit {
     this.modalOpreation.emit();
   }
 
-  handleChange({ file}): void {
+  async handleChange({ file}) {
     const status = file.status;
     if (status === 'done') {
       this.fileList = [];
       if (file.response.result_header.result_code === 200) {
+        await this.displayKnowledgeDetails(this.id);
         this.message.success(`${file.name} upload successfully.`);
-        this.displayKnowledgeDetails(this.id);
       } else {
         this.displayFiles.unshift({fileId: this.maasServie.generateUniqueId, fileName: file.name, status: 'error'});
       }
@@ -109,8 +108,12 @@ export class KnowledgeBaseDetailComponent implements OnInit {
     )
   }
 
-  beforeUpload = (): boolean => {
-    return true;
+  beforeUpload = (file: UploadFile): boolean => {
+    if(this.displayFiles.some(item => item.fileName === file.name)) {
+      this.message.error("You can't upload a file with the same name.");
+      return false;
+    } else {
+      return true;
+    }
   }
-
 }

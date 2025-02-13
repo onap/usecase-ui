@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MaasApi } from '@src/app/api/maas.api';
 import { TranslateService } from '@ngx-translate/core';
 import { MaasService } from '../maas-service.service';
+import { ClipboardService } from 'ngx-clipboard';
 export type StatusEnum = 'typing' | 'finished';
 export type Chat = { question: string, answer: string, questionId: string, status: StatusEnum };
 @Component({
@@ -34,7 +35,8 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
     private myhttp: MaasApi,
     private translate: TranslateService,
     private maasService: MaasService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private clipboardService: ClipboardService
   ) { }
 
   async ngOnInit() {
@@ -45,13 +47,13 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
     });
     this.keydownListener = this.renderer.listen(this.questionInput.nativeElement, 'keydown', this.handleKeyDown.bind(this));
   }
-  
+
   ngOnDestroy() {
     if (this.keydownListener) {
       this.keydownListener();
     }
   }
-
+  
   close() {
     if (this.currentSSE) {
       this.currentSSE.close();
@@ -119,18 +121,14 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
         nzLabel: item.applicationName
       }));
       this.selectedName = this.options.length > 0 ? this.options[0].nzValue : '';
-    } catch {
+    } catch (error) {
       this.message.error('Failed to obtain intent data');
     }
   }
 
   async copy(content: string): Promise<void> {
-    try {
-      await (navigator as any).clipboard.writeText(content);
-      this.message.success(this.translate.instant('maas.copy_to_clipboard'));
-    } catch (err) {
-      console.error(this.translate.instant('maas.copy_failed') + ': ', err);
-    }
+    this.clipboardService.copyFromContent(content);
+    this.message.success(this.translate.instant('maas.copy_to_clipboard'));
   }
 
   deleteQuestion(questionId: string): void {
@@ -157,7 +155,6 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
         } else {
           this.doAction();
         }
-        
       }
     }
   }

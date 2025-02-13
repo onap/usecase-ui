@@ -3,9 +3,8 @@ import { NzMessageService } from "ng-zorro-antd";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MaasApi } from '@src/app/api/maas.api';
 import { KnowledgeBase, MaaSPlatform, ModelInformation, Operators } from '../../knowledge-base-management/knowledge-base.type';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { Application } from '../application.type';
+import { MaasService } from '../../maas-service.service';
 
 @Component({
   selector: 'app-create-application-management',
@@ -38,16 +37,21 @@ export class CreateApplicationManagementComponent implements OnInit {
   knowledgeBases: KnowledgeBase[] = [];
   temperature = 3;
   top_p = 3;
-  private submitSubject = new Subject<void>();
-  @ViewChild('myTextarea') myTextarea: ElementRef;
-  @ViewChild('charCount') charCount: ElementRef;
   @Input() existedNames: string[] = [];
   application: Application;
+  loading = false;
+  @ViewChild('despTextarea') despTextarea: ElementRef;
+  @ViewChild('despCharCount') despCharCount: ElementRef;
+  @ViewChild('promptTextarea') promptTextarea: ElementRef;
+  @ViewChild('promptCharCount') promptCharCount: ElementRef;
+  @ViewChild('orTextarea') orTextarea: ElementRef;
+  @ViewChild('orCharCount') orCharCount: ElementRef;
 
   constructor(
     private myhttp: MaasApi,
     private message: NzMessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public maasService: MaasService
   ) { }
 
   async ngOnInit() {
@@ -56,7 +60,9 @@ export class CreateApplicationManagementComponent implements OnInit {
     if (this.isEdit) {
       await this.fetchApplication();
     }
-    this.submitSubject.pipe(debounceTime(3000)).subscribe(() => this.executeSubmit());
+    this.maasService.updateCharCount(this.despTextarea.nativeElement, this.despCharCount.nativeElement);
+    this.maasService.updateCharCount(this.promptTextarea.nativeElement, this.promptCharCount.nativeElement);
+    this.maasService.updateCharCount(this.orTextarea.nativeElement, this.orCharCount.nativeElement);
   }
 
   async fetchApplication(): Promise<void> {
@@ -98,8 +104,8 @@ export class CreateApplicationManagementComponent implements OnInit {
 
   initFormData() {
     this.validateForm = this.fb.group({
-      name: this.isEdit ? [null, [Validators.required]] : [null, [Validators.required, this.nameDuplicateValidator]],
-      description: [null],
+      name: this.isEdit ? [null] : [null, [Validators.required, this.nameDuplicateValidator]],
+      description: [null, [Validators.required]],
       applicationType: [null, [Validators.required]],
       selectedOperator: [null, [Validators.required]],
       selectedPlatform: [null, [Validators.required]],
@@ -163,7 +169,7 @@ export class CreateApplicationManagementComponent implements OnInit {
   }
 
   handleOk() {
-    this.submitSubject.next();
+    this.executeSubmit();
   }
 
   private executeSubmit() {
@@ -172,6 +178,7 @@ export class CreateApplicationManagementComponent implements OnInit {
       this.showModal = true;
       return;
     }
+    this.loading = true;
     const url = this.isEdit ? this.myhttp.url.updateApplication : this.myhttp.url.createApplicationUrl;
     this.myhttp.createApplication(url, this.constructBody()).subscribe(
       (response) => {
@@ -182,8 +189,10 @@ export class CreateApplicationManagementComponent implements OnInit {
         } else {
           this.message.error(response.result_header.result_message);
         }
+        this.loading = false;
       },
       () => {
+        this.loading = false;
         this.showModal = false;
         this.message.error('Operate failed');
       }
@@ -246,13 +255,6 @@ export class CreateApplicationManagementComponent implements OnInit {
 
   toppInputChange(event: number): void {
     this.validateForm.controls.top_pSlider.setValue(event);
-  }
-
-  updateCharCount() {
-    const textarea = this.myTextarea.nativeElement as HTMLTextAreaElement;
-    const charCount = textarea.value.length;
-    const maxLength = textarea.getAttribute('maxlength');
-    this.charCount.nativeElement.innerText = charCount + '/' + maxLength;
   }
 }
 

@@ -1,4 +1,4 @@
-FROM nexus3.onap.org:10001/onap/integration-java11:9.0.0 
+FROM nexus3.onap.org:10001/onap/integration-java17:12.0.0 
 
 EXPOSE 8443
 
