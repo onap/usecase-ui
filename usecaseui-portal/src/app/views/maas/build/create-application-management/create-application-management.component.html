@@ -14,13 +14,13 @@
     limitations under the License.
 -->
 
-<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" nzOkText="Ok" (nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" nzOkText="Ok" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
    (nzOnOk)="handleOk()" nzWidth="648px" nzHeight="800px">
    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Application Name</nz-form-label>
          <nz-form-control [nzSpan]="12">
-           <input type="text" nz-input formControlName="name">
+           <input [ngClass]="{'disabled-input': isEdit}" type="text" nz-input formControlName="name" maxlength="255" placeholder="Please input application name">
            <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">
             <ng-container *ngIf="validateForm.get('name').hasError('required')">
               Please input application name
@@ -32,15 +32,21 @@
          </nz-form-control>
        </nz-form-item>
        <nz-form-item>
-         <nz-form-label [nzSpan]="8" nzFor="description">Application Description</nz-form-label>
+         <nz-form-label [nzSpan]="8" nzFor="description" nzRequired>Application Description</nz-form-label>
          <nz-form-control [nzSpan]="12">
-           <textarea rows="2" nz-input formControlName="description"></textarea>
+           <textarea #despTextarea class="myTextarea" rows="2" nz-input formControlName="description" maxlength="255" (input)="maasService.updateCharCount(despTextarea,despCharCount)"></textarea>
+          <div #despCharCount id="charCount">0/255</div>
+           <nz-form-explain *ngIf="validateForm.get('description').dirty && validateForm.get('description').errors">
+            <ng-container *ngIf="validateForm.get('description').hasError('required')">
+              Please input application description
+            </ng-container>
+          </nz-form-explain>
          </nz-form-control>
        </nz-form-item>
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="applicationType" nzRequired>Application Type</nz-form-label>
          <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
-           <nz-select name="applicationType" [ngClass]="{'disabled-input': isEdit}"
+           <nz-select name="applicationType" [ngClass]="{'disabled-select': isEdit}"
            nzPlaceHolder="Select Application Type" formControlName="applicationType">
              <nz-option nzValue="Knowledge Assistant" nzLabel="Knowledge Assistant"></nz-option>
            </nz-select>
@@ -52,7 +58,7 @@
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="selectedOperator" nzRequired>Operator Name</nz-form-label>
          <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
-           <nz-select name="selectedOperator" [ngClass]="{'disabled-input': isEdit}"
+           <nz-select name="selectedOperator" [ngClass]="{'disabled-select': isEdit}"
            nzPlaceHolder="Select Operator" formControlName="selectedOperator"
            (ngModelChange)="handleOperatorChange($event)">
             <nz-option *ngFor="let operator of operators" [nzValue]="operator"
@@ -66,7 +72,7 @@
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="selectedPlatform" nzRequired>MaaS Platform Name</nz-form-label>
          <nz-form-control [nzSpan]="12" [ngClass]="{'disabled-item': isEdit}">
-           <nz-select name="selectedPlatform" [ngClass]="{'disabled-input': isEdit}"
+           <nz-select name="selectedPlatform" [ngClass]="{'disabled-select': isEdit}"
            nzPlaceHolder="Select Platform" formControlName="selectedPlatform"
            (ngModelChange)="handleMaasChange($event)">
            <nz-option *ngFor="let platform of filteredPlatforms" [nzValue]="platform.maaSPlatformId"
@@ -105,8 +111,8 @@
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="prompt" nzRequired>Prompt</nz-form-label>
          <nz-form-control [nzSpan]="12">
-           <textarea #myTextarea id="myTextarea" rows="2" nz-input formControlName="prompt" [placeholder]="'maas.application.promptTip' | translate" maxlength="1000" minlength="20" (input)="updateCharCount()"></textarea>
-           <div #charCount id="charCount">0/1000</div>
+           <textarea #promptTextarea class="myTextarea" rows="2" nz-input formControlName="prompt" [placeholder]="'maas.application.promptTip' | translate" maxlength="1000" minlength="20" (input)="maasService.updateCharCount(promptTextarea,promptCharCount)"></textarea>
+           <div #promptCharCount id="charCount">0/1000</div>
            <nz-form-explain *ngIf="validateForm.get('prompt').dirty && validateForm.get('prompt').errors">
             {{ 'maas.application.promptTip' | translate}}
           </nz-form-explain>
@@ -115,7 +121,8 @@
        <nz-form-item>
          <nz-form-label [nzSpan]="8" nzFor="openingRemarks" nzRequired>Opening Remarks</nz-form-label>
          <nz-form-control [nzSpan]="12">
-           <textarea rows="2" nz-input formControlName="openingRemarks"></textarea>
+           <textarea #orTextarea class="myTextarea" rows="2" nz-input formControlName="openingRemarks" maxlength="500" (input)="maasService.updateCharCount(orTextarea,orCharCount)"></textarea>
+           <div #orCharCount id="charCount">0/500</div>
            <nz-form-explain *ngIf="validateForm.get('openingRemarks').dirty && validateForm.get('openingRemarks').errors">
             Please input opening remarks!
           </nz-form-explain>
@@ -158,4 +165,8 @@
          </nz-form-control>
        </nz-form-item>
    </form>
+   <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">OK</button>
+  </ng-template>
 </nz-modal>

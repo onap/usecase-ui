@@ -16,6 +16,7 @@ export class KnowledgeBaseManagementComponent implements OnInit {
   createModalShow: boolean = false;
   knowledgeBaseShow: boolean = false;
   knowledgeBaseDetail: Object = {};
+  existedNames = [];
 
   constructor(
     private myhttp: MaasApi,
@@ -32,7 +33,8 @@ export class KnowledgeBaseManagementComponent implements OnInit {
     this.myhttp.getKnowledgeBaseRecord()
       .subscribe(
         (data) => {
-          this.data = data.result_body
+          this.data = data.result_body;
+          this.existedNames = this.data.map(item => item.knowledgeBaseName);
         },
         () => {
           this.message.error('Failed to obtain knowledgeBase data');

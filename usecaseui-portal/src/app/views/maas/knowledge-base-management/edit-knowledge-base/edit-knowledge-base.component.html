@@ -1,5 +1,5 @@
 <nz-modal [(nzVisible)]="showModal" [nzTitle]="title" (nzOnCancel)="handleCancel()"
-  (nzOnOk)="submitForm()" nzWidth="648px" nzHeight="800px">
+  (nzOnOk)="submitForm()" [nzFooter]="modalFooter" nzWidth="648px" nzHeight="800px">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="checkForm()">
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Knowledge Base Name</nz-form-label>
@@ -10,8 +10,13 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="description">Knowledge Base Description</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <textarea rows="2" formControlName="description" nz-input></textarea>
+        <textarea #textarea id="myTextarea" rows="2" nz-input formControlName="description" maxlength="255" (input)="maasService.updateCharCount(textarea,charCount)"></textarea>
+        <div #charCount id="charCount">0/255</div>
       </nz-form-control>
     </nz-form-item>
   </form>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" (click)="submitForm()" [nzLoading]="loading">OK</button>
+  </ng-template>
 </nz-modal>

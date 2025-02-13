@@ -30,7 +30,7 @@
         </app-descriptions-item>
         <app-descriptions-item [nzSpan]="3" nzTitle="Files Name">
             <div class="upload-file">
-                <nz-upload [nzAction]="url" [(nzFileList)]="fileList"  (nzChange)="handleChange($event)" nzName="files" [nzData]="nzdata">
+                <nz-upload [nzAction]="url" [(nzFileList)]="fileList"  (nzChange)="handleChange($event)" nzName="files" [nzData]="nzdata" [nzBeforeUpload]="beforeUpload">
                     <button nz-button>
                         <i class="anticon anticon-upload"></i>
                         <span>Select File</span> 

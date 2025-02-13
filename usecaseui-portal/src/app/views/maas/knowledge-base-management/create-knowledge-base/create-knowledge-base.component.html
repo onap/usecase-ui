@@ -13,22 +13,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+<nz-modal [(nzVisible)]="showModal" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzFooter]="modalFooter"
   nzWidth="648px" nzHeight="800px">
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <form nz-form [formGroup]="validateForm">
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="name" nzRequired>Knowledge Base Name</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <input type="text" nz-input formControlName="name" placeholder="Please input knowledge base name">
+        <input type="text" nz-input formControlName="name" maxlength="255"  placeholder="Please input knowledge base name">
         <nz-form-explain *ngIf="validateForm.get('name').dirty && validateForm.get('name').errors">
-          Please input knowledge base name!
+          <ng-container *ngIf="validateForm.get('name').hasError('required')">
+            Please input knowledge base name!
+          </ng-container>
+          <ng-container *ngIf="validateForm.get('name').hasError('duplicated')">
+            {{ 'maas.nameDuplicateTip' | translate}}
+          </ng-container>
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="description">Knowledge Base Description</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <textarea rows="2" nz-input formControlName="description"></textarea>
+        <textarea #textarea id="myTextarea" rows="2" nz-input formControlName="description" maxlength="255" (input)="maasService.updateCharCount(textarea,charCount)"></textarea>
+        <div #charCount id="charCount">0/255</div>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -59,13 +65,18 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="8" nzFor="fileList" nzRequired>File Upload</nz-form-label>
       <nz-form-control [nzSpan]="12">
-        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+        <nz-upload [nzFileList]="fileList" [nzBeforeUpload]="beforeUpload" [nzRemove]="handleRemove">
           <button nz-button>
             <i class="anticon anticon-upload"></i>
             <span>Select File</span>
           </button>
         </nz-upload>
+        <nz-form-explain class="error" *ngIf="validateForm.get('fileList').dirty && validateForm.get('fileList').errors">Please upload file!</nz-form-explain>
       </nz-form-control>
     </nz-form-item>
   </form>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="loading">OK</button>
+  </ng-template>
 </nz-modal>

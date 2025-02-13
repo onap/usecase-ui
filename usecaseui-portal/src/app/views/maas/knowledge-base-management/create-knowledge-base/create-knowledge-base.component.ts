@@ -1,11 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Util } from '../../../../shared/utils/utils';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MaasApi } from '@src/app/api/maas.api';
-import { Operator } from 'rxjs';
 import { MaaSPlatform, Operators } from '../knowledge-base.type';
+import { MaasService } from '../../maas-service.service';
 
 @Component({
   selector: 'app-create-knowledge-base',
@@ -15,27 +13,37 @@ import { MaaSPlatform, Operators } from '../knowledge-base.type';
 export class CreateKnowledgeBaseComponent implements OnInit {
   title = 'Add Knowledge Base';
   @Input() showModal: boolean;
+  @Input() existedNames: string[] = [];
   @Output() modalOpreation = new EventEmitter();
-  fileList: File[] = [];
+  fileList: UploadFile[] = [];
   operators: Operators[] = [];
   filteredPlatforms: MaaSPlatform[] = [];
   validateForm: FormGroup;
+  loading = false;
 
   constructor(
     private myhttp: MaasApi,
-    private Util: Util,
     private message: NzMessageService,
-    private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public maasService: MaasService
   ) { }
+
+  nameDuplicateValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { required: true };
+    } else if (this.existedNames.includes(control.value)) {
+      return { duplicated: true, error: true };
+    }
+  }
 
   ngOnInit() {
     this.fetchOperators();
     this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
+      name: [null, [Validators.required, this.nameDuplicateValidator]],
       description: [null],
       selectedOperator: [null, [Validators.required]],
-      selectedPlatform: [null, [Validators.required]]
+      selectedPlatform: [null, [Validators.required]],
+      fileList: [null, [Validators.required]]
     });
   }
   fetchOperators(): void {
@@ -62,10 +70,23 @@ export class CreateKnowledgeBaseComponent implements OnInit {
     }
     this.validateForm.get('selectedPlatform').setValue(null);
   }
-  beforeUpload = (file: File): boolean => {
-    this.fileList.push(file);
+
+  beforeUpload = (file: UploadFile): boolean => {
+    if(this.fileList.length === 0 || this.fileList.some(item => item.name !== file.name)) {
+      this.fileList.push(file);
+      this.validateForm.get('fileList').setValue(this.fileList);
+    } else {
+      this.message.error("You can't upload a file with the same name.");
+    }
     return false;
   }
+
+  handleRemove = (file: UploadFile): boolean => {
+    this.fileList = this.fileList.filter((item) => item.uid !== file.uid);
+    this.validateForm.get('fileList').setValue(this.fileList);
+    return true;
+  }
+
   handleCancel(): void {
     this.showModal = false;
     this.modalOpreation.emit({ "cancel": true });
@@ -83,7 +104,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
     };
     const metaDataJson = JSON.stringify(metaData);
     formData.append('metaData', metaDataJson);
-    this.fileList.forEach((file: File) => {
+    this.validateForm.value.fileList.forEach((file: File) => {
       formData.append('files', file);
     });
     return formData
@@ -95,6 +116,7 @@ export class CreateKnowledgeBaseComponent implements OnInit {
       this.showModal = true;
       return;
     }
+    this.loading = true;
     this.myhttp.createKnowledgeBase(this.constructBody()).subscribe(
       (response) => {
         if (response.result_header.result_code === 200) {
@@ -102,10 +124,12 @@ export class CreateKnowledgeBaseComponent implements OnInit {
         } else {
           this.message.error(response.result_header.result_message);
         }
+        this.loading = false;
         this.modalOpreation.emit({ "cancel": false });
       },
-      (error) => {
-        console.log('Upload failed', error);
+      () => {
+        this.loading = false;
+        console.log('Upload failed');
       }
     );
   }

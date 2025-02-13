@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { KnowledgeBase } from '../knowledge-base.type';
 import { KnowledgeBaseService } from '../knowledge-base.service';
 import { MaasApi } from '@src/app/api/maas.api';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
@@ -109,8 +109,13 @@ export class KnowledgeBaseDetailComponent implements OnInit {
     )
   }
 
-  beforeUpload = (): boolean => {
-    return true;
+  beforeUpload = (file: UploadFile): boolean => {
+    if(this.displayFiles.length === 0 || this.displayFiles.some(item => item.fileName !== file.name)) {
+      return true;
+    } else {
+      this.message.error("You can't upload a file with the same name.");
+      return false;
+    }
   }
 
 }
