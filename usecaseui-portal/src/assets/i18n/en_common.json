@@ -188,6 +188,6 @@
   "i18nTextDefine_startTime": "Start Time",
   "i18nTextDefine_endTime": "End Time",
   "i18nTextDefine_robot": "Large Model",
-  "i18nTextDefine_mass_build": "Q&A Manage",
-  "i18nTextDefine_mass_use": "Q&A Assistant"
+  "i18nTextDefine_mass_build": "Q&A Assistant Manage",
+  "i18nTextDefine_mass_use": "Q&A Assistant Service"
 }

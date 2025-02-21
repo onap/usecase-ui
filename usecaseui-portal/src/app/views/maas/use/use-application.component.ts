@@ -85,16 +85,22 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
     this.chatHistory.push({ question: chatParam.question, questionId: chatParam.questionId, answer: '', status: 'typing' });
     this.currentSSE.addEventListener('message', (event) => {
       const chat = this.chatHistory.find(chatItem => chatItem.questionId === questionId);
+      let msg = '';
+      try {
+        msg = JSON.parse(event.data).answer;
+      } catch (error) {
+        this.message.error('Json parse failed.'); 
+      }
       if (chat) {
-        if (['[DONE]', 'Network Error'].includes(event.data)) {
+        if (['[DONE]', 'Network Error'].includes(msg)) {
           chat.status = 'finished';
           this.isGeneratingAnswer = false;
-          if (event.data === 'Network Error') {
-            this.updateAnswer(event, chat);
+          if (msg === 'Network Error') {
+            this.updateAnswer(msg, chat);
           }
           this.close();
         } else {
-          this.updateAnswer(event, chat);
+          this.updateAnswer(msg, chat);
         }
       }
     });
@@ -109,8 +115,8 @@ export class UseApplicationComponent implements OnInit, OnDestroy {
     this.question = '';
   }
 
-  updateAnswer(event: any, chat: Chat): void {
-    chat.answer += event.data.replace(/__SPACE__/g, ' ');
+  updateAnswer(msg: string, chat: Chat): void {
+    chat.answer += msg.replace(/__SPACE__/g, ' ');
   }
 
   async fetchAllApplication(): Promise<void> {
