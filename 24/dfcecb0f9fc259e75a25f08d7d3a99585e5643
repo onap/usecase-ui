@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Keguang He <hekeguang@chinamobile.com>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+1: Kaixi LIU <liukaixi@chinamobile.com>
+Submitted-by: Keguang He <hekeguang@chinamobile.com>
+Submitted-at: Wed, 07 May 2025 01:44:35 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/usecase-ui/+/140629
+Project: usecase-ui
+Branch: refs/heads/master
