@@ -13,12 +13,11 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+import { map } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ServiceListService } from "./core/services/serviceList.service";
 import { HomesService } from "./core/services/homes.service";
 import { NavigationEnd, Router } from '@angular/router';
-import 'rxjs/add/operator/map';
 
 @Component({
     selector: 'app-root',
@@ -35,12 +34,12 @@ export class AppComponent {
 
     // Get the current routing path
     getUrl() {
-        this.router.events.map(event => {
+        this.router.events.pipe(map(event => {
             if (event instanceof NavigationEnd) {
                 this.url = event['urlAfterRedirects'].slice(1)
                 this.maasFlag = this.url.includes('maas');
             }
-        }).subscribe(event => { })
+        })).subscribe(event => { })
     }
 
     //209.05.08 Get the currentLanguage

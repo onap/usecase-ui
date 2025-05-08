@@ -16,7 +16,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
 import { ServiceListService } from '../../../../core/services/serviceList.service';
-import {Observable} from "../../../../../../node_modules/rxjs";
+import { fromEvent } from "../../../../../../node_modules/rxjs";
 
 @Component({
     selector: 'app-ccvpn-creation',
@@ -27,13 +27,13 @@ export class CcvpnCreationComponent implements OnInit {
 
     constructor(private myhttp: ServiceListService) { }
     @Input() createParams;
-    @Input() ccvpn_temParametersContent; 
+    @Input() ccvpn_temParametersContent;
     @Output() closeCreate = new EventEmitter();
 
 
     ngOnInit() {
         this.getccvpnTemParameters(this.ccvpn_temParametersContent);
-        Observable.fromEvent(window, 'resize').subscribe((event) => {
+        fromEvent(window, 'resize').subscribe((event) => {
             this.siteTableWidth["x"] = document.documentElement.clientWidth > 1400 ?"78%":"961px";
         });
     }

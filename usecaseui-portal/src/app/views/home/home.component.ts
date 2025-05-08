@@ -17,9 +17,9 @@ import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/
 import { HomesService } from '../../core/services/homes.service';
 import { slideToRight } from '../../shared/utils/animates';
 import { Util } from '../../shared/utils/utils';
-import { TranslateService } from "@ngx-translate/core";
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs'
+import {fromEvent as observableFromEvent,  Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
     this.getHomeServiceBarNsData();
     this.getHomeServiceBarVnfData();
     this.getHomeServiceBarPnfData();
-    this.resizeMark = Observable.fromEvent(window, 'resize')
+    this.resizeMark = observableFromEvent(window, 'resize')
       .subscribe((event) => {
         this.seriverChart.resize(this.services.nativeElement.offsetHeight, 250)
       })
@@ -221,9 +221,9 @@ export class HomeComponent implements OnInit {
           x2: 0,
           y2: 1,
           colorStops: [{
-            offset: 0, color: '#A6BFE4' // 0% 
+            offset: 0, color: '#A6BFE4' // 0%
           }, {
-            offset: 1, color: '#7A8BAE' // 100% 
+            offset: 1, color: '#7A8BAE' // 100%
           }],
           globalCoord: false
         }],
@@ -302,7 +302,7 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  // services 
+  // services
   servicesBarChartData: Object;
   servicesBarChartData1: Object;
   servicesBarChartData2: Object;
@@ -475,7 +475,7 @@ export class HomeComponent implements OnInit {
         console.error(err);
       })
   }
-  // sourceName 
+  // sourceName
   sourceNameList = ['performanceNameOne'];
   sourceNameSelected = null;
 

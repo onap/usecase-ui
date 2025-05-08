@@ -15,7 +15,9 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": ["@types/resize-observer-browser"],
+    "types": [
+      "@types/resize-observer-browser"
+    ],
     "lib": [
       "es2017",
       "dom"
@@ -24,6 +26,7 @@
       "@src/*": [
         "src/*"
       ]
-    }
+    },
+    "module": "es2015"
   }
 }
