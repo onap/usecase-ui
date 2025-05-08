@@ -15,7 +15,7 @@
 */
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { ManagemencsService } from '../../../core/services/managemencs.service';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
@@ -38,7 +38,7 @@ export class CustomerComponent implements OnInit {
     @Output() closeCustomer = new EventEmitter();
   ngOnInit () {
     this.getAllCustomers()
-    this.resizeMark = Observable.fromEvent(window, 'resize').subscribe(
+    this.resizeMark = fromEvent(window, 'resize').subscribe(
       event => {
         this.pie.resize(this.chart.nativeElement.offsetHeight, 210)
       }

@@ -18,7 +18,7 @@ import { ServiceListService } from '../../../core/services/serviceList.service';
 import { slideToRight } from '../../../shared/utils/animates';
 import { NzModalService } from 'ng-zorro-antd';
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { Observable } from 'rxjs/Rx';
+import { fromEvent, Observable } from 'rxjs';
 
 @Component({
     selector: 'app-services-list',
@@ -42,7 +42,7 @@ export class ServicesListComponent implements OnInit {
     ngOnInit() {
         this.getallCustomers();
 
-        Observable.fromEvent(window, 'resize').subscribe((event) => {
+        fromEvent(window, 'resize').subscribe((event) => {
             this.width = document.documentElement.clientWidth
         });
     }
@@ -243,7 +243,7 @@ export class ServicesListComponent implements OnInit {
 			} else if(item["serviceDomain"] === "MDONS") {
                         if (item["relationship-list"] && item["relationship-list"]["relationship"]) {
                             let domainServiceList = [];
-                            
+
                             for(let i = 0; i < item["relationship-list"]["relationship"].length; i++){
                                 let domainServiceInfo = {
                                     domainServiceRealtedTo:"",
@@ -251,7 +251,7 @@ export class ServicesListComponent implements OnInit {
                                     domainServiceName:"",
                                     logicalLinkName:""
                                 }
-                                
+
                                 if(item["relationship-list"]["relationship"][i]["related-to"] === 'service-instance') {
                                     domainServiceInfo.domainServiceRealtedTo = "Domain Service Instance";
                                     domainServiceInfo.domainServiceName = item["relationship-list"]["relationship"][i]["related-to-property"][0]["property-value"];
@@ -267,8 +267,8 @@ export class ServicesListComponent implements OnInit {
                                         domainServiceInfo.logicalLinkName = relationshipdata[j]["relationship-value"];
                                     }
                                 }
-                                
-                                domainServiceList.splice(i,0,domainServiceInfo);    
+
+                                domainServiceList.splice(i,0,domainServiceInfo);
                             }
                             item["childServiceInstances"]= domainServiceList;
                         } else {

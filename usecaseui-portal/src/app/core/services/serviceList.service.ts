@@ -15,7 +15,7 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { throwError as observableThrowError,  Observable } from 'rxjs';
 import { servicesTableData } from '../models/dataInterface';
 import { catchError } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
@@ -231,6 +231,6 @@ export class ServiceListService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log("errorMessage : "+errorMessage);
-    return Observable.throw(error);
+    return observableThrowError(error);
   }
 }

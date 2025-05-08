@@ -23,14 +23,14 @@ module.exports = function (config) {
     config.set({
         basePath: '',
         frameworks: [
-            'jasmine', '@angular/cli'
+            'jasmine', '@angular-devkit/build-angular'
         ],
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage-istanbul-reporter'),
-            require('@angular/cli/plugins/karma')
+            require('@angular-devkit/build-angular/plugins/karma')
         ],
         client: {
             clearContext: false
@@ -39,24 +39,15 @@ module.exports = function (config) {
             pattern: './src/test.ts',
             watched: false
         }],
-        preprocessors: {
-            './src/test.ts': ['@angular/cli']
-        },
+        preprocessors: {},
         mime: {
             'text/x-typescript': ['ts', 'tsx']
         },
         remapIstanbulReporter: {
-            reports: {
+            dir: require('path').join(__dirname, 'coverage'), reports: {
                 html: 'coverage',
                 lcovonly: './coverage/coverage.lcov'
             }
-        },
-        reporters: config.angularCli && config.angularCli.codeCoverage ?
-            ['progress', 'karma-remap-istanbul'] :
-            ['progress'],
-        angularCli: {
-            config: './angular-cli.json',
-            environment: 'dev'
         },
         reporters: config.angularCli && config.angularCli.codeCoverage ?
             ['progress', 'coverage-istanbul'] :

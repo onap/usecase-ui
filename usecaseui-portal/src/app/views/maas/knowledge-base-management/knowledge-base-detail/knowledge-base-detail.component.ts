@@ -3,9 +3,6 @@ import { KnowledgeBase } from '../knowledge-base.type';
 import { KnowledgeBaseService } from '../knowledge-base.service';
 import { MaasApi } from '@src/app/api/maas.api';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { of } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators';
 import { MaasService } from '../../maas-service.service';
 @Component({
   selector: 'app-knowledge-base-detail',
@@ -37,7 +34,7 @@ export class KnowledgeBaseDetailComponent implements OnInit {
   @Output() modalOpreation = new EventEmitter();
   removedFiles:string[] = [];
   url = `${(window as any).baseUrl}${this.myhttp.url.uploadFile}`;
-  
+
   async ngOnInit() {
     await this.displayKnowledgeDetails(this.id);
   }
@@ -46,7 +43,7 @@ export class KnowledgeBaseDetailComponent implements OnInit {
     try {
       const response = await this.myhttp.getKnowledgeBaseById(id).toPromise();
       this.knowledgeBaseDetail = response.result_body;
-    } catch { 
+    } catch {
       this.knowledgeBaseDetail = null;
       this.message.error('Failed to obtain knowledge base data');
     }
