@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Thomas Kulik <thomas.kulik@telekom.de>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Submitted-by: Thomas Kulik <thomas.kulik@telekom.de>
+Submitted-at: Thu, 28 Aug 2025 08:50:18 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/usecase-ui/+/141787
+Project: usecase-ui
+Branch: refs/heads/master
