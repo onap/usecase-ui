@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2457790a_80fb3b32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8049
+      },
+      "writtenOn": "2026-07-22T12:08:57Z",
+      "side": 1,
+      "message": "We might want to hold off on merging these, and test the change here first:\nhttps://gerrit.onap.org/r/c/usecase-ui/+/146487",
+      "revId": "4c5f442e439589863690fb9353928e66597fd024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
