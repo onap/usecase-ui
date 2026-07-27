@@ -102,7 +102,7 @@ jobs:
     permissions:
       contents: read
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@eb97ae44b0af065a905ddd74b7ac7416796c8554  # v0.9.0
+    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@0688b118b3290649e0cb3580612e6369b6509774  # v0.10.0
     with:
       # Nexus IQ CLI runtime uses the reusable workflow defaults:
       # temurin JDK 17 with IQ CLI 2.4.2-01 (CLI 2.x requires Java 17)
