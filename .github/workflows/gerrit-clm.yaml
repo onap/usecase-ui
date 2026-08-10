@@ -102,7 +102,7 @@ jobs:
     permissions:
       contents: read
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@0688b118b3290649e0cb3580612e6369b6509774  # v0.10.0
+    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@f7aae218f1fa0257e3dcd19f5c7d3f88f482f266  # v0.10.1
     with:
       # Scaffolding templates under node_modules contain placeholder
       # package.json files (invalid JSON) that otherwise fail the scan
