@@ -2,13 +2,22 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: 2026 The Linux Foundation
 
+# Sonatype Lifecycle (Nexus IQ) CLM lane for usecase-ui.
+#
+# This lane previously called lfit/releng-reusable-workflows, passing a
+# 1Password reference and an inline settings.xml that carried
+# credentials. It now calls security-workflows, the reusable the rest of
+# the ONAP estate uses, and takes its Maven settings from an
+# organisation variable that needs no credentials at all.
+#
+# Runs weekly, on merges to master, and on demand. gerrit_to_platform
+# also dispatches it for a patchset when the filename convention matches.
 name: '🔐 Security Scans (CLM)'
 
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # Intentionally scheduled at an odd minute letting GitHub's queue
-    # randomize the exact start.
+    # An odd minute lets GitHub's queue randomise the exact start.
     - cron: "37 0 * * 6"
 
   push:
@@ -20,69 +29,91 @@ on:
   workflow_dispatch:
     inputs:
       GERRIT_BRANCH:
-        description: "Branch that change is against"
+        description: 'Branch that change is against'
         required: false
         type: string
+        default: ''
       GERRIT_CHANGE_ID:
-        description: "The ID for the change"
+        description: 'The ID for the change'
         required: false
         type: string
+        default: ''
       GERRIT_CHANGE_NUMBER:
-        description: "The Gerrit number"
+        description: 'The Gerrit number'
         required: false
         type: string
+        default: ''
       GERRIT_CHANGE_URL:
-        description: "URL to the change"
+        description: 'URL to the change'
         required: false
         type: string
+        default: ''
       GERRIT_EVENT_TYPE:
-        description: "Type of Gerrit event"
+        description: 'Type of Gerrit event'
         required: false
         type: string
+        default: ''
       GERRIT_PATCHSET_NUMBER:
-        description: "The patch number for the change"
+        description: 'The patch number for the change'
         required: false
         type: string
+        default: ''
       GERRIT_PATCHSET_REVISION:
-        description: "The revision sha"
+        description: 'The revision sha'
         required: false
         type: string
+        default: ''
       GERRIT_PROJECT:
-        description: "Project in Gerrit"
+        description: 'Project in Gerrit'
         required: false
         type: string
+        default: ''
       GERRIT_REFSPEC:
-        description: "Gerrit refspec of change"
+        description: 'Gerrit refspec of change'
         required: false
         type: string
+        default: ''
       GERRIT_DISABLED:
-        description: "Run without Gerrit components"
+        description: 'Run without Gerrit components'
         required: false
         default: false
         type: boolean
 
-permissions: {}
-
 concurrency:
+  # Group on the Gerrit change when there is one, so a new patchset
+  # supersedes the run for its predecessor. Fall back to the ref rather
+  # than github.run_id: run_id is unique per run, so cancel-in-progress
+  # could never fire for a manual dispatch.
+  #
+  # The workflow name is part of the group because the group is
+  # repository-wide, and without it separate lanes would cancel each
+  # other for the same change.
   # yamllint disable-line rule:line-length
-  group: "gerrit-clm-${{ github.workflow }}-${{ github.event.inputs.GERRIT_CHANGE_ID || github.run_id }}"
+  group: '${{ github.workflow }}-${{ github.event.inputs.GERRIT_CHANGE_ID || github.ref }}'
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
-  notify:
-    name: 'Notify Gerrit'
+  # Clear any previous Verified vote so a dispatched change starts from
+  # a clean state. Skipped for schedule and push, which have no change.
+  clear-vote:
+    name: 'Clear Gerrit Vote'
+    # yamllint disable-line rule:line-length
     if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
     steps:
-      # Harden the runner used by this workflow
-      # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
         with:
           egress-policy: audit
-
-      - name: Notify job start
+      - name: 'Clear votes'
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/gerrit-review-action@a1c036a59b94c8ab89de26d378f6a28cc7378b13 # v1.1.2
+        uses: lfreleng-actions/gerrit-review-action@a1c036a59b94c8ab89de26d378f6a28cc7378b13  # v1.1.2
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
@@ -91,134 +122,94 @@ jobs:
           gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
           gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
           vote-type: clear
-
-      - name: Allow replication
+      - name: 'Allow replication'
         run: sleep 10s
 
-  call-sonatype-lifecycle:
+  sonatype-lifecycle:
     name: 'Sonatype Lifecycle/CLM -> Nexus IQ'
-    if: always()
-    needs: [notify]
+    needs: clear-vote
+    if: >-
+      always()
+      && (needs.clear-vote.result == 'success'
+          || needs.clear-vote.result == 'skipped')
     permissions:
       contents: read
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@0688b118b3290649e0cb3580612e6369b6509774  # v0.10.0
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonatype-lifecycle.yaml@5882f138dd24fcd6cb4ebc8bb3a68cee45a437a6  # v0.3.0
     with:
-      # Scaffolding templates under node_modules contain placeholder
-      # package.json files (invalid JSON) that otherwise fail the scan
-      ignore_scanning_errors: true
-      # Nexus IQ CLI runtime uses the reusable workflow defaults:
-      # temurin JDK 17 with IQ CLI 2.x (CLI 2.x requires Java 17)
-      # Gerrit-aware checkout when dispatched with a change refspec
-      # yamllint disable-line rule:line-length
-      gerrit_refspec: ${{ inputs.GERRIT_DISABLED != true && inputs.GERRIT_REFSPEC || '' }}
-      # yamllint disable-line rule:line-length
-      gerrit_project: ${{ inputs.GERRIT_DISABLED != true && inputs.GERRIT_PROJECT || '' }}
-      # Pre-scan build populating the workspace; runs with its own JDK
-      # (project code does not build with the CLI runtime JDK)
+      # Build before scanning: Nexus IQ identifies far more components
+      # from the packaged output than from source alone. Tests are
+      # skipped because they do not affect the dependency set; jib.skip
+      # carries over from the lane this replaces.
       build_type: 'maven'
-      build_java_version: 11
-      mvn_version: '3.9.5'
-      mvn_phases: 'clean package'
       mvn_params: '-DskipTests -Djib.skip=true --fail-at-end'
-      mvn_opts: >-
-        -Ddocker.push.registry=nexus3.onap.org:10003
-        -Ddocker.pull.registry=nexus3.onap.org:10003
-        -Dmaven.repo.local=/tmp/r
-        -Dorg.ops4j.pax.url.mvn.localRepository=/tmp/r
-        -DaltDeploymentRepository=staging::default::file:"${GITHUB_WORKSPACE}"/m2repo
-        -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-      # Loads NEXUS_SERVER_PASSWORD for the global_settings below;
-      # {project} resolves from the repository .gitreview file
-      op_secret_reference: 'op://elnqtgip7eqavqvgodjbiiaqd4/{project}/password'
-      # The pre-scan build fetches node/npm artefacts from endpoints
-      # not in the shared allow-list; audit matches prior behaviour
-      egress_policy: 'audit'
+      # frontend-maven-plugin installs node and npm during the build, and
+      # scaffolding templates under node_modules ship placeholder
+      # package.json files that are not valid JSON. Without this the scan
+      # aborts on those rather than reporting a policy finding. Carried
+      # over from the lane this replaces.
+      ignore_scanning_errors: true
+      # java_version and iq_cli_version are both left unset. No pom.xml
+      # here declares a Java level, so the reusable's detection finds
+      # nothing and applies its fallback of 21, moving this build off
+      # the 11 the previous lane pinned. That is the intended direction.
+      # The Nexus IQ CLI runs on its own JDK 17 either way, so the build
+      # JDK cannot break the scanner.
+      #
+      # Surface a broken pre-scan build instead of scanning whatever
+      # happens to have compiled. The reusable defaults this to true, on
+      # the reasoning that a partial dependency tree still yields a
+      # useful signal. That trade reads differently for a policy scan: a
+      # thinner scan reports FEWER findings, so a silently degraded run
+      # looks like an improvement.
+      build_permit_fail: false
+      # Maven pulls from artifact CDNs that are impractical to enumerate
+      # in the allow-list, and the build shares this job with the scan.
+      build_permit_egress_traffic: true
+      # application_id is left unset: the lane derives <owner>-<name>,
+      # giving onap-usecase-ui, the same Nexus IQ application the
+      # previous reusable resolved to.
+      #
+      # Gerrit-aware checkout. Blank for schedule/push and for a manual
+      # GERRIT_DISABLED run, so the lane does a normal checkout.
+      # yamllint disable-line rule:line-length
+      gerrit_refspec: ${{ github.event_name == 'workflow_dispatch' && !inputs.GERRIT_DISABLED && inputs.GERRIT_REFSPEC || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_project: ${{ github.event_name == 'workflow_dispatch' && !inputs.GERRIT_DISABLED && inputs.GERRIT_PROJECT || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_branch: ${{ github.event_name == 'workflow_dispatch' && !inputs.GERRIT_DISABLED && inputs.GERRIT_BRANCH || '' }}
     secrets:
       nexus_iq_password: ${{ secrets.NEXUS_IQ_PASSWORD }}
-      op_service_account_token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-      global_settings: |
-        <settings>
-          <servers>
-            <server>
-              <id>ecomp-releases</id>
-              <username>usecase-ui</username>
-              <password>${env.NEXUS_SERVER_PASSWORD}</password>
-            </server>
-            <server>
-              <id>ecomp-snapshots</id>
-              <username>usecase-ui</username>
-              <password>${env.NEXUS_SERVER_PASSWORD}</password>
-            </server>
-            <server>
-              <id>onap-releases</id>
-              <username>usecase-ui</username>
-              <password>${env.NEXUS_SERVER_PASSWORD}</password>
-            </server>
-            <server>
-              <id>onap-snapshots</id>
-              <username>usecase-ui</username>
-              <password>${env.NEXUS_SERVER_PASSWORD}</password>
-            </server>
-            <server>
-              <id>nexus3.onap.org:10003</id>
-              <username>usecase-ui</username>
-              <password>${env.NEXUS_SERVER_PASSWORD}</password>
-            </server>
-          </servers>
-          <mirrors>
-            <mirror>
-              <id>onap-public</id>
-              <mirrorOf>*</mirrorOf>
-              <url>https://nexus.onap.org/content/groups/public/</url>
-            </mirror>
-          </mirrors>
-          <profiles>
-            <profile>
-              <id>onap-nexus</id>
-              <repositories>
-                <repository>
-                  <id>onap-public</id>
-                  <url>https://nexus.onap.org/content/groups/public/</url>
-                  <releases><enabled>true</enabled></releases>
-                  <snapshots><enabled>true</enabled></snapshots>
-                </repository>
-              </repositories>
-              <pluginRepositories>
-                <pluginRepository>
-                  <id>onap-public</id>
-                  <url>https://nexus.onap.org/content/groups/public/</url>
-                  <releases><enabled>true</enabled></releases>
-                  <snapshots><enabled>true</enabled></snapshots>
-                </pluginRepository>
-              </pluginRepositories>
-            </profile>
-          </profiles>
-          <activeProfiles>
-            <activeProfile>onap-nexus</activeProfile>
-          </activeProfiles>
-        </settings>
+      # The organisation's authoritative Maven settings, which define the
+      # onap-public mirror. It carries no credentials and needs none: the
+      # ONAP public group serves anonymously, and this lane only resolves
+      # dependencies, never deploys. That replaces the 1Password
+      # retrieval and inline settings.xml this file used to carry.
+      maven_global_settings: ${{ vars.MVN_GLOBAL_SETTINGS }}
 
-  report-status:
-    name: 'Report status to Gerrit'
+  # Report the overall conclusion back to Gerrit as a Verified vote.
+  vote:
+    name: 'Report Status to Gerrit'
     # yamllint disable-line rule:line-length
     if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true }}
-    needs: [notify, call-sonatype-lifecycle]
+    needs: [clear-vote, sonatype-lifecycle]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read  # workflow-conclusion lists run jobs via the API
+    timeout-minutes: 5
     steps:
-      # Harden the runner used by this workflow
-      # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
         with:
           egress-policy: audit
-
-      - name: Get workflow conclusion
+      - name: 'Get workflow conclusion'
         # yamllint disable-line rule:line-length
-        uses: im-open/workflow-conclusion@7b146947e59eaf7fc3328822357861ab1758c088 # v2.2.5
-
-      - name: Report workflow conclusion
+        uses: im-open/workflow-conclusion@8eac7f17381a6917bc04fec3e2c92e70ebc37526  # v3.0.0
+      - name: 'Set vote'
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/gerrit-review-action@a1c036a59b94c8ab89de26d378f6a28cc7378b13 # v1.1.2
+        uses: lfreleng-actions/gerrit-review-action@a1c036a59b94c8ab89de26d378f6a28cc7378b13  # v1.1.2
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
