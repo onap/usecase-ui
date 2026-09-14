@@ -4,12 +4,6 @@
 
 # Sonatype Lifecycle (Nexus IQ) CLM lane for usecase-ui.
 #
-# This lane previously called lfit/releng-reusable-workflows, passing a
-# 1Password reference and an inline settings.xml that carried
-# credentials. It now calls security-workflows, the reusable the rest of
-# the ONAP estate uses, and takes its Maven settings from an
-# organisation variable that needs no credentials at all.
-#
 # Runs weekly, on merges to master, and on demand. gerrit_to_platform
 # also dispatches it for a patchset when the filename convention matches.
 name: '🔐 Security Scans (CLM)'
@@ -138,24 +132,16 @@ jobs:
     uses: lfreleng-actions/security-workflows/.github/workflows/sonatype-lifecycle.yaml@921904035e4559b4bf9069d3e821ffb4db3cfe88  # v0.5.0
     with:
       # Build before scanning: Nexus IQ identifies far more components
-      # from the packaged output than from source alone. Tests are
-      # skipped because they do not affect the dependency set; jib.skip
-      # carries over from the lane this replaces.
+      # from the packaged output than from source alone. Neither the
+      # tests nor the container image affect the dependency set, so both
+      # are skipped.
       build_type: 'maven'
       mvn_params: '-DskipTests -Djib.skip=true --fail-at-end'
       # frontend-maven-plugin installs node and npm during the build, and
       # scaffolding templates under node_modules ship placeholder
       # package.json files that are not valid JSON. Without this the scan
-      # aborts on those rather than reporting a policy finding. Carried
-      # over from the lane this replaces.
+      # aborts on those rather than reporting a policy finding.
       ignore_scanning_errors: true
-      # java_version and iq_cli_version are both left unset. No pom.xml
-      # here declares a Java level, so the reusable's detection finds
-      # nothing and applies its fallback of 21, moving this build off
-      # the 11 the previous lane pinned. That is the intended direction.
-      # The Nexus IQ CLI runs on its own JDK 17 either way, so the build
-      # JDK cannot break the scanner.
-      #
       # Surface a broken pre-scan build instead of scanning whatever
       # happens to have compiled. The reusable defaults this to true, on
       # the reasoning that a partial dependency tree still yields a
@@ -167,8 +153,7 @@ jobs:
       # in the allow-list, and the build shares this job with the scan.
       build_permit_egress_traffic: true
       # application_id is left unset: the lane derives <owner>-<name>,
-      # giving onap-usecase-ui, the same Nexus IQ application the
-      # previous reusable resolved to.
+      # giving onap-usecase-ui.
       #
       # Gerrit-aware checkout. Blank for schedule/push and for a manual
       # GERRIT_DISABLED run, so the lane does a normal checkout.
@@ -183,8 +168,7 @@ jobs:
       # The organisation's authoritative Maven settings, which define the
       # onap-public mirror. It carries no credentials and needs none: the
       # ONAP public group serves anonymously, and this lane only resolves
-      # dependencies, never deploys. That replaces the 1Password
-      # retrieval and inline settings.xml this file used to carry.
+      # dependencies, never deploys.
       maven_global_settings: ${{ vars.MVN_GLOBAL_SETTINGS }}
 
   # Report the overall conclusion back to Gerrit as a Verified vote.
